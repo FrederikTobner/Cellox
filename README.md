@@ -1,2 +1,2 @@
 # CLox
-Interpreter based on the book "Crafting Interpreters" -> The second Interpreter in C
+Interpreter based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) -> The second Interpreter in C
