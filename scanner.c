@@ -65,6 +65,7 @@ static bool match(char expected)
     return true;
 }
 
+// Creazes a new Token of a given type
 static Token makeToken(TokenType type)
 {
     Token token;
@@ -75,6 +76,7 @@ static Token makeToken(TokenType type)
     return token;
 }
 
+// Creates an error Token with a message
 static Token errorToken(const char *message)
 {
     Token token;
@@ -85,6 +87,7 @@ static Token errorToken(const char *message)
     return token;
 }
 
+// Skips whitespaces, linebreaks, carriage returns comments an tabstobs
 static void skipWhitespace()
 {
     for (;;)
@@ -95,9 +98,11 @@ static void skipWhitespace()
         case ' ':
         case '\r':
         case '\t':
+            // Whitespaces tabstops and carriage returns are ignored
             advance();
             break;
         case '\n':
+            // Linecounter will increase on a linefeed
             scanner.line++;
             advance();
             break;
@@ -106,7 +111,9 @@ static void skipWhitespace()
             {
                 // A comment goes until the end of the line.
                 while (peek() != '\n' && !isAtEnd())
+                {
                     advance();
+                }
             }
             else
             {
@@ -197,7 +204,9 @@ static Token identifier()
 static Token number()
 {
     while (isDigit(peek()))
+    {
         advance();
+    }
 
     // Look for a fractional part.
     if (peek() == '.' && isDigit(peekNext()))
@@ -206,7 +215,9 @@ static Token number()
         advance();
 
         while (isDigit(peek()))
+        {
             advance();
+        }
     }
 
     return makeToken(TOKEN_NUMBER);
@@ -222,7 +233,9 @@ static Token string()
     }
 
     if (isAtEnd())
+    {
         return errorToken("Unterminated string.");
+    }
 
     // The closing quote.
     advance();
@@ -235,12 +248,18 @@ Token scanToken()
     scanner.start = scanner.current;
 
     if (isAtEnd())
+    {
         return makeToken(TOKEN_EOF);
+    }
     char c = advance();
     if (isAlpha(c))
+    {
         return identifier();
+    }
     if (isDigit(c))
+    {
         return number();
+    }
 
     switch (c)
     {
