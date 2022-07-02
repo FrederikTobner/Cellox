@@ -12,6 +12,7 @@ static void repl()
     char line[1024];
     for (;;)
     {
+        //Prints command pormpt
         printf("> ");
 
         if (!fgets(line, sizeof(line), stdin))
@@ -19,7 +20,7 @@ static void repl()
             printf("\n");
             break;
         }
-
+        //Interprets a single line
         interpret(line);
     }
 }
@@ -61,8 +62,10 @@ static void runFile(const char *path)
     InterpretResult result = interpret(source);
     free(source);
 
+    //Error during compilation process
     if (result == INTERPRET_COMPILE_ERROR)
         exit(65);
+    ///Error during runtime
     if (result == INTERPRET_RUNTIME_ERROR)
         exit(70);
 }
@@ -84,7 +87,7 @@ int main(int argc, const char *argv[])
         fprintf(stderr, "Usage: clox [path]\n");
         exit(64);
     }
-
+    //Deallocates memory used by the VM
     freeVM();
     return 0;
 }
