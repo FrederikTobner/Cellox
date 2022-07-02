@@ -22,6 +22,7 @@ typedef struct {
     int capacity;
     //Operand Code
     uint8_t* code;
+    //Line Array, stored seperatly to ensure there is no unnecesarry space taken up by  
     int* lines;
     //Constants stored in the chunk
     ValueArray constants;
