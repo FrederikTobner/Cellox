@@ -9,6 +9,12 @@ typedef enum {
     
     //Return a Constant
     OP_CONSTANT,
+    OP_ADD,
+    OP_SUBTRACT,
+    OP_MULTIPLY,
+    OP_DIVIDE,
+    //Negate a Value
+    OP_NEGATE,
     //Return from the current function
     OP_RETURN,
     
