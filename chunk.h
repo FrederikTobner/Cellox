@@ -5,45 +5,47 @@
 #include "value.h"
 
 // opcodes of the bytecode instruction set
-typedef enum {
-    
-    //Return a Constant
+typedef enum
+{
+
+    // Return a Constant
     OP_CONSTANT,
     OP_ADD,
     OP_SUBTRACT,
     OP_MULTIPLY,
     OP_DIVIDE,
-    //Negate a Value
+    // Negate a Value
     OP_NEGATE,
-    //Return from the current function
+    // Return from the current function
     OP_RETURN,
-    
-}Opcode;
+
+} Opcode;
 
 // A dynamic array of idalized instructions for an abstract computer-> bytecode
-typedef struct {
-    //Amount of bytecode instructions in the chunk
+typedef struct
+{
+    // Amount of bytecode instructions in the chunk
     int count;
-    //Capacity of the chunk
+    // Capacity of the chunk
     int capacity;
-    //Operand Code
-    uint8_t* code;
-    //Line Array, stored seperatly to ensure there is no unnecesarry space taken up by  
-    int* lines;
-    //Constants stored in the chunk
+    // Operand Code
+    uint8_t *code;
+    // Line Array, stored seperatly to ensure there is no unnecesarry space taken up by
+    int *lines;
+    // Constants stored in the chunk
     ValueArray constants;
-}Chunk;
+} Chunk;
 
 // Initializes a chunk
-void initChunk(Chunk* chunk);
+void initChunk(Chunk *chunk);
 
 // Write to a already existing chunk
-void writeChunk(Chunk* chunk, uint8_t byte, int line);
+void writeChunk(Chunk *chunk, uint8_t byte, int line);
 
-//Adds a constant to the chunk
-int addConstant(Chunk* chunk, Value value);
+// Adds a constant to the chunk
+int addConstant(Chunk *chunk, Value value);
 
 // Free's a chunk (Deallocates the memory used by the chunk)
-void freeChunk(Chunk* chunk);
+void freeChunk(Chunk *chunk);
 
 #endif

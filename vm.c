@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "common.h"
+#include "compiler.h"
 #include "vm.h"
 #include "debug.h"
 
@@ -18,81 +19,78 @@ void initVM()
 
 void freeVM()
 {
-
 }
 
 static InterpretResult run()
 {
-    #define READ_BYTE() (*vm.ip++)
+#define READ_BYTE() (*vm.ip++)
 
-    #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
+#define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
 
-    #define BINARY_OP(op) \
-    do { \
-      double b = pop(); \
-      double a = pop(); \
-      push(a op b); \
+#define BINARY_OP(op)     \
+    do                    \
+    {                     \
+        double b = pop(); \
+        double a = pop(); \
+        push(a op b);     \
     } while (false)
 
-
-
-    for(;;)
+    for (;;)
     {
-        #ifdef DEBUG_TRACE_EXECUTION
-            printf("          ");
-            for (Value* slot = vm.stack; slot < vm.stackTop; slot++)
-            {
-                printf("[ ");
-                printValue(*slot);
-                printf(" ]");
-            }
-            printf("\n");
-            disassembleInstruction(vm.chunk, (int)(vm.ip - vm.chunk->code));        
-        #endif
+#ifdef DEBUG_TRACE_EXECUTION
+        printf("          ");
+        for (Value *slot = vm.stack; slot < vm.stackTop; slot++)
+        {
+            printf("[ ");
+            printValue(*slot);
+            printf(" ]");
+        }
+        printf("\n");
+        disassembleInstruction(vm.chunk, (int)(vm.ip - vm.chunk->code));
+#endif
 
         uint8_t instruction;
         switch (instruction = READ_BYTE())
         {
-            case OP_ADD:      
-            BINARY_OP(+); 
+        case OP_ADD:
+            BINARY_OP(+);
             break;
-            case OP_SUBTRACT: 
-            BINARY_OP(-); 
+        case OP_SUBTRACT:
+            BINARY_OP(-);
             break;
-            case OP_MULTIPLY: 
-            BINARY_OP(*); 
+        case OP_MULTIPLY:
+            BINARY_OP(*);
             break;
-            case OP_DIVIDE:   
-            BINARY_OP(/); 
+        case OP_DIVIDE:
+            BINARY_OP(/);
             break;
         case OP_NEGATE:
             push(-pop());
             break;
-        //Declaration doesn't count as a statement in c -> therefore we execute an empty statement before the Declaration to avoid gettting an error during the compilation (Labels must be followed by a statement)
-        case OP_CONSTANT: ;
+        // Declaration doesn't count as a statement in c -> therefore we execute an empty statement before the Declaration to avoid gettting an error during the compilation (Labels must be followed by a statement)
+        case OP_CONSTANT:;
             Value constant = READ_CONSTANT();
             push(constant);
             break;
-        
+
         case OP_RETURN:
             printValue(pop());
             printf("\n");
             return INTERPRET_OK;
-        
+
         default:
             return INTERPRET_COMPILE_ERROR;
         }
     }
-    #undef BINARY_OP
-    #undef READ_CONSTANT
-    #undef READ_BYTE
+#undef BINARY_OP
+#undef READ_CONSTANT
+#undef READ_BYTE
 }
 
-InterpretResult interpret(Chunk* chunk)
+InterpretResult interpret(const char *source)
 {
-    vm.chunk = chunk;
-    vm.ip = vm.chunk->code;
-    return run();
+    compile(source);
+    return INTERPRET_OK;
 }
 
 void push(Value value)

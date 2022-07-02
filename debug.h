@@ -3,10 +3,10 @@
 
 #include "chunk.h"
 
-//Dissasembles a chunk of bytecode instructions
-void disassembleChunk(Chunk* chunk, const char* name);
+// Dissasembles a chunk of bytecode instructions
+void disassembleChunk(Chunk *chunk, const char *name);
 
-//Dissasembles a single instruction
-int disassembleInstruction(Chunk* chunk, int offset);
+// Dissasembles a single instruction
+int disassembleInstruction(Chunk *chunk, int offset);
 
 #endif

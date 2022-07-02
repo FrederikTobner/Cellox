@@ -6,14 +6,14 @@
 
 #define STACK_MAX 256
 
-//Single Global VM object
+// Single Global VM object
 typedef struct
 {
-    Chunk* chunk;
-    uint8_t* ip;
-    //Stack based VM
+    Chunk *chunk;
+    uint8_t *ip;
+    // Stack based VM
     Value stack[STACK_MAX];
-    Value* stackTop;
+    Value *stackTop;
 } VM;
 
 typedef enum
@@ -21,20 +21,20 @@ typedef enum
     INTERPRET_OK,
     INTERPRET_COMPILE_ERROR,
     INTERPRET_RUNTIME_ERROR,
-}InterpretResult;
+} InterpretResult;
 
-//Creates a new VM
+// Creates a new VM
 void initVM();
 
-//Deallocates the memory used by tthe VM
+// Deallocates the memory used by tthe VM
 void freeVM();
 
-InterpretResult interpret(Chunk* chunk);
+InterpretResult interpret(const char* source);
 
-//Pushes a new Value on the stack
+// Pushes a new Value on the stack
 void push(Value value);
 
-//Pops a value from the stack
+// Pops a value from the stack
 Value pop();
 
 #endif
