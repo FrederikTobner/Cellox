@@ -7,12 +7,13 @@
 #include "debug.h"
 #include "vm.h"
 
+// Run from command prompt
 static void repl()
 {
     char line[1024];
     for (;;)
     {
-        //Prints command pormpt
+        // Prints command pormpt
         printf("> ");
 
         if (!fgets(line, sizeof(line), stdin))
@@ -20,7 +21,7 @@ static void repl()
             printf("\n");
             break;
         }
-        //Interprets a single line
+        // Interprets a single line
         interpret(line);
     }
 }
@@ -62,17 +63,16 @@ static void runFile(const char *path)
     InterpretResult result = interpret(source);
     free(source);
 
-    //Error during compilation process
+    // Error during compilation process
     if (result == INTERPRET_COMPILE_ERROR)
         exit(65);
-    ///Error during runtime
+    /// Error during runtime
     if (result == INTERPRET_RUNTIME_ERROR)
         exit(70);
 }
 
 int main(int argc, const char *argv[])
 {
-    // Initializes VM
     initVM();
     if (argc == 1)
     {
@@ -84,10 +84,10 @@ int main(int argc, const char *argv[])
     }
     else
     {
+        // Too much arguments (>1)
         fprintf(stderr, "Usage: clox [path]\n");
         exit(64);
     }
-    //Deallocates memory used by the VM
     freeVM();
     return 0;
 }

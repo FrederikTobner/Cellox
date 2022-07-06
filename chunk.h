@@ -7,13 +7,19 @@
 // opcodes of the bytecode instruction set
 typedef enum
 {
-
-    // Return a Constant
+    // Defines a Constant
     OP_CONSTANT,
     OP_ADD,
     OP_SUBTRACT,
     OP_MULTIPLY,
     OP_DIVIDE,
+    OP_NIL,
+    OP_TRUE,
+    OP_FALSE,
+    OP_NOT,
+    OP_EQUAL,
+    OP_GREATER,
+    OP_LESS,
     // Negate a Value
     OP_NEGATE,
     // Return from the current function

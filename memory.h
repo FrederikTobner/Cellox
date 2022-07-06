@@ -4,7 +4,7 @@
 
 #include "common.h"
 
-// Increases Capacity
+// Increases Capacity (initalizes capacity at 8)
 #define GROW_CAPACITY(capacity) \
     ((capacity) < 8 ? 8 : (capacity) + 2)
 

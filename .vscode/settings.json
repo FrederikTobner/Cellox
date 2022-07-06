@@ -1,4 +1,5 @@
 {
+  "editor.formatOnSave": true,
   "files.associations": {
     "debug.h": "c",
     "type_traits": "c"
@@ -15,7 +16,7 @@
     "-Wextra",
     "-Wpedantic"
   ],
-  "C_Cpp_Runner.enableWarnings": true,
+  "C_Cpp_Runner.enableWarnings": false,
   "C_Cpp_Runner.warningsAsError": false,
   "C_Cpp_Runner.compilerArgs": [],
   "C_Cpp_Runner.linkerArgs": [],

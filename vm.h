@@ -4,9 +4,10 @@
 #include "chunk.h"
 #include "value.h"
 
+// The maximum amount of values that can be pushed onto the stack
 #define STACK_MAX 256
 
-// Single Global VM object
+// Type definition of a stackbased virtual machine
 typedef struct
 {
     Chunk *chunk;
@@ -29,7 +30,7 @@ void initVM();
 // Deallocates the memory used by tthe VM
 void freeVM();
 
-InterpretResult interpret(const char* source);
+InterpretResult interpret(const char *source);
 
 // Pushes a new Value on the stack
 void push(Value value);

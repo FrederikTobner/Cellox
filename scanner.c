@@ -4,6 +4,7 @@
 #include "common.h"
 #include "scanner.h"
 
+// Type definition of a scanner/lexer
 typedef struct
 {
     const char *start;
@@ -11,8 +12,10 @@ typedef struct
     int line;
 } Scanner;
 
+// Global Scanner variable
 Scanner scanner;
 
+// Initializes the scanner
 void initScanner(const char *source)
 {
     scanner.start = source;
@@ -20,6 +23,7 @@ void initScanner(const char *source)
     scanner.line = 1;
 }
 
+// Checks if the char c is from the alphabet
 static bool isAlpha(char c)
 {
     return (c >= 'a' && c <= 'z') ||
@@ -27,6 +31,7 @@ static bool isAlpha(char c)
            c == '_';
 }
 
+// checks if the char c is a digit
 static bool isDigit(char c)
 {
     return c >= '0' && c <= '9';
@@ -55,6 +60,7 @@ static char peekNext()
     return scanner.current[1];
 }
 
+// Matches the character at the current position of the scanner in the sourcecode with a given character
 static bool match(char expected)
 {
     if (isAtEnd())
@@ -126,8 +132,8 @@ static void skipWhitespace()
     }
 }
 
-static TokenType checkKeyword(int start, int length,
-                              const char *rest, TokenType type)
+// Checks for a reserved keyword
+static TokenType checkKeyword(int start, int length, const char *rest, TokenType type)
 {
     if (scanner.current - scanner.start == start + length &&
         memcmp(scanner.start + start, rest, length) == 0)
@@ -138,6 +144,7 @@ static TokenType checkKeyword(int start, int length,
     return TOKEN_IDENTIFIER;
 }
 
+// Creates a new identifier token or a reserved keyword
 static TokenType identifierType()
 {
     switch (scanner.start[0])
@@ -201,6 +208,7 @@ static Token identifier()
     return makeToken(identifierType());
 }
 
+// Creates a new number literal token
 static Token number()
 {
     while (isDigit(peek()))
@@ -223,6 +231,7 @@ static Token number()
     return makeToken(TOKEN_NUMBER);
 }
 
+// Creates a new string literal token
 static Token string()
 {
     while (peek() != '"' && !isAtEnd())
@@ -242,6 +251,7 @@ static Token string()
     return makeToken(TOKEN_STRING);
 }
 
+// Scans the next token in the sourcecode and saves it in a linear sequence
 Token scanToken()
 {
     skipWhitespace();
