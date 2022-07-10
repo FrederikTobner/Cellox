@@ -3,6 +3,7 @@
 
 #include "chunk.h"
 #include "value.h"
+#include "table.h"
 
 // The maximum amount of values that can be pushed onto the stack
 #define STACK_MAX 256
@@ -15,6 +16,7 @@ typedef struct
     // Stack based VM
     Value stack[STACK_MAX];
     Value *stackTop;
+    Table strings;
     Obj *objects;
 } VM;
 
