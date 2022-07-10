@@ -5,10 +5,12 @@
 #include "compiler.h"
 #include "scanner.h"
 
+// The debug header file only needs to be included if the DEBUG_CODE is defined
 #ifdef DEBUG_PRINT_CODE
 #include "debug.h"
 #endif
 
+// Type definition of the parser
 typedef struct
 {
     Token current;
@@ -17,6 +19,7 @@ typedef struct
     bool panicMode;
 } Parser;
 
+// Global parser variable
 Parser parser;
 
 typedef enum
@@ -36,6 +39,7 @@ typedef enum
 
 typedef void (*ParseFn)();
 
+// Type definition of a parsing rule
 typedef struct
 {
     ParseFn prefix;
@@ -45,11 +49,13 @@ typedef struct
 
 Chunk *compilingChunk;
 
+// The current chunk of bytecode that is evaluated
 static Chunk *currentChunk()
 {
     return compilingChunk;
 }
 
+// Reports an error that was triggered by a specifiec token
 static void errorAt(Token *token, const char *message)
 {
     if (parser.panicMode)
@@ -65,7 +71,7 @@ static void errorAt(Token *token, const char *message)
     }
     else if (token->type == TOKEN_ERROR)
     {
-        // Nothing.
+        // No error reporting yet
     }
     else
     {
@@ -76,6 +82,7 @@ static void errorAt(Token *token, const char *message)
     parser.hadError = true;
 }
 
+// Reports an error
 static void error(const char *message)
 {
     errorAt(&parser.previous, message);
@@ -100,7 +107,7 @@ static void advance()
     }
 }
 
-// Consumes a Token and
+// Consumes a Token
 static void consume(TokenType type, const char *message)
 {
     if (parser.current.type == type)
@@ -230,17 +237,20 @@ static void grouping()
     consume(TOKEN_RIGHT_PAREN, "Expect ')' after expression.");
 }
 
+// compiles a number expression
 static void number()
 {
     double value = strtod(parser.previous.start, NULL);
     emitConstant(NUMBER_VAL(value));
 }
 
+// Compiles a expression
 static void expression()
 {
     parsePrecedence(PREC_ASSIGNMENT);
 }
 
+// Compiles a unary expression
 static void unary()
 {
     TokenType operatorType = parser.previous.type;
@@ -259,6 +269,7 @@ static void unary()
     }
 }
 
+// ParseRules for the language
 ParseRule rules[] = {
     [TOKEN_LEFT_PAREN] = {grouping, NULL, PREC_NONE},
     [TOKEN_RIGHT_PAREN] = {NULL, NULL, PREC_NONE},

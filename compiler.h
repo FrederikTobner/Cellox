@@ -3,6 +3,7 @@
 
 #include "vm.h"
 
-bool compile(const char* source, Chunk* chunk);
+// Compiles a chunk of bytecode
+bool compile(const char *source, Chunk *chunk);
 
 #endif

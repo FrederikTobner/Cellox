@@ -17,6 +17,7 @@ typedef struct
     Value *stackTop;
 } VM;
 
+// Result of the interpretation (sucessfull, error during compilation or at runtime)
 typedef enum
 {
     INTERPRET_OK,
@@ -30,6 +31,7 @@ void initVM();
 // Deallocates the memory used by tthe VM
 void freeVM();
 
+// Interprets a lox program
 InterpretResult interpret(const char *source);
 
 // Pushes a new Value on the stack

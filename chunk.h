@@ -9,6 +9,7 @@ typedef enum
 {
     // Defines a Constant
     OP_CONSTANT,
+    // Adds the two constants on the top of the stack
     OP_ADD,
     OP_SUBTRACT,
     OP_MULTIPLY,

@@ -19,6 +19,7 @@ static Value peek(int distance)
     return vm.stackTop[-1 - distance];
 }
 
+// Reports an error that has occured during runtime
 static void runtimeError(const char *format, ...)
 {
     va_list args;
@@ -41,6 +42,9 @@ static InterpretResult run()
 {
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
+/*Macro for creating a binary operator
+We have to embed the marco into a do while, which isn't followed by a semicolon,
+so all the statements in it get executed if they are after an if 🤮 */
 #define BINARY_OP(valueType, op)                        \
     do                                                  \
     {                                                   \
