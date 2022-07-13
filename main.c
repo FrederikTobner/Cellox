@@ -26,6 +26,7 @@ static void repl()
     }
 }
 
+//Reads a lox program from a file
 static char *readFile(const char *path)
 {
     FILE *file = fopen(path, "rb");
@@ -57,6 +58,7 @@ static char *readFile(const char *path)
     return buffer;
 }
 
+//Reads a lox program from a file and executes the program
 static void runFile(const char *path)
 {
     char *source = readFile(path);

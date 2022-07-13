@@ -6,6 +6,7 @@
 #include "table.h"
 #include "value.h"
 
+// The max load factor of the hashtable, once it is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
 
 void initTable(Table *table)
@@ -15,14 +16,15 @@ void initTable(Table *table)
     table->entries = NULL;
 }
 
+
 void freeTable(Table *table)
 {
     FREE_ARRAY(Entry, table->entries, table->capacity);
     initTable(table);
 }
 
-static Entry *findEntry(Entry *entries, int capacity,
-                        ObjString *key)
+// Looks up an entry in the hashtable, based on a key
+static Entry *findEntry(Entry *entries, int capacity, ObjString *key)
 {
     uint32_t index = key->hash % capacity;
     Entry *tombstone = NULL;
@@ -52,6 +54,7 @@ static Entry *findEntry(Entry *entries, int capacity,
     }
 }
 
+//Adjusts the capacity of the hash table
 static void adjustCapacity(Table *table, int capacity)
 {
     Entry *entries = ALLOCATE(Entry, capacity);
@@ -93,7 +96,7 @@ bool tableGet(Table *table, ObjString *key, Value *value)
 
 bool tableSet(Table *table, ObjString *key, Value value)
 {
-    // Wee grow the hashTable when it becomes 75% full
+    // We grow the hashTable when it becomes 75% full
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
         int capacity = GROW_CAPACITY(table->capacity);
@@ -158,7 +161,7 @@ ObjString *tableFindString(Table *table, const char *chars,
                  entry->key->hash == hash &&
                  memcmp(entry->key->chars, chars, length) == 0)
         {
-            // We found it.
+            // We found the string
             return entry->key;
         }
 

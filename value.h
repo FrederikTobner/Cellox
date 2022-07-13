@@ -27,9 +27,13 @@ typedef struct
     } as;
 } Value;
 
+//Makro that determines whether a value is of the type bool
 #define IS_BOOL(value) ((value).type == VAL_BOOL)
+//Makro that determines whether a value is of the type nil
 #define IS_NIL(value) ((value).type == VAL_NIL)
+//Makro that determines whether a value is of the type number
 #define IS_NUMBER(value) ((value).type == VAL_NUMBER)
+//Makro that determines whether a value is of the type object
 #define IS_OBJ(value) ((value).type == VAL_OBJ)
 
 #define AS_BOOL(value) ((value).as.boolean)

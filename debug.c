@@ -47,7 +47,7 @@ int disassembleInstruction(Chunk *chunk, int offset)
 
   // Instruction specific behaviour
   uint8_t instruction = chunk->code[offset];
-  // Switch statement should be converted to a computed goto https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables for efficiency
+  // Switch statement could be converted to a computed goto https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables for efficiency
   switch (instruction)
   {
   case OP_CONSTANT:

@@ -37,22 +37,26 @@ static bool isDigit(char c)
     return c >= '0' && c <= '9';
 }
 
+// Determines wheather we reached the end in the sourceCode
 static bool isAtEnd()
 {
     return *scanner.current == '\0';
 }
 
+// Advances a position further in the sourceCode and returns the prevoius Token
 static char advance()
 {
     scanner.current++;
     return scanner.current[-1];
 }
 
+/// Returns the char at the current position
 static char peek()
 {
     return *scanner.current;
 }
 
+// Returns the char one position ahead of the current Position
 static char peekNext()
 {
     if (isAtEnd())
@@ -71,7 +75,7 @@ static bool match(char expected)
     return true;
 }
 
-// Creazes a new Token of a given type
+// Creates a new Token of a given type
 static Token makeToken(TokenType type)
 {
     Token token;
@@ -132,7 +136,7 @@ static void skipWhitespace()
     }
 }
 
-// Checks for a reserved keyword
+// Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
 static TokenType checkKeyword(int start, int length, const char *rest, TokenType type)
 {
     if (scanner.current - scanner.start == start + length &&
@@ -158,6 +162,7 @@ static TokenType identifierType()
     case 'f':
         if (scanner.current - scanner.start > 1)
         {
+            // Switch for the branches coming of the 'f' node (a -> 'false', o -> 'for' and u -> 'fun')
             switch (scanner.start[1])
             {
             case 'a':
@@ -183,6 +188,7 @@ static TokenType identifierType()
     case 't':
         if (scanner.current - scanner.start > 1)
         {
+            // Switch for the branches coming of the t node (h -> this and r -> true)
             switch (scanner.start[1])
             {
             case 'h':
@@ -201,10 +207,13 @@ static TokenType identifierType()
     return TOKEN_IDENTIFIER;
 }
 
+// Creates a new identifier token
 static Token identifier()
 {
     while (isAlpha(peek()) || isDigit(peek()))
+    {
         advance();
+    }
     return makeToken(identifierType());
 }
 
@@ -221,13 +230,11 @@ static Token number()
     {
         // Consume the ".".
         advance();
-
         while (isDigit(peek()))
         {
             advance();
         }
     }
-
     return makeToken(TOKEN_NUMBER);
 }
 
@@ -251,7 +258,6 @@ static Token string()
     return makeToken(TOKEN_STRING);
 }
 
-// Scans the next token in the sourcecode and saves it in a linear sequence
 Token scanToken()
 {
     skipWhitespace();
@@ -310,6 +316,5 @@ Token scanToken()
         return makeToken(
             match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
     }
-
     return errorToken("Unexpected character.");
 }

@@ -41,6 +41,7 @@ static bool isFalsey(Value value)
     return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
 
+//Concatenates the two upper values on the stack
 static void concatenate()
 {
     ObjString *b = AS_STRING(pop());
@@ -56,6 +57,7 @@ static void concatenate()
     push(OBJ_VAL(result));
 }
 
+//Interprets a lox program
 static InterpretResult run()
 {
 #define READ_BYTE() (*vm.ip++)

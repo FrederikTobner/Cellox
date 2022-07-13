@@ -93,6 +93,7 @@ static void errorAtCurrent(const char *message)
     errorAt(&parser.current, message);
 }
 
+// Advances a poosition further in the linea sequence of tokens
 static void advance()
 {
     parser.previous = parser.current;
@@ -244,6 +245,7 @@ static void number()
     emitConstant(NUMBER_VAL(value));
 }
 
+// compiles a string literal expression
 static void string()
 {
     emitConstant(OBJ_VAL(copyString(parser.previous.start + 1,

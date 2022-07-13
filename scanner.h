@@ -63,7 +63,7 @@ typedef struct
 // Initializes the scanner
 void initScanner(const char *source);
 
-// Scans the next token in the sourcecode
+// Scans the next token in the sourcecode and saves it in a linear sequence of tokens
 Token scanToken();
 
 #endif

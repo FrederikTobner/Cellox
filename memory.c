@@ -18,6 +18,7 @@ void *reallocate(void *pointer, size_t oldSize, size_t newSize)
   return result;
 }
 
+// Dealocates the memomory used by the object
 static void freeObject(Obj *object)
 {
   switch (object->type)

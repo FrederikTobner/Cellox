@@ -31,9 +31,12 @@ struct ObjString
 };
 
 ObjString *takeString(char *chars, int length);
+//
 ObjString *copyString(const char *chars, int length);
+//Prints the object
 void printObject(Value value);
 
+//Determines whether a value is of a given type
 static inline bool isObjType(Value value, ObjType type)
 {
     return IS_OBJ(value) && AS_OBJ(value)->type == type;

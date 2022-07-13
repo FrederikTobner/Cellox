@@ -7,9 +7,11 @@
 #include "value.h"
 #include "vm.h"
 
+//Marko for allocating a new object
 #define ALLOCATE_OBJ(type, objectType) \
     (type *)allocateObject(sizeof(type), objectType)
 
+//Allocates the memory for an object of a given type
 static Obj *allocateObject(size_t size, ObjType type)
 {
     Obj *object = (Obj *)reallocate(NULL, 0, size);
@@ -20,16 +22,21 @@ static Obj *allocateObject(size_t size, ObjType type)
     return object;
 }
 
+// Allocates memory to store a string
 static ObjString *allocateString(char *chars, int length, uint32_t hash)
 {
     ObjString *string = ALLOCATE_OBJ(ObjString, OBJ_STRING);
     string->length = length;
     string->chars = chars;
     string->hash = hash;
+    // Adds the string to hashtable storing all the strings allocated by the vm
     tableSet(&vm.strings, string, NIL_VAL);
     return string;
 }
 
+/*  FNV-1a hash function 
+*   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
+*/
 static uint32_t hashString(const char *key, int length)
 {
     uint32_t hash = 2166136261u;
@@ -44,8 +51,7 @@ static uint32_t hashString(const char *key, int length)
 ObjString *takeString(char *chars, int length)
 {
     uint32_t hash = hashString(chars, length);
-    ObjString *interned = tableFindString(&vm.strings, chars, length,
-                                          hash);
+    ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
     if (interned != NULL)
     {
         FREE_ARRAY(char, chars, length + 1);
@@ -70,6 +76,7 @@ void printObject(Value value)
 {
     switch (OBJ_TYPE(value))
     {
+    // A string
     case OBJ_STRING:
         printf("%s", AS_CSTRING(value));
         break;

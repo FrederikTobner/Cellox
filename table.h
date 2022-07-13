@@ -17,12 +17,19 @@ typedef struct
     Entry *entries;
 } Table;
 
+// Initializes the hashtable
 void initTable(Table *table);
+// Dealocates the memory used by the hashtable
 void freeTable(Table *table);
+// Writes the Value to the specified adress, if an entry corresponding to the given key is present and returns true if an entry coresponding to the given key has been found
 bool tableGet(Table *table, ObjString *key, Value *value);
+// Changes the value corresponding to the key and returns true if an entry coresponding to the given key has been found
 bool tableSet(Table *table, ObjString *key, Value value);
+// Deletes an entry in the hashtable and returns true if an entry coresponding to the given key has been found
 bool tableDelete(Table *table, ObjString *key);
+// Copys all the entries from a table to another table
 void tableAddAll(Table *from, Table *to);
+// Finds a string in the hashtable
 ObjString *tableFindString(Table *table, const char *chars, int length, uint32_t hash);
 
 #endif
