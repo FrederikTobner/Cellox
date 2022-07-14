@@ -23,6 +23,11 @@ typedef enum
     OP_LESS,
     // Negate a Value
     OP_NEGATE,
+    OP_PRINT,
+    OP_POP,
+    OP_GET_GLOBAL,
+    OP_DEFINE_GLOBAL,
+    OP_SET_GLOBAL,
     // Return from the current function
     OP_RETURN,
 

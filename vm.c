@@ -41,7 +41,7 @@ static bool isFalsey(Value value)
     return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
 
-//Concatenates the two upper values on the stack
+// Concatenates the two upper values on the stack
 static void concatenate()
 {
     ObjString *b = AS_STRING(pop());
@@ -57,11 +57,12 @@ static void concatenate()
     push(OBJ_VAL(result));
 }
 
-//Interprets a lox program
+// Interprets a lox program
 static InterpretResult run()
 {
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
+#define READ_STRING() AS_STRING(READ_CONSTANT())
 /*Macro for creating a binary operator
 We have to embed the marco into a do while, which isn't followed by a semicolon,
 so all the statements in it get executed if they are after an if 🤮 */
@@ -94,9 +95,11 @@ so all the statements in it get executed if they are after an if 🤮 */
         uint8_t instruction;
         switch (instruction = READ_BYTE())
         {
-        case OP_RETURN:
+        case OP_PRINT:
             printValue(pop());
             printf("\n");
+            break;
+        case OP_RETURN:
             return INTERPRET_OK;
         case OP_CONSTANT:
         {
@@ -107,6 +110,39 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_NIL:
             push(NIL_VAL);
             break;
+        case OP_POP:
+            pop();
+            break;
+        case OP_GET_GLOBAL:
+        {
+            ObjString *name = READ_STRING();
+            Value value;
+            if (!tableGet(&vm.globals, name, &value))
+            {
+                runtimeError("Undefined variable '%s'.", name->chars);
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            push(value);
+            break;
+        }
+        case OP_DEFINE_GLOBAL:
+        {
+            ObjString *name = READ_STRING();
+            tableSet(&vm.globals, name, peek(0));
+            pop();
+            break;
+        }
+        case OP_SET_GLOBAL:
+        {
+            ObjString *name = READ_STRING();
+            if (tableSet(&vm.globals, name, peek(0)))
+            {
+                tableDelete(&vm.globals, name);
+                runtimeError("Undefined variable '%s'.", name->chars);
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            break;
+        }
         case OP_FALSE:
             push(BOOL_VAL(false));
             break;
@@ -171,6 +207,7 @@ so all the statements in it get executed if they are after an if 🤮 */
 
 #undef READ_BYTE
 #undef READ_CONSTANT
+#undef READ_STRING
 #undef BINARY_OP
 }
 
@@ -178,11 +215,15 @@ void initVM()
 {
     resetStack();
     vm.objects = NULL;
+    // Initializes the hashtable that contains the global variables
+    initTable(&vm.globals);
+    // Initializes the hashtable that contains the strings
     initTable(&vm.strings);
 }
 
 void freeVM()
 {
+    freeTable(&vm.globals);
     freeTable(&vm.strings);
     freeObjects();
 }
