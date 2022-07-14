@@ -34,7 +34,7 @@ extern VM vm;
 // Creates a new VM
 void initVM();
 
-// Deallocates the memory used by tthe VM
+// Deallocates the memory used by the VM
 void freeVM();
 
 // Interprets a lox program

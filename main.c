@@ -7,6 +7,8 @@
 #include "debug.h"
 #include "vm.h"
 
+#define DEBUG_WORKAROUND
+
 // Run from command prompt
 static void repl()
 {
@@ -26,7 +28,7 @@ static void repl()
     }
 }
 
-//Reads a lox program from a file
+// Reads a lox program from a file
 static char *readFile(const char *path)
 {
     FILE *file = fopen(path, "rb");
@@ -58,7 +60,7 @@ static char *readFile(const char *path)
     return buffer;
 }
 
-//Reads a lox program from a file and executes the program
+// Reads a lox program from a file and executes the program
 static void runFile(const char *path)
 {
     char *source = readFile(path);
@@ -75,6 +77,7 @@ static void runFile(const char *path)
 
 int main(int argc, const char *argv[])
 {
+
     initVM();
     if (argc == 1)
     {
@@ -86,8 +89,19 @@ int main(int argc, const char *argv[])
     }
     else
     {
+// Argument count is broken in the debugging session 😞
+#ifdef DEBUG_WORKAROUND
+        if (argc >= 2)
+        {
+            runFile(argv[1]);
+            freeVM();
+            exit(0);
+        }
+#endif
+
         // Too much arguments (>1)
         fprintf(stderr, "Usage: clox [path]\n");
+        freeVM();
         exit(64);
     }
     freeVM();
