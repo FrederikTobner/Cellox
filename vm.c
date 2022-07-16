@@ -12,11 +12,13 @@
 
 VM vm;
 
+// Resets the stack of the vm
 static void resetStack()
 {
     vm.stackTop = vm.stack;
 }
 
+// Retuns the Value on top of the stack without poping it
 static Value peek(int distance)
 {
     return vm.stackTop[-1 - distance];
@@ -57,7 +59,7 @@ static void concatenate()
     push(OBJ_VAL(result));
 }
 
-// Interprets a lox program
+// Runs a lox program that was converted to bytecode instructions
 static InterpretResult run()
 {
 #ifdef DEBUG_TRACE_EXECUTION
@@ -116,6 +118,18 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_POP:
             pop();
             break;
+        case OP_GET_LOCAL:
+        {
+            uint8_t slot = READ_BYTE();
+            push(vm.stack[slot]);
+            break;
+        }
+        case OP_SET_LOCAL:
+        {
+            uint8_t slot = READ_BYTE();
+            vm.stack[slot] = peek(0);
+            break;
+        }
         case OP_GET_GLOBAL:
         {
             ObjString *name = READ_STRING();
