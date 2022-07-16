@@ -7,8 +7,6 @@
 #include "debug.h"
 #include "vm.h"
 
-#define DEBUG_WORKAROUND
-
 // Run from command prompt
 static void repl()
 {
@@ -94,11 +92,10 @@ int main(int argc, const char *argv[])
         if (argc >= 2)
         {
             runFile(argv[1]);
-            freeVM();
-            exit(0);
         }
+        freeVM();
+        exit(0);
 #endif
-
         // Too much arguments (>1)
         fprintf(stderr, "Usage: clox [path]\n");
         freeVM();

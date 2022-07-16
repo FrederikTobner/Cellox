@@ -11,4 +11,7 @@
 // Flag for tracing the execution, can be removed if you want to disable it
 #define DEBUG_TRACE_EXECUTION
 
+// Flag for debugging the program
+#define DEBUG_WORKAROUND
+
 #endif

@@ -16,7 +16,6 @@ void initTable(Table *table)
     table->entries = NULL;
 }
 
-
 void freeTable(Table *table)
 {
     FREE_ARRAY(Entry, table->entries, table->capacity);
@@ -54,7 +53,7 @@ static Entry *findEntry(Entry *entries, int capacity, ObjString *key)
     }
 }
 
-//Adjusts the capacity of the hash table
+// Adjusts the capacity of the hash table
 static void adjustCapacity(Table *table, int capacity)
 {
     Entry *entries = ALLOCATE(Entry, capacity);
@@ -164,7 +163,7 @@ ObjString *tableFindString(Table *table, const char *chars,
             // We found the string
             return entry->key;
         }
-
+        //We look in the next bucket but eventually we also have to wrap around the array when we reach the end
         index = (index + 1) % table->capacity;
     }
 }

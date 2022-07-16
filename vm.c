@@ -60,6 +60,9 @@ static void concatenate()
 // Interprets a lox program
 static InterpretResult run()
 {
+#ifdef DEBUG_TRACE_EXECUTION
+    printf("== execution ==");
+#endif
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
 #define READ_STRING() AS_STRING(READ_CONSTANT())

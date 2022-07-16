@@ -33,6 +33,7 @@ static void freeObject(Obj *object)
   }
 }
 
+// Dealocates the memory used by the objects of the vm
 void freeObjects()
 {
   Obj *object = vm.objects;
