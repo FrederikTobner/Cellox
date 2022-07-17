@@ -30,6 +30,8 @@ typedef enum
     OP_GET_GLOBAL,
     OP_DEFINE_GLOBAL,
     OP_SET_GLOBAL,
+    OP_JUMP,
+    OP_JUMP_IF_FALSE,
     // Return from the current function
     OP_RETURN,
 

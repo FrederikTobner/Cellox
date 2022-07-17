@@ -67,6 +67,7 @@ static InterpretResult run()
 #endif
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
+#define READ_SHORT() (vm.ip += 2, (uint16_t)((vm.ip[-2] << 8) | vm.ip[-1]))
 #define READ_STRING() AS_STRING(READ_CONSTANT())
 /*Macro for creating a binary operator
 We have to embed the marco into a do while, which isn't followed by a semicolon,
@@ -104,6 +105,21 @@ so all the statements in it get executed if they are after an if 🤮 */
             printValue(pop());
             printf("\n");
             break;
+        case OP_JUMP:
+        {
+            uint16_t offset = READ_SHORT();
+            // We jump 🦘
+            vm.ip += offset;
+            break;
+        }
+        case OP_JUMP_IF_FALSE:
+        {
+            uint16_t offset = READ_SHORT();
+            if (isFalsey(peek(0)))
+                // We jump 🦘
+                vm.ip += offset;
+            break;
+        }
         case OP_RETURN:
             return INTERPRET_OK;
         case OP_CONSTANT:
@@ -223,6 +239,7 @@ so all the statements in it get executed if they are after an if 🤮 */
     }
 
 #undef READ_BYTE
+#undef READ_SHORT
 #undef READ_CONSTANT
 #undef READ_STRING
 #undef BINARY_OP

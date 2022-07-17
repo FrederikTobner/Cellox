@@ -92,7 +92,7 @@ static void errorAt(Token *token, const char *message)
     }
     else if (token->type == TOKEN_ERROR)
     {
-        // No error reporting yet
+        // Error during the parsing process - already reported
     }
     else
     {
@@ -103,12 +103,13 @@ static void errorAt(Token *token, const char *message)
     parser.hadError = true;
 }
 
-// Reports an error
+// Reports an error at the previous position
 static void error(const char *message)
 {
     errorAt(&parser.previous, message);
 }
 
+// Reports an error at the current position
 static void errorAtCurrent(const char *message)
 {
     errorAt(&parser.current, message);
@@ -141,11 +142,13 @@ static void consume(TokenType type, const char *message)
     errorAtCurrent(message);
 }
 
+// Checks if the next Token is of a given type
 static bool check(TokenType type)
 {
     return parser.current.type == type;
 }
 
+// Determines weather the next Token is from the specified TokenTypes and advances a position further, if that is the case
 static bool match(TokenType type)
 {
     if (!check(type))
@@ -163,6 +166,18 @@ static void emitBytes(uint8_t byte1, uint8_t byte2)
 {
     emitByte(byte1);
     emitByte(byte2);
+}
+
+/* Emits a bytecode instruction of the type jump (jump or jump-if-false)
+ * and writes a placeholder to the jump offset
+ * Additionally returns the offset (start address) of the then or else branch
+ */
+static int emitJump(uint8_t instruction)
+{
+    emitByte(instruction);
+    emitByte(0xff);
+    emitByte(0xff);
+    return currentChunk()->count - 2;
 }
 
 static void emitReturn()
@@ -185,6 +200,22 @@ static uint8_t makeConstant(Value value)
 static void emitConstant(Value value)
 {
     emitBytes(OP_CONSTANT, makeConstant(value));
+}
+
+// Replaces the operand at the given location with the calculated jump offset
+static void patchJump(int offset)
+{
+    // -2 to adjust for the bytecode for the jump offset itself.
+    int jump = currentChunk()->count - offset - 2;
+
+    if (jump > UINT16_MAX)
+    {
+        // More than 65,535 bytes of code
+        error("Too much code to jump over.");
+    }
+
+    currentChunk()->code[offset] = (jump >> 8) & 0xff;
+    currentChunk()->code[offset + 1] = jump & 0xff;
 }
 
 static void initCompiler(Compiler *compiler)
@@ -390,6 +421,24 @@ static void expressionStatement()
     emitByte(OP_POP);
 }
 
+static void ifStatement()
+{
+    consume(TOKEN_LEFT_PAREN, "Expect '(' after 'if'.");
+    expression();
+    consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
+
+    int thenJump = emitJump(OP_JUMP_IF_FALSE);
+    statement();
+    int elseJump = emitJump(OP_JUMP);
+    patchJump(thenJump);
+    emitByte(OP_POP);
+    if (match(TOKEN_ELSE))
+        statement();
+
+    // We patch that offset after the end of the else body
+    patchJump(elseJump);
+}
+
 static void printStatement()
 {
     expression();
@@ -443,6 +492,10 @@ static void statement()
     if (match(TOKEN_PRINT))
     {
         printStatement();
+    }
+    else if (match(TOKEN_IF))
+    {
+        ifStatement();
     }
     else if (match(TOKEN_LEFT_BRACE))
     {

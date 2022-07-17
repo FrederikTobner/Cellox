@@ -1,5 +1,10 @@
 var breakfast = "beignets";
 var beverage = "cafe au lait";
 breakfast = breakfast + " with " + beverage;
-
+if(true){
+    print "a";
+}
+else{
+print "b";
+}
 print breakfast;
