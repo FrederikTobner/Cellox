@@ -5,7 +5,6 @@
 #include "common.h"
 #include "compiler.h"
 #include "debug.h"
-#include "object.h"
 #include "memory.h"
 #include "value.h"
 #include "vm.h"
@@ -16,6 +15,7 @@ VM vm;
 static void resetStack()
 {
     vm.stackTop = vm.stack;
+    vm.frameCount = 0;
 }
 
 // Retuns the Value on top of the stack without poping it
@@ -32,8 +32,9 @@ static void runtimeError(const char *format, ...)
     vfprintf(stderr, format, args);
     va_end(args);
     fputs("\n", stderr);
-    size_t distance = vm.ip - vm.chunk->code - 1;
-    int line = vm.chunk->lines[distance];
+    CallFrame *frame = &vm.frames[vm.frameCount - 1];
+    size_t instruction = frame->ip - frame->function->chunk.code - 1;
+    int line = frame->function->chunk.lines[instruction];
     fprintf(stderr, "[line %d] in script\n", line);
     resetStack();
 }
@@ -66,12 +67,17 @@ static InterpretResult run()
 #ifdef DEBUG_TRACE_EXECUTION
     printf("== execution ==");
 #endif
-// Makro reads the next byte at the current positioon in the chunk
-#define READ_BYTE() (*vm.ip++)
-// Makro reads the next byte at the current positioon in the chunk, at stores it as a constant
-#define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
-// Makro yanks the next two bytes from the chunk and builds a 16-bit unsigned integer out of them
-#define READ_SHORT() (vm.ip += 2, (uint16_t)((vm.ip[-2] << 8) | vm.ip[-1]))
+    // Makro reads the next byte at the current positioon in the chunk
+    CallFrame *frame = &vm.frames[vm.frameCount - 1];
+
+#define READ_BYTE() (*frame->ip++)
+
+#define READ_SHORT() \
+    (frame->ip += 2, \
+     (uint16_t)((frame->ip[-2] << 8) | frame->ip[-1]))
+
+#define READ_CONSTANT() \
+    (frame->function->chunk.constants.values[READ_BYTE()])
 // Makro readsa string in the chunk, at stores it as a constant
 #define READ_STRING() AS_STRING(READ_CONSTANT())
 /*Macro for creating a binary operator
@@ -101,7 +107,8 @@ so all the statements in it get executed if they are after an if 🤮 */
             printf(" ]");
         }
         printf("\n");
-        disassembleInstruction(vm.chunk, (int)(vm.ip - vm.chunk->code));
+        disassembleInstruction(&frame->function->chunk,
+                               (int)(frame->ip - frame->function->chunk.code));
 #endif
         uint8_t instruction;
         switch (instruction = READ_BYTE())
@@ -114,21 +121,20 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
             uint16_t offset = READ_SHORT();
             // We jump 🦘
-            vm.ip += offset;
+            frame->ip += offset;
             break;
         }
         case OP_JUMP_IF_FALSE:
         {
             uint16_t offset = READ_SHORT();
             if (isFalsey(peek(0)))
-                // We jump 🦘
-                vm.ip += offset;
+                frame->ip += offset;
             break;
         }
         case OP_LOOP:
         {
             uint16_t offset = READ_SHORT();
-            vm.ip -= offset;
+            frame->ip -= offset;
             break;
         }
         case OP_RETURN:
@@ -148,13 +154,13 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_GET_LOCAL:
         {
             uint8_t slot = READ_BYTE();
-            push(vm.stack[slot]);
+            push(frame->slots[slot]);
             break;
         }
         case OP_SET_LOCAL:
         {
             uint8_t slot = READ_BYTE();
-            vm.stack[slot] = peek(0);
+            frame->slots[slot] = peek(0);
             break;
         }
         case OP_GET_GLOBAL:
@@ -287,16 +293,14 @@ Value pop()
 
 InterpretResult interpret(const char *source)
 {
-    Chunk chunk;
-    initChunk(&chunk);
-    if (!compile(source, &chunk))
-    {
-        freeChunk(&chunk);
+    ObjFunction *function = compile(source);
+    if (function == NULL)
         return INTERPRET_COMPILE_ERROR;
-    }
-    vm.chunk = &chunk;
-    vm.ip = chunk.code;
-    InterpretResult result = run();
-    freeChunk(&chunk);
-    return result;
+
+    push(OBJ_VAL(function));
+    CallFrame *frame = &vm.frames[vm.frameCount++];
+    frame->function = function;
+    frame->ip = function->chunk.code;
+    frame->slots = vm.stack;
+    return run();
 }

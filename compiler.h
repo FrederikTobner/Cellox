@@ -2,8 +2,9 @@
 #define clox_compiler_h
 
 #include "vm.h"
+#include "object.h"
 
 // Compiles a chunk of bytecode
-bool compile(const char *source, Chunk *chunk);
+ObjFunction *compile(const char *source);
 
 #endif

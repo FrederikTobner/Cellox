@@ -7,11 +7,11 @@
 #include "value.h"
 #include "vm.h"
 
-//Marko for allocating a new object
+// Marko for allocating a new object
 #define ALLOCATE_OBJ(type, objectType) \
     (type *)allocateObject(sizeof(type), objectType)
 
-//Allocates the memory for an object of a given type
+// Allocates the memory for an object of a given type
 static Obj *allocateObject(size_t size, ObjType type)
 {
     Obj *object = (Obj *)reallocate(NULL, 0, size);
@@ -20,6 +20,15 @@ static Obj *allocateObject(size_t size, ObjType type)
     object->next = vm.objects;
     vm.objects = object;
     return object;
+}
+
+ObjFunction *newFunction()
+{
+    ObjFunction *function = ALLOCATE_OBJ(ObjFunction, OBJ_FUNCTION);
+    function->arity = 0;
+    function->name = NULL;
+    initChunk(&function->chunk);
+    return function;
 }
 
 // Allocates memory to store a string
@@ -34,9 +43,9 @@ static ObjString *allocateString(char *chars, int length, uint32_t hash)
     return string;
 }
 
-/*  FNV-1a hash function 
-*   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
-*/
+/*  FNV-1a hash function
+ *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
+ */
 static uint32_t hashString(const char *key, int length)
 {
     uint32_t hash = 2166136261u;
@@ -72,10 +81,24 @@ ObjString *copyString(const char *chars, int length)
     return allocateString(heapChars, length, hash);
 }
 
+static void printFunction(ObjFunction *function)
+{
+    if (function->name == NULL)
+    {
+        printf("<script>");
+        return;
+    }
+    printf("<fn %s>", function->name->chars);
+}
+
 void printObject(Value value)
 {
     switch (OBJ_TYPE(value))
     {
+    // A function
+    case OBJ_FUNCTION:
+        printFunction(AS_FUNCTION(value));
+        break;
     // A string
     case OBJ_STRING:
         printf("%s", AS_CSTRING(value));
