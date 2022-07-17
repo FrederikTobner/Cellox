@@ -5,11 +5,9 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
-      "args": [
-        "${workspaceFolder}/Sampleprogram.klx"
-      ],
+      "args": [],
       "stopAtEntry": false,
-      "externalConsole": false,
+      "externalConsole": true,
       "cwd": "${workspaceFolder}",
       "program": "${workspaceFolder}/build/Debug/outDebug",
       "MIMode": "gdb",
@@ -18,7 +16,7 @@
         {
           "description": "Enable pretty-printing for gdb",
           "text": "-enable-pretty-printing",
-          "ignoreFailures": true
+          "ignoreFailures": true,
         }
       ]
     }

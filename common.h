@@ -10,10 +10,7 @@
 #define DEBUG_PRINT_CODE
 
 // Flag for tracing the execution, can be removed if you want to disable it
-#define DEBUG_TRACE_EXECUTION
-
-// Flag for debugging the program
-#define DEBUG_WORKAROUND
+//#define DEBUG_TRACE_EXECUTION
 
 #define UINT8_COUNT (UINT8_MAX + 1)
 

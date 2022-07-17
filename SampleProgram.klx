@@ -1,10 +1,10 @@
-var breakfast = "beignets";
-var beverage = "cafe au lait";
-breakfast = breakfast + " with " + beverage;
-if(true){
-    print "a";
+var x1 = 1;
+var x2 = 0; 
+var res = 0;
+while(res<1000)
+{
+    print res;
+    x2 = x1;
+    x1 = res;
+    res = x1 + x2;
 }
-else{
-print "b";
-}
-print breakfast;

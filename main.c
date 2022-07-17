@@ -87,15 +87,6 @@ int main(int argc, const char *argv[])
     }
     else
     {
-// Argument count is broken in the debugging session 😞
-#ifdef DEBUG_WORKAROUND
-        if (argc >= 2)
-        {
-            runFile(argv[1]);
-        }
-        freeVM();
-        exit(0);
-#endif
         // Too much arguments (>1)
         fprintf(stderr, "Usage: clox [path]\n");
         freeVM();

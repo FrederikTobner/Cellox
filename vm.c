@@ -38,6 +38,7 @@ static void runtimeError(const char *format, ...)
     resetStack();
 }
 
+// Determines if a value is falsey (either nil or false)
 static bool isFalsey(Value value)
 {
     return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
@@ -65,9 +66,13 @@ static InterpretResult run()
 #ifdef DEBUG_TRACE_EXECUTION
     printf("== execution ==");
 #endif
+// Makro reads the next byte at the current positioon in the chunk
 #define READ_BYTE() (*vm.ip++)
+// Makro reads the next byte at the current positioon in the chunk, at stores it as a constant
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
+// Makro yanks the next two bytes from the chunk and builds a 16-bit unsigned integer out of them
 #define READ_SHORT() (vm.ip += 2, (uint16_t)((vm.ip[-2] << 8) | vm.ip[-1]))
+// Makro readsa string in the chunk, at stores it as a constant
 #define READ_STRING() AS_STRING(READ_CONSTANT())
 /*Macro for creating a binary operator
 We have to embed the marco into a do while, which isn't followed by a semicolon,
@@ -118,6 +123,12 @@ so all the statements in it get executed if they are after an if 🤮 */
             if (isFalsey(peek(0)))
                 // We jump 🦘
                 vm.ip += offset;
+            break;
+        }
+        case OP_LOOP:
+        {
+            uint16_t offset = READ_SHORT();
+            vm.ip -= offset;
             break;
         }
         case OP_RETURN:
