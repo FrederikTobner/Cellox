@@ -18,32 +18,45 @@
 #define AS_STRING(value) ((ObjString *)AS_OBJ(value))
 #define AS_CSTRING(value) (((ObjString *)AS_OBJ(value))->chars)
 
+// Differnt type of objects
 typedef enum
 {
+    // A closure
     OBJ_CLOSURE,
+    // A kellox function
     OBJ_FUNCTION,
+    // A native function
     OBJ_NATIVE,
+    // A string
     OBJ_STRING,
+    // An upvalue
     OBJ_UPVALUE,
 } ObjType;
 
+// struct containing the data that defines an object
 struct Obj
 {
     ObjType type;
     struct Obj *next;
 };
 
+// struct containing the data that defines a kellox function
 typedef struct
 {
     Obj obj;
+    // The number of arguments a function expects
     int arity;
+    // Number of values from enclosing scopes
     int upvalueCount;
+    // The instructions in the function
     Chunk chunk;
+    // The name of the function
     ObjString *name;
 } ObjFunction;
 
 typedef Value (*NativeFn)(int argCount, Value *args);
 
+// Type definition of a native function
 typedef struct
 {
     Obj obj;
@@ -58,6 +71,7 @@ struct ObjString
     uint32_t hash;
 };
 
+// Type definition of an object up-value (a local variable in an enclosing function)
 typedef struct ObjUpvalue
 {
     Obj obj;
@@ -66,6 +80,10 @@ typedef struct ObjUpvalue
     struct ObjUpvalue *next;
 } ObjUpvalue;
 
+/*Type definition of a closure.
+ *A closure is the combination of a function and references to its surrounding state).
+ * In other words, a closure gives you access to an outer function's scope from an inner function
+ https://en.wikipedia.org/wiki/Closure_(computer_programming)*/
 typedef struct
 {
     Obj obj;
@@ -74,11 +92,17 @@ typedef struct
     int upvalueCount;
 } ObjClosure;
 
+// Creates a new Closure
 ObjClosure *newClosure(ObjFunction *function);
+// Creates a new kellox function
 ObjFunction *newFunction();
+// Creates a new native function
 ObjNative *newNative(NativeFn function);
+// Deletes a string frm the hashtable of the vm and returns it
 ObjString *takeString(char *chars, int length);
+// Copys the value of a string in the hashtable of the vm
 ObjString *copyString(const char *chars, int length);
+// Creates a new upvalue
 ObjUpvalue *newUpvalue(Value *slot);
 // Prints the object
 void printObject(Value value);

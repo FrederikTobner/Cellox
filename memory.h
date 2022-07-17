@@ -5,9 +5,11 @@
 #include "common.h"
 #include "object.h"
 
+// Allocates the memory needed for a given type multiplied by the count
 #define ALLOCATE(type, count) \
     (type *)reallocate(NULL, 0, sizeof(type) * (count))
 
+// Frees the memory used by a given type at the position specified by the pointer
 #define FREE(type, pointer) reallocate(pointer, sizeof(type), 0)
 
 // Increases Capacity (initalizes capacity at 8)

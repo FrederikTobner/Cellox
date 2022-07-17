@@ -140,8 +140,7 @@ void tableAddAll(Table *from, Table *to)
     }
 }
 
-ObjString *tableFindString(Table *table, const char *chars,
-                           int length, uint32_t hash)
+ObjString *tableFindString(Table *table, const char *chars, int length, uint32_t hash)
 {
     if (table->count == 0)
         return NULL;
@@ -163,7 +162,7 @@ ObjString *tableFindString(Table *table, const char *chars,
             // We found the string
             return entry->key;
         }
-        //We look in the next bucket but eventually we also have to wrap around the array when we reach the end
+        // We look in the next bucket but eventually we also have to wrap around the array when we reach the end
         index = (index + 1) % table->capacity;
     }
 }

@@ -45,6 +45,7 @@ typedef struct
     Precedence precedence;
 } ParseRule;
 
+// Type definition of a local variable
 typedef struct
 {
     // Name of the local variable
@@ -54,6 +55,7 @@ typedef struct
     bool isCaptured;
 } Local;
 
+// Type definition of an upvalue -
 typedef struct
 {
     uint8_t index;
@@ -627,7 +629,6 @@ static void returnStatement()
     {
         error("Can't return from top-level code.");
     }
-
     if (match(TOKEN_SEMICOLON))
     {
         emitReturn();
@@ -750,6 +751,9 @@ static void unary(bool canAssign)
     // Emit the operator instruction.
     switch (operatorType)
     {
+    case TOKEN_BANG:
+        emitByte(OP_NOT);
+        break;
     case TOKEN_MINUS:
         emitByte(OP_NEGATE);
         break;
@@ -855,12 +859,10 @@ static int resolveLocal(Compiler *compiler, Token *name)
             return i;
         }
     }
-
     return -1;
 }
 
-static int addUpvalue(Compiler *compiler, uint8_t index,
-                      bool isLocal)
+static int addUpvalue(Compiler *compiler, uint8_t index, bool isLocal)
 {
     int upvalueCount = compiler->function->upvalueCount;
 
@@ -886,7 +888,10 @@ static int addUpvalue(Compiler *compiler, uint8_t index,
 static int resolveUpvalue(Compiler *compiler, Token *name)
 {
     if (compiler->enclosing == NULL)
+    {
+        // Global scope
         return -1;
+    }
 
     int local = resolveLocal(compiler->enclosing, name);
     if (local != -1)
@@ -966,14 +971,13 @@ static void defineVariable(uint8_t global)
     // Local Variable
     if (current->scopeDepth > 0)
     {
-        // Sets the value of the local variable (not in the book - check code)
-        emitBytes(OP_SET_LOCAL, (char)current->localCount - 1);
         markInitialized();
         return;
     }
     emitBytes(OP_DEFINE_GLOBAL, global);
 }
 
+// Compiles an argumentList of a call expression to bytecode instructions
 static uint8_t argumentList()
 {
     uint8_t argCount = 0;

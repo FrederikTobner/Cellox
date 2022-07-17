@@ -7,26 +7,35 @@
 #include "debug.h"
 #include "vm.h"
 
+// Reads a lox program from a file
+static char *readFile(const char *path);
 // Run from command prompt
-static void repl()
-{
-    char line[1024];
-    for (;;)
-    {
-        // Prints command pormpt
-        printf("> ");
+static void repl();
+// Reads a lox program from a file and executes the program
+static void runFile(const char *path);
 
-        if (!fgets(line, sizeof(line), stdin))
-        {
-            printf("\n");
-            break;
-        }
-        // Interprets a single line
-        interpret(line);
+int main(int argc, const char *argv[])
+{
+
+    initVM();
+    if (argc == 1)
+    {
+        repl();
     }
+    else if (argc == 2)
+    {
+        runFile(argv[1]);
+    }
+    else
+    {
+        // Too much arguments (>1)
+        fprintf(stderr, "Usage: clox [path]\n");
+        freeVM();
+        exit(64);
+    }
+    freeVM();
 }
 
-// Reads a lox program from a file
 static char *readFile(const char *path)
 {
     FILE *file = fopen(path, "rb");
@@ -58,7 +67,24 @@ static char *readFile(const char *path)
     return buffer;
 }
 
-// Reads a lox program from a file and executes the program
+static void repl()
+{
+    char line[1024];
+    for (;;)
+    {
+        // Prints command pormpt
+        printf("> ");
+
+        if (!fgets(line, sizeof(line), stdin))
+        {
+            printf("\n");
+            break;
+        }
+        // Interprets a single line
+        interpret(line);
+    }
+}
+
 static void runFile(const char *path)
 {
     char *source = readFile(path);
@@ -71,26 +97,4 @@ static void runFile(const char *path)
     /// Error during runtime
     if (result == INTERPRET_RUNTIME_ERROR)
         exit(70);
-}
-
-int main(int argc, const char *argv[])
-{
-
-    initVM();
-    if (argc == 1)
-    {
-        repl();
-    }
-    else if (argc == 2)
-    {
-        runFile(argv[1]);
-    }
-    else
-    {
-        // Too much arguments (>1)
-        fprintf(stderr, "Usage: clox [path]\n");
-        freeVM();
-        exit(64);
-    }
-    freeVM();
 }
