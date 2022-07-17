@@ -5,7 +5,9 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
-      "args": [],
+      "args": [
+        "${workspaceFolder}/Sampleprogram.klx"
+      ],
       "stopAtEntry": false,
       "externalConsole": true,
       "cwd": "${workspaceFolder}",
