@@ -33,9 +33,9 @@ typedef enum
     OP_JUMP,
     OP_JUMP_IF_FALSE,
     OP_LOOP,
+    OP_CALL,
     // Return from the current function
     OP_RETURN,
-
 } Opcode;
 
 // A dynamic array of idalized instructions for an abstract computer-> bytecode
