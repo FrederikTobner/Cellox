@@ -28,6 +28,16 @@
 // Reallocates the memory usage from a given pointer
 void *reallocate(void *pointer, size_t oldSize, size_t newSize);
 
+//Marks a kellox object
+void markObject(Obj* object);
+
+//Marks a kellox value
+void markValue(Value value);
+
+// Starts the garbage collection process
+void collectGarbage();
+
+// Dealocates the memory used by the objects of the vm
 void freeObjects();
 
 #endif

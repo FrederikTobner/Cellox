@@ -47,7 +47,6 @@ static char *readFile(const char *path)
     fseek(file, 0L, SEEK_END);
     size_t fileSize = ftell(file);
     rewind(file);
-
     char *buffer = (char *)malloc(fileSize + 1);
     if (buffer == NULL)
     {

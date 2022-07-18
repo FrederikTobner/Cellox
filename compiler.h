@@ -5,5 +5,7 @@
 
 // Compiles a chunk of bytecode
 ObjFunction *compile(const char *source);
+//Marks the compiler roots
+void markCompilerRoots();
 
 #endif

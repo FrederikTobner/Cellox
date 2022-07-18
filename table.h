@@ -31,5 +31,9 @@ bool tableDelete(Table *table, ObjString *key);
 void tableAddAll(Table *from, Table *to);
 // Finds a string in the hashtable
 ObjString *tableFindString(Table *table, const char *chars, int length, uint32_t hash);
+//Removes the strings that are not referenced anymore from the table
+void tableRemoveWhite(Table* table);
+//Marks all the objects in the hashtable
+void markTable(Table* table);
 
 #endif

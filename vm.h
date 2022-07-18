@@ -20,13 +20,19 @@ typedef struct
 {
     CallFrame frames[FRAMES_MAX];
     int frameCount;
-    // Stack based VM
+    // Stack of the vm
     Value stack[STACK_MAX];
+    /// Pointer to the top of the stack
     Value *stackTop;
     Table globals;
     Table strings;
     ObjUpvalue *openUpvalues;
+    size_t bytesAllocated;
+    size_t nextGC;
     Obj *objects;
+    int grayCount;
+    int grayCapacity;
+    Obj **grayStack;
 } VM;
 
 // Result of the interpretation (sucessfull, error during compilation or at runtime)
