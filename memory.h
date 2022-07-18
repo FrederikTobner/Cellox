@@ -12,7 +12,7 @@
 // Frees the memory used by a given type at the position specified by the pointer
 #define FREE(type, pointer) reallocate(pointer, sizeof(type), 0)
 
-// Increases Capacity (initalizes capacity at 8)
+// Determines the increase in capacity for a dynamic array (initalizes capacity at 8)
 #define GROW_CAPACITY(capacity) \
     ((capacity) < 8 ? 8 : (capacity) + 2)
 
@@ -28,10 +28,10 @@
 // Reallocates the memory usage from a given pointer
 void *reallocate(void *pointer, size_t oldSize, size_t newSize);
 
-//Marks a kellox object
-void markObject(Obj* object);
+// Marks a kellox object
+void markObject(Obj *object);
 
-//Marks a kellox value
+// Marks a kellox value
 void markValue(Value value);
 
 // Starts the garbage collection process

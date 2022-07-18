@@ -873,6 +873,7 @@ static int resolveLocal(Compiler *compiler, Token *name)
     return -1;
 }
 
+//
 static int addUpvalue(Compiler *compiler, uint8_t index, bool isLocal)
 {
     int upvalueCount = compiler->function->upvalueCount;
@@ -896,11 +897,13 @@ static int addUpvalue(Compiler *compiler, uint8_t index, bool isLocal)
     return compiler->function->upvalueCount++;
 }
 
+/* Looks for a local variable declared in any of the surrounding functions.
+If an upvalue is found it returns an upvalue index, if not -1 is returned.*/
 static int resolveUpvalue(Compiler *compiler, Token *name)
 {
     if (compiler->enclosing == NULL)
     {
-        // Global scope
+        // not found
         return -1;
     }
 
@@ -910,12 +913,13 @@ static int resolveUpvalue(Compiler *compiler, Token *name)
         compiler->enclosing->locals[local].isCaptured = true;
         return addUpvalue(compiler, (uint8_t)local, true);
     }
+    //Resolution of a local variable failed in the current environent -> look in the enclosing environment
     int upvalue = resolveUpvalue(compiler->enclosing, name);
     if (upvalue != -1)
     {
         return addUpvalue(compiler, (uint8_t)upvalue, false);
     }
-
+    //Upvalue couldn't be found
     return -1;
 }
 
@@ -1038,7 +1042,6 @@ static ParseRule *getRule(TokenType type)
     return &rules[type];
 }
 
-// Compiles a chunk of bytcode
 ObjFunction *compile(const char *source)
 {
     initScanner(source);
@@ -1061,6 +1064,7 @@ void markCompilerRoots()
     Compiler *compiler = current;
     while (compiler != NULL)
     {
+        // Marks all the functions defined in the current environment
         markObject((Obj *)compiler->function);
         compiler = compiler->enclosing;
     }

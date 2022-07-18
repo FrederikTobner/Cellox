@@ -34,6 +34,7 @@ int main(int argc, const char *argv[])
         exit(64);
     }
     freeVM();
+    return 0;
 }
 
 static char *readFile(const char *path)
