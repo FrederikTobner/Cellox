@@ -10,8 +10,10 @@
 #include "value.h"
 #include "vm.h"
 
+// Global VM variable
 VM vm;
 
+// Native clock function
 static Value clockNative(int argCount, Value *args)
 {
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
@@ -58,6 +60,7 @@ static void runtimeError(const char *format, ...)
     resetStack();
 }
 
+// Defines a native function for the virtual machine
 static void defineNative(const char *name, NativeFn function)
 {
     push(OBJ_VAL(copyString(name, (int)strlen(name))));
@@ -140,6 +143,11 @@ static ObjUpvalue *captureUpvalue(Value *local)
     return createdUpvalue;
 }
 
+/* Function takes a slot of the stack as a parameter.
+ * Then it closes all upvalues it can find in that slot and the slots above that slot in the stack.
+ * The concept of an upvalue is borrowed from Lua - see https://www.lua.org/pil/27.3.3.html.
+ * A upvalue is closed by copying the objects value into the closed field in te ObjValue.
+ */
 static void closeUpvalues(Value *last)
 {
     while (vm.openUpvalues != NULL &&

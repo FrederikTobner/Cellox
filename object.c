@@ -8,8 +8,7 @@
 #include "vm.h"
 
 // Marko for allocating a new object
-#define ALLOCATE_OBJ(type, objectType) \
-    (type *)allocateObject(sizeof(type), objectType)
+#define ALLOCATE_OBJ(type, objectType) (type *)allocateObject(sizeof(type), objectType)
 
 // Allocates the memory for an object of a given type
 static Obj *allocateObject(size_t size, ObjType type)
@@ -105,9 +104,13 @@ ObjString *copyString(const char *chars, int length)
 
 ObjUpvalue *newUpvalue(Value *slot)
 {
+    // Allocating the memory used by the upvalue
     ObjUpvalue *upvalue = ALLOCATE_OBJ(ObjUpvalue, OBJ_UPVALUE);
+    // We zero out the closed field of the upvalue when we create it
     upvalue->closed = NIL_VAL;
+    // Adress of the slot where the closed over variables live (enclosing environment)
     upvalue->location = slot;
+    // When we allocate a new upvalue, it is not attached to any list
     upvalue->next = NULL;
     return upvalue;
 }
@@ -116,9 +119,11 @@ static void printFunction(ObjFunction *function)
 {
     if (function->name == NULL)
     {
+        // top level code
         printf("<script>");
         return;
     }
+    // A function
     printf("<fn %s>", function->name->chars);
 }
 
@@ -142,6 +147,7 @@ void printObject(Value value)
     case OBJ_STRING:
         printf("%s", AS_CSTRING(value));
         break;
+    // An upvalue
     case OBJ_UPVALUE:
         printf("upvalue");
         break;

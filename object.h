@@ -56,13 +56,14 @@ typedef struct
 
 typedef Value (*NativeFn)(int argCount, Value *args);
 
-// Type definition of a native function
+// Type definition of a native function structure
 typedef struct
 {
     Obj obj;
     NativeFn function;
 } ObjNative;
 
+// ObjString structure definition
 struct ObjString
 {
     Obj obj;
@@ -71,7 +72,7 @@ struct ObjString
     uint32_t hash;
 };
 
-// Type definition of an object up-value (a local variable in an enclosing function)
+// Type definition of an object up-value structure (a local variable in an enclosing function)
 typedef struct ObjUpvalue
 {
     Obj obj;

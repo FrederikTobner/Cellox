@@ -9,19 +9,6 @@
 // The max load factor of the hashtable, once it is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
 
-void initTable(Table *table)
-{
-    table->count = 0;
-    table->capacity = 0;
-    table->entries = NULL;
-}
-
-void freeTable(Table *table)
-{
-    FREE_ARRAY(Entry, table->entries, table->capacity);
-    initTable(table);
-}
-
 // Looks up an entry in the hashtable, based on a key
 static Entry *findEntry(Entry *entries, int capacity, ObjString *key)
 {
@@ -39,7 +26,8 @@ static Entry *findEntry(Entry *entries, int capacity, ObjString *key)
             }
             else
             {
-                // We found a tombstone.
+                /* We found a tombstone.
+                A tombstone marks the slot of a value that has already been deleted */
                 if (tombstone == NULL)
                     tombstone = entry;
             }
@@ -78,6 +66,19 @@ static void adjustCapacity(Table *table, int capacity)
 
     table->entries = entries;
     table->capacity = capacity;
+}
+
+void initTable(Table *table)
+{
+    table->count = 0;
+    table->capacity = 0;
+    table->entries = NULL;
+}
+
+void freeTable(Table *table)
+{
+    FREE_ARRAY(Entry, table->entries, table->capacity);
+    initTable(table);
 }
 
 bool tableGet(Table *table, ObjString *key, Value *value)

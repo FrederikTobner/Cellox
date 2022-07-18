@@ -4,11 +4,14 @@
 #include "common.h"
 #include "scanner.h"
 
-// Type definition of a scanner/lexer
+// Type definition of a scanner/lexer stucture
 typedef struct
 {
+    // Pointer to the start of the current line where the lexical analysis is performed
     const char *start;
+    // Pointer to the current position in the current line where the lexical analysis is performed
     const char *current;
+    // Line counter - used for error reporting
     int line;
 } Scanner;
 
@@ -23,12 +26,11 @@ void initScanner(const char *source)
     scanner.line = 1;
 }
 
-// Checks if the char c is from the alphabet
+/* Checks if the char c is from the alphabet or an underscore.
+These are the valid characters for identifiers.*/
 static bool isAlpha(char c)
 {
-    return (c >= 'a' && c <= 'z') ||
-           (c >= 'A' && c <= 'Z') ||
-           c == '_';
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
 // checks if the char c is a digit

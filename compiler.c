@@ -11,7 +11,7 @@
 #include "debug.h"
 #endif
 
-// Type definition of the parser
+// Type definition of the parser structure
 typedef struct
 {
     Token current;
@@ -20,6 +20,7 @@ typedef struct
     bool panicMode;
 } Parser;
 
+// Precedences of the Tokens
 typedef enum
 {
     PREC_NONE,
@@ -37,7 +38,7 @@ typedef enum
 
 typedef void (*ParseFn)(bool canAssign);
 
-// Type definition of a parsing rule
+// Type definition of a parsing rule structure
 typedef struct
 {
     ParseFn prefix;
@@ -45,7 +46,7 @@ typedef struct
     Precedence precedence;
 } ParseRule;
 
-// Type definition of a local variable
+// Type definition of a local variable structure
 typedef struct
 {
     // Name of the local variable
@@ -55,20 +56,21 @@ typedef struct
     bool isCaptured;
 } Local;
 
-// Type definition of an upvalue -
+// Type definition of an upvalue structure-
 typedef struct
 {
     uint8_t index;
     bool isLocal;
 } Upvalue;
 
+// Types of a function - either a script or a function
 typedef enum
 {
     TYPE_FUNCTION,
     TYPE_SCRIPT
 } FunctionType;
 
-// Type definition of the compiler
+// Type definition of the compiler structure
 typedef struct Compiler
 {
     struct Compiler *enclosing;
@@ -268,33 +270,31 @@ static void initCompiler(Compiler *compiler, FunctionType type)
 
 static ObjFunction *endCompiler()
 {
-
     emitReturn();
     ObjFunction *function = current->function;
 #ifdef DEBUG_PRINT_CODE
     if (!parser.hadError)
     {
-        disassembleChunk(currentChunk(), function->name != NULL
-                                             ? function->name->chars
-                                             : "<script>");
+        disassembleChunk(currentChunk(), function->name != NULL ? function->name->chars : "<script>");
     }
 #endif
     current = current->enclosing;
     return function;
 }
 
+// Handles the beginning of a new Scope
 static void beginScope()
 {
     current->scopeDepth++;
 }
 
+// Handles the closing of a scope
 static void endScope()
 {
     current->scopeDepth--;
 
     /*We walk backward through the local array looking for any variables
-     *declared at the scope depth we just left, when we pop a scope
-     */
+     declared at the scope depth we just left, when we pop a scope*/
     while (current->localCount > 0 &&
            current->locals[current->localCount - 1].depth > current->scopeDepth)
     {
@@ -446,6 +446,11 @@ static void namedVariable(Token name, bool canAssign)
     }
 }
 
+/*Compiles a variable
+* Get Global variable or
+* Set Global variable or
+* Get Local variable or
+Set Local variable*/
 static void variable(bool canAssign)
 {
     namedVariable(parser.previous, canAssign);
@@ -457,6 +462,7 @@ static void expression()
     parsePrecedence(PREC_ASSIGNMENT);
 }
 
+// Compiles a block statement to bytecode instructions
 static void block()
 {
     while (!check(TOKEN_RIGHT_BRACE) && !check(TOKEN_EOF))
@@ -467,6 +473,7 @@ static void block()
     consume(TOKEN_RIGHT_BRACE, "Expect '}' after block.");
 }
 
+// Compiles a function declaration statement to bytecode instructions
 static void function(FunctionType type)
 {
     Compiler compiler;
@@ -500,6 +507,7 @@ static void function(FunctionType type)
     }
 }
 
+// Compiles a function statement and defines the function in the current environment
 static void funDeclaration()
 {
     uint8_t global = parseVariable("Expect function name.");
@@ -997,7 +1005,7 @@ static uint8_t argumentList()
     return argCount;
 }
 
-/* Handles an and-expression*/
+// Handles an and-expression
 static void and_(bool canAssign)
 {
     int endJump = emitJump(OP_JUMP_IF_FALSE);
@@ -1008,7 +1016,7 @@ static void and_(bool canAssign)
     patchJump(endJump);
 }
 
-/* Handles an or-expression*/
+// Handles an or-expression
 static void or_(bool canAssign)
 {
     int elseJump = emitJump(OP_JUMP_IF_FALSE);

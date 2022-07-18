@@ -1,8 +1,20 @@
-fun Add(x, y)
+fun fibonacci()
 {
-  var h = "Hallo";
-  var w = " Welt!";
-  print h + w;
-  return x + y;
+	var x = 0;
+	var temp = 0;
+	var b = 1;
+	fun number()
+	{
+		temp = x;
+		x = b;
+		b = temp + x;
+		return temp;
+	}
+	return number;
 }
-print Add(3, 5);
+
+var fibo = fibonacci();
+for (var j = 0; j < 10; j = j + 1) 
+{
+	print fibo();
+}
