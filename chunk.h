@@ -42,7 +42,8 @@ typedef enum
     OP_RETURN,
 } Opcode;
 
-// A dynamic array of idalized instructions for an abstract computer-> bytecode
+/* Type definition of a dynamic array structure of bytecode instructions
+bytecode instructions are idalized instructions for an abstract/virtual computer*/
 typedef struct
 {
     // Amount of bytecode instructions in the chunk

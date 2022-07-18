@@ -1,10 +1,12 @@
+#include "compiler.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "common.h"
-#include "compiler.h"
 #include "scanner.h"
+#include "vm.h"
 
 // The debug header file only needs to be included if the DEBUG_CODE is defined
 #ifdef DEBUG_PRINT_CODE

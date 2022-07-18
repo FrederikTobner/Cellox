@@ -28,4 +28,6 @@
 // Reallocates the memory usage from a given pointer
 void *reallocate(void *pointer, size_t oldSize, size_t newSize);
 
+void freeObjects();
+
 #endif

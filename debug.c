@@ -15,7 +15,7 @@ void disassembleChunk(Chunk *chunk, const char *name)
   }
 }
 
-// OP_CONSTANT
+// Dissasembles a constant instruction - OP_CONSTANT
 static int constantInstruction(const char *name, Chunk *chunk, int offset)
 {
   uint8_t constant = chunk->code[offset + 1];
@@ -25,7 +25,7 @@ static int constantInstruction(const char *name, Chunk *chunk, int offset)
   return offset + 2;
 }
 
-// OP_RETURN
+// Dissasembles a return instruction - OP_RETURN
 static int simpleInstruction(const char *name, int offset)
 {
   printf("%s\n", name);

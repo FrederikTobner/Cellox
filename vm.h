@@ -4,6 +4,7 @@
 #include "object.h"
 #include "table.h"
 
+// Maximum amount of frames the virtual machine can hold
 #define FRAMES_MAX 64
 #define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
 

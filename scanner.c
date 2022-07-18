@@ -1,8 +1,7 @@
+#include "scanner.h"
+
 #include <stdio.h>
 #include <string.h>
-
-#include "common.h"
-#include "scanner.h"
 
 // Type definition of a scanner/lexer stucture
 typedef struct

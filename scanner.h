@@ -1,10 +1,11 @@
 #ifndef clox_scanner_h
 #define clox_scanner_h
 
+#include "common.h"
+
 // Tokens of the language
 typedef enum
 {
-#pragma region SingleCharacterTokens
   // (
   TOKEN_LEFT_PAREN,
   // )
@@ -35,8 +36,6 @@ typedef enum
   TOKEN_LESS,
   // =
   TOKEN_EQUAL,
-#pragma endregion SingleCharacterTokens
-#pragma region TwoCharacterTokens
   // !=
   TOKEN_BANG_EQUAL,
   // ==
@@ -45,8 +44,6 @@ typedef enum
   TOKEN_GREATER_EQUAL,
   // <=
   TOKEN_LESS_EQUAL,
-#pragma endregion TwoCharacterTokens
-#pragma region Literals
   // An identifier e.g. for the variable named x
   TOKEN_IDENTIFIER,
   // A string literal e.g. "Hello World!"
@@ -59,8 +56,6 @@ typedef enum
   TOKEN_FALSE,
   // literal nil-value/null-value/undefiened value
   TOKEN_NIL,
-#pragma endregion Literals
-#pragma region Keywords
   // and
   TOKEN_AND,
   // class
@@ -87,13 +82,10 @@ typedef enum
   TOKEN_VAR,
   // while
   TOKEN_WHILE,
-#pragma endregion Keywords
-#pragma region InternalTokens
   // Used to mark an error in the parsing process
   TOKEN_ERROR,
   /// Used to mark the end of the file
   TOKEN_EOF
-#pragma endregion InternalTokens
 } TokenType;
 
 // Type definition of the scanner
