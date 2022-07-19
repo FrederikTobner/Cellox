@@ -52,11 +52,11 @@ typedef struct
 // Makro that creates an object
 #define OBJ_VAL(object) ((Value){VAL_OBJ, {.obj = (Obj *)object}})
 
-// Type definition of the dynamic array
+// Type definition of the dynamic value array
 typedef struct
 {
-    int capacity;
-    int count;
+    int_fast32_t capacity;
+    int_fast32_t count;
     Value *values;
 } ValueArray;
 

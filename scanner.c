@@ -11,7 +11,7 @@ typedef struct
     // Pointer to the current position in the current line where the lexical analysis is performed
     const char *current;
     // Line counter - used for error reporting
-    int line;
+    int_fast32_t line;
 } Scanner;
 
 // Global Scanner variable
@@ -82,7 +82,7 @@ static Token makeToken(TokenType type)
     Token token;
     token.type = type;
     token.start = scanner.start;
-    token.length = (int)(scanner.current - scanner.start);
+    token.length = (int_fast32_t)(scanner.current - scanner.start);
     token.line = scanner.line;
     return token;
 }
@@ -93,7 +93,7 @@ static Token errorToken(const char *message)
     Token token;
     token.type = TOKEN_ERROR;
     token.start = message;
-    token.length = (int)strlen(message);
+    token.length = (int_fast32_t)strlen(message);
     token.line = scanner.line;
     return token;
 }
@@ -138,7 +138,7 @@ static void skipWhitespace()
 }
 
 // Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
-static TokenType checkKeyword(int start, int length, const char *rest, TokenType type)
+static TokenType checkKeyword(int_fast32_t start, int_fast32_t length, const char *rest, TokenType type)
 {
     if (scanner.current - scanner.start == start + length &&
         memcmp(scanner.start + start, rest, length) == 0)

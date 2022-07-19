@@ -4,34 +4,50 @@
 #include "object.h"
 #include "table.h"
 
-// Maximum amount of frames the virtual machine can hold
+// Maximum amount of frames the virtual machine can hold - meaning that can be called at the same time
 #define FRAMES_MAX 64
+
+// Maximum amount values that can be allocated on the stack of the VM - currently 16384 values
 #define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
 
+// type definition of a call frame structure - represents a single ongoing function call
 typedef struct
 {
+    // The closure of the callframe
     ObjClosure *closure;
-    uint8_t *ip;
+    // The instruction pointer in the callframe
+    uint_fast8_t *ip;
+    // Points to the first slot in the stack of the vm the function can use
     Value *slots;
 } CallFrame;
 
 // Type definition of a stackbased virtual machine
 typedef struct
 {
+    // Callframes of the virtual machine
     CallFrame frames[FRAMES_MAX];
-    int frameCount;
+    /// The amount of callframes the vm currently holds
+    int_fast32_t frameCount;
     // Stack of the vm
     Value stack[STACK_MAX];
     /// Pointer to the top of the stack
     Value *stackTop;
+    // Hashtable that contains the global variables
     Table globals;
+    // Hashtable that contains the strings
     Table strings;
     ObjUpvalue *openUpvalues;
+    // Number of bytes that have been allocated by the vm
     size_t bytesAllocated;
+    // A treshhold when the next garbage Collection shall be triggered (e.g. a Megabyte)
     size_t nextGC;
+    // The objects that are allocated in the memory of the vm
     Obj *objects;
-    int grayCount;
-    int grayCapacity;
+    // Amount of objects in the virtual machine that are marked as gray -> objects that are already discovered but haven't been processed yet
+    int_fast32_t grayCount;
+    // The capacity of the dynamic array storing the objects that were marked as gray
+    int_fast32_t grayCapacity;
+    // The stack that coontains all the gray objects
     Obj **grayStack;
 } VM;
 

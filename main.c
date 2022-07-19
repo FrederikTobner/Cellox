@@ -7,6 +7,9 @@
 #include "debug.h"
 #include "vm.h"
 
+// Maximum length of a line is 1024 characters
+#define MAX_LINE_LENGTH 1024
+
 // Reads a lox program from a file
 static char *readFile(const char *path);
 // Run from command prompt
@@ -16,7 +19,6 @@ static void runFile(const char *path);
 
 int main(int argc, const char *argv[])
 {
-
     initVM();
     if (argc == 1)
     {
@@ -39,6 +41,7 @@ int main(int argc, const char *argv[])
 
 static char *readFile(const char *path)
 {
+    // Opens a file of a nonspecified format (b) in read mode (r)
     FILE *file = fopen(path, "rb");
     if (file == NULL)
     {
@@ -61,6 +64,7 @@ static char *readFile(const char *path)
         exit(74);
     }
 
+    // We add null the end of the sourcecode to mark the end of the file
     buffer[bytesRead] = '\0';
 
     fclose(file);
@@ -69,18 +73,24 @@ static char *readFile(const char *path)
 
 static void repl()
 {
-    char line[1024];
+    /// Used to store the next line that read from input
+    char line[MAX_LINE_LENGTH];
     for (;;)
     {
-        // Prints command pormpt
+        // Prints command prompt
         printf("> ");
-
+        // Reads the next line that was input by the user and stores
         if (!fgets(line, sizeof(line), stdin))
         {
             printf("\n");
             break;
         }
-        // Interprets a single line
+        // We close the command prompt if the last input was empty
+        if (strlen(line) == 1)
+        {
+            exit(0);
+        }
+        // Interprets the line
         interpret(line);
     }
 }

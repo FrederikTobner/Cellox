@@ -15,16 +15,16 @@ void initChunk(Chunk *chunk)
 }
 
 // Write to a already existing chunk
-void writeChunk(Chunk *chunk, uint8_t byte, int line)
+void writeChunk(Chunk *chunk, uint_fast8_t byte, int_fast32_t line)
 {
   if (chunk->capacity < chunk->count + 1)
   {
-    int oldCapacity = chunk->capacity;
+    int_fast32_t oldCapacity = chunk->capacity;
     chunk->capacity = GROW_CAPACITY(oldCapacity);
     // Allocates code array
-    chunk->code = GROW_ARRAY(uint8_t, chunk->code, oldCapacity, chunk->capacity);
+    chunk->code = GROW_ARRAY(uint_fast8_t, chunk->code, oldCapacity, chunk->capacity);
     // Allocates line array
-    chunk->lines = GROW_ARRAY(int, chunk->lines, oldCapacity, chunk->capacity);
+    chunk->lines = GROW_ARRAY(int_fast32_t, chunk->lines, oldCapacity, chunk->capacity);
   }
 
   chunk->code[chunk->count] = byte;
@@ -33,7 +33,7 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
 }
 
 // Adds a constant to the chunk
-int addConstant(Chunk *chunk, Value value)
+int_fast32_t addConstant(Chunk *chunk, Value value)
 {
   push(value);
   writeValueArray(&chunk->constants, value);
@@ -44,8 +44,8 @@ int addConstant(Chunk *chunk, Value value)
 // Free's a chunk (Deallocates the memory used by the chunk)
 void freeChunk(Chunk *chunk)
 {
-  FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
-  FREE_ARRAY(int, chunk->lines, chunk->capacity);
+  FREE_ARRAY(uint_fast8_t, chunk->code, chunk->capacity);
+  FREE_ARRAY(int_fast32_t, chunk->lines, chunk->capacity);
   freeValueArray(&chunk->constants);
   initChunk(chunk);
 }

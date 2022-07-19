@@ -34,7 +34,11 @@ void markObject(Obj *object);
 // Marks a kellox value
 void markValue(Value value);
 
-// Starts the garbage collection process
+/* Starts the garbage collection process.
+ * The garbage collector of kellox is a precise GC.
+ * That means that the garbage collector knows whether words in mermory are pointers
+ * and which store a value - like a string, boolean or a number.
+ */
 void collectGarbage();
 
 // Dealocates the memory used by the objects of the vm

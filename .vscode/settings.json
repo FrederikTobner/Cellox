@@ -2,13 +2,12 @@
   "editor.formatOnSave": true,
   "files.associations": {
     "debug.h": "c",
-    "type_traits": "c",
     "table.h": "c",
     "compiler.h": "c",
     "scanner.h": "c",
     "string.h": "c",
     "common.h": "c",
-    "stddef.h": "c"
+    "type_traits": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",

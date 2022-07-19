@@ -6,27 +6,37 @@
 #include "value.h"
 
 // Makro that determines the type of an object
-#define OBJ_TYPE(value) (AS_OBJ(value)->type)
+#define OBJ_TYPE(value) \
+    (AS_OBJ(value)->type)
 
 // Makro that determines if the object has the object type closure
-#define IS_CLOSURE(value) isObjType(value, OBJ_CLOSURE)
+#define IS_CLOSURE(value) \
+    isObjType(value, OBJ_CLOSURE)
 // Makro that determines if the object has the object type function
-#define IS_FUNCTION(value) isObjType(value, OBJ_FUNCTION)
+#define IS_FUNCTION(value) \
+    isObjType(value, OBJ_FUNCTION)
 // Makro that determines if the object has the object type native - native function
-#define IS_NATIVE(value) isObjType(value, OBJ_NATIVE)
+#define IS_NATIVE(value) \
+    isObjType(value, OBJ_NATIVE)
 // Makro that determines if the object has the object type string
-#define IS_STRING(value) isObjType(value, OBJ_STRING)
+#define IS_STRING(value) \
+    isObjType(value, OBJ_STRING)
 
 // Makro that gets the value of an object as a closure
-#define AS_CLOSURE(value) ((ObjClosure *)AS_OBJ(value))
+#define AS_CLOSURE(value) \
+    ((ObjClosure *)AS_OBJ(value))
 // Makro that gets the value of an object as a function
-#define AS_FUNCTION(value) ((ObjFunction *)AS_OBJ(value))
+#define AS_FUNCTION(value) \
+    ((ObjFunction *)AS_OBJ(value))
 // Makro that gets the value of an object as a native function
-#define AS_NATIVE(value) (((ObjNative *)AS_OBJ(value))->function)
+#define AS_NATIVE(value) \
+    (((ObjNative *)AS_OBJ(value))->function)
 // Makro that gets the value of an object as a string
-#define AS_STRING(value) ((ObjString *)AS_OBJ(value))
+#define AS_STRING(value) \
+    ((ObjString *)AS_OBJ(value))
 // Makro that gets the value of an object as a cstring
-#define AS_CSTRING(value) (((ObjString *)AS_OBJ(value))->chars)
+#define AS_CSTRING(value) \
+    (((ObjString *)AS_OBJ(value))->chars)
 
 // Different type of objects
 typedef enum
@@ -59,16 +69,16 @@ typedef struct
 {
     Obj obj;
     // The number of arguments a function expects
-    int arity;
+    int_fast32_t arity;
     // Number of values from enclosing scopes
-    int upvalueCount;
+    int_fast32_t upvalueCount;
     // The instructions in the function
     Chunk chunk;
     // The name of the function
     ObjString *name;
 } ObjFunction;
 
-typedef Value (*NativeFn)(int argCount, Value *args);
+typedef Value (*NativeFn)(int_fast32_t argCount, Value *args);
 
 // Type definition of a native function structure
 typedef struct
@@ -82,11 +92,11 @@ struct ObjString
 {
     Obj obj;
     // The length of the string
-    int length;
+    int_fast32_t length;
     // Pointer to the address in memory under that the string is stored
     char *chars;
     // The hashValue of the string
-    uint32_t hash;
+    uint_fast32_t hash;
 };
 
 // Type definition of an object up-value structure (a local variable in an enclosing function)
@@ -113,7 +123,7 @@ typedef struct
     Obj obj;
     ObjFunction *function;
     ObjUpvalue **upvalues;
-    int upvalueCount;
+    int_fast32_t upvalueCount;
 } ObjClosure;
 
 // Creates a new Closure
@@ -123,9 +133,9 @@ ObjFunction *newFunction();
 // Creates a new native function
 ObjNative *newNative(NativeFn function);
 // Deletes a string frm the hashtable of the vm and returns it
-ObjString *takeString(char *chars, int length);
+ObjString *takeString(char *chars, int_fast32_t length);
 // Copys the value of a string in the hashtable of the vm
-ObjString *copyString(const char *chars, int length);
+ObjString *copyString(const char *chars, int_fast32_t length);
 // Creates a new upvalue
 ObjUpvalue *newUpvalue(Value *slot);
 // Prints the object

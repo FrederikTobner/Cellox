@@ -9,16 +9,16 @@ void disassembleChunk(Chunk *chunk, const char *name)
 {
   printf("== %s ==\n", name);
 
-  for (int offset = 0; offset < chunk->count;)
+  for (int_fast32_t offset = 0; offset < chunk->count;)
   {
     offset = disassembleInstruction(chunk, offset);
   }
 }
 
 // Dissasembles a constant instruction - OP_CONSTANT
-static int constantInstruction(const char *name, Chunk *chunk, int offset)
+static int_fast32_t constantInstruction(const char *name, Chunk *chunk, int_fast32_t offset)
 {
-  uint8_t constant = chunk->code[offset + 1];
+  uint_fast8_t constant = chunk->code[offset + 1];
   printf("%-16s %4d '", name, constant);
   printValue(chunk->constants.values[constant]);
   printf("'\n");
@@ -26,26 +26,26 @@ static int constantInstruction(const char *name, Chunk *chunk, int offset)
 }
 
 // Dissasembles a return instruction - OP_RETURN
-static int simpleInstruction(const char *name, int offset)
+static int_fast32_t simpleInstruction(const char *name, int_fast32_t offset)
 {
   printf("%s\n", name);
   return offset + 1;
 }
 
 // Shows the slot number of a local variable
-static int byteInstruction(const char *name, Chunk *chunk,
-                           int offset)
+static int_fast32_t byteInstruction(const char *name, Chunk *chunk,
+                           int_fast32_t offset)
 {
-  uint8_t slot = chunk->code[offset + 1];
+  uint_fast8_t slot = chunk->code[offset + 1];
   printf("%-16s %4d\n", name, slot);
   return offset + 2;
 }
 
 // Dissasembles a jump instruction (with a 16-bit operand)
-static int jumpInstruction(const char *name, int sign,
-                           Chunk *chunk, int offset)
+static int_fast32_t jumpInstruction(const char *name, int_fast32_t sign,
+                           Chunk *chunk, int_fast32_t offset)
 {
-  uint16_t jump = (uint16_t)(chunk->code[offset + 1] << 8);
+  uint_fast16_t jump = (uint16_t)(chunk->code[offset + 1] << 8);
   jump |= chunk->code[offset + 2];
   printf("%-16s %4d -> %d\n", name, offset,
          offset + 3 + sign * jump);
@@ -53,7 +53,7 @@ static int jumpInstruction(const char *name, int sign,
 }
 
 // Dissasembles a single instruction
-int disassembleInstruction(Chunk *chunk, int offset)
+int_fast32_t disassembleInstruction(Chunk *chunk, int_fast32_t offset)
 {
   printf("%04d ", offset);
 
@@ -67,7 +67,7 @@ int disassembleInstruction(Chunk *chunk, int offset)
   }
 
   // Instruction specific behaviour
-  uint8_t instruction = chunk->code[offset];
+  uint_fast8_t instruction = chunk->code[offset];
   // Switch statement could be converted to a computed goto https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables for efficiency
   switch (instruction)
   {
@@ -126,15 +126,15 @@ int disassembleInstruction(Chunk *chunk, int offset)
   case OP_CLOSURE:
   {
     offset++;
-    uint8_t constant = chunk->code[offset++];
+    uint_fast8_t constant = chunk->code[offset++];
     printf("%-16s %4d ", "OP_CLOSURE", constant);
     printValue(chunk->constants.values[constant]);
     printf("\n");
     ObjFunction *function = AS_FUNCTION(chunk->constants.values[constant]);
-    for (int j = 0; j < function->upvalueCount; j++)
+    for (int_fast32_t j = 0; j < function->upvalueCount; j++)
     {
-      int isLocal = chunk->code[offset++];
-      int index = chunk->code[offset++];
+      int_fast32_t isLocal = chunk->code[offset++];
+      int_fast32_t index = chunk->code[offset++];
       printf("%04d      |                     %s %d\n",
              offset - 2, isLocal ? "local" : "upvalue", index);
     }

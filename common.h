@@ -1,9 +1,11 @@
 #ifndef clox_common_h
 #define clox_common_h
 
-// C99 bool
+// Bool from the C99 standard
 #include <stdbool.h>
+// Provides a null pointer constant
 #include <stddef.h>
+// Typedefs for exact-width-integer types from the C99 standard
 #include <stdint.h>
 
 // Number of values in a dynamic array (used for upvalues and locals)
