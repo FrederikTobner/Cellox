@@ -10,9 +10,9 @@
 #define TABLE_MAX_LOAD 0.75
 
 // Looks up an entry in the hashtable, based on a key
-static Entry *findEntry(Entry *entries, int_fast32_t capacity, ObjString *key)
+static Entry *findEntry(Entry *entries, int32_t capacity, ObjString *key)
 {
-    uint_fast32_t index = key->hash % capacity;
+    uint32_t index = key->hash % capacity;
     Entry *tombstone = NULL;
     for (;;)
     {
@@ -42,16 +42,16 @@ static Entry *findEntry(Entry *entries, int_fast32_t capacity, ObjString *key)
 }
 
 // Adjusts the capacity of the hash table
-static void adjustCapacity(Table *table, int_fast32_t capacity)
+static void adjustCapacity(Table *table, int32_t capacity)
 {
     Entry *entries = ALLOCATE(Entry, capacity);
-    for (int_fast32_t i = 0; i < capacity; i++)
+    for (int32_t i = 0; i < capacity; i++)
     {
         entries[i].key = NULL;
         entries[i].value = NIL_VAL;
     }
     table->count = 0;
-    for (int_fast32_t i = 0; i < table->capacity; i++)
+    for (int32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
         if (entry->key == NULL)
@@ -99,7 +99,7 @@ bool tableSet(Table *table, ObjString *key, Value value)
     // We grow the hashTable when it becomes 75% full
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
-        int_fast32_t capacity = GROW_CAPACITY(table->capacity);
+        int32_t capacity = GROW_CAPACITY(table->capacity);
         adjustCapacity(table, capacity);
     }
 
@@ -131,7 +131,7 @@ bool tableDelete(Table *table, ObjString *key)
 
 void tableAddAll(Table *from, Table *to)
 {
-    for (int_fast32_t i = 0; i < from->capacity; i++)
+    for (int32_t i = 0; i < from->capacity; i++)
     {
         Entry *entry = &from->entries[i];
         if (entry->key != NULL)
@@ -141,12 +141,12 @@ void tableAddAll(Table *from, Table *to)
     }
 }
 
-ObjString *tableFindString(Table *table, const char *chars, int_fast32_t length, uint_fast32_t hash)
+ObjString *tableFindString(Table *table, const char *chars, int32_t length, uint32_t hash)
 {
     if (table->count == 0)
         return NULL;
 
-    uint_fast32_t index = hash % table->capacity;
+    uint32_t index = hash % table->capacity;
     for (;;)
     {
         Entry *entry = &table->entries[index];
@@ -170,7 +170,7 @@ ObjString *tableFindString(Table *table, const char *chars, int_fast32_t length,
 
 void tableRemoveWhite(Table *table)
 {
-    for (int_fast32_t i = 0; i < table->capacity; i++)
+    for (int32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
         if (entry->key != NULL && !entry->key->obj.isMarked)
@@ -182,7 +182,7 @@ void tableRemoveWhite(Table *table)
 
 void markTable(Table *table)
 {
-    for (int_fast32_t i = 0; i < table->capacity; i++)
+    for (int32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
         markObject((Obj *)entry->key);

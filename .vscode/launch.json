@@ -5,20 +5,18 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
-      "args": [
-        "${workspaceFolder}/Sampleprogram.klx"
-      ],
+      "args": [],
       "stopAtEntry": false,
-      "externalConsole": true,
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/build/Debug/outDebug",
+      "externalConsole": false,
+      "cwd": "d:/Projects/C/CLox",
+      "program": "d:/Projects/C/CLox/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
           "text": "-enable-pretty-printing",
-          "ignoreFailures": true,
+          "ignoreFailures": true
         }
       ]
     }

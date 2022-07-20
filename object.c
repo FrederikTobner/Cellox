@@ -28,7 +28,7 @@ static Obj *allocateObject(size_t size, ObjType type)
 ObjClosure *newClosure(ObjFunction *function)
 {
     ObjUpvalue **upvalues = ALLOCATE(ObjUpvalue *, function->upvalueCount);
-    for (int_fast32_t i = 0; i < function->upvalueCount; i++)
+    for (int32_t i = 0; i < function->upvalueCount; i++)
     {
         upvalues[i] = NULL;
     }
@@ -57,7 +57,7 @@ ObjNative *newNative(NativeFn function)
 }
 
 // Allocates memory to store a string
-static ObjString *allocateString(char *chars, int_fast32_t length, uint_fast32_t hash)
+static ObjString *allocateString(char *chars, int32_t length, uint32_t hash)
 {
     ObjString *string = ALLOCATE_OBJ(ObjString, OBJ_STRING);
     string->length = length;
@@ -73,10 +73,10 @@ static ObjString *allocateString(char *chars, int_fast32_t length, uint_fast32_t
 /*  FNV-1a hash function
  *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
  */
-static uint_fast32_t hashString(const char *key, int_fast32_t length)
+static uint32_t hashString(const char *key, int32_t length)
 {
-    uint_fast32_t hash = 2166136261u;
-    for (int_fast32_t i = 0; i < length; i++)
+    uint32_t hash = 2166136261u;
+    for (int32_t i = 0; i < length; i++)
     {
         hash ^= (uint8_t)key[i];
         hash *= 16777619;
@@ -84,9 +84,9 @@ static uint_fast32_t hashString(const char *key, int_fast32_t length)
     return hash;
 }
 
-ObjString *takeString(char *chars, int_fast32_t length)
+ObjString *takeString(char *chars, int32_t length)
 {
-    uint_fast32_t hash = hashString(chars, length);
+    uint32_t hash = hashString(chars, length);
     ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
     if (interned != NULL)
     {
@@ -96,9 +96,9 @@ ObjString *takeString(char *chars, int_fast32_t length)
     return allocateString(chars, length, hash);
 }
 
-ObjString *copyString(const char *chars, int_fast32_t length)
+ObjString *copyString(const char *chars, int32_t length)
 {
-    uint_fast32_t hash = hashString(chars, length);
+    uint32_t hash = hashString(chars, length);
     ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
     if (interned != NULL)
         return interned;

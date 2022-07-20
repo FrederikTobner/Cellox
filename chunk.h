@@ -47,13 +47,13 @@ bytecode instructions are idalized instructions for an abstract/virtual computer
 typedef struct
 {
     // Amount of bytecode instructions in the chunk
-    int_fast32_t count;
+    int32_t count;
     // Capacity of the chunk
-    int_fast32_t capacity;
+    int32_t capacity;
     // Operand Code
-    uint_fast8_t *code;
+    uint8_t *code;
     // Line Array, stored seperatly to ensure there is no unnecesarry space taken up by
-    int_fast32_t *lines;
+    int32_t *lines;
     // Constants stored in the chunk
     ValueArray constants;
 } Chunk;
@@ -62,10 +62,10 @@ typedef struct
 void initChunk(Chunk *chunk);
 
 // Write to a already existing chunk
-void writeChunk(Chunk *chunk, uint_fast8_t byte, int_fast32_t line);
+void writeChunk(Chunk *chunk, uint8_t byte, int32_t line);
 
 // Adds a constant to the chunk
-int_fast32_t addConstant(Chunk *chunk, Value value);
+int32_t addConstant(Chunk *chunk, Value value);
 
 // Free's a chunk (Deallocates the memory used by the chunk)
 void freeChunk(Chunk *chunk);

@@ -7,6 +7,6 @@
 void disassembleChunk(Chunk *chunk, const char *name);
 
 // Dissasembles a single instruction
-int_fast32_t disassembleInstruction(Chunk *chunk, int_fast32_t offset);
+int32_t disassembleInstruction(Chunk *chunk, int32_t offset);
 
 #endif

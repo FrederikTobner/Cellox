@@ -12,7 +12,13 @@
 
 // Reads a lox program from a file
 static char *readFile(const char *path);
-// Run from command prompt
+
+/* Run with repl
+ * 1. Read the user input
+ * 2. Evaluate your code
+ * 3. Print any results
+ * 4. Loop back to step 1
+ */
 static void repl();
 // Reads a lox program from a file and executes the program
 static void runFile(const char *path);
@@ -85,7 +91,7 @@ static void repl()
             printf("\n");
             break;
         }
-        // We close the command prompt if the last input was empty
+        // We close the command prompt if the last input was empty - \n
         if (strlen(line) == 1)
         {
             exit(0);

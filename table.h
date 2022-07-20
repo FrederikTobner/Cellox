@@ -12,8 +12,8 @@ typedef struct
 
 typedef struct
 {
-    int_fast32_t count;
-    int_fast32_t capacity;
+    int32_t count;
+    int32_t capacity;
     Entry *entries;
 } Table;
 
@@ -30,7 +30,7 @@ bool tableDelete(Table *table, ObjString *key);
 // Copys all the entries from a table to another table
 void tableAddAll(Table *from, Table *to);
 // Finds a string in the hashtable
-ObjString *tableFindString(Table *table, const char *chars, int_fast32_t length, uint_fast32_t hash);
+ObjString *tableFindString(Table *table, const char *chars, int32_t length, uint32_t hash);
 // Removes the strings that are not referenced anymore from the table
 void tableRemoveWhite(Table *table);
 // Marks all the objects in the hashtable

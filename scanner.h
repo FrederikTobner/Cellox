@@ -93,8 +93,8 @@ typedef struct
 {
   TokenType type;
   const char *start;
-  int_fast32_t length;
-  int_fast32_t line;
+  int32_t length;
+  int32_t line;
 } Token;
 
 // Initializes the scanner

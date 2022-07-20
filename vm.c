@@ -14,7 +14,7 @@
 VM vm;
 
 // Native clock function
-static Value clockNative(int_fast32_t argCount, Value *args)
+static Value clockNative(int32_t argCount, Value *args)
 {
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
@@ -28,7 +28,7 @@ static void resetStack()
 }
 
 // Retuns the Value on top of the stack without poping it
-static Value peek(int_fast32_t distance)
+static Value peek(int32_t distance)
 {
     return vm.stackTop[-1 - distance];
 }
@@ -41,7 +41,7 @@ static void runtimeError(const char *format, ...)
     vfprintf(stderr, format, args);
     va_end(args);
     fputs("\n", stderr);
-    for (int_fast32_t i = vm.frameCount - 1; i >= 0; i--)
+    for (int32_t i = vm.frameCount - 1; i >= 0; i--)
     {
         CallFrame *frame = &vm.frames[i];
         ObjFunction *function = frame->closure->function;
@@ -63,14 +63,14 @@ static void runtimeError(const char *format, ...)
 // Defines a native function for the virtual machine
 static void defineNative(const char *name, NativeFn function)
 {
-    push(OBJ_VAL(copyString(name, (int_fast32_t)strlen(name))));
+    push(OBJ_VAL(copyString(name, (int32_t)strlen(name))));
     push(OBJ_VAL(newNative(function)));
     tableSet(&vm.globals, AS_STRING(vm.stack[0]), vm.stack[1]);
     pop();
     pop();
 }
 
-static bool call(ObjClosure *closure, int_fast32_t argCount)
+static bool call(ObjClosure *closure, int32_t argCount)
 {
     if (argCount != closure->function->arity)
     {
@@ -92,7 +92,7 @@ static bool call(ObjClosure *closure, int_fast32_t argCount)
     return true;
 }
 
-static bool callValue(Value callee, int_fast32_t argCount)
+static bool callValue(Value callee, int32_t argCount)
 {
     if (IS_OBJ(callee))
     {
@@ -171,7 +171,7 @@ static void concatenate()
 {
     ObjString *b = AS_STRING(peek(0));
     ObjString *a = AS_STRING(peek(1));
-    int_fast32_t length = a->length + b->length;
+    int32_t length = a->length + b->length;
     char *chars = ALLOCATE(char, length + 1);
     memcpy(chars, a->chars, a->length);
     memcpy(chars + a->length, b->chars, b->length);
@@ -196,7 +196,7 @@ static InterpretResult run()
 
 #define READ_SHORT() \
     (frame->ip += 2, \
-     (uint_fast16_t)((frame->ip[-2] << 8) | frame->ip[-1]))
+     (uint16_t)((frame->ip[-2] << 8) | frame->ip[-1]))
 
 #define READ_CONSTANT() \
     (frame->closure->function->chunk.constants.values[READ_BYTE()])
@@ -231,9 +231,9 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         printf("\n");
         disassembleInstruction(&frame->closure->function->chunk,
-                               (int_fast32_t)(frame->ip - frame->closure->function->chunk.code));
+                               (int32_t)(frame->ip - frame->closure->function->chunk.code));
 #endif
-        uint_fast8_t instruction;
+        uint8_t instruction;
         switch (instruction = READ_BYTE())
         {
         case OP_PRINT:
@@ -242,14 +242,14 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_JUMP:
         {
-            uint_fast16_t offset = READ_SHORT();
+            uint16_t offset = READ_SHORT();
             // We jump 🦘
             frame->ip += offset;
             break;
         }
         case OP_JUMP_IF_FALSE:
         {
-            uint_fast16_t offset = READ_SHORT();
+            uint16_t offset = READ_SHORT();
             if (isFalsey(peek(0)))
                 // We jump 🦘
                 frame->ip += offset;
@@ -257,13 +257,13 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_LOOP:
         {
-            uint_fast16_t offset = READ_SHORT();
+            uint16_t offset = READ_SHORT();
             frame->ip -= offset;
             break;
         }
         case OP_CALL:
         {
-            int_fast32_t argCount = READ_BYTE();
+            int32_t argCount = READ_BYTE();
             if (!callValue(peek(argCount), argCount))
             {
                 // Amount of arguments used to call a function is not correct
@@ -277,10 +277,10 @@ so all the statements in it get executed if they are after an if 🤮 */
             ObjFunction *function = AS_FUNCTION(READ_CONSTANT());
             ObjClosure *closure = newClosure(function);
             push(OBJ_VAL(closure));
-            for (int_fast32_t i = 0; i < closure->upvalueCount; i++)
+            for (int32_t i = 0; i < closure->upvalueCount; i++)
             {
-                uint_fast8_t isLocal = READ_BYTE();
-                uint_fast8_t index = READ_BYTE();
+                uint8_t isLocal = READ_BYTE();
+                uint8_t index = READ_BYTE();
                 if (isLocal)
                 {
                     closure->upvalues[i] =
@@ -327,13 +327,13 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_GET_LOCAL:
         {
-            uint_fast8_t slot = READ_BYTE();
+            uint8_t slot = READ_BYTE();
             push(frame->slots[slot]);
             break;
         }
         case OP_SET_LOCAL:
         {
-            uint_fast8_t slot = READ_BYTE();
+            uint8_t slot = READ_BYTE();
             frame->slots[slot] = peek(0);
             break;
         }
@@ -369,13 +369,13 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_GET_UPVALUE:
         {
-            uint_fast8_t slot = READ_BYTE();
+            uint8_t slot = READ_BYTE();
             push(*frame->closure->upvalues[slot]->location);
             break;
         }
         case OP_SET_UPVALUE:
         {
-            uint_fast8_t slot = READ_BYTE();
+            uint8_t slot = READ_BYTE();
             *frame->closure->upvalues[slot]->location = peek(0);
             break;
         }

@@ -55,7 +55,7 @@ typedef struct
     // Name of the local variable
     Token name;
     // Scope depth where the local variable was declared
-    int_fast32_t depth;
+    int32_t depth;
     // Boolean value that determines whether the local variable is captured by a closure
     bool isCaptured;
 } Local;
@@ -63,7 +63,7 @@ typedef struct
 // Type definition of an upvalue structure
 typedef struct
 {
-    uint_fast8_t index;
+    uint8_t index;
     bool isLocal;
 } Upvalue;
 
@@ -81,9 +81,9 @@ typedef struct Compiler
     ObjFunction *function;
     FunctionType type;
     Local locals[UINT8_COUNT];
-    int_fast32_t localCount;
+    int32_t localCount;
     Upvalue upvalues[UINT8_COUNT];
-    int_fast32_t scopeDepth;
+    int32_t scopeDepth;
 } Compiler;
 
 // Global parser variable
@@ -179,25 +179,25 @@ static bool match(TokenType type)
 }
 
 // Emits a single byte as bytecode instructionn
-static void emitByte(uint_fast8_t byte)
+static void emitByte(uint8_t byte)
 {
     writeChunk(currentChunk(), byte, parser.previous.line);
 }
 
 // Emits two bytes as bytecode instructions
-static void emitBytes(uint_fast8_t byte1, uint_fast8_t byte2)
+static void emitBytes(uint8_t byte1, uint8_t byte2)
 {
     emitByte(byte1);
     emitByte(byte2);
 }
 
 // Emits the bytecode instructions for creating a loop
-static void emitLoop(int_fast32_t loopStart)
+static void emitLoop(int32_t loopStart)
 {
     emitByte(OP_LOOP);
 
-    int_fast32_t offset = currentChunk()->count - loopStart + 2;
-    if (offset > (int_fast32_t)UINT16_MAX)
+    int32_t offset = currentChunk()->count - loopStart + 2;
+    if (offset > (int32_t)UINT16_MAX)
         error("Loop body too large.");
 
     emitByte((offset >> 8) & 0xff);
@@ -208,7 +208,7 @@ static void emitLoop(int_fast32_t loopStart)
  * and writes a placeholder to the jump offset
  * Additionally returns the offset (start address) of the then or else branch
  */
-static int_fast32_t emitJump(uint_fast8_t instruction)
+static int32_t emitJump(uint8_t instruction)
 {
     emitByte(instruction);
     emitByte(0xff);
@@ -224,16 +224,16 @@ static void emitReturn()
 }
 
 // Emits a constant bytecode instruction with the value that was passed as an argument up opon the function call
-static uint_fast8_t makeConstant(Value value)
+static uint8_t makeConstant(Value value)
 {
-    int_fast32_t constant = addConstant(currentChunk(), value);
-    if (constant > (int_fast32_t)UINT8_MAX)
+    int32_t constant = addConstant(currentChunk(), value);
+    if (constant > (int32_t)UINT8_MAX)
     {
         error("Too many constants in one chunk.");
         return 0;
     }
 
-    return (uint_fast8_t)constant;
+    return (uint8_t)constant;
 }
 
 // Creates a constant bytecode instruction
@@ -243,12 +243,12 @@ static void emitConstant(Value value)
 }
 
 // Replaces the operand at the given location with the calculated jump offset
-static void patchJump(int_fast32_t offset)
+static void patchJump(int32_t offset)
 {
     // -2 to adjust for the bytecode for the jump offset itself.
-    int_fast32_t jump = currentChunk()->count - offset - 2;
+    int32_t jump = currentChunk()->count - offset - 2;
 
-    if (jump > (int_fast32_t)UINT16_MAX)
+    if (jump > (int32_t)UINT16_MAX)
     {
         // More than 65,535 bytes of code
         error("Too much code to jump over.");
@@ -327,15 +327,15 @@ static void statement();
 static void declaration();
 static ParseRule *getRule(TokenType type);
 static void parsePrecedence(Precedence precedence);
-static void defineVariable(uint_fast8_t global);
-static uint_fast8_t identifierConstant(Token *name);
-static uint_fast8_t parseVariable(const char *errorMessage);
-static int_fast32_t resolveLocal(Compiler *compiler, Token *name);
+static void defineVariable(uint8_t global);
+static uint8_t identifierConstant(Token *name);
+static uint8_t parseVariable(const char *errorMessage);
+static int32_t resolveLocal(Compiler *compiler, Token *name);
 static void and_(bool canAssign);
 static void or_(bool canAssign);
 static void markInitialized();
-static uint_fast8_t argumentList();
-static int_fast32_t resolveUpvalue(Compiler *compiler, Token *name);
+static uint8_t argumentList();
+static int32_t resolveUpvalue(Compiler *compiler, Token *name);
 
 // Compiles a binary expression
 static void binary(bool canAssign)
@@ -384,7 +384,7 @@ static void binary(bool canAssign)
 // Compiles a call expression
 static void call(bool canAssign)
 {
-    uint_fast8_t argCount = argumentList();
+    uint8_t argCount = argumentList();
     emitBytes(OP_CALL, argCount);
 }
 
@@ -430,8 +430,8 @@ static void string(bool canAssign)
 // Handles getting and setting a variable (locals, globals and upvalues)
 static void namedVariable(Token name, bool canAssign)
 {
-    uint_fast8_t getOp, setOp;
-    int_fast32_t arg = resolveLocal(current, &name);
+    uint8_t getOp, setOp;
+    int32_t arg = resolveLocal(current, &name);
     if (arg != -1)
     {
         getOp = OP_GET_LOCAL;
@@ -451,11 +451,11 @@ static void namedVariable(Token name, bool canAssign)
     if (canAssign && match(TOKEN_EQUAL))
     {
         expression();
-        emitBytes(setOp, (uint_fast8_t)arg);
+        emitBytes(setOp, (uint8_t)arg);
     }
     else
     {
-        emitBytes(getOp, (uint_fast8_t)arg);
+        emitBytes(getOp, (uint8_t)arg);
     }
 }
 
@@ -503,7 +503,7 @@ static void function(FunctionType type)
             {
                 errorAtCurrent("Can't have more than 255 parameters.");
             }
-            uint_fast8_t constant = parseVariable("Expect parameter name.");
+            uint8_t constant = parseVariable("Expect parameter name.");
             defineVariable(constant);
         } while (match(TOKEN_COMMA));
     }
@@ -513,7 +513,7 @@ static void function(FunctionType type)
 
     ObjFunction *function = endCompiler();
     emitBytes(OP_CLOSURE, makeConstant(OBJ_VAL(function)));
-    for (int_fast32_t i = 0; i < function->upvalueCount; i++)
+    for (int32_t i = 0; i < function->upvalueCount; i++)
     {
         emitByte(compiler.upvalues[i].isLocal ? 1 : 0);
         emitByte(compiler.upvalues[i].index);
@@ -523,7 +523,7 @@ static void function(FunctionType type)
 // Compiles a function statement and defines the function in the current environment
 static void funDeclaration()
 {
-    uint_fast8_t global = parseVariable("Expect function name.");
+    uint8_t global = parseVariable("Expect function name.");
     markInitialized();
     function(TYPE_FUNCTION);
     defineVariable(global);
@@ -532,7 +532,7 @@ static void funDeclaration()
 // Compiles a variable declaration
 static void varDeclaration()
 {
-    uint_fast8_t global = parseVariable("Expect variable name.");
+    uint8_t global = parseVariable("Expect variable name.");
 
     if (match(TOKEN_EQUAL))
     {
@@ -576,8 +576,8 @@ static void forStatement()
         expressionStatement();
     }
 
-    int_fast32_t loopStart = currentChunk()->count;
-    int_fast32_t exitJump = -1;
+    int32_t loopStart = currentChunk()->count;
+    int32_t exitJump = -1;
 
     // Conditional clause
     if (!match(TOKEN_SEMICOLON))
@@ -593,8 +593,8 @@ static void forStatement()
     // Increment clause
     if (!match(TOKEN_RIGHT_PAREN))
     {
-        int_fast32_t bodyJump = emitJump(OP_JUMP);
-        int_fast32_t incrementStart = currentChunk()->count;
+        int32_t bodyJump = emitJump(OP_JUMP);
+        int32_t incrementStart = currentChunk()->count;
         expression();
         emitByte(OP_POP);
         consume(TOKEN_RIGHT_PAREN, "Expect ')' after for clauses.");
@@ -623,9 +623,9 @@ static void ifStatement()
     expression();
     consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
 
-    int_fast32_t thenJump = emitJump(OP_JUMP_IF_FALSE);
+    int32_t thenJump = emitJump(OP_JUMP_IF_FALSE);
     statement();
-    int_fast32_t elseJump = emitJump(OP_JUMP);
+    int32_t elseJump = emitJump(OP_JUMP);
     patchJump(thenJump);
     emitByte(OP_POP);
     if (match(TOKEN_ELSE))
@@ -665,12 +665,12 @@ static void returnStatement()
 // Compiles a while statement
 static void whileStatement()
 {
-    int_fast32_t loopStart = currentChunk()->count;
+    int32_t loopStart = currentChunk()->count;
     consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
     expression();
     consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
 
-    int_fast32_t exitJump = emitJump(OP_JUMP_IF_FALSE);
+    int32_t exitJump = emitJump(OP_JUMP_IF_FALSE);
     emitByte(OP_POP);
     statement();
     emitLoop(loopStart);
@@ -853,7 +853,7 @@ static void parsePrecedence(Precedence precedence)
 }
 
 // Used to create a string object from an identifier token
-static uint_fast8_t identifierConstant(Token *name)
+static uint8_t identifierConstant(Token *name)
 {
     return makeConstant(OBJ_VAL(copyString(name->start, name->length)));
 }
@@ -867,9 +867,9 @@ static bool identifiersEqual(Token *a, Token *b)
 }
 
 // Resolves a local variable name
-static int_fast32_t resolveLocal(Compiler *compiler, Token *name)
+static int32_t resolveLocal(Compiler *compiler, Token *name)
 {
-    for (int_fast32_t i = compiler->localCount - 1; i >= 0; i--)
+    for (int32_t i = compiler->localCount - 1; i >= 0; i--)
     {
         Local *local = &compiler->locals[i];
         if (identifiersEqual(name, &local->name))
@@ -885,11 +885,11 @@ static int_fast32_t resolveLocal(Compiler *compiler, Token *name)
 }
 
 // Adds an upValue to the compiler
-static int_fast32_t addUpvalue(Compiler *compiler, uint_fast8_t index, bool isLocal)
+static int32_t addUpvalue(Compiler *compiler, uint8_t index, bool isLocal)
 {
-    int_fast32_t upvalueCount = compiler->function->upvalueCount;
+    int32_t upvalueCount = compiler->function->upvalueCount;
 
-    for (int_fast32_t i = 0; i < upvalueCount; i++)
+    for (int32_t i = 0; i < upvalueCount; i++)
     {
         Upvalue *upvalue = &compiler->upvalues[i];
         if (upvalue->index == index && upvalue->isLocal == isLocal)
@@ -910,7 +910,7 @@ static int_fast32_t addUpvalue(Compiler *compiler, uint_fast8_t index, bool isLo
 
 /* Looks for a local variable declared in any of the surrounding functions.
 If an upvalue is found it returns an upvalue index, if not -1 is returned.*/
-static int_fast32_t resolveUpvalue(Compiler *compiler, Token *name)
+static int32_t resolveUpvalue(Compiler *compiler, Token *name)
 {
     if (compiler->enclosing == NULL)
     {
@@ -918,17 +918,17 @@ static int_fast32_t resolveUpvalue(Compiler *compiler, Token *name)
         return -1;
     }
 
-    int_fast32_t local = resolveLocal(compiler->enclosing, name);
+    int32_t local = resolveLocal(compiler->enclosing, name);
     if (local != -1)
     {
         compiler->enclosing->locals[local].isCaptured = true;
-        return addUpvalue(compiler, (uint_fast8_t)local, true);
+        return addUpvalue(compiler, (uint8_t)local, true);
     }
     // Resolution of a local variable failed in the current environent -> look in the enclosing environment
-    int_fast32_t upvalue = resolveUpvalue(compiler->enclosing, name);
+    int32_t upvalue = resolveUpvalue(compiler->enclosing, name);
     if (upvalue != -1)
     {
-        return addUpvalue(compiler, (uint_fast8_t)upvalue, false);
+        return addUpvalue(compiler, (uint8_t)upvalue, false);
     }
     // Upvalue couldn't be found
     return -1;
@@ -957,7 +957,7 @@ static void declareVariable()
         return;
 
     Token *name = &parser.previous;
-    for (int_fast32_t i = current->localCount - 1; i >= 0; i--)
+    for (int32_t i = current->localCount - 1; i >= 0; i--)
     {
         Local *local = &current->locals[i];
         if (local->depth != -1 && local->depth < current->scopeDepth)
@@ -974,7 +974,7 @@ static void declareVariable()
 }
 
 // Parses a variable statement
-static uint_fast8_t parseVariable(const char *errorMessage)
+static uint8_t parseVariable(const char *errorMessage)
 {
     consume(TOKEN_IDENTIFIER, errorMessage);
     declareVariable();
@@ -992,7 +992,7 @@ static void markInitialized()
 }
 
 // Defines a new Variable
-static void defineVariable(uint_fast8_t global)
+static void defineVariable(uint8_t global)
 {
     // Local Variable
     if (current->scopeDepth > 0)
@@ -1004,9 +1004,9 @@ static void defineVariable(uint_fast8_t global)
 }
 
 // Compiles an argumentList of a call expression to bytecode instructions
-static uint_fast8_t argumentList()
+static uint8_t argumentList()
 {
-    uint_fast8_t argCount = 0;
+    uint8_t argCount = 0;
     if (!check(TOKEN_RIGHT_PAREN))
     {
         do
@@ -1026,7 +1026,7 @@ static uint_fast8_t argumentList()
 // Handles an and-expression
 static void and_(bool canAssign)
 {
-    int_fast32_t endJump = emitJump(OP_JUMP_IF_FALSE);
+    int32_t endJump = emitJump(OP_JUMP_IF_FALSE);
 
     emitByte(OP_POP);
     parsePrecedence(PREC_AND);
@@ -1037,8 +1037,8 @@ static void and_(bool canAssign)
 // Handles an or-expression
 static void or_(bool canAssign)
 {
-    int_fast32_t elseJump = emitJump(OP_JUMP_IF_FALSE);
-    int_fast32_t endJump = emitJump(OP_JUMP);
+    int32_t elseJump = emitJump(OP_JUMP_IF_FALSE);
+    int32_t endJump = emitJump(OP_JUMP);
 
     patchJump(elseJump);
     emitByte(OP_POP);

@@ -55,8 +55,8 @@ typedef struct
 // Type definition of the dynamic value array
 typedef struct
 {
-    int_fast32_t capacity;
-    int_fast32_t count;
+    int32_t capacity;
+    int32_t count;
     Value *values;
 } ValueArray;
 

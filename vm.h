@@ -16,7 +16,7 @@ typedef struct
     // The closure of the callframe
     ObjClosure *closure;
     // The instruction pointer in the callframe
-    uint_fast8_t *ip;
+    uint8_t *ip;
     // Points to the first slot in the stack of the vm the function can use
     Value *slots;
 } CallFrame;
@@ -27,7 +27,7 @@ typedef struct
     // Callframes of the virtual machine
     CallFrame frames[FRAMES_MAX];
     /// The amount of callframes the vm currently holds
-    int_fast32_t frameCount;
+    int32_t frameCount;
     // Stack of the vm
     Value stack[STACK_MAX];
     /// Pointer to the top of the stack
@@ -44,9 +44,9 @@ typedef struct
     // The objects that are allocated in the memory of the vm
     Obj *objects;
     // Amount of objects in the virtual machine that are marked as gray -> objects that are already discovered but haven't been processed yet
-    int_fast32_t grayCount;
+    int32_t grayCount;
     // The capacity of the dynamic array storing the objects that were marked as gray
-    int_fast32_t grayCapacity;
+    int32_t grayCapacity;
     // The stack that coontains all the gray objects
     Obj **grayStack;
 } VM;

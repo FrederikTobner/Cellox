@@ -69,16 +69,16 @@ typedef struct
 {
     Obj obj;
     // The number of arguments a function expects
-    int_fast32_t arity;
+    int32_t arity;
     // Number of values from enclosing scopes
-    int_fast32_t upvalueCount;
+    int32_t upvalueCount;
     // The instructions in the function
     Chunk chunk;
     // The name of the function
     ObjString *name;
 } ObjFunction;
 
-typedef Value (*NativeFn)(int_fast32_t argCount, Value *args);
+typedef Value (*NativeFn)(int32_t argCount, Value *args);
 
 // Type definition of a native function structure
 typedef struct
@@ -92,11 +92,11 @@ struct ObjString
 {
     Obj obj;
     // The length of the string
-    int_fast32_t length;
+    int32_t length;
     // Pointer to the address in memory under that the string is stored
     char *chars;
     // The hashValue of the string
-    uint_fast32_t hash;
+    uint32_t hash;
 };
 
 // Type definition of an object up-value structure (a local variable in an enclosing function)
@@ -123,7 +123,7 @@ typedef struct
     Obj obj;
     ObjFunction *function;
     ObjUpvalue **upvalues;
-    int_fast32_t upvalueCount;
+    int32_t upvalueCount;
 } ObjClosure;
 
 // Creates a new Closure
@@ -133,9 +133,9 @@ ObjFunction *newFunction();
 // Creates a new native function
 ObjNative *newNative(NativeFn function);
 // Deletes a string frm the hashtable of the vm and returns it
-ObjString *takeString(char *chars, int_fast32_t length);
+ObjString *takeString(char *chars, int32_t length);
 // Copys the value of a string in the hashtable of the vm
-ObjString *copyString(const char *chars, int_fast32_t length);
+ObjString *copyString(const char *chars, int32_t length);
 // Creates a new upvalue
 ObjUpvalue *newUpvalue(Value *slot);
 // Prints the object
