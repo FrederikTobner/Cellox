@@ -2,6 +2,7 @@
 #define clox_object_h
 
 #include "chunk.h"
+#include "table.h"
 #include "common.h"
 #include "value.h"
 
@@ -9,6 +10,15 @@
 #define OBJ_TYPE(value) \
     (AS_OBJ(value)->type)
 
+//  Makro that determines if the object has the object type bound-method
+#define IS_BOUND_METHOD(value) \
+    isObjType(value, OBJ_BOUND_METHOD)
+//  Makro that determines if the object has the object type instance
+#define IS_INSTANCE(value) \
+    isObjType(value, OBJ_INSTANCE)
+// Makro that determines if the object has the object type class
+#define IS_CLASS(value) \
+    isObjType(value, OBJ_CLASS)
 // Makro that determines if the object has the object type closure
 #define IS_CLOSURE(value) \
     isObjType(value, OBJ_CLOSURE)
@@ -22,6 +32,15 @@
 #define IS_STRING(value) \
     isObjType(value, OBJ_STRING)
 
+//// Makro that gets the value of an object as a bound method
+#define AS_BOUND_METHOD(value) \
+    ((ObjBoundMethod *)AS_OBJ(value))
+// Makro that gets the value of an object as a kellox class instance
+#define AS_INSTANCE(value) \
+    ((ObjInstance *)AS_OBJ(value))
+// Makro that gets the value of an object as a class
+#define AS_CLASS(value) \
+    ((ObjClass *)AS_OBJ(value))
 // Makro that gets the value of an object as a closure
 #define AS_CLOSURE(value) \
     ((ObjClosure *)AS_OBJ(value))
@@ -41,6 +60,11 @@
 // Different type of objects
 typedef enum
 {
+    OBJ_BOUND_METHOD,
+    // A instance of a kellox class
+    OBJ_INSTANCE,
+    // A class in kellox
+    OBJ_CLASS,
     // A closure
     OBJ_CLOSURE,
     // A kellox function
@@ -126,10 +150,40 @@ typedef struct
     int32_t upvalueCount;
 } ObjClosure;
 
+// Type definition of a class structure - a class in kellox
+typedef struct
+{
+    Obj obj;
+    ObjString *name;
+    Table methods;
+} ObjClass;
+
+// Type definition of a kellox class instance
+typedef struct
+{
+    Obj obj;
+    ObjClass *kelloxClass;
+    Table fields;
+} ObjInstance;
+
+// Type definition of a bound method
+typedef struct
+{
+    Obj obj;
+    Value receiver;
+    ObjClosure *method;
+} ObjBoundMethod;
+
+// Creates a new bound method
+ObjBoundMethod *newBoundMethod(Value receiver, ObjClosure *method);
+// Creates a new class in kellox
+ObjClass *newClass(ObjString *name);
 // Creates a new Closure
 ObjClosure *newClosure(ObjFunction *function);
 // Creates a new kellox function
 ObjFunction *newFunction();
+// Creates a new kellox class instance
+ObjInstance *newInstance(ObjClass *kelloxClass);
 // Creates a new native function
 ObjNative *newNative(NativeFn function);
 // Deletes a string frm the hashtable of the vm and returns it

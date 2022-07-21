@@ -25,6 +25,23 @@ static Obj *allocateObject(size_t size, ObjType type)
     return object;
 }
 
+ObjBoundMethod *newBoundMethod(Value receiver, ObjClosure *method)
+{
+    ObjBoundMethod *bound = ALLOCATE_OBJ(ObjBoundMethod,
+                                         OBJ_BOUND_METHOD);
+    bound->receiver = receiver;
+    bound->method = method;
+    return bound;
+}
+
+ObjClass *newClass(ObjString *name)
+{
+    ObjClass *kelloxClass = ALLOCATE_OBJ(ObjClass, OBJ_CLASS);
+    kelloxClass->name = name;
+    initTable(&kelloxClass->methods);
+    return kelloxClass;
+}
+
 ObjClosure *newClosure(ObjFunction *function)
 {
     ObjUpvalue **upvalues = ALLOCATE(ObjUpvalue *, function->upvalueCount);
@@ -47,6 +64,14 @@ ObjFunction *newFunction()
     function->name = NULL;
     initChunk(&function->chunk);
     return function;
+}
+
+ObjInstance *newInstance(ObjClass *kelloxClass)
+{
+    ObjInstance *instance = ALLOCATE_OBJ(ObjInstance, OBJ_INSTANCE);
+    instance->kelloxClass = kelloxClass;
+    initTable(&instance->fields);
+    return instance;
 }
 
 ObjNative *newNative(NativeFn function)
@@ -137,23 +162,28 @@ void printObject(Value value)
 {
     switch (OBJ_TYPE(value))
     {
-    // A closure
+    case OBJ_BOUND_METHOD:
+        printFunction(AS_BOUND_METHOD(value)->method->function);
+        break;
+    case OBJ_CLASS:
+        printf("%s", AS_CLASS(value)->name->chars);
+        break;
     case OBJ_CLOSURE:
         printFunction(AS_CLOSURE(value)->function);
         break;
-    // A function
     case OBJ_FUNCTION:
         printFunction(AS_FUNCTION(value));
         break;
-    // A native function
+    case OBJ_INSTANCE:
+        printf("%s instance",
+               AS_INSTANCE(value)->kelloxClass->name->chars);
+        break;
     case OBJ_NATIVE:
         printf("<native fn>");
         break;
-    // A string
     case OBJ_STRING:
         printf("%s", AS_CSTRING(value));
         break;
-    // An upvalue
     case OBJ_UPVALUE:
         printf("upvalue");
         break;

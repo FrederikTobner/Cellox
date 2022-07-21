@@ -1,20 +1,15 @@
-fun fibonacci()
-{
-	var x = 0;
-	var temp = 0;
-	var b = 1;
-	fun innerFibonacci()
-	{
-		temp = x;
-		x = b;
-		b = temp + x;
-		return temp;
-	}
-	return innerFibonacci;
+class CoffeeMaker {
+  init(coffee) {
+    this.coffee = coffee;
+  }
+
+  brew() {
+    print "Enjoy your cup of " + this.coffee;
+
+    // No reusing the grounds!
+    this.coffee = nil;
+  }
 }
 
-var fibo = fibonacci();
-for (var j = 0; j < 25; j = j + 1) 
-{
-	print fibo();
-}
+var maker = CoffeeMaker("coffee and chicory");
+maker.brew();

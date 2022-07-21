@@ -36,6 +36,7 @@ typedef struct
     Table globals;
     // Hashtable that contains the strings
     Table strings;
+    ObjString *initString;
     ObjUpvalue *openUpvalues;
     // Number of bytes that have been allocated by the vm
     size_t bytesAllocated;
@@ -54,8 +55,11 @@ typedef struct
 // Result of the interpretation (sucessfull, error during compilation or at runtime)
 typedef enum
 {
+    // No error occured
     INTERPRET_OK,
+    // Error during the compilation
     INTERPRET_COMPILE_ERROR,
+    // Error at runtime
     INTERPRET_RUNTIME_ERROR,
 } InterpretResult;
 
