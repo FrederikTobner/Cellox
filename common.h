@@ -11,6 +11,8 @@
 // Number of values in a dynamic array (used for upvalues and locals)
 #define UINT8_COUNT (256)
 
+#define NAN_BOXING
+
 // Flag for printing out the bytecode, can be removed if you want to disable it
 #define DEBUG_PRINT_CODE
 

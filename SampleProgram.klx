@@ -1,32 +1,31 @@
-class CoffeeMaker 
-{
-  init(coffee) {
-    this.coffee = coffee;
+class Zoo {
+  init() {
+    this.aardvark = 1;
+    this.baboon   = 1;
+    this.cat      = 1;
+    this.donkey   = 1;
+    this.elephant = 1;
+    this.fox      = 1;
   }
-
-  brew() {
-    print "Enjoy your cup of " + this.coffee;
-
-    // No reusing the grounds!
-    this.coffee = nil;
-  }
+  ant()    { return this.aardvark; }
+  banana() { return this.baboon; }
+  tuna()   { return this.cat; }
+  hay()    { return this.donkey; }
+  grass()  { return this.elephant; }
+  mouse()  { return this.fox; }
 }
 
-class CoffeeAndTeeMaker : CoffeeMaker 
-{
-  init(coffee, tee) {
-    super.init(coffee);
-    this.tee = tee;
-  }
-
-  brew() {
-    super.brew();
-    print "and a cup of " + this.tee;
-
-    // No reusing the grounds!
-    this.tee = nil;
-  }
+var zoo = Zoo();
+var sum = 0;
+var start = clock();
+while (sum < 100000000) {
+  sum = sum + zoo.ant()
+            + zoo.banana()
+            + zoo.tuna()
+            + zoo.hay()
+            + zoo.grass()
+            + zoo.mouse();
 }
 
-var maker = CoffeeAndTeeMaker("coffee and chicory", "Lemontea");
-maker.brew();
+print clock() - start;
+print sum;
