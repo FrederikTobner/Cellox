@@ -83,6 +83,8 @@ typedef enum
   // while
   TOKEN_WHILE,
   // Used to mark an error in the parsing process
+  // Used for inheritance
+  TOKEN_DOUBLEDOT,
   TOKEN_ERROR,
   /// Used to mark the end of the file
   TOKEN_EOF

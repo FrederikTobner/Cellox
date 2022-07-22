@@ -186,6 +186,7 @@ static TokenType identifierType()
     case 'r':
         return checkKeyword(1, 5, "eturn", TOKEN_RETURN);
     case 's':
+        return checkKeyword(1, 4, "uper", TOKEN_SUPER);
     case 't':
         if (scanner.current - scanner.start > 1)
         {
@@ -199,7 +200,6 @@ static TokenType identifierType()
             }
         }
         break;
-        return checkKeyword(1, 4, "uper", TOKEN_SUPER);
     case 'v':
         return checkKeyword(1, 2, "ar", TOKEN_VAR);
     case 'w':
@@ -310,6 +310,8 @@ Token scanToken()
             match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
     case '"':
         return string();
+    case ':':
+        return makeToken(TOKEN_DOUBLEDOT);
     case '<':
         return makeToken(
             match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);

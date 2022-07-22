@@ -12,7 +12,7 @@
 #define UINT8_COUNT (256)
 
 // Flag for printing out the bytecode, can be removed if you want to disable it
-//#define DEBUG_PRINT_CODE
+#define DEBUG_PRINT_CODE
 
 /*Optional stress mode for the garbage collector.
 * When this flag is defiened the Garbage collector runs as often as it cans.

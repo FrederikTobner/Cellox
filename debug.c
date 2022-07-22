@@ -25,8 +25,8 @@ static int32_t constantInstruction(const char *name, Chunk *chunk, int32_t offse
   return offset + 2;
 }
 
-//Dissasembles a invoke instruction
-static int invokeInstruction(const char *name, Chunk *chunk,int offset)
+// Dissasembles a invoke instruction
+static int invokeInstruction(const char *name, Chunk *chunk, int offset)
 {
   uint8_t constant = chunk->code[offset + 1];
   uint8_t argCount = chunk->code[offset + 2];
@@ -164,6 +164,12 @@ int32_t disassembleInstruction(Chunk *chunk, int32_t offset)
     return constantInstruction("OP_CLASS", chunk, offset);
   case OP_METHOD:
     return constantInstruction("OP_METHOD", chunk, offset);
+  case OP_INHERIT:
+    return simpleInstruction("OP_INHERIT", offset);
+  case OP_GET_SUPER:
+    return constantInstruction("OP_GET_SUPER", chunk, offset);
+  case OP_SUPER_INVOKE:
+    return invokeInstruction("OP_SUPER_INVOKE", chunk, offset);
   default:
     printf("Unknown opcode %d\n", instruction);
     return offset + 1;

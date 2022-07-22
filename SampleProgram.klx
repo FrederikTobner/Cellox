@@ -1,4 +1,5 @@
-class CoffeeMaker {
+class CoffeeMaker 
+{
   init(coffee) {
     this.coffee = coffee;
   }
@@ -11,5 +12,21 @@ class CoffeeMaker {
   }
 }
 
-var maker = CoffeeMaker("coffee and chicory");
+class CoffeeAndTeeMaker : CoffeeMaker 
+{
+  init(coffee, tee) {
+    super.init(coffee);
+    this.tee = tee;
+  }
+
+  brew() {
+    super.brew();
+    print "and a cup of " + this.tee;
+
+    // No reusing the grounds!
+    this.tee = nil;
+  }
+}
+
+var maker = CoffeeAndTeeMaker("coffee and chicory", "Lemontea");
 maker.brew();
