@@ -8,7 +8,8 @@
 #include "vm.h"
 
 // Marko for allocating a new object
-#define ALLOCATE_OBJ(type, objectType) (type *)allocateObject(sizeof(type), objectType)
+#define ALLOCATE_OBJ(type, objectType) \
+    (type *)allocateObject(sizeof(type), objectType)
 
 // Allocates the memory for an object of a given type
 static Obj *allocateObject(size_t size, ObjType type)

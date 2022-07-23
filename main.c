@@ -20,6 +20,7 @@ static char *readFile(const char *path);
  * 4. Loop back to step 1
  */
 static void repl();
+
 // Reads a lox program from a file and executes the program
 static void runFile(const char *path);
 
@@ -37,7 +38,7 @@ int main(int argc, const char *argv[])
     else
     {
         // Too much arguments (>1)
-        fprintf(stderr, "Usage: clox [path]\n");
+        fprintf(stderr, "Usage: Cellox [path]\n");
         freeVM();
         exit(64);
     }

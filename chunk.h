@@ -21,8 +21,9 @@ typedef enum
     OP_EQUAL,
     OP_GREATER,
     OP_LESS,
-    // Negate a Value
+    // Negate the value on top of the stack
     OP_NEGATE,
+    // Prints the value on top of the stack
     OP_PRINT,
     OP_POP,
     OP_GET_LOCAL,

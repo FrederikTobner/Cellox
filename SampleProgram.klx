@@ -1,31 +1,52 @@
-class Zoo {
-  init() {
-    this.aardvark = 1;
-    this.baboon   = 1;
-    this.cat      = 1;
-    this.donkey   = 1;
-    this.elephant = 1;
-    this.fox      = 1;
-  }
-  ant()    { return this.aardvark; }
-  banana() { return this.baboon; }
-  tuna()   { return this.cat; }
-  hay()    { return this.donkey; }
-  grass()  { return this.elephant; }
-  mouse()  { return this.fox; }
+class Node
+{
+	init(value, nextNode)
+	{
+		this.value = value;
+		this.nextNode = nextNode;
+	}
 }
 
-var zoo = Zoo();
-var sum = 0;
-var start = clock();
-while (sum < 100000000) {
-  sum = sum + zoo.ant()
-            + zoo.banana()
-            + zoo.tuna()
-            + zoo.hay()
-            + zoo.grass()
-            + zoo.mouse();
+class SingleLinkedList
+{
+	init()
+	{
+		this.head = nil;
+	}
+
+	addLast(value)
+	{
+		if(this.head == nil)
+		{
+			this.head = Node(value, nil);
+			return;
+		}
+		var current = this.head;
+		while(current.nextNode != nil)
+		{
+			current = current.nextNode;
+		}
+		current.nextNode = Node(value, nil);
+	}
+
+	addFirst(value)
+	{
+		this.head = Node(value, this.head);
+	}
+
+	printList()
+	{
+		var current = this.head;
+		while(current != nil)
+		{	
+      print current.value;		
+			current = current.nextNode;
+		}
+	}
 }
 
-print clock() - start;
-print sum;
+var list = SingleLinkedList();
+list.addLast(5);
+list.addLast(10);
+list.addLast(15);
+list.printList();
