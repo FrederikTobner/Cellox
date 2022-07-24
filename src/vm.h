@@ -4,7 +4,7 @@
 #include "object.h"
 #include "table.h"
 
-// Maximum amount of frames the virtual machine can hold - meaning that can be called at the same time
+// Maximum amount of frames the virtual machine can hold - The maxiimum depth of the callstack
 #define FRAMES_MAX 64
 
 // Maximum amount values that can be allocated on the stack of the VM - currently 16384 values

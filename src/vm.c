@@ -1,3 +1,5 @@
+#include "vm.h"
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -8,7 +10,6 @@
 #include "debug.h"
 #include "memory.h"
 #include "value.h"
-#include "vm.h"
 
 // Global VM variable
 VM vm;
@@ -135,10 +136,10 @@ static bool callValue(Value callee, int32_t argCount)
         }
         case OBJ_CLASS:
         {
-            ObjClass *kelloxClass = AS_CLASS(callee);
-            vm.stackTop[-argCount - 1] = OBJ_VAL(newInstance(kelloxClass));
+            ObjClass *celloxClass = AS_CLASS(callee);
+            vm.stackTop[-argCount - 1] = OBJ_VAL(newInstance(celloxClass));
             Value initializer;
-            if (tableGet(&kelloxClass->methods, vm.initString, &initializer))
+            if (tableGet(&celloxClass->methods, vm.initString, &initializer))
             {
                 return call(AS_CLOSURE(initializer), argCount);
             }
@@ -235,12 +236,12 @@ static void concatenate()
     push(OBJ_VAL(result));
 }
 
-// Defines a new Method in the hashTable of the kelloxclass instance
+// Defines a new Method in the hashTable of the celloxclass instance
 static void defineMethod(ObjString *name)
 {
     Value method = peek(0);
-    ObjClass *kelloxClass = AS_CLASS(peek(1));
-    tableSet(&kelloxClass->methods, name, method);
+    ObjClass *celloxClass = AS_CLASS(peek(1));
+    tableSet(&celloxClass->methods, name, method);
     pop();
 }
 
@@ -269,7 +270,7 @@ static bool invoke(ObjString *name, int argCount)
         vm.stackTop[-argCount - 1] = value;
         return callValue(value, argCount);
     }
-    return invokeFromClass(instance->kelloxClass, name, argCount);
+    return invokeFromClass(instance->celloxClass, name, argCount);
 }
 
 static bool invokeFromClass(ObjClass *klass, ObjString *name, int argCount)
@@ -527,7 +528,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 push(value);
                 break;
             }
-            if (!bindMethod(instance->kelloxClass, name))
+            if (!bindMethod(instance->celloxClass, name))
             {
                 return INTERPRET_RUNTIME_ERROR;
             }

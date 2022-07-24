@@ -1,10 +1,10 @@
+#include "table.h"
+
 #include <stdlib.h>
 #include <string.h>
 
 #include "memory.h"
 #include "object.h"
-#include "table.h"
-#include "value.h"
 
 // The max load factor of the hashtable, once it is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
@@ -35,36 +35,16 @@ void markTable(Table *table)
     }
 }
 
-bool tableGet(Table *table, ObjString *key, Value *value)
+void tableAddAll(Table *from, Table *to)
 {
-    if (table->count == 0)
-        return false;
-
-    Entry *entry = findEntry(table->entries, table->capacity, key);
-    if (entry->key == NULL)
-        return false;
-
-    *value = entry->value;
-    return true;
-}
-
-bool tableSet(Table *table, ObjString *key, Value value)
-{
-    // We grow the hashTable when it becomes 75% full
-    if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
+    for (int32_t i = 0; i < from->capacity; i++)
     {
-        int32_t capacity = GROW_CAPACITY(table->capacity);
-        adjustCapacity(table, capacity);
+        Entry *entry = &from->entries[i];
+        if (entry->key != NULL)
+        {
+            tableSet(to, entry->key, entry->value);
+        }
     }
-
-    Entry *entry = findEntry(table->entries, table->capacity, key);
-    bool isNewKey = entry->key == NULL;
-    if (isNewKey && IS_NIL(entry->value))
-        table->count++;
-
-    entry->key = key;
-    entry->value = value;
-    return isNewKey;
 }
 
 bool tableDelete(Table *table, ObjString *key)
@@ -81,18 +61,6 @@ bool tableDelete(Table *table, ObjString *key)
     entry->key = NULL;
     entry->value = BOOL_VAL(true);
     return true;
-}
-
-void tableAddAll(Table *from, Table *to)
-{
-    for (int32_t i = 0; i < from->capacity; i++)
-    {
-        Entry *entry = &from->entries[i];
-        if (entry->key != NULL)
-        {
-            tableSet(to, entry->key, entry->value);
-        }
-    }
 }
 
 ObjString *tableFindString(Table *table, const char *chars, int32_t length, uint32_t hash)
@@ -122,6 +90,19 @@ ObjString *tableFindString(Table *table, const char *chars, int32_t length, uint
     }
 }
 
+bool tableGet(Table *table, ObjString *key, Value *value)
+{
+    if (table->count == 0)
+        return false;
+
+    Entry *entry = findEntry(table->entries, table->capacity, key);
+    if (entry->key == NULL)
+        return false;
+
+    *value = entry->value;
+    return true;
+}
+
 void tableRemoveWhite(Table *table)
 {
     for (int32_t i = 0; i < table->capacity; i++)
@@ -132,6 +113,25 @@ void tableRemoveWhite(Table *table)
             tableDelete(table, entry->key);
         }
     }
+}
+
+bool tableSet(Table *table, ObjString *key, Value value)
+{
+    // We grow the hashTable when it becomes 75% full
+    if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
+    {
+        int32_t capacity = GROW_CAPACITY(table->capacity);
+        adjustCapacity(table, capacity);
+    }
+
+    Entry *entry = findEntry(table->entries, table->capacity, key);
+    bool isNewKey = entry->key == NULL;
+    if (isNewKey && IS_NIL(entry->value))
+        table->count++;
+
+    entry->key = key;
+    entry->value = value;
+    return isNewKey;
 }
 
 // Adjusts the capacity of the hash table

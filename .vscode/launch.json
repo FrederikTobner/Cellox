@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/Sampleprogram.klx"
+                "${workspaceFolder}/examples/SingleLinkedListExample.klx"
             ],
             "stopAtEntry": false,
             "externalConsole": true,

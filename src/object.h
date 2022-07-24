@@ -2,8 +2,8 @@
 #define clox_object_h
 
 #include "chunk.h"
-#include "table.h"
 #include "common.h"
+#include "table.h"
 #include "value.h"
 
 // Makro that determines the type of an object
@@ -35,7 +35,7 @@
 //// Makro that gets the value of an object as a bound method
 #define AS_BOUND_METHOD(value) \
     ((ObjBoundMethod *)AS_OBJ(value))
-// Makro that gets the value of an object as a kellox class instance
+// Makro that gets the value of an object as a cellox class instance
 #define AS_INSTANCE(value) \
     ((ObjInstance *)AS_OBJ(value))
 // Makro that gets the value of an object as a class
@@ -61,13 +61,13 @@
 typedef enum
 {
     OBJ_BOUND_METHOD,
-    // A instance of a kellox class
+    // A instance of a cellox class
     OBJ_INSTANCE,
-    // A class in kellox
+    // A class in cellox
     OBJ_CLASS,
     // A closure
     OBJ_CLOSURE,
-    // A kellox function
+    // A cellox function
     OBJ_FUNCTION,
     // A native function
     OBJ_NATIVE,
@@ -88,7 +88,7 @@ struct Obj
     struct Obj *next;
 };
 
-// struct containing the data that defines a kellox function
+// struct containing the data that defines a cellox function
 typedef struct
 {
     Obj obj;
@@ -138,7 +138,7 @@ typedef struct ObjUpvalue
 /*
  * Type definition of a closure, also called lexical closure or function closure.
  * A closure is the combination of a function and references to its surrounding state).
- * The closures in kellox are based on the closures used by the LuaVM.
+ * The closures in cellox are based on the closures used by the LuaVM.
  * In other words, a closure gives you access to an outer function's scope from an inner function.
  * https://en.wikipedia.org/wiki/Closure_(computer_programming)
  */
@@ -150,7 +150,7 @@ typedef struct
     int32_t upvalueCount;
 } ObjClosure;
 
-// Type definition of a class structure - a class in kellox
+// Type definition of a class structure - a class in cellox
 typedef struct
 {
     Obj obj;
@@ -158,11 +158,11 @@ typedef struct
     Table methods;
 } ObjClass;
 
-// Type definition of a kellox class instance
+// Type definition of a cellox class instance
 typedef struct
 {
     Obj obj;
-    ObjClass *kelloxClass;
+    ObjClass *celloxClass;
     Table fields;
 } ObjInstance;
 
@@ -178,19 +178,18 @@ typedef struct
 ObjString *copyString(const char *chars, int32_t length);
 // Creates a new bound method
 ObjBoundMethod *newBoundMethod(Value receiver, ObjClosure *method);
-// Creates a new class in kellox
+// Creates a new class in cellox
 ObjClass *newClass(ObjString *name);
 // Creates a new Closure
 ObjClosure *newClosure(ObjFunction *function);
-// Creates a new kellox function
+// Creates a new cellox function
 ObjFunction *newFunction();
-// Creates a new kellox class instance
-ObjInstance *newInstance(ObjClass *kelloxClass);
+// Creates a new cellox class instance
+ObjInstance *newInstance(ObjClass *celloxClass);
 // Creates a new native function
 ObjNative *newNative(NativeFn function);
 // Deletes a string frm the hashtable of the vm and returns it
 ObjString *takeString(char *chars, int32_t length);
-
 // Creates a new upvalue
 ObjUpvalue *newUpvalue(Value *slot);
 // Prints the object

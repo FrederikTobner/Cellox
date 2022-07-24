@@ -26,19 +26,25 @@
     reallocate(pointer, sizeof(type) * (oldCount), 0)
 
 /* Starts the garbage collection process.
- * The garbage collector of kellox is a precise GC.
- * That means that the garbage collector knows whether words in mermory are pointers
+ * The garbage collector of cellox is a precise GC.
+ * That means that the garbage collector knows whether words in memory are pointers
  * and which store a value - like a string, boolean or a number.
+ * The Algorithm that is used is called mark-and-sweep.
+ * It consists of two phases:
+ * 1. Mark phase
+ * 2. Sweep phase
+ * In the marking phase we start at the roots and traverse through all the objects the roots refer to.
+ * In the sweeping phase all the reachable objects have been marked, and therefore we can reclaim the memory that is used by the unmarked objects.
  */
 void collectGarbage();
 
 // Dealocates the memory used by the objects of the vm
 void freeObjects();
 
-// Marks a kellox object
+// Marks a cellox object
 void markObject(Obj *object);
 
-// Marks a kellox value
+// Marks a cellox value
 void markValue(Value value);
 
 // Reallocates the memory usage from a given pointer

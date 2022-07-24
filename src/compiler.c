@@ -100,6 +100,7 @@ Parser parser;
 // Global compiler variable
 Compiler *current = NULL;
 
+// Global classCompiler variable
 ClassCompiler *currentClass = NULL;
 
 static void addLocal(Token name);
@@ -167,6 +168,33 @@ static void varDeclaration();
 static void variable(bool canAssign);
 static void whileStatement();
 
+ObjFunction *compile(const char *source)
+{
+    initScanner(source);
+    Compiler compiler;
+    initCompiler(&compiler, TYPE_SCRIPT);
+    parser.hadError = false;
+    parser.panicMode = false;
+    advance();
+    // We keep compiling until we hit the end of the source file
+    while (!match(TOKEN_EOF))
+    {
+        declaration();
+    }
+    ObjFunction *function = endCompiler();
+    return parser.hadError ? NULL : function;
+}
+
+void markCompilerRoots()
+{
+    Compiler *compiler = current;
+    while (compiler != NULL)
+    {
+        markObject((Obj *)compiler->function);
+        compiler = compiler->enclosing;
+    }
+}
+
 // ParseRules for the language
 ParseRule rules[] = {
     [TOKEN_LEFT_PAREN] = {grouping, call, PREC_CALL},
@@ -210,33 +238,6 @@ ParseRule rules[] = {
     [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
     [TOKEN_EOF] = {NULL, NULL, PREC_NONE},
 };
-
-ObjFunction *compile(const char *source)
-{
-    initScanner(source);
-    Compiler compiler;
-    initCompiler(&compiler, TYPE_SCRIPT);
-    parser.hadError = false;
-    parser.panicMode = false;
-    advance();
-    // We keep compiling until we hit the end of the source file
-    while (!match(TOKEN_EOF))
-    {
-        declaration();
-    }
-    ObjFunction *function = endCompiler();
-    return parser.hadError ? NULL : function;
-}
-
-void markCompilerRoots()
-{
-    Compiler *compiler = current;
-    while (compiler != NULL)
-    {
-        markObject((Obj *)compiler->function);
-        compiler = compiler->enclosing;
-    }
-}
 
 // Adds a new local variable to the stack
 static void addLocal(Token name)

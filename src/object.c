@@ -1,10 +1,9 @@
+#include "memory.h"
+
 #include <stdio.h>
 #include <string.h>
 
-#include "memory.h"
 #include "object.h"
-#include "table.h"
-#include "value.h"
 #include "vm.h"
 
 // Marko for allocating a new object
@@ -39,10 +38,10 @@ ObjBoundMethod *newBoundMethod(Value receiver, ObjClosure *method)
 
 ObjClass *newClass(ObjString *name)
 {
-    ObjClass *kelloxClass = ALLOCATE_OBJ(ObjClass, OBJ_CLASS);
-    kelloxClass->name = name;
-    initTable(&kelloxClass->methods);
-    return kelloxClass;
+    ObjClass *celloxClass = ALLOCATE_OBJ(ObjClass, OBJ_CLASS);
+    celloxClass->name = name;
+    initTable(&celloxClass->methods);
+    return celloxClass;
 }
 
 ObjClosure *newClosure(ObjFunction *function)
@@ -69,10 +68,10 @@ ObjFunction *newFunction()
     return function;
 }
 
-ObjInstance *newInstance(ObjClass *kelloxClass)
+ObjInstance *newInstance(ObjClass *celloxClass)
 {
     ObjInstance *instance = ALLOCATE_OBJ(ObjInstance, OBJ_INSTANCE);
-    instance->kelloxClass = kelloxClass;
+    instance->celloxClass = celloxClass;
     initTable(&instance->fields);
     return instance;
 }
@@ -115,7 +114,7 @@ void printObject(Value value)
         break;
     case OBJ_INSTANCE:
         printf("%s instance",
-               AS_INSTANCE(value)->kelloxClass->name->chars);
+               AS_INSTANCE(value)->celloxClass->name->chars);
         break;
     case OBJ_NATIVE:
         printf("<native fn>");

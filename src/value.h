@@ -66,7 +66,16 @@ static inline double valueToNum(Value value)
 
 #else
 
-// Type definition of a value structure that can bew either a boolean, a number or an object (e.g. a string or a kellox object)
+// Type definition of the types of values that can be stored in a dynamic array
+typedef enum
+{
+    VAL_BOOL,
+    VAL_NIL,
+    VAL_NUMBER,
+    VAL_OBJ
+} ValueType;
+
+// Type definition of a value structure that can bew either a boolean, a number or an object (e.g. a string or a cellox object)
 typedef struct
 {
     ValueType type;
@@ -77,15 +86,6 @@ typedef struct
         Obj *obj;
     } as;
 } Value;
-
-// Type definition of the types of values that can be stored in a dynamic array
-typedef enum
-{
-    VAL_BOOL,
-    VAL_NIL,
-    VAL_NUMBER,
-    VAL_OBJ
-} ValueType;
 
 // Makro that determines whether a value is of the type bool
 #define IS_BOOL(value) \

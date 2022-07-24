@@ -1,7 +1,8 @@
+#include "memory.h"
+
 #include <stdlib.h>
 
 #include "compiler.h"
-#include "memory.h"
 #include "vm.h"
 #ifdef DEBUG_LOG_GC
 #include <stdio.h>
@@ -25,10 +26,11 @@ void collectGarbage()
 #endif
   markRoots();
   traceReferences();
-  // We have to remove in a seperet way, because they are not allocated on the stack
+  // We have to remove the strings with a another method, because they have their own hashtable
   tableRemoveWhite(&vm.strings);
   // reclaim the garbage
   sweep();
+  // Adjusts the threshold when the next garbage collection will occur
   vm.nextGC = vm.bytesAllocated * GC_HEAP_GROW_FACTOR;
 #ifdef DEBUG_LOG_GC
   printf("-- gc end\n");
@@ -58,7 +60,7 @@ void markObject(Obj *object)
   if (object->isMarked)
     return;
 #ifdef DEBUG_LOG_GC
-  printf("%p mark ", (void *)object);
+  printf("%p marked ", (void *)object);
   printValue(OBJ_VAL(object));
   printf("\n");
 #endif
@@ -105,6 +107,7 @@ void *reallocate(void *pointer, size_t oldSize, size_t newSize)
   return result;
 }
 
+// Blackens an object - all the references that this object have been marked
 static void blackenObject(Obj *object)
 {
 #ifdef DEBUG_LOG_GC
@@ -123,9 +126,9 @@ static void blackenObject(Obj *object)
   }
   case OBJ_CLASS:
   {
-    ObjClass *kelloxClass = (ObjClass *)object;
-    markObject((Obj *)kelloxClass->name);
-    markTable(&kelloxClass->methods);
+    ObjClass *celloxClass = (ObjClass *)object;
+    markObject((Obj *)celloxClass->name);
+    markTable(&celloxClass->methods);
     break;
   }
   case OBJ_CLOSURE:
@@ -148,7 +151,7 @@ static void blackenObject(Obj *object)
   case OBJ_INSTANCE:
   {
     ObjInstance *instance = (ObjInstance *)object;
-    markObject((Obj *)instance->kelloxClass);
+    markObject((Obj *)instance->celloxClass);
     markTable(&instance->fields);
     break;
   }
@@ -217,6 +220,7 @@ static void freeObject(Obj *object)
   }
 }
 
+// Marks all the values in an array
 static void markArray(ValueArray *array)
 {
   for (int32_t i = 0; i < array->count; i++)
@@ -252,9 +256,9 @@ static void markRoots()
   markObject((Obj *)vm.initString);
 }
 
-/* Walks through the linked list of objects on the heap and ckecks their mark bits.
+/* Walks through the linked list of objects on the heap and checks their mark bits.
  * If an object is unmarked, it is unlinked from the list
- * and the memory used by the object is freed*/
+ * and the memory used by the object is reclaimed*/
 static void sweep()
 {
   Obj *previous = NULL;
@@ -286,6 +290,7 @@ static void sweep()
   }
 }
 
+// Traces all the references that the objects of the vm contain
 static void traceReferences()
 {
   while (vm.grayCount > 0)

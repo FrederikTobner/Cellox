@@ -1,6 +1,7 @@
+#include "chunk.h"
+
 #include <stdlib.h>
 
-#include "chunk.h"
 #include "memory.h"
 #include "vm.h"
 

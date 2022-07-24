@@ -39,7 +39,7 @@ class SingleLinkedList
 		var current = this.head;
 		while(current != nil)
 		{	
-      print current.value;		
+      		print current.value;		
 			current = current.nextNode;
 		}
 	}
