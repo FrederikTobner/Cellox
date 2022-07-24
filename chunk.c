@@ -4,6 +4,24 @@
 #include "memory.h"
 #include "vm.h"
 
+// Adds a constant to the chunk
+int32_t addConstant(Chunk *chunk, Value value)
+{
+  push(value);
+  writeValueArray(&chunk->constants, value);
+  pop();
+  return chunk->constants.count - 1;
+}
+
+// Free's a chunk (Deallocates the memory used by the chunk)
+void freeChunk(Chunk *chunk)
+{
+  FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
+  FREE_ARRAY(int32_t, chunk->lines, chunk->capacity);
+  freeValueArray(&chunk->constants);
+  initChunk(chunk);
+}
+
 // Initializes a chunk
 void initChunk(Chunk *chunk)
 {
@@ -30,22 +48,4 @@ void writeChunk(Chunk *chunk, uint8_t byte, int32_t line)
   chunk->code[chunk->count] = byte;
   chunk->lines[chunk->count] = line;
   chunk->count++;
-}
-
-// Adds a constant to the chunk
-int32_t addConstant(Chunk *chunk, Value value)
-{
-  push(value);
-  writeValueArray(&chunk->constants, value);
-  pop();
-  return chunk->constants.count - 1;
-}
-
-// Free's a chunk (Deallocates the memory used by the chunk)
-void freeChunk(Chunk *chunk)
-{
-  FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
-  FREE_ARRAY(int32_t, chunk->lines, chunk->capacity);
-  freeValueArray(&chunk->constants);
-  initChunk(chunk);
 }

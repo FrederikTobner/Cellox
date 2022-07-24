@@ -9,63 +9,13 @@
 // The max load factor of the hashtable, once it is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
 
-// Looks up an entry in the hashtable, based on a key
-static Entry *findEntry(Entry *entries, int32_t capacity, ObjString *key)
-{
-    uint32_t index = key->hash % capacity;
-    Entry *tombstone = NULL;
-    for (;;)
-    {
-        Entry *entry = &entries[index];
-        if (entry->key == NULL)
-        {
-            if (IS_NIL(entry->value))
-            {
-                // Empty entry.
-                return tombstone != NULL ? tombstone : entry;
-            }
-            else
-            {
-                /* We found a tombstone.
-                A tombstone marks the slot of a value that has already been deleted */
-                if (tombstone == NULL)
-                    tombstone = entry;
-            }
-        }
-        else if (entry->key == key)
-        {
-            // We found the key.
-            return entry;
-        }
-        index = (index + 1) % capacity;
-    }
-}
+static void adjustCapacity(Table *table, int32_t capacity);
+static Entry *findEntry(Entry *entries, int32_t capacity, ObjString *key);
 
-// Adjusts the capacity of the hash table
-static void adjustCapacity(Table *table, int32_t capacity)
+void freeTable(Table *table)
 {
-    Entry *entries = ALLOCATE(Entry, capacity);
-    for (int32_t i = 0; i < capacity; i++)
-    {
-        entries[i].key = NULL;
-        entries[i].value = NIL_VAL;
-    }
-    table->count = 0;
-    for (int32_t i = 0; i < table->capacity; i++)
-    {
-        Entry *entry = &table->entries[i];
-        if (entry->key == NULL)
-            continue;
-
-        Entry *dest = findEntry(entries, capacity, entry->key);
-        dest->key = entry->key;
-        dest->value = entry->value;
-        table->count++;
-    }
     FREE_ARRAY(Entry, table->entries, table->capacity);
-
-    table->entries = entries;
-    table->capacity = capacity;
+    initTable(table);
 }
 
 void initTable(Table *table)
@@ -75,10 +25,14 @@ void initTable(Table *table)
     table->entries = NULL;
 }
 
-void freeTable(Table *table)
+void markTable(Table *table)
 {
-    FREE_ARRAY(Entry, table->entries, table->capacity);
-    initTable(table);
+    for (int32_t i = 0; i < table->capacity; i++)
+    {
+        Entry *entry = &table->entries[i];
+        markObject((Obj *)entry->key);
+        markValue(entry->value);
+    }
 }
 
 bool tableGet(Table *table, ObjString *key, Value *value)
@@ -180,12 +134,61 @@ void tableRemoveWhite(Table *table)
     }
 }
 
-void markTable(Table *table)
+// Adjusts the capacity of the hash table
+static void adjustCapacity(Table *table, int32_t capacity)
 {
+    Entry *entries = ALLOCATE(Entry, capacity);
+    for (int32_t i = 0; i < capacity; i++)
+    {
+        entries[i].key = NULL;
+        entries[i].value = NIL_VAL;
+    }
+    table->count = 0;
     for (int32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
-        markObject((Obj *)entry->key);
-        markValue(entry->value);
+        if (entry->key == NULL)
+            continue;
+
+        Entry *dest = findEntry(entries, capacity, entry->key);
+        dest->key = entry->key;
+        dest->value = entry->value;
+        table->count++;
+    }
+    FREE_ARRAY(Entry, table->entries, table->capacity);
+
+    table->entries = entries;
+    table->capacity = capacity;
+}
+
+// Looks up an entry in the hashtable, based on a key
+static Entry *findEntry(Entry *entries, int32_t capacity, ObjString *key)
+{
+    uint32_t index = key->hash % capacity;
+    Entry *tombstone = NULL;
+    for (;;)
+    {
+        Entry *entry = &entries[index];
+        if (entry->key == NULL)
+        {
+            if (IS_NIL(entry->value))
+            {
+                // Empty entry.
+                return tombstone != NULL ? tombstone : entry;
+            }
+            else
+            {
+                /* We found a tombstone.
+                A tombstone marks the slot of a value that has already been deleted */
+                if (tombstone == NULL)
+                    tombstone = entry;
+            }
+        }
+        else if (entry->key == key)
+        {
+            // We found the key.
+            return entry;
+        }
+        index = (index + 1) % capacity;
     }
 }

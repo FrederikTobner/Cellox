@@ -13,61 +13,90 @@
 // Global VM variable
 VM vm;
 
-// Native clock function
-static Value clockNative(int32_t argCount, Value *args)
+static bool bindMethod(ObjClass *klass, ObjString *name);
+static bool call(ObjClosure *closure, int32_t argCount);
+static bool callValue(Value callee, int32_t argCount);
+static ObjUpvalue *captureUpvalue(Value *local);
+static Value clockNative(int32_t argCount, Value *args);
+static void closeUpvalues(Value *last);
+static void concatenate();
+static void defineMethod(ObjString *name);
+static void defineNative(const char *name, NativeFn function);
+static bool invoke(ObjString *name, int argCount);
+static bool invokeFromClass(ObjClass *klass, ObjString *name, int argCount);
+static bool isFalsey(Value value);
+static Value peek(int32_t distance);
+static void resetStack();
+static InterpretResult run();
+static void runtimeError(const char *format, ...);
+
+void freeVM()
 {
-    return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
+    freeTable(&vm.globals);
+    freeTable(&vm.strings);
+    vm.initString = NULL;
+    freeObjects();
 }
 
-// Resets the stack of the vm
-static void resetStack()
+void initVM()
 {
-    vm.stackTop = vm.stack;
-    vm.frameCount = 0;
-    vm.openUpvalues = NULL;
-}
-
-// Retuns the Value on top of the stack without poping it
-static Value peek(int32_t distance)
-{
-    return vm.stackTop[-1 - distance];
-}
-
-// Reports an error that has occured during runtime
-static void runtimeError(const char *format, ...)
-{
-    va_list args;
-    va_start(args, format);
-    vfprintf(stderr, format, args);
-    va_end(args);
-    fputs("\n", stderr);
-    for (int32_t i = vm.frameCount - 1; i >= 0; i--)
-    {
-        CallFrame *frame = &vm.frames[i];
-        ObjFunction *function = frame->closure->function;
-        size_t instruction = frame->ip - function->chunk.code - 1;
-        fprintf(stderr, "[line %d] in ",
-                function->chunk.lines[instruction]);
-        if (function->name == NULL)
-        {
-            fprintf(stderr, "script\n");
-        }
-        else
-        {
-            fprintf(stderr, "%s()\n", function->name->chars);
-        }
-    }
     resetStack();
+    vm.objects = NULL;
+    vm.bytesAllocated = 0;
+    vm.nextGC = 1024 * 1024;
+    vm.grayCount = 0;
+    vm.grayCapacity = 0;
+    vm.grayStack = NULL;
+    // Initializes the hashtable that contains the global variables
+    initTable(&vm.globals);
+    // Initializes the hashtable that contains the strings
+    initTable(&vm.strings);
+    vm.initString = NULL;
+    vm.initString = copyString("init", 4);
+    // defines the native functions supported by the virtual machine
+    defineNative("clock", clockNative);
 }
 
-// Defines a native function for the virtual machine
-static void defineNative(const char *name, NativeFn function)
+InterpretResult interpret(const char *source)
 {
-    push(OBJ_VAL(copyString(name, (int32_t)strlen(name))));
-    push(OBJ_VAL(newNative(function)));
-    tableSet(&vm.globals, AS_STRING(vm.stack[0]), vm.stack[1]);
+    ObjFunction *function = compile(source);
+    if (function == NULL)
+        return INTERPRET_COMPILE_ERROR;
+
+    push(OBJ_VAL(function));
+    ObjClosure *closure = newClosure(function);
     pop();
+    push(OBJ_VAL(closure));
+    call(closure, 0);
+    return run();
+}
+
+void push(Value value)
+{
+    *vm.stackTop = value;
+    vm.stackTop++;
+}
+
+Value pop()
+{
+    vm.stackTop--;
+    return *vm.stackTop;
+}
+
+static bool bindMethod(ObjClass *klass, ObjString *name)
+{
+    Value method;
+    if (!tableGet(&klass->methods, name, &method))
+    {
+        runtimeError("Undefined property '%s'.", name->chars);
+        return false;
+    }
+
+    ObjBoundMethod *bound = newBoundMethod(peek(0),
+                                           AS_CLOSURE(method));
     pop();
+    push(OBJ_VAL(bound));
+    return true;
 }
 
 static bool call(ObjClosure *closure, int32_t argCount)
@@ -139,52 +168,6 @@ static bool callValue(Value callee, int32_t argCount)
     return false;
 }
 
-static bool invokeFromClass(ObjClass *klass, ObjString *name,
-                            int argCount)
-{
-    Value method;
-    if (!tableGet(&klass->methods, name, &method))
-    {
-        runtimeError("Undefined property '%s'.", name->chars);
-        return false;
-    }
-    return call(AS_CLOSURE(method), argCount);
-}
-
-static bool invoke(ObjString *name, int argCount)
-{
-    Value receiver = peek(argCount);
-    if (!IS_INSTANCE(receiver))
-    {
-        runtimeError("Only instances have methods.");
-        return false;
-    }
-    ObjInstance *instance = AS_INSTANCE(receiver);
-    Value value;
-    if (tableGet(&instance->fields, name, &value))
-    {
-        vm.stackTop[-argCount - 1] = value;
-        return callValue(value, argCount);
-    }
-    return invokeFromClass(instance->kelloxClass, name, argCount);
-}
-
-static bool bindMethod(ObjClass *klass, ObjString *name)
-{
-    Value method;
-    if (!tableGet(&klass->methods, name, &method))
-    {
-        runtimeError("Undefined property '%s'.", name->chars);
-        return false;
-    }
-
-    ObjBoundMethod *bound = newBoundMethod(peek(0),
-                                           AS_CLOSURE(method));
-    pop();
-    push(OBJ_VAL(bound));
-    return true;
-}
-
 static ObjUpvalue *captureUpvalue(Value *local)
 {
     ObjUpvalue *prevUpvalue = NULL;
@@ -212,6 +195,12 @@ static ObjUpvalue *captureUpvalue(Value *local)
     return createdUpvalue;
 }
 
+// Native clock function
+static Value clockNative(int32_t argCount, Value *args)
+{
+    return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
+}
+
 /* Function takes a slot of the stack as a parameter.
  * Then it closes all upvalues it can find in that slot and the slots above that slot in the stack.
  * The concept of an upvalue is borrowed from Lua - see https://www.lua.org/pil/27.3.3.html.
@@ -229,21 +218,6 @@ static void closeUpvalues(Value *last)
     }
 }
 
-// Defines a new Method in the hashTable of the kelloxclass instance
-static void defineMethod(ObjString *name)
-{
-    Value method = peek(0);
-    ObjClass *kelloxClass = AS_CLASS(peek(1));
-    tableSet(&kelloxClass->methods, name, method);
-    pop();
-}
-
-// Determines if a value is falsey (either nil or false)
-static bool isFalsey(Value value)
-{
-    return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
-}
-
 // Concatenates the two upper values on the stack
 static void concatenate()
 {
@@ -259,6 +233,74 @@ static void concatenate()
     pop();
     pop();
     push(OBJ_VAL(result));
+}
+
+// Defines a new Method in the hashTable of the kelloxclass instance
+static void defineMethod(ObjString *name)
+{
+    Value method = peek(0);
+    ObjClass *kelloxClass = AS_CLASS(peek(1));
+    tableSet(&kelloxClass->methods, name, method);
+    pop();
+}
+
+// Defines a native function for the virtual machine
+static void defineNative(const char *name, NativeFn function)
+{
+    push(OBJ_VAL(copyString(name, (int32_t)strlen(name))));
+    push(OBJ_VAL(newNative(function)));
+    tableSet(&vm.globals, AS_STRING(vm.stack[0]), vm.stack[1]);
+    pop();
+    pop();
+}
+
+static bool invoke(ObjString *name, int argCount)
+{
+    Value receiver = peek(argCount);
+    if (!IS_INSTANCE(receiver))
+    {
+        runtimeError("Only instances have methods.");
+        return false;
+    }
+    ObjInstance *instance = AS_INSTANCE(receiver);
+    Value value;
+    if (tableGet(&instance->fields, name, &value))
+    {
+        vm.stackTop[-argCount - 1] = value;
+        return callValue(value, argCount);
+    }
+    return invokeFromClass(instance->kelloxClass, name, argCount);
+}
+
+static bool invokeFromClass(ObjClass *klass, ObjString *name, int argCount)
+{
+    Value method;
+    if (!tableGet(&klass->methods, name, &method))
+    {
+        runtimeError("Undefined property '%s'.", name->chars);
+        return false;
+    }
+    return call(AS_CLOSURE(method), argCount);
+}
+
+// Determines if a value is falsey (either nil or false)
+static bool isFalsey(Value value)
+{
+    return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
+}
+
+// Retuns the Value on top of the stack without poping it
+static Value peek(int32_t distance)
+{
+    return vm.stackTop[-1 - distance];
+}
+
+// Resets the stack of the vm
+static void resetStack()
+{
+    vm.stackTop = vm.stack;
+    vm.frameCount = 0;
+    vm.openUpvalues = NULL;
 }
 
 // Runs a lox program that was converted to bytecode instructions
@@ -620,55 +662,29 @@ so all the statements in it get executed if they are after an if 🤮 */
 #undef BINARY_OP
 }
 
-void initVM()
+// Reports an error that has occured during runtime
+static void runtimeError(const char *format, ...)
 {
+    va_list args;
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
+    fputs("\n", stderr);
+    for (int32_t i = vm.frameCount - 1; i >= 0; i--)
+    {
+        CallFrame *frame = &vm.frames[i];
+        ObjFunction *function = frame->closure->function;
+        size_t instruction = frame->ip - function->chunk.code - 1;
+        fprintf(stderr, "[line %d] in ",
+                function->chunk.lines[instruction]);
+        if (function->name == NULL)
+        {
+            fprintf(stderr, "script\n");
+        }
+        else
+        {
+            fprintf(stderr, "%s()\n", function->name->chars);
+        }
+    }
     resetStack();
-    vm.objects = NULL;
-    vm.bytesAllocated = 0;
-    vm.nextGC = 1024 * 1024;
-    vm.grayCount = 0;
-    vm.grayCapacity = 0;
-    vm.grayStack = NULL;
-    // Initializes the hashtable that contains the global variables
-    initTable(&vm.globals);
-    // Initializes the hashtable that contains the strings
-    initTable(&vm.strings);
-    vm.initString = NULL;
-    vm.initString = copyString("init", 4);
-    // defines the native functions supported by the virtual machine
-    defineNative("clock", clockNative);
-}
-
-void freeVM()
-{
-    freeTable(&vm.globals);
-    freeTable(&vm.strings);
-    vm.initString = NULL;
-    freeObjects();
-}
-
-void push(Value value)
-{
-    *vm.stackTop = value;
-    vm.stackTop++;
-}
-
-Value pop()
-{
-    vm.stackTop--;
-    return *vm.stackTop;
-}
-
-InterpretResult interpret(const char *source)
-{
-    ObjFunction *function = compile(source);
-    if (function == NULL)
-        return INTERPRET_COMPILE_ERROR;
-
-    push(OBJ_VAL(function));
-    ObjClosure *closure = newClosure(function);
-    pop();
-    push(OBJ_VAL(closure));
-    call(closure, 0);
-    return run();
 }

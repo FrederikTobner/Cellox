@@ -10,30 +10,44 @@
 
 #define GC_HEAP_GROW_FACTOR 2
 
-// Helper method for reallocating the memory used by a dynamic Array
-void *reallocate(void *pointer, size_t oldSize, size_t newSize)
-{
-  vm.bytesAllocated += newSize - oldSize;
-  if (newSize > oldSize)
-  {
-#ifdef DEBUG_STRESS_GC
-    collectGarbage();
-#endif
-    if (vm.bytesAllocated > vm.nextGC)
-    {
-      collectGarbage();
-    }
-  }
-  if (newSize == 0)
-  {
-    free(pointer);
-    return NULL;
-  }
+static void blackenObject(Obj *object);
+static void freeObject(Obj *object);
+static void markArray(ValueArray *array);
+static void markRoots();
+static void sweep();
+static void traceReferences();
 
-  void *result = realloc(pointer, newSize);
-  if (result == NULL)
-    exit(1);
-  return result;
+void collectGarbage()
+{
+#ifdef DEBUG_LOG_GC
+  printf("-- gc begin\n");
+  size_t before = vm.bytesAllocated;
+#endif
+  markRoots();
+  traceReferences();
+  // We have to remove in a seperet way, because they are not allocated on the stack
+  tableRemoveWhite(&vm.strings);
+  // reclaim the garbage
+  sweep();
+  vm.nextGC = vm.bytesAllocated * GC_HEAP_GROW_FACTOR;
+#ifdef DEBUG_LOG_GC
+  printf("-- gc end\n");
+  printf("   collected %zu bytes (from %zu to %zu) next at %zu\n",
+         before - vm.bytesAllocated, before, vm.bytesAllocated,
+         vm.nextGC);
+#endif
+}
+
+void freeObjects()
+{
+  Obj *object = vm.objects;
+  while (object != NULL)
+  {
+    Obj *next = object->next;
+    freeObject(object);
+    object = next;
+  }
+  free(vm.grayStack);
 }
 
 void markObject(Obj *object)
@@ -65,12 +79,30 @@ void markValue(Value value)
     markObject(AS_OBJ(value));
 }
 
-static void markArray(ValueArray *array)
+// Helper method for reallocating the memory used by a dynamic Array
+void *reallocate(void *pointer, size_t oldSize, size_t newSize)
 {
-  for (int32_t i = 0; i < array->count; i++)
+  vm.bytesAllocated += newSize - oldSize;
+  if (newSize > oldSize)
   {
-    markValue(array->values[i]);
+#ifdef DEBUG_STRESS_GC
+    collectGarbage();
+#endif
+    if (vm.bytesAllocated > vm.nextGC)
+    {
+      collectGarbage();
+    }
   }
+  if (newSize == 0)
+  {
+    free(pointer);
+    return NULL;
+  }
+
+  void *result = realloc(pointer, newSize);
+  if (result == NULL)
+    exit(1);
+  return result;
 }
 
 static void blackenObject(Obj *object)
@@ -185,6 +217,14 @@ static void freeObject(Obj *object)
   }
 }
 
+static void markArray(ValueArray *array)
+{
+  for (int32_t i = 0; i < array->count; i++)
+  {
+    markValue(array->values[i]);
+  }
+}
+
 // Marks the roots - local variables or temporaries sitting in the VM's stack
 static void markRoots()
 {
@@ -212,17 +252,7 @@ static void markRoots()
   markObject((Obj *)vm.initString);
 }
 
-static void traceReferences()
-{
-  while (vm.grayCount > 0)
-  {
-    Obj *object = vm.grayStack[--vm.grayCount];
-    blackenObject(object);
-  }
-}
-
-/*
- * Walks through the linked list of objects on the heap and ckecks their mark bits.
+/* Walks through the linked list of objects on the heap and ckecks their mark bits.
  * If an object is unmarked, it is unlinked from the list
  * and the memory used by the object is freed*/
 static void sweep()
@@ -256,35 +286,11 @@ static void sweep()
   }
 }
 
-void collectGarbage()
+static void traceReferences()
 {
-#ifdef DEBUG_LOG_GC
-  printf("-- gc begin\n");
-  size_t before = vm.bytesAllocated;
-#endif
-  markRoots();
-  traceReferences();
-  // We have to remove in a seperet way, because they are not allocated on the stack
-  tableRemoveWhite(&vm.strings);
-  // reclaim the garbage
-  sweep();
-  vm.nextGC = vm.bytesAllocated * GC_HEAP_GROW_FACTOR;
-#ifdef DEBUG_LOG_GC
-  printf("-- gc end\n");
-  printf("   collected %zu bytes (from %zu to %zu) next at %zu\n",
-         before - vm.bytesAllocated, before, vm.bytesAllocated,
-         vm.nextGC);
-#endif
-}
-
-void freeObjects()
-{
-  Obj *object = vm.objects;
-  while (object != NULL)
+  while (vm.grayCount > 0)
   {
-    Obj *next = object->next;
-    freeObject(object);
-    object = next;
+    Obj *object = vm.grayStack[--vm.grayCount];
+    blackenObject(object);
   }
-  free(vm.grayStack);
 }

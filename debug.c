@@ -4,6 +4,12 @@
 #include "object.h"
 #include "value.h"
 
+static int32_t byteInstruction(const char *name, Chunk *chunk, int32_t offset);
+static int32_t constantInstruction(const char *name, Chunk *chunk, int32_t offset);
+static int invokeInstruction(const char *name, Chunk *chunk, int offset);
+static int32_t jumpInstruction(const char *name, int32_t sign, Chunk *chunk, int32_t offset);
+static int32_t simpleInstruction(const char *name, int32_t offset);
+
 // Dissasembles a chunk of bytecode instructions
 void disassembleChunk(Chunk *chunk, const char *name)
 {
@@ -13,54 +19,6 @@ void disassembleChunk(Chunk *chunk, const char *name)
   {
     offset = disassembleInstruction(chunk, offset);
   }
-}
-
-// Dissasembles a constant instruction - OP_CONSTANT
-static int32_t constantInstruction(const char *name, Chunk *chunk, int32_t offset)
-{
-  uint8_t constant = chunk->code[offset + 1];
-  printf("%-16s %4d '", name, constant);
-  printValue(chunk->constants.values[constant]);
-  printf("'\n");
-  return offset + 2;
-}
-
-// Dissasembles a invoke instruction
-static int invokeInstruction(const char *name, Chunk *chunk, int offset)
-{
-  uint8_t constant = chunk->code[offset + 1];
-  uint8_t argCount = chunk->code[offset + 2];
-  printf("%-16s (%d args) %4d '", name, argCount, constant);
-  printValue(chunk->constants.values[constant]);
-  printf("'\n");
-  return offset + 3;
-}
-
-// Dissasembles a return instruction - OP_RETURN
-static int32_t simpleInstruction(const char *name, int32_t offset)
-{
-  printf("%s\n", name);
-  return offset + 1;
-}
-
-// Shows the slot number of a local variable
-static int32_t byteInstruction(const char *name, Chunk *chunk,
-                               int32_t offset)
-{
-  uint8_t slot = chunk->code[offset + 1];
-  printf("%-16s %4d\n", name, slot);
-  return offset + 2;
-}
-
-// Dissasembles a jump instruction (with a 16-bit operand)
-static int32_t jumpInstruction(const char *name, int32_t sign,
-                               Chunk *chunk, int32_t offset)
-{
-  uint16_t jump = (uint16_t)(chunk->code[offset + 1] << 8);
-  jump |= chunk->code[offset + 2];
-  printf("%-16s %4d -> %d\n", name, offset,
-         offset + 3 + sign * jump);
-  return offset + 3;
 }
 
 // Dissasembles a single instruction
@@ -174,4 +132,50 @@ int32_t disassembleInstruction(Chunk *chunk, int32_t offset)
     printf("Unknown opcode %d\n", instruction);
     return offset + 1;
   }
+}
+
+// Shows the slot number of a local variable
+static int32_t byteInstruction(const char *name, Chunk *chunk, int32_t offset)
+{
+  uint8_t slot = chunk->code[offset + 1];
+  printf("%-16s %4d\n", name, slot);
+  return offset + 2;
+}
+
+// Dissasembles a constant instruction - OP_CONSTANT
+static int32_t constantInstruction(const char *name, Chunk *chunk, int32_t offset)
+{
+  uint8_t constant = chunk->code[offset + 1];
+  printf("%-16s %4d '", name, constant);
+  printValue(chunk->constants.values[constant]);
+  printf("'\n");
+  return offset + 2;
+}
+
+// Dissasembles a invoke instruction
+static int invokeInstruction(const char *name, Chunk *chunk, int offset)
+{
+  uint8_t constant = chunk->code[offset + 1];
+  uint8_t argCount = chunk->code[offset + 2];
+  printf("%-16s (%d args) %4d '", name, argCount, constant);
+  printValue(chunk->constants.values[constant]);
+  printf("'\n");
+  return offset + 3;
+}
+
+// Dissasembles a jump instruction (with a 16-bit operand)
+static int32_t jumpInstruction(const char *name, int32_t sign, Chunk *chunk, int32_t offset)
+{
+  uint16_t jump = (uint16_t)(chunk->code[offset + 1] << 8);
+  jump |= chunk->code[offset + 2];
+  printf("%-16s %4d -> %d\n", name, offset,
+         offset + 3 + sign * jump);
+  return offset + 3;
+}
+
+// Dissasembles a return instruction - OP_RETURN
+static int32_t simpleInstruction(const char *name, int32_t offset)
+{
+  printf("%s\n", name);
+  return offset + 1;
 }

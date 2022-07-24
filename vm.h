@@ -65,11 +65,11 @@ typedef enum
 
 extern VM vm;
 
-// Creates a new VM
-void initVM();
-
 // Deallocates the memory used by the VM
 void freeVM();
+
+// Creates a new VM
+void initVM();
 
 // Interprets a lox program
 InterpretResult interpret(const char *source);

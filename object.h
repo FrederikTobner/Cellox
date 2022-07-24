@@ -174,6 +174,8 @@ typedef struct
     ObjClosure *method;
 } ObjBoundMethod;
 
+// Copys the value of a string in the hashtable of the vm
+ObjString *copyString(const char *chars, int32_t length);
 // Creates a new bound method
 ObjBoundMethod *newBoundMethod(Value receiver, ObjClosure *method);
 // Creates a new class in kellox
@@ -188,8 +190,7 @@ ObjInstance *newInstance(ObjClass *kelloxClass);
 ObjNative *newNative(NativeFn function);
 // Deletes a string frm the hashtable of the vm and returns it
 ObjString *takeString(char *chars, int32_t length);
-// Copys the value of a string in the hashtable of the vm
-ObjString *copyString(const char *chars, int32_t length);
+
 // Creates a new upvalue
 ObjUpvalue *newUpvalue(Value *slot);
 // Prints the object

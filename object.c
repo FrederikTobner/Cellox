@@ -11,19 +11,21 @@
 #define ALLOCATE_OBJ(type, objectType) \
     (type *)allocateObject(sizeof(type), objectType)
 
-// Allocates the memory for an object of a given type
-static Obj *allocateObject(size_t size, ObjType type)
-{
-    Obj *object = (Obj *)reallocate(NULL, 0, size);
-    object->type = type;
-    object->isMarked = false;
+static Obj *allocateObject(size_t size, ObjType type);
+static ObjString *allocateString(char *chars, int32_t length, uint32_t hash);
+static uint32_t hashString(const char *key, int32_t length);
+static void printFunction(ObjFunction *function);
 
-    object->next = vm.objects;
-    vm.objects = object;
-#ifdef DEBUG_LOG_GC
-    printf("%p allocate %zu for %d\n", (void *)object, size, type);
-#endif
-    return object;
+ObjString *copyString(const char *chars, int32_t length)
+{
+    uint32_t hash = hashString(chars, length);
+    ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
+    if (interned != NULL)
+        return interned;
+    char *heapChars = ALLOCATE(char, length + 1);
+    memcpy(heapChars, chars, length);
+    heapChars[length] = '\0';
+    return allocateString(heapChars, length, hash);
 }
 
 ObjBoundMethod *newBoundMethod(Value receiver, ObjClosure *method)
@@ -82,58 +84,6 @@ ObjNative *newNative(NativeFn function)
     return native;
 }
 
-// Allocates memory to store a string
-static ObjString *allocateString(char *chars, int32_t length, uint32_t hash)
-{
-    ObjString *string = ALLOCATE_OBJ(ObjString, OBJ_STRING);
-    string->length = length;
-    string->chars = chars;
-    string->hash = hash;
-    push(OBJ_VAL(string));
-    // Adds the string to hashtable storing all the strings allocated by the vm
-    tableSet(&vm.strings, string, NIL_VAL);
-    pop();
-    return string;
-}
-
-/*  FNV-1a hash function
- *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
- */
-static uint32_t hashString(const char *key, int32_t length)
-{
-    uint32_t hash = 2166136261u;
-    for (int32_t i = 0; i < length; i++)
-    {
-        hash ^= (uint8_t)key[i];
-        hash *= 16777619;
-    }
-    return hash;
-}
-
-ObjString *takeString(char *chars, int32_t length)
-{
-    uint32_t hash = hashString(chars, length);
-    ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
-    if (interned != NULL)
-    {
-        FREE_ARRAY(char, chars, length + 1);
-        return interned;
-    }
-    return allocateString(chars, length, hash);
-}
-
-ObjString *copyString(const char *chars, int32_t length)
-{
-    uint32_t hash = hashString(chars, length);
-    ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
-    if (interned != NULL)
-        return interned;
-    char *heapChars = ALLOCATE(char, length + 1);
-    memcpy(heapChars, chars, length);
-    heapChars[length] = '\0';
-    return allocateString(heapChars, length, hash);
-}
-
 ObjUpvalue *newUpvalue(Value *slot)
 {
     // Allocating the memory used by the upvalue
@@ -145,18 +95,6 @@ ObjUpvalue *newUpvalue(Value *slot)
     // When we allocate a new upvalue, it is not attached to any list
     upvalue->next = NULL;
     return upvalue;
-}
-
-static void printFunction(ObjFunction *function)
-{
-    if (function->name == NULL)
-    {
-        // top level code
-        printf("<script>");
-        return;
-    }
-    // A function
-    printf("<fn %s>", function->name->chars);
 }
 
 void printObject(Value value)
@@ -189,4 +127,71 @@ void printObject(Value value)
         printf("upvalue");
         break;
     }
+}
+
+ObjString *takeString(char *chars, int32_t length)
+{
+    uint32_t hash = hashString(chars, length);
+    ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
+    if (interned != NULL)
+    {
+        FREE_ARRAY(char, chars, length + 1);
+        return interned;
+    }
+    return allocateString(chars, length, hash);
+}
+
+// Allocates memory to store a string
+static ObjString *allocateString(char *chars, int32_t length, uint32_t hash)
+{
+    ObjString *string = ALLOCATE_OBJ(ObjString, OBJ_STRING);
+    string->length = length;
+    string->chars = chars;
+    string->hash = hash;
+    push(OBJ_VAL(string));
+    // Adds the string to hashtable storing all the strings allocated by the vm
+    tableSet(&vm.strings, string, NIL_VAL);
+    pop();
+    return string;
+}
+
+/*  FNV-1a hash function
+ *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
+ */
+static uint32_t hashString(const char *key, int32_t length)
+{
+    uint32_t hash = 2166136261u;
+    for (int32_t i = 0; i < length; i++)
+    {
+        hash ^= (uint8_t)key[i];
+        hash *= 16777619;
+    }
+    return hash;
+}
+
+// Allocates the memory for an object of a given type
+static Obj *allocateObject(size_t size, ObjType type)
+{
+    Obj *object = (Obj *)reallocate(NULL, 0, size);
+    object->type = type;
+    object->isMarked = false;
+
+    object->next = vm.objects;
+    vm.objects = object;
+#ifdef DEBUG_LOG_GC
+    printf("%p allocate %zu for %d\n", (void *)object, size, type);
+#endif
+    return object;
+}
+
+static void printFunction(ObjFunction *function)
+{
+    if (function->name == NULL)
+    {
+        // top level code
+        printf("<script>");
+        return;
+    }
+    // A function
+    printf("<fn %s>", function->name->chars);
 }

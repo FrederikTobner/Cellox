@@ -25,15 +25,6 @@
 #define FREE_ARRAY(type, pointer, oldCount) \
     reallocate(pointer, sizeof(type) * (oldCount), 0)
 
-// Reallocates the memory usage from a given pointer
-void *reallocate(void *pointer, size_t oldSize, size_t newSize);
-
-// Marks a kellox object
-void markObject(Obj *object);
-
-// Marks a kellox value
-void markValue(Value value);
-
 /* Starts the garbage collection process.
  * The garbage collector of kellox is a precise GC.
  * That means that the garbage collector knows whether words in mermory are pointers
@@ -43,5 +34,14 @@ void collectGarbage();
 
 // Dealocates the memory used by the objects of the vm
 void freeObjects();
+
+// Marks a kellox object
+void markObject(Obj *object);
+
+// Marks a kellox value
+void markValue(Value value);
+
+// Reallocates the memory usage from a given pointer
+void *reallocate(void *pointer, size_t oldSize, size_t newSize);
 
 #endif

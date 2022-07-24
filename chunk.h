@@ -67,16 +67,16 @@ typedef struct
     ValueArray constants;
 } Chunk;
 
-// Initializes a chunk
-void initChunk(Chunk *chunk);
-
-// Write to a already existing chunk
-void writeChunk(Chunk *chunk, uint8_t byte, int32_t line);
-
 // Adds a constant to the chunk
 int32_t addConstant(Chunk *chunk, Value value);
 
 // Free's a chunk (Deallocates the memory used by the chunk)
 void freeChunk(Chunk *chunk);
+
+// Initializes a chunk
+void initChunk(Chunk *chunk);
+
+// Write to a already existing chunk
+void writeChunk(Chunk *chunk, uint8_t byte, int32_t line);
 
 #endif
