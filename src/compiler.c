@@ -6,7 +6,7 @@
 
 #include "common.h"
 #include "memory.h"
-#include "scanner.h"
+#include "lexer.h"
 #include "vm.h"
 
 // The debug header file only needs to be included if the DEBUG_CODE is defined
@@ -80,7 +80,7 @@ typedef enum
 typedef struct Compiler
 {
     struct Compiler *enclosing;
-    ObjFunction *function;
+    ObjectFunction *function;
     FunctionType type;
     Local locals[UINT8_COUNT];
     int32_t localCount;
@@ -103,72 +103,72 @@ Compiler *current = NULL;
 // Global classCompiler variable
 ClassCompiler *currentClass = NULL;
 
-static void addLocal(Token name);
-static int32_t addUpvalue(Compiler *compiler, uint8_t index, bool isLocal);
+static void addLocal(Token);
+static int32_t addUpvalue(Compiler *, uint8_t, bool);
 static void advance();
-static void and_(bool canAssign);
+static void and_(bool);
 static uint8_t argumentList();
 static void beginScope();
-static void binary(bool canAssign);
+static void binary(bool);
 static void block();
-static void call(bool canAssign);
-static bool check(TokenType type);
+static void call(bool);
+static bool check(TokenType);
 static void classDeclaration();
-static void consume(TokenType type, const char *message);
+static void consume(TokenType, const char *);
 static Chunk *currentChunk();
 static void declaration();
 static void declareVariable();
-static void defineVariable(uint8_t global);
-static void dot(bool canAssign);
-static void emitByte(uint8_t byte);
-static void emitBytes(uint8_t byte1, uint8_t byte2);
-static void emitConstant(Value value);
-static int32_t emitJump(uint8_t instruction);
-static void emitLoop(int32_t loopStart);
+static void defineVariable(uint8_t);
+static void dot(bool);
+static void emitByte(uint8_t);
+static void emitBytes(uint8_t, uint8_t);
+static void emitConstant(Value);
+static int32_t emitJump(uint8_t);
+static void emitLoop(int32_t);
 static void emitReturn();
-static ObjFunction *endCompiler();
+static ObjectFunction *endCompiler();
 static void endScope();
-static void error(const char *message);
-static void errorAt(Token *token, const char *message);
-static void errorAtCurrent(const char *message);
+static void error(const char *);
+static void errorAt(Token *, const char *);
+static void errorAtCurrent(const char *);
 static void expression();
 static void expressionStatement();
 static void forStatement();
-static void function(FunctionType type);
+static void function(FunctionType);
 static void funDeclaration();
-static ParseRule *getRule(TokenType type);
-static void grouping(bool canAssign);
-static uint8_t identifierConstant(Token *name);
-static bool identifiersEqual(Token *a, Token *b);
+static ParseRule *getRule(TokenType);
+static void grouping(bool);
+static uint8_t identifierConstant(Token *);
+static bool identifiersEqual(Token *, Token *);
 static void ifStatement();
-static void initCompiler(Compiler *compiler, FunctionType type);
-static void literal(bool canAssign);
+static void initCompiler(Compiler *, FunctionType);
+static void literal(bool);
 static void markInitialized();
-static uint8_t makeConstant(Value value);
-static bool match(TokenType type);
+static uint8_t makeConstant(Value);
+static bool match(TokenType);
 static void method();
-static void namedVariable(Token name, bool canAssign);
-static void number(bool canAssign);
-static void or_(bool canAssign);
-static void parsePrecedence(Precedence precedence);
-static uint8_t parseVariable(const char *errorMessage);
-static void patchJump(int32_t offset);
+static void namedVariable(Token, bool);
+static void number(bool);
+static void or_(bool);
+static void parsePrecedence(Precedence);
+static uint8_t parseVariable(const char *);
+static void patchJump(int32_t);
 static void printStatement();
-static int32_t resolveLocal(Compiler *compiler, Token *name);
-static int32_t resolveUpvalue(Compiler *compiler, Token *name);
+static int32_t resolveLocal(Compiler *, Token *);
+static int32_t resolveUpvalue(Compiler *, Token *);
 static void returnStatement();
 static void statement();
-static void string(bool canAssign);
-static void super_(bool canAssign);
+static void string(bool);
+static void super_(bool);
 static void synchronize();
-static Token syntheticToken(const char *text);
-static void this_(bool canAssign);
-static void unary(bool canAssign);
+static Token syntheticToken(const char *);
+static void this_(bool);
+static void unary(bool);
 static void varDeclaration();
-static void variable(bool canAssign);
+static void variable(bool);
 static void whileStatement();
 
-ObjFunction *compile(const char *source)
+ObjectFunction *compile(const char *source)
 {
     initScanner(source);
     Compiler compiler;
@@ -181,7 +181,7 @@ ObjFunction *compile(const char *source)
     {
         declaration();
     }
-    ObjFunction *function = endCompiler();
+    ObjectFunction *function = endCompiler();
     return parser.hadError ? NULL : function;
 }
 
@@ -190,7 +190,7 @@ void markCompilerRoots()
     Compiler *compiler = current;
     while (compiler != NULL)
     {
-        markObject((Obj *)compiler->function);
+        markObject((Object *)compiler->function);
         compiler = compiler->enclosing;
     }
 }
@@ -226,7 +226,7 @@ ParseRule rules[] = {
     [TOKEN_FOR] = {NULL, NULL, PREC_NONE},
     [TOKEN_FUN] = {NULL, NULL, PREC_NONE},
     [TOKEN_IF] = {NULL, NULL, PREC_NONE},
-    [TOKEN_NIL] = {literal, NULL, PREC_NONE},
+    [TOKEN_NULL] = {literal, NULL, PREC_NONE},
     [TOKEN_OR] = {NULL, or_, PREC_OR},
     [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
     [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
@@ -600,17 +600,17 @@ static void emitReturn()
     }
     else
     {
-        emitByte(OP_NIL);
+        emitByte(OP_NULL);
     }
 
     emitByte(OP_RETURN);
 }
 
 // yields a newly created function object
-static ObjFunction *endCompiler()
+static ObjectFunction *endCompiler()
 {
     emitReturn();
-    ObjFunction *function = current->function;
+    ObjectFunction *function = current->function;
 #ifdef DEBUG_PRINT_CODE
     if (!parser.hadError)
     {
@@ -781,8 +781,8 @@ static void function(FunctionType type)
     consume(TOKEN_LEFT_BRACE, "Expect '{' before function body.");
     block();
 
-    ObjFunction *function = endCompiler();
-    emitBytes(OP_CLOSURE, makeConstant(OBJ_VAL(function)));
+    ObjectFunction *function = endCompiler();
+    emitBytes(OP_CLOSURE, makeConstant(OBJECT_VAL(function)));
     for (int32_t i = 0; i < function->upvalueCount; i++)
     {
         emitByte(compiler.upvalues[i].isLocal ? 1 : 0);
@@ -815,7 +815,7 @@ static void grouping(bool canAssign)
 // Used to create a string object from an identifier token
 static uint8_t identifierConstant(Token *name)
 {
-    return makeConstant(OBJ_VAL(copyString(name->start, name->length)));
+    return makeConstant(OBJECT_VAL(copyString(name->start, name->length)));
 }
 
 // Determines whether two identifiers are equal
@@ -882,8 +882,8 @@ static void literal(bool canAssign)
     case TOKEN_FALSE:
         emitByte(OP_FALSE);
         break;
-    case TOKEN_NIL:
-        emitByte(OP_NIL);
+    case TOKEN_NULL:
+        emitByte(OP_NULL);
         break;
     case TOKEN_TRUE:
         emitByte(OP_TRUE);
@@ -1154,7 +1154,7 @@ static void statement()
 // compiles a string literal expression
 static void string(bool canAssign)
 {
-    emitConstant(OBJ_VAL(copyString(parser.previous.start + 1, parser.previous.length - 2)));
+    emitConstant(OBJECT_VAL(copyString(parser.previous.start + 1, parser.previous.length - 2)));
 }
 
 // Compiles a super expression
@@ -1270,7 +1270,7 @@ static void varDeclaration()
     else
     {
         // Variable was not initialzed
-        emitByte(OP_NIL);
+        emitByte(OP_NULL);
     }
     consume(TOKEN_SEMICOLON, "Expect ';' after variable declaration.");
     defineVariable(global);

@@ -11,7 +11,7 @@
 #define MAX_LINE_LENGTH 1024
 
 // Reads a lox program from a file
-static char *readFile(const char *path);
+static char *readFile(const char *);
 
 /* Run with repl
  * 1. Read the user input
@@ -22,7 +22,7 @@ static char *readFile(const char *path);
 static void repl();
 
 // Reads a lox program from a file and executes the program
-static void runFile(const char *path);
+static void runFile(const char *);
 
 int main(int argc, const char *argv[])
 {

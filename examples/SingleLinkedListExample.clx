@@ -11,22 +11,22 @@ class SingleLinkedList
 {
 	init()
 	{
-		this.head = nil;
+		this.head = null;
 	}
 
 	addLast(value)
 	{
-		if(this.head == nil)
+		if(this.head == null)
 		{
-			this.head = Node(value, nil);
+			this.head = Node(value, null);
 			return;
 		}
 		var current = this.head;
-		while(current.nextNode != nil)
+		while(current.nextNode != null)
 		{
 			current = current.nextNode;
 		}
-		current.nextNode = Node(value, nil);
+		current.nextNode = Node(value, null);
 	}
 
 	addFirst(value)
@@ -37,7 +37,7 @@ class SingleLinkedList
 	printList()
 	{
 		var current = this.head;
-		while(current != nil)
+		while(current != null)
 		{	
       		print current.value;		
 			current = current.nextNode;

@@ -3,6 +3,8 @@
   "files.associations": {
     "table.h": "c",
     "stdio.h": "c",
-    "typeinfo": "c"
+    "typeinfo": "c",
+    "lexer.h": "c",
+    "type_traits": "c"
   },
 }

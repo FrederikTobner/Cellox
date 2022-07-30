@@ -42,7 +42,7 @@ void collectGarbage();
 void freeObjects();
 
 // Marks a cellox object
-void markObject(Obj *object);
+void markObject(Object *object);
 
 // Marks a cellox value
 void markValue(Value value);

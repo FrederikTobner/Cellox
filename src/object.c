@@ -7,18 +7,18 @@
 #include "vm.h"
 
 // Marko for allocating a new object
-#define ALLOCATE_OBJ(type, objectType) \
+#define ALLOCATE_OBJECT(type, objectType) \
     (type *)allocateObject(sizeof(type), objectType)
 
-static Obj *allocateObject(size_t size, ObjType type);
-static ObjString *allocateString(char *chars, int32_t length, uint32_t hash);
-static uint32_t hashString(const char *key, int32_t length);
-static void printFunction(ObjFunction *function);
+static Object *allocateObject(size_t, ObjectType);
+static ObjectString *allocateString(char *, int32_t, uint32_t);
+static uint32_t hashString(const char *, int32_t);
+static void printFunction(ObjectFunction *);
 
-ObjString *copyString(const char *chars, int32_t length)
+ObjectString *copyString(const char *chars, int32_t length)
 {
     uint32_t hash = hashString(chars, length);
-    ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
+    ObjectString *interned = tableFindString(&vm.strings, chars, length, hash);
     if (interned != NULL)
         return interned;
     char *heapChars = ALLOCATE(char, length + 1);
@@ -27,40 +27,40 @@ ObjString *copyString(const char *chars, int32_t length)
     return allocateString(heapChars, length, hash);
 }
 
-ObjBoundMethod *newBoundMethod(Value receiver, ObjClosure *method)
+ObjectBoundMethod *newBoundMethod(Value receiver, ObjectClosure *method)
 {
-    ObjBoundMethod *bound = ALLOCATE_OBJ(ObjBoundMethod,
-                                         OBJ_BOUND_METHOD);
+    ObjectBoundMethod *bound = ALLOCATE_OBJECT(ObjectBoundMethod,
+                                               OBJ_BOUND_METHOD);
     bound->receiver = receiver;
     bound->method = method;
     return bound;
 }
 
-ObjClass *newClass(ObjString *name)
+ObjectClass *newClass(ObjectString *name)
 {
-    ObjClass *celloxClass = ALLOCATE_OBJ(ObjClass, OBJ_CLASS);
+    ObjectClass *celloxClass = ALLOCATE_OBJECT(ObjectClass, OBJ_CLASS);
     celloxClass->name = name;
     initTable(&celloxClass->methods);
     return celloxClass;
 }
 
-ObjClosure *newClosure(ObjFunction *function)
+ObjectClosure *newClosure(ObjectFunction *function)
 {
-    ObjUpvalue **upvalues = ALLOCATE(ObjUpvalue *, function->upvalueCount);
+    ObjectUpvalue **upvalues = ALLOCATE(ObjectUpvalue *, function->upvalueCount);
     for (int32_t i = 0; i < function->upvalueCount; i++)
     {
         upvalues[i] = NULL;
     }
-    ObjClosure *closure = ALLOCATE_OBJ(ObjClosure, OBJ_CLOSURE);
+    ObjectClosure *closure = ALLOCATE_OBJECT(ObjectClosure, OBJ_CLOSURE);
     closure->function = function;
     closure->upvalues = upvalues;
     closure->upvalueCount = function->upvalueCount;
     return closure;
 }
 
-ObjFunction *newFunction()
+ObjectFunction *newFunction()
 {
-    ObjFunction *function = ALLOCATE_OBJ(ObjFunction, OBJ_FUNCTION);
+    ObjectFunction *function = ALLOCATE_OBJECT(ObjectFunction, OBJ_FUNCTION);
     function->arity = 0;
     function->upvalueCount = 0;
     function->name = NULL;
@@ -68,25 +68,25 @@ ObjFunction *newFunction()
     return function;
 }
 
-ObjInstance *newInstance(ObjClass *celloxClass)
+ObjectInstance *newInstance(ObjectClass *celloxClass)
 {
-    ObjInstance *instance = ALLOCATE_OBJ(ObjInstance, OBJ_INSTANCE);
+    ObjectInstance *instance = ALLOCATE_OBJECT(ObjectInstance, OBJ_INSTANCE);
     instance->celloxClass = celloxClass;
     initTable(&instance->fields);
     return instance;
 }
 
-ObjNative *newNative(NativeFn function)
+ObjectNative *newNative(NativeFn function)
 {
-    ObjNative *native = ALLOCATE_OBJ(ObjNative, OBJ_NATIVE);
+    ObjectNative *native = ALLOCATE_OBJECT(ObjectNative, OBJ_NATIVE);
     native->function = function;
     return native;
 }
 
-ObjUpvalue *newUpvalue(Value *slot)
+ObjectUpvalue *newUpvalue(Value *slot)
 {
     // Allocating the memory used by the upvalue
-    ObjUpvalue *upvalue = ALLOCATE_OBJ(ObjUpvalue, OBJ_UPVALUE);
+    ObjectUpvalue *upvalue = ALLOCATE_OBJECT(ObjectUpvalue, OBJ_UPVALUE);
     // We zero out the closed field of the upvalue when we create it
     upvalue->closed = NIL_VAL;
     // Adress of the slot where the closed over variables live (enclosing environment)
@@ -98,7 +98,7 @@ ObjUpvalue *newUpvalue(Value *slot)
 
 void printObject(Value value)
 {
-    switch (OBJ_TYPE(value))
+    switch (OBJECT_TYPE(value))
     {
     case OBJ_BOUND_METHOD:
         printFunction(AS_BOUND_METHOD(value)->method->function);
@@ -128,10 +128,10 @@ void printObject(Value value)
     }
 }
 
-ObjString *takeString(char *chars, int32_t length)
+ObjectString *takeString(char *chars, int32_t length)
 {
     uint32_t hash = hashString(chars, length);
-    ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
+    ObjectString *interned = tableFindString(&vm.strings, chars, length, hash);
     if (interned != NULL)
     {
         FREE_ARRAY(char, chars, length + 1);
@@ -141,13 +141,13 @@ ObjString *takeString(char *chars, int32_t length)
 }
 
 // Allocates memory to store a string
-static ObjString *allocateString(char *chars, int32_t length, uint32_t hash)
+static ObjectString *allocateString(char *chars, int32_t length, uint32_t hash)
 {
-    ObjString *string = ALLOCATE_OBJ(ObjString, OBJ_STRING);
+    ObjectString *string = ALLOCATE_OBJECT(ObjectString, OBJ_STRING);
     string->length = length;
     string->chars = chars;
     string->hash = hash;
-    push(OBJ_VAL(string));
+    push(OBJECT_VAL(string));
     // Adds the string to hashtable storing all the strings allocated by the vm
     tableSet(&vm.strings, string, NIL_VAL);
     pop();
@@ -169,9 +169,9 @@ static uint32_t hashString(const char *key, int32_t length)
 }
 
 // Allocates the memory for an object of a given type
-static Obj *allocateObject(size_t size, ObjType type)
+static Object *allocateObject(size_t size, ObjectType type)
 {
-    Obj *object = (Obj *)reallocate(NULL, 0, size);
+    Object *object = (Object *)reallocate(NULL, 0, size);
     object->type = type;
     object->isMarked = false;
 
@@ -183,7 +183,7 @@ static Obj *allocateObject(size_t size, ObjType type)
     return object;
 }
 
-static void printFunction(ObjFunction *function)
+static void printFunction(ObjectFunction *function)
 {
     if (function->name == NULL)
     {

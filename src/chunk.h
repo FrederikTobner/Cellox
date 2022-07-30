@@ -14,7 +14,7 @@ typedef enum
     OP_SUBTRACT,
     OP_MULTIPLY,
     OP_DIVIDE,
-    OP_NIL,
+    OP_NULL,
     OP_TRUE,
     OP_FALSE,
     OP_NOT,
@@ -59,9 +59,9 @@ typedef struct
     int32_t count;
     // Capacity of the chunk
     int32_t capacity;
-    // Operand Code
+    // Operand Codes
     uint8_t *code;
-    // Line Array, stored seperatly to ensure there is no unnecesarry space taken up by
+    // STores line information to the corresponding lox program
     int32_t *lines;
     // Constants stored in the chunk
     ValueArray constants;

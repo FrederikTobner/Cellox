@@ -31,9 +31,10 @@ void printValue(Value value)
   }
   else if (IS_NUMBER(value))
   {
+    // No trailing decimal if the number is an integer
     printf("%g", AS_NUMBER(value));
   }
-  else if (IS_OBJ(value))
+  else if (IS_OBJECT(value))
   {
     printObject(value);
   }
@@ -76,7 +77,7 @@ bool valuesEqual(Value a, Value b)
   case VAL_NUMBER:
     return AS_NUMBER(a) == AS_NUMBER(b);
   case VAL_OBJ:
-    return AS_OBJ(a) == AS_OBJ(b);
+    return AS_OBJECT(a) == AS_OBJECT(b);
   default:
     return false; // Unreachable.
   }

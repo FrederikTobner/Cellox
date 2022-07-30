@@ -14,22 +14,22 @@
 // Global VM variable
 VM vm;
 
-static bool bindMethod(ObjClass *klass, ObjString *name);
-static bool call(ObjClosure *closure, int32_t argCount);
-static bool callValue(Value callee, int32_t argCount);
-static ObjUpvalue *captureUpvalue(Value *local);
-static Value clockNative(int32_t argCount, Value *args);
-static void closeUpvalues(Value *last);
+static bool bindMethod(ObjectClass *, ObjectString *);
+static bool call(ObjectClosure *, int32_t);
+static bool callValue(Value, int32_t);
+static ObjectUpvalue *captureUpvalue(Value *);
+static Value clockNative(int32_t, Value *);
+static void closeUpvalues(Value *);
 static void concatenate();
-static void defineMethod(ObjString *name);
-static void defineNative(const char *name, NativeFn function);
-static bool invoke(ObjString *name, int argCount);
-static bool invokeFromClass(ObjClass *klass, ObjString *name, int argCount);
-static bool isFalsey(Value value);
-static Value peek(int32_t distance);
+static void defineMethod(ObjectString *);
+static void defineNative(const char *, NativeFn);
+static bool invoke(ObjectString *, int);
+static bool invokeFromClass(ObjectClass *, ObjectString *, int);
+static bool isFalsey(Value);
+static Value peek(int32_t);
 static void resetStack();
 static InterpretResult run();
-static void runtimeError(const char *format, ...);
+static void runtimeError(const char *, ...);
 
 void freeVM()
 {
@@ -60,14 +60,14 @@ void initVM()
 
 InterpretResult interpret(const char *source)
 {
-    ObjFunction *function = compile(source);
+    ObjectFunction *function = compile(source);
     if (function == NULL)
         return INTERPRET_COMPILE_ERROR;
 
-    push(OBJ_VAL(function));
-    ObjClosure *closure = newClosure(function);
+    push(OBJECT_VAL(function));
+    ObjectClosure *closure = newClosure(function);
     pop();
-    push(OBJ_VAL(closure));
+    push(OBJECT_VAL(closure));
     call(closure, 0);
     return run();
 }
@@ -84,23 +84,23 @@ Value pop()
     return *vm.stackTop;
 }
 
-static bool bindMethod(ObjClass *klass, ObjString *name)
+static bool bindMethod(ObjectClass *celloxClass, ObjectString *name)
 {
     Value method;
-    if (!tableGet(&klass->methods, name, &method))
+    if (!tableGet(&celloxClass->methods, name, &method))
     {
         runtimeError("Undefined property '%s'.", name->chars);
         return false;
     }
 
-    ObjBoundMethod *bound = newBoundMethod(peek(0),
-                                           AS_CLOSURE(method));
+    ObjectBoundMethod *bound = newBoundMethod(peek(0),
+                                              AS_CLOSURE(method));
     pop();
-    push(OBJ_VAL(bound));
+    push(OBJECT_VAL(bound));
     return true;
 }
 
-static bool call(ObjClosure *closure, int32_t argCount)
+static bool call(ObjectClosure *closure, int32_t argCount)
 {
     if (argCount != closure->function->arity)
     {
@@ -124,20 +124,20 @@ static bool call(ObjClosure *closure, int32_t argCount)
 
 static bool callValue(Value callee, int32_t argCount)
 {
-    if (IS_OBJ(callee))
+    if (IS_OBJECT(callee))
     {
-        switch (OBJ_TYPE(callee))
+        switch (OBJECT_TYPE(callee))
         {
         case OBJ_BOUND_METHOD:
         {
-            ObjBoundMethod *bound = AS_BOUND_METHOD(callee);
+            ObjectBoundMethod *bound = AS_BOUND_METHOD(callee);
             vm.stackTop[-argCount - 1] = bound->receiver;
             return call(bound->method, argCount);
         }
         case OBJ_CLASS:
         {
-            ObjClass *celloxClass = AS_CLASS(callee);
-            vm.stackTop[-argCount - 1] = OBJ_VAL(newInstance(celloxClass));
+            ObjectClass *celloxClass = AS_CLASS(callee);
+            vm.stackTop[-argCount - 1] = OBJECT_VAL(newInstance(celloxClass));
             Value initializer;
             if (tableGet(&celloxClass->methods, vm.initString, &initializer))
             {
@@ -169,10 +169,10 @@ static bool callValue(Value callee, int32_t argCount)
     return false;
 }
 
-static ObjUpvalue *captureUpvalue(Value *local)
+static ObjectUpvalue *captureUpvalue(Value *local)
 {
-    ObjUpvalue *prevUpvalue = NULL;
-    ObjUpvalue *upvalue = vm.openUpvalues;
+    ObjectUpvalue *prevUpvalue = NULL;
+    ObjectUpvalue *upvalue = vm.openUpvalues;
     while (upvalue != NULL && upvalue->location > local)
     {
         prevUpvalue = upvalue;
@@ -183,7 +183,7 @@ static ObjUpvalue *captureUpvalue(Value *local)
     {
         return upvalue;
     }
-    ObjUpvalue *createdUpvalue = newUpvalue(local);
+    ObjectUpvalue *createdUpvalue = newUpvalue(local);
     createdUpvalue->next = upvalue;
     if (prevUpvalue == NULL)
     {
@@ -212,7 +212,7 @@ static void closeUpvalues(Value *last)
     while (vm.openUpvalues != NULL &&
            vm.openUpvalues->location >= last)
     {
-        ObjUpvalue *upvalue = vm.openUpvalues;
+        ObjectUpvalue *upvalue = vm.openUpvalues;
         upvalue->closed = *upvalue->location;
         upvalue->location = &upvalue->closed;
         vm.openUpvalues = upvalue->next;
@@ -222,25 +222,25 @@ static void closeUpvalues(Value *last)
 // Concatenates the two upper values on the stack
 static void concatenate()
 {
-    ObjString *b = AS_STRING(peek(0));
-    ObjString *a = AS_STRING(peek(1));
+    ObjectString *b = AS_STRING(peek(0));
+    ObjectString *a = AS_STRING(peek(1));
     int32_t length = a->length + b->length;
     char *chars = ALLOCATE(char, length + 1);
     memcpy(chars, a->chars, a->length);
     memcpy(chars + a->length, b->chars, b->length);
     chars[length] = '\0';
 
-    ObjString *result = takeString(chars, length);
+    ObjectString *result = takeString(chars, length);
     pop();
     pop();
-    push(OBJ_VAL(result));
+    push(OBJECT_VAL(result));
 }
 
 // Defines a new Method in the hashTable of the celloxclass instance
-static void defineMethod(ObjString *name)
+static void defineMethod(ObjectString *name)
 {
     Value method = peek(0);
-    ObjClass *celloxClass = AS_CLASS(peek(1));
+    ObjectClass *celloxClass = AS_CLASS(peek(1));
     tableSet(&celloxClass->methods, name, method);
     pop();
 }
@@ -248,14 +248,14 @@ static void defineMethod(ObjString *name)
 // Defines a native function for the virtual machine
 static void defineNative(const char *name, NativeFn function)
 {
-    push(OBJ_VAL(copyString(name, (int32_t)strlen(name))));
-    push(OBJ_VAL(newNative(function)));
+    push(OBJECT_VAL(copyString(name, (int32_t)strlen(name))));
+    push(OBJECT_VAL(newNative(function)));
     tableSet(&vm.globals, AS_STRING(vm.stack[0]), vm.stack[1]);
     pop();
     pop();
 }
 
-static bool invoke(ObjString *name, int argCount)
+static bool invoke(ObjectString *name, int argCount)
 {
     Value receiver = peek(argCount);
     if (!IS_INSTANCE(receiver))
@@ -263,7 +263,7 @@ static bool invoke(ObjString *name, int argCount)
         runtimeError("Only instances have methods.");
         return false;
     }
-    ObjInstance *instance = AS_INSTANCE(receiver);
+    ObjectInstance *instance = AS_INSTANCE(receiver);
     Value value;
     if (tableGet(&instance->fields, name, &value))
     {
@@ -273,10 +273,10 @@ static bool invoke(ObjString *name, int argCount)
     return invokeFromClass(instance->celloxClass, name, argCount);
 }
 
-static bool invokeFromClass(ObjClass *klass, ObjString *name, int argCount)
+static bool invokeFromClass(ObjectClass *celloxClass, ObjectString *name, int argCount)
 {
     Value method;
-    if (!tableGet(&klass->methods, name, &method))
+    if (!tableGet(&celloxClass->methods, name, &method))
     {
         runtimeError("Undefined property '%s'.", name->chars);
         return false;
@@ -395,7 +395,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_INVOKE:
         {
-            ObjString *method = READ_STRING();
+            ObjectString *method = READ_STRING();
             int argCount = READ_BYTE();
             if (!invoke(method, argCount))
             {
@@ -406,9 +406,9 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_CLOSURE:
         {
-            ObjFunction *function = AS_FUNCTION(READ_CONSTANT());
-            ObjClosure *closure = newClosure(function);
-            push(OBJ_VAL(closure));
+            ObjectFunction *function = AS_FUNCTION(READ_CONSTANT());
+            ObjectClosure *closure = newClosure(function);
+            push(OBJECT_VAL(closure));
             for (int32_t i = 0; i < closure->upvalueCount; i++)
             {
                 uint8_t isLocal = READ_BYTE();
@@ -451,7 +451,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             push(constant);
             break;
         }
-        case OP_NIL:
+        case OP_NULL:
             push(NIL_VAL);
             break;
         case OP_POP:
@@ -471,7 +471,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_GET_GLOBAL:
         {
-            ObjString *name = READ_STRING();
+            ObjectString *name = READ_STRING();
             Value value;
             if (!tableGet(&vm.globals, name, &value))
             {
@@ -483,14 +483,14 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_DEFINE_GLOBAL:
         {
-            ObjString *name = READ_STRING();
+            ObjectString *name = READ_STRING();
             tableSet(&vm.globals, name, peek(0));
             pop();
             break;
         }
         case OP_SET_GLOBAL:
         {
-            ObjString *name = READ_STRING();
+            ObjectString *name = READ_STRING();
             if (tableSet(&vm.globals, name, peek(0)))
             {
                 tableDelete(&vm.globals, name);
@@ -518,8 +518,8 @@ so all the statements in it get executed if they are after an if 🤮 */
                 runtimeError("Only instances have properties.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            ObjInstance *instance = AS_INSTANCE(peek(0));
-            ObjString *name = READ_STRING();
+            ObjectInstance *instance = AS_INSTANCE(peek(0));
+            ObjectString *name = READ_STRING();
 
             Value value;
             if (tableGet(&instance->fields, name, &value))
@@ -543,7 +543,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 runtimeError("Only instances have fields.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            ObjInstance *instance = AS_INSTANCE(peek(1));
+            ObjectInstance *instance = AS_INSTANCE(peek(1));
             tableSet(&instance->fields, READ_STRING(), peek(0));
             Value value = pop();
             pop();
@@ -610,7 +610,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             BINARY_OP(BOOL_VAL, <);
             break;
         case OP_CLASS:
-            push(OBJ_VAL(newClass(READ_STRING())));
+            push(OBJECT_VAL(newClass(READ_STRING())));
             break;
         case OP_INHERIT:
         {
@@ -620,7 +620,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 runtimeError("Superclass must be a class.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            ObjClass *subclass = AS_CLASS(peek(0));
+            ObjectClass *subclass = AS_CLASS(peek(0));
             tableAddAll(&AS_CLASS(superclass)->methods,
                         &subclass->methods);
             pop(); // Subclass.
@@ -628,8 +628,8 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_GET_SUPER:
         {
-            ObjString *name = READ_STRING();
-            ObjClass *superclass = AS_CLASS(pop());
+            ObjectString *name = READ_STRING();
+            ObjectClass *superclass = AS_CLASS(pop());
 
             if (!bindMethod(superclass, name))
             {
@@ -639,9 +639,9 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_SUPER_INVOKE:
         {
-            ObjString *method = READ_STRING();
+            ObjectString *method = READ_STRING();
             int argCount = READ_BYTE();
-            ObjClass *superclass = AS_CLASS(pop());
+            ObjectClass *superclass = AS_CLASS(pop());
             if (!invokeFromClass(superclass, method, argCount))
             {
                 return INTERPRET_RUNTIME_ERROR;
@@ -674,7 +674,7 @@ static void runtimeError(const char *format, ...)
     for (int32_t i = vm.frameCount - 1; i >= 0; i--)
     {
         CallFrame *frame = &vm.frames[i];
-        ObjFunction *function = frame->closure->function;
+        ObjectFunction *function = frame->closure->function;
         size_t instruction = frame->ip - function->chunk.code - 1;
         fprintf(stderr, "[line %d] in ",
                 function->chunk.lines[instruction]);

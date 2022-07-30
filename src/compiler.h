@@ -4,7 +4,7 @@
 #include "object.h"
 
 // Compiles a chunk of bytecode
-ObjFunction *compile(const char *source);
+ObjectFunction *compile(const char *source);
 
 /* Marks the compiler roots.
  * These are all the the objects that can be directly accessed by the vm

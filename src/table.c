@@ -9,8 +9,8 @@
 // The max load factor of the hashtable, once it is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
 
-static void adjustCapacity(Table *table, int32_t capacity);
-static Entry *findEntry(Entry *entries, int32_t capacity, ObjString *key);
+static void adjustCapacity(Table *, int32_t);
+static Entry *findEntry(Entry *, int32_t, ObjectString *);
 
 void freeTable(Table *table)
 {
@@ -30,7 +30,7 @@ void markTable(Table *table)
     for (int32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
-        markObject((Obj *)entry->key);
+        markObject((Object *)entry->key);
         markValue(entry->value);
     }
 }
@@ -47,7 +47,7 @@ void tableAddAll(Table *from, Table *to)
     }
 }
 
-bool tableDelete(Table *table, ObjString *key)
+bool tableDelete(Table *table, ObjectString *key)
 {
     if (table->count == 0)
         return false;
@@ -63,7 +63,7 @@ bool tableDelete(Table *table, ObjString *key)
     return true;
 }
 
-ObjString *tableFindString(Table *table, const char *chars, int32_t length, uint32_t hash)
+ObjectString *tableFindString(Table *table, const char *chars, int32_t length, uint32_t hash)
 {
     if (table->count == 0)
         return NULL;
@@ -90,7 +90,7 @@ ObjString *tableFindString(Table *table, const char *chars, int32_t length, uint
     }
 }
 
-bool tableGet(Table *table, ObjString *key, Value *value)
+bool tableGet(Table *table, ObjectString *key, Value *value)
 {
     if (table->count == 0)
         return false;
@@ -115,7 +115,7 @@ void tableRemoveWhite(Table *table)
     }
 }
 
-bool tableSet(Table *table, ObjString *key, Value value)
+bool tableSet(Table *table, ObjectString *key, Value value)
 {
     // We grow the hashTable when it becomes 75% full
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
@@ -162,7 +162,7 @@ static void adjustCapacity(Table *table, int32_t capacity)
 }
 
 // Looks up an entry in the hashtable, based on a key
-static Entry *findEntry(Entry *entries, int32_t capacity, ObjString *key)
+static Entry *findEntry(Entry *entries, int32_t capacity, ObjectString *key)
 {
     uint32_t index = key->hash % capacity;
     Entry *tombstone = NULL;

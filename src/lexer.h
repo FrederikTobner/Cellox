@@ -55,7 +55,7 @@ typedef enum
   // Boolean literal false
   TOKEN_FALSE,
   // literal nil-value/null-value/undefiened value
-  TOKEN_NIL,
+  TOKEN_NULL,
   // and
   TOKEN_AND,
   // class

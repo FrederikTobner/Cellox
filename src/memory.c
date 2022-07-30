@@ -11,9 +11,9 @@
 
 #define GC_HEAP_GROW_FACTOR 2
 
-static void blackenObject(Obj *object);
-static void freeObject(Obj *object);
-static void markArray(ValueArray *array);
+static void blackenObject(Object *);
+static void freeObject(Object *);
+static void markArray(ValueArray *);
 static void markRoots();
 static void sweep();
 static void traceReferences();
@@ -42,17 +42,17 @@ void collectGarbage()
 
 void freeObjects()
 {
-  Obj *object = vm.objects;
+  Object *object = vm.objects;
   while (object != NULL)
   {
-    Obj *next = object->next;
+    Object *next = object->next;
     freeObject(object);
     object = next;
   }
   free(vm.grayStack);
 }
 
-void markObject(Obj *object)
+void markObject(Object *object)
 {
   if (object == NULL)
     return;
@@ -68,7 +68,7 @@ void markObject(Obj *object)
   if (vm.grayCapacity < vm.grayCount + 1)
   {
     vm.grayCapacity = GROW_CAPACITY(vm.grayCapacity);
-    vm.grayStack = (Obj **)realloc(vm.grayStack, sizeof(Obj *) * vm.grayCapacity);
+    vm.grayStack = (Object **)realloc(vm.grayStack, sizeof(Object *) * vm.grayCapacity);
   }
   if (vm.grayStack == NULL)
     exit(1);
@@ -77,8 +77,8 @@ void markObject(Obj *object)
 
 void markValue(Value value)
 {
-  if (IS_OBJ(value))
-    markObject(AS_OBJ(value));
+  if (IS_OBJECT(value))
+    markObject(AS_OBJECT(value));
 }
 
 // Helper method for reallocating the memory used by a dynamic Array
@@ -108,7 +108,7 @@ void *reallocate(void *pointer, size_t oldSize, size_t newSize)
 }
 
 // Blackens an object - all the references that this object have been marked
-static void blackenObject(Obj *object)
+static void blackenObject(Object *object)
 {
 #ifdef DEBUG_LOG_GC
   printf("%p blacken ", (void *)object);
@@ -119,44 +119,44 @@ static void blackenObject(Obj *object)
   {
   case OBJ_BOUND_METHOD:
   {
-    ObjBoundMethod *bound = (ObjBoundMethod *)object;
+    ObjectBoundMethod *bound = (ObjectBoundMethod *)object;
     markValue(bound->receiver);
-    markObject((Obj *)bound->method);
+    markObject((Object *)bound->method);
     break;
   }
   case OBJ_CLASS:
   {
-    ObjClass *celloxClass = (ObjClass *)object;
-    markObject((Obj *)celloxClass->name);
+    ObjectClass *celloxClass = (ObjectClass *)object;
+    markObject((Object *)celloxClass->name);
     markTable(&celloxClass->methods);
     break;
   }
   case OBJ_CLOSURE:
   {
-    ObjClosure *closure = (ObjClosure *)object;
-    markObject((Obj *)closure->function);
+    ObjectClosure *closure = (ObjectClosure *)object;
+    markObject((Object *)closure->function);
     for (int32_t i = 0; i < closure->upvalueCount; i++)
     {
-      markObject((Obj *)closure->upvalues[i]);
+      markObject((Object *)closure->upvalues[i]);
     }
     break;
   }
   case OBJ_FUNCTION:
   {
-    ObjFunction *function = (ObjFunction *)object;
-    markObject((Obj *)function->name);
+    ObjectFunction *function = (ObjectFunction *)object;
+    markObject((Object *)function->name);
     markArray(&function->chunk.constants);
     break;
   }
   case OBJ_INSTANCE:
   {
-    ObjInstance *instance = (ObjInstance *)object;
-    markObject((Obj *)instance->celloxClass);
+    ObjectInstance *instance = (ObjectInstance *)object;
+    markObject((Object *)instance->celloxClass);
     markTable(&instance->fields);
     break;
   }
   case OBJ_UPVALUE:
-    markValue(((ObjUpvalue *)object)->closed);
+    markValue(((ObjectUpvalue *)object)->closed);
     break;
   case OBJ_NATIVE:
   case OBJ_STRING:
@@ -165,7 +165,7 @@ static void blackenObject(Obj *object)
 }
 
 // Dealocates the memomory used by the object
-static void freeObject(Obj *object)
+static void freeObject(Object *object)
 {
 #ifdef DEBUG_LOG_GC
   printf("%p free type %d\n", (void *)object, object->type);
@@ -173,49 +173,49 @@ static void freeObject(Obj *object)
   switch (object->type)
   {
   case OBJ_BOUND_METHOD:
-    FREE(ObjBoundMethod, object);
+    FREE(ObjectBoundMethod, object);
     break;
   case OBJ_CLASS:
   {
-    ObjClass *klass = (ObjClass *)object;
+    ObjectClass *klass = (ObjectClass *)object;
     freeTable(&klass->methods);
-    FREE(ObjClass, object);
+    FREE(ObjectClass, object);
     break;
   }
   case OBJ_CLOSURE:
   {
-    ObjClosure *closure = (ObjClosure *)object;
-    FREE_ARRAY(ObjUpvalue *, closure->upvalues,
+    ObjectClosure *closure = (ObjectClosure *)object;
+    FREE_ARRAY(ObjectUpvalue *, closure->upvalues,
                closure->upvalueCount);
-    FREE(ObjClosure, object);
+    FREE(ObjectClosure, object);
     break;
   }
   case OBJ_FUNCTION:
   {
-    ObjFunction *function = (ObjFunction *)object;
+    ObjectFunction *function = (ObjectFunction *)object;
     freeChunk(&function->chunk);
-    FREE(ObjFunction, object);
+    FREE(ObjectFunction, object);
     break;
   }
   case OBJ_INSTANCE:
   {
-    ObjInstance *instance = (ObjInstance *)object;
+    ObjectInstance *instance = (ObjectInstance *)object;
     freeTable(&instance->fields);
-    FREE(ObjInstance, object);
+    FREE(ObjectInstance, object);
     break;
   }
   case OBJ_NATIVE:
-    FREE(ObjNative, object);
+    FREE(ObjectNative, object);
     break;
   case OBJ_STRING:
   {
-    ObjString *string = (ObjString *)object;
+    ObjectString *string = (ObjectString *)object;
     FREE_ARRAY(char, string->chars, string->length + 1);
-    FREE(ObjString, object);
+    FREE(ObjectString, object);
     break;
   }
   case OBJ_UPVALUE:
-    FREE(ObjUpvalue, object);
+    FREE(ObjectUpvalue, object);
     break;
   }
 }
@@ -240,20 +240,20 @@ static void markRoots()
   // all the objects
   for (int32_t i = 0; i < vm.frameCount; i++)
   {
-    markObject((Obj *)vm.frames[i].closure);
+    markObject((Object *)vm.frames[i].closure);
   }
   // all the ObjectUpvalues
-  for (ObjUpvalue *upvalue = vm.openUpvalues;
+  for (ObjectUpvalue *upvalue = vm.openUpvalues;
        upvalue != NULL;
        upvalue = upvalue->next)
   {
-    markObject((Obj *)upvalue);
+    markObject((Object *)upvalue);
   }
   // all the global variables
   markTable(&vm.globals);
   // And all the compiler roots allocated on the heap
   markCompilerRoots();
-  markObject((Obj *)vm.initString);
+  markObject((Object *)vm.initString);
 }
 
 /* Walks through the linked list of objects on the heap and checks their mark bits.
@@ -261,8 +261,8 @@ static void markRoots()
  * and the memory used by the object is reclaimed*/
 static void sweep()
 {
-  Obj *previous = NULL;
-  Obj *object = vm.objects;
+  Object *previous = NULL;
+  Object *object = vm.objects;
   while (object != NULL)
   {
     if (object->isMarked)
@@ -274,7 +274,7 @@ static void sweep()
     }
     else
     {
-      Obj *unreached = object;
+      Object *unreached = object;
       object = object->next;
       if (previous != NULL)
       {
@@ -295,7 +295,7 @@ static void traceReferences()
 {
   while (vm.grayCount > 0)
   {
-    Obj *object = vm.grayStack[--vm.grayCount];
+    Object *object = vm.grayStack[--vm.grayCount];
     blackenObject(object);
   }
 }

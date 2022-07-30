@@ -14,7 +14,7 @@
 typedef struct
 {
     // The closure of the callframe
-    ObjClosure *closure;
+    ObjectClosure *closure;
     // The instruction pointer in the callframe
     uint8_t *ip;
     // Points to the first slot in the stack of the vm the function can use
@@ -26,8 +26,12 @@ typedef struct
 {
     // Callframes of the virtual machine
     CallFrame frames[FRAMES_MAX];
-    /// The amount of callframes the vm currently holds
+    // The amount of callframes the vm currently holds
     int32_t frameCount;
+    // Amount of objects in the virtual machine that are marked as gray -> objects that are already discovered but haven't been processed yet
+    int32_t grayCount;
+    // The capacity of the dynamic array storing the objects that were marked as gray
+    int32_t grayCapacity;
     // Stack of the vm
     Value stack[STACK_MAX];
     /// Pointer to the top of the stack
@@ -36,20 +40,14 @@ typedef struct
     Table globals;
     // Hashtable that contains the strings
     Table strings;
-    ObjString *initString;
-    ObjUpvalue *openUpvalues;
-    // Number of bytes that have been allocated by the vm
-    size_t bytesAllocated;
-    // A treshhold when the next garbage Collection shall be triggered (e.g. a Megabyte)
-    size_t nextGC;
+    ObjectString *initString;
+    ObjectUpvalue *openUpvalues;
+    size_t bytesAllocated, // Number of bytes that have been allocated by the vm
+        nextGC;            // A treshhold when the next garbage Collection shall be triggered (e.g. a Megabyte)
     // The objects that are allocated in the memory of the vm
-    Obj *objects;
-    // Amount of objects in the virtual machine that are marked as gray -> objects that are already discovered but haven't been processed yet
-    int32_t grayCount;
-    // The capacity of the dynamic array storing the objects that were marked as gray
-    int32_t grayCapacity;
+    Object *objects;
     // The stack that coontains all the gray objects
-    Obj **grayStack;
+    Object **grayStack;
 } VM;
 
 // Result of the interpretation (sucessfull, error during compilation or at runtime)
@@ -72,10 +70,10 @@ void freeVM();
 void initVM();
 
 // Interprets a lox program
-InterpretResult interpret(const char *source);
+InterpretResult interpret(const char *);
 
 // Pushes a new Value on the stack
-void push(Value value);
+void push(Value);
 
 // Pops a value from the stack
 Value pop();
