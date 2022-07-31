@@ -7,49 +7,74 @@
 // opcodes of the bytecode instruction set
 typedef enum
 {
-    // Defines a Constant
-    OP_CONSTANT,
-    // Adds the two constants on the top of the stack
+    // Pops the two most upper values from the stack adds them and pushes the result onto the stack
     OP_ADD,
-    OP_SUBTRACT,
-    OP_MULTIPLY,
-    OP_DIVIDE,
-    OP_MODULO,
-    OP_NULL,
-    OP_TRUE,
-    OP_FALSE,
-    OP_NOT,
-    OP_EQUAL,
-    OP_GREATER,
-    OP_LESS,
-    // Negate the value on top of the stack
-    OP_NEGATE,
-    // Prints the value on top of the stack
-    OP_PRINT,
-    OP_POP,
-    OP_GET_LOCAL,
-    OP_SET_LOCAL,
-    OP_GET_GLOBAL,
-    OP_DEFINE_GLOBAL,
-    OP_SET_GLOBAL,
-    OP_GET_UPVALUE,
-    OP_SET_UPVALUE,
-    OP_GET_PROPERTY,
-    OP_SET_PROPERTY,
-    OP_JUMP,
-    OP_JUMP_IF_FALSE,
-    OP_LOOP,
+    /// Defines the arguments for the next function invocation
     OP_CALL,
-    OP_INVOKE,
+    // Defines a new class
+    OP_CLASS,
     OP_CLOSURE,
     OP_CLOSE_UPVALUE,
-    // Return from the current function
-    OP_RETURN,
-    OP_CLASS,
-    OP_METHOD,
+    // Defines a constant
+    OP_CONSTANT,
+    // Defines a global variable
+    OP_DEFINE_GLOBAL,
+    // Pops the two most upper values from the stack, divides the first with the second value and pushes the result on the stack
+    OP_DIVIDE,
+    // Determines whether two the values on top of the are equal and  pushes the result on the stack
+    OP_EQUAL,
+    // Pops the two most upper values from the stack, raises the first with the second value and pushes the result on the stack
+    OP_EXPONENT,
+    // Pushes the boolean value false on the stack
+    OP_FALSE,
+    // Gets the value of a global variable  and stores it on the stack
+    OP_GET_GLOBAL,
+    // Gets the value of a local variable and stores it on the stack
+    OP_GET_LOCAL,
+    // Gets the value of the property of a Cellox object and stores it on the stack
+    OP_GET_PROPERTY,
+    // Gets the parent class of a value and stores it on the stack
     OP_GET_SUPER,
-    OP_SUPER_INVOKE,
+    // Gets the value of the upvalue and stores it on the stack
+    OP_GET_UPVALUE,
+    // Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is greater than the second number
+    OP_GREATER,
+    // Adds another class as the parent to a class declaration
     OP_INHERIT,
+    // Invokes a function
+    OP_INVOKE,
+    // Jumps from the current position to another position in the code, determined by a certain offset
+    OP_JUMP,
+    // Jumps if the value on top of the stack is false
+    OP_JUMP_IF_FALSE,
+    // Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is less than the second number
+    OP_LESS,
+    OP_LOOP,
+    // Defines a new Method
+    OP_METHOD,
+    // Pops the two most upper values from the stack, divides the first with the second value and pushes the remainder of the division onto the stack
+    OP_MODULO,
+    // Pops the two most upper values from the stack adds them and pushes the result onto the stack
+    OP_MULTIPLY,
+    OP_NEGATE,
+    OP_NOT,
+    // Pushes a null value on the stack
+    OP_NULL,
+    // Pops a value from the stack and writes it to the standard output
+    OP_PRINT,
+    // Pops a value from the stack
+    OP_POP,
+    // Returns either a Value or null if nothing is specified
+    OP_RETURN,
+    OP_SET_LOCAL,
+    OP_SET_GLOBAL,
+    OP_SET_PROPERTY,
+    OP_SET_UPVALUE,
+    // Pops the two most upper values from the stack, subtracts the second value from the first value and pushes the result onto the stack
+    OP_SUBTRACT,
+    OP_SUPER_INVOKE,
+    // Pushes the boolean value true on the stack
+    OP_TRUE,
 } Opcode;
 
 /* Type definition of a dynamic array structure of bytecode instructions

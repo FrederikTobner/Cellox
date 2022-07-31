@@ -132,6 +132,8 @@ int32_t disassembleInstruction(Chunk *chunk, int32_t offset)
     return invokeInstruction("SUPER_INVOKE", chunk, offset);
   case OP_MODULO:
     return simpleInstruction("MODULO", offset);
+  case OP_EXPONENT:
+    return simpleInstruction("EXPONENT", offset);
   default:
     printf("Unknown opcode %02X\n", instruction);
     return offset + 1;

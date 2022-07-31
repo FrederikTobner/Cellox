@@ -197,47 +197,49 @@ void markCompilerRoots()
 
 // ParseRules for the language
 ParseRule rules[] = {
-    [TOKEN_LEFT_PAREN] = {grouping, call, PREC_CALL},
-    [TOKEN_RIGHT_PAREN] = {NULL, NULL, PREC_NONE},
-    [TOKEN_LEFT_BRACE] = {NULL, NULL, PREC_NONE},
-    [TOKEN_RIGHT_BRACE] = {NULL, NULL, PREC_NONE},
-    [TOKEN_COMMA] = {NULL, NULL, PREC_NONE},
-    [TOKEN_DOT] = {NULL, dot, PREC_CALL},
-    [TOKEN_MINUS] = {unary, binary, PREC_TERM},
-    [TOKEN_PLUS] = {NULL, binary, PREC_TERM},
-    [TOKEN_MOODULO] = {NULL, binary, PREC_TERM},
-    [TOKEN_SEMICOLON] = {NULL, NULL, PREC_NONE},
-    [TOKEN_SLASH] = {NULL, binary, PREC_FACTOR},
-    [TOKEN_STAR] = {NULL, binary, PREC_FACTOR},
+    [TOKEN_AND] = {NULL, and_, PREC_AND},
     [TOKEN_BANG] = {unary, NULL, PREC_UNARY},
     [TOKEN_BANG_EQUAL] = {NULL, binary, PREC_EQUALITY},
+    [TOKEN_CLASS] = {NULL, NULL, PREC_NONE},
+    [TOKEN_COMMA] = {NULL, NULL, PREC_NONE},
+    [TOKEN_DOT] = {NULL, dot, PREC_CALL},
+    [TOKEN_EOF] = {NULL, NULL, PREC_NONE},
+    [TOKEN_ELSE] = {NULL, NULL, PREC_NONE},
     [TOKEN_EQUAL] = {NULL, NULL, PREC_NONE},
     [TOKEN_EQUAL_EQUAL] = {NULL, binary, PREC_EQUALITY},
-    [TOKEN_GREATER] = {NULL, binary, PREC_COMPARISON},
-    [TOKEN_GREATER_EQUAL] = {NULL, binary, PREC_COMPARISON},
-    [TOKEN_LESS] = {NULL, binary, PREC_COMPARISON},
-    [TOKEN_LESS_EQUAL] = {NULL, binary, PREC_COMPARISON},
-    [TOKEN_IDENTIFIER] = {variable, NULL, PREC_NONE},
-    [TOKEN_STRING] = {string, NULL, PREC_NONE},
-    [TOKEN_NUMBER] = {number, NULL, PREC_NONE},
-    [TOKEN_AND] = {NULL, and_, PREC_AND},
-    [TOKEN_CLASS] = {NULL, NULL, PREC_NONE},
-    [TOKEN_ELSE] = {NULL, NULL, PREC_NONE},
+    [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
     [TOKEN_FALSE] = {literal, NULL, PREC_NONE},
     [TOKEN_FOR] = {NULL, NULL, PREC_NONE},
     [TOKEN_FUN] = {NULL, NULL, PREC_NONE},
+    [TOKEN_GREATER] = {NULL, binary, PREC_COMPARISON},
+    [TOKEN_GREATER_EQUAL] = {NULL, binary, PREC_COMPARISON},
+    [TOKEN_IDENTIFIER] = {variable, NULL, PREC_NONE},
     [TOKEN_IF] = {NULL, NULL, PREC_NONE},
+    [TOKEN_LEFT_BRACE] = {NULL, NULL, PREC_NONE},
+    [TOKEN_LEFT_PAREN] = {grouping, call, PREC_CALL},
+    [TOKEN_LESS] = {NULL, binary, PREC_COMPARISON},
+    [TOKEN_LESS_EQUAL] = {NULL, binary, PREC_COMPARISON},
+    [TOKEN_MODULO] = {NULL, binary, PREC_FACTOR},
+    [TOKEN_MINUS] = {unary, binary, PREC_TERM},
     [TOKEN_NULL] = {literal, NULL, PREC_NONE},
+    [TOKEN_NUMBER] = {number, NULL, PREC_NONE},
+    [TOKEN_PLUS] = {NULL, binary, PREC_TERM},
     [TOKEN_OR] = {NULL, or_, PREC_OR},
     [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
     [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
+    [TOKEN_RIGHT_BRACE] = {NULL, NULL, PREC_NONE},
+    [TOKEN_RIGHT_PAREN] = {NULL, NULL, PREC_NONE},
+    [TOKEN_SEMICOLON] = {NULL, NULL, PREC_NONE},
+    [TOKEN_SLASH] = {NULL, binary, PREC_FACTOR},
+    [TOKEN_STAR] = {NULL, binary, PREC_FACTOR},
+    [TOKEN_STAR_STAR] = {NULL, binary, PREC_FACTOR},
+    [TOKEN_STRING] = {string, NULL, PREC_NONE},
     [TOKEN_SUPER] = {super_, NULL, PREC_NONE},
     [TOKEN_THIS] = {this_, NULL, PREC_NONE},
     [TOKEN_TRUE] = {literal, NULL, PREC_NONE},
     [TOKEN_VAR] = {NULL, NULL, PREC_NONE},
     [TOKEN_WHILE] = {NULL, NULL, PREC_NONE},
-    [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
-    [TOKEN_EOF] = {NULL, NULL, PREC_NONE},
+
 };
 
 // Adds a new local variable to the stack
@@ -370,8 +372,11 @@ static void binary(bool canAssign)
     case TOKEN_SLASH:
         emitByte(OP_DIVIDE);
         break;
-    case TOKEN_MOODULO:
+    case TOKEN_MODULO:
         emitByte(OP_MODULO);
+        break;
+    case TOKEN_STAR_STAR:
+        emitByte(OP_EXPONENT);
         break;
     default:
         return; // Unreachable.
@@ -878,7 +883,7 @@ static void initCompiler(Compiler *compiler, FunctionType type)
     }
 }
 
-// Compiles a literal expression
+// Compiles a boolean literal expression
 static void literal(bool canAssign)
 {
     switch (parser.previous.type)
@@ -968,13 +973,55 @@ static void namedVariable(Token name, bool canAssign)
         expression();
         emitBytes(setOp, (uint8_t)arg);
     }
+    else if (canAssign && match(TOKEN_PLUS_EQUAL))
+    {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_ADD);
+        emitBytes(setOp, (uint8_t)arg);
+    }
+    else if (canAssign && match(TOKEN_MINUS_EQUAL))
+    {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_SUBTRACT);
+        emitBytes(setOp, (uint8_t)arg);
+    }
+    else if (canAssign && match(TOKEN_STAR_EQUAL))
+    {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_MULTIPLY);
+        emitBytes(setOp, (uint8_t)arg);
+    }
+    else if (canAssign && match(TOKEN_SLASH_EQUAL))
+    {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_DIVIDE);
+        emitBytes(setOp, (uint8_t)arg);
+    }
+    else if (canAssign && match(TOKEN_MODULO_EQUAL))
+    {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_MODULO);
+        emitBytes(setOp, (uint8_t)arg);
+    }
+    else if (canAssign && match(TOKEN_STAR_STAR_EQUAL))
+    {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_EXPONENT);
+        emitBytes(setOp, (uint8_t)arg);
+    }
     else
     {
         emitBytes(getOp, (uint8_t)arg);
     }
 }
 
-// compiles a number expression
+// compiles a number literal expression
 static void number(bool canAssign)
 {
     double value = strtod(parser.previous.start, NULL);

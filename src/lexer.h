@@ -6,90 +6,104 @@
 // Tokens of the language
 typedef enum
 {
-  // (
-  TOKEN_LEFT_PAREN,
-  // )
-  TOKEN_RIGHT_PAREN,
-  // {
-  TOKEN_LEFT_BRACE,
-  // }
-  TOKEN_RIGHT_BRACE,
+  // and
+  TOKEN_AND,
+  // !
+  TOKEN_BANG,
+  // !=
+  TOKEN_BANG_EQUAL,
+  // class
+  TOKEN_CLASS,
   // ,
   TOKEN_COMMA,
   // .
   TOKEN_DOT,
-  // -
-  TOKEN_MINUS,
-  // +
-  TOKEN_PLUS,
-  // ;
-  TOKEN_SEMICOLON,
-  // /
-  TOKEN_SLASH,
-  // *
-  TOKEN_STAR,
-  // !
-  TOKEN_BANG,
-  // >
-  TOKEN_GREATER,
-  // <
-  TOKEN_LESS,
-  // =
-  TOKEN_EQUAL,
-  // %
-  TOKEN_MOODULO,
-  // !=
-  TOKEN_BANG_EQUAL,
-  // ==
-  TOKEN_EQUAL_EQUAL,
-  // >=
-  TOKEN_GREATER_EQUAL,
-  // <=
-  TOKEN_LESS_EQUAL,
-  // An identifier e.g. for the variable named x
-  TOKEN_IDENTIFIER,
-  // A string literal e.g. "Hello World!"
-  TOKEN_STRING,
-  // A number literal e.g. 5.3
-  TOKEN_NUMBER,
-  // Boolean literal true
-  TOKEN_TRUE,
-  // Boolean literal false
-  TOKEN_FALSE,
-  // literal nil-value/null-value/undefiened value
-  TOKEN_NULL,
-  // and
-  TOKEN_AND,
-  // class
-  TOKEN_CLASS,
+  // Used for inheritance
+  TOKEN_DOUBLEDOT,
   // else
   TOKEN_ELSE,
+  /// Used to mark the end of the file
+  TOKEN_EOF,
+  // =
+  TOKEN_EQUAL,
+  // ==
+  TOKEN_EQUAL_EQUAL,
+  // Used to mark an error in the parsing process
+  TOKEN_ERROR,
+  // Boolean literal false
+  TOKEN_FALSE,
   // for
   TOKEN_FOR,
   // fun
   TOKEN_FUN,
+  // >
+  TOKEN_GREATER,
+  // >=
+  TOKEN_GREATER_EQUAL,
+  // An identifier e.g. for the variable named x
+  TOKEN_IDENTIFIER,
   // if
   TOKEN_IF,
+  // {
+  TOKEN_LEFT_BRACE,
+  // (
+  TOKEN_LEFT_PAREN,
+  // <
+  TOKEN_LESS,
+  // <=
+  TOKEN_LESS_EQUAL,
+  // -
+  TOKEN_MINUS,
+  // -=
+  TOKEN_MINUS_EQUAL,
+  // %
+  TOKEN_MODULO,
+  // %=
+  TOKEN_MODULO_EQUAL,
+  // literal nil-value/null-value/undefiened value
+  TOKEN_NULL,
+  // A number literal e.g. 5.3
+  TOKEN_NUMBER,
   // or
   TOKEN_OR,
   // print
   TOKEN_PRINT,
   // return
   TOKEN_RETURN,
+  // }
+  TOKEN_RIGHT_BRACE,
+  // )
+  TOKEN_RIGHT_PAREN,
+  // +
+  TOKEN_PLUS,
+  // +=
+  TOKEN_PLUS_EQUAL,
+  // ;
+  TOKEN_SEMICOLON,
+  // /
+  TOKEN_SLASH,
+  // /=
+  TOKEN_SLASH_EQUAL,
+  // *
+  TOKEN_STAR,
+  // *=
+  TOKEN_STAR_EQUAL,
+  // **
+  TOKEN_STAR_STAR,
+  // **=
+  TOKEN_STAR_STAR_EQUAL,
+  // A string literal e.g. "Hello World!"
+  TOKEN_STRING,
   // super
   TOKEN_SUPER,
   // this
   TOKEN_THIS,
+  // Boolean literal true
+  TOKEN_TRUE,
   // var
   TOKEN_VAR,
   // while
   TOKEN_WHILE,
-  // Used for inheritance
-  TOKEN_DOUBLEDOT,
-  // Used to mark an error in the parsing process
-  TOKEN_ERROR,
-  /// Used to mark the end of the file
-  TOKEN_EOF,
 } TokenType;
 
 // Type definition of the lexer

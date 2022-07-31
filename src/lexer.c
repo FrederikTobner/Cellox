@@ -76,13 +76,50 @@ Token scanToken()
     case '.':
         return makeToken(TOKEN_DOT);
     case '-':
-        return makeToken(TOKEN_MINUS);
+        return makeToken(match('=') ? TOKEN_MINUS_EQUAL : TOKEN_MINUS);
     case '+':
-        return makeToken(TOKEN_PLUS);
+        return makeToken(match('=') ? TOKEN_PLUS_EQUAL : TOKEN_PLUS);
     case '/':
-        return makeToken(TOKEN_SLASH);
+        if (match('/'))
+        {
+            while (!match('\n'))
+            {
+                advance();
+            }
+            return scanToken();
+        }
+        else if (match('*'))
+        {
+            uint32_t scopeDepth = 1;
+            while (scopeDepth)
+            {
+                if (match('*') && match('/'))
+                {
+                    scopeDepth--;
+                }
+                else if (match('/') && match('*'))
+                {
+                    scopeDepth++;
+                }
+                advance();
+            }
+            return scanToken();
+        }
+        return makeToken(
+            match('=') ? TOKEN_SLASH_EQUAL : TOKEN_SLASH);
     case '*':
-        return makeToken(TOKEN_STAR);
+        if (match('*'))
+        {
+            return makeToken(match('=') ? TOKEN_STAR_STAR_EQUAL : TOKEN_STAR_STAR);
+        }
+        else if (match('='))
+        {
+            return makeToken(TOKEN_STAR_EQUAL);
+        }
+        else
+        {
+            return makeToken(TOKEN_STAR);
+        }
     case '!':
         return makeToken(
             match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
@@ -100,7 +137,8 @@ Token scanToken()
         return makeToken(
             match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
     case '%':
-        return makeToken(TOKEN_MOODULO);
+        return makeToken(
+            match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
     case '|':
         return match('|') ? makeToken(TOKEN_OR) : errorToken("There is no bitwise or in cellox");
     case '&':
@@ -233,6 +271,7 @@ static Token makeToken(TokenType type)
     Token token;
     token.type = type;
     token.start = lexer.start;
+    // TODO: if the token is of the type string include escape sequences
     token.length = (int32_t)(lexer.current - lexer.start);
     token.line = lexer.line;
     return token;

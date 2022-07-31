@@ -1,5 +1,6 @@
 #include "vm.h"
 
+#include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -603,7 +604,23 @@ so all the statements in it get executed if they are after an if 🤮 */
             else
             {
                 runtimeError(
-                    "Operands must be two numbers or two strings.");
+                    "Operands must be two numbers");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            break;
+        }
+        case OP_EXPONENT:
+        {
+            if (IS_NUMBER(peek(0)) && IS_NUMBER(peek(1)))
+            {
+                int b = AS_NUMBER(pop());
+                int a = AS_NUMBER(pop());
+                push(NUMBER_VAL(pow(a, b)));
+            }
+            else
+            {
+                runtimeError(
+                    "Operands must be two numbers");
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
