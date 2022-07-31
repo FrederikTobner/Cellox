@@ -53,7 +53,7 @@ print "test\n";
 var a = 5;
 print a = a - 3;
 list.printList();
-print 5 ** 2;
+print a **= 2;
 var i = 10;
 i **= 2;
 /*
@@ -67,4 +67,4 @@ Hi
 */
 Ho
 */
-print i;
+print -i;

@@ -78,7 +78,12 @@ Token scanToken()
     case '-':
         return makeToken(match('=') ? TOKEN_MINUS_EQUAL : TOKEN_MINUS);
     case '+':
-        return makeToken(match('=') ? TOKEN_PLUS_EQUAL : TOKEN_PLUS);
+        if (match('='))
+            return makeToken(TOKEN_PLUS_EQUAL);
+        else if (match('+'))
+        {
+        }
+        return makeToken(TOKEN_PLUS);
     case '/':
         if (match('/'))
         {

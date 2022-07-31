@@ -27,14 +27,14 @@ typedef struct
 typedef enum
 {
     PREC_NONE,
-    PREC_ASSIGNMENT, // =
-    PREC_OR,         // or
-    PREC_AND,        // and
+    PREC_ASSIGNMENT, // = += -= *= /= %= **=
+    PREC_OR,         // or ||
+    PREC_AND,        // and  &&
     PREC_EQUALITY,   // == !=
     PREC_COMPARISON, // < > <= >=
     PREC_TERM,       // + -
-    PREC_FACTOR,     // * /
-    PREC_UNARY,      // ! -
+    PREC_FACTOR,     // * / % **
+    PREC_UNARY,      // ! - ++x, --x
     PREC_CALL,       // . ()
     PREC_PRIMARY
 } Precedence;
@@ -148,6 +148,7 @@ static uint8_t makeConstant(Value);
 static bool match(TokenType);
 static void method();
 static void namedVariable(Token, bool);
+static void nonDirectAssignment(uint8_t, uint8_t, uint8_t, int32_t);
 static void number(bool);
 static void or_(bool);
 static void parsePrecedence(Precedence);
@@ -615,7 +616,7 @@ static void emitReturn()
     emitByte(OP_RETURN);
 }
 
-// yields a newly created function object
+// yields a newly created function object after the compilation process finished
 static ObjectFunction *endCompiler()
 {
     emitReturn();
@@ -975,50 +976,40 @@ static void namedVariable(Token name, bool canAssign)
     }
     else if (canAssign && match(TOKEN_PLUS_EQUAL))
     {
-        emitBytes(getOp, (uint8_t)arg);
-        expression();
-        emitByte(OP_ADD);
-        emitBytes(setOp, (uint8_t)arg);
+        nonDirectAssignment(OP_ADD, getOp, setOp, arg);
     }
     else if (canAssign && match(TOKEN_MINUS_EQUAL))
     {
-        emitBytes(getOp, (uint8_t)arg);
-        expression();
-        emitByte(OP_SUBTRACT);
-        emitBytes(setOp, (uint8_t)arg);
+        nonDirectAssignment(OP_SUBTRACT, getOp, setOp, arg);
     }
     else if (canAssign && match(TOKEN_STAR_EQUAL))
     {
-        emitBytes(getOp, (uint8_t)arg);
-        expression();
-        emitByte(OP_MULTIPLY);
-        emitBytes(setOp, (uint8_t)arg);
+        nonDirectAssignment(OP_MULTIPLY, getOp, setOp, arg);
     }
     else if (canAssign && match(TOKEN_SLASH_EQUAL))
     {
-        emitBytes(getOp, (uint8_t)arg);
-        expression();
-        emitByte(OP_DIVIDE);
-        emitBytes(setOp, (uint8_t)arg);
+        nonDirectAssignment(OP_DIVIDE, getOp, setOp, arg);
     }
     else if (canAssign && match(TOKEN_MODULO_EQUAL))
     {
-        emitBytes(getOp, (uint8_t)arg);
-        expression();
-        emitByte(OP_MODULO);
-        emitBytes(setOp, (uint8_t)arg);
+        nonDirectAssignment(OP_MODULO, getOp, setOp, arg);
     }
     else if (canAssign && match(TOKEN_STAR_STAR_EQUAL))
     {
-        emitBytes(getOp, (uint8_t)arg);
-        expression();
-        emitByte(OP_EXPONENT);
-        emitBytes(setOp, (uint8_t)arg);
+        nonDirectAssignment(OP_EXPONENT, getOp, setOp, arg);
     }
     else
     {
         emitBytes(getOp, (uint8_t)arg);
     }
+}
+
+static void nonDirectAssignment(uint8_t assignmentType, uint8_t getOp, uint8_t setOp, int32_t arg)
+{
+    emitBytes(getOp, (uint8_t)arg);
+    expression();
+    emitByte(assignmentType);
+    emitBytes(setOp, (uint8_t)arg);
 }
 
 // compiles a number literal expression
