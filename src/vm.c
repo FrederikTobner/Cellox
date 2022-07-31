@@ -3,12 +3,12 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
 
 #include "common.h"
 #include "compiler.h"
 #include "debug.h"
 #include "memory.h"
+#include "nativeFun.h"
 #include "value.h"
 
 // Global VM variable
@@ -18,11 +18,11 @@ static bool bindMethod(ObjectClass *, ObjectString *);
 static bool call(ObjectClosure *, int32_t);
 static bool callValue(Value, int32_t);
 static ObjectUpvalue *captureUpvalue(Value *);
-static Value clockNative(int32_t, Value *);
 static void closeUpvalues(Value *);
 static void concatenate();
 static void defineMethod(ObjectString *);
 static void defineNative(const char *, NativeFn);
+static void defineNatives();
 static bool invoke(ObjectString *, int);
 static bool invokeFromClass(ObjectClass *, ObjectString *, int);
 static bool isFalsey(Value);
@@ -44,7 +44,7 @@ void initVM()
     resetStack();
     vm.objects = NULL;
     vm.bytesAllocated = 0;
-    vm.nextGC = 1024 * 1024;
+    vm.nextGC = (1 << 20);
     vm.grayCount = 0;
     vm.grayCapacity = 0;
     vm.grayStack = NULL;
@@ -55,7 +55,13 @@ void initVM()
     vm.initString = NULL;
     vm.initString = copyString("init", 4);
     // defines the native functions supported by the virtual machine
+    defineNatives();
+}
+
+static void defineNatives()
+{
     defineNative("clock", clockNative);
+    defineNative("random", randomNative);
 }
 
 InterpretResult interpret(const char *source)
@@ -194,12 +200,6 @@ static ObjectUpvalue *captureUpvalue(Value *local)
         prevUpvalue->next = createdUpvalue;
     }
     return createdUpvalue;
-}
-
-// Native clock function
-static Value clockNative(int32_t argCount, Value *args)
-{
-    return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
 
 /* Function takes a slot of the stack as a parameter.
@@ -582,9 +582,23 @@ so all the statements in it get executed if they are after an if 🤮 */
             }
             else if (IS_NUMBER(peek(0)) && IS_NUMBER(peek(1)))
             {
-                double b = AS_NUMBER(pop());
-                double a = AS_NUMBER(pop());
-                push(NUMBER_VAL(a + b));
+                BINARY_OP(NUMBER_VAL, +);
+            }
+            else
+            {
+                runtimeError(
+                    "Operands must be two numbers or two strings.");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            break;
+        }
+        case OP_MODULO:
+        {
+            if (IS_NUMBER(peek(0)) && IS_NUMBER(peek(1)))
+            {
+                int b = AS_NUMBER(pop());
+                int a = AS_NUMBER(pop());
+                push(NUMBER_VAL(a % b));
             }
             else
             {
@@ -676,8 +690,7 @@ static void runtimeError(const char *format, ...)
         CallFrame *frame = &vm.frames[i];
         ObjectFunction *function = frame->closure->function;
         size_t instruction = frame->ip - function->chunk.code - 1;
-        fprintf(stderr, "[line %d] in ",
-                function->chunk.lines[instruction]);
+        fprintf(stderr, "[line %d] in ", function->chunk.lines[instruction]);
         if (function->name == NULL)
         {
             fprintf(stderr, "script\n");

@@ -13,7 +13,9 @@ src/debug.h
 src/lexer.c 
 src/lexer.h
 src/memory.c 
-src/memory.h 
+src/memory.h
+src/nativeFun.c
+src/nativeFun.h
 src/object.c 
 src/object.h
 src/table.c

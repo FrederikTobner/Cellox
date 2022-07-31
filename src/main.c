@@ -8,7 +8,7 @@
 #include "vm.h"
 
 // Maximum length of a line is 1024 characters
-#define MAX_LINE_LENGTH 1024
+#define MAX_LINE_LENGTH (1 << 10)
 
 // Reads a lox program from a file
 static char *readFile(const char *);

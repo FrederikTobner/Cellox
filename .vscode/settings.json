@@ -5,6 +5,11 @@
     "stdio.h": "c",
     "typeinfo": "c",
     "lexer.h": "c",
-    "type_traits": "c"
+    "type_traits": "c",
+    "stdlib.h": "c",
+    "nativefunctions.h": "c",
+    "compiler.h": "c",
+    "common.h": "c",
+    "cstdlib": "c"
   },
 }

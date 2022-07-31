@@ -36,6 +36,8 @@ typedef enum
   TOKEN_LESS,
   // =
   TOKEN_EQUAL,
+  // %
+  TOKEN_MOODULO,
   // !=
   TOKEN_BANG_EQUAL,
   // ==
@@ -90,7 +92,7 @@ typedef enum
   TOKEN_EOF,
 } TokenType;
 
-// Type definition of the scanner
+// Type definition of the lexer
 typedef struct
 {
   TokenType type;
@@ -99,8 +101,8 @@ typedef struct
   int32_t line;
 } Token;
 
-// Initializes the scanner
-void initScanner(const char *source);
+// Initializes the lexer
+void initLexer(const char *source);
 
 // Scans the next token in the sourcecode and saves it in a linear sequence of tokens
 Token scanToken();

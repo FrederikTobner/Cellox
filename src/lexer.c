@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-// Type definition of a scanner/lexer stucture
+// Type definition of a lexer/lexer stucture
 typedef struct
 {
     // Pointer to the start of the current line where the lexical analysis is performed
@@ -12,10 +12,10 @@ typedef struct
     const char *current;
     // Line counter - used for error reporting
     int32_t line;
-} Scanner;
+} Lexer;
 
-// Global Scanner variable
-Scanner scanner;
+// Global Lexer variable
+Lexer lexer;
 
 static char advance();
 static TokenType checkKeyword(int32_t start, int32_t length, const char *rest, TokenType type);
@@ -33,17 +33,17 @@ static char peekNext();
 static void skipWhitespace();
 static Token string();
 
-void initScanner(const char *source)
+void initLexer(const char *source)
 {
-    scanner.start = source;
-    scanner.current = source;
-    scanner.line = 1;
+    lexer.start = source;
+    lexer.current = source;
+    lexer.line = 1;
 }
 
 Token scanToken()
 {
     skipWhitespace();
-    scanner.start = scanner.current;
+    lexer.start = lexer.current;
 
     if (isAtEnd())
     {
@@ -99,6 +99,12 @@ Token scanToken()
     case '>':
         return makeToken(
             match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
+    case '%':
+        return makeToken(TOKEN_MOODULO);
+    case '|':
+        return match('|') ? makeToken(TOKEN_OR) : errorToken("There is no bitwise or in cellox");
+    case '&':
+        return match('&') ? makeToken(TOKEN_AND) : errorToken("There is no bitwise and in cellox");
     }
     return errorToken("Unexpected character.");
 }
@@ -106,15 +112,15 @@ Token scanToken()
 // Advances a position further in the sourceCode and returns the prevoius Token
 static char advance()
 {
-    scanner.current++;
-    return scanner.current[-1];
+    lexer.current++;
+    return lexer.current[-1];
 }
 
 // Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
 static TokenType checkKeyword(int32_t start, int32_t length, const char *rest, TokenType type)
 {
-    if (scanner.current - scanner.start == start + length &&
-        memcmp(scanner.start + start, rest, length) == 0)
+    if (lexer.current - lexer.start == start + length &&
+        memcmp(lexer.start + start, rest, length) == 0)
     {
         return type;
     }
@@ -129,7 +135,7 @@ static Token errorToken(const char *message)
     token.type = TOKEN_ERROR;
     token.start = message;
     token.length = (int32_t)strlen(message);
-    token.line = scanner.line;
+    token.line = lexer.line;
     return token;
 }
 
@@ -146,7 +152,7 @@ static Token identifier()
 // Creates a new identifier token or a reserved keyword
 static TokenType identifierType()
 {
-    switch (scanner.start[0])
+    switch (lexer.start[0])
     {
     case 'a':
         return checkKeyword(1, 2, "nd", TOKEN_AND);
@@ -155,10 +161,10 @@ static TokenType identifierType()
     case 'e':
         return checkKeyword(1, 3, "lse", TOKEN_ELSE);
     case 'f':
-        if (scanner.current - scanner.start > 1)
+        if (lexer.current - lexer.start > 1)
         {
             // Switch for the branches coming of the 'f' node (a -> 'false', o -> 'for' and u -> 'fun')
-            switch (scanner.start[1])
+            switch (lexer.start[1])
             {
             case 'a':
                 return checkKeyword(2, 3, "lse", TOKEN_FALSE);
@@ -182,10 +188,10 @@ static TokenType identifierType()
     case 's':
         return checkKeyword(1, 4, "uper", TOKEN_SUPER);
     case 't':
-        if (scanner.current - scanner.start > 1)
+        if (lexer.current - lexer.start > 1)
         {
             // Switch for the branches coming of the t node (h -> this and r -> true)
-            switch (scanner.start[1])
+            switch (lexer.start[1])
             {
             case 'h':
                 return checkKeyword(2, 2, "is", TOKEN_THIS);
@@ -218,7 +224,7 @@ static bool isDigit(char c)
 // Determines wheather we reached the end in the sourceCode
 static bool isAtEnd()
 {
-    return *scanner.current == '\0';
+    return *lexer.current == '\0';
 }
 
 // Creates a new Token of a given type
@@ -226,20 +232,20 @@ static Token makeToken(TokenType type)
 {
     Token token;
     token.type = type;
-    token.start = scanner.start;
-    token.length = (int32_t)(scanner.current - scanner.start);
-    token.line = scanner.line;
+    token.start = lexer.start;
+    token.length = (int32_t)(lexer.current - lexer.start);
+    token.line = lexer.line;
     return token;
 }
 
-// Matches the character at the current position of the scanner in the sourcecode with a given character
+// Matches the character at the current position of the lexer in the sourcecode with a given character
 static bool match(char expected)
 {
     if (isAtEnd())
         return false;
-    if (*scanner.current != expected)
+    if (*lexer.current != expected)
         return false;
-    scanner.current++;
+    lexer.current++;
     return true;
 }
 
@@ -267,7 +273,7 @@ static Token number()
 /// Returns the char at the current position
 static char peek()
 {
-    return *scanner.current;
+    return *lexer.current;
 }
 
 // Returns the char one position ahead of the current Position
@@ -275,7 +281,7 @@ static char peekNext()
 {
     if (isAtEnd())
         return '\0';
-    return scanner.current[1];
+    return lexer.current[1];
 }
 
 // Skips whitespaces, linebreaks, carriage returns comments an tabstobs
@@ -294,7 +300,7 @@ static void skipWhitespace()
             break;
         case '\n':
             // Linecounter will increase on a linefeed
-            scanner.line++;
+            lexer.line++;
             advance();
             break;
         case '/':
@@ -323,7 +329,7 @@ static Token string()
     while (peek() != '"' && !isAtEnd())
     {
         if (peek() == '\n')
-            scanner.line++;
+            lexer.line++;
         advance();
     }
 

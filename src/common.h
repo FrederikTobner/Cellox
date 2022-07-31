@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 // Number of values in a dynamic array (used for upvalues and locals)
-#define UINT8_COUNT (256)
+#define UINT8_COUNT (1 << 8)
 
 // Flag for enabeling NAN boxing / NAN tagging
 #define NAN_BOXING

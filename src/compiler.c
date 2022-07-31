@@ -170,7 +170,7 @@ static void whileStatement();
 
 ObjectFunction *compile(const char *source)
 {
-    initScanner(source);
+    initLexer(source);
     Compiler compiler;
     initCompiler(&compiler, TYPE_SCRIPT);
     parser.hadError = false;
@@ -205,6 +205,7 @@ ParseRule rules[] = {
     [TOKEN_DOT] = {NULL, dot, PREC_CALL},
     [TOKEN_MINUS] = {unary, binary, PREC_TERM},
     [TOKEN_PLUS] = {NULL, binary, PREC_TERM},
+    [TOKEN_MOODULO] = {NULL, binary, PREC_TERM},
     [TOKEN_SEMICOLON] = {NULL, NULL, PREC_NONE},
     [TOKEN_SLASH] = {NULL, binary, PREC_FACTOR},
     [TOKEN_STAR] = {NULL, binary, PREC_FACTOR},
@@ -368,6 +369,9 @@ static void binary(bool canAssign)
         break;
     case TOKEN_SLASH:
         emitByte(OP_DIVIDE);
+        break;
+    case TOKEN_MOODULO:
+        emitByte(OP_MODULO);
         break;
     default:
         return; // Unreachable.

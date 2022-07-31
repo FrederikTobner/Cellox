@@ -46,7 +46,11 @@ class SingleLinkedList
 }
 
 var list = SingleLinkedList();
-list.addLast(5);
-list.addLast(10);
-list.addLast(15);
+list.addLast(random());
+list.addLast(random());
+list.addLast(random());
+print "test\n";
+var a = 5;
+print a = a + 3;
 list.printList();
+print 5 % 2;
