@@ -6,7 +6,7 @@
 #include "memory.h"
 #include "object.h"
 
-// The max load factor of the hashtable, once it is reached the hashtable grows
+// The max load factor of the hashtable, if the max load factor multiplied with the capacity is reached is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
 
 static void adjustCapacity(Table *, int32_t);
@@ -75,7 +75,7 @@ ObjectString *tableFindString(Table *table, const char *chars, int32_t length, u
         if (entry->key == NULL)
         {
             // Stop if we find an empty non-tombstone entry.
-            if (IS_NIL(entry->value))
+            if (IS_NULL(entry->value))
                 return NULL;
         }
         else if (entry->key->length == length &&
@@ -109,9 +109,7 @@ void tableRemoveWhite(Table *table)
     {
         Entry *entry = &table->entries[i];
         if (entry->key != NULL && !entry->key->obj.isMarked)
-        {
             tableDelete(table, entry->key);
-        }
     }
 }
 
@@ -126,7 +124,7 @@ bool tableSet(Table *table, ObjectString *key, Value value)
 
     Entry *entry = findEntry(table->entries, table->capacity, key);
     bool isNewKey = entry->key == NULL;
-    if (isNewKey && IS_NIL(entry->value))
+    if (isNewKey && IS_NULL(entry->value))
         table->count++;
 
     entry->key = key;
@@ -141,7 +139,7 @@ static void adjustCapacity(Table *table, int32_t capacity)
     for (int32_t i = 0; i < capacity; i++)
     {
         entries[i].key = NULL;
-        entries[i].value = NIL_VAL;
+        entries[i].value = NULL_VAL;
     }
     table->count = 0;
     for (int32_t i = 0; i < table->capacity; i++)
@@ -171,22 +169,23 @@ static Entry *findEntry(Entry *entries, int32_t capacity, ObjectString *key)
         Entry *entry = &entries[index];
         if (entry->key == NULL)
         {
-            if (IS_NIL(entry->value))
-            {
+            if (IS_NULL(entry->value))
                 // Empty entry.
                 return tombstone != NULL ? tombstone : entry;
-            }
             else
             {
-                /* We found a tombstone.
-                A tombstone marks the slot of a value that has already been deleted */
+                /* We found a tombstone. 😱
+                 * A tombstone marks the slot of a value that has already been deleted.
+                 * This is done so because when we look up an entry that has been moved by a collision,
+                 * the entry that has occupied the slot where the collision occured has been deleted,
+                 * so we need a value to indicate that another value prevouisly occupied the slot so we don't stop looking for the entry*/
                 if (tombstone == NULL)
                     tombstone = entry;
             }
         }
         else if (entry->key == key)
         {
-            // We found the key.
+            // We found the key 🔑
             return entry;
         }
         index = (index + 1) % capacity;

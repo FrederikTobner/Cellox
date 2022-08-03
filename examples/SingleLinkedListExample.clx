@@ -45,6 +45,8 @@ class SingleLinkedList
 	}
 }
 
+
+
 var list = SingleLinkedList();
 list.addLast(random());
 list.addLast(random());
@@ -67,4 +69,3 @@ Hi
 */
 Ho
 */
-print -i;

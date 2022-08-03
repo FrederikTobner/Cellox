@@ -88,7 +88,7 @@ ObjectUpvalue *newUpvalue(Value *slot)
     // Allocating the memory used by the upvalue
     ObjectUpvalue *upvalue = ALLOCATE_OBJECT(ObjectUpvalue, OBJ_UPVALUE);
     // We zero out the closed field of the upvalue when we create it
-    upvalue->closed = NIL_VAL;
+    upvalue->closed = NULL_VAL;
     // Adress of the slot where the closed over variables live (enclosing environment)
     upvalue->location = slot;
     // When we allocate a new upvalue, it is not attached to any list
@@ -149,7 +149,7 @@ static ObjectString *allocateString(char *chars, int32_t length, uint32_t hash)
     string->hash = hash;
     push(OBJECT_VAL(string));
     // Adds the string to hashtable storing all the strings allocated by the vm
-    tableSet(&vm.strings, string, NIL_VAL);
+    tableSet(&vm.strings, string, NULL_VAL);
     pop();
     return string;
 }

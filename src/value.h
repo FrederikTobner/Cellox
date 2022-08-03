@@ -25,8 +25,8 @@ typedef uint64_t Value;
 #define IS_BOOL(value) \
     (((value) | 1) == TRUE_VAL)
 // Makro that determines whether a value is nil
-#define IS_NIL(value) \
-    ((value) == NIL_VAL)
+#define IS_NULL(value) \
+    ((value) == NULL_VAL)
 // Makro that determines whether a value is of the type number
 #define IS_NUMBER(value) \
     (((value)&QNAN) != QNAN)
@@ -48,7 +48,7 @@ typedef uint64_t Value;
     ((Value)(uint64_t)(QNAN | TAG_FALSE))
 #define TRUE_VAL \
     ((Value)(uint64_t)(QNAN | TAG_TRUE))
-#define NIL_VAL \
+#define NULL_VAL \
     ((Value)(uint64_t)(QNAN | TAG_NIL))
 // Makro that returns the numerical value
 #define NUMBER_VAL(num) \
@@ -77,7 +77,7 @@ static inline double valueToNum(Value value)
 typedef enum
 {
     VAL_BOOL,
-    VAL_NIL,
+    VAL_NULL,
     VAL_NUMBER,
     VAL_OBJ
 } ValueType;
@@ -98,8 +98,8 @@ typedef struct
 #define IS_BOOL(value) \
     ((value).type == VAL_BOOL)
 // Makro that determines whether a value is of the type nil
-#define IS_NIL(value) \
-    ((value).type == VAL_NIL)
+#define IS_NULL(value) \
+    ((value).type == VAL_NULL)
 // Makro that determines whether a value is of the type number
 #define IS_NUMBER(value) \
     ((value).type == VAL_NUMBER)
@@ -121,8 +121,8 @@ typedef struct
 #define BOOL_VAL(value) \
     ((Value){VAL_BOOL, {.boolean = value}})
 // Makro that creates a nil value
-#define NIL_VAL \
-    ((Value){VAL_NIL, {.number = 0}})
+#define NULL_VAL \
+    ((Value){VAL_NULL, {.number = 0}})
 // Makro that creates a numerical value
 #define NUMBER_VAL(value) \
     ((Value){VAL_NUMBER, {.number = value}})

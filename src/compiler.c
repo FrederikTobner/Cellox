@@ -301,10 +301,8 @@ static void advance()
 static void and_(bool canAssign)
 {
     int32_t endJump = emitJump(OP_JUMP_IF_FALSE);
-
     emitByte(OP_POP);
     parsePrecedence(PREC_AND);
-
     patchJump(endJump);
 }
 
@@ -318,9 +316,7 @@ static uint8_t argumentList()
         {
             expression();
             if (argCount == 255)
-            {
                 error("Can't have more than 255 arguments.");
-            }
             argCount++;
         } while (match(TOKEN_COMMA));
     }

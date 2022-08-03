@@ -70,7 +70,6 @@ InterpretResult interpret(const char *source)
     ObjectFunction *function = compile(source);
     if (function == NULL)
         return INTERPRET_COMPILE_ERROR;
-
     push(OBJECT_VAL(function));
     ObjectClosure *closure = newClosure(function);
     pop();
@@ -99,9 +98,7 @@ static bool bindMethod(ObjectClass *celloxClass, ObjectString *name)
         runtimeError("Undefined property '%s'.", name->chars);
         return false;
     }
-
-    ObjectBoundMethod *bound = newBoundMethod(peek(0),
-                                              AS_CLOSURE(method));
+    ObjectBoundMethod *bound = newBoundMethod(peek(0), AS_CLOSURE(method));
     pop();
     push(OBJECT_VAL(bound));
     return true;
@@ -152,8 +149,7 @@ static bool callValue(Value callee, int32_t argCount)
             }
             else if (argCount != 0)
             {
-                runtimeError("Expected 0 arguments but got %d.",
-                             argCount);
+                runtimeError("Expected 0 arguments but got %d.", argCount);
                 return false;
             }
             return true;
@@ -187,19 +183,13 @@ static ObjectUpvalue *captureUpvalue(Value *local)
     }
 
     if (upvalue != NULL && upvalue->location == local)
-    {
         return upvalue;
-    }
     ObjectUpvalue *createdUpvalue = newUpvalue(local);
     createdUpvalue->next = upvalue;
     if (prevUpvalue == NULL)
-    {
         vm.openUpvalues = createdUpvalue;
-    }
     else
-    {
         prevUpvalue->next = createdUpvalue;
-    }
     return createdUpvalue;
 }
 
@@ -210,8 +200,7 @@ static ObjectUpvalue *captureUpvalue(Value *local)
  */
 static void closeUpvalues(Value *last)
 {
-    while (vm.openUpvalues != NULL &&
-           vm.openUpvalues->location >= last)
+    while (vm.openUpvalues != NULL && vm.openUpvalues->location >= last)
     {
         ObjectUpvalue *upvalue = vm.openUpvalues;
         upvalue->closed = *upvalue->location;
@@ -288,7 +277,7 @@ static bool invokeFromClass(ObjectClass *celloxClass, ObjectString *name, int ar
 // Determines if a value is falsey (either nil or false)
 static bool isFalsey(Value value)
 {
-    return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
+    return IS_NULL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
 
 // Retuns the Value on top of the stack without poping it
@@ -453,7 +442,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         }
         case OP_NULL:
-            push(NIL_VAL);
+            push(NULL_VAL);
             break;
         case OP_POP:
             pop();

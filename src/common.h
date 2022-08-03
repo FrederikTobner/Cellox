@@ -26,6 +26,6 @@ Should only be used for debugging*/
 //#define DEBUG_LOG_GC
 
 // Flag for tracing the execution, can be removed if you want to disable it
-#define DEBUG_TRACE_EXECUTION
+//#define DEBUG_TRACE_EXECUTION
 
 #endif

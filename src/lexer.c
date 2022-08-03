@@ -46,18 +46,12 @@ Token scanToken()
     lexer.start = lexer.current;
 
     if (isAtEnd())
-    {
         return makeToken(TOKEN_EOF);
-    }
     char c = advance();
     if (isAlpha(c))
-    {
         return identifier();
-    }
     if (isDigit(c))
-    {
         return number();
-    }
 
     switch (c)
     {
@@ -80,33 +74,28 @@ Token scanToken()
     case '+':
         if (match('='))
             return makeToken(TOKEN_PLUS_EQUAL);
-        else if (match('+'))
-        {
-        }
         return makeToken(TOKEN_PLUS);
     case '/':
         if (match('/'))
         {
             while (!match('\n'))
-            {
                 advance();
-            }
+            lexer.line++;
             return scanToken();
         }
         else if (match('*'))
         {
-            uint32_t scopeDepth = 1;
-            while (scopeDepth)
+            uint32_t commentDepth = 1;
+            while (commentDepth)
             {
                 if (match('*') && match('/'))
-                {
-                    scopeDepth--;
-                }
+                    commentDepth--;
                 else if (match('/') && match('*'))
-                {
-                    scopeDepth++;
-                }
-                advance();
+                    commentDepth++;
+                else if (match('\n'))
+                    lexer.line++;
+                else
+                    advance();
             }
             return scanToken();
         }
@@ -114,17 +103,11 @@ Token scanToken()
             match('=') ? TOKEN_SLASH_EQUAL : TOKEN_SLASH);
     case '*':
         if (match('*'))
-        {
             return makeToken(match('=') ? TOKEN_STAR_STAR_EQUAL : TOKEN_STAR_STAR);
-        }
         else if (match('='))
-        {
             return makeToken(TOKEN_STAR_EQUAL);
-        }
         else
-        {
             return makeToken(TOKEN_STAR);
-        }
     case '!':
         return makeToken(
             match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
