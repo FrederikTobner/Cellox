@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "object.h"
 #include "vm.h"
@@ -14,16 +15,42 @@ static Object *allocateObject(size_t, ObjectType);
 static ObjectString *allocateString(char *, int32_t, uint32_t);
 static uint32_t hashString(const char *, int32_t);
 static void printFunction(ObjectFunction *);
+static void resolveEscapeSequence(char *next, int *length);
 
 ObjectString *copyString(const char *chars, int32_t length)
 {
     uint32_t hash = hashString(chars, length);
     ObjectString *interned = tableFindString(&vm.strings, chars, length, hash);
-    if (interned != NULL)
+    if (interned)
         return interned;
     char *heapChars = ALLOCATE(char, length + 1);
     memcpy(heapChars, chars, length);
     heapChars[length] = '\0';
+    char *next = NULL;
+    bool containsEscapeSequences = false;
+    while (next = strstr(heapChars, "\\"))
+    {
+        resolveEscapeSequence(next, &length);
+        if (!containsEscapeSequences)
+            containsEscapeSequences = true;
+    }
+    if (containsEscapeSequences)
+    {
+        // We have to look for duplicates again
+        hash = hashString(heapChars, length);
+        interned = tableFindString(&vm.strings, heapChars, length, hash);
+        if (interned)
+        {
+            free(heapChars);
+            return interned;
+        }
+        // Removes unnecassary allocated bytes
+        char *trimmedHeapChars = ALLOCATE(char, length + 1);
+        memcpy(trimmedHeapChars, heapChars, length);
+        trimmedHeapChars[length] = '\0';
+        free(heapChars);
+        heapChars = trimmedHeapChars;
+    }
     return allocateString(heapChars, length, hash);
 }
 
@@ -193,4 +220,31 @@ static void printFunction(ObjectFunction *function)
     }
     // A function
     printf("<fn %s>", function->name->chars);
+}
+
+// Resolves all the escape sequences inside a string literal
+static void resolveEscapeSequence(char *next, int *length)
+{
+    if (*(next + 1) == 'a')
+        *(next + 1) = '\a';
+    else if (*(next + 1) == 'b')
+        *(next + 1) = '\b';
+    else if (*(next + 1) == 'n')
+        *(next + 1) = '\n';
+    else if (*(next + 1) == 'r')
+        *(next + 1) = '\r';
+    else if (*(next + 1) == 't')
+        *(next + 1) = '\t';
+    else if (*(next + 1) == 'v')
+        *(next + 1) = '\v';
+    else if (!(*(next + 1) == '\"' || *(next + 1) == '\'' || *(next + 1) == '\\'))
+    {
+        printf("Unknown escape sequence \\%c", *(next + 1));
+        exit(65);
+    }
+    int j;
+    (*length)--;
+    for (j = 0; j < strlen(next); j++)
+        next[j] = next[j + 1];
+    next = '\0';
 }
