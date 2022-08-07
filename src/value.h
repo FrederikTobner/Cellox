@@ -1,5 +1,5 @@
-#ifndef clox_value_h
-#define clox_value_h
+#ifndef cellox_value_h
+#define cellox_value_h
 
 #include <string.h>
 
@@ -12,6 +12,7 @@ typedef struct ObjectString ObjectString;
 
 #define SIGN_BIT \
     ((uint64_t)0x8000000000000000)
+// quiet not a number 🤫
 #define QNAN \
     ((uint64_t)0x7ffc000000000000)
 

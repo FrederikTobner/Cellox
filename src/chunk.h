@@ -1,5 +1,5 @@
-#ifndef clox_chunk_h
-#define clox_chunk_h
+#ifndef cellox_chunk_h
+#define cellox_chunk_h
 
 #include "common.h"
 #include "value.h"
@@ -50,7 +50,7 @@ typedef enum
     // Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is less than the second number
     OP_LESS,
     OP_LOOP,
-    // Defines a new Method
+    // Calls a Method
     OP_METHOD,
     // Pops the two most upper values from the stack, divides the first with the second value and pushes the remainder of the division onto the stack
     OP_MODULO,

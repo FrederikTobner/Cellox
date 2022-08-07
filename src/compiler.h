@@ -1,5 +1,5 @@
-#ifndef clox_compiler_h
-#define clox_compiler_h
+#ifndef cellox_compiler_h
+#define cellox_compiler_h
 
 #include "object.h"
 

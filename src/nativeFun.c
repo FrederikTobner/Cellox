@@ -6,7 +6,6 @@
 #include "object.h"
 #include "value.h"
 
-// Native clock function - used for benchmarks
 Value clockNative(int32_t argCount, Value *args)
 {
     if (argCount > 0)

@@ -78,9 +78,7 @@ ObjectString *tableFindString(Table *table, const char *chars, int32_t length, u
             if (IS_NULL(entry->value))
                 return NULL;
         }
-        else if (entry->key->length == length &&
-                 entry->key->hash == hash &&
-                 memcmp(entry->key->chars, chars, length) == 0)
+        else if (entry->key->length == length && entry->key->hash == hash && memcmp(entry->key->chars, chars, length) == 0)
         {
             // We found the string
             return entry->key;

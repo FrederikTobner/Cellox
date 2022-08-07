@@ -1,5 +1,5 @@
-#ifndef clox_common_h
-#define clox_common_h
+#ifndef cellox_common_h
+#define cellox_common_h
 
 // Bool from the C99 standard
 #include <stdbool.h>

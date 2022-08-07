@@ -259,7 +259,6 @@ static Token makeToken(TokenType type)
     Token token;
     token.type = type;
     token.start = lexer.start;
-    // TODO: if the token is of the type string include escape sequences
     token.length = (int32_t)(lexer.current - lexer.start);
     token.line = lexer.line;
     return token;

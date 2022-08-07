@@ -1,5 +1,5 @@
-#ifndef clox_scanner_h
-#define clox_scanner_h
+#ifndef cellox_lexer_h
+#define cellox_lexer_h
 
 #include "common.h"
 
