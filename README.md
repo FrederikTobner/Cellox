@@ -1,6 +1,6 @@
 # Cellox
-Interpreter based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) -> The second Interpreter written in C <br/>
-It provides the following features:
-* a garbage collector
-* a virtual machine running its own bytecode instructions
-* an optimizing compiler    
+Interpreter based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) for the programming language cellox <br/>
+Cellox is a dynamically typed, object oriented, high-level scripting language based on the programming language [lox](https://craftinginterpreters.com/the-lox-language.html) from Robert Nystrom.
+<br/>
+The language provides automatic memory management using it's own garbage collector that uses the mark-and-sweep algorithm. <br/>
+A cellox program is converted into bytecode and executed by a stack based virtual machine.
