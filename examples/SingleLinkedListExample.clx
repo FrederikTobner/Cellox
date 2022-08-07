@@ -39,7 +39,7 @@ class SingleLinkedList
 		var current = this.head;
 		while(current != null)
 		{	
-      		print current.value;		
+			print current.value;		
 			current = current.nextNode;
 		}
 	}
@@ -58,6 +58,7 @@ list.printList();
 print a **= 2;
 var i = 10;
 i **= 2;
+print "test\nhey";
 /*
 Hey
 /*

@@ -1,0 +1,75 @@
+class Node
+{
+    init(value, left, right)
+    {
+        this.value = value;
+        this.left = left;
+        this.right = right;
+    }
+}
+class BinarySearchTree 
+{
+    init() 
+    {
+        this.rootNode = null;
+    }
+
+    add(x) 
+    {
+        if(this.rootNode == null) 
+        {
+            this.rootNode = Node(x, null, null);
+            return;
+        }
+        var node = this.rootNode;
+        for(;;) 
+        {
+            if(node.value == x) 
+            {
+                return;
+            }
+            if(node.value > x) 
+            {
+                if(node.left == null)
+                {
+                    node.left = Node(x, null, null);
+                    return;
+                }
+                node = node.left;            
+            }
+            else 
+            {
+                if(node.right == null) 
+                {
+                    node.right = Node(x, null, null);
+                    return;
+                }
+                node = node.right;            
+            }
+        }
+    }
+
+    printFromNode(node) 
+    {
+        if(node != null) 
+        {
+            this.printFromNode(node.left);
+            print node.value;
+            this.printFromNode(node.right);
+        }
+    }
+
+    printValues() 
+    {
+       this.printFromNode(this.rootNode);
+    }
+}
+
+var bst = BinarySearchTree();
+for(var i = 0;i < 10;i = i + 1)
+{
+    bst.add(random() % 100);
+}
+bst.printValues();
+print "test";
+print "test\nhey";

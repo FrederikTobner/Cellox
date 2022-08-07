@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/examples/SingleLinkedListExample.clx"
+                "${workspaceFolder}/examples/BinarySearchTreeExample.clx"
             ],
             "stopAtEntry": false,
             "externalConsole": true,
