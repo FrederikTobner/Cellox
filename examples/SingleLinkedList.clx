@@ -43,30 +43,40 @@ class SingleLinkedList
 			current = current.nextNode;
 		}
 	}
+
+	remove(value)
+	{
+		var current = this.head;
+		var prevoius = null;
+		while(current != null)
+		{	
+			if(current.value == value)
+			{
+				if(prevoius != null)
+				{
+					prevoius.nextNode = current.nextNode;
+				}
+				else
+				{
+					this.head = current.nextNode;
+				}
+			}
+			else
+			{
+				prevoius = current;		
+			}
+			current = current.nextNode;
+		}
+	}
 }
-
-
 
 var list = SingleLinkedList();
 list.addLast(random());
 list.addLast(random());
 list.addLast(random());
-print "test\n";
-var a = 5;
-print a = a - 3;
+list.addLast(1);
+list.addLast(1);
+list.addFirst(1);
 list.printList();
-print a **= 2;
-var i = 10;
-i **= 2;
-print "test\nhey";
-/*
-Hey
-/*
-Heda
-/*
-Test
-*/
-Hi
-*/
-Ho
-*/
+list.remove(1);
+list.printList();
