@@ -5,6 +5,7 @@
 #include "common.h"
 #include "chunk.h"
 #include "debug.h"
+#include "preProcessor.h"
 #include "vm.h"
 
 // Maximum length of a line is 1024 characters
@@ -98,6 +99,8 @@ static void repl()
             exit(0);
         }
         // Interprets the line
+        char *source = &line[0];
+        preProcess(&source);
         interpret(line);
     }
 }
@@ -105,6 +108,7 @@ static void repl()
 static void runFile(const char *path)
 {
     char *source = readFile(path);
+    preProcess(&source);
     InterpretResult result = interpret(source);
     free(source);
 
