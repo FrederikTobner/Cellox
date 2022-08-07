@@ -356,6 +356,8 @@ static Token string()
     {
         if (peek() == '\n')
             lexer.line++;
+        if (peek() == '\\')
+            advance();
         advance();
     }
 
