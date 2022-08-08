@@ -24,8 +24,8 @@ typedef struct
 // Type definition of a stackbased virtual machine
 typedef struct
 {
-    // Callframes of the virtual machine
-    CallFrame frames[FRAMES_MAX];
+    // Callstack of the virtual machine
+    CallFrame callStack[FRAMES_MAX];
     // The amount of callframes the vm currently holds
     int32_t frameCount;
     // Amount of objects in the virtual machine that are marked as gray -> objects that are already discovered but haven't been processed yet
@@ -40,13 +40,17 @@ typedef struct
     Table globals;
     // Hashtable that contains the strings
     Table strings;
+    // String "init" used to look up the initializer of a class - is reused for every init call
     ObjectString *initString;
+    // UpValues of the closures of all the functions on the callstack
     ObjectUpvalue *openUpvalues;
-    size_t bytesAllocated, // Number of bytes that have been allocated by the vm
-        nextGC;            // A treshhold when the next garbage Collection shall be triggered (e.g. a Megabyte)
+    // Number of bytes that have been allocated by the vm
+    size_t bytesAllocated;
+    // A treshhold when the next garbage Collection shall be triggered (e.g. a Megabyte)
+    size_t nextGC;
     // The objects that are allocated in the memory of the vm
     Object *objects;
-    // The stack that coontains all the gray objects
+    // The stack that contains all the gray objects
     Object **grayStack;
 } VM;
 

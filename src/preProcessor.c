@@ -12,6 +12,7 @@ typedef struct
     char *source;
 } PreProcessor;
 
+// Global preProcessor variable
 PreProcessor preProcessor;
 
 static void advance();

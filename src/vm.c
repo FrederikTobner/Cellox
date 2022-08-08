@@ -119,7 +119,7 @@ static bool call(ObjectClosure *closure, int32_t argCount)
         return false;
     }
 
-    CallFrame *frame = &vm.frames[vm.frameCount++];
+    CallFrame *frame = &vm.callStack[vm.frameCount++];
     frame->closure = closure;
     frame->ip = closure->function->chunk.code;
     frame->slots = vm.stackTop - argCount - 1;
@@ -196,7 +196,7 @@ static ObjectUpvalue *captureUpvalue(Value *local)
 /* Function takes a slot of the stack as a parameter.
  * Then it closes all upvalues it can find in that slot and the slots above that slot in the stack.
  * The concept of an upvalue is borrowed from Lua - see https://www.lua.org/pil/27.3.3.html.
- * A upvalue is closed by copying the objects value into the closed field in te ObjValue.
+ * A upvalue is closed by copying the objects value into the closed field in te ObjectValue.
  */
 static void closeUpvalues(Value *last)
 {
@@ -300,14 +300,12 @@ static InterpretResult run()
 #ifdef DEBUG_TRACE_EXECUTION
     printf("== execution ==\n");
 #endif
-    // Makro reads the next byte at the current positioon in the chunk
-    CallFrame *frame = &vm.frames[vm.frameCount - 1];
 
-#define READ_BYTE() (*frame->ip++)
+#define READ_BYTE() \
+    (*frame->ip++)
 
 #define READ_SHORT() \
-    (frame->ip += 2, \
-     (uint16_t)((frame->ip[-2] << 8) | frame->ip[-1]))
+    (frame->ip += 2, (uint16_t)((frame->ip[-2] << 8) | frame->ip[-1]))
 
 #define READ_CONSTANT() \
     (frame->closure->function->chunk.constants.values[READ_BYTE()])
@@ -329,6 +327,9 @@ so all the statements in it get executed if they are after an if 🤮 */
         double a = AS_NUMBER(pop());                    \
         push(valueType(a op b));                        \
     } while (false)
+
+    // Makro reads the next byte at the current positioon in the chunk
+    CallFrame *frame = &vm.callStack[vm.frameCount - 1];
 
     for (;;)
     {
@@ -380,7 +381,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 // Amount of arguments used to call a function is not correct
                 return INTERPRET_RUNTIME_ERROR;
             }
-            frame = &vm.frames[vm.frameCount - 1];
+            frame = &vm.callStack[vm.frameCount - 1];
             break;
         }
         case OP_INVOKE:
@@ -391,7 +392,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            frame = &vm.frames[vm.frameCount - 1];
+            frame = &vm.callStack[vm.frameCount - 1];
             break;
         }
         case OP_CLOSURE:
@@ -432,7 +433,7 @@ so all the statements in it get executed if they are after an if 🤮 */
 
             vm.stackTop = frame->slots;
             push(result);
-            frame = &vm.frames[vm.frameCount - 1];
+            frame = &vm.callStack[vm.frameCount - 1];
             break;
         }
         case OP_CONSTANT:
@@ -666,7 +667,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            frame = &vm.frames[vm.frameCount - 1];
+            frame = &vm.callStack[vm.frameCount - 1];
             break;
         }
         case OP_METHOD:
@@ -693,7 +694,7 @@ static void runtimeError(const char *format, ...)
     fputs("\n", stderr);
     for (int32_t i = vm.frameCount - 1; i >= 0; i--)
     {
-        CallFrame *frame = &vm.frames[i];
+        CallFrame *frame = &vm.callStack[i];
         ObjectFunction *function = frame->closure->function;
         size_t instruction = frame->ip - function->chunk.code - 1;
         fprintf(stderr, "[line %d] in ", function->chunk.lines[instruction]);

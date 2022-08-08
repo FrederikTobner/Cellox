@@ -38,7 +38,7 @@ int main(int argc, const char *argv[])
     }
     else
     {
-        // Too much arguments (>1)
+        // Too much arguments (>1) TODO: Add argumenrs for the compiler e.g. --analyze/-a, --store/-s and option to execute stored bytecode
         fprintf(stderr, "Usage: Cellox [path]\n");
         freeVM();
         exit(64);
@@ -72,7 +72,7 @@ static char *readFile(const char *path)
         exit(74);
     }
 
-    // We add null the end of the sourcecode to mark the end of the file
+    // We add null the end of the source-code to mark the end of the file
     buffer[bytesRead] = '\0';
 
     fclose(file);

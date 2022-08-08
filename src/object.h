@@ -1,5 +1,5 @@
-#ifndef clox_object_h
-#define clox_object_h
+#ifndef cellox_object_h
+#define cellox_object_h
 
 #include "chunk.h"
 #include "common.h"
@@ -57,9 +57,13 @@
 #define AS_CSTRING(value) \
     (((ObjectString *)AS_OBJECT(value))->chars)
 
+// Typedefinition of a native function
+typedef Value (*NativeFn)(int32_t argCount, Value *args);
+
 // Different type of objects
 typedef enum
 {
+    // A method the is bound to an object
     OBJ_BOUND_METHOD,
     // A instance of a cellox class
     OBJ_INSTANCE,
@@ -91,6 +95,7 @@ struct Object
 // struct containing the data that defines a cellox function
 typedef struct
 {
+    // Object that contains a reference to the function
     Object obj;
     // The number of arguments a function expects
     int32_t arity;
@@ -102,18 +107,19 @@ typedef struct
     ObjectString *name;
 } ObjectFunction;
 
-typedef Value (*NativeFn)(int32_t argCount, Value *args);
-
 // Type definition of a native function structure
 typedef struct
 {
+    // Object that contains a reference to the function
     Object obj;
+    // Reference to the native implementation in c
     NativeFn function;
 } ObjectNative;
 
 // ObjectString structure definition
 struct ObjectString
 {
+    // Object that contains a reference to the string
     Object obj;
     // The length of the string
     int32_t length;
@@ -126,6 +132,7 @@ struct ObjectString
 // Type definition of an object up-value structure (a local variable in an enclosing function)
 typedef struct ObjectUpvalue
 {
+    // Object that contains a refernce to the upvalue
     Object obj;
     // location of the upvalue in memory
     Value *location;
@@ -144,6 +151,7 @@ typedef struct ObjectUpvalue
  */
 typedef struct
 {
+    // Object that contains a refernce to the closure
     Object obj;
     ObjectFunction *function;
     ObjectUpvalue **upvalues;
@@ -153,6 +161,7 @@ typedef struct
 // Type definition of a class structure - a class in cellox
 typedef struct
 {
+    // Object that contains a refernce to the cellox class
     Object obj;
     ObjectString *name;
     Table methods;
@@ -161,6 +170,7 @@ typedef struct
 // Type definition of a cellox class instance
 typedef struct
 {
+    // Object that contains a refernce to the instance
     Object obj;
     ObjectClass *celloxClass;
     Table fields;
@@ -169,6 +179,7 @@ typedef struct
 // Type definition of a bound method
 typedef struct
 {
+    // Object that contains a refernce to the objectbound method
     Object obj;
     Value receiver;
     ObjectClosure *method;

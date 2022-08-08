@@ -35,36 +35,43 @@ typedef uint64_t Value;
 #define IS_OBJECT(value) \
     (((value) & (QNAN | SIGN_BIT)) == (QNAN | SIGN_BIT))
 
+// Makro that yields the value of a boolean and converts to a c boolean
 #define AS_BOOL(value) \
     ((value) == TRUE_VAL)
+// Makro that yields the value of a number and converts to a c double
 #define AS_NUMBER(value) \
     valueToNum(value)
+// Makro that yields the value of an object and converts to an object pointer
 #define AS_OBJECT(value) \
     ((Object *)(uintptr_t)((value) & ~(SIGN_BIT | QNAN)))
 
-// Makro that returns the boolean value
+// Makro that yields the boolean value stored in a Value
 #define BOOL_VAL(b) \
     ((b) ? TRUE_VAL : FALSE_VAL)
+// Makro that yields a false value
 #define FALSE_VAL \
     ((Value)(uint64_t)(QNAN | TAG_FALSE))
+// Makro that yields a true value
 #define TRUE_VAL \
     ((Value)(uint64_t)(QNAN | TAG_TRUE))
+// Makro that yields null
 #define NULL_VAL \
     ((Value)(uint64_t)(QNAN | TAG_NIL))
-// Makro that returns the numerical value
+// Makro that yields the numerical value
 #define NUMBER_VAL(num) \
     numToValue(num)
-// Makro that gets the value of a object
+// Makro that yields the value of a object
 #define OBJECT_VAL(obj) \
     (Value)(SIGN_BIT | QNAN | (uint64_t)(uintptr_t)(obj))
 
+// Converts the value of a number to a Value using type punning
 static inline Value numToValue(double num)
 {
     Value value;
     memcpy(&value, &num, sizeof(double));
     return value;
 }
-
+// Converts a Value to a number using type punning
 static inline double valueToNum(Value value)
 {
     double num;
@@ -77,9 +84,13 @@ static inline double valueToNum(Value value)
 // Type definition of the types of values that can be stored in a dynamic array
 typedef enum
 {
+    // Boolean value
     VAL_BOOL,
+    // Null value
     VAL_NULL,
+    // A numerical value
     VAL_NUMBER,
+    // A cellox object
     VAL_OBJ
 } ValueType;
 
@@ -121,7 +132,7 @@ typedef struct
 // Makro that creates a boolean value
 #define BOOL_VAL(value) \
     ((Value){VAL_BOOL, {.boolean = value}})
-// Makro that creates a nil value
+// Makro that creates a null value
 #define NULL_VAL \
     ((Value){VAL_NULL, {.number = 0}})
 // Makro that creates a numerical value
