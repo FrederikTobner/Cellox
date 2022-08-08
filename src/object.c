@@ -10,11 +10,14 @@
 // Marko for allocating a new object
 #define ALLOCATE_OBJECT(type, objectType) \
     (type *)allocateObject(sizeof(type), objectType)
+// Offset basic for the fowler-noll-vo hash-fuction - 0x811c9dc5
+#define OFFSET_BASIS 2166136261u
 
 static Object *allocateObject(size_t, ObjectType);
 static ObjectString *allocateString(char *, int32_t, uint32_t);
 static uint32_t hashString(const char *, int32_t);
 static void printFunction(ObjectFunction *);
+static void removeFirstChar(char *next, int *length);
 static void resolveEscapeSequence(char *next, int *length);
 
 ObjectString *copyString(const char *chars, int32_t length)
@@ -36,7 +39,7 @@ ObjectString *copyString(const char *chars, int32_t length)
     }
     if (containsEscapeSequences)
     {
-        // We have to look for duplicates again
+        // We have to look again for duplicates in the hashtable storing the strings allocated by the vm
         hash = hashString(heapChars, length);
         interned = tableFindString(&vm.strings, heapChars, length, hash);
         if (interned)
@@ -44,20 +47,14 @@ ObjectString *copyString(const char *chars, int32_t length)
             free(heapChars);
             return interned;
         }
-        // Removes unnecassary allocated bytes
-        char *trimmedHeapChars = ALLOCATE(char, length + 1);
-        memcpy(trimmedHeapChars, heapChars, length);
-        trimmedHeapChars[length] = '\0';
-        free(heapChars);
-        heapChars = trimmedHeapChars;
+        char *heapChars = ALLOCATE(char, length + 1);
     }
     return allocateString(heapChars, length, hash);
 }
 
 ObjectBoundMethod *newBoundMethod(Value receiver, ObjectClosure *method)
 {
-    ObjectBoundMethod *bound = ALLOCATE_OBJECT(ObjectBoundMethod,
-                                               OBJ_BOUND_METHOD);
+    ObjectBoundMethod *bound = ALLOCATE_OBJECT(ObjectBoundMethod, OBJ_BOUND_METHOD);
     bound->receiver = receiver;
     bound->method = method;
     return bound;
@@ -140,8 +137,7 @@ void printObject(Value value)
         printFunction(AS_FUNCTION(value));
         break;
     case OBJ_INSTANCE:
-        printf("%s instance",
-               AS_INSTANCE(value)->celloxClass->name->chars);
+        printf("%s instance", AS_INSTANCE(value)->celloxClass->name->chars);
         break;
     case OBJ_NATIVE:
         printf("<native fn>");
@@ -186,7 +182,7 @@ static ObjectString *allocateString(char *chars, int32_t length, uint32_t hash)
  */
 static uint32_t hashString(const char *key, int32_t length)
 {
-    uint32_t hash = 2166136261u;
+    uint32_t hash = OFFSET_BASIS;
     for (int32_t i = 0; i < length; i++)
     {
         hash ^= (uint8_t)key[i];
@@ -198,10 +194,13 @@ static uint32_t hashString(const char *key, int32_t length)
 // Allocates the memory for an object of a given type
 static Object *allocateObject(size_t size, ObjectType type)
 {
+    // Allocates the memory used by the Object
     Object *object = (Object *)reallocate(NULL, 0, size);
+    // Sets the type of the object
     object->type = type;
+    // Disables mark so it is picked up by the Garbage Collection in the next cycle
     object->isMarked = false;
-
+    // Adds the object at the start of the linked list storing the objects allocated by the vm
     object->next = vm.objects;
     vm.objects = object;
 #ifdef DEBUG_LOG_GC
@@ -210,6 +209,7 @@ static Object *allocateObject(size_t size, ObjectType type)
     return object;
 }
 
+// Prints a function
 static void printFunction(ObjectFunction *function)
 {
     if (function->name == NULL)
@@ -222,29 +222,63 @@ static void printFunction(ObjectFunction *function)
     printf("<fn %s>", function->name->chars);
 }
 
+// Removes the first character in a sequence of characters
+static void removeFirstChar(char *next, int *length)
+{
+    // Removes '\\' that precedes the escape sequence
+    for (int j = 0; j < strlen(next); j++)
+        next[j] = next[j + 1];
+    next = '\0';
+    (*length)--;
+}
+
 // Resolves all the escape sequences inside a string literal
 static void resolveEscapeSequence(char *next, int *length)
 {
-    if (*(next + 1) == 'a')
-        *(next + 1) = '\a';
-    else if (*(next + 1) == 'b')
-        *(next + 1) = '\b';
-    else if (*(next + 1) == 'n')
-        *(next + 1) = '\n';
-    else if (*(next + 1) == 'r')
-        *(next + 1) = '\r';
-    else if (*(next + 1) == 't')
-        *(next + 1) = '\t';
-    else if (*(next + 1) == 'v')
-        *(next + 1) = '\v';
-    else if (!(*(next + 1) == '\"' || *(next + 1) == '\'' || *(next + 1) == '\\'))
+    switch (*(next + 1))
     {
+    // Alarm or beep
+    case 'a':
+        *(next + 1) = '\a';
+        removeFirstChar(next, length);
+        break;
+    // Backspace
+    case 'b':
+        *(next + 1) = '\b';
+        removeFirstChar(next, length);
+        break;
+    // New Line
+    case 'n':
+        *(next + 1) = '\n';
+        removeFirstChar(next, length);
+        break;
+    // Carriage Return
+    case 'r':
+        *(next + 1) = '\r';
+        removeFirstChar(next, length);
+        break;
+    // Tab Horizontal
+    case 't':
+        *(next + 1) = '\t';
+        removeFirstChar(next, length);
+        break;
+    // Tab vertical
+    case 'v':
+        *(next + 1) = '\v';
+        removeFirstChar(next, length);
+        break;
+    // Backslash, single and double quote
+    case '\"':
+        removeFirstChar(next, length);
+        break;
+    case '\'':
+        removeFirstChar(next, length);
+        break;
+    case '\\':
+        removeFirstChar(next, length);
+        break;
+    default:
         printf("Unknown escape sequence \\%c", *(next + 1));
         exit(65);
     }
-    int j;
-    (*length)--;
-    for (j = 0; j < strlen(next); j++)
-        next[j] = next[j + 1];
-    next = '\0';
 }

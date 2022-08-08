@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-// Type definition of a lexer/lexer stucture
+// Type definition of a lexer/scanner
 typedef struct
 {
     // Pointer to the start of the current line where the lexical analysis is performed

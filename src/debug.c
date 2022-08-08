@@ -104,7 +104,7 @@ int32_t disassembleInstruction(Chunk *chunk, int32_t offset)
   {
     offset++;
     uint8_t constant = chunk->code[offset++];
-    printf("%-16s %4d ", "CLOSURE", constant);
+    printf("%-16s %04X ", "CLOSURE", constant);
     printValue(chunk->constants.values[constant]);
     printf("\n");
     ObjectFunction *function = AS_FUNCTION(chunk->constants.values[constant]);
@@ -144,7 +144,7 @@ int32_t disassembleInstruction(Chunk *chunk, int32_t offset)
 static int32_t byteInstruction(const char *name, Chunk *chunk, int32_t offset)
 {
   uint8_t slot = chunk->code[offset + 1];
-  printf("%-16s %4d\n", name, slot);
+  printf("%-16s %04X\n", name, slot);
   return offset + 2;
 }
 
@@ -152,7 +152,7 @@ static int32_t byteInstruction(const char *name, Chunk *chunk, int32_t offset)
 static int32_t constantInstruction(const char *name, Chunk *chunk, int32_t offset)
 {
   uint8_t constant = chunk->code[offset + 1];
-  printf("%-16s %4d '", name, constant);
+  printf("%-16s %04X '", name, constant);
   printValue(chunk->constants.values[constant]);
   printf("'\n");
   return offset + 2;
@@ -163,7 +163,7 @@ static int invokeInstruction(const char *name, Chunk *chunk, int offset)
 {
   uint8_t constant = chunk->code[offset + 1];
   uint8_t argCount = chunk->code[offset + 2];
-  printf("%-16s (%d args) %4d '", name, argCount, constant);
+  printf("%-16s (%d args) %04X '", name, argCount, constant);
   printValue(chunk->constants.values[constant]);
   printf("'\n");
   return offset + 3;
@@ -174,8 +174,7 @@ static int32_t jumpInstruction(const char *name, int32_t sign, Chunk *chunk, int
 {
   uint16_t jump = (uint16_t)(chunk->code[offset + 1] << 8);
   jump |= chunk->code[offset + 2];
-  printf("%-16s %4d -> %d\n", name, offset,
-         offset + 3 + sign * jump);
+  printf("%-16s %04X -> %04X\n", name, offset, offset + 3 + sign * jump);
   return offset + 3;
 }
 

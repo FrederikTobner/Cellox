@@ -9,11 +9,13 @@ typedef enum
 {
     // Pops the two most upper values from the stack adds them and pushes the result onto the stack
     OP_ADD,
-    /// Defines the arguments for the next function invocation
+    // Defines the arguments for the next function invocation
     OP_CALL,
     // Defines a new class
     OP_CLASS,
+    // Defines a new closure for a function that is about to be called
     OP_CLOSURE,
+    // Closes all upvalus of the closure of the current function
     OP_CLOSE_UPVALUE,
     // Defines a constant
     OP_CONSTANT,
@@ -43,12 +45,13 @@ typedef enum
     OP_INHERIT,
     // Invokes a function
     OP_INVOKE,
-    // Jumps from the current position to another position in the code, determined by a certain offset
+    // Jumps from the current position to another position in the code, determined by a certain offset - used at the beginning of a loop, conditional statements
     OP_JUMP,
     // Jumps if the value on top of the stack is false
     OP_JUMP_IF_FALSE,
     // Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is less than the second number
     OP_LESS,
+    // Jumps from the current position to another position in the code, determined by a certain offset - used at the end of a loop
     OP_LOOP,
     // Calls a Method
     OP_METHOD,
@@ -56,22 +59,29 @@ typedef enum
     OP_MODULO,
     // Pops the two most upper values from the stack adds them and pushes the result onto the stack
     OP_MULTIPLY,
+    // Negates the value on top of the stack
     OP_NEGATE,
+    // Converts the value on top of the stack from a truthy value to a falsy value and vice versa
     OP_NOT,
     // Pushes a null value on the stack
     OP_NULL,
-    // Pops a value from the stack and writes it to the standard output
+    // Pops the value from the top of the stack and writes it to the standard output
     OP_PRINT,
     // Pops a value from the stack
     OP_POP,
-    // Returns either a Value or null if nothing is specified
+    // Returns the value that is stored on the top of the stack
     OP_RETURN,
+    // Sets the value of a local variable
     OP_SET_LOCAL,
+    // Sets the value of a global variable
     OP_SET_GLOBAL,
+    // Sets the value of a lproperty
     OP_SET_PROPERTY,
+    // Sets an upValue that is captured by the current closure
     OP_SET_UPVALUE,
     // Pops the two most upper values from the stack, subtracts the second value from the first value and pushes the result onto the stack
     OP_SUBTRACT,
+    // Invokes a method of the parent class
     OP_SUPER_INVOKE,
     // Pushes the boolean value true on the stack
     OP_TRUE,

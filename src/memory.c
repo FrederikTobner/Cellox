@@ -240,7 +240,7 @@ static void markRoots()
   // all the objects
   for (int32_t i = 0; i < vm.frameCount; i++)
   {
-    markObject((Object *)vm.frames[i].closure);
+    markObject((Object *)vm.callStack[i].closure);
   }
   // all the ObjectUpvalues
   for (ObjectUpvalue *upvalue = vm.openUpvalues;

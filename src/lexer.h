@@ -106,12 +106,16 @@ typedef enum
   TOKEN_WHILE,
 } TokenType;
 
-// Type definition of the lexer
+// Type definition of a token
 typedef struct
 {
+  // The type of the token
   TokenType type;
+  // Pointer to the start of the character sequence
   const char *start;
+  // Length of the character sequence
   int32_t length;
+  // Line in the sourceCode
   int32_t line;
 } Token;
 

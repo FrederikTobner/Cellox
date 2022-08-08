@@ -6,14 +6,19 @@
 
 typedef struct
 {
+    // Key of the entry 🔑
     ObjectString *key;
+    // Value associated with the key
     Value value;
 } Entry;
 
 typedef struct
 {
+    // Number of entries in the hashtable
     int32_t count;
+    // Capacity of the hashtable
     int32_t capacity;
+    // Pointer to the first entry that is stored in the hashtable
     Entry *entries;
 } Table;
 
