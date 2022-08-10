@@ -71,3 +71,4 @@ for(var i = 0;i < 10;i = i + 1)
     bst.add(random() % 100);
 }
 bst.printValues();
+exit(50);

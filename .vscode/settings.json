@@ -11,6 +11,7 @@
     "compiler.h": "c",
     "common.h": "c",
     "cstdlib": "c",
-    "limits": "c"
+    "limits": "c",
+    "unistd.h": "c"
   },
 }

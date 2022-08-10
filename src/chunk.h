@@ -77,7 +77,7 @@ typedef enum
     OP_SET_GLOBAL,
     // Sets the value of a lproperty
     OP_SET_PROPERTY,
-    // Sets an upValue that is captured by the current closure
+    // Sets an upvalue that is captured by the current closure
     OP_SET_UPVALUE,
     // Pops the two most upper values from the stack, subtracts the second value from the first value and pushes the result onto the stack
     OP_SUBTRACT,

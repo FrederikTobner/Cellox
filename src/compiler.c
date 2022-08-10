@@ -821,7 +821,7 @@ static void grouping(bool canAssign)
 // Used to create a string object from an identifier token
 static uint8_t identifierConstant(Token *name)
 {
-    return makeConstant(OBJECT_VAL(copyString(name->start, name->length)));
+    return makeConstant(OBJECT_VAL(copyString(name->start, name->length, false)));
 }
 
 // Determines whether two identifiers are equal
@@ -863,7 +863,7 @@ static void initCompiler(Compiler *compiler, FunctionType type)
     current = compiler;
     if (type != TYPE_SCRIPT)
     {
-        current->function->name = copyString(parser.previous.start, parser.previous.length);
+        current->function->name = copyString(parser.previous.start, parser.previous.length, false);
     }
     Local *local = &current->locals[current->localCount++];
     local->depth = 0;
@@ -1192,7 +1192,7 @@ static void statement()
 // compiles a string literal expression
 static void string(bool canAssign)
 {
-    emitConstant(OBJECT_VAL(copyString(parser.previous.start + 1, parser.previous.length - 2)));
+    emitConstant(OBJECT_VAL(copyString(parser.previous.start + 1, parser.previous.length - 2, true)));
 }
 
 // Compiles a super expression

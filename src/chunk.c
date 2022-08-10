@@ -8,7 +8,9 @@
 // Adds a constant to the chunk
 int32_t addConstant(Chunk *chunk, Value value)
 {
+  push(value);
   writeValueArray(&chunk->constants, value);
+  pop();
   return chunk->constants.count - 1;
 }
 
