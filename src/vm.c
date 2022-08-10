@@ -54,7 +54,7 @@ void initVM()
     // Initializes the hashtable that contains the strings
     initTable(&vm.strings);
     vm.initString = NULL;
-    vm.initString = copyString("init", 4);
+    vm.initString = copyString("init", 4, false);
     // defines the native functions supported by the virtual machine
     defineNatives();
 }
@@ -62,7 +62,11 @@ void initVM()
 static void defineNatives()
 {
     defineNative("clock", clockNative);
+    defineNative("exit", exitNative);
+    defineNative("getUserName", getUserNameNative);
     defineNative("random", randomNative);
+    defineNative("readLine", readLineNative);
+    defineNative("wait", waitNative);
 }
 
 InterpretResult interpret(const char *source)
@@ -238,7 +242,7 @@ static void defineMethod(ObjectString *name)
 // Defines a native function for the virtual machine
 static void defineNative(const char *name, NativeFn function)
 {
-    push(OBJECT_VAL(copyString(name, (int32_t)strlen(name))));
+    push(OBJECT_VAL(copyString(name, (int32_t)strlen(name), false)));
     push(OBJECT_VAL(newNative(function)));
     tableSet(&vm.globals, AS_STRING(vm.stack[0]), vm.stack[1]);
     pop();

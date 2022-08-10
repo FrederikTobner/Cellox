@@ -186,7 +186,7 @@ typedef struct
 } ObjectBoundMethod;
 
 // Copys the value of a string in the hashtable of the vm
-ObjectString *copyString(const char *chars, int32_t length);
+ObjectString *copyString(const char *chars, int32_t length, bool removeBackSlash);
 // Creates a new bound method
 ObjectBoundMethod *newBoundMethod(Value receiver, ObjectClosure *method);
 // Creates a new class in cellox
@@ -199,7 +199,7 @@ ObjectFunction *newFunction();
 ObjectInstance *newInstance(ObjectClass *celloxClass);
 // Creates a new native function
 ObjectNative *newNative(NativeFn function);
-// Deletes a string frm the hashtable of the vm and returns it
+// Takes a string from the hashtable of the vm and returns it
 ObjectString *takeString(char *chars, int32_t length);
 // Creates a new upvalue
 ObjectUpvalue *newUpvalue(Value *slot);

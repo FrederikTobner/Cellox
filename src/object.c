@@ -15,30 +15,39 @@
 
 static Object *allocateObject(size_t, ObjectType);
 static ObjectString *allocateString(char *, int32_t, uint32_t);
+static bool containsCharacter(const char *next, char character, int length);
 static uint32_t hashString(const char *, int32_t);
 static void printFunction(ObjectFunction *);
 static void removeFirstChar(char *next, int *length);
 static void resolveEscapeSequence(char *next, int *length);
 
-ObjectString *copyString(const char *chars, int32_t length)
+ObjectString *copyString(const char *chars, int32_t length, bool removeBackSlash)
 {
-    uint32_t hash = hashString(chars, length);
-    ObjectString *interned = tableFindString(&vm.strings, chars, length, hash);
-    if (interned)
-        return interned;
-    char *heapChars = ALLOCATE(char, length + 1);
-    memcpy(heapChars, chars, length);
-    heapChars[length] = '\0';
-    char *next = NULL;
-    bool containsEscapeSequences = false;
-    while (next = strstr(heapChars, "\\"))
+    uint32_t hash;
+    ObjectString *interned;
+    char *heapChars;
+    char *next;
+
+    if (!containsCharacter(chars, '\\', length))
     {
-        resolveEscapeSequence(next, &length);
-        if (!containsEscapeSequences)
-            containsEscapeSequences = true;
+        hash = hashString(chars, length);
+        interned = tableFindString(&vm.strings, chars, length, hash);
+        if (interned)
+            return interned;
+        heapChars = ALLOCATE(char, length + 1);
+        memcpy(heapChars, chars, length);
+        heapChars[length] = '\0';
     }
-    if (containsEscapeSequences)
+    else
     {
+        heapChars = ALLOCATE(char, length + 1);
+        memcpy(heapChars, chars, length);
+        heapChars[length] = '\0';
+        next = NULL;
+        while (next = strstr(heapChars, "\\"))
+        {
+            resolveEscapeSequence(next, &length);
+        }
         // We have to look again for duplicates in the hashtable storing the strings allocated by the vm
         hash = hashString(heapChars, length);
         interned = tableFindString(&vm.strings, heapChars, length, hash);
@@ -47,8 +56,8 @@ ObjectString *copyString(const char *chars, int32_t length)
             free(heapChars);
             return interned;
         }
-        char *heapChars = ALLOCATE(char, length + 1);
     }
+
     return allocateString(heapChars, length, hash);
 }
 
@@ -177,20 +186,6 @@ static ObjectString *allocateString(char *chars, int32_t length, uint32_t hash)
     return string;
 }
 
-/*  FNV-1a hash function
- *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
- */
-static uint32_t hashString(const char *key, int32_t length)
-{
-    uint32_t hash = OFFSET_BASIS;
-    for (int32_t i = 0; i < length; i++)
-    {
-        hash ^= (uint8_t)key[i];
-        hash *= 16777619;
-    }
-    return hash;
-}
-
 // Allocates the memory for an object of a given type
 static Object *allocateObject(size_t size, ObjectType type)
 {
@@ -207,6 +202,34 @@ static Object *allocateObject(size_t size, ObjectType type)
     printf("%p allocate %zu for %d\n", (void *)object, size, type);
 #endif
     return object;
+}
+
+// Checks if a string contains the specified character before the specified length
+static bool containsCharacter(const char *next, char character, int length)
+{
+    for (int i = 0; i < length; i++)
+    {
+
+        if (*(next + i) == '\0')
+            return false;
+        if (*(next + i) == character)
+            return true;
+    }
+    return false;
+}
+
+/*  FNV-1a hash function
+ *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
+ */
+static uint32_t hashString(const char *key, int32_t length)
+{
+    uint32_t hash = OFFSET_BASIS;
+    for (int32_t i = 0; i < length; i++)
+    {
+        hash ^= (uint8_t)key[i];
+        hash *= 16777619;
+    }
+    return hash;
 }
 
 // Prints a function
@@ -235,50 +258,42 @@ static void removeFirstChar(char *next, int *length)
 // Resolves all the escape sequences inside a string literal
 static void resolveEscapeSequence(char *next, int *length)
 {
-    switch (*(next + 1))
+    switch (*(++next))
     {
     // Alarm or beep
     case 'a':
-        *(next + 1) = '\a';
-        removeFirstChar(next, length);
+        *next = '\a';
         break;
     // Backspace
     case 'b':
-        *(next + 1) = '\b';
-        removeFirstChar(next, length);
+        *next = '\b';
         break;
     // New Line
     case 'n':
-        *(next + 1) = '\n';
-        removeFirstChar(next, length);
+        *next = '\n';
         break;
     // Carriage Return
     case 'r':
-        *(next + 1) = '\r';
-        removeFirstChar(next, length);
+        *next = '\r';
         break;
     // Tab Horizontal
     case 't':
-        *(next + 1) = '\t';
-        removeFirstChar(next, length);
+        *next = '\t';
         break;
     // Tab vertical
     case 'v':
-        *(next + 1) = '\v';
-        removeFirstChar(next, length);
+        *next = '\v';
         break;
     // Backslash, single and double quote
     case '\"':
-        removeFirstChar(next, length);
         break;
     case '\'':
-        removeFirstChar(next, length);
         break;
     case '\\':
-        removeFirstChar(next, length);
         break;
     default:
-        printf("Unknown escape sequence \\%c", *(next + 1));
+        printf("Unknown escape sequence \\%c", *next);
         exit(65);
     }
+    removeFirstChar(next - 1, length);
 }
