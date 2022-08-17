@@ -1,0 +1,3 @@
+var v = 9;
+v /= 3;
+print v;

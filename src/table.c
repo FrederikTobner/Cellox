@@ -27,7 +27,7 @@ void initTable(Table *table)
 
 void markTable(Table *table)
 {
-    for (int32_t i = 0; i < table->capacity; i++)
+    for (uint32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
         markObject((Object *)entry->key);
@@ -37,7 +37,7 @@ void markTable(Table *table)
 
 void tableAddAll(Table *from, Table *to)
 {
-    for (int32_t i = 0; i < from->capacity; i++)
+    for (uint32_t i = 0; i < from->capacity; i++)
     {
         Entry *entry = &from->entries[i];
         if (entry->key != NULL)
@@ -103,7 +103,7 @@ bool tableGet(Table *table, ObjectString *key, Value *value)
 
 void tableRemoveWhite(Table *table)
 {
-    for (int32_t i = 0; i < table->capacity; i++)
+    for (uint32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
         if (entry->key != NULL && !entry->key->obj.isMarked)
@@ -116,7 +116,7 @@ bool tableSet(Table *table, ObjectString *key, Value value)
     // We grow the hashTable when it becomes 75% full
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
-        int32_t capacity = GROW_CAPACITY(table->capacity);
+        uint32_t capacity = GROW_CAPACITY(table->capacity);
         adjustCapacity(table, capacity);
     }
 
@@ -134,13 +134,13 @@ bool tableSet(Table *table, ObjectString *key, Value value)
 static void adjustCapacity(Table *table, int32_t capacity)
 {
     Entry *entries = ALLOCATE(Entry, capacity);
-    for (int32_t i = 0; i < capacity; i++)
+    for (uint32_t i = 0; i < capacity; i++)
     {
         entries[i].key = NULL;
         entries[i].value = NULL_VAL;
     }
     table->count = 0;
-    for (int32_t i = 0; i < table->capacity; i++)
+    for (uint32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
         if (entry->key == NULL)

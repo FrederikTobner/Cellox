@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "value.h"
+#include "dynamicArray.h"
 
 // opcodes of the bytecode instruction set
 typedef enum
@@ -100,7 +101,7 @@ typedef struct
     // STores line information to the corresponding lox program
     int32_t *lines;
     // Constants stored in the chunk
-    ValueArray constants;
+    DynamicArray constants;
 } Chunk;
 
 // Adds a constant to the chunk

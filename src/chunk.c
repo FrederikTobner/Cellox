@@ -9,7 +9,7 @@
 int32_t addConstant(Chunk *chunk, Value value)
 {
   push(value);
-  writeValueArray(&chunk->constants, value);
+  writeDynamicArray(&chunk->constants, value);
   pop();
   return chunk->constants.count - 1;
 }
@@ -19,7 +19,7 @@ void freeChunk(Chunk *chunk)
 {
   FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
   FREE_ARRAY(int32_t, chunk->lines, chunk->capacity);
-  freeValueArray(&chunk->constants);
+  freeDynamicArray(&chunk->constants);
   initChunk(chunk);
 }
 
@@ -30,7 +30,7 @@ void initChunk(Chunk *chunk)
   chunk->capacity = 0;
   chunk->code = NULL;
   chunk->lines = NULL;
-  initValueArray(&chunk->constants);
+  initDynamicArray(&chunk->constants);
 }
 
 // Write to a already existing chunk

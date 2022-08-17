@@ -12,6 +12,10 @@
     "common.h": "c",
     "cstdlib": "c",
     "limits": "c",
-    "unistd.h": "c"
+    "unistd.h": "c",
+    "object.h": "c",
+    "dynamicarray.h": "c",
+    "stringutils.h": "c",
+    "*.tcc": "cpp"
   },
 }

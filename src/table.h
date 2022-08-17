@@ -15,9 +15,9 @@ typedef struct
 typedef struct
 {
     // Number of entries in the hashtable
-    int32_t count;
+    uint32_t count;
     // Capacity of the hashtable
-    int32_t capacity;
+    uint32_t capacity;
     // Pointer to the first entry that is stored in the hashtable
     Entry *entries;
 } Table;

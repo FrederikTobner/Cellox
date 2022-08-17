@@ -21,7 +21,7 @@ static char peek();
 static char peekNext();
 static void preProcessSource();
 
-void preProcess(char **str)
+void preProcess(char *str)
 {
     initPreProcessor(str);
     preProcessSource();
@@ -32,10 +32,10 @@ static void advance()
     preProcessor.current++;
 }
 
-static void initPreProcessor(char **str)
+static void initPreProcessor(char *str)
 {
     preProcessor.current = 0;
-    preProcessor.source = *str;
+    preProcessor.source = str;
 }
 
 static char peek()
