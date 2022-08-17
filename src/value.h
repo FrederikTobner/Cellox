@@ -144,27 +144,10 @@ typedef struct
 
 #endif
 
-// Type definition of the dynamic value array
-typedef struct
-{
-    int32_t capacity;
-    int32_t count;
-    Value *values;
-} ValueArray;
-
-// Dealocates the memory used by the dynamic array
-void freeValueArray(ValueArray *array);
-
-// initializes the dynamic array
-void initValueArray(ValueArray *array);
-
 // prints a value
 void printValue(Value value);
 
 // Determines whether two values are equal
 bool valuesEqual(Value a, Value b);
-
-// Adds a value to the dynamic array
-void writeValueArray(ValueArray *array, Value value);
 
 #endif

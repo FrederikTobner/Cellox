@@ -13,7 +13,7 @@
 
 static void blackenObject(Object *);
 static void freeObject(Object *);
-static void markArray(ValueArray *);
+static void markArray(DynamicArray *);
 static void markRoots();
 static void sweep();
 static void traceReferences();
@@ -221,7 +221,7 @@ static void freeObject(Object *object)
 }
 
 // Marks all the values in an array
-static void markArray(ValueArray *array)
+static void markArray(DynamicArray *array)
 {
   for (int32_t i = 0; i < array->count; i++)
   {

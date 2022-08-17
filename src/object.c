@@ -5,21 +5,20 @@
 #include <stdlib.h>
 
 #include "object.h"
+#include "stringUtils.h"
 #include "vm.h"
 
 // Marko for allocating a new object
 #define ALLOCATE_OBJECT(type, objectType) \
     (type *)allocateObject(sizeof(type), objectType)
+
 // Offset basic for the fowler-noll-vo hash-fuction - 0x811c9dc5
 #define OFFSET_BASIS 2166136261u
 
 static Object *allocateObject(size_t, ObjectType);
 static ObjectString *allocateString(char *, int32_t, uint32_t);
-static bool containsCharacter(const char *next, char character, int length);
 static uint32_t hashString(const char *, int32_t);
 static void printFunction(ObjectFunction *);
-static void removeFirstChar(char *next, int *length);
-static void resolveEscapeSequence(char *next, int *length);
 
 ObjectString *copyString(const char *chars, int32_t length, bool removeBackSlash)
 {
@@ -28,7 +27,7 @@ ObjectString *copyString(const char *chars, int32_t length, bool removeBackSlash
     char *heapChars;
     char *next;
 
-    if (!containsCharacter(chars, '\\', length))
+    if (!containsCharacterRestricted(chars, '\\', length))
     {
         hash = hashString(chars, length);
         interned = tableFindString(&vm.strings, chars, length, hash);
@@ -204,20 +203,6 @@ static Object *allocateObject(size_t size, ObjectType type)
     return object;
 }
 
-// Checks if a string contains the specified character before the specified length
-static bool containsCharacter(const char *next, char character, int length)
-{
-    for (int i = 0; i < length; i++)
-    {
-
-        if (*(next + i) == '\0')
-            return false;
-        if (*(next + i) == character)
-            return true;
-    }
-    return false;
-}
-
 /*  FNV-1a hash function
  *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
  */
@@ -243,57 +228,4 @@ static void printFunction(ObjectFunction *function)
     }
     // A function
     printf("<fn %s>", function->name->chars);
-}
-
-// Removes the first character in a sequence of characters
-static void removeFirstChar(char *next, int *length)
-{
-    // Removes '\\' that precedes the escape sequence
-    for (int j = 0; j < strlen(next); j++)
-        next[j] = next[j + 1];
-    next = '\0';
-    (*length)--;
-}
-
-// Resolves all the escape sequences inside a string literal
-static void resolveEscapeSequence(char *next, int *length)
-{
-    switch (*(++next))
-    {
-    // Alarm or beep
-    case 'a':
-        *next = '\a';
-        break;
-    // Backspace
-    case 'b':
-        *next = '\b';
-        break;
-    // New Line
-    case 'n':
-        *next = '\n';
-        break;
-    // Carriage Return
-    case 'r':
-        *next = '\r';
-        break;
-    // Tab Horizontal
-    case 't':
-        *next = '\t';
-        break;
-    // Tab vertical
-    case 'v':
-        *next = '\v';
-        break;
-    // Backslash, single and double quote
-    case '\"':
-        break;
-    case '\'':
-        break;
-    case '\\':
-        break;
-    default:
-        printf("Unknown escape sequence \\%c", *next);
-        exit(65);
-    }
-    removeFirstChar(next - 1, length);
 }

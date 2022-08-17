@@ -2,6 +2,6 @@
 #define cellox_preProcessor_h
 
 // preprocesses the sourceCode
-void preProcess(char **str);
+void preProcess(char *str);
 
 #endif
