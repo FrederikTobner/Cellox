@@ -9,48 +9,53 @@ FetchContent_Declare(
   GIT_TAG release-1.12.1
 )
 
+set(SOURCEPATH ../src/)
+
 set(TESTSOURCES
-binaryoperator.cc
 assignmentoperator.cc
-unaryoperator.cc
+binaryoperator.cc
+forLoops.cc
+functions.cc
+literalExpressions.cc
 testUtils.cc
 testUtils.hh
+unaryoperator.cc
 )
 
 set(CELLOXSOURCES
-../src/chunk.c
-../src/compiler.c
-../src/compiler.h
-../src/dynamicArray.c
-../src/debug.c
-../src/init.c 
-../src/lexer.c
-../src/memory.c 
-../src/nativeFun.c
-../src/object.c 
-../src/preProcessor.c
-../src/stringUtils.c
-../src/table.c
-../src/value.c  
-../src/vm.c
+${SOURCEPATH}chunk.c
+${SOURCEPATH}compiler.c
+${SOURCEPATH}compiler.h
+${SOURCEPATH}dynamicArray.c
+${SOURCEPATH}debug.c
+${SOURCEPATH}init.c 
+${SOURCEPATH}lexer.c
+${SOURCEPATH}memory.c 
+${SOURCEPATH}nativeFun.c
+${SOURCEPATH}object.c 
+${SOURCEPATH}preProcessor.c
+${SOURCEPATH}stringUtils.c
+${SOURCEPATH}table.c
+${SOURCEPATH}value.c  
+${SOURCEPATH}vm.c
 )
 
 set(CELLOXHEADERS
-../src/chunk.h
-../src/common.h
-../src/compiler.h
-../src/dynamicArray.h
-../src/debug.h
-../src/init.h
-../src/lexer.h
-../src/memory.h
-../src/nativeFun.h
-../src/object.h
-../src/preProcessor.h
-../src/stringUtils.h
-../src/table.h
-../src/value.h
-../src/vm.h
+${SOURCEPATH}chunk.h
+${SOURCEPATH}common.h
+${SOURCEPATH}compiler.h
+${SOURCEPATH}dynamicArray.h
+${SOURCEPATH}debug.h
+${SOURCEPATH}init.h
+${SOURCEPATH}lexer.h
+${SOURCEPATH}memory.h
+${SOURCEPATH}nativeFun.h
+${SOURCEPATH}object.h
+${SOURCEPATH}preProcessor.h
+${SOURCEPATH}stringUtils.h
+${SOURCEPATH}table.h
+${SOURCEPATH}value.h
+${SOURCEPATH}vm.h
 )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
@@ -60,7 +65,7 @@ FetchContent_MakeAvailable(googletest)
 
 add_executable(${THIS} ${TESTSOURCES} ${CELLOXSOURCES} ${CELLOXHEADERS})
 
-target_include_directories(${THIS} PUBLIC ../src)
+target_include_directories(${THIS} PUBLIC ${SOURCEPATH})
 
 target_link_libraries(
   ${THIS}

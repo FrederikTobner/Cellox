@@ -1,0 +1,1 @@
+for (var c = 0; c < 4;) print c += 1;

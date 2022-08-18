@@ -25,4 +25,5 @@ void test_program(char *programPath, const char *expectedOutput)
     init(2, args);
     ASSERT_STREQ(expectedOutput, actual_output);
     free(actual_output);
+    free(filePath);
 }
