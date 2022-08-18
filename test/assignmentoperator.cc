@@ -35,3 +35,8 @@ TEST(AssgnmentOperator, ModuloEqual)
 {
     test_program("assignmentOperators/moduloEqual.clx", "2\n");
 }
+
+TEST(AssgnmentOperator, RaiseEqual)
+{
+    test_program("assignmentOperators/raiseEqual.clx", "27\n");
+}
