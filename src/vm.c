@@ -567,7 +567,12 @@ so all the statements in it get executed if they are after an if 🤮 */
                 runtimeError("Operand must be a number.");
                 return INTERPRET_RUNTIME_ERROR;
             }
+#ifdef NAN_BOXING
+            // We just flip the most siginificant bit 🤷
+            push(NUMBER_VAL(AS_NUMBER(pop(0) ^ 0x8000000000000000)));
+#else
             push(NUMBER_VAL(-AS_NUMBER(pop(0))));
+#endif
             break;
         case OP_ADD:
         {
