@@ -25,7 +25,6 @@ ObjectString *copyString(const char *chars, int32_t length, bool removeBackSlash
     uint32_t hash;
     ObjectString *interned;
     char *heapChars;
-    char *next;
 
     if (!containsCharacterRestricted(chars, '\\', length))
     {
@@ -42,7 +41,7 @@ ObjectString *copyString(const char *chars, int32_t length, bool removeBackSlash
         heapChars = ALLOCATE(char, length + 1);
         memcpy(heapChars, chars, length);
         heapChars[length] = '\0';
-        next = NULL;
+        char *next = NULL;
         while (next = strstr(heapChars, "\\"))
         {
             resolveEscapeSequence(next, &length);
@@ -227,5 +226,5 @@ static void printFunction(ObjectFunction *function)
         return;
     }
     // A function
-    printf("<fn %s>", function->name->chars);
+    printf("<fun %s>", function->name->chars);
 }
