@@ -1,5 +1,5 @@
-#ifndef CELLOX_STRING_UTILS_H
-#define CELLOX_STRING_UTILS_H
+#ifndef cellox_string_utils_h
+#define cellox_string_utils_h
 
 #include "common.h"
 

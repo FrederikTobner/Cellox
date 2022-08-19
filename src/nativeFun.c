@@ -79,7 +79,6 @@ Value waitNative(int32_t argCount, Value *args)
     // Milliseconds -> multiply with 1000
     Sleep(AS_NUMBER(*args) * 1000);
 #endif
-
 #ifdef linux
     // Seconds
     sleep(AS_NUMBER(*args));

@@ -360,12 +360,8 @@ static Token string()
             advance();
         advance();
     }
-
     if (isAtEnd())
-    {
         return errorToken("Unterminated string.");
-    }
-
     // The closing quote.
     advance();
     return makeToken(TOKEN_STRING);

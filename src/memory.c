@@ -185,8 +185,7 @@ static void freeObject(Object *object)
   case OBJ_CLOSURE:
   {
     ObjectClosure *closure = (ObjectClosure *)object;
-    FREE_ARRAY(ObjectUpvalue *, closure->upvalues,
-               closure->upvalueCount);
+    FREE_ARRAY(ObjectUpvalue *, closure->upvalues, closure->upvalueCount);
     FREE(ObjectClosure, object);
     break;
   }

@@ -31,13 +31,9 @@ void init(int argc, const char *argv[])
 {
     initVM();
     if (argc == 1)
-    {
         repl();
-    }
     else if (argc == 2)
-    {
         runFile(argv[1]);
-    }
     else
     {
         // Too much arguments (>1) TODO: Add argumenrs for the compiler e.g. --analyze/-a, --store/-s and option to execute stored bytecode
@@ -72,10 +68,8 @@ static char *readFile(const char *path)
         fprintf(stderr, "Could not read file \"%s\".\n", path);
         exit(74);
     }
-
     // We add null the end of the source-code to mark the end of the file
     buffer[bytesRead] = '\0';
-
     fclose(file);
     return buffer;
 }
@@ -96,9 +90,7 @@ static void repl()
         }
         // We close the command prompt if the last input was empty - \n
         if (strlen(line) == 1)
-        {
             exit(0);
-        }
         interpret(line);
     }
 }
@@ -108,7 +100,6 @@ static void runFile(const char *path)
     char *source = readFile(path);
     InterpretResult result = interpret(source);
     free(source);
-
     // Error during compilation process
     if (result == INTERPRET_COMPILE_ERROR)
         exit(65);

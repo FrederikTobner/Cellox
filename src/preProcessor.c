@@ -8,17 +8,18 @@
 // Contains data relevant for the pre-processor
 typedef struct
 {
-    int32_t current;
-    char *source;
+    // Pointer to the start of the current line where the preprocessing is performed
+    const char *start;
+    // Pointer to the current position in the current line where the preprocessing is performed
+    const char *current;
 } PreProcessor;
 
 // Global preProcessor variable
 PreProcessor preProcessor;
 
-static void advance();
+static char advance();
 static void initPreProcessor();
-static char peek();
-static char peekNext();
+static bool isAtEnd();
 static void preProcessSource();
 
 void preProcess(char *str)
@@ -27,39 +28,31 @@ void preProcess(char *str)
     preProcessSource();
 }
 
-static void advance()
+static char advance()
 {
-    preProcessor.current++;
+    return *preProcessor.current++;
 }
 
 static void initPreProcessor(char *str)
 {
-    preProcessor.current = 0;
-    preProcessor.source = str;
+    preProcessor.start = str;
+    preProcessor.current = preProcessor.start;
 }
 
-static char peek()
+static bool isAtEnd()
 {
-    return preProcessor.source[preProcessor.current];
-}
-
-static char peekNext()
-{
-    return preProcessor.source[preProcessor.current + 1];
+    return preProcessor.current == '\0';
 }
 
 static void preProcessSource()
 {
     char c;
-    while (preProcessor.current < strlen(preProcessor.source))
+    while (!isAtEnd())
     {
-        c = peek();
+        c = advance();
         if (c == '#')
         {
-            // TODO handle preprocessor statements - include, define, ifndef and endif
             advance();
         }
-        else
-            advance();
     }
 }
