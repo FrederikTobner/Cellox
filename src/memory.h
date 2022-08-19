@@ -9,7 +9,8 @@
     (type *)reallocate(NULL, 0, sizeof(type) * (count))
 
 // Makro that frees the memory used by a given type at the position specified by the pointer
-#define FREE(type, pointer) reallocate(pointer, sizeof(type), 0)
+#define FREE(type, pointer) \
+    reallocate(pointer, sizeof(type), 0)
 
 // Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)
 #define GROW_CAPACITY(capacity) \

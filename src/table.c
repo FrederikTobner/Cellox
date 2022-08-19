@@ -41,9 +41,7 @@ void tableAddAll(Table *from, Table *to)
     {
         Entry *entry = &from->entries[i];
         if (entry->key != NULL)
-        {
             tableSet(to, entry->key, entry->value);
-        }
     }
 }
 
@@ -79,10 +77,7 @@ ObjectString *tableFindString(Table *table, const char *chars, int32_t length, u
                 return NULL;
         }
         else if (entry->key->length == length && entry->key->hash == hash && memcmp(entry->key->chars, chars, length) == 0)
-        {
-            // We found the string
-            return entry->key;
-        }
+            return entry->key; // We found the string
         // We look in the next bucket but eventually we also have to wrap around the array when we reach the end
         index = (index + 1) % table->capacity;
     }
@@ -182,10 +177,7 @@ static Entry *findEntry(Entry *entries, int32_t capacity, ObjectString *key)
             }
         }
         else if (entry->key == key)
-        {
-            // We found the key 🔑
-            return entry;
-        }
+            return entry; // We found the key 🔑
         index = (index + 1) % capacity;
     }
 }

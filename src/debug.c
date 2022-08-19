@@ -15,7 +15,6 @@ static int32_t simpleInstruction(const char *, int32_t);
 void disassembleChunk(Chunk *chunk, const char *name)
 {
   printf("== %s ==\n", name);
-
   for (int32_t offset = 0; offset < chunk->count;)
   {
     offset = disassembleInstruction(chunk, offset);
@@ -26,16 +25,10 @@ void disassembleChunk(Chunk *chunk, const char *name)
 int32_t disassembleInstruction(Chunk *chunk, int32_t offset)
 {
   printf("%04X ", offset);
-
   if (offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1])
-  {
     printf("   | ");
-  }
   else
-  {
     printf("%4d ", chunk->lines[offset]);
-  }
-
   // Instruction specific behaviour
   uint8_t instruction = chunk->code[offset];
   // Switch statement could be converted to a computed goto https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables for efficiency

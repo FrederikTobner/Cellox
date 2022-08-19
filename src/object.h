@@ -151,7 +151,7 @@ typedef struct ObjectUpvalue
  */
 typedef struct
 {
-    // Object that contains a refernce to the closure
+    // Object that contains a reference to the closure
     Object obj;
     ObjectFunction *function;
     ObjectUpvalue **upvalues;

@@ -148,9 +148,7 @@ static bool callValue(Value callee, int32_t argCount)
             vm.stackTop[-argCount - 1] = OBJECT_VAL(newInstance(celloxClass));
             Value initializer;
             if (tableGet(&celloxClass->methods, vm.initString, &initializer))
-            {
                 return call(AS_CLOSURE(initializer), argCount);
-            }
             else if (argCount != 0)
             {
                 runtimeError("Expected 0 arguments but got %d.", argCount);
@@ -223,7 +221,6 @@ static void concatenate()
     memcpy(chars, a->chars, a->length);
     memcpy(chars + a->length, b->chars, b->length);
     chars[length] = '\0';
-
     ObjectString *result = takeString(chars, length);
     pop();
     pop();
@@ -346,8 +343,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             printf(" ]");
         }
         printf("\n");
-        disassembleInstruction(&frame->closure->function->chunk,
-                               (int32_t)(frame->ip - frame->closure->function->chunk.code));
+        disassembleInstruction(&frame->closure->function->chunk, (int32_t)(frame->ip - frame->closure->function->chunk.code));
 #endif
         uint8_t instruction;
         switch (instruction = READ_BYTE())
@@ -408,15 +404,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             {
                 uint8_t isLocal = READ_BYTE();
                 uint8_t index = READ_BYTE();
-                if (isLocal)
-                {
-                    closure->upvalues[i] =
-                        captureUpvalue(frame->slots + index);
-                }
-                else
-                {
-                    closure->upvalues[i] = frame->closure->upvalues[index];
-                }
+                closure->upvalues[i] = isLocal ? captureUpvalue(frame->slots + index) : frame->closure->upvalues[index];
             }
             break;
         }

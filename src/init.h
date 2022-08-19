@@ -1,5 +1,5 @@
-#ifndef CELLOX_INIT_H
-#define CELLOX_INIT_H
+#ifndef cellox_init_h
+#define cellox_init_h
 
 void init(int argc, const char *argv[]);
 

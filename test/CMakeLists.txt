@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 
+#C++ 14 needed for Google Test Framework
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 set(THIS CelloxTests)
 
 include(FetchContent)
@@ -58,14 +62,14 @@ ${SOURCEPATH}value.h
 ${SOURCEPATH}vm.h
 )
 
+add_executable(${THIS} ${TESTSOURCES} ${CELLOXSOURCES} ${CELLOXHEADERS})
+
+target_include_directories(${THIS} PUBLIC ${SOURCEPATH})
+
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(googletest)
-
-add_executable(${THIS} ${TESTSOURCES} ${CELLOXSOURCES} ${CELLOXHEADERS})
-
-target_include_directories(${THIS} PUBLIC ${SOURCEPATH})
 
 target_link_libraries(
   ${THIS}

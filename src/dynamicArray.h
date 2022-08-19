@@ -1,5 +1,5 @@
-#ifndef CELLOX_DYNAMIC_ARRAY_H
-#define CELLOX_DYNAMIC_ARRAY_H
+#ifndef cellox_dynamic_array_h
+#define cellox_dynamic_array_h
 
 #include "common.h"
 #include "value.h"
