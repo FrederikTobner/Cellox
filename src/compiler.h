@@ -4,12 +4,12 @@
 #include "object.h"
 
 // Compiles a chunk of bytecode
-ObjectFunction *compile(const char *source);
+ObjectFunction *compiler_compile(char const *source);
 
 /* Marks the compiler roots.
- * These are all the the objects that can be directly accessed by the vm
+ * These are all the the objects that can be directly accessed by the virtualMachine
  * and not through a reference in some other object
  */
-void markCompilerRoots();
+void compiler_mark_roots();
 
 #endif

@@ -5,31 +5,31 @@
 #include <stdlib.h>
 
 #include "object.h"
-#include "stringUtils.h"
-#include "vm.h"
+#include "string_utils.h"
+#include "virtual_machine.h"
 
 // Marko for allocating a new object
 #define ALLOCATE_OBJECT(type, objectType) \
     (type *)allocateObject(sizeof(type), objectType)
 
-// Offset basic for the fowler-noll-vo hash-fuction - 0x811c9dc5
-#define OFFSET_BASIS 2166136261u
+// Offset basic for the fowler-noll-vo hash-fuction - 2166136261
+#define OFFSET_BASIS 0x811c9dc5u
 
 static Object *allocateObject(size_t, ObjectType);
-static ObjectString *allocateString(char *, int32_t, uint32_t);
-static uint32_t hashString(const char *, int32_t);
+static ObjectString *allocateString(char *, uint32_t, uint32_t);
+static uint32_t hashString(char const *, uint32_t);
 static void printFunction(ObjectFunction *);
 
-ObjectString *copyString(const char *chars, int32_t length, bool removeBackSlash)
+ObjectString *object_copy_string(char const *chars, uint32_t length, bool removeBackSlash)
 {
     uint32_t hash;
     ObjectString *interned;
     char *heapChars;
 
-    if (!containsCharacterRestricted(chars, '\\', length))
+    if (!string_utils_contains_character_restricted(chars, '\\', length))
     {
         hash = hashString(chars, length);
-        interned = tableFindString(&vm.strings, chars, length, hash);
+        interned = table_find_string(&virtualMachine.strings, chars, length, hash);
         if (interned)
             return interned;
         heapChars = ALLOCATE(char, length + 1);
@@ -42,13 +42,14 @@ ObjectString *copyString(const char *chars, int32_t length, bool removeBackSlash
         memcpy(heapChars, chars, length);
         heapChars[length] = '\0';
         char *next = NULL;
-        while (next = strstr(heapChars, "\\"))
+        for (size_t i = 0; i < length-1; i++)
         {
-            resolveEscapeSequence(next, &length);
+            if(heapChars[i] == '\\')
+                string_utils_resolve_escape_sequence(&heapChars[i], &length);
         }
-        // We have to look again for duplicates in the hashtable storing the strings allocated by the vm
+        // We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
         hash = hashString(heapChars, length);
-        interned = tableFindString(&vm.strings, heapChars, length, hash);
+        interned = table_find_string(&virtualMachine.strings, heapChars, length, hash);
         if (interned)
         {
             free(heapChars);
@@ -59,65 +60,65 @@ ObjectString *copyString(const char *chars, int32_t length, bool removeBackSlash
     return allocateString(heapChars, length, hash);
 }
 
-ObjectBoundMethod *newBoundMethod(Value receiver, ObjectClosure *method)
+ObjectBoundMethod *object_new_bound_method(Value receiver, ObjectClosure *method)
 {
-    ObjectBoundMethod *bound = ALLOCATE_OBJECT(ObjectBoundMethod, OBJ_BOUND_METHOD);
+    ObjectBoundMethod *bound = ALLOCATE_OBJECT(ObjectBoundMethod, OBJECT_BOUND_METHOD);
     bound->receiver = receiver;
     bound->method = method;
     return bound;
 }
 
-ObjectClass *newClass(ObjectString *name)
+ObjectClass *object_new_class(ObjectString *name)
 {
-    ObjectClass *celloxClass = ALLOCATE_OBJECT(ObjectClass, OBJ_CLASS);
+    ObjectClass *celloxClass = ALLOCATE_OBJECT(ObjectClass, OBJECT_CLASS);
     celloxClass->name = name;
-    initTable(&celloxClass->methods);
+    table_init(&celloxClass->methods);
     return celloxClass;
 }
 
-ObjectClosure *newClosure(ObjectFunction *function)
+ObjectClosure *object_new_closure(ObjectFunction *function)
 {
     ObjectUpvalue **upvalues = ALLOCATE(ObjectUpvalue *, function->upvalueCount);
-    for (int32_t i = 0; i < function->upvalueCount; i++)
+    for (uint32_t i = 0; i < function->upvalueCount; i++)
     {
         upvalues[i] = NULL;
     }
-    ObjectClosure *closure = ALLOCATE_OBJECT(ObjectClosure, OBJ_CLOSURE);
+    ObjectClosure *closure = ALLOCATE_OBJECT(ObjectClosure, OBJECT_CLOSURE);
     closure->function = function;
     closure->upvalues = upvalues;
     closure->upvalueCount = function->upvalueCount;
     return closure;
 }
 
-ObjectFunction *newFunction()
+ObjectFunction *object_new_function()
 {
-    ObjectFunction *function = ALLOCATE_OBJECT(ObjectFunction, OBJ_FUNCTION);
-    function->arity = 0;
-    function->upvalueCount = 0;
+    ObjectFunction *function = ALLOCATE_OBJECT(ObjectFunction, OBJECT_FUNCTION);
+    function->arity = 0u;
+    function->upvalueCount = 0u;
     function->name = NULL;
-    initChunk(&function->chunk);
+    chunk_init(&function->chunk);
     return function;
 }
 
-ObjectInstance *newInstance(ObjectClass *celloxClass)
+ObjectInstance *object_new_instance(ObjectClass *celloxClass)
 {
-    ObjectInstance *instance = ALLOCATE_OBJECT(ObjectInstance, OBJ_INSTANCE);
+    ObjectInstance *instance = ALLOCATE_OBJECT(ObjectInstance, OBJECT_INSTANCE);
     instance->celloxClass = celloxClass;
-    initTable(&instance->fields);
+    table_init(&instance->fields);
     return instance;
 }
 
-ObjectNative *newNative(NativeFn function)
+ObjectNative *object_new_native(NativeFn function)
 {
-    ObjectNative *native = ALLOCATE_OBJECT(ObjectNative, OBJ_NATIVE);
+    ObjectNative *native = ALLOCATE_OBJECT(ObjectNative, OBJECT_NATIVE);
     native->function = function;
     return native;
 }
 
-ObjectUpvalue *newUpvalue(Value *slot)
+ObjectUpvalue *object_new_upvalue(Value *slot)
 {
     // Allocating the memory used by the upvalue
-    ObjectUpvalue *upvalue = ALLOCATE_OBJECT(ObjectUpvalue, OBJ_UPVALUE);
+    ObjectUpvalue *upvalue = ALLOCATE_OBJECT(ObjectUpvalue, OBJECT_UPVALUE);
     // We zero out the closed field of the upvalue when we create it
     upvalue->closed = NULL_VAL;
     // Adress of the slot where the closed over variables live (enclosing environment)
@@ -127,41 +128,41 @@ ObjectUpvalue *newUpvalue(Value *slot)
     return upvalue;
 }
 
-void printObject(Value value)
+void object_print(Value value)
 {
     switch (OBJECT_TYPE(value))
     {
-    case OBJ_BOUND_METHOD:
+    case OBJECT_BOUND_METHOD:
         printFunction(AS_BOUND_METHOD(value)->method->function);
         break;
-    case OBJ_CLASS:
+    case OBJECT_CLASS:
         printf("%s", AS_CLASS(value)->name->chars);
         break;
-    case OBJ_CLOSURE:
+    case OBJECT_CLOSURE:
         printFunction(AS_CLOSURE(value)->function);
         break;
-    case OBJ_FUNCTION:
+    case OBJECT_FUNCTION:
         printFunction(AS_FUNCTION(value));
         break;
-    case OBJ_INSTANCE:
+    case OBJECT_INSTANCE:
         printf("%s instance", AS_INSTANCE(value)->celloxClass->name->chars);
         break;
-    case OBJ_NATIVE:
+    case OBJECT_NATIVE:
         printf("<native fn>");
         break;
-    case OBJ_STRING:
+    case OBJECT_STRING:
         printf("%s", AS_CSTRING(value));
         break;
-    case OBJ_UPVALUE:
+    case OBJECT_UPVALUE:
         printf("upvalue");
         break;
     }
 }
 
-ObjectString *takeString(char *chars, int32_t length)
+ObjectString *object_take_string(char *chars, uint32_t length)
 {
     uint32_t hash = hashString(chars, length);
-    ObjectString *interned = tableFindString(&vm.strings, chars, length, hash);
+    ObjectString *interned = table_find_string(&virtualMachine.strings, chars, length, hash);
     if (interned != NULL)
     {
         FREE_ARRAY(char, chars, length + 1);
@@ -171,16 +172,16 @@ ObjectString *takeString(char *chars, int32_t length)
 }
 
 // Allocates memory to store a string
-static ObjectString *allocateString(char *chars, int32_t length, uint32_t hash)
+static ObjectString *allocateString(char *chars, uint32_t length, uint32_t hash)
 {
-    ObjectString *string = ALLOCATE_OBJECT(ObjectString, OBJ_STRING);
+    ObjectString *string = ALLOCATE_OBJECT(ObjectString, OBJECT_STRING);
     string->length = length;
     string->chars = chars;
     string->hash = hash;
-    push(OBJECT_VAL(string));
-    // Adds the string to hashtable storing all the strings allocated by the vm
-    tableSet(&vm.strings, string, NULL_VAL);
-    pop();
+    vm_push(OBJECT_VAL(string));
+    // Adds the string to hashtable storing all the strings allocated by the virtualMachine
+    table_set(&virtualMachine.strings, string, NULL_VAL);
+    vm_pop();
     return string;
 }
 
@@ -188,14 +189,14 @@ static ObjectString *allocateString(char *chars, int32_t length, uint32_t hash)
 static Object *allocateObject(size_t size, ObjectType type)
 {
     // Allocates the memory used by the Object
-    Object *object = (Object *)reallocate(NULL, 0, size);
+    Object *object = (Object *)memory_reallocate(NULL, 0, size);
     // Sets the type of the object
     object->type = type;
     // Disables mark so it is picked up by the Garbage Collection in the next cycle
     object->isMarked = false;
-    // Adds the object at the start of the linked list storing the objects allocated by the vm
-    object->next = vm.objects;
-    vm.objects = object;
+    // Adds the object at the start of the linked list storing the objects allocated by the virtualMachine
+    object->next = virtualMachine.objects;
+    virtualMachine.objects = object;
 #ifdef DEBUG_LOG_GC
     printf("%p allocate %zu for %d\n", (void *)object, size, type);
 #endif
@@ -205,13 +206,13 @@ static Object *allocateObject(size_t size, ObjectType type)
 /*  FNV-1a hash function
  *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
  */
-static uint32_t hashString(const char *key, int32_t length)
+static uint32_t hashString(char const *key, uint32_t length)
 {
     uint32_t hash = OFFSET_BASIS;
-    for (int32_t i = 0; i < length; i++)
+    for (uint32_t i = 0; i < length; i++)
     {
         hash ^= (uint8_t)key[i];
-        hash *= 16777619;
+        hash *= 0x01000193u;
     }
     return hash;
 }

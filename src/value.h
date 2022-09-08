@@ -145,9 +145,9 @@ typedef struct
 #endif
 
 // prints a value
-void printValue(Value value);
+void value_print(Value value);
 
 // Determines whether two values are equal
-bool valuesEqual(Value a, Value b);
+bool values_equal(Value a, Value b);
 
 #endif

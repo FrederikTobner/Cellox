@@ -7,14 +7,13 @@
 #include "common.h"
 #include "chunk.h"
 #include "debug.h"
-#include "preProcessor.h"
-#include "vm.h"
+#include "virtual_machine.h"
 
 // Maximum length of a line is 1024 characters
-#define MAX_LINE_LENGTH (1024)
+#define MAX_LINE_LENGTH 1024u
 
 // Reads a lox program from a file
-static char *readFile(const char *);
+static char *init_read_file(char const *);
 
 /* Run with repl
  * 1. Read the user input
@@ -22,29 +21,29 @@ static char *readFile(const char *);
  * 3. Print any results
  * 4. Loop back to step 1
  */
-static void repl();
+static void init_repl();
 
 // Reads a lox program from a file and executes the program
-static void runFile(const char *);
+static void init_run_from_file(char const *);
 
-void init(int argc, const char *argv[])
+void init_init(int argc, char const *argv[])
 {
-    initVM();
+    vm_init();
     if (argc == 1)
-        repl();
+        init_repl();
     else if (argc == 2)
-        runFile(argv[1]);
+        init_run_from_file(argv[1]);
     else
     {
         // Too much arguments (>1) TODO: Add argumenrs for the compiler e.g. --analyze/-a, --store/-s and option to execute stored bytecode
         fprintf(stderr, "Usage: Cellox [path]\n");
-        freeVM();
+        vm_free();
         exit(64);
     }
-    freeVM();
+    vm_free();
 }
 
-static char *readFile(const char *path)
+static char *init_read_file(char const *path)
 {
     // Opens a file of a nonspecified format (b) in read mode (r)
     FILE *file = fopen(path, "rb");
@@ -74,7 +73,7 @@ static char *readFile(const char *path)
     return buffer;
 }
 
-static void repl()
+static void init_repl()
 {
     /// Used to store the next line that read from input
     char line[MAX_LINE_LENGTH];
@@ -91,14 +90,14 @@ static void repl()
         // We close the command prompt if the last input was empty - \n
         if (strlen(line) == 1)
             exit(0);
-        interpret(line);
+        vm_interpret(line);
     }
 }
 
-static void runFile(const char *path)
+static void init_run_from_file(char const *path)
 {
-    char *source = readFile(path);
-    InterpretResult result = interpret(source);
+    char *source = init_read_file(path);
+    InterpretResult result = vm_interpret(source);
     free(source);
     // Error during compilation process
     if (result == INTERPRET_COMPILE_ERROR)

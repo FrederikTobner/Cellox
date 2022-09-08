@@ -4,6 +4,7 @@
 #include "common.h"
 #include "value.h"
 
+// Type definition of an entry in a hashtable structure
 typedef struct
 {
     // Key of the entry 🔑
@@ -12,6 +13,7 @@ typedef struct
     Value value;
 } Entry;
 
+// Type definition of a hashtable structure
 typedef struct
 {
     // Number of entries in the hashtable
@@ -23,22 +25,30 @@ typedef struct
 } Table;
 
 // Dealocates the memory used by the hashtable
-void freeTable(Table *table);
+void table_free(Table *table);
+
 // Initializes the hashtable
-void initTable(Table *table);
+void table_init(Table *table);
+
 // Marks all the objects in the hashtable
-void markTable(Table *table);
+void table_mark(Table *table);
+
 // Copys all the entries from a table to another table
-void tableAddAll(Table *from, Table *to);
+void table_add_all(Table *from, Table *to);
+
 // Deletes an entry in the hashtable and returns true if an entry coresponding to the given key has been found
-bool tableDelete(Table *table, ObjectString *key);
+bool table_delete(Table *table, ObjectString *key);
+
 // Finds a string in the hashtable
-ObjectString *tableFindString(Table *table, const char *chars, int32_t length, uint32_t hash);
+ObjectString *table_find_string(Table *table, char const *chars, int32_t length, uint32_t hash);
+
 // Writes the Value to the specified adress, if an entry corresponding to the given key is present and returns true if an entry coresponding to the given key has been found
-bool tableGet(Table *table, ObjectString *key, Value *value);
+bool table_get(Table *table, ObjectString *key, Value *value);
+
 // Removes the strings that are not referenced anymore from the table
-void tableRemoveWhite(Table *table);
+void table_remove_white(Table *table);
+
 // Changes the value corresponding to the key and returns true if an entry coresponding to the given key has been found
-bool tableSet(Table *table, ObjectString *key, Value value);
+bool table_set(Table *table, ObjectString *key, Value value);
 
 #endif

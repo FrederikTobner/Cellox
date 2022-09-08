@@ -4,7 +4,7 @@
 
 #include "object.h"
 
-void printValue(Value value)
+void value_print(Value value)
 {
 #ifdef NAN_BOXING
   if (IS_BOOL(value))
@@ -14,7 +14,7 @@ void printValue(Value value)
   else if (IS_NUMBER(value))
     printf("%g", AS_NUMBER(value));
   else if (IS_OBJECT(value))
-    printObject(value);
+    object_print(value);
 
 #else
   switch (value.type)
@@ -29,13 +29,13 @@ void printValue(Value value)
     printf("%g", AS_NUMBER(value));
     break;
   case VAL_OBJ:
-    printObject(value);
+    object_print(value);
     break;
   }
 #endif
 }
 
-bool valuesEqual(Value a, Value b)
+bool values_equal(Value a, Value b)
 {
 #ifdef NAN_BOXING
   if (IS_NUMBER(a) && IS_NUMBER(b))

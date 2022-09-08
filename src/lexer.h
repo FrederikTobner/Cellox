@@ -114,15 +114,15 @@ typedef struct
   // Pointer to the start of the character sequence
   const char *start;
   // Length of the character sequence
-  int32_t length;
+  uint32_t length;
   // Line in the sourceCode
-  int32_t line;
+  uint32_t line;
 } Token;
 
 // Initializes the lexer
-void initLexer(const char *source);
+void lexer_init(char const *source);
 
 // Scans the next token in the sourcecode and saves it in a linear sequence of tokens
-Token scanToken();
+Token scan_token();
 
 #endif

@@ -14,8 +14,11 @@
 // Flag for enabeling NAN boxing / NAN tagging
 #define NAN_BOXING
 
+// Flag that indicates that a test is executed
+#ifndef CELLOX_TEST
+
 // Flag for printing out the bytecode, can be removed if you want to disable it
-#define DEBUG_PRINT_CODE
+//#define DEBUG_PRINT_CODE
 
 /*Optional stress mode for the garbage collector.
 * When this flag is defiened the Garbage collector runs as often as it cans.
@@ -26,6 +29,8 @@ Should only be used for debugging*/
 //#define DEBUG_LOG_GC
 
 // Flag for tracing the execution, can be removed if you want to disable it
-#define DEBUG_TRACE_EXECUTION
+//#define DEBUG_TRACE_EXECUTION
+
+#endif
 
 #endif

@@ -27,7 +27,7 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/benchmark/FibonacciBenchmark.clx"
+                "${workspaceFolder}/benchmark/NegateBenchmark.clx"
             ],
             "stopAtEntry": false,
             "externalConsole": true,

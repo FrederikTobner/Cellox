@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "value.h"
-#include "dynamicArray.h"
+#include "dynamic_array.h"
 
 // opcodes of the bytecode instruction set
 typedef enum
@@ -93,27 +93,27 @@ bytecode instructions are idalized instructions for an abstract/virtual computer
 typedef struct
 {
     // Amount of bytecode instructions in the chunk
-    int32_t count;
+    uint32_t count;
     // Capacity of the chunk
-    int32_t capacity;
+    uint32_t capacity;
     // Operand Codes
     uint8_t *code;
-    // STores line information to the corresponding lox program
-    int32_t *lines;
+    // Stores line information to the corresponding lox program
+    uint32_t *lines;
     // Constants stored in the chunk
     DynamicArray constants;
 } Chunk;
 
 // Adds a constant to the chunk
-int32_t addConstant(Chunk *chunk, Value value);
+int32_t chunk_add_constant(Chunk *chunk, Value value);
 
 // Free's a chunk (Deallocates the memory used by the chunk)
-void freeChunk(Chunk *chunk);
+void chunk_free(Chunk *chunk);
 
 // Initializes a chunk
-void initChunk(Chunk *chunk);
+void chunk_init(Chunk *chunk);
 
 // Write to a already existing chunk
-void writeChunk(Chunk *chunk, uint8_t byte, int32_t line);
+void chunk_write(Chunk *chunk, uint8_t byte, int32_t line);
 
 #endif
