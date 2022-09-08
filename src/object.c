@@ -10,15 +10,15 @@
 
 // Marko for allocating a new object
 #define ALLOCATE_OBJECT(type, objectType) \
-    (type *)allocateObject(sizeof(type), objectType)
+    (type *)object_allocate_object(sizeof(type), objectType)
 
 // Offset basic for the fowler-noll-vo hash-fuction - 2166136261
 #define OFFSET_BASIS 0x811c9dc5u
 
-static Object *allocateObject(size_t, ObjectType);
-static ObjectString *allocateString(char *, uint32_t, uint32_t);
-static uint32_t hashString(char const *, uint32_t);
-static void printFunction(ObjectFunction *);
+static Object *object_allocate_object(size_t, ObjectType);
+static ObjectString *object_allocate_string(char *, uint32_t, uint32_t);
+static uint32_t object_hash_string(char const *, uint32_t);
+static void object_print_function(ObjectFunction *);
 
 ObjectString *object_copy_string(char const *chars, uint32_t length, bool removeBackSlash)
 {
@@ -28,7 +28,7 @@ ObjectString *object_copy_string(char const *chars, uint32_t length, bool remove
 
     if (!string_utils_contains_character_restricted(chars, '\\', length))
     {
-        hash = hashString(chars, length);
+        hash = object_hash_string(chars, length);
         interned = table_find_string(&virtualMachine.strings, chars, length, hash);
         if (interned)
             return interned;
@@ -42,13 +42,13 @@ ObjectString *object_copy_string(char const *chars, uint32_t length, bool remove
         memcpy(heapChars, chars, length);
         heapChars[length] = '\0';
         char *next = NULL;
-        for (size_t i = 0; i < length-1; i++)
+        for (uint32_t i = 0; i < length; i++)
         {
             if(heapChars[i] == '\\')
                 string_utils_resolve_escape_sequence(&heapChars[i], &length);
         }
         // We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
-        hash = hashString(heapChars, length);
+        hash = object_hash_string(heapChars, length);
         interned = table_find_string(&virtualMachine.strings, heapChars, length, hash);
         if (interned)
         {
@@ -57,7 +57,7 @@ ObjectString *object_copy_string(char const *chars, uint32_t length, bool remove
         }
     }
 
-    return allocateString(heapChars, length, hash);
+    return object_allocate_string(heapChars, strlen(heapChars), hash);
 }
 
 ObjectBoundMethod *object_new_bound_method(Value receiver, ObjectClosure *method)
@@ -133,16 +133,16 @@ void object_print(Value value)
     switch (OBJECT_TYPE(value))
     {
     case OBJECT_BOUND_METHOD:
-        printFunction(AS_BOUND_METHOD(value)->method->function);
+        object_print_function(AS_BOUND_METHOD(value)->method->function);
         break;
     case OBJECT_CLASS:
         printf("%s", AS_CLASS(value)->name->chars);
         break;
     case OBJECT_CLOSURE:
-        printFunction(AS_CLOSURE(value)->function);
+        object_print_function(AS_CLOSURE(value)->function);
         break;
     case OBJECT_FUNCTION:
-        printFunction(AS_FUNCTION(value));
+        object_print_function(AS_FUNCTION(value));
         break;
     case OBJECT_INSTANCE:
         printf("%s instance", AS_INSTANCE(value)->celloxClass->name->chars);
@@ -161,18 +161,18 @@ void object_print(Value value)
 
 ObjectString *object_take_string(char *chars, uint32_t length)
 {
-    uint32_t hash = hashString(chars, length);
+    uint32_t hash = object_hash_string(chars, length);
     ObjectString *interned = table_find_string(&virtualMachine.strings, chars, length, hash);
     if (interned != NULL)
     {
         FREE_ARRAY(char, chars, length + 1);
         return interned;
     }
-    return allocateString(chars, length, hash);
+    return object_allocate_string(chars, length, hash);
 }
 
 // Allocates memory to store a string
-static ObjectString *allocateString(char *chars, uint32_t length, uint32_t hash)
+static ObjectString *object_allocate_string(char *chars, uint32_t length, uint32_t hash)
 {
     ObjectString *string = ALLOCATE_OBJECT(ObjectString, OBJECT_STRING);
     string->length = length;
@@ -186,7 +186,7 @@ static ObjectString *allocateString(char *chars, uint32_t length, uint32_t hash)
 }
 
 // Allocates the memory for an object of a given type
-static Object *allocateObject(size_t size, ObjectType type)
+static Object *object_allocate_object(size_t size, ObjectType type)
 {
     // Allocates the memory used by the Object
     Object *object = (Object *)memory_reallocate(NULL, 0, size);
@@ -206,7 +206,7 @@ static Object *allocateObject(size_t size, ObjectType type)
 /*  FNV-1a hash function
  *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
  */
-static uint32_t hashString(char const *key, uint32_t length)
+static uint32_t object_hash_string(char const *key, uint32_t length)
 {
     uint32_t hash = OFFSET_BASIS;
     for (uint32_t i = 0; i < length; i++)
@@ -218,7 +218,7 @@ static uint32_t hashString(char const *key, uint32_t length)
 }
 
 // Prints a function
-static void printFunction(ObjectFunction *function)
+static void object_print_function(ObjectFunction *function)
 {
     if (function->name == NULL)
     {

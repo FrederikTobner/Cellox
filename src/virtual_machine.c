@@ -546,7 +546,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
             Value a = vm_pop();
             Value b = vm_pop();
-            vm_push(BOOL_VAL(values_equal(a, b)));
+            vm_push(BOOL_VAL(value_values_equal(a, b)));
             break;
         }
         case OP_NEGATE:

@@ -26,7 +26,7 @@ static void init_repl();
 // Reads a lox program from a file and executes the program
 static void init_run_from_file(char const *);
 
-void init_init(int argc, char const *argv[])
+void init_initialize(int argc, char const *argv[])
 {
     vm_init();
     if (argc == 1)

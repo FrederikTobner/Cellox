@@ -16,3 +16,13 @@ TEST(EscapeSequences, specialCharacters)
 {
     test_cellox_program("escapeSequences/specialcharacters.clx", "\"\'\\\?\n");
 }
+
+TEST(EscapeSequences, octalNumbers)
+{
+    test_cellox_program("escapeSequences/octalNumber.clx", "\1\55\147\n");
+}
+
+TEST(EscapeSequences, hexadecimalNumber)
+{
+    test_cellox_program("escapeSequences/hexNumber.clx", "\x1\xaa\x12\n");
+}
