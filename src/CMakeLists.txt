@@ -4,37 +4,35 @@ set(HEADERS
     chunk.h
     common.h
     compiler.h
-    dynamicArray.h
+    dynamic_array.h
     debug.h
     init.h
     lexer.h
     memory.h
-    nativeFun.h
+    native_fun.h
     object.h
-    preProcessor.h
-    stringUtils.h
+    string_utils.h
     table.h
     value.h
-    vm.h
+    virtual_machine.h
 )
 
-set(SOURCES    
+set(SOURCES
     chunk.c
     compiler.c
     compiler.h
-    dynamicArray.c
+    dynamic_array.c
     debug.c
     init.c 
     lexer.c
     main.c
     memory.c 
-    nativeFun.c
+    native_fun.c
     object.c 
-    preProcessor.c
-    stringUtils.c
+    string_utils.c
     table.c
     value.c  
-    vm.c
+    virtual_machine.c
 )
 
 add_executable(Cellox ${SOURCES} ${HEADERS})

@@ -1,3 +1,5 @@
 var v = 5;
 v += 3;
 print v;
+var s = "hello";
+print s += " world";

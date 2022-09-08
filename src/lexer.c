@@ -11,142 +11,140 @@ typedef struct
     // Pointer to the current position in the current line where the lexical analysis is performed
     const char *current;
     // Line counter - used for error reporting
-    int32_t line;
+    uint32_t line;
 } Lexer;
 
 // Global Lexer variable
 Lexer lexer;
 
-static char advance();
-static TokenType checkKeyword(int32_t start, int32_t length, const char *rest, TokenType type);
-static Token errorToken(const char *message);
-static Token identifier();
-static TokenType identifierType();
-static bool isAlpha(char c);
-static bool isDigit(char c);
-static bool isAtEnd();
-static Token makeToken(TokenType type);
-static bool match(char expected);
-static Token number();
-static char peek();
-static char peekNext();
-static void skipWhitespace();
+static char lexer_advance();
+static TokenType lexer_check_keyword(uint32_t start, uint32_t length, const char *rest, TokenType type);
+static Token lexer_error_token(const char *message);
+static Token lexer_identifier();
+static TokenType lexer_identifier_type();
+static bool lexer_is_alpha(char c);
+static bool lexer_is_digit(char c);
+static bool lexer_is_at_end();
+static Token lexer_make_token(TokenType type);
+static bool lexer_match(char expected);
+static Token lexer_number();
+static char lexer_peek();
+static char lexer_peek_next();
+static void lexer_skip_whitespace();
 static Token string();
 
-void initLexer(const char *source)
+void lexer_init(char const *source)
 {
     lexer.start = source;
     lexer.current = source;
-    lexer.line = 1;
+    lexer.line = 1u;
 }
 
-Token scanToken()
+Token scan_token()
 {
-    skipWhitespace();
+    lexer_skip_whitespace();
     lexer.start = lexer.current;
 
-    if (isAtEnd())
-        return makeToken(TOKEN_EOF);
-    char c = advance();
-    if (isAlpha(c))
-        return identifier();
-    if (isDigit(c))
-        return number();
+    if (lexer_is_at_end())
+        return lexer_make_token(TOKEN_EOF);
+    char c = lexer_advance();
+    if (lexer_is_alpha(c))
+        return lexer_identifier();
+    if (lexer_is_digit(c))
+        return lexer_number();
 
     switch (c)
     {
     case '(':
-        return makeToken(TOKEN_LEFT_PAREN);
+        return lexer_make_token(TOKEN_LEFT_PAREN);
     case ')':
-        return makeToken(TOKEN_RIGHT_PAREN);
+        return lexer_make_token(TOKEN_RIGHT_PAREN);
     case '{':
-        return makeToken(TOKEN_LEFT_BRACE);
+        return lexer_make_token(TOKEN_LEFT_BRACE);
     case '}':
-        return makeToken(TOKEN_RIGHT_BRACE);
+        return lexer_make_token(TOKEN_RIGHT_BRACE);
     case ';':
-        return makeToken(TOKEN_SEMICOLON);
+        return lexer_make_token(TOKEN_SEMICOLON);
     case ',':
-        return makeToken(TOKEN_COMMA);
+        return lexer_make_token(TOKEN_COMMA);
     case '.':
-        return makeToken(TOKEN_DOT);
+        return lexer_make_token(TOKEN_DOT);
     case '-':
-        return makeToken(match('=') ? TOKEN_MINUS_EQUAL : TOKEN_MINUS);
+        return lexer_make_token(lexer_match('=') ? TOKEN_MINUS_EQUAL : TOKEN_MINUS);
     case '+':
-        if (match('='))
-            return makeToken(TOKEN_PLUS_EQUAL);
-        return makeToken(TOKEN_PLUS);
+        if (lexer_match('='))
+            return lexer_make_token(TOKEN_PLUS_EQUAL);
+        return lexer_make_token(TOKEN_PLUS);
     case '/':
-        if (match('/'))
+        if (lexer_match('/'))
         {
-            while (!match('\n'))
-                advance();
+            while (!lexer_match('\n'))
+                lexer_advance();
             lexer.line++;
-            return scanToken();
+            return scan_token();
         }
-        else if (match('*'))
+        else if (lexer_match('*'))
         {
             uint32_t commentDepth = 1;
             while (commentDepth)
             {
-                if (match('*') && match('/'))
+                if (lexer_match('*') && lexer_match('/'))
                     commentDepth--;
-                else if (match('/') && match('*'))
+                else if (lexer_match('/') && lexer_match('*'))
                     commentDepth++;
-                else if (match('\n'))
+                else if (lexer_match('\n'))
                     lexer.line++;
                 else
-                    advance();
+                    lexer_advance();
             }
-            return scanToken();
+            return scan_token();
         }
-        return makeToken(
-            match('=') ? TOKEN_SLASH_EQUAL : TOKEN_SLASH);
+        return lexer_make_token(
+            lexer_match('=') ? TOKEN_SLASH_EQUAL : TOKEN_SLASH);
     case '*':
-        if (match('*'))
-            return makeToken(match('=') ? TOKEN_STAR_STAR_EQUAL : TOKEN_STAR_STAR);
-        else if (match('='))
-            return makeToken(TOKEN_STAR_EQUAL);
+        if (lexer_match('*'))
+            return lexer_make_token(lexer_match('=') ? TOKEN_STAR_STAR_EQUAL : TOKEN_STAR_STAR);
+        else if (lexer_match('='))
+            return lexer_make_token(TOKEN_STAR_EQUAL);
         else
-            return makeToken(TOKEN_STAR);
+            return lexer_make_token(TOKEN_STAR);
     case '!':
-        return makeToken(
-            match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
+        return lexer_make_token(
+            lexer_match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
     case '=':
-        return makeToken(
-            match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
+        return lexer_make_token(
+            lexer_match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
     case '"':
         return string();
     case ':':
-        return makeToken(TOKEN_DOUBLEDOT);
+        return lexer_make_token(TOKEN_DOUBLEDOT);
     case '<':
-        return makeToken(
-            match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
+        return lexer_make_token(
+            lexer_match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
     case '>':
-        return makeToken(
-            match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
+        return lexer_make_token(
+            lexer_match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
     case '%':
-        return makeToken(
-            match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
+        return lexer_make_token(
+            lexer_match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
     case '|':
-        return match('|') ? makeToken(TOKEN_OR) : errorToken("There is no bitwise or in cellox");
+        return lexer_match('|') ? lexer_make_token(TOKEN_OR) : lexer_error_token("There is no bitwise or in cellox");
     case '&':
-        return match('&') ? makeToken(TOKEN_AND) : errorToken("There is no bitwise and in cellox");
+        return lexer_match('&') ? lexer_make_token(TOKEN_AND) : lexer_error_token("There is no bitwise and in cellox");
     }
-    return errorToken("Unexpected character.");
+    return lexer_error_token("Unexpected character.");
 }
 
 // Advances a position further in the sourceCode and returns the prevoius Token
-static char advance()
+static char lexer_advance()
 {
-    lexer.current++;
-    return lexer.current[-1];
+    return *lexer.current++;
 }
 
 // Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
-static TokenType checkKeyword(int32_t start, int32_t length, const char *rest, TokenType type)
+static TokenType lexer_check_keyword(uint32_t start, uint32_t length, const char *rest, TokenType type)
 {
-    if (lexer.current - lexer.start == start + length &&
-        memcmp(lexer.start + start, rest, length) == 0)
+    if (lexer.current - lexer.start == start + length && memcmp(lexer.start + start, rest, length) == 0)
     {
         return type;
     }
@@ -155,7 +153,7 @@ static TokenType checkKeyword(int32_t start, int32_t length, const char *rest, T
 }
 
 // Creates an error Token with a message
-static Token errorToken(const char *message)
+static Token lexer_error_token(const char *message)
 {
     Token token;
     token.type = TOKEN_ERROR;
@@ -166,26 +164,26 @@ static Token errorToken(const char *message)
 }
 
 // Creates a new identifier token
-static Token identifier()
+static Token lexer_identifier()
 {
-    while (isAlpha(peek()) || isDigit(peek()))
+    while (lexer_is_alpha(lexer_peek()) || lexer_is_digit(lexer_peek()))
     {
-        advance();
+        lexer_advance();
     }
-    return makeToken(identifierType());
+    return lexer_make_token(lexer_identifier_type());
 }
 
 // Creates a new identifier token or a reserved keyword
-static TokenType identifierType()
+static TokenType lexer_identifier_type()
 {
     switch (lexer.start[0])
     {
     case 'a':
-        return checkKeyword(1, 2, "nd", TOKEN_AND);
+        return lexer_check_keyword(1, 2, "nd", TOKEN_AND);
     case 'c':
-        return checkKeyword(1, 4, "lass", TOKEN_CLASS);
+        return lexer_check_keyword(1, 4, "lass", TOKEN_CLASS);
     case 'e':
-        return checkKeyword(1, 3, "lse", TOKEN_ELSE);
+        return lexer_check_keyword(1, 3, "lse", TOKEN_ELSE);
     case 'f':
         if (lexer.current - lexer.start > 1)
         {
@@ -193,26 +191,26 @@ static TokenType identifierType()
             switch (lexer.start[1])
             {
             case 'a':
-                return checkKeyword(2, 3, "lse", TOKEN_FALSE);
+                return lexer_check_keyword(2, 3, "lse", TOKEN_FALSE);
             case 'o':
-                return checkKeyword(2, 1, "r", TOKEN_FOR);
+                return lexer_check_keyword(2, 1, "r", TOKEN_FOR);
             case 'u':
-                return checkKeyword(2, 1, "n", TOKEN_FUN);
+                return lexer_check_keyword(2, 1, "n", TOKEN_FUN);
             }
         }
         break;
     case 'i':
-        return checkKeyword(1, 1, "f", TOKEN_IF);
+        return lexer_check_keyword(1, 1, "f", TOKEN_IF);
     case 'n':
-        return checkKeyword(1, 3, "ull", TOKEN_NULL);
+        return lexer_check_keyword(1, 3, "ull", TOKEN_NULL);
     case 'o':
-        return checkKeyword(1, 1, "r", TOKEN_OR);
+        return lexer_check_keyword(1, 1, "r", TOKEN_OR);
     case 'p':
-        return checkKeyword(1, 4, "rint", TOKEN_PRINT);
+        return lexer_check_keyword(1, 4, "rint", TOKEN_PRINT);
     case 'r':
-        return checkKeyword(1, 5, "eturn", TOKEN_RETURN);
+        return lexer_check_keyword(1, 5, "eturn", TOKEN_RETURN);
     case 's':
-        return checkKeyword(1, 4, "uper", TOKEN_SUPER);
+        return lexer_check_keyword(1, 4, "uper", TOKEN_SUPER);
     case 't':
         if (lexer.current - lexer.start > 1)
         {
@@ -220,41 +218,41 @@ static TokenType identifierType()
             switch (lexer.start[1])
             {
             case 'h':
-                return checkKeyword(2, 2, "is", TOKEN_THIS);
+                return lexer_check_keyword(2, 2, "is", TOKEN_THIS);
             case 'r':
-                return checkKeyword(2, 2, "ue", TOKEN_TRUE);
+                return lexer_check_keyword(2, 2, "ue", TOKEN_TRUE);
             }
         }
         break;
     case 'v':
-        return checkKeyword(1, 2, "ar", TOKEN_VAR);
+        return lexer_check_keyword(1, 2, "ar", TOKEN_VAR);
     case 'w':
-        return checkKeyword(1, 4, "hile", TOKEN_WHILE);
+        return lexer_check_keyword(1, 4, "hile", TOKEN_WHILE);
     }
     return TOKEN_IDENTIFIER;
 }
 
 /* Checks if the char c is from the alphabet or an underscore.
 These are the valid characters for identifiers.*/
-static bool isAlpha(char c)
+static bool lexer_is_alpha(char c)
 {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
 // checks if the char c is a digit
-static bool isDigit(char c)
+static bool lexer_is_digit(char c)
 {
     return c >= '0' && c <= '9';
 }
 
 // Determines wheather we reached the end in the sourceCode
-static bool isAtEnd()
+static bool lexer_is_at_end()
 {
     return *lexer.current == '\0';
 }
 
 // Creates a new Token of a given type
-static Token makeToken(TokenType type)
+static Token lexer_make_token(TokenType type)
 {
     Token token;
     token.type = type;
@@ -265,9 +263,9 @@ static Token makeToken(TokenType type)
 }
 
 // Matches the character at the current position of the lexer in the sourcecode with a given character
-static bool match(char expected)
+static bool lexer_match(char expected)
 {
-    if (isAtEnd())
+    if (lexer_is_at_end())
         return false;
     if (*lexer.current != expected)
         return false;
@@ -276,66 +274,66 @@ static bool match(char expected)
 }
 
 // Creates a new number literal token
-static Token number()
+static Token lexer_number()
 {
-    while (isDigit(peek()))
+    while (lexer_is_digit(lexer_peek()))
     {
-        advance();
+        lexer_advance();
     }
 
     // Look for a fractional part.
-    if (peek() == '.' && isDigit(peekNext()))
+    if (lexer_peek() == '.' && lexer_is_digit(lexer_peek_next()))
     {
         // Consume the ".".
-        advance();
-        while (isDigit(peek()))
+        lexer_advance();
+        while (lexer_is_digit(lexer_peek()))
         {
-            advance();
+            lexer_advance();
         }
     }
-    return makeToken(TOKEN_NUMBER);
+    return lexer_make_token(TOKEN_NUMBER);
 }
 
 /// Returns the char at the current position
-static char peek()
+static char lexer_peek()
 {
     return *lexer.current;
 }
 
 // Returns the char one position ahead of the current Position
-static char peekNext()
+static char lexer_peek_next()
 {
-    if (isAtEnd())
+    if (lexer_is_at_end())
         return '\0';
     return lexer.current[1];
 }
 
 // Skips whitespaces, linebreaks, carriage returns comments an tabstobs
-static void skipWhitespace()
+static void lexer_skip_whitespace()
 {
     for (;;)
     {
-        char c = peek();
+        char c = lexer_peek();
         switch (c)
         {
         case ' ':
         case '\r':
         case '\t':
             // Whitespaces tabstops and carriage returns are ignored
-            advance();
+            lexer_advance();
             break;
         case '\n':
             // Linecounter will increase on a linefeed
             lexer.line++;
-            advance();
+            lexer_advance();
             break;
         case '/':
-            if (peekNext() == '/')
+            if (lexer_peek_next() == '/')
             {
                 // A comment goes until the end of the line.
-                while (peek() != '\n' && !isAtEnd())
+                while (lexer_peek() != '\n' && !lexer_is_at_end())
                 {
-                    advance();
+                    lexer_advance();
                 }
             }
             else
@@ -352,17 +350,17 @@ static void skipWhitespace()
 // Creates a new string literal token
 static Token string()
 {
-    while (peek() != '"' && !isAtEnd())
+    while (lexer_peek() != '"' && !lexer_is_at_end())
     {
-        if (peek() == '\n')
+        if (lexer_peek() == '\n')
             lexer.line++;
-        if (peek() == '\\')
-            advance();
-        advance();
+        if (lexer_peek() == '\\')
+            lexer_advance();
+        lexer_advance();
     }
-    if (isAtEnd())
-        return errorToken("Unterminated string.");
+    if (lexer_is_at_end())
+        return lexer_error_token("Unterminated string.");
     // The closing quote.
-    advance();
-    return makeToken(TOKEN_STRING);
+    lexer_advance();
+    return lexer_make_token(TOKEN_STRING);
 }

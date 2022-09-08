@@ -1,0 +1,6 @@
+print 1 != null;
+print 3 != 5;
+print "test" != "tes";
+print null != null;
+print 5 != 5;
+print "test" != "test";

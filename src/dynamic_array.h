@@ -7,18 +7,18 @@
 // Type definition of the dynamic value array
 typedef struct
 {
-    int32_t capacity;
-    int32_t count;
+    uint32_t capacity;
+    uint32_t count;
     Value *values;
 } DynamicArray;
 
 // Dealocates the memory used by the dynamic array
-void freeDynamicArray(DynamicArray *array);
+void dynamic_array_free(DynamicArray *array);
 
 // initializes the dynamic array
-void initDynamicArray(DynamicArray *array);
+void dynamic_array_init(DynamicArray *array);
 
 // Adds a value to the dynamic array
-void writeDynamicArray(DynamicArray *array, Value value);
+void dynamic_array_write(DynamicArray *array, Value value);
 
 #endif

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "compiler.h"
-#include "vm.h"
+#include "virtual_machine.h"
 #ifdef DEBUG_LOG_GC
 #include <stdio.h>
 #include "debug.h"
@@ -11,48 +11,46 @@
 
 #define GC_HEAP_GROW_FACTOR 2
 
-static void blackenObject(Object *);
-static void freeObject(Object *);
-static void markArray(DynamicArray *);
-static void markRoots();
-static void sweep();
-static void traceReferences();
+static void memory_blacken_object(Object *);
+static void memory_free_object(Object *);
+static void memory_mark_array(DynamicArray *);
+static void memory_mark_roots();
+static void memory_sweep();
+static void memory_trace_references();
 
-void collectGarbage()
+void memory_collect_garbage()
 {
 #ifdef DEBUG_LOG_GC
-  printf("-- gc begin\n");
-  size_t before = vm.bytesAllocated;
+  printf("garbage collection process has begun\n");
+  size_t before = virtualMachine.bytesAllocated;
 #endif
-  markRoots();
-  traceReferences();
+  memory_mark_roots();
+  memory_trace_references();
   // We have to remove the strings with a another method, because they have their own hashtable
-  tableRemoveWhite(&vm.strings);
+  table_remove_white(&virtualMachine.strings);
   // reclaim the garbage
-  sweep();
+  memory_sweep();
   // Adjusts the threshold when the next garbage collection will occur
-  vm.nextGC = vm.bytesAllocated * GC_HEAP_GROW_FACTOR;
+  virtualMachine.nextGC = virtualMachine.bytesAllocated * GC_HEAP_GROW_FACTOR;
 #ifdef DEBUG_LOG_GC
-  printf("-- gc end\n");
-  printf("   collected %zu bytes (from %zu to %zu) next at %zu\n",
-         before - vm.bytesAllocated, before, vm.bytesAllocated,
-         vm.nextGC);
+  printf("garbage collection process has ended\n");
+  printf("   collected %zu bytes (from %zu to %zu) next at %zu\n", before - virtualMachine.bytesAllocated, before, virtualMachine.bytesAllocated, virtualMachine.nextGC);
 #endif
 }
 
-void freeObjects()
+void memory_free_objects()
 {
-  Object *object = vm.objects;
+  Object *object = virtualMachine.objects;
   while (object != NULL)
   {
     Object *next = object->next;
-    freeObject(object);
+    memory_free_object(object);
     object = next;
   }
-  free(vm.grayStack);
+  free(virtualMachine.grayStack);
 }
 
-void markObject(Object *object)
+void memory_mark_object(Object *object)
 {
   if (object == NULL)
     return;
@@ -61,39 +59,37 @@ void markObject(Object *object)
     return;
 #ifdef DEBUG_LOG_GC
   printf("%p marked ", (void *)object);
-  printValue(OBJ_VAL(object));
+  value_print(OBJ_VAL(object));
   printf("\n");
 #endif
   object->isMarked = true;
-  if (vm.grayCapacity < vm.grayCount + 1)
+  if (virtualMachine.grayCapacity < virtualMachine.grayCount + 1)
   {
-    vm.grayCapacity = GROW_CAPACITY(vm.grayCapacity);
-    vm.grayStack = (Object **)realloc(vm.grayStack, sizeof(Object *) * vm.grayCapacity);
+    virtualMachine.grayCapacity = GROW_CAPACITY(virtualMachine.grayCapacity);
+    virtualMachine.grayStack = (Object **)realloc(virtualMachine.grayStack, sizeof(Object *) * virtualMachine.grayCapacity);
   }
-  if (vm.grayStack == NULL)
+  if (virtualMachine.grayStack == NULL)
     exit(1);
-  vm.grayStack[vm.grayCount++] = object;
+  virtualMachine.grayStack[virtualMachine.grayCount++] = object;
 }
 
-void markValue(Value value)
+void memory_mark_value(Value value)
 {
   if (IS_OBJECT(value))
-    markObject(AS_OBJECT(value));
+    memory_mark_object(AS_OBJECT(value));
 }
 
 // Helper method for reallocating the memory used by a dynamic Array
-void *reallocate(void *pointer, size_t oldSize, size_t newSize)
+void *memory_reallocate(void *pointer, size_t oldSize, size_t newSize)
 {
-  vm.bytesAllocated += newSize - oldSize;
+  virtualMachine.bytesAllocated += newSize - oldSize;
   if (newSize > oldSize)
   {
 #ifdef DEBUG_STRESS_GC
-    collectGarbage();
+    memory_collect_garbage();
 #endif
-    if (vm.bytesAllocated > vm.nextGC)
-    {
-      collectGarbage();
-    }
+    if (virtualMachine.bytesAllocated > virtualMachine.nextGC)
+      memory_collect_garbage();
   }
   if (newSize == 0)
   {
@@ -108,160 +104,150 @@ void *reallocate(void *pointer, size_t oldSize, size_t newSize)
 }
 
 // Blackens an object - all the references that this object have been marked
-static void blackenObject(Object *object)
+static void memory_blacken_object(Object *object)
 {
 #ifdef DEBUG_LOG_GC
   printf("%p blacken ", (void *)object);
-  printValue(OBJ_VAL(object));
+  value_print(OBJ_VAL(object));
   printf("\n");
 #endif
   switch (object->type)
   {
-  case OBJ_BOUND_METHOD:
+  case OBJECT_BOUND_METHOD:
   {
     ObjectBoundMethod *bound = (ObjectBoundMethod *)object;
-    markValue(bound->receiver);
-    markObject((Object *)bound->method);
+    memory_mark_value(bound->receiver);
+    memory_mark_object((Object *)bound->method);
     break;
   }
-  case OBJ_CLASS:
+  case OBJECT_CLASS:
   {
     ObjectClass *celloxClass = (ObjectClass *)object;
-    markObject((Object *)celloxClass->name);
-    markTable(&celloxClass->methods);
+    memory_mark_object((Object *)celloxClass->name);
+    table_mark(&celloxClass->methods);
     break;
   }
-  case OBJ_CLOSURE:
+  case OBJECT_CLOSURE:
   {
     ObjectClosure *closure = (ObjectClosure *)object;
-    markObject((Object *)closure->function);
-    for (int32_t i = 0; i < closure->upvalueCount; i++)
+    memory_mark_object((Object *)closure->function);
+    for (uint32_t i = 0; i < closure->upvalueCount; i++)
     {
-      markObject((Object *)closure->upvalues[i]);
+      memory_mark_object((Object *)closure->upvalues[i]);
     }
     break;
   }
-  case OBJ_FUNCTION:
+  case OBJECT_FUNCTION:
   {
     ObjectFunction *function = (ObjectFunction *)object;
-    markObject((Object *)function->name);
-    markArray(&function->chunk.constants);
+    memory_mark_object((Object *)function->name);
+    memory_mark_array(&function->chunk.constants);
     break;
   }
-  case OBJ_INSTANCE:
+  case OBJECT_INSTANCE:
   {
     ObjectInstance *instance = (ObjectInstance *)object;
-    markObject((Object *)instance->celloxClass);
-    markTable(&instance->fields);
+    memory_mark_object((Object *)instance->celloxClass);
+    table_mark(&instance->fields);
     break;
   }
-  case OBJ_UPVALUE:
-    markValue(((ObjectUpvalue *)object)->closed);
+  case OBJECT_UPVALUE:
+    memory_mark_value(((ObjectUpvalue *)object)->closed);
     break;
-  case OBJ_NATIVE:
-  case OBJ_STRING:
+  case OBJECT_NATIVE:
+  case OBJECT_STRING:
     break;
   }
 }
 
 // Dealocates the memomory used by the object
-static void freeObject(Object *object)
+static void memory_free_object(Object *object)
 {
 #ifdef DEBUG_LOG_GC
-  printf("%p free type %d\n", (void *)object, object->type);
+  printf("freed object %p of the type %d\n", (void *)object, object->type);
 #endif
   switch (object->type)
   {
-  case OBJ_BOUND_METHOD:
+  case OBJECT_BOUND_METHOD:
     FREE(ObjectBoundMethod, object);
     break;
-  case OBJ_CLASS:
+  case OBJECT_CLASS:
   {
-    ObjectClass *klass = (ObjectClass *)object;
-    freeTable(&klass->methods);
+    ObjectClass *celloxClass = (ObjectClass *)object;
+    table_free(&celloxClass->methods);
     FREE(ObjectClass, object);
     break;
   }
-  case OBJ_CLOSURE:
+  case OBJECT_CLOSURE:
   {
     ObjectClosure *closure = (ObjectClosure *)object;
     FREE_ARRAY(ObjectUpvalue *, closure->upvalues, closure->upvalueCount);
     FREE(ObjectClosure, object);
     break;
   }
-  case OBJ_FUNCTION:
+  case OBJECT_FUNCTION:
   {
     ObjectFunction *function = (ObjectFunction *)object;
-    freeChunk(&function->chunk);
+    chunk_free(&function->chunk);
     FREE(ObjectFunction, object);
     break;
   }
-  case OBJ_INSTANCE:
+  case OBJECT_INSTANCE:
   {
     ObjectInstance *instance = (ObjectInstance *)object;
-    freeTable(&instance->fields);
+    table_free(&instance->fields);
     FREE(ObjectInstance, object);
     break;
   }
-  case OBJ_NATIVE:
+  case OBJECT_NATIVE:
     FREE(ObjectNative, object);
     break;
-  case OBJ_STRING:
+  case OBJECT_STRING:
   {
     ObjectString *string = (ObjectString *)object;
     FREE_ARRAY(char, string->chars, string->length + 1);
     FREE(ObjectString, object);
     break;
   }
-  case OBJ_UPVALUE:
+  case OBJECT_UPVALUE:
     FREE(ObjectUpvalue, object);
     break;
   }
 }
 
 // Marks all the values in an array
-static void markArray(DynamicArray *array)
+static void memory_mark_array(DynamicArray *array)
 {
   for (int32_t i = 0; i < array->count; i++)
-  {
-    markValue(array->values[i]);
-  }
+    memory_mark_value(array->values[i]);
 }
 
-// Marks the roots - local variables or temporaries sitting in the VM's stack
-static void markRoots()
+// Marks the roots - local variables or temporaries sitting in the VirtualMachine's stack
+static void memory_mark_roots()
 {
   // We mark all the values
-  for (Value *slot = vm.stack; slot < vm.stackTop; slot++)
-  {
-    markValue(*slot);
-  }
+  for (Value *slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++)
+    memory_mark_value(*slot);
   // all the objects
-  for (int32_t i = 0; i < vm.frameCount; i++)
-  {
-    markObject((Object *)vm.callStack[i].closure);
-  }
+  for (int32_t i = 0; i < virtualMachine.frameCount; i++)
+    memory_mark_object((Object *)virtualMachine.callStack[i].closure);
   // all the ObjectUpvalues
-  for (ObjectUpvalue *upvalue = vm.openUpvalues;
-       upvalue != NULL;
-       upvalue = upvalue->next)
-  {
-    markObject((Object *)upvalue);
-  }
+  for (ObjectUpvalue *upvalue = virtualMachine.openUpvalues; upvalue != NULL; upvalue = upvalue->next)
+    memory_mark_object((Object *)upvalue);
   // all the global variables
-  markTable(&vm.globals);
+  table_mark(&virtualMachine.globals);
   // And all the compiler roots allocated on the heap
-  markCompilerRoots();
-  markObject((Object *)vm.initString);
+  compiler_mark_roots();
+  memory_mark_object((Object *)virtualMachine.initString);
 }
 
 /* Walks through the linked list of objects on the heap and checks their mark bits.
  * If an object is unmarked, it is unlinked from the list
  * and the memory used by the object is reclaimed*/
-static void sweep()
+static void memory_sweep()
 {
   Object *previous = NULL;
-  Object *object = vm.objects;
+  Object *object = virtualMachine.objects;
   while (object != NULL)
   {
     if (object->isMarked)
@@ -276,25 +262,20 @@ static void sweep()
       Object *unreached = object;
       object = object->next;
       if (previous != NULL)
-      {
         previous->next = object;
-      }
       else
-      {
-        vm.objects = object;
-      }
-
-      freeObject(unreached);
+        virtualMachine.objects = object;
+      memory_free_object(unreached);
     }
   }
 }
 
-// Traces all the references that the objects of the vm contain
-static void traceReferences()
+// Traces all the references that the objects of the virtualMachine contain
+static void memory_trace_references()
 {
-  while (vm.grayCount > 0)
+  while (virtualMachine.grayCount > 0)
   {
-    Object *object = vm.grayStack[--vm.grayCount];
-    blackenObject(object);
+    Object *object = virtualMachine.grayStack[--virtualMachine.grayCount];
+    memory_blacken_object(object);
   }
 }

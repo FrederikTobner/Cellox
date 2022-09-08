@@ -6,23 +6,23 @@
 
 // Makro that allocates the memory needed for a given type multiplied by the count
 #define ALLOCATE(type, count) \
-    (type *)reallocate(NULL, 0, sizeof(type) * (count))
+    (type *)memory_reallocate(NULL, 0, sizeof(type) * (count))
 
 // Makro that frees the memory used by a given type at the position specified by the pointer
 #define FREE(type, pointer) \
-    reallocate(pointer, sizeof(type), 0)
+    memory_reallocate(pointer, sizeof(type), 0)
 
 // Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)
 #define GROW_CAPACITY(capacity) \
-    ((capacity) < 8 ? 8 : (capacity) + 2)
+    ((capacity) < 8u ? 8u : (capacity) + 2u)
 
 // Makro that increases the size of a dynamic Array
 #define GROW_ARRAY(type, pointer, oldCount, newCount) \
-    (type *)reallocate(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount))
+    (type *)memory_reallocate(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount))
 
 // Makro that dealocates an existing dynamic array
 #define FREE_ARRAY(type, pointer, oldCount) \
-    reallocate(pointer, sizeof(type) * (oldCount), 0)
+    memory_reallocate(pointer, sizeof(type) * (oldCount), 0)
 
 /* Starts the garbage collection process.
  * The garbage collector of cellox is a precise GC.
@@ -35,18 +35,18 @@
  * In the marking phase we start at the roots and traverse through all the objects the roots refer to.
  * In the sweeping phase all the reachable objects have been marked, and therefore we can reclaim the memory that is used by the unmarked objects.
  */
-void collectGarbage();
+void memory_collect_garbage();
 
-// Dealocates the memory used by the objects of the vm
-void freeObjects();
+// Dealocates the memory used by the objects of the virtualMachine
+void memory_free_objects();
 
 // Marks a cellox object
-void markObject(Object *object);
+void memory_mark_object(Object *object);
 
 // Marks a cellox value
-void markValue(Value value);
+void memory_mark_value(Value value);
 
 // Reallocates the memory usage from a given pointer
-void *reallocate(void *pointer, size_t oldSize, size_t newSize);
+void *memory_reallocate(void *pointer, size_t oldSize, size_t newSize);
 
 #endif

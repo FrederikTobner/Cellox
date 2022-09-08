@@ -9,49 +9,49 @@
 // The max load factor of the hashtable, if the max load factor multiplied with the capacity is reached is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
 
-static void adjustCapacity(Table *, int32_t);
-static Entry *findEntry(Entry *, int32_t, ObjectString *);
+static void table_adjust_capacity(Table *, int32_t);
+static Entry *table_find_entry(Entry *, int32_t, ObjectString *);
 
-void freeTable(Table *table)
+void table_free(Table *table)
 {
     FREE_ARRAY(Entry, table->entries, table->capacity);
-    initTable(table);
+    table_init(table);
 }
 
-void initTable(Table *table)
+void table_init(Table *table)
 {
     table->count = 0;
     table->capacity = 0;
     table->entries = NULL;
 }
 
-void markTable(Table *table)
+void table_mark(Table *table)
 {
     for (uint32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
-        markObject((Object *)entry->key);
-        markValue(entry->value);
+        memory_mark_object((Object *)entry->key);
+        memory_mark_value(entry->value);
     }
 }
 
-void tableAddAll(Table *from, Table *to)
+void table_add_all(Table *from, Table *to)
 {
     for (uint32_t i = 0; i < from->capacity; i++)
     {
         Entry *entry = &from->entries[i];
         if (entry->key != NULL)
-            tableSet(to, entry->key, entry->value);
+            table_set(to, entry->key, entry->value);
     }
 }
 
-bool tableDelete(Table *table, ObjectString *key)
+bool table_delete(Table *table, ObjectString *key)
 {
     if (table->count == 0)
         return false;
 
     // Find the entry.
-    Entry *entry = findEntry(table->entries, table->capacity, key);
+    Entry *entry = table_find_entry(table->entries, table->capacity, key);
     if (entry->key == NULL)
         return false;
 
@@ -61,7 +61,7 @@ bool tableDelete(Table *table, ObjectString *key)
     return true;
 }
 
-ObjectString *tableFindString(Table *table, const char *chars, int32_t length, uint32_t hash)
+ObjectString *table_find_string(Table *table, char const *chars, int32_t length, uint32_t hash)
 {
     if (table->count == 0)
         return NULL;
@@ -83,12 +83,12 @@ ObjectString *tableFindString(Table *table, const char *chars, int32_t length, u
     }
 }
 
-bool tableGet(Table *table, ObjectString *key, Value *value)
+bool table_get(Table *table, ObjectString *key, Value *value)
 {
     if (table->count == 0)
         return false;
 
-    Entry *entry = findEntry(table->entries, table->capacity, key);
+    Entry *entry = table_find_entry(table->entries, table->capacity, key);
     if (entry->key == NULL)
         return false;
 
@@ -96,26 +96,26 @@ bool tableGet(Table *table, ObjectString *key, Value *value)
     return true;
 }
 
-void tableRemoveWhite(Table *table)
+void table_remove_white(Table *table)
 {
     for (uint32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
         if (entry->key != NULL && !entry->key->obj.isMarked)
-            tableDelete(table, entry->key);
+            table_delete(table, entry->key);
     }
 }
 
-bool tableSet(Table *table, ObjectString *key, Value value)
+bool table_set(Table *table, ObjectString *key, Value value)
 {
-    // We grow the hashTable when it becomes 75% full
+    // We grow the hashtable when it becomes 75% full
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
         uint32_t capacity = GROW_CAPACITY(table->capacity);
-        adjustCapacity(table, capacity);
+        table_adjust_capacity(table, capacity);
     }
 
-    Entry *entry = findEntry(table->entries, table->capacity, key);
+    Entry *entry = table_find_entry(table->entries, table->capacity, key);
     bool isNewKey = entry->key == NULL;
     if (isNewKey && IS_NULL(entry->value))
         table->count++;
@@ -126,7 +126,7 @@ bool tableSet(Table *table, ObjectString *key, Value value)
 }
 
 // Adjusts the capacity of the hash table
-static void adjustCapacity(Table *table, int32_t capacity)
+static void table_adjust_capacity(Table *table, int32_t capacity)
 {
     Entry *entries = ALLOCATE(Entry, capacity);
     for (uint32_t i = 0; i < capacity; i++)
@@ -141,7 +141,7 @@ static void adjustCapacity(Table *table, int32_t capacity)
         if (entry->key == NULL)
             continue;
 
-        Entry *dest = findEntry(entries, capacity, entry->key);
+        Entry *dest = table_find_entry(entries, capacity, entry->key);
         dest->key = entry->key;
         dest->value = entry->value;
         table->count++;
@@ -153,7 +153,7 @@ static void adjustCapacity(Table *table, int32_t capacity)
 }
 
 // Looks up an entry in the hashtable, based on a key
-static Entry *findEntry(Entry *entries, int32_t capacity, ObjectString *key)
+static Entry *table_find_entry(Entry *entries, int32_t capacity, ObjectString *key)
 {
     uint32_t index = key->hash % capacity;
     Entry *tombstone = NULL;

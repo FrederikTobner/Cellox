@@ -1,6 +1,6 @@
 #ifndef cellox_init_h
 #define cellox_init_h
 
-void init(int argc, const char *argv[]);
+void init_init(int argc, char const *argv[]);
 
 #endif

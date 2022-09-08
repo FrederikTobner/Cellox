@@ -1,13 +1,13 @@
-#include "stringUtils.h"
+#include "string_utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-static void removeFirstChar(char *text);
+static void string_utils_behead(char *text);
 
 // Checks if a string contains the specified character restricted the specified length
-bool containsCharacterRestricted(const char *text, char character, int length)
+bool string_utils_contains_character_restricted(char const *text, char character, int length)
 {
     for (uint32_t i = 0; i < length; i++)
     {
@@ -20,7 +20,7 @@ bool containsCharacterRestricted(const char *text, char character, int length)
 }
 
 // Resolves all the escape sequences inside a string literal
-void resolveEscapeSequence(char *text, int *length)
+void string_utils_resolve_escape_sequence(char *text, int *length)
 {
     switch (*(++text))
     {
@@ -31,6 +31,10 @@ void resolveEscapeSequence(char *text, int *length)
     // Backspace
     case 'b':
         *text = '\b';
+        break;
+    // formfeed page break
+    case 'f':
+        *text = '\f';
         break;
     // New Line
     case 'n':
@@ -55,16 +59,19 @@ void resolveEscapeSequence(char *text, int *length)
         break;
     case '\\':
         break;
+    case '?':
+        *text = '\?';
+        break;
     default:
         printf("Unknown escape sequence \\%c", *text);
         exit(65);
     }
-    removeFirstChar(text - 1);
+    string_utils_behead(text - 1);
     (*length)--;
 }
 
 // Removes the first character in a sequence of characters
-static void removeFirstChar(char *text)
+static void string_utils_behead(char *text)
 {
     // Removes '\\' that precedes the escape sequence
     for (uint32_t j = 0; j < strlen(text); j++)

@@ -11,24 +11,24 @@
 #endif
 
 #include "memory.h"
-#include "nativeFun.h"
+#include "native_fun.h"
 #include "object.h"
 #include "value.h"
 
 #define MAX_READ_LINE_INPUT 1024
 #define MAX_USER_NAME_LENGTH 256
 
-static void assertArity(char *functioName, int32_t arity, int32_t argcount);
+static void native_assert_arrity(char *functioName,  uint32_t arity, uint32_t argcount);
 
-Value clockNative(int32_t argCount, Value *args)
+Value native_clock(uint32_t argCount, Value *args)
 {
-    assertArity("clock", 0, argCount);
+    native_assert_arrity("clock", 0, argCount);
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
 
-Value exitNative(int32_t argCount, Value *args)
+Value native_exit(uint32_t argCount, Value *args)
 {
-    assertArity("exit", 1, argCount);
+    native_assert_arrity("exit", 1, argCount);
     if (!IS_NUMBER(args[0]))
     {
         printf("exit can only be called with a number as argument");
@@ -37,9 +37,9 @@ Value exitNative(int32_t argCount, Value *args)
     exit(AS_NUMBER(*args));
 }
 
-Value getUserNameNative(int32_t argCount, Value *args)
+Value native_get_username(uint32_t argCount, Value *args)
 {
-    assertArity("getUserName", 0, argCount);
+    native_assert_arrity("getUserName", 0, argCount);
 #ifdef _WIN32
     DWORD bufCharCount = MAX_USER_NAME_LENGTH;
     TCHAR name[MAX_USER_NAME_LENGTH];
@@ -49,27 +49,27 @@ Value getUserNameNative(int32_t argCount, Value *args)
     char name[MAX_USER_NAME_LENGTH];
     getlogin_r(&name[0], MAX_USER_NAME_LENGTH);
 #endif
-    return OBJECT_VAL(copyString(&name[0], strlen(name), false));
+    return OBJECT_VAL(object_copy_string(&name[0], strlen(name), false));
 }
 
-Value randomNative(int32_t argCount, Value *args)
+Value native_random(uint32_t argCount, Value *args)
 {
-    assertArity("random", 0, argCount);
+    native_assert_arrity("random", 0, argCount);
     return NUMBER_VAL(rand());
 }
 
-Value readLineNative(int32_t argCount, Value *args)
+Value native_read_line(uint32_t argCount, Value *args)
 {
-    assertArity("readLine", 0, argCount);
+    native_assert_arrity("readLine", 0, argCount);
     char line[MAX_READ_LINE_INPUT];
     ObjectString result;
     fgets(line, sizeof(line), stdin);
-    return OBJECT_VAL(copyString(line, strlen(line) - 1, false));
+    return OBJECT_VAL(object_copy_string(line, strlen(line) - 1, false));
 }
 
-Value waitNative(int32_t argCount, Value *args)
+Value native_wait(uint32_t argCount, Value *args)
 {
-    assertArity("wait", 1, argCount);
+    native_assert_arrity("wait", 1, argCount);
     if (!IS_NUMBER(args[0]))
     {
         printf("wait can only be called with a number as argument");
@@ -86,7 +86,7 @@ Value waitNative(int32_t argCount, Value *args)
     return NULL_VAL;
 }
 
-static void assertArity(char *functioName, int32_t arity, int32_t argcount)
+static void native_assert_arrity(char *functioName, uint32_t arity, uint32_t argcount)
 {
     if (arity != argcount)
     {

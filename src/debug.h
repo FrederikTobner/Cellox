@@ -4,9 +4,9 @@
 #include "chunk.h"
 
 // Dissasembles a chunk of bytecode instructions
-void disassembleChunk(Chunk *chunk, const char *name);
+void debug_disassemble_chunk(Chunk *chunk, char const *name);
 
 // Dissasembles a single instruction
-int32_t disassembleInstruction(Chunk *chunk, int32_t offset);
+int32_t debug_disassemble_instruction(Chunk *chunk, int32_t offset);
 
 #endif

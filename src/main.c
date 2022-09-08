@@ -1,7 +1,7 @@
 #include "init.h"
 
-int main(int argc, const char *argv[])
+int main(int argc, char const *argv[])
 {
-    init(argc, argv);
+    init_init(argc, argv);
     return 0;
 }
