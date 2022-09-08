@@ -1,0 +1,1 @@
+print "\x1\xaa\x12";

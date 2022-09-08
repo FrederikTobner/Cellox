@@ -35,7 +35,7 @@ void value_print(Value value)
 #endif
 }
 
-bool values_equal(Value a, Value b)
+bool value_values_equal(Value a, Value b)
 {
 #ifdef NAN_BOXING
   if (IS_NUMBER(a) && IS_NUMBER(b))

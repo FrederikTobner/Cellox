@@ -26,7 +26,7 @@ void test_cellox_program(char const *programPath, char const *expectedOutput)
     strcat(filePath, programPath);
     const char *args[2];
     args[1] = filePath;
-    init_init(2, args);
+    init_initialize(2, args);
     ASSERT_STREQ(expectedOutput, actual_output);
     free(actual_output);
     free(filePath);

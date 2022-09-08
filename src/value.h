@@ -148,6 +148,6 @@ typedef struct
 void value_print(Value value);
 
 // Determines whether two values are equal
-bool values_equal(Value a, Value b);
+bool value_values_equal(Value a, Value b);
 
 #endif
