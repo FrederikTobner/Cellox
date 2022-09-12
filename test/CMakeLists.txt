@@ -24,6 +24,7 @@ comments.cc
 escape_sequences.cc
 for_loops.cc
 functions.cc
+index_operator.cc
 literal_expressions.cc
 logical_operators.cc
 test_cellox.cc

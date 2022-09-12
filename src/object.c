@@ -198,7 +198,7 @@ static Object *object_allocate_object(size_t size, ObjectType type)
     object->next = virtualMachine.objects;
     virtualMachine.objects = object;
 #ifdef DEBUG_LOG_GC
-    printf("%p allocate %zu for %d\n", (void *)object, size, type);
+    printf("%p allocated %zu bytes for %d\n", (void *)object, size, type);
 #endif
     return object;
 }

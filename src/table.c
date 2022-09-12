@@ -61,7 +61,7 @@ bool table_delete(Table *table, ObjectString *key)
     return true;
 }
 
-ObjectString *table_find_string(Table *table, char const *chars, int32_t length, uint32_t hash)
+ObjectString *table_find_string(Table *table, char const *chars, uint32_t length, uint32_t hash)
 {
     if (table->count == 0)
         return NULL;

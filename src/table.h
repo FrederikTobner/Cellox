@@ -40,7 +40,7 @@ void table_add_all(Table *from, Table *to);
 bool table_delete(Table *table, ObjectString *key);
 
 // Finds a string in the hashtable
-ObjectString *table_find_string(Table *table, char const *chars, int32_t length, uint32_t hash);
+ObjectString *table_find_string(Table *table, char const *chars, uint32_t length, uint32_t hash);
 
 // Writes the Value to the specified adress, if an entry corresponding to the given key is present and returns true if an entry coresponding to the given key has been found
 bool table_get(Table *table, ObjectString *key, Value *value);

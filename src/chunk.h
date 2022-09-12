@@ -42,6 +42,8 @@ typedef enum
     OP_GET_UPVALUE,
     // Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is greater than the second number
     OP_GREATER,
+    // Pops the two most upper values from the stack, and pushes the value gets the value at the index of the second value in the first value (value is a string) 
+    OP_INDEX_OF,
     // Adds another class as the parent to a class declaration
     OP_INHERIT,
     // Invokes a function

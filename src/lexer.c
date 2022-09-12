@@ -63,6 +63,10 @@ Token scan_token()
         return lexer_make_token(TOKEN_LEFT_BRACE);
     case '}':
         return lexer_make_token(TOKEN_RIGHT_BRACE);
+    case '[':
+        return lexer_make_token(TOKEN_LEFT_BRACKET);
+    case ']':
+        return lexer_make_token(TOKEN_RIGHT_BRACKET);
     case ';':
         return lexer_make_token(TOKEN_SEMICOLON);
     case ',':

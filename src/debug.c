@@ -83,6 +83,8 @@ int32_t debug_disassemble_instruction(Chunk *chunk, int32_t offset)
     return debug_simple_instruction("NEGATE", offset);
   case OP_PRINT:
     return debug_simple_instruction("PRINT", offset);
+  case OP_INDEX_OF:
+    return debug_simple_instruction("INDEX OF", offset);
   case OP_JUMP:
     return debug_jump_instruction("JUMP", 1, chunk, offset);
   case OP_JUMP_IF_FALSE:

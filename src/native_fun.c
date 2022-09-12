@@ -18,15 +18,15 @@
 #define MAX_READ_LINE_INPUT 1024
 #define MAX_USER_NAME_LENGTH 256
 
-static void native_assert_arrity(char *functioName,  uint32_t arity, uint32_t argcount);
+static void native_assert_arrity(char *functioName,  uint32_t const arity, uint32_t const argcount);
 
-Value native_clock(uint32_t argCount, Value *args)
+Value native_clock(uint32_t const argCount, Value *args)
 {
     native_assert_arrity("clock", 0, argCount);
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
 
-Value native_exit(uint32_t argCount, Value *args)
+Value native_exit(uint32_t const argCount, Value *args)
 {
     native_assert_arrity("exit", 1, argCount);
     if (!IS_NUMBER(args[0]))
@@ -37,7 +37,7 @@ Value native_exit(uint32_t argCount, Value *args)
     exit(AS_NUMBER(*args));
 }
 
-Value native_get_username(uint32_t argCount, Value *args)
+Value native_get_username(uint32_t const argCount, Value *args)
 {
     native_assert_arrity("getUserName", 0, argCount);
 #ifdef _WIN32
@@ -52,13 +52,13 @@ Value native_get_username(uint32_t argCount, Value *args)
     return OBJECT_VAL(object_copy_string(&name[0], strlen(name), false));
 }
 
-Value native_random(uint32_t argCount, Value *args)
+Value native_random(uint32_t const argCount, Value *args)
 {
     native_assert_arrity("random", 0, argCount);
     return NUMBER_VAL(rand());
 }
 
-Value native_read_line(uint32_t argCount, Value *args)
+Value native_read_line(uint32_t const argCount, Value *args)
 {
     native_assert_arrity("readLine", 0, argCount);
     char line[MAX_READ_LINE_INPUT];
@@ -67,7 +67,7 @@ Value native_read_line(uint32_t argCount, Value *args)
     return OBJECT_VAL(object_copy_string(line, strlen(line) - 1, false));
 }
 
-Value native_wait(uint32_t argCount, Value *args)
+Value native_wait(uint32_t const argCount, Value *args)
 {
     native_assert_arrity("wait", 1, argCount);
     if (!IS_NUMBER(args[0]))
@@ -86,7 +86,7 @@ Value native_wait(uint32_t argCount, Value *args)
     return NULL_VAL;
 }
 
-static void native_assert_arrity(char *functioName, uint32_t arity, uint32_t argcount)
+static void native_assert_arrity(char *functioName, uint32_t const arity, uint32_t const argcount)
 {
     if (arity != argcount)
     {

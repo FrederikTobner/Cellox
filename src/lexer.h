@@ -48,6 +48,8 @@ typedef enum
   TOKEN_LEFT_BRACE,
   // (
   TOKEN_LEFT_PAREN,
+  // [
+  TOKEN_LEFT_BRACKET,
   // <
   TOKEN_LESS,
   // <=
@@ -74,6 +76,8 @@ typedef enum
   TOKEN_RIGHT_BRACE,
   // )
   TOKEN_RIGHT_PAREN,
+    // ]
+  TOKEN_RIGHT_BRACKET,
   // +
   TOKEN_PLUS,
   // +=
