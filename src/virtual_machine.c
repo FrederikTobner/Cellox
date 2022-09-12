@@ -599,8 +599,31 @@ so all the statements in it get executed if they are after an if 🤮 */
             }
             else
             {
-                vm_runtime_error(
-                    "Operands must be two numbers");
+                vm_runtime_error("Operands must be two numbers");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            break;
+        }
+        case OP_INDEX_OF:
+        {
+            if (IS_NUMBER(vm_peek(0)) && IS_STRING(vm_peek(1)))
+            {
+                int num = AS_NUMBER(vm_pop());
+                ObjectString * str = AS_STRING(vm_pop());
+                if(num >= str->length || num < 0)
+                {
+                    vm_runtime_error("accessed string out of bounds");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                char *chars = ALLOCATE(char, 2u);
+                chars[0] = str->chars[num];
+                chars[1] = '\0';
+                ObjectString *result = object_take_string(chars, 1u);
+                vm_push(OBJECT_VAL(result));
+            }
+            else
+            {
+                vm_runtime_error("Operands must a number and a string");
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;

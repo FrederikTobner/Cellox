@@ -98,10 +98,10 @@ typedef struct ClassCompiler
 Parser parser;
 
 // Global compiler variable
-Compiler *current = NULL;
+Compiler * current = NULL;
 
 // Global classCompiler variable
-ClassCompiler *currentClass = NULL;
+ClassCompiler * currentClass = NULL;
 
 static void compiler_add_local(Token);
 static uint32_t compiler_add_upvalue(Compiler *, uint8_t, bool);
@@ -142,13 +142,14 @@ static uint8_t compiler_identifier_constant(Token *);
 static bool compiler_identifiers_equal(Token *, Token *);
 static void compiler_if_statement();
 static void compiler_init(Compiler *, FunctionType);
+static void compiler_index_of(bool);
 static void compiler_literal(bool);
 static void compiler_mark_initialized();
 static uint8_t compiler_make_constant(Value);
 static bool compiler_match_token(TokenType);
 static void compiler_method();
 static void compiler_named_variable(Token, bool);
-static void compiler_nondirect_assignment(uint8_t, uint8_t, uint8_t, int32_t);
+static void compiler_nondirect_assignment(uint8_t, uint8_t, uint8_t, uint8_t);
 static void compiler_number(bool);
 static void compiler_or(bool);
 static void compiler_parse_precedence(Precedence);
@@ -194,7 +195,11 @@ void compiler_mark_roots()
     }
 }
 
-// ParseRules for the language
+/* ParseRules for the language
+ * Prefix - at the beginning of a statement
+ * Infix - in the middle/end of a statement
+ * Precedence
+*/
 ParseRule rules[] = {
     [TOKEN_AND] = {NULL, compiler_and, PREC_AND},
     [TOKEN_BANG] = {compiler_unary, NULL, PREC_UNARY},
@@ -204,7 +209,7 @@ ParseRule rules[] = {
     [TOKEN_DOT] = {NULL, compiler_dot, PREC_CALL},
     [TOKEN_EOF] = {NULL, NULL, PREC_NONE},
     [TOKEN_ELSE] = {NULL, NULL, PREC_NONE},
-    [TOKEN_EQUAL] = {NULL, NULL, PREC_NONE},
+    [TOKEN_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
     [TOKEN_EQUAL_EQUAL] = {NULL, compiler_binary, PREC_EQUALITY},
     [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
     [TOKEN_FALSE] = {compiler_literal, NULL, PREC_NONE},
@@ -216,21 +221,28 @@ ParseRule rules[] = {
     [TOKEN_IF] = {NULL, NULL, PREC_NONE},
     [TOKEN_LEFT_BRACE] = {NULL, NULL, PREC_NONE},
     [TOKEN_LEFT_PAREN] = {compiler_grouping, compiler_call, PREC_CALL},
+    [TOKEN_LEFT_BRACKET] = {NULL, compiler_index_of, PREC_CALL},
     [TOKEN_LESS] = {NULL, compiler_binary, PREC_COMPARISON},
     [TOKEN_LESS_EQUAL] = {NULL, compiler_binary, PREC_COMPARISON},
     [TOKEN_MODULO] = {NULL, compiler_binary, PREC_FACTOR},
+    [TOKEN_MODULO_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
     [TOKEN_MINUS] = {compiler_unary, compiler_binary, PREC_TERM},
+    [TOKEN_MINUS_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
     [TOKEN_NULL] = {compiler_literal, NULL, PREC_NONE},
     [TOKEN_NUMBER] = {compiler_number, NULL, PREC_NONE},
     [TOKEN_PLUS] = {NULL, compiler_binary, PREC_TERM},
+    [TOKEN_PLUS_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
     [TOKEN_OR] = {NULL, compiler_or, PREC_OR},
     [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
     [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
     [TOKEN_RIGHT_BRACE] = {NULL, NULL, PREC_NONE},
     [TOKEN_RIGHT_PAREN] = {NULL, NULL, PREC_NONE},
+    [TOKEN_RIGHT_BRACKET] = {NULL, NULL, PREC_NONE},
     [TOKEN_SEMICOLON] = {NULL, NULL, PREC_NONE},
     [TOKEN_SLASH] = {NULL, compiler_binary, PREC_FACTOR},
+    [TOKEN_SLASH_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
     [TOKEN_STAR] = {NULL, compiler_binary, PREC_FACTOR},
+    [TOKEN_STAR_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
     [TOKEN_STAR_STAR] = {NULL, compiler_binary, PREC_FACTOR},
     [TOKEN_STRING] = {compiler_string, NULL, PREC_NONE},
     [TOKEN_SUPER] = {compiler_super, NULL, PREC_NONE},
@@ -312,7 +324,7 @@ static uint8_t compiler_argument_list()
         {
             compiler_expression();
             if (argCount == 255)
-                compiler_error("Can't have more than 255 arguments.");
+                compiler_error("Can't have more than 254 arguments.");
             argCount++;
         } while (compiler_match_token(TOKEN_COMMA));
     }
@@ -559,7 +571,7 @@ static void compiler_emit_loop(int32_t loopStart)
 
     int32_t offset = compiler_current_chunk()->count - loopStart + 2;
     if (offset > (int32_t)UINT16_MAX)
-        compiler_error("Loop body too large.");
+        compiler_error("Loop body too large."); // There can only be 65535 lines betweem a jump instruction because we use a short
     compiler_emit_byte((offset >> 8) & 0xff);
     compiler_emit_byte(offset & 0xff);
 }
@@ -594,8 +606,7 @@ static void compiler_end_scope()
 
     /*We walk backward through the local array looking for any variables
      declared at the scope depth we just left, when we pop a scope*/
-    while (current->localCount > 0 &&
-           current->locals[current->localCount - 1].depth > current->scopeDepth)
+    while (current->localCount > 0 && current->locals[current->localCount - 1].depth > current->scopeDepth)
     {
         if (current->locals[current->localCount - 1].isCaptured)
             compiler_emit_byte(OP_CLOSE_UPVALUE);
@@ -618,12 +629,10 @@ static void compiler_error_at(Token *token, char const *message)
         return;
     parser.panicMode = true;
     fprintf(stderr, "[line %d] Error", token->line);
-
     if (token->type == TOKEN_EOF)
         fprintf(stderr, " at end");
     else
         fprintf(stderr, " at '%.*s'", token->length, token->start);
-
     fprintf(stderr, ": %s\n", message);
     parser.hadError = true;
 }
@@ -656,17 +665,11 @@ static void compiler_for_statement()
 
     // Initializer clause
     if (compiler_match_token(TOKEN_SEMICOLON))
-    {
-        // No initializer.
-    }
+        ;
     else if (compiler_match_token(TOKEN_VAR))
-    {
         compiler_var_declaration();
-    }
     else
-    {
         compiler_expression_statement();
-    }
 
     int32_t loopStart = compiler_current_chunk()->count;
     int32_t exitJump = -1;
@@ -822,6 +825,17 @@ static void compiler_init(Compiler *compiler, FunctionType type)
     }
 }
 
+static void compiler_index_of(bool canAssign)
+{
+    compiler_expression();
+    if(!compiler_match_token(TOKEN_RIGHT_BRACKET))
+    {
+        printf("expected closing bracket ]"),
+        exit(65);
+    }
+    compiler_emit_byte(OP_INDEX_OF);
+}
+
 // Compiles a boolean literal expression
 static void compiler_literal(bool canAssign)
 {
@@ -926,12 +940,12 @@ static void compiler_named_variable(Token name, bool canAssign)
         compiler_emit_bytes(getOp, (uint8_t)arg);
 }
 
-static void compiler_nondirect_assignment(uint8_t assignmentType, uint8_t getOp, uint8_t setOp, int32_t arg)
+static void compiler_nondirect_assignment(uint8_t assignmentType, uint8_t getOp, uint8_t setOp, uint8_t arg)
 {
-    compiler_emit_bytes(getOp, (uint8_t)arg);
+    compiler_emit_bytes(getOp, arg);
     compiler_expression();
     compiler_emit_byte(assignmentType);
-    compiler_emit_bytes(setOp, (uint8_t)arg);
+    compiler_emit_bytes(setOp, arg);
 }
 
 // compiles a number literal expression

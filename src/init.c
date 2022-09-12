@@ -36,7 +36,7 @@ void init_initialize(int argc, char const *argv[])
     else
     {
         // Too much arguments (>1) TODO: Add argumenrs for the compiler e.g. --analyze/-a, --store/-s and option to execute stored bytecode
-        fprintf(stderr, "Usage: Cellox [path]\n");
+        fprintf(stderr, "Usage: Cellox [path]\n");        
         vm_free();
         exit(64);
     }
@@ -102,7 +102,7 @@ static void init_run_from_file(char const *path)
     // Error during compilation process
     if (result == INTERPRET_COMPILE_ERROR)
         exit(65);
-    /// Error during runtime
+    // Error during runtime
     if (result == INTERPRET_RUNTIME_ERROR)
         exit(70);
 }
