@@ -17,9 +17,13 @@
 // Type definition of the parser structure
 typedef struct
 {
+    // The token that is currently being parsed
     Token current;
+    // The token that was previously parsed
     Token previous;
+    // Flag that indicates whether an error occured during the compilation
     bool hadError;
+    // Flag that indicates that the compiler couldn't synchronize after an errror occured
     bool panicMode;
 } Parser;
 
@@ -35,7 +39,7 @@ typedef enum
     PREC_TERM,       // + -
     PREC_FACTOR,     // * / % **
     PREC_UNARY,      // ! -
-    PREC_CALL,       // . ()
+    PREC_CALL,       // . () []
     PREC_PRIMARY
 } Precedence;
 
@@ -63,7 +67,9 @@ typedef struct
 // Type definition of an upvalue structure
 typedef struct
 {
+    // Index of the upvalue
     uint8_t index;
+    // Flag that indicates whether the value is a local value
     bool isLocal;
 } Upvalue;
 
@@ -250,7 +256,6 @@ ParseRule rules[] = {
     [TOKEN_TRUE] = {compiler_literal, NULL, PREC_NONE},
     [TOKEN_VAR] = {NULL, NULL, PREC_NONE},
     [TOKEN_WHILE] = {NULL, NULL, PREC_NONE},
-
 };
 
 // Adds a new local variable to the stack
@@ -384,7 +389,7 @@ static void compiler_binary(bool canAssign)
         compiler_emit_byte(OP_EXPONENT);
         break;
     default:
-        return; // Unreachable.
+        return;
     }
 }
 
@@ -454,7 +459,6 @@ static void compiler_consume(TokenType type, char const *message)
         compiler_advance();
         return;
     }
-
     compiler_error_at_current(message);
 }
 
@@ -568,7 +572,6 @@ static int32_t compiler_emit_jump(uint8_t instruction)
 static void compiler_emit_loop(int32_t loopStart)
 {
     compiler_emit_byte(OP_LOOP);
-
     int32_t offset = compiler_current_chunk()->count - loopStart + 2;
     if (offset > (int32_t)UINT16_MAX)
         compiler_error("Loop body too large."); // There can only be 65535 lines betweem a jump instruction because we use a short
@@ -603,9 +606,9 @@ static ObjectFunction *compiler_end()
 static void compiler_end_scope()
 {
     current->scopeDepth--;
-
-    /*We walk backward through the local array looking for any variables
-     declared at the scope depth we just left, when we pop a scope*/
+    /* We walk backward through the local array looking for any variables,
+     * that where declared at the scope depth we just left, when we pop a scope
+     */
     while (current->localCount > 0 && current->locals[current->localCount - 1].depth > current->scopeDepth)
     {
         if (current->locals[current->localCount - 1].isCaptured)
@@ -693,7 +696,6 @@ static void compiler_for_statement()
         compiler_expression();
         compiler_emit_byte(OP_POP);
         compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after for clauses.");
-
         compiler_emit_loop(loopStart);
         loopStart = incrementStart;
         compiler_patch_jump(bodyJump);
@@ -733,7 +735,6 @@ static void compiler_function(FunctionType type)
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after parameters.");
     compiler_consume(TOKEN_LEFT_BRACE, "Expect '{' before function body.");
     compiler_block();
-
     ObjectFunction *function = compiler_end();
     compiler_emit_bytes(OP_CLOSURE, compiler_make_constant(OBJECT_VAL(function)));
     for (int32_t i = 0; i < function->upvalueCount; i++)
@@ -785,7 +786,6 @@ static void compiler_if_statement()
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'if'.");
     compiler_expression();
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
-
     int32_t thenJump = compiler_emit_jump(OP_JUMP_IF_FALSE);
     compiler_statement();
     int32_t elseJump = compiler_emit_jump(OP_JUMP);
@@ -793,7 +793,6 @@ static void compiler_if_statement()
     compiler_emit_byte(OP_POP);
     if (compiler_match_token(TOKEN_ELSE))
         compiler_statement();
-
     // We patch that offset after the end of the else body
     compiler_patch_jump(elseJump);
 }
@@ -830,8 +829,8 @@ static void compiler_index_of(bool canAssign)
     compiler_expression();
     if(!compiler_match_token(TOKEN_RIGHT_BRACKET))
     {
-        printf("expected closing bracket ]"),
-        exit(65);
+        compiler_error("expected closing bracket ]");
+        return;
     }
     compiler_emit_byte(OP_INDEX_OF);
 }
@@ -872,7 +871,6 @@ static uint8_t compiler_make_constant(Value value)
         compiler_error("Too many constants in one chunk.");
         return 0;
     }
-
     return (uint8_t)constant;
 }
 
@@ -893,7 +891,6 @@ static void compiler_method()
     FunctionType type = TYPE_METHOD;
     if (parser.previous.length == 4 && memcmp(parser.previous.start, "init", 4) == 0)
         type = TYPE_INITIALIZER;
-
     compiler_function(type);
     compiler_emit_bytes(OP_METHOD, constant);
 }
@@ -960,10 +957,8 @@ static void compiler_or(bool canAssign)
 {
     int32_t elseJump = compiler_emit_jump(OP_JUMP_IF_FALSE);
     int32_t endJump = compiler_emit_jump(OP_JUMP);
-
     compiler_patch_jump(elseJump);
     compiler_emit_byte(OP_POP);
-
     compiler_parse_precedence(PREC_OR);
     compiler_patch_jump(endJump);
 }
@@ -978,7 +973,6 @@ static void compiler_parse_precedence(Precedence precedence)
         compiler_error("Expect expression.");
         return;
     }
-
     bool canAssign = precedence <= PREC_ASSIGNMENT;
     prefixRule(canAssign);
     while (precedence <= compiler_get_rule(parser.current.type)->precedence)
@@ -1042,7 +1036,6 @@ static int32_t compiler_resolve_upvalue(Compiler *compiler, Token *name)
 {
     if (compiler->enclosing == NULL)
         return -1; // not found
-
     int32_t local = compiler_resolve_local(compiler->enclosing, name);
     if (local != -1)
     {
@@ -1100,7 +1093,13 @@ static void compiler_statement()
 // compiles a string literal expression
 static void compiler_string(bool canAssign)
 {
-    compiler_emit_constant(OBJECT_VAL(object_copy_string(parser.previous.start + 1, parser.previous.length - 2, true)));
+    ObjectString * string = object_copy_string(parser.previous.start + 1, parser.previous.length - 2, true);
+    if(string == NULL)
+    {
+        compiler_error("Unknown escape sequence in string");
+        return;
+    }
+    compiler_emit_constant(OBJECT_VAL(string));
 }
 
 // Compiles a super expression
@@ -1113,7 +1112,6 @@ static void compiler_super(bool canAssign)
     compiler_consume(TOKEN_DOT, "Expect '.' after 'super'.");
     compiler_consume(TOKEN_IDENTIFIER, "Expect superclass method name.");
     uint8_t name = compiler_identifier_constant(&parser.previous);
-
     compiler_named_variable(compiler_synthetic_token("this"), false);
     if (compiler_match_token(TOKEN_LEFT_PAREN))
     {
@@ -1152,7 +1150,6 @@ static void compiler_synchronize()
 
         default:;
         }
-
         compiler_advance();
     }
 }

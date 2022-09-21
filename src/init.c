@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef CELLOX_TEST
+#include "cellox_config.h"
+#endif
+
 #include "common.h"
 #include "chunk.h"
 #include "debug.h"
@@ -26,7 +30,7 @@ static void init_repl();
 // Reads a lox program from a file and executes the program
 static void init_run_from_file(char const *);
 
-void init_initialize(int argc, char const *argv[])
+void init_initialize(int const argc, char const *argv[])
 {
     vm_init();
     if (argc == 1)
@@ -75,8 +79,11 @@ static char *init_read_file(char const *path)
 
 static void init_repl()
 {
-    /// Used to store the next line that read from input
+    // Used to store the next line that read from input
     char line[MAX_LINE_LENGTH];
+#ifndef CELLOX_TEST
+    printf("Cellox Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
+#endif
     for (;;)
     {
         // Prints command prompt

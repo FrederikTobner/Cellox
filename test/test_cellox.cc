@@ -19,9 +19,10 @@ void test_cellox_program(char const *programPath, char const *expectedOutput)
     freopen("/dev/nul", "a", stdout);
 #endif
     setbuf(stdout, actual_output);
-    char *filePath = (char *)calloc(1024, sizeof(char));
+    char *filePath = (char *)malloc(sizeof(char) * 1024);
     if(!filePath)
         return;
+    *filePath = '\0';
     strcat(filePath, TEST_PROGRAM_BASE_PATH);
     strcat(filePath, programPath);
     const char *args[2];

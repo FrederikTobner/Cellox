@@ -78,7 +78,7 @@ typedef enum
     OP_SET_LOCAL,
     // Sets the value of a global variable
     OP_SET_GLOBAL,
-    // Sets the value of a lproperty
+    // Sets the value of a property
     OP_SET_PROPERTY,
     // Sets an upvalue that is captured by the current closure
     OP_SET_UPVALUE,
