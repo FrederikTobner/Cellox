@@ -45,7 +45,8 @@ ObjectString *object_copy_string(char const *chars, uint32_t length, bool remove
         for (uint32_t i = 0; i < length; i++)
         {
             if(heapChars[i] == '\\')
-                string_utils_resolve_escape_sequence(&heapChars[i], &length);
+                if(string_utils_resolve_escape_sequence(&heapChars[i], &length))
+                return NULL;
         }
         // We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
         hash = object_hash_string(heapChars, length);
@@ -80,9 +81,7 @@ ObjectClosure *object_new_closure(ObjectFunction *function)
 {
     ObjectUpvalue **upvalues = ALLOCATE(ObjectUpvalue *, function->upvalueCount);
     for (uint32_t i = 0; i < function->upvalueCount; i++)
-    {
         upvalues[i] = NULL;
-    }
     ObjectClosure *closure = ALLOCATE_OBJECT(ObjectClosure, OBJECT_CLOSURE);
     closure->function = function;
     closure->upvalues = upvalues;

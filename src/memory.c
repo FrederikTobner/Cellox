@@ -1,15 +1,15 @@
 #include "memory.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "compiler.h"
 #include "virtual_machine.h"
 #ifdef DEBUG_LOG_GC
-#include <stdio.h>
 #include "debug.h"
 #endif
 
-#define GC_HEAP_GROW_FACTOR 2
+#define GC_HEAP_GROWTH_FACTOR 2
 
 static void memory_blacken_object(Object *);
 static void memory_free_object(Object *);
@@ -31,7 +31,7 @@ void memory_collect_garbage()
   // reclaim the garbage
   memory_sweep();
   // Adjusts the threshold when the next garbage collection will occur
-  virtualMachine.nextGC = virtualMachine.bytesAllocated * GC_HEAP_GROW_FACTOR;
+  virtualMachine.nextGC = virtualMachine.bytesAllocated * GC_HEAP_GROWTH_FACTOR;
 #ifdef DEBUG_LOG_GC
   printf("garbage collection process has ended\n");
   printf("   collected %zu bytes (from %zu to %zu) next at %zu\n", before - virtualMachine.bytesAllocated, before, virtualMachine.bytesAllocated, virtualMachine.nextGC);
@@ -99,7 +99,10 @@ void *memory_reallocate(void *pointer, size_t oldSize, size_t newSize)
 
   void *result = realloc(pointer, newSize);
   if (result == NULL)
-    exit(1);
+  {
+    fprintf(stderr, "Failed too allocate memory");
+    exit(70);
+  }
   return result;
 }
 

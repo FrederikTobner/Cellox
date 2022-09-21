@@ -20,7 +20,7 @@ bool string_utils_contains_character_restricted(char const *text, char const cha
 }
 
 // Resolves all the escape sequences inside a string literal
-void string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
+int string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
 {
     string_utils_behead(text, length);
     switch (*(text))
@@ -47,13 +47,13 @@ void string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
             } while (octalLoopCounter++ < 3);
             if(octalValue > 255)
             {
-                printf("value of number in escape sequence is greater than 255 (%i)", octalValue);
-                exit(65);
+                printf("value of number in escape sequence is greater than 255 (%i)\n", octalValue);
+                return -1;
             }
             if(octalLoopCounter == 4)
             {
-                printf("number is to long");
-                exit(65);
+                printf("Number in escape sequence is to long\n");
+                return -1;
             }
             *text = (char)octalValue;
             break;
@@ -66,8 +66,8 @@ void string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
             string_utils_behead(text, length);
             if(!(*(text) >= '0' && *(text) <= '7') && !(*(text + 1)>= 'a' && *(text + 1) <= 'f'))
             {
-                printf("expected hexadecimal number but got %c", *text);
-                exit(65);
+                printf("Expected hexadecimal number but got %c\n", *text);
+                return -1;
             }
             do
             {
@@ -79,8 +79,8 @@ void string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
             } while (hexLoopCounter++ < 2);
             if(hexLoopCounter == 3)
             {
-                printf("number is to long");
-                exit(65);
+                printf("Number in escape sequence is to long\n");
+                return -1;
             }
             *text = (char)hexValue;
             break;
@@ -124,10 +124,10 @@ void string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
         *text = '\?';
         break;
     default:
-        printf("Unknown escape sequence \\%c", *text);
-        exit(65);
-    }    
-    
+        printf("Unknown escape sequence \\%c\n", *text);
+        return -1;
+    }
+    return 0;    
 }
 
 // Removes the first character in a sequence of characters

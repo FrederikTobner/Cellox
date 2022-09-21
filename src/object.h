@@ -95,7 +95,7 @@ struct Object
 // struct containing the data that defines a cellox function
 typedef struct
 {
-    // Object that contains a reference to the function
+    // data that defines all types of objects
     Object obj;
     // The number of arguments a function expects
     uint32_t arity;
@@ -110,7 +110,7 @@ typedef struct
 // Type definition of a native function structure
 typedef struct
 {
-    // Object that contains a reference to the function
+    // data that defines all types of objects
     Object obj;
     // Reference to the native implementation in c
     NativeFn function;
@@ -119,7 +119,7 @@ typedef struct
 // ObjectString structure definition
 struct ObjectString
 {
-    // Object that contains a reference to the string
+    //  data that defines all types of objects
     Object obj;
     // The length of the string
     uint32_t length;
@@ -132,7 +132,7 @@ struct ObjectString
 // Type definition of an object up-value structure (a local variable in an enclosing function)
 typedef struct ObjectUpvalue
 {
-    // Object that contains a refernce to the upvalue
+    // data that defines all types of objects
     Object obj;
     // location of the upvalue in memory
     Value *location;
@@ -151,7 +151,7 @@ typedef struct ObjectUpvalue
  */
 typedef struct
 {
-    // Object that contains a reference to the closure
+    // data that defines all types of objects
     Object obj;
     ObjectFunction *function;
     ObjectUpvalue **upvalues;
@@ -161,7 +161,7 @@ typedef struct
 // Type definition of a class structure - a class in cellox
 typedef struct
 {
-    // Object that contains a refernce to the cellox class
+    // data that defines all types of objects
     Object obj;
     ObjectString *name;
     Table methods;
@@ -170,7 +170,7 @@ typedef struct
 // Type definition of a cellox class instance
 typedef struct
 {
-    // Object that contains a refernce to the instance
+    // data that defines all types of objects
     Object obj;
     ObjectClass *celloxClass;
     Table fields;
@@ -179,7 +179,7 @@ typedef struct
 // Type definition of a bound method
 typedef struct
 {
-    // Object that contains a refernce to the objectbound method
+    // data that defines all types of objects
     Object obj;
     Value receiver;
     ObjectClosure *method;

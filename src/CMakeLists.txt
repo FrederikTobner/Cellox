@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.16)
+# configure cellox config to show version
+configure_file(cellox_config.h.in cellox_config.h)
 
 set(HEADERS
     chunk.h
@@ -35,4 +36,7 @@ set(SOURCES
     virtual_machine.c
 )
 
-add_executable(Cellox ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+# for including the cellox_config.h file
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/src)

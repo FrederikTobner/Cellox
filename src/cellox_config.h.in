@@ -1,0 +1,3 @@
+// the configured options and settings for Cellox
+#define CELLOX_VERSION_MAJOR @Cellox_VERSION_MAJOR@
+#define CELLOX_VERSION_MINOR @Cellox_VERSION_MINOR@

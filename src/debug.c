@@ -16,9 +16,7 @@ void debug_disassemble_chunk(Chunk *chunk, char const *name)
 {
   printf("== %s ==\n", name);
   for (int32_t offset = 0; offset < chunk->count;)
-  {
     offset = debug_disassemble_instruction(chunk, offset);
-  }
 }
 
 // Dissasembles a single instruction

@@ -7,6 +7,6 @@
 bool string_utils_contains_character_restricted(char const *text, char const character, uint32_t length);
 
 // Resolves all the escape sequences specified in a string literal
-void string_utils_resolve_escape_sequence(char *text, uint32_t * const length);
+int string_utils_resolve_escape_sequence(char *text, uint32_t * const length);
 
 #endif

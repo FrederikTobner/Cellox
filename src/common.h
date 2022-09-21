@@ -1,6 +1,12 @@
 #ifndef cellox_common_h
 #define cellox_common_h
 
+// Makro for error handling
+#define CHECK(X, message, exitCode) ({int __val = (X); (__val !=0 ? \
+                    ({fprintf(stderr, "%s\n" \
+                    , message); \
+                    exit(exitCode);-1;}) : __val);})
+
 // Bool from the C99 standard
 #include <stdbool.h>
 // Provides a null pointer constant

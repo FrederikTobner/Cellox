@@ -5,7 +5,6 @@
 #include "memory.h"
 #include "virtual_machine.h"
 
-
 static bool chunk_is_full(Chunk *chunk);
 
 // Adds a constant to the chunk
