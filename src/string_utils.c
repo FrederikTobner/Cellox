@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void string_utils_behead(char *, int* const const);
+static void string_utils_behead(char * const, int* );
 
 // Checks if a string contains the specified character restricted the specified length
-bool string_utils_contains_character_restricted(char const *text, char const character, uint32_t length)
+bool string_utils_contains_character_restricted(char const * text, char character, uint32_t length)
 {
     for (uint32_t i = 0u; i < length; i++)
     {
@@ -20,10 +20,10 @@ bool string_utils_contains_character_restricted(char const *text, char const cha
 }
 
 // Resolves all the escape sequences inside a string literal
-int string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
+int string_utils_resolve_escape_sequence(char * text, uint32_t * length)
 {
     string_utils_behead(text, length);
-    switch (*(text))
+    switch (*text)
     {
     // escape sequence using a number in octal format
     case '0':
@@ -46,15 +46,9 @@ int string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
                 string_utils_behead(text, length);
             } while (octalLoopCounter++ < 3);
             if(octalValue > 255)
-            {
-                printf("value of number in escape sequence is greater than 255 (%i)\n", octalValue);
                 return -1;
-            }
             if(octalLoopCounter == 4)
-            {
-                printf("Number in escape sequence is to long\n");
                 return -1;
-            }
             *text = (char)octalValue;
             break;
         }
@@ -64,24 +58,18 @@ int string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
             uint32_t hexValue = 0u;
             uint8_t hexLoopCounter = 1u;
             string_utils_behead(text, length);
-            if(!(*(text) >= '0' && *(text) <= '7') && !(*(text + 1)>= 'a' && *(text + 1) <= 'f'))
-            {
-                printf("Expected hexadecimal number but got %c\n", *text);
+            if(!(*text >= '0' && *text <= '9') && !(*(text + 1) >= 'a' && *(text + 1) <= 'f'))
                 return -1;
-            }
             do
             {
                 hexValue *= 16u;            
                 hexValue += *text > '9' ? *text - 'a' + 10 : *text -'0';
-                if(!(*(text + 1) >= '0' && *(text + 1) <= '7') && !(*(text + 1)>= 'a' && *(text + 1) <= 'f'))
+                if(!(*(text + 1) >= '0' && *(text + 1) <= '9') && !(*(text + 1)>= 'a' && *(text + 1) <= 'f'))
                     break; // No hexadezimal number ahead
                 string_utils_behead(text, length);
             } while (hexLoopCounter++ < 2);
             if(hexLoopCounter == 3)
-            {
-                printf("Number in escape sequence is to long\n");
                 return -1;
-            }
             *text = (char)hexValue;
             break;
         }
@@ -124,14 +112,13 @@ int string_utils_resolve_escape_sequence(char *text, uint32_t * const length)
         *text = '\?';
         break;
     default:
-        printf("Unknown escape sequence \\%c\n", *text);
         return -1;
     }
     return 0;    
 }
 
 // Removes the first character in a sequence of characters
-static void string_utils_behead(char *text, int * const length)
+static void string_utils_behead(char * text, int * length)
 {
     uint32_t stringLength = strlen(text);
     for (uint32_t j = 0u; j < stringLength; j++)

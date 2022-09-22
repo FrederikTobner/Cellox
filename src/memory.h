@@ -47,6 +47,6 @@ void memory_mark_object(Object *object);
 void memory_mark_value(Value value);
 
 // Reallocates the memory usage from a given pointer
-void *memory_reallocate(void *pointer, size_t oldSize, size_t newSize);
+void * memory_reallocate(void *pointer, size_t oldSize, size_t newSize);
 
-#endif
+#endif  
