@@ -24,5 +24,5 @@ TEST(EscapeSequences, octalNumbers)
 
 TEST(EscapeSequences, hexadecimalNumber)
 {
-    test_cellox_program("escapeSequences/hexNumber.clx", "\x1\xaa\x12\n");
+    test_cellox_program("escapeSequences/hexNumber.clx", "\x1\xaa\x91\n");
 }

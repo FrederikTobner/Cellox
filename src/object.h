@@ -89,7 +89,7 @@ struct Object
     // Determines whether the object has already been marked by the grabage collector
     bool isMarked;
     // pointer to the next object in the linear sequence of objects stored on the heap
-    struct Object *next;
+    struct Object * next;
 };
 
 // struct containing the data that defines a cellox function
@@ -104,7 +104,7 @@ typedef struct
     // The instructions in the function
     Chunk chunk;
     // The name of the function
-    ObjectString *name;
+    ObjectString * name;
 } ObjectFunction;
 
 // Type definition of a native function structure
@@ -124,7 +124,7 @@ struct ObjectString
     // The length of the string
     uint32_t length;
     // Pointer to the address in memory under that the string is stored
-    char *chars;
+    char * chars;
     // The hashValue of the string
     uint32_t hash;
 };
@@ -135,11 +135,11 @@ typedef struct ObjectUpvalue
     // data that defines all types of objects
     Object obj;
     // location of the upvalue in memory
-    Value *location;
+    Value * location;
     // The Enclosed value after the current environment is left
     Value closed;
     // The memory location of the next upvalue in memory
-    struct ObjectUpvalue *next;
+    struct ObjectUpvalue * next;
 } ObjectUpvalue;
 
 /*
@@ -153,8 +153,8 @@ typedef struct
 {
     // data that defines all types of objects
     Object obj;
-    ObjectFunction *function;
-    ObjectUpvalue **upvalues;
+    ObjectFunction * function;
+    ObjectUpvalue ** upvalues;
     uint32_t upvalueCount;
 } ObjectClosure;
 
@@ -163,7 +163,7 @@ typedef struct
 {
     // data that defines all types of objects
     Object obj;
-    ObjectString *name;
+    ObjectString * name;
     Table methods;
 } ObjectClass;
 
@@ -172,7 +172,7 @@ typedef struct
 {
     // data that defines all types of objects
     Object obj;
-    ObjectClass *celloxClass;
+    ObjectClass * celloxClass;
     Table fields;
 } ObjectInstance;
 
