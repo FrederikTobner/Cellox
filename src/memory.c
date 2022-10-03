@@ -80,7 +80,7 @@ void memory_mark_value(Value value)
 }
 
 // Helper method for reallocating the memory used by a dynamic Array
-void *memory_reallocate(void *pointer, size_t oldSize, size_t newSize)
+void * memory_reallocate(void *pointer, size_t oldSize, size_t newSize)
 {
   virtualMachine.bytesAllocated += newSize - oldSize;
   if (newSize > oldSize)
@@ -107,7 +107,7 @@ void *memory_reallocate(void *pointer, size_t oldSize, size_t newSize)
 }
 
 // Blackens an object - all the references that this object have been marked
-static void memory_blacken_object(Object *object)
+static void memory_blacken_object(Object * object)
 {
 #ifdef DEBUG_LOG_GC
   printf("%p blacken ", (void *)object);
@@ -132,7 +132,7 @@ static void memory_blacken_object(Object *object)
   }
   case OBJECT_CLOSURE:
   {
-    ObjectClosure *closure = (ObjectClosure *)object;
+    ObjectClosure * closure = (ObjectClosure *)object;
     memory_mark_object((Object *)closure->function);
     for (uint32_t i = 0; i < closure->upvalueCount; i++)
     {
@@ -142,14 +142,14 @@ static void memory_blacken_object(Object *object)
   }
   case OBJECT_FUNCTION:
   {
-    ObjectFunction *function = (ObjectFunction *)object;
+    ObjectFunction * function = (ObjectFunction *)object;
     memory_mark_object((Object *)function->name);
     memory_mark_array(&function->chunk.constants);
     break;
   }
   case OBJECT_INSTANCE:
   {
-    ObjectInstance *instance = (ObjectInstance *)object;
+    ObjectInstance * instance = (ObjectInstance *)object;
     memory_mark_object((Object *)instance->celloxClass);
     table_mark(&instance->fields);
     break;
@@ -176,28 +176,28 @@ static void memory_free_object(Object *object)
     break;
   case OBJECT_CLASS:
   {
-    ObjectClass *celloxClass = (ObjectClass *)object;
+    ObjectClass * celloxClass = (ObjectClass *)object;
     table_free(&celloxClass->methods);
     FREE(ObjectClass, object);
     break;
   }
   case OBJECT_CLOSURE:
   {
-    ObjectClosure *closure = (ObjectClosure *)object;
+    ObjectClosure * closure = (ObjectClosure *)object;
     FREE_ARRAY(ObjectUpvalue *, closure->upvalues, closure->upvalueCount);
     FREE(ObjectClosure, object);
     break;
   }
   case OBJECT_FUNCTION:
   {
-    ObjectFunction *function = (ObjectFunction *)object;
+    ObjectFunction * function = (ObjectFunction *)object;
     chunk_free(&function->chunk);
     FREE(ObjectFunction, object);
     break;
   }
   case OBJECT_INSTANCE:
   {
-    ObjectInstance *instance = (ObjectInstance *)object;
+    ObjectInstance * instance = (ObjectInstance *)object;
     table_free(&instance->fields);
     FREE(ObjectInstance, object);
     break;
@@ -207,7 +207,7 @@ static void memory_free_object(Object *object)
     break;
   case OBJECT_STRING:
   {
-    ObjectString *string = (ObjectString *)object;
+    ObjectString * string = (ObjectString *)object;
     FREE_ARRAY(char, string->chars, string->length + 1);
     FREE(ObjectString, object);
     break;
@@ -219,7 +219,7 @@ static void memory_free_object(Object *object)
 }
 
 // Marks all the values in an array
-static void memory_mark_array(DynamicArray *array)
+static void memory_mark_array(DynamicArray * array)
 {
   for (int32_t i = 0; i < array->count; i++)
     memory_mark_value(array->values[i]);
@@ -229,13 +229,13 @@ static void memory_mark_array(DynamicArray *array)
 static void memory_mark_roots()
 {
   // We mark all the values
-  for (Value *slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++)
+  for (Value * slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++)
     memory_mark_value(*slot);
   // all the objects
   for (int32_t i = 0; i < virtualMachine.frameCount; i++)
     memory_mark_object((Object *)virtualMachine.callStack[i].closure);
   // all the ObjectUpvalues
-  for (ObjectUpvalue *upvalue = virtualMachine.openUpvalues; upvalue != NULL; upvalue = upvalue->next)
+  for (ObjectUpvalue * upvalue = virtualMachine.openUpvalues; upvalue != NULL; upvalue = upvalue->next)
     memory_mark_object((Object *)upvalue);
   // all the global variables
   table_mark(&virtualMachine.globals);
@@ -249,8 +249,8 @@ static void memory_mark_roots()
  * and the memory used by the object is reclaimed*/
 static void memory_sweep()
 {
-  Object *previous = NULL;
-  Object *object = virtualMachine.objects;
+  Object * previous = NULL;
+  Object * object = virtualMachine.objects;
   while (object != NULL)
   {
     if (object->isMarked)
@@ -262,7 +262,7 @@ static void memory_sweep()
     }
     else
     {
-      Object *unreached = object;
+      Object * unreached = object;
       object = object->next;
       if (previous != NULL)
         previous->next = object;

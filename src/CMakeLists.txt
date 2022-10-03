@@ -1,9 +1,13 @@
+# deletes build folder to ensure there are no makefiles that make the build fail (multiple target patterns)
+if( MSVC )
+execute_process(COMMAND ${CMAKE_COMMAND} "-E" "remove_directory" ${PROJECT_BINARY_DIR}/src)
+endif()
+
 # configure cellox config to show version
 configure_file(cellox_config.h.in cellox_config.h)
 
 set(HEADERS
     chunk.h
-    common.h
     compiler.h
     dynamic_array.h
     debug.h
@@ -37,6 +41,13 @@ set(SOURCES
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+# Precompiles common.h to speed up compilation of the target
+if( MSVC )    
+    target_precompile_headers(${PROJECT_NAME} PUBLIC common.h common.c) # VisualStudio only accepts header files that also have a source file
+else()
+    target_precompile_headers(${PROJECT_NAME} PUBLIC common.h)
+endif()
 
 # for including the cellox_config.h file
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/src)

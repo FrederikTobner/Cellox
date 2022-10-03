@@ -1,12 +1,6 @@
 #ifndef cellox_common_h
 #define cellox_common_h
 
-// Makro for error handling
-#define CHECK(X, message, exitCode) ({int __val = (X); (__val !=0 ? \
-                    ({fprintf(stderr, "%s\n" \
-                    , message); \
-                    exit(exitCode);-1;}) : __val);})
-
 // Bool from the C99 standard
 #include <stdbool.h>
 // Provides a null pointer constant
@@ -21,7 +15,7 @@
 #define NAN_BOXING
 
 // Flag that indicates that a test is executed
-#ifndef CELLOX_TEST
+#ifndef CELLOX_TESTS_RUNNING
 
 // Flag for printing out the bytecode, can be removed if you want to disable it
 #define DEBUG_PRINT_CODE

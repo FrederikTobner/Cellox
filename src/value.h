@@ -102,7 +102,7 @@ typedef struct
     {
         bool boolean;
         double number;
-        Object *obj;
+        Object * obj;
     } as;
 } Value;
 

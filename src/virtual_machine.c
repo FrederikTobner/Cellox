@@ -66,6 +66,7 @@ static void vm_define_natives()
     vm_define_native("getUserName", (NativeFn)native_get_username);
     vm_define_native("random", (NativeFn)native_random);
     vm_define_native("readLine", (NativeFn)native_read_line);
+    vm_define_native("strlen", (NativeFn)native_string_length);
     vm_define_native("wait", (NativeFn)native_wait);
 }
 
@@ -94,7 +95,7 @@ Value vm_pop()
     return *virtualMachine.stackTop;
 }
 
-static bool vm_bind_method(ObjectClass *celloxClass, ObjectString *name)
+static bool vm_bind_method(ObjectClass * celloxClass, ObjectString * name)
 {
     Value method;
     if (!table_get(&celloxClass->methods, name, &method))
@@ -108,7 +109,7 @@ static bool vm_bind_method(ObjectClass *celloxClass, ObjectString *name)
     return true;
 }
 
-static bool vm_call(ObjectClosure *closure, uint32_t argCount)
+static bool vm_call(ObjectClosure * closure, uint32_t argCount)
 {
     if (argCount != closure->function->arity)
     {
@@ -174,7 +175,7 @@ static bool vm_call_value(Value callee, uint32_t argCount)
     return false;
 }
 
-static ObjectUpvalue *vm_capture_upvalue(Value *local)
+static ObjectUpvalue *vm_capture_upvalue(Value * local)
 {
     ObjectUpvalue *prevUpvalue = NULL;
     ObjectUpvalue *upvalue = virtualMachine.openUpvalues;
@@ -200,7 +201,7 @@ static ObjectUpvalue *vm_capture_upvalue(Value *local)
  * The concept of an upvalue is borrowed from Lua - see https://www.lua.org/pil/27.3.3.html.
  * A upvalue is closed by copying the objects value into the closed field in te ObjectValue.
  */
-static void vm_close_upvalues(Value *last)
+static void vm_close_upvalues(Value * last)
 {
     while (virtualMachine.openUpvalues != NULL && virtualMachine.openUpvalues->location >= last)
     {
@@ -237,7 +238,7 @@ static void vm_define_method(ObjectString *name)
 }
 
 // Defines a native function for the virtual machine
-static void vm_define_native(char const *name, NativeFn function)
+static void vm_define_native(char const * name, NativeFn function)
 {
     vm_push(OBJECT_VAL(object_copy_string(name, (int32_t)strlen(name), false)));
     vm_push(OBJECT_VAL(object_new_native(function)));
@@ -264,7 +265,7 @@ static bool vm_invoke(ObjectString *name, uint32_t argCount)
     return vm_invoke_from_class(instance->celloxClass, name, argCount);
 }
 
-static bool vm_invoke_from_class(ObjectClass *celloxClass, ObjectString *name, uint32_t argCount)
+static bool vm_invoke_from_class(ObjectClass * celloxClass, ObjectString * name, uint32_t argCount)
 {
     Value method;
     if (!table_get(&celloxClass->methods, name, &method))
@@ -348,29 +349,21 @@ so all the statements in it get executed if they are after an if 🤮 */
         uint8_t instruction;
         switch (instruction = READ_BYTE())
         {
-        case OP_PRINT:
-            value_print(vm_pop());
-            printf("\n");
-            break;
-        case OP_JUMP:
+        case OP_ADD:
         {
-            uint16_t offset = READ_SHORT();
-            // We jump 🦘
-            frame->ip += offset;
-            break;
-        }
-        case OP_JUMP_IF_FALSE:
-        {
-            uint16_t offset = READ_SHORT();
-            if (vm_is_falsey(vm_peek(0)))
-                // We jump 🦘
-                frame->ip += offset;
-            break;
-        }
-        case OP_LOOP:
-        {
-            uint16_t offset = READ_SHORT();
-            frame->ip -= offset;
+            if (IS_STRING(vm_peek(0)) && IS_STRING(vm_peek(1)))
+            {
+                vm_concatenate();
+            }
+            else if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
+            {
+                BINARY_OP(NUMBER_VAL, +);
+            }
+            else
+            {
+                vm_runtime_error("Operands must be two numbers or two strings.");
+                return INTERPRET_RUNTIME_ERROR;
+            }
             break;
         }
         case OP_CALL:
@@ -379,17 +372,6 @@ so all the statements in it get executed if they are after an if 🤮 */
             if (!vm_call_value(vm_peek(argCount), argCount))
             {
                 // Amount of arguments used to call a function is not correct
-                return INTERPRET_RUNTIME_ERROR;
-            }
-            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
-            break;
-        }
-        case OP_INVOKE:
-        {
-            ObjectString *method = READ_STRING();
-            int argCount = READ_BYTE();
-            if (!vm_invoke(method, argCount))
-            {
                 return INTERPRET_RUNTIME_ERROR;
             }
             frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
@@ -408,50 +390,54 @@ so all the statements in it get executed if they are after an if 🤮 */
             }
             break;
         }
+        case OP_CLASS:
+            vm_push(OBJECT_VAL(object_new_class(READ_STRING())));
+            break;
         case OP_CLOSE_UPVALUE:
             vm_close_upvalues(virtualMachine.stackTop - 1);
             vm_pop();
             break;
-        case OP_RETURN:
-        {
-            Value result = vm_pop();
-            vm_close_upvalues(frame->slots);
-            virtualMachine.frameCount--;
-            if (virtualMachine.frameCount == 0)
-            {
-                vm_pop();
-                return INTERPRET_OK;
-            }
-
-            virtualMachine.stackTop = frame->slots;
-            vm_push(result);
-            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
-            break;
-        }
         case OP_CONSTANT:
         {
             Value constant = READ_CONSTANT();
             vm_push(constant);
             break;
         }
-        case OP_NULL:
-            vm_push(NULL_VAL);
-            break;
-        case OP_POP:
+        case OP_DEFINE_GLOBAL:
+        {
+            ObjectString *name = READ_STRING();
+            table_set(&virtualMachine.globals, name, vm_peek(0));
             vm_pop();
             break;
-        case OP_GET_LOCAL:
+        }
+        case OP_DIVIDE:
+            BINARY_OP(NUMBER_VAL, /);
+            break;
+        case OP_EQUAL:
         {
-            uint8_t slot = READ_BYTE();
-            vm_push(frame->slots[slot]);
+            Value a = vm_pop();
+            Value b = vm_pop();
+            vm_push(BOOL_VAL(value_values_equal(a, b)));
             break;
         }
-        case OP_SET_LOCAL:
+        case OP_EXPONENT:
         {
-            uint8_t slot = READ_BYTE();
-            frame->slots[slot] = vm_peek(0);
+            if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
+            {
+                int b = AS_NUMBER(vm_pop());
+                int a = AS_NUMBER(vm_pop());
+                vm_push(NUMBER_VAL(pow(a, b)));
+            }
+            else
+            {
+                vm_runtime_error("Operands must be two numbers");
+                return INTERPRET_RUNTIME_ERROR;
+            }
             break;
         }
+        case OP_FALSE:
+            vm_push(BOOL_VAL(false));
+            break;
         case OP_GET_GLOBAL:
         {
             ObjectString *name = READ_STRING();
@@ -464,36 +450,12 @@ so all the statements in it get executed if they are after an if 🤮 */
             vm_push(value);
             break;
         }
-        case OP_DEFINE_GLOBAL:
-        {
-            ObjectString *name = READ_STRING();
-            table_set(&virtualMachine.globals, name, vm_peek(0));
-            vm_pop();
-            break;
-        }
-        case OP_SET_GLOBAL:
-        {
-            ObjectString *name = READ_STRING();
-            if (table_set(&virtualMachine.globals, name, vm_peek(0)))
-            {
-                table_delete(&virtualMachine.globals, name);
-                vm_runtime_error("Undefined variable '%s'.", name->chars);
-                return INTERPRET_RUNTIME_ERROR;
-            }
-            break;
-        }
-        case OP_GET_UPVALUE:
+        case OP_GET_LOCAL:
         {
             uint8_t slot = READ_BYTE();
-            vm_push(*frame->closure->upvalues[slot]->location);
+            vm_push(frame->slots[slot]);
             break;
-        }
-        case OP_SET_UPVALUE:
-        {
-            uint8_t slot = READ_BYTE();
-            *frame->closure->upvalues[slot]->location = vm_peek(0);
-            break;
-        }
+        }      
         case OP_GET_PROPERTY:
         {
             if (!IS_INSTANCE(vm_peek(0)))
@@ -519,91 +481,26 @@ so all the statements in it get executed if they are after an if 🤮 */
             vm_runtime_error("Undefined property '%s'.", name->chars);
             return INTERPRET_RUNTIME_ERROR;
         }
-        case OP_SET_PROPERTY:
+        case OP_GET_SUPER:
         {
-            if (!IS_INSTANCE(vm_peek(1)))
+            ObjectString *name = READ_STRING();
+            ObjectClass *superclass = AS_CLASS(vm_pop());
+
+            if (!vm_bind_method(superclass, name))
             {
-                vm_runtime_error("Only instances have fields.");
-                return INTERPRET_RUNTIME_ERROR;
-            }
-            ObjectInstance *instance = AS_INSTANCE(vm_peek(1));
-            table_set(&instance->fields, READ_STRING(), vm_peek(0));
-            Value value = vm_pop();
-            vm_pop();
-            vm_push(value);
-            break;
-        }
-        case OP_FALSE:
-            vm_push(BOOL_VAL(false));
-            break;
-        case OP_TRUE:
-            vm_push(BOOL_VAL(true));
-            break;
-        case OP_NOT:
-            vm_push(BOOL_VAL(vm_is_falsey(vm_pop())));
-            break;
-        case OP_EQUAL:
-        {
-            Value a = vm_pop();
-            Value b = vm_pop();
-            vm_push(BOOL_VAL(value_values_equal(a, b)));
-            break;
-        }
-        case OP_NEGATE:
-            if (!IS_NUMBER(vm_peek(0)))
-            {
-                vm_runtime_error("Operand must be a number.");
-                return INTERPRET_RUNTIME_ERROR;
-            }
-            vm_push(NUMBER_VAL(-AS_NUMBER(vm_pop(0))));
-            break;
-        case OP_ADD:
-        {
-            if (IS_STRING(vm_peek(0)) && IS_STRING(vm_peek(1)))
-            {
-                vm_concatenate();
-            }
-            else if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
-            {
-                BINARY_OP(NUMBER_VAL, +);
-            }
-            else
-            {
-                vm_runtime_error("Operands must be two numbers or two strings.");
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
         }
-        case OP_MODULO:
+        case OP_GET_UPVALUE:
         {
-            if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
-            {
-                int b = AS_NUMBER(vm_pop());
-                int a = AS_NUMBER(vm_pop());
-                vm_push(NUMBER_VAL(a % b));
-            }
-            else
-            {
-                vm_runtime_error("Operands must be two numbers");
-                return INTERPRET_RUNTIME_ERROR;
-            }
+            uint8_t slot = READ_BYTE();
+            vm_push(*frame->closure->upvalues[slot]->location);
             break;
         }
-        case OP_EXPONENT:
-        {
-            if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
-            {
-                int b = AS_NUMBER(vm_pop());
-                int a = AS_NUMBER(vm_pop());
-                vm_push(NUMBER_VAL(pow(a, b)));
-            }
-            else
-            {
-                vm_runtime_error("Operands must be two numbers");
-                return INTERPRET_RUNTIME_ERROR;
-            }
+        case OP_GREATER:
+            BINARY_OP(BOOL_VAL, >);
             break;
-        }
         case OP_INDEX_OF:
         {
             if (IS_NUMBER(vm_peek(0)) && IS_STRING(vm_peek(1)))
@@ -628,24 +525,6 @@ so all the statements in it get executed if they are after an if 🤮 */
             }
             break;
         }
-        case OP_SUBTRACT:
-            BINARY_OP(NUMBER_VAL, -);
-            break;
-        case OP_MULTIPLY:
-            BINARY_OP(NUMBER_VAL, *);
-            break;
-        case OP_DIVIDE:
-            BINARY_OP(NUMBER_VAL, /);
-            break;
-        case OP_GREATER:
-            BINARY_OP(BOOL_VAL, >);
-            break;
-        case OP_LESS:
-            BINARY_OP(BOOL_VAL, <);
-            break;
-        case OP_CLASS:
-            vm_push(OBJECT_VAL(object_new_class(READ_STRING())));
-            break;
         case OP_INHERIT:
         {
             Value superclass = vm_peek(1);
@@ -660,17 +539,139 @@ so all the statements in it get executed if they are after an if 🤮 */
             vm_pop(); // Subclass.
             break;
         }
-        case OP_GET_SUPER:
+        case OP_INVOKE:
+        {
+            ObjectString *method = READ_STRING();
+            int argCount = READ_BYTE();
+            if (!vm_invoke(method, argCount))
+            {
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+            break;
+        }
+        case OP_JUMP:
+        {
+            uint16_t offset = READ_SHORT();
+            // We jump 🦘
+            frame->ip += offset;
+            break;
+        }
+        case OP_JUMP_IF_FALSE:
+        {
+            uint16_t offset = READ_SHORT();
+            if (vm_is_falsey(vm_peek(0)))
+                // We jump 🦘
+                frame->ip += offset;
+            break;
+        }
+        case OP_LESS:
+            BINARY_OP(BOOL_VAL, <);
+            break;
+        case OP_LOOP:
+        {
+            uint16_t offset = READ_SHORT();
+            frame->ip -= offset;
+            break;
+        }
+        case OP_METHOD:
+            vm_define_method(READ_STRING());
+            break;
+        case OP_MODULO:
+        {
+            if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
+            {
+                int b = AS_NUMBER(vm_pop());
+                int a = AS_NUMBER(vm_pop());
+                vm_push(NUMBER_VAL(a % b));
+            }
+            else
+            {
+                vm_runtime_error("Operands must be two numbers");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            break;
+        }     
+        case OP_MULTIPLY:
+            BINARY_OP(NUMBER_VAL, *);
+            break;   
+        case OP_NEGATE:
+            if (!IS_NUMBER(vm_peek(0)))
+            {
+                vm_runtime_error("Operand must be a number.");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            vm_push(NUMBER_VAL(-AS_NUMBER(vm_pop(0))));
+            break;
+        case OP_NOT:
+            vm_push(BOOL_VAL(vm_is_falsey(vm_pop())));
+            break;    
+        case OP_NULL:
+            vm_push(NULL_VAL);
+            break;
+        case OP_POP:
+            vm_pop();
+            break;
+        case OP_PRINT:
+            value_print(vm_pop());
+            printf("\n");
+            break;
+        case OP_RETURN:
+        {
+            Value result = vm_pop();
+            vm_close_upvalues(frame->slots);
+            virtualMachine.frameCount--;
+            if (virtualMachine.frameCount == 0)
+            {
+                vm_pop();
+                return INTERPRET_OK;
+            }
+
+            virtualMachine.stackTop = frame->slots;
+            vm_push(result);
+            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+            break;
+        }
+        case OP_SET_GLOBAL:
         {
             ObjectString *name = READ_STRING();
-            ObjectClass *superclass = AS_CLASS(vm_pop());
-
-            if (!vm_bind_method(superclass, name))
+            if (table_set(&virtualMachine.globals, name, vm_peek(0)))
             {
+                table_delete(&virtualMachine.globals, name);
+                vm_runtime_error("Undefined variable '%s'.", name->chars);
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
         }
+        case OP_SET_LOCAL:
+        {
+            uint8_t slot = READ_BYTE();
+            frame->slots[slot] = vm_peek(0);
+            break;
+        }
+        case OP_SET_PROPERTY:
+        {
+            if (!IS_INSTANCE(vm_peek(1)))
+            {
+                vm_runtime_error("Only instances have fields.");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            ObjectInstance *instance = AS_INSTANCE(vm_peek(1));
+            table_set(&instance->fields, READ_STRING(), vm_peek(0));
+            Value value = vm_pop();
+            vm_pop();
+            vm_push(value);
+            break;
+        }
+        case OP_SET_UPVALUE:
+        {
+            uint8_t slot = READ_BYTE();
+            *frame->closure->upvalues[slot]->location = vm_peek(0);
+            break;
+        }        
+        case OP_SUBTRACT:
+            BINARY_OP(NUMBER_VAL, -);
+            break;
         case OP_SUPER_INVOKE:
         {
             ObjectString *method = READ_STRING();
@@ -683,8 +684,8 @@ so all the statements in it get executed if they are after an if 🤮 */
             frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
             break;
         }
-        case OP_METHOD:
-            vm_define_method(READ_STRING());
+        case OP_TRUE:
+            vm_push(BOOL_VAL(true));
             break;
         default:
             printf("Bytecode intstruction not supported by VM");
@@ -698,7 +699,7 @@ so all the statements in it get executed if they are after an if 🤮 */
 }
 
 // Reports an error that has occured during runtime
-static void vm_runtime_error(char const *format, ...)
+static void vm_runtime_error(char const * format, ...)
 {
     va_list args;
     va_start(args, format);

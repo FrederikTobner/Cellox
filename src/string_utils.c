@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void string_utils_behead(char * const, int* );
+static void string_utils_behead(char *, int *);
 
 // Checks if a string contains the specified character restricted the specified length
 bool string_utils_contains_character_restricted(char const * text, char character, uint32_t length)

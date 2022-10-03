@@ -1,0 +1,12 @@
+fun revstr(src)
+{
+    var reversed = "";
+    for(var i = 0; i < strlen(src); i += 1) 
+    {
+        reversed += src[strlen(src) - i - 1];
+    }
+    return reversed;
+}
+
+var example = "xollec";
+print revstr(example);

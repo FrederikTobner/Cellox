@@ -5,10 +5,10 @@
 #include "memory.h"
 #include "virtual_machine.h"
 
-static bool chunk_is_full(Chunk *chunk);
+static bool chunk_is_full(Chunk * chunk);
 
 // Adds a constant to the chunk
-int32_t chunk_add_constant(Chunk *chunk, Value value)
+int32_t chunk_add_constant(Chunk * chunk, Value value)
 {
   vm_push(value);
   dynamic_array_write(&chunk->constants, value);
@@ -17,7 +17,7 @@ int32_t chunk_add_constant(Chunk *chunk, Value value)
 }
 
 // Free's a chunk (Deallocates the memory used by the chunk)
-void chunk_free(Chunk *chunk)
+void chunk_free(Chunk * chunk)
 {
   FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
   FREE_ARRAY(uint32_t, chunk->lines, chunk->capacity);
@@ -26,7 +26,7 @@ void chunk_free(Chunk *chunk)
 }
 
 // Initializes a chunk
-void chunk_init(Chunk *chunk)
+void chunk_init(Chunk * chunk)
 {
   chunk->count = 0;
   chunk->capacity = 0;
@@ -36,7 +36,7 @@ void chunk_init(Chunk *chunk)
 }
 
 // Write to a already existing chunk
-void chunk_write(Chunk *chunk, uint8_t byte, int32_t line)
+void chunk_write(Chunk * chunk, uint8_t byte, int32_t line)
 {
   if (chunk_is_full(chunk))
   {
@@ -56,7 +56,7 @@ void chunk_write(Chunk *chunk, uint8_t byte, int32_t line)
   chunk->count++;
 }
 
-static bool chunk_is_full(Chunk *chunk)
+static bool chunk_is_full(Chunk * chunk)
 {
     return chunk->capacity < chunk->count + 1;
 }

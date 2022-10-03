@@ -12,20 +12,20 @@
 static void table_adjust_capacity(Table *, int32_t);
 static Entry *table_find_entry(Entry *, int32_t, ObjectString *);
 
-void table_free(Table *table)
+void table_free(Table * table)
 {
     FREE_ARRAY(Entry, table->entries, table->capacity);
     table_init(table);
 }
 
-void table_init(Table *table)
+void table_init(Table * table)
 {
     table->count = 0;
     table->capacity = 0;
     table->entries = NULL;
 }
 
-void table_mark(Table *table)
+void table_mark(Table * table)
 {
     for (uint32_t i = 0; i < table->capacity; i++)
     {
@@ -35,11 +35,11 @@ void table_mark(Table *table)
     }
 }
 
-void table_add_all(Table *from, Table *to)
+void table_add_all(Table * from, Table *to)
 {
     for (uint32_t i = 0; i < from->capacity; i++)
     {
-        Entry *entry = &from->entries[i];
+        Entry * entry = &from->entries[i];
         if (entry->key != NULL)
             table_set(to, entry->key, entry->value);
     }
@@ -51,7 +51,7 @@ bool table_delete(Table *table, ObjectString *key)
         return false;
 
     // Find the entry.
-    Entry *entry = table_find_entry(table->entries, table->capacity, key);
+    Entry * entry = table_find_entry(table->entries, table->capacity, key);
     if (entry->key == NULL)
         return false;
 
@@ -61,7 +61,7 @@ bool table_delete(Table *table, ObjectString *key)
     return true;
 }
 
-ObjectString *table_find_string(Table *table, char const *chars, uint32_t length, uint32_t hash)
+ObjectString * table_find_string(Table * table, char const * chars, uint32_t length, uint32_t hash)
 {
     if (table->count == 0)
         return NULL;
@@ -69,7 +69,7 @@ ObjectString *table_find_string(Table *table, char const *chars, uint32_t length
     uint32_t index = hash % table->capacity;
     for (;;)
     {
-        Entry *entry = &table->entries[index];
+        Entry * entry = &table->entries[index];
         if (entry->key == NULL)
         {
             // Stop if we find an empty non-tombstone entry.
@@ -83,12 +83,12 @@ ObjectString *table_find_string(Table *table, char const *chars, uint32_t length
     }
 }
 
-bool table_get(Table *table, ObjectString *key, Value *value)
+bool table_get(Table * table, ObjectString * key, Value * value)
 {
     if (table->count == 0)
         return false;
 
-    Entry *entry = table_find_entry(table->entries, table->capacity, key);
+    Entry * entry = table_find_entry(table->entries, table->capacity, key);
     if (entry->key == NULL)
         return false;
 
@@ -106,7 +106,7 @@ void table_remove_white(Table *table)
     }
 }
 
-bool table_set(Table *table, ObjectString *key, Value value)
+bool table_set(Table * table, ObjectString * key, Value value)
 {
     // We grow the hashtable when it becomes 75% full
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
@@ -126,7 +126,7 @@ bool table_set(Table *table, ObjectString *key, Value value)
 }
 
 // Adjusts the capacity of the hash table
-static void table_adjust_capacity(Table *table, int32_t capacity)
+static void table_adjust_capacity(Table * table, int32_t capacity)
 {
     Entry *entries = ALLOCATE(Entry, capacity);
     for (uint32_t i = 0; i < capacity; i++)
@@ -153,7 +153,7 @@ static void table_adjust_capacity(Table *table, int32_t capacity)
 }
 
 // Looks up an entry in the hashtable, based on a key
-static Entry *table_find_entry(Entry *entries, int32_t capacity, ObjectString *key)
+static Entry * table_find_entry(Entry * entries, int32_t capacity, ObjectString *key)
 {
     uint32_t index = key->hash % capacity;
     Entry *tombstone = NULL;

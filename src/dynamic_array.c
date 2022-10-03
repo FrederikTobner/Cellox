@@ -2,20 +2,20 @@
 
 #include "memory.h"
 
-void dynamic_array_free(DynamicArray *array)
+void dynamic_array_free(DynamicArray * array)
 {
     FREE_ARRAY(Value, array->values, array->capacity);
     dynamic_array_init(array);
 }
 
-void dynamic_array_init(DynamicArray *array)
+void dynamic_array_init(DynamicArray * array)
 {
     array->values = NULL;
     array->capacity = 0u;
     array->count = 0u;
 }
 
-void dynamic_array_write(DynamicArray *array, Value value)
+void dynamic_array_write(DynamicArray * array, Value value)
 {
     if (array->capacity < array->count + 1u)
     {

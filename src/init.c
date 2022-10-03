@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef CELLOX_TEST
+#ifndef CELLOX_TESTS_RUNNING
 #include "cellox_config.h"
 #endif
 
@@ -30,7 +30,7 @@ static void init_repl();
 // Reads a lox program from a file and executes the program
 static void init_run_from_file(char const *);
 
-void init_initialize(int const argc, char const *argv[])
+void init_initialize(int const argc, char const ** argv)
 {
     vm_init();
     if (argc == 1)
@@ -47,10 +47,10 @@ void init_initialize(int const argc, char const *argv[])
     vm_free();
 }
 
-static char *init_read_file(char const *path)
+static char * init_read_file(char const * path)
 {
     // Opens a file of a nonspecified format (b) in read mode (r)
-    FILE *file = fopen(path, "rb");
+    FILE * file = fopen(path, "rb");
     if (file == NULL)
     {
         fprintf(stderr, "Could not open file \"%s\".\n", path);
@@ -59,7 +59,7 @@ static char *init_read_file(char const *path)
     fseek(file, 0L, SEEK_END);
     size_t fileSize = ftell(file);
     rewind(file);
-    char *buffer = (char *)malloc(fileSize + 1);
+    char * buffer = (char *)malloc(fileSize + 1);
     if (buffer == NULL)
     {
         fprintf(stderr, "Not enough memory to read \"%s\".\n", path);
@@ -81,8 +81,9 @@ static void init_repl()
 {
     // Used to store the next line that read from input
     char line[MAX_LINE_LENGTH];
-#ifndef CELLOX_TEST
-    printf("Cellox Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
+#ifndef CELLOX_TESTS_RUNNING
+    printf("   _____     _ _           \n  / ____|   | | |          \n | |     ___| | | _____  __\n | |    / _ \\ | |/ _ \\ \\/ /\n | |___|  __/ | | (_) >  < \n  \\_____\\___|_|_|\\___/_/\\_\\\n");
+    printf("\t\t Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
 #endif
     for (;;)
     {
@@ -101,15 +102,19 @@ static void init_repl()
     }
 }
 
-static void init_run_from_file(char const *path)
+static void init_run_from_file(char const * path)
 {
-    char *source = init_read_file(path);
+    char * source = init_read_file(path);
     InterpretResult result = vm_interpret(source);
     free(source);
+    #ifndef CELLOX_TESTS_RUNNING
+    if(result != INTERPRET_OK)
+        vm_free();
     // Error during compilation process
     if (result == INTERPRET_COMPILE_ERROR)
         exit(65);
     // Error during runtime
     if (result == INTERPRET_RUNTIME_ERROR)
         exit(70);
+    #endif
 }

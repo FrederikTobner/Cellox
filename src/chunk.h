@@ -68,16 +68,16 @@ typedef enum
     OP_NOT,
     // Pushes a null value on the stack
     OP_NULL,
-    // Pops the value from the top of the stack and writes it to the standard output
-    OP_PRINT,
     // Pops a value from the stack
     OP_POP,
+    // Pops the value from the top of the stack and writes it to the standard output
+    OP_PRINT,
     // Returns the value that is stored on the top of the stack
     OP_RETURN,
-    // Sets the value of a local variable
-    OP_SET_LOCAL,
     // Sets the value of a global variable
     OP_SET_GLOBAL,
+    // Sets the value of a local variable
+    OP_SET_LOCAL,
     // Sets the value of a property
     OP_SET_PROPERTY,
     // Sets an upvalue that is captured by the current closure
@@ -99,23 +99,23 @@ typedef struct
     // Capacity of the chunk
     uint32_t capacity;
     // Operand Codes
-    uint8_t *code;
+    uint8_t * code;
     // Stores line information to the corresponding lox program
-    uint32_t *lines;
+    uint32_t * lines;
     // Constants stored in the chunk
     DynamicArray constants;
 } Chunk;
 
 // Adds a constant to the chunk
-int32_t chunk_add_constant(Chunk *chunk, Value value);
+int32_t chunk_add_constant(Chunk * chunk, Value value);
 
 // Free's a chunk (Deallocates the memory used by the chunk)
-void chunk_free(Chunk *chunk);
+void chunk_free(Chunk * chunk);
 
 // Initializes a chunk
-void chunk_init(Chunk *chunk);
+void chunk_init(Chunk * chunk);
 
 // Write to a already existing chunk
-void chunk_write(Chunk *chunk, uint8_t byte, int32_t line);
+void chunk_write(Chunk * chunk, uint8_t byte, int32_t line);
 
 #endif

@@ -1,0 +1,29 @@
+class Person
+{
+    init(name)
+    {
+        this.name = name;
+    }
+    Greet()
+    {
+        print "Hi, my name is " + this.name + ".";
+    }
+}
+
+class Student : Person
+{
+    init(name, courseOfStudy, university)
+    {
+        super.init(name);
+        this.courseOfStudy = courseOfStudy;
+        this.university = university;
+    }
+    Greet()
+    {
+        super.Greet();
+        print "I study " + this.courseOfStudy + " at the " + this.university + "."; 
+    }
+}
+
+var p = Student("Jeff", "computer science", "harvard university");
+p.Greet();

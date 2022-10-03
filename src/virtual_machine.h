@@ -14,11 +14,11 @@
 typedef struct
 {
     // The closure of the callframe
-    ObjectClosure *closure;
+    ObjectClosure * closure;
     // The instruction pointer in the callframe
-    uint8_t *ip;
+    uint8_t * ip;
     // Points to the first slot in the stack of the virtualMachine the function can use
-    Value *slots;
+    Value * slots;
 } CallFrame;
 
 // Type definition of the stackbased virtual machine
@@ -35,23 +35,23 @@ typedef struct
     // Stack of the virtualMachine
     Value stack[STACK_MAX];
     /// Pointer to the top of the stack
-    Value *stackTop;
+    Value * stackTop;
     // Hashtable that contains the global variables
     Table globals;
     // Hashtable that contains the strings
     Table strings;
-    // String "init" used to look up the initializer of a class - is reused for every init call
-    ObjectString *initString;
-    // UpValues of the closures of all the functions on the callstack
-    ObjectUpvalue *openUpvalues;
+    // String "init" used to look up the initializer of a class - reused for every init call
+    ObjectString * initString;
+    // Upvalues of the closures of all the functions on the callstack
+    ObjectUpvalue * openUpvalues;
     // Number of bytes that have been allocated by the virtualMachine
     size_t bytesAllocated;
     // A treshhold when the next garbage Collection shall be triggered (e.g. a Megabyte)
     size_t nextGC;
     // The objects that are allocated in the memory of the virtualMachine
-    Object *objects;
+    Object * objects;
     // The stack that contains all the gray objects
-    Object **grayStack;
+    Object ** grayStack;
 } VirtualMachine;
 
 // Result of the interpretation (sucessfull, error during compilation or at runtime)
