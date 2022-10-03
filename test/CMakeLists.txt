@@ -12,12 +12,14 @@ FetchContent_Declare(
   GIT_TAG release-1.12.1
 )
 
+# Path of the sources of the cellox interpreter
 set(SOURCEPATH ../src/)
 
 # testfiles
 set(TESTSOURCES
 assignment_operator.cc
 binary_operator.cc
+class.cc
 comments.cc
 escape_sequences.cc
 for_loops.cc
@@ -25,9 +27,11 @@ functions.cc
 index_operator.cc
 literal_expressions.cc
 logical_operators.cc
+native_functions.cc
 test_cellox.cc
 test_cellox.hh
 unary_operator.cc
+while_loops.cc
 )
 
 # source files of the interpreter
@@ -51,7 +55,6 @@ ${SOURCEPATH}virtual_machine.c
 # headers of the interpreter
 set(CELLOXHEADERS
 ${SOURCEPATH}chunk.h
-${SOURCEPATH}common.h
 ${SOURCEPATH}compiler.h
 ${SOURCEPATH}dynamic_array.h
 ${SOURCEPATH}debug.h
@@ -66,11 +69,24 @@ ${SOURCEPATH}value.h
 ${SOURCEPATH}virtual_machine.h
 )
 
-# Flag for testing
-add_compile_definitions(CELLOX_TEST)
+add_compile_definitions(
+# Flag that indicates that test are executed
+CELLOX_TESTS_RUNNING
+# Directory of the cellox integration tests
+TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
+)
 
+# Precompiles common.h to speed up compilation of the target
+if( MSVC )    
+    target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h ${SOURCEPATH}common.c) # VisualStudio only accepts header files that also have a source file
+else()
+    target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h)
+endif()
+
+# Builds cellox tests
 add_executable(${THIS} ${TESTSOURCES} ${CELLOXSOURCES} ${CELLOXHEADERS})
 
+# Includes SourcePath of the compiler for shorter includes
 target_include_directories(${THIS} PUBLIC ${SOURCEPATH})
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
@@ -80,10 +96,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 #Links googletest libary and cellox tests
-target_link_libraries(
-  ${THIS}
-  GTest::gtest_main
-)
+target_link_libraries(${THIS} GTest::gtest_main)
+
+#Includes google test framework
 include(googletest)
 
 # Automatic discovering of tests

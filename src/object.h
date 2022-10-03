@@ -182,35 +182,35 @@ typedef struct
     // data that defines all types of objects
     Object obj;
     Value receiver;
-    ObjectClosure *method;
+    ObjectClosure * method;
 } ObjectBoundMethod;
 
 // Copys the value of a string in the hashtable of the virtualMachine
-ObjectString *object_copy_string(char const *chars, uint32_t length, bool removeBackSlash);
+ObjectString * object_copy_string(char const *chars, uint32_t length, bool removeBackSlash);
 
 // Creates a new bound method
-ObjectBoundMethod *object_new_bound_method(Value receiver, ObjectClosure *method);
+ObjectBoundMethod * object_new_bound_method(Value receiver, ObjectClosure *method);
 
 // Creates a new class in cellox
-ObjectClass *object_new_class(ObjectString *name);
+ObjectClass * object_new_class(ObjectString *name);
 
 // Creates a new Closure
-ObjectClosure *object_new_closure(ObjectFunction *function);
+ObjectClosure * object_new_closure(ObjectFunction *function);
 
 // Creates a new cellox function
-ObjectFunction *object_new_function();
+ObjectFunction * object_new_function();
 
 // Creates a new cellox class instance
-ObjectInstance *object_new_instance(ObjectClass *celloxClass);
+ObjectInstance * object_new_instance(ObjectClass *celloxClass);
 
 // Creates a new native function
-ObjectNative *object_new_native(NativeFn function);
+ObjectNative * object_new_native(NativeFn function);
 
 // Takes a string from the hashtable of the virtualMachine and returns it
-ObjectString *object_take_string(char *chars, uint32_t length);
+ObjectString * object_take_string(char *chars, uint32_t length);
 
 // Creates a new upvalue
-ObjectUpvalue *object_new_upvalue(Value *slot);
+ObjectUpvalue * object_new_upvalue(Value *slot);
 
 // Prints the object
 void object_print(Value value);

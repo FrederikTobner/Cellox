@@ -9,16 +9,16 @@ typedef struct
 {
     uint32_t capacity;
     uint32_t count;
-    Value *values;
+    Value * values;
 } DynamicArray;
 
 // Dealocates the memory used by the dynamic array
-void dynamic_array_free(DynamicArray *array);
+void dynamic_array_free(DynamicArray * array);
 
 // initializes the dynamic array
-void dynamic_array_init(DynamicArray *array);
+void dynamic_array_init(DynamicArray * array);
 
 // Adds a value to the dynamic array
-void dynamic_array_write(DynamicArray *array, Value value);
+void dynamic_array_write(DynamicArray * array, Value value);
 
 #endif

@@ -1,0 +1,3 @@
+print strlen("");
+print strlen ("Cellox");
+print strlen ("Hello World");

@@ -1,0 +1,12 @@
+class Rectangle
+{
+	init(x, y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+	area()
+	{
+		return this.x * this.y * 0.5;
+	}
+}  

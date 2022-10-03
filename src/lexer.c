@@ -7,9 +7,9 @@
 typedef struct
 {
     // Pointer to the start of the current line where the lexical analysis is performed
-    const char *start;
+    const char * start;
     // Pointer to the current position in the current line where the lexical analysis is performed
-    const char *current;
+    const char * current;
     // Line counter - used for error reporting
     uint32_t line;
 } Lexer;
@@ -18,22 +18,22 @@ typedef struct
 Lexer lexer;
 
 static char lexer_advance();
-static TokenType lexer_check_keyword(uint32_t start, uint32_t length, const char *rest, TokenType type);
-static Token lexer_error_token(const char *message);
+static TokenType lexer_check_keyword(uint32_t , uint32_t , char const *, TokenType);
+static Token lexer_error_token(char const *);
 static Token lexer_identifier();
 static TokenType lexer_identifier_type();
-static bool lexer_is_alpha(char c);
-static bool lexer_is_digit(char c);
+static bool lexer_is_alpha(char);
+static bool lexer_is_digit(char);
 static bool lexer_is_at_end();
-static Token lexer_make_token(TokenType type);
-static bool lexer_match(char expected);
+static Token lexer_make_token(TokenType);
+static bool lexer_match(char);
 static Token lexer_number();
 static char lexer_peek();
 static char lexer_peek_next();
 static void lexer_skip_whitespace();
 static Token string();
 
-void lexer_init(char const *source)
+void lexer_init(char const * source)
 {
     lexer.start = source;
     lexer.current = source;
@@ -146,7 +146,7 @@ static char lexer_advance()
 }
 
 // Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
-static TokenType lexer_check_keyword(uint32_t start, uint32_t length, const char *rest, TokenType type)
+static TokenType lexer_check_keyword(uint32_t start, uint32_t length, char const * rest, TokenType type)
 {
     if (lexer.current - lexer.start == start + length && memcmp(lexer.start + start, rest, length) == 0)
     {
@@ -157,7 +157,7 @@ static TokenType lexer_check_keyword(uint32_t start, uint32_t length, const char
 }
 
 // Creates an error Token with a message
-static Token lexer_error_token(const char *message)
+static Token lexer_error_token(char const * message)
 {
     Token token;
     token.type = TOKEN_ERROR;

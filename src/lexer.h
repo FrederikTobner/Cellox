@@ -124,7 +124,7 @@ typedef struct
 } Token;
 
 // Initializes the lexer
-void lexer_init(char const *source);
+void lexer_init(char const * source);
 
 // Scans the next token in the sourcecode and saves it in a linear sequence of tokens
 Token scan_token();
