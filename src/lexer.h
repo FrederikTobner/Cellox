@@ -18,7 +18,7 @@ typedef enum
   TOKEN_COMMA,
   // .
   TOKEN_DOT,
-  // Used for inheritance
+  // : (Used for inheritance)
   TOKEN_DOUBLEDOT,
   // else
   TOKEN_ELSE,

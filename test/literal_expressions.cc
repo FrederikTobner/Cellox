@@ -3,20 +3,26 @@
 
 TEST(LiteralExpressions, Booleans)
 {
-    test_program("literalExpressions/booleans.clx", "true\nfalse\n");
+    test_cellox_program("literalExpressions/booleans.clx", "true\nfalse\n", false);
 }
 
 TEST(LiteralExpressions, Null)
 {
-    test_program("literalExpressions/null.clx", "null\n");
+    test_cellox_program("literalExpressions/null.clx", "null\n", false);
 }
 
 TEST(LiteralExpressions, Numbers)
 {
-    test_program("literalExpressions/numbers.clx", "123\n-10\n123.456\n-0.001\n");
+    test_cellox_program("literalExpressions/numbers.clx", "123\n-10\n123.456\n-0.001\n", false);
 }
 
 TEST(LiteralExpressions, Strings)
 {
-    test_program("literalExpressions/strings.clx", "\na\nA\n123\n!\"$%&/()=?\n");
+    #ifdef _WIN32
+        test_cellox_program("literalExpressions/strings.clx", "\na\nA\n123\n!\"$%&/()=?\n1\r\n2\r\n3\n", false);
+    #endif
+    #ifdef linux
+        test_cellox_program("literalExpressions/strings.clx", "\na\nA\n123\n!\"$%&/()=?\n1\n2\n3\n", false);
+    #endif
+    
 }

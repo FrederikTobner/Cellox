@@ -4,60 +4,60 @@
 
 TEST(BinaryOperators, Plus)
 {
-    test_program("binaryOperators/plusoperator.clx", "8\ntest\n");
+    test_cellox_program("binaryOperators/plusoperator.clx", "8\ntest\n", false);
 }
 
 TEST(BinaryOperators, Minus)
 {
-    test_program("binaryOperators/minusoperator.clx", "2\n");
+    test_cellox_program("binaryOperators/minusoperator.clx", "2\n", false);
 }
 
 TEST(BinaryOperators, Multiply)
 {
-    test_program("binaryOperators/multiplyoperator.clx", "15\n");
+    test_cellox_program("binaryOperators/multiplyoperator.clx", "15\n", false);
 }
 
 TEST(BinaryOperators, Divide)
 {
-    test_program("binaryOperators/divideoperator.clx", "3\n");
+    test_cellox_program("binaryOperators/divideoperator.clx", "3\n", false);
 }
 
 TEST(BinaryOperators, Modulo)
 {
-    test_program("binaryOperators/modulooperator.clx", "2\n");
+    test_cellox_program("binaryOperators/modulooperator.clx", "2\n", false);
 }
 
 TEST(BinaryOperators, Raise)
 {
-    test_program("binaryOperators/raiseoperator.clx", "32\n");
+    test_cellox_program("binaryOperators/raiseoperator.clx", "32\n", false);
 }
 
 TEST(BinaryOperators, Greater)
 {
-    test_program("binaryOperators/greater.clx", "true\nfalse\n");
+    test_cellox_program("binaryOperators/greater.clx", "true\nfalse\n", false);
 }
 
 TEST(BinaryOperators, GreaterEqual)
 {
-    test_program("binaryOperators/greaterequal.clx", "true\ntrue\nfalse\n");
+    test_cellox_program("binaryOperators/greaterequal.clx", "true\ntrue\nfalse\n", false);
 }
 
 TEST(BinaryOperators, Smaller)
 {
-    test_program("binaryOperators/smaller.clx", "true\nfalse\n");
+    test_cellox_program("binaryOperators/smaller.clx", "true\nfalse\n", false);
 }
 
 TEST(BinaryOperators, SmallerEqual)
 {
-    test_program("binaryOperators/smallerequal.clx", "true\ntrue\nfalse\n");
+    test_cellox_program("binaryOperators/smallerequal.clx", "true\ntrue\nfalse\n", false);
 }
 
 TEST(BinaryOperators, Equal)
 {
-    test_program("binaryOperators/equal.clx", "true\ntrue\ntrue\nfalse\nfalse\nfalse\n");
+    test_cellox_program("binaryOperators/equal.clx", "true\ntrue\ntrue\nfalse\nfalse\nfalse\n", false);
 }
 
 TEST(BinaryOperators, NotEqual)
 {
-    test_program("binaryOperators/notequal.clx", "true\ntrue\ntrue\nfalse\nfalse\nfalse\n");
+    test_cellox_program("binaryOperators/notequal.clx", "true\ntrue\ntrue\nfalse\nfalse\nfalse\n", false);
 }

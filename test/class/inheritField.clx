@@ -1,0 +1,18 @@
+class A
+{
+    init(value)
+    {
+        this.value = value;
+    }
+}
+
+class B : A
+{
+    init(value)
+    {
+        super.init(value);
+    }
+}
+
+var a = B("test");
+print a.value;

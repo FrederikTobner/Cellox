@@ -4,5 +4,5 @@
 
 TEST(NativeFunctions, strlen)
 {
-    test_program("nativeFunctions/stringLength.clx", "0\n6\n11\n");
+    test_cellox_program("nativeFunctions/stringLength.clx", "0\n6\n11\n", false);
 }

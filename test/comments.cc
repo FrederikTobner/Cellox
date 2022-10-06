@@ -4,10 +4,10 @@
 
 TEST(Comments, SingleLine)
 {
-    test_program("comments/singleLine.clx", "ok\n");
+    test_cellox_program("comments/singleLine.clx", "ok\n", false);
 }
 
 TEST(Comments, MultiLine)
 {
-    test_program("comments/multiLine.clx", "ok\n");
+    test_cellox_program("comments/multiLine.clx", "ok\n", false);
 }
