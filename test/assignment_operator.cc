@@ -4,35 +4,35 @@
 
 TEST(AssgnmentOperator, Simple)
 {
-    test_program("assignmentOperators/simpleAssignment.clx", "5\ntest\ntrue\nnull\n");
+    test_cellox_program("assignmentOperators/simpleAssignment.clx", "5\ntest\ntrue\nnull\n", false);
 }
 
 TEST(AssgnmentOperator, MinusEqual)
 {
-    test_program("assignmentOperators/minusEqual.clx", "2\n");
+    test_cellox_program("assignmentOperators/minusEqual.clx", "2\n", false);
 }
 
 TEST(AssgnmentOperator, PlusEqual)
 {
-    test_program("assignmentOperators/plusEqual.clx", "8\nhello world\n");
+    test_cellox_program("assignmentOperators/plusEqual.clx", "8\nhello world\n", false);
 }
 
 TEST(AssgnmentOperator, StarEqual)
 {
-    test_program("assignmentOperators/starEqual.clx", "15\n");
+    test_cellox_program("assignmentOperators/starEqual.clx", "15\n", false);
 }
 
 TEST(AssgnmentOperator, DivideEqual)
 {
-    test_program("assignmentOperators/divideEqual.clx", "3\n");
+    test_cellox_program("assignmentOperators/divideEqual.clx", "3\n", false);
 }
 
 TEST(AssgnmentOperator, ModuloEqual)
 {
-    test_program("assignmentOperators/moduloEqual.clx", "2\n");
+    test_cellox_program("assignmentOperators/moduloEqual.clx", "2\n", false);
 }
 
 TEST(AssgnmentOperator, RaiseEqual)
 {
-    test_program("assignmentOperators/raiseEqual.clx", "27\n");
+    test_cellox_program("assignmentOperators/raiseEqual.clx", "27\n", false);
 }

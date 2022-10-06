@@ -4,15 +4,15 @@
 
 TEST(ForLoops, NormalFor)
 {
-    test_program("forLoops/normalFor.clx", "1\n2\n3\n4\n5\n");
+    test_cellox_program("forLoops/normalFor.clx", "1\n2\n3\n4\n5\n", false);
 }
 
 TEST(ForLoops, NoVariable)
 {
-    test_program("forLoops/noVariable.clx", "0\n1\n2\n");
+    test_cellox_program("forLoops/noVariable.clx", "0\n1\n2\n", false);
 }
 
 TEST(ForLoops, NoCounterIncrementExpression)
 {
-    test_program("forLoops/noCounterIncrementExpression.clx", "1\n2\n3\n4\n");
+    test_cellox_program("forLoops/noCounterIncrementExpression.clx", "1\n2\n3\n4\n", false);
 }

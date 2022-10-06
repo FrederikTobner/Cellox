@@ -1,0 +1,10 @@
+class A
+{
+    init(field)
+    {
+        this.field = field;
+    }
+}
+
+var a = A("a field");
+print a.field;

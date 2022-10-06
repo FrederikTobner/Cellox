@@ -4,5 +4,5 @@
 
 TEST(IndexOperator, String)
 {
-    test_program("indexOperator/string.clx", "t\ne\ns\nt\n");
+    test_cellox_program("indexOperator/string.clx", "t\ne\ns\nt\n", false);
 }

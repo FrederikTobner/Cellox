@@ -1,0 +1,15 @@
+class A
+{
+    Greet()
+    {
+        print "hello";
+    }
+}
+
+class B : A
+{
+    
+}
+
+var a = B();
+a.Greet();

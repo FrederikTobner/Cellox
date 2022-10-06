@@ -4,10 +4,10 @@
 
 TEST(LogicalOperators, And)
 {
-    test_program("logicalOperators/and.clx", "false\nfalse\ntrue\nfalse\nfalse\ntrue\n");
+    test_cellox_program("logicalOperators/and.clx", "false\nfalse\ntrue\nfalse\nfalse\ntrue\n", false);
 }
 
 TEST(LogicalOperators, Or)
 {
-    test_program("logicalOperators/or.clx", "false\ntrue\ntrue\nfalse\ntrue\ntrue\n");
+    test_cellox_program("logicalOperators/or.clx", "false\ntrue\ntrue\nfalse\ntrue\ntrue\n", false);
 }
