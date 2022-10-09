@@ -144,8 +144,32 @@ void object_print(Value value)
         object_print_function(AS_FUNCTION(value));
         break;
     case OBJECT_INSTANCE:
-        printf("%s instance", AS_INSTANCE(value)->celloxClass->name->chars);
+        {
+        ObjectInstance * instance =  AS_INSTANCE(value);
+        printf("%s instance:", instance->celloxClass->name->chars);
+        if(!instance->fields.count)
+        {
+            printf(" {}");
+            break;
+        }
+        Value fieldValue;
+        printf("\n{\n");     
+        for (size_t i = 0; i < instance->fields.capacity; i++)
+        {
+            if(instance->fields.entries[i].key != NULL)
+            {                
+                printf("\t%s: ", instance->fields.entries[i].key->chars);
+                if(IS_STRING(instance->fields.entries[i].value))
+                    putc('"', stdout);  
+                value_print(instance->fields.entries[i].value);
+                if(IS_STRING(instance->fields.entries[i].value))
+                    putc('"', stdout);
+                printf(",\n");
+            }
+        }
+        putc('}', stdout);
         break;
+        }
     case OBJECT_NATIVE:
         printf("<native fn>");
         break;

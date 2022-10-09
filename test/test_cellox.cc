@@ -1,21 +1,21 @@
-#include <gtest/gtest.h>
-
 #include "test_cellox.hh"
+
+#include "gtest/gtest.h"
+
 #include "init.h"
 
-void test_cellox_program(char const * programPath, char const * expectedOutput, bool producesError)
+void test_cellox_program(std::string const & programPath, std::string const & expectedOutput, bool producesError)
 {
     // Create absolute filepath
-    char filePath [1024];
-    filePath[0] = '\0';
-    strcat(filePath, TEST_PROGRAM_BASE_PATH);
-    strcat(filePath, programPath);
-    
+    std::string filePath = TEST_PROGRAM_BASE_PATH;
+    filePath.append(programPath);    
     // Create call args
-    const char * args[2];
-    *(args + 1) = filePath;
+    char const * args[2];
+    *(args + 1) = filePath.c_str();
     
-    // Redirect output
+    /* Redirect output 
+     * TODO fix possible buffer overflow in tests
+     */
     char actual_output [4096];
     for (size_t i = 0; i < 4096; i++)
         actual_output[i] = '\0';
@@ -40,7 +40,7 @@ void test_cellox_program(char const * programPath, char const * expectedOutput, 
         setbuf(stdout, actual_output);
     }
     
-    // Execute Test
+    // Execute Test 🚀
     init_initialize(2, args);
-    ASSERT_STREQ(expectedOutput, actual_output);
+    ASSERT_STREQ(expectedOutput.c_str(), actual_output);
 }

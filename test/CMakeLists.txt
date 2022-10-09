@@ -28,6 +28,7 @@ index_operator.cc
 literal_expressions.cc
 logical_operators.cc
 native_functions.cc
+super.cc
 test_cellox.cc
 test_cellox.hh
 unary_operator.cc

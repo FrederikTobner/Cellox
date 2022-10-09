@@ -110,7 +110,7 @@ void * memory_reallocate(void *pointer, size_t oldSize, size_t newSize)
 static void memory_blacken_object(Object * object)
 {
 #ifdef DEBUG_LOG_GC
-  printf("%p blacken ", (void *)object);
+  printf("%p blackened ", (void *)object);
   value_print(OBJ_VAL(object));
   printf("\n");
 #endif

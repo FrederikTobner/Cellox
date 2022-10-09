@@ -4,12 +4,12 @@
 
 TEST(Functions, emptyBody)
 {
-    test_cellox_program("functions/emptyBody.clx", "null\n", false);
+    test_cellox_program("functions/empty_body.clx", "null\n", false);
 }
 
 TEST(Functions, nestedFunction)
 {
-    test_cellox_program("functions/nestedFunction.clx", "0\n1\n1\n2\n3\n5\n8\n13\n21\n34\n", false);
+    test_cellox_program("functions/nested_function.clx", "0\n1\n1\n2\n3\n5\n8\n13\n21\n34\n", false);
 }
 
 TEST(Functions, parameters)

@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
-
 #include "test_cellox.hh"
+
+#include <gtest/gtest.h>
 
 TEST(UnaryOperator, Negate)
 {

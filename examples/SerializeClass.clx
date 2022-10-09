@@ -1,0 +1,10 @@
+class Person 
+{
+    init(age, name)
+    {
+        this.age = age;
+        this.name = name;
+    }
+}
+
+print Person(25, "Frederik Tobner");
