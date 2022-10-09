@@ -9,15 +9,15 @@ TEST(EscapeSequences, alphabet)
 
 TEST(EscapeSequences, specialCharacters)
 {
-    test_cellox_program("escapeSequences/specialcharacters.clx", "\"\'\\\?\n", false);
+    test_cellox_program("escapeSequences/special_characters.clx", "\"\'\\\?\n", false);
 }
 
 TEST(EscapeSequences, octalNumbers)
 {
-    test_cellox_program("escapeSequences/octalNumber.clx", "\1\55\147\n", false);
+    test_cellox_program("escapeSequences/octal_number.clx", "\1\55\147\n", false);
 }
 
 TEST(EscapeSequences, hexadecimalNumber)
 {
-    test_cellox_program("escapeSequences/hexNumber.clx", "\x1\xaa\x91\n", false);
+    test_cellox_program("escapeSequences/hex_number.clx", "\x1\xaa\x91\n", false);
 }

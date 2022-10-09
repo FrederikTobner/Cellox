@@ -1,6 +1,5 @@
-class Foo
+class Foo 
 {
-
 }
 
 print Foo(); // expect: Foo instance

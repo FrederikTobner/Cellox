@@ -1,0 +1,14 @@
+class A 
+{
+
+}
+
+class B : A 
+{
+  method() 
+  {
+    super;
+  }
+}
+
+// Expect '[line 10] Error at ';': Expect '.' after 'super'.'

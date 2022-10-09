@@ -1,0 +1,10 @@
+class Foo 
+{
+    init(value, text)
+    {
+        this.value = value;
+        this.text = text;
+    }
+}
+
+print Foo(10, "test"); // expect: Foo instance
