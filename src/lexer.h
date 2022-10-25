@@ -116,7 +116,7 @@ typedef struct
   // The type of the token
   TokenType type;
   // Pointer to the start of the character sequence
-  const char *start;
+  char const * start;
   // Length of the character sequence
   uint32_t length;
   // Line in the sourceCode

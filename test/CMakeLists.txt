@@ -2,7 +2,7 @@
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(THIS CelloxTests)
+set(THIS ${PROJECT_NAME}Tests)
 
 #Fetches google-test framework from the github repo
 include(FetchContent)

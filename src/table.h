@@ -8,7 +8,7 @@
 typedef struct
 {
     // Key of the entry 🔑
-    ObjectString *key;
+    ObjectString * key;
     // Value associated with the key
     Value value;
 } Entry;

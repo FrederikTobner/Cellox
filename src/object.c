@@ -20,7 +20,7 @@ static ObjectString *object_allocate_string(char *, uint32_t, uint32_t);
 static uint32_t object_hash_string(char const *, uint32_t);
 static void object_print_function(ObjectFunction *);
 
-ObjectString *object_copy_string(char const *chars, uint32_t length, bool removeBackSlash)
+ObjectString *object_copy_string(char const * chars, uint32_t length, bool removeBackSlash)
 {
     uint32_t hash;
     ObjectString * interned;
@@ -146,25 +146,26 @@ void object_print(Value value)
     case OBJECT_INSTANCE:
         {
         ObjectInstance * instance =  AS_INSTANCE(value);
-        printf("%s instance:", instance->celloxClass->name->chars);
         if(!instance->fields.count)
         {
-            printf(" {}");
+            printf("{}");
             break;
         }
+        putc('{', stdout);
         Value fieldValue;
-        printf("\n{\n");     
+        size_t fieldCounter = instance->fields.count;
         for (size_t i = 0; i < instance->fields.capacity; i++)
         {
             if(instance->fields.entries[i].key != NULL)
             {                
-                printf("\t%s: ", instance->fields.entries[i].key->chars);
+                printf("%s: ", instance->fields.entries[i].key->chars);
                 if(IS_STRING(instance->fields.entries[i].value))
                     putc('"', stdout);  
                 value_print(instance->fields.entries[i].value);
                 if(IS_STRING(instance->fields.entries[i].value))
                     putc('"', stdout);
-                printf(",\n");
+                if(fieldCounter-- > 1)
+                    printf(", ");
             }
         }
         putc('}', stdout);
@@ -186,7 +187,7 @@ ObjectString * object_take_string(char * chars, uint32_t length)
 {
     uint32_t hash = object_hash_string(chars, length);
     ObjectString * interned = table_find_string(&virtualMachine.strings, chars, length, hash);
-    if (interned != NULL)
+    if (interned)
     {
         FREE_ARRAY(char, chars, length + 1);
         return interned;
@@ -243,7 +244,7 @@ static uint32_t object_hash_string(char const * key, uint32_t length)
 // Prints a function
 static void object_print_function(ObjectFunction * function)
 {
-    if (function->name == NULL)
+    if (!function->name)
     {
         // top level code
         printf("<script>");

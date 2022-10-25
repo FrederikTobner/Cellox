@@ -18,7 +18,18 @@
 #define MAX_READ_LINE_INPUT 1024
 #define MAX_USER_NAME_LENGTH 256
 
-static void native_assert_arrity(char const * functioName,  uint32_t arity, uint32_t argcount);
+static void native_assert_arrity(char const * ,  uint32_t , uint32_t);
+
+Value native_classof(uint32_t argCount, Value const * args)
+{
+    native_assert_arrity("class_of", 1, argCount);
+    if (!IS_INSTANCE(*args))
+    {
+        printf("class_of can only be called with an instance as argument");
+        exit(65);
+    }
+    return OBJECT_VAL(AS_INSTANCE(*args)->celloxClass);
+}
 
 Value native_clock(uint32_t argCount, Value const * args)
 {
@@ -67,6 +78,28 @@ Value native_read_line(uint32_t argCount, Value const * args)
     return OBJECT_VAL(object_copy_string(line, strlen(line) - 1, false));
 }
 
+Value native_on_linux(uint32_t argCount, Value const * args)
+{
+    native_assert_arrity("onLinux", 0, argCount);
+    #ifdef _WIN32
+    return FALSE_VAL;
+    #endif
+    #ifdef linux
+    return TRUE_VAL;
+    #endif
+}
+
+Value native_on_windows(uint32_t argCount, Value const * args)
+{
+    native_assert_arrity("onWindows", 0, argCount);
+    #ifdef _WIN32
+    return TRUE_VAL;
+    #endif
+    #ifdef linux
+    return FALSE_VAL;
+    #endif
+}
+
 Value native_string_length(uint32_t argCount, Value const * args)
 {
     native_assert_arrity("strlen", 1, argCount);
@@ -76,6 +109,18 @@ Value native_string_length(uint32_t argCount, Value const * args)
         exit(65);
     }
     return NUMBER_VAL(strlen(AS_CSTRING(*args)));
+}
+
+Value native_system(uint32_t argCount, Value const * args)
+{
+     native_assert_arrity("system", 1, argCount);
+    if (!IS_STRING(*args))
+    {
+        printf("system can only be called with a string as argument");
+        exit(65);
+    }
+    system(AS_CSTRING(*args));
+    return NULL_VAL;
 }
 
 Value native_wait(uint32_t argCount, Value const * args)

@@ -1,0 +1,4 @@
+class Foo {}
+
+var v = Foo();
+print v.test;

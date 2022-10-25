@@ -45,7 +45,10 @@ void chunk_write(Chunk * chunk, uint8_t byte, int32_t line)
     // Increases capacity
     chunk->capacity = GROW_CAPACITY(oldCapacity);
     // Allocates bytecode array
-    chunk->code = GROW_ARRAY(uint8_t, chunk->code, oldCapacity, chunk->capacity);
+    uint8_t * grownCode = GROW_ARRAY(uint8_t, chunk->code, oldCapacity, chunk->capacity);
+    if(!grownCode)
+        exit(80);    
+    chunk->code = grownCode;
     // Allocates line array
     chunk->lines = GROW_ARRAY(uint32_t, chunk->lines, oldCapacity, chunk->capacity);
   }

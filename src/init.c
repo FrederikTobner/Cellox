@@ -39,7 +39,7 @@ void init_initialize(int const argc, char const ** argv)
         init_run_from_file(argv[1]);
     else
     {
-        // Too much arguments (>1) TODO: Add argumenrs for the compiler e.g. --analyze/-a, --store/-s and option to execute stored bytecode
+        // Too much arguments (>1) TODO: Add argumenrs for the compiler e.g. --analyze/-a, --help, --store/-s and --version/-v options 
         fprintf(stderr, "Usage: Cellox [path]\n");        
         vm_free();
         exit(64);

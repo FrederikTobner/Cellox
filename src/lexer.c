@@ -152,7 +152,6 @@ static TokenType lexer_check_keyword(uint32_t start, uint32_t length, char const
     {
         return type;
     }
-
     return TOKEN_IDENTIFIER;
 }
 

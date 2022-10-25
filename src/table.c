@@ -47,14 +47,12 @@ void table_add_all(Table * from, Table *to)
 
 bool table_delete(Table *table, ObjectString *key)
 {
-    if (table->count == 0)
+    if (!table->count)
         return false;
-
     // Find the entry.
     Entry * entry = table_find_entry(table->entries, table->capacity, key);
     if (entry->key == NULL)
         return false;
-
     // Place a tombstone in the entry.
     entry->key = NULL;
     entry->value = BOOL_VAL(true);
@@ -89,7 +87,7 @@ bool table_get(Table * table, ObjectString * key, Value * value)
         return false;
 
     Entry * entry = table_find_entry(table->entries, table->capacity, key);
-    if (entry->key == NULL)
+    if (!entry->key)
         return false;
 
     *value = entry->value;
@@ -101,7 +99,7 @@ void table_remove_white(Table *table)
     for (uint32_t i = 0; i < table->capacity; i++)
     {
         Entry *entry = &table->entries[i];
-        if (entry->key != NULL && !entry->key->obj.isMarked)
+        if (entry->key && !entry->key->obj.isMarked)
             table_delete(table, entry->key);
     }
 }
@@ -128,7 +126,7 @@ bool table_set(Table * table, ObjectString * key, Value value)
 // Adjusts the capacity of the hash table
 static void table_adjust_capacity(Table * table, int32_t capacity)
 {
-    Entry *entries = ALLOCATE(Entry, capacity);
+    Entry * entries = ALLOCATE(Entry, capacity);
     for (uint32_t i = 0; i < capacity; i++)
     {
         entries[i].key = NULL;
@@ -137,17 +135,15 @@ static void table_adjust_capacity(Table * table, int32_t capacity)
     table->count = 0;
     for (uint32_t i = 0; i < table->capacity; i++)
     {
-        Entry *entry = &table->entries[i];
-        if (entry->key == NULL)
+        Entry * entry = &table->entries[i];
+        if (!entry->key)
             continue;
-
-        Entry *dest = table_find_entry(entries, capacity, entry->key);
+        Entry * dest = table_find_entry(entries, capacity, entry->key);
         dest->key = entry->key;
         dest->value = entry->value;
         table->count++;
     }
     FREE_ARRAY(Entry, table->entries, table->capacity);
-
     table->entries = entries;
     table->capacity = capacity;
 }
@@ -172,7 +168,7 @@ static Entry * table_find_entry(Entry * entries, int32_t capacity, ObjectString 
                  * This is done so because when we look up an entry that has been moved by a collision,
                  * the entry that has occupied the slot where the collision occured has been deleted,
                  * so we need a value to indicate that another value prevouisly occupied the slot so we don't stop looking for the entry*/
-                if (tombstone == NULL)
+                if (!tombstone)
                     tombstone = entry;
             }
         }
