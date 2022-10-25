@@ -176,7 +176,7 @@ static void compiler_var_declaration();
 static void compiler_variable(bool);
 static void compiler_while_statement();
 
-ObjectFunction *compiler_compile(char const *source)
+ObjectFunction * compiler_compile(char const * source)
 {
     lexer_init(source);
     Compiler compiler;
@@ -193,7 +193,7 @@ ObjectFunction *compiler_compile(char const *source)
 
 void compiler_mark_roots()
 {
-    Compiler *compiler = current;
+    Compiler * compiler = current;
     while (compiler != NULL)
     {
         memory_mark_object((Object *)compiler->function);
@@ -486,7 +486,7 @@ static void compiler_declaration()
 static void compiler_declare_variable()
 {
     // Global scope
-    if (current->scopeDepth == 0)
+    if (!current->scopeDepth)
         return;
 
     Token * name = &parser.previous;

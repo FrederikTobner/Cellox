@@ -61,12 +61,16 @@ void vm_init()
 
 static void vm_define_natives()
 {
+    vm_define_native("class_of", (NativeFn)native_classof);
     vm_define_native("clock", (NativeFn)native_clock);
     vm_define_native("exit", (NativeFn)native_exit);
-    vm_define_native("getUserName", (NativeFn)native_get_username);
+    vm_define_native("get_user_name", (NativeFn)native_get_username);
     vm_define_native("random", (NativeFn)native_random);
     vm_define_native("readLine", (NativeFn)native_read_line);
+    vm_define_native("on_linux", (NativeFn)native_on_linux);
+    vm_define_native("on_windows", (NativeFn)native_on_windows);
     vm_define_native("strlen", (NativeFn)native_string_length);
+    vm_define_native("system", (NativeFn)native_system);    
     vm_define_native("wait", (NativeFn)native_wait);
 }
 
@@ -189,7 +193,7 @@ static ObjectUpvalue *vm_capture_upvalue(Value * local)
         return upvalue;
     ObjectUpvalue *createdUpvalue = object_new_upvalue(local);
     createdUpvalue->next = upvalue;
-    if (prevUpvalue == NULL)
+    if (!prevUpvalue)
         virtualMachine.openUpvalues = createdUpvalue;
     else
         prevUpvalue->next = createdUpvalue;
@@ -626,7 +630,6 @@ so all the statements in it get executed if they are after an if 🤮 */
                 vm_pop();
                 return INTERPRET_OK;
             }
-
             virtualMachine.stackTop = frame->slots;
             vm_push(result);
             frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];

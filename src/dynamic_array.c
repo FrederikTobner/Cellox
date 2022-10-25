@@ -1,5 +1,7 @@
 #include "dynamic_array.h"
 
+#include <stdlib.h>
+
 #include "memory.h"
 
 void dynamic_array_free(DynamicArray * array)
@@ -21,7 +23,11 @@ void dynamic_array_write(DynamicArray * array, Value value)
     {
         uint32_t oldCapacity = array->capacity;
         array->capacity = GROW_CAPACITY(oldCapacity);
-        array->values = GROW_ARRAY(Value, array->values, oldCapacity, array->capacity);
+        Value * grownArray;
+        grownArray = GROW_ARRAY(Value, array->values, oldCapacity, array->capacity);
+        if(!grownArray)
+            exit(80);
+        array->values = grownArray;
     }
     array->values[array->count] = value;
     array->count++;

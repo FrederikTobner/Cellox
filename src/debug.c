@@ -136,7 +136,7 @@ int32_t debug_disassemble_instruction(Chunk * chunk, int32_t offset)
 // Shows the slot number of a local variable
 static int32_t debug_byte_instruction(char const * name, Chunk * chunk, int32_t offset)
 {
-  uint8_t slot = chunk->code[offset + 1];
+  uint8_t slot = *(chunk->code + offset + 1);
   printf("%-16s %04X\n", name, slot);
   return offset + 2;
 }
@@ -154,8 +154,8 @@ static int32_t debug_constant_instruction(char const * name, Chunk * chunk, int3
 // Dissasembles a invoke instruction
 static int debug_invoke_instruction(char const * name, Chunk * chunk, int offset)
 {
-  uint8_t constant = chunk->code[offset + 1];
-  uint8_t argCount = chunk->code[offset + 2];
+  uint8_t constant = *(chunk->code + offset + 1);
+  uint8_t argCount = *(chunk->code + offset + 2);
   printf("%-16s (%d args) %04X '", name, argCount, constant);
   value_print(chunk->constants.values[constant]);
   printf("'\n");
@@ -165,8 +165,8 @@ static int debug_invoke_instruction(char const * name, Chunk * chunk, int offset
 // Dissasembles a jump instruction (with a 16-bit operand)
 static int32_t debug_jump_instruction(char const * name, int32_t sign, Chunk * chunk, int32_t offset)
 {
-  uint16_t jump = (uint16_t)(chunk->code[offset + 1] << 8);
-  jump |= chunk->code[offset + 2];
+  uint16_t jump = (uint16_t)(*(chunk->code + offset + 1) << 8);
+  jump |= *(chunk->code + offset + 2);
   printf("%-16s %04X -> %04X\n", name, offset, offset + 3 + sign * jump);
   return offset + 3;
 }

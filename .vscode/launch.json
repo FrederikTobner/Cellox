@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/examples/SerializeClass.clx"
+                "${workspaceFolder}/examples/BinarySearchTree.clx"
             ],
             "stopAtEntry": false,
             "externalConsole": true,

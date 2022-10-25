@@ -1,0 +1,4 @@
+class Foo {}
+var v = Foo();
+print class_of(v);
+print class_of(v) == Foo;

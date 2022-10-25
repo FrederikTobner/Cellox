@@ -29,10 +29,15 @@ TEST(Classes, InheritSelf)
 
 TEST(Classes, PrintInstance)
 {
-    test_cellox_program("class/print_instance.clx", "Foo instance: {}\n", false);
+    test_cellox_program("class/print_instance.clx", "{}\n", false);
 }
 
 TEST(Classes, SerializeFields)
 {
-    test_cellox_program("class/serialize_fields.clx", "Foo instance:\n{\n\tvalue: 10,\n\ttext: \"test\",\n}\n", false);
+    test_cellox_program("class/serialize_fields.clx", "{value: 10, text: \"test\"}\n", false);
+}
+
+TEST(Classes, UndefienedProperty)
+{
+    test_cellox_program("class/undefiened_property.clx", "Undefined property 'test'.\n[line 4] in script\n", true);
 }

@@ -235,7 +235,7 @@ static void memory_mark_roots()
   for (int32_t i = 0; i < virtualMachine.frameCount; i++)
     memory_mark_object((Object *)virtualMachine.callStack[i].closure);
   // all the ObjectUpvalues
-  for (ObjectUpvalue * upvalue = virtualMachine.openUpvalues; upvalue != NULL; upvalue = upvalue->next)
+  for (ObjectUpvalue * upvalue = virtualMachine.openUpvalues; upvalue; upvalue = upvalue->next)
     memory_mark_object((Object *)upvalue);
   // all the global variables
   table_mark(&virtualMachine.globals);
@@ -264,7 +264,7 @@ static void memory_sweep()
     {
       Object * unreached = object;
       object = object->next;
-      if (previous != NULL)
+      if (previous)
         previous->next = object;
       else
         virtualMachine.objects = object;

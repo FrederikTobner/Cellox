@@ -1,10 +1,19 @@
-class Person 
+class Foo 
 {
-    init(age, name)
+    init(x, y)
     {
-        this.age = age;
-        this.name = name;
+        this.x = x;
+        this.y = y;
     }
 }
 
-print Person(25, "Frederik Tobner");
+class Bar 
+{
+    init(z, foo)
+    {
+        this.z = z;
+        this.foo = foo;
+    }
+}
+
+print Bar(12.5, Foo(25, "Test"));
