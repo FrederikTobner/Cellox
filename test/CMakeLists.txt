@@ -99,8 +99,12 @@ FetchContent_MakeAvailable(googletest)
 #Links googletest libary and cellox tests
 target_link_libraries(${THIS} GTest::gtest_main)
 
+# cant find googletest executing github workflow
+if(DEFINED ENV{GITHUB_ACTIONS} AND DEFINED ENV{GITHUB_WORKSPACE})
+add_test(${THIS} ${THIS})
+elseif()
 #Includes google test framework
 include(googletest)
-
 # Automatic discovering of tests
 gtest_discover_tests(${THIS})
+endif()
