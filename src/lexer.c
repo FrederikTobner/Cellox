@@ -12,26 +12,26 @@ typedef struct
     const char * current;
     // Line counter - used for error reporting
     uint32_t line;
-} Lexer;
+} lexer_t;
 
 // Global Lexer variable
-Lexer lexer;
+lexer_t lexer;
 
 static char lexer_advance();
-static TokenType lexer_check_keyword(uint32_t , uint32_t , char const *, TokenType);
-static Token lexer_error_token(char const *);
-static Token lexer_identifier();
-static TokenType lexer_identifier_type();
+static tokentype_t lexer_check_keyword(uint32_t , uint32_t , char const *, tokentype_t);
+static token_t lexer_error_token(char const *);
+static token_t lexer_identifier();
+static tokentype_t lexer_identifier_type();
 static bool lexer_is_alpha(char);
 static bool lexer_is_digit(char);
 static bool lexer_is_at_end();
-static Token lexer_make_token(TokenType);
+static token_t lexer_make_token(tokentype_t);
 static bool lexer_match(char);
-static Token lexer_number();
+static token_t lexer_number();
 static char lexer_peek();
 static char lexer_peek_next();
 static void lexer_skip_whitespace();
-static Token string();
+static token_t string();
 
 void lexer_init(char const * source)
 {
@@ -40,7 +40,7 @@ void lexer_init(char const * source)
     lexer.line = 1u;
 }
 
-Token scan_token()
+token_t scan_token()
 {
     lexer_skip_whitespace();
     lexer.start = lexer.current;
@@ -146,7 +146,7 @@ static char lexer_advance()
 }
 
 // Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
-static TokenType lexer_check_keyword(uint32_t start, uint32_t length, char const * rest, TokenType type)
+static tokentype_t lexer_check_keyword(uint32_t start, uint32_t length, char const * rest, tokentype_t type)
 {
     if (lexer.current - lexer.start == start + length && memcmp(lexer.start + start, rest, length) == 0)
     {
@@ -156,9 +156,9 @@ static TokenType lexer_check_keyword(uint32_t start, uint32_t length, char const
 }
 
 // Creates an error Token with a message
-static Token lexer_error_token(char const * message)
+static token_t lexer_error_token(char const * message)
 {
-    Token token;
+    token_t token;
     token.type = TOKEN_ERROR;
     token.start = message;
     token.length = (int32_t)strlen(message);
@@ -167,7 +167,7 @@ static Token lexer_error_token(char const * message)
 }
 
 // Creates a new identifier token
-static Token lexer_identifier()
+static token_t lexer_identifier()
 {
     while (lexer_is_alpha(lexer_peek()) || lexer_is_digit(lexer_peek()))
     {
@@ -177,7 +177,7 @@ static Token lexer_identifier()
 }
 
 // Creates a new identifier token or a reserved keyword
-static TokenType lexer_identifier_type()
+static tokentype_t lexer_identifier_type()
 {
     switch (lexer.start[0])
     {
@@ -255,9 +255,9 @@ static bool lexer_is_at_end()
 }
 
 // Creates a new Token of a given type
-static Token lexer_make_token(TokenType type)
+static token_t lexer_make_token(tokentype_t type)
 {
-    Token token;
+    token_t token;
     token.type = type;
     token.start = lexer.start;
     token.length = (int32_t)(lexer.current - lexer.start);
@@ -277,7 +277,7 @@ static bool lexer_match(char expected)
 }
 
 // Creates a new number literal token
-static Token lexer_number()
+static token_t lexer_number()
 {
     while (lexer_is_digit(lexer_peek()))
     {
@@ -351,7 +351,7 @@ static void lexer_skip_whitespace()
 }
 
 // Creates a new string literal token
-static Token string()
+static token_t string()
 {
     while (lexer_peek() != '"' && !lexer_is_at_end())
     {

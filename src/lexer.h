@@ -1,5 +1,5 @@
-#ifndef cellox_lexer_h
-#define cellox_lexer_h
+#ifndef CELLOX_LEXER_H_
+#define CELLOX_LEXER_H_
 
 #include "common.h"
 
@@ -108,25 +108,25 @@ typedef enum
   TOKEN_VAR,
   // while
   TOKEN_WHILE,
-} TokenType;
+} tokentype_t;
 
 // Type definition of a token
 typedef struct
 {
   // The type of the token
-  TokenType type;
+  tokentype_t type;
   // Pointer to the start of the character sequence
   char const * start;
   // Length of the character sequence
   uint32_t length;
   // Line in the sourceCode
   uint32_t line;
-} Token;
+} token_t;
 
 // Initializes the lexer
 void lexer_init(char const * source);
 
 // Scans the next token in the sourcecode and saves it in a linear sequence of tokens
-Token scan_token();
+token_t scan_token();
 
 #endif

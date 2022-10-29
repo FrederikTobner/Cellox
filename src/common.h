@@ -1,5 +1,5 @@
-#ifndef cellox_common_h
-#define cellox_common_h
+#ifndef CELLOX_COMMON_H_
+#define CELLOX_COMMON_H_
 
 // Bool from the C99 standard
 #include <stdbool.h>
@@ -17,6 +17,9 @@
 // Flag that indicates that a test is executed
 #ifndef CELLOX_TESTS_RUNNING
 
+// Flag that indicates that benchmarks are executed
+#ifndef BENCHMARKS_RUNNING
+
 // Flag for printing out the bytecode, can be removed if you want to disable it
 //#define DEBUG_PRINT_CODE
 
@@ -31,6 +34,8 @@ Should only be used for debugging*/
 // Flag for tracing the execution, can be removed if you want to disable it
 //#define DEBUG_TRACE_EXECUTION
 
-#endif
+#endif // BENCHMARKS_RUNNING
 
-#endif
+#endif // CELLOX_TESTS_RUNNING
+
+#endif // cellox_common_h

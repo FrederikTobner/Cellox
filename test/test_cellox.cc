@@ -4,7 +4,19 @@
 
 #include "init.h"
 
-void test_cellox_program(std::string const & programPath, std::string const & expectedOutput, bool producesError)
+static void test_program(std::string const & programPath, std::string const & expectedOutput, bool producesError);
+
+void test_cellox_program(std::string const & programPath, std::string const & expectedOutput)
+{
+    test_program(programPath, expectedOutput, false);
+}
+
+void test_failing_cellox_program(std::string const & programPath, std::string const & expectedOutput)
+{
+    test_program(programPath, expectedOutput, true);
+}
+
+static void test_program(std::string const & programPath, std::string const & expectedOutput, bool producesError)
 {
     // Create absolute filepath
     std::string filePath = TEST_PROGRAM_BASE_PATH;
@@ -13,9 +25,7 @@ void test_cellox_program(std::string const & programPath, std::string const & ex
     char const * args[2];
     *(args + 1) = filePath.c_str();
     
-    /* Redirect output 
-     * TODO fix possible buffer overflow in tests
-     */
+    /* Redirect output */
     char actual_output [4096];
     for (size_t i = 0; i < 4096; i++)
         actual_output[i] = '\0';
@@ -42,5 +52,27 @@ void test_cellox_program(std::string const & programPath, std::string const & ex
     
     // Execute Test 🚀
     init_initialize(2, args);
+
+    if(producesError)
+    {
+        // Reset stderr redirection
+        #ifdef _WIN32
+        freopen("CON", "w", stderr);
+        #endif
+        #ifdef linux
+        freopen("CON", "w", stderr);
+        #endif
+    }
+    else
+    {
+        // Reset stdout redirection
+        #ifdef _WIN32
+        freopen("CON", "w", stdout);
+        #endif
+        #ifdef linux
+        freopen("CON", "w", stdout);
+        #endif
+    }
+
     ASSERT_STREQ(expectedOutput.c_str(), actual_output);
 }

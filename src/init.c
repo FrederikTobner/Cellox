@@ -5,7 +5,9 @@
 #include <string.h>
 
 #ifndef CELLOX_TESTS_RUNNING
+#ifndef BENCHMARKS_RUNNING
 #include "cellox_config.h"
+#endif
 #endif
 
 #include "common.h"
@@ -82,8 +84,10 @@ static void init_repl()
     // Used to store the next line that read from input
     char line[MAX_LINE_LENGTH];
 #ifndef CELLOX_TESTS_RUNNING
+#ifndef BENCHMARKS_RUNNING
     printf("   _____     _ _           \n  / ____|   | | |          \n | |     ___| | | _____  __\n | |    / _ \\ | |/ _ \\ \\/ /\n | |___|  __/ | | (_) >  < \n  \\_____\\___|_|_|\\___/_/\\_\\\n");
     printf("\t\t Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
+#endif
 #endif
     for (;;)
     {
@@ -105,7 +109,7 @@ static void init_repl()
 static void init_run_from_file(char const * path)
 {
     char * source = init_read_file(path);
-    InterpretResult result = vm_interpret(source);
+    interpret_result_t result = vm_interpret(source);
     free(source);
     #ifndef CELLOX_TESTS_RUNNING
     if(result != INTERPRET_OK)

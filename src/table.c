@@ -9,49 +9,49 @@
 // The max load factor of the hashtable, if the max load factor multiplied with the capacity is reached is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
 
-static void table_adjust_capacity(Table *, int32_t);
-static Entry *table_find_entry(Entry *, int32_t, ObjectString *);
+static void table_adjust_capacity(table_t *, int32_t);
+static entry_t *table_find_entry(entry_t *, int32_t, object_string_t *);
 
-void table_free(Table * table)
+void table_free(table_t * table)
 {
-    FREE_ARRAY(Entry, table->entries, table->capacity);
+    FREE_ARRAY(entry_t, table->entries, table->capacity);
     table_init(table);
 }
 
-void table_init(Table * table)
+void table_init(table_t * table)
 {
     table->count = 0;
     table->capacity = 0;
     table->entries = NULL;
 }
 
-void table_mark(Table * table)
+void table_mark(table_t * table)
 {
     for (uint32_t i = 0; i < table->capacity; i++)
     {
-        Entry *entry = &table->entries[i];
-        memory_mark_object((Object *)entry->key);
+        entry_t * entry = table->entries + i;
+        memory_mark_object((object_t *)entry->key);
         memory_mark_value(entry->value);
     }
 }
 
-void table_add_all(Table * from, Table *to)
+void table_add_all(table_t * from, table_t *to)
 {
     for (uint32_t i = 0; i < from->capacity; i++)
     {
-        Entry * entry = &from->entries[i];
-        if (entry->key != NULL)
+        entry_t * entry = from->entries + i;
+        if (entry->key)
             table_set(to, entry->key, entry->value);
     }
 }
 
-bool table_delete(Table *table, ObjectString *key)
+bool table_delete(table_t *table, object_string_t *key)
 {
     if (!table->count)
         return false;
     // Find the entry.
-    Entry * entry = table_find_entry(table->entries, table->capacity, key);
-    if (entry->key == NULL)
+    entry_t * entry = table_find_entry(table->entries, table->capacity, key);
+    if (!entry->key)
         return false;
     // Place a tombstone in the entry.
     entry->key = NULL;
@@ -59,16 +59,16 @@ bool table_delete(Table *table, ObjectString *key)
     return true;
 }
 
-ObjectString * table_find_string(Table * table, char const * chars, uint32_t length, uint32_t hash)
+object_string_t * table_find_string(table_t * table, char const * chars, uint32_t length, uint32_t hash)
 {
-    if (table->count == 0)
+    if (!table->count)
         return NULL;
 
     uint32_t index = hash % table->capacity;
     for (;;)
     {
-        Entry * entry = &table->entries[index];
-        if (entry->key == NULL)
+        entry_t * entry = &table->entries[index];
+        if (!entry->key)
         {
             // Stop if we find an empty non-tombstone entry.
             if (IS_NULL(entry->value))
@@ -81,12 +81,12 @@ ObjectString * table_find_string(Table * table, char const * chars, uint32_t len
     }
 }
 
-bool table_get(Table * table, ObjectString * key, Value * value)
+bool table_get(table_t * table, object_string_t * key, value_t * value)
 {
-    if (table->count == 0)
+    if (!table->count)
         return false;
 
-    Entry * entry = table_find_entry(table->entries, table->capacity, key);
+    entry_t * entry = table_find_entry(table->entries, table->capacity, key);
     if (!entry->key)
         return false;
 
@@ -94,17 +94,17 @@ bool table_get(Table * table, ObjectString * key, Value * value)
     return true;
 }
 
-void table_remove_white(Table *table)
+void table_remove_white(table_t *table)
 {
     for (uint32_t i = 0; i < table->capacity; i++)
     {
-        Entry *entry = &table->entries[i];
+        entry_t *entry = &table->entries[i];
         if (entry->key && !entry->key->obj.isMarked)
             table_delete(table, entry->key);
     }
 }
 
-bool table_set(Table * table, ObjectString * key, Value value)
+bool table_set(table_t * table, object_string_t * key, value_t value)
 {
     // We grow the hashtable when it becomes 75% full
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
@@ -113,8 +113,8 @@ bool table_set(Table * table, ObjectString * key, Value value)
         table_adjust_capacity(table, capacity);
     }
 
-    Entry *entry = table_find_entry(table->entries, table->capacity, key);
-    bool isNewKey = entry->key == NULL;
+    entry_t *entry = table_find_entry(table->entries, table->capacity, key);
+    bool isNewKey = !entry->key;
     if (isNewKey && IS_NULL(entry->value))
         table->count++;
 
@@ -124,9 +124,9 @@ bool table_set(Table * table, ObjectString * key, Value value)
 }
 
 // Adjusts the capacity of the hash table
-static void table_adjust_capacity(Table * table, int32_t capacity)
+static void table_adjust_capacity(table_t * table, int32_t capacity)
 {
-    Entry * entries = ALLOCATE(Entry, capacity);
+    entry_t * entries = ALLOCATE(entry_t, capacity);
     for (uint32_t i = 0; i < capacity; i++)
     {
         entries[i].key = NULL;
@@ -135,28 +135,28 @@ static void table_adjust_capacity(Table * table, int32_t capacity)
     table->count = 0;
     for (uint32_t i = 0; i < table->capacity; i++)
     {
-        Entry * entry = &table->entries[i];
+        entry_t * entry = table->entries + i;
         if (!entry->key)
             continue;
-        Entry * dest = table_find_entry(entries, capacity, entry->key);
+        entry_t * dest = table_find_entry(entries, capacity, entry->key);
         dest->key = entry->key;
         dest->value = entry->value;
         table->count++;
     }
-    FREE_ARRAY(Entry, table->entries, table->capacity);
+    FREE_ARRAY(entry_t, table->entries, table->capacity);
     table->entries = entries;
     table->capacity = capacity;
 }
 
 // Looks up an entry in the hashtable, based on a key
-static Entry * table_find_entry(Entry * entries, int32_t capacity, ObjectString *key)
+static entry_t * table_find_entry(entry_t * entries, int32_t capacity, object_string_t *key)
 {
     uint32_t index = key->hash % capacity;
-    Entry *tombstone = NULL;
+    entry_t *tombstone = NULL;
     for (;;)
     {
-        Entry *entry = &entries[index];
-        if (entry->key == NULL)
+        entry_t *entry = &entries[index];
+        if (!entry->key)
         {
             if (IS_NULL(entry->value))
                 // Empty entry.

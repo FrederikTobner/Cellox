@@ -15,15 +15,15 @@
 // Offset basic for the fowler-noll-vo hash-fuction - 2166136261
 #define OFFSET_BASIS 0x811c9dc5u
 
-static Object *object_allocate_object(size_t, ObjectType);
-static ObjectString *object_allocate_string(char *, uint32_t, uint32_t);
+static object_t *object_allocate_object(size_t, object_type_t);
+static object_string_t *object_allocate_string(char *, uint32_t, uint32_t);
 static uint32_t object_hash_string(char const *, uint32_t);
-static void object_print_function(ObjectFunction *);
+static void object_print_function(object_function_t *);
 
-ObjectString *object_copy_string(char const * chars, uint32_t length, bool removeBackSlash)
+object_string_t *object_copy_string(char const * chars, uint32_t length, bool removeBackSlash)
 {
     uint32_t hash;
-    ObjectString * interned;
+    object_string_t * interned;
     char * heapChars;
 
     if (!string_utils_contains_character_restricted(chars, '\\', length))
@@ -61,7 +61,7 @@ ObjectString *object_copy_string(char const * chars, uint32_t length, bool remov
     return object_allocate_string(heapChars, strlen(heapChars), hash);
 }
 
-ObjectBoundMethod * object_new_bound_method(Value receiver, ObjectClosure * method)
+ObjectBoundMethod * object_new_bound_method(value_t receiver, object_closure_t * method)
 {
     ObjectBoundMethod * bound = ALLOCATE_OBJECT(ObjectBoundMethod, OBJECT_BOUND_METHOD);
     bound->receiver = receiver;
@@ -69,29 +69,29 @@ ObjectBoundMethod * object_new_bound_method(Value receiver, ObjectClosure * meth
     return bound;
 }
 
-ObjectClass *object_new_class(ObjectString *name)
+object_class_t *object_new_class(object_string_t *name)
 {
-    ObjectClass * celloxClass = ALLOCATE_OBJECT(ObjectClass, OBJECT_CLASS);
+    object_class_t * celloxClass = ALLOCATE_OBJECT(object_class_t, OBJECT_CLASS);
     celloxClass->name = name;
     table_init(&celloxClass->methods);
     return celloxClass;
 }
 
-ObjectClosure * object_new_closure(ObjectFunction *function)
+object_closure_t * object_new_closure(object_function_t *function)
 {
-    ObjectUpvalue ** upvalues = ALLOCATE(ObjectUpvalue *, function->upvalueCount);
+    object_upvalue_t ** upvalues = ALLOCATE(object_upvalue_t *, function->upvalueCount);
     for (uint32_t i = 0; i < function->upvalueCount; i++)
         upvalues[i] = NULL;
-    ObjectClosure *closure = ALLOCATE_OBJECT(ObjectClosure, OBJECT_CLOSURE);
+    object_closure_t *closure = ALLOCATE_OBJECT(object_closure_t, OBJECT_CLOSURE);
     closure->function = function;
     closure->upvalues = upvalues;
     closure->upvalueCount = function->upvalueCount;
     return closure;
 }
 
-ObjectFunction * object_new_function()
+object_function_t * object_new_function()
 {
-    ObjectFunction *function = ALLOCATE_OBJECT(ObjectFunction, OBJECT_FUNCTION);
+    object_function_t *function = ALLOCATE_OBJECT(object_function_t, OBJECT_FUNCTION);
     function->arity = 0u;
     function->upvalueCount = 0u;
     function->name = NULL;
@@ -99,25 +99,25 @@ ObjectFunction * object_new_function()
     return function;
 }
 
-ObjectInstance * object_new_instance(ObjectClass * celloxClass)
+object_instance_t * object_new_instance(object_class_t * celloxClass)
 {
-    ObjectInstance *instance = ALLOCATE_OBJECT(ObjectInstance, OBJECT_INSTANCE);
+    object_instance_t *instance = ALLOCATE_OBJECT(object_instance_t, OBJECT_INSTANCE);
     instance->celloxClass = celloxClass;
     table_init(&instance->fields);
     return instance;
 }
 
-ObjectNative * object_new_native(NativeFn function)
+object_native_t * object_new_native(native_function_t function)
 {
-    ObjectNative * native = ALLOCATE_OBJECT(ObjectNative, OBJECT_NATIVE);
+    object_native_t * native = ALLOCATE_OBJECT(object_native_t, OBJECT_NATIVE);
     native->function = function;
     return native;
 }
 
-ObjectUpvalue * object_new_upvalue(Value *slot)
+object_upvalue_t * object_new_upvalue(value_t *slot)
 {
     // Allocating the memory used by the upvalue
-    ObjectUpvalue * upvalue = ALLOCATE_OBJECT(ObjectUpvalue, OBJECT_UPVALUE);
+    object_upvalue_t * upvalue = ALLOCATE_OBJECT(object_upvalue_t, OBJECT_UPVALUE);
     // We zero out the closed field of the upvalue when we create it
     upvalue->closed = NULL_VAL;
     // Adress of the slot where the closed over variables live (enclosing environment)
@@ -127,7 +127,7 @@ ObjectUpvalue * object_new_upvalue(Value *slot)
     return upvalue;
 }
 
-void object_print(Value value)
+void object_print(value_t value)
 {
     switch (OBJECT_TYPE(value))
     {
@@ -145,14 +145,14 @@ void object_print(Value value)
         break;
     case OBJECT_INSTANCE:
         {
-        ObjectInstance * instance =  AS_INSTANCE(value);
+        object_instance_t * instance =  AS_INSTANCE(value);
         if(!instance->fields.count)
         {
             printf("{}");
             break;
         }
         putc('{', stdout);
-        Value fieldValue;
+        value_t fieldValue;
         size_t fieldCounter = instance->fields.count;
         for (size_t i = 0; i < instance->fields.capacity; i++)
         {
@@ -183,10 +183,10 @@ void object_print(Value value)
     }
 }
 
-ObjectString * object_take_string(char * chars, uint32_t length)
+object_string_t * object_take_string(char * chars, uint32_t length)
 {
     uint32_t hash = object_hash_string(chars, length);
-    ObjectString * interned = table_find_string(&virtualMachine.strings, chars, length, hash);
+    object_string_t * interned = table_find_string(&virtualMachine.strings, chars, length, hash);
     if (interned)
     {
         FREE_ARRAY(char, chars, length + 1);
@@ -196,9 +196,9 @@ ObjectString * object_take_string(char * chars, uint32_t length)
 }
 
 // Allocates memory to store a string
-static ObjectString * object_allocate_string(char * chars, uint32_t length, uint32_t hash)
+static object_string_t * object_allocate_string(char * chars, uint32_t length, uint32_t hash)
 {
-    ObjectString * string = ALLOCATE_OBJECT(ObjectString, OBJECT_STRING);
+    object_string_t * string = ALLOCATE_OBJECT(object_string_t, OBJECT_STRING);
     string->length = length;
     string->chars = chars;
     string->hash = hash;
@@ -210,10 +210,10 @@ static ObjectString * object_allocate_string(char * chars, uint32_t length, uint
 }
 
 // Allocates the memory for an object of a given type
-static Object * object_allocate_object(size_t size, ObjectType type)
+static object_t * object_allocate_object(size_t size, object_type_t type)
 {
     // Allocates the memory used by the Object
-    Object *object = (Object *)memory_reallocate(NULL, 0, size);
+    object_t *object = (object_t *)memory_reallocate(NULL, 0, size);
     // Sets the type of the object
     object->type = type;
     // Disables mark so it is picked up by the Garbage Collection in the next cycle
@@ -242,7 +242,7 @@ static uint32_t object_hash_string(char const * key, uint32_t length)
 }
 
 // Prints a function
-static void object_print_function(ObjectFunction * function)
+static void object_print_function(object_function_t * function)
 {
     if (!function->name)
     {

@@ -14,18 +14,18 @@
 typedef struct
 {
     // The closure of the callframe
-    ObjectClosure * closure;
+    object_closure_t * closure;
     // The instruction pointer in the callframe
     uint8_t * ip;
     // Points to the first slot in the stack of the virtualMachine the function can use
-    Value * slots;
-} CallFrame;
+    value_t * slots;
+} call_frame_t;
 
 // Type definition of the stackbased virtual machine
 typedef struct
 {
     // Callstack of the virtual machine
-    CallFrame callStack[FRAMES_MAX];
+    call_frame_t callStack[FRAMES_MAX];
     // The amount of callframes the virtualMachine currently holds
     uint32_t frameCount;
     // Amount of objects in the virtual machine that are marked as gray -> objects that are already discovered but haven't been processed yet
@@ -33,26 +33,26 @@ typedef struct
     // The capacity of the dynamic array storing the objects that were marked as gray
     uint32_t grayCapacity;
     // Stack of the virtualMachine
-    Value stack[STACK_MAX];
+    value_t stack[STACK_MAX];
     /// Pointer to the top of the stack
-    Value * stackTop;
+    value_t * stackTop;
     // Hashtable that contains the global variables
-    Table globals;
+    table_t globals;
     // Hashtable that contains the strings
-    Table strings;
+    table_t strings;
     // String "init" used to look up the initializer of a class - reused for every init call
-    ObjectString * initString;
+    object_string_t * initString;
     // Upvalues of the closures of all the functions on the callstack
-    ObjectUpvalue * openUpvalues;
+    object_upvalue_t * openUpvalues;
     // Number of bytes that have been allocated by the virtualMachine
     size_t bytesAllocated;
     // A treshhold when the next garbage Collection shall be triggered (e.g. a Megabyte)
     size_t nextGC;
     // The objects that are allocated in the memory of the virtualMachine
-    Object * objects;
+    object_t * objects;
     // The stack that contains all the gray objects
-    Object ** grayStack;
-} VirtualMachine;
+    object_t ** grayStack;
+} virtual_machine_t;
 
 // Result of the interpretation (sucessfull, error during compilation or at runtime)
 typedef enum
@@ -63,9 +63,9 @@ typedef enum
     INTERPRET_COMPILE_ERROR,
     // Error that occured at runtime
     INTERPRET_RUNTIME_ERROR,
-} InterpretResult;
+} interpret_result_t;
 
-extern VirtualMachine virtualMachine;
+extern virtual_machine_t virtualMachine;
 
 // Deallocates the memory used by the VirtualMachine
 void vm_free();
@@ -74,12 +74,12 @@ void vm_free();
 void vm_init();
 
 // Interprets a lox program
-InterpretResult vm_interpret(char const *);
+interpret_result_t vm_interpret(char const *);
 
 // Pushes a new Value on the stack
-void vm_push(Value);
+void vm_push(value_t);
 
 // Pops a value from the stack
-Value vm_pop();
+value_t vm_pop();
 
 #endif

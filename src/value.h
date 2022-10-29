@@ -5,8 +5,8 @@
 
 #include "common.h"
 
-typedef struct Object Object;
-typedef struct ObjectString ObjectString;
+typedef struct object_t object_t;
+typedef struct object_string_t object_string_t;
 
 #ifdef NAN_BOXING
 
@@ -20,7 +20,7 @@ typedef struct ObjectString ObjectString;
 #define TAG_FALSE 0x2
 #define TAG_TRUE 0x3
 
-typedef uint64_t Value;
+typedef uint64_t value_t;
 
 // Makro that determines whether a value is of the type bool
 #define IS_BOOL(value) \
@@ -43,39 +43,39 @@ typedef uint64_t Value;
     valueToNum(value)
 // Makro that yields the value of an object and converts to an object pointer
 #define AS_OBJECT(value) \
-    ((Object *)(uintptr_t)((value) & ~(SIGN_BIT | QNAN)))
+    ((object_t *)(uintptr_t)((value) & ~(SIGN_BIT | QNAN)))
 
 // Makro that yields the boolean value stored in a Value
 #define BOOL_VAL(b) \
     ((b) ? TRUE_VAL : FALSE_VAL)
 // Makro that yields a false value
 #define FALSE_VAL \
-    ((Value)(uint64_t)(QNAN | TAG_FALSE))
+    ((value_t)(uint64_t)(QNAN | TAG_FALSE))
 // Makro that yields a true value
 #define TRUE_VAL \
-    ((Value)(uint64_t)(QNAN | TAG_TRUE))
+    ((value_t)(uint64_t)(QNAN | TAG_TRUE))
 // Makro that yields null
 #define NULL_VAL \
-    ((Value)(uint64_t)(QNAN | TAG_NIL))
+    ((value_t)(uint64_t)(QNAN | TAG_NIL))
 // Makro that yields the numerical value
 #define NUMBER_VAL(num) \
     numToValue(num)
 // Makro that yields the value of a object
 #define OBJECT_VAL(obj) \
-    (Value)(SIGN_BIT | QNAN | (uint64_t)(uintptr_t)(obj))
+    (value_t)(SIGN_BIT | QNAN | (uint64_t)(uintptr_t)(obj))
 
 // Converts the value of a number to a Value using type punning
-static inline Value numToValue(double num)
+static inline value_t numToValue(double num)
 {
-    Value value;
+    value_t value;
     memcpy(&value, &num, sizeof(double));
     return value;
 }
 // Converts a Value to a number using type punning
-static inline double valueToNum(Value value)
+static inline double valueToNum(value_t value)
 {
     double num;
-    memcpy(&num, &value, sizeof(Value));
+    memcpy(&num, &value, sizeof(value_t));
     return num;
 }
 
@@ -102,9 +102,9 @@ typedef struct
     {
         bool boolean;
         double number;
-        Object * obj;
+        object_t * obj;
     } as;
-} Value;
+} value_t;
 
 // Makro that determines whether a value is of the type bool
 #define IS_BOOL(value) \
@@ -131,23 +131,25 @@ typedef struct
 
 // Makro that creates a boolean value
 #define BOOL_VAL(value) \
-    ((Value){VAL_BOOL, {.boolean = value}})
+    ((value_t){VAL_BOOL, {.boolean = value}})
 // Makro that creates a null value
 #define NULL_VAL \
-    ((Value){VAL_NULL, {.number = 0}})
+    ((value_t){VAL_NULL, {.number = 0}})
 // Makro that creates a numerical value
 #define NUMBER_VAL(value) \
-    ((Value){VAL_NUMBER, {.number = value}})
+    ((value_t){VAL_NUMBER, {.number = value}})
 // Makro that creates an object
 #define OBJECT_VAL(object) \
-    ((Value){VAL_OBJ, {.obj = (Object *)object}})
+    ((value_t){VAL_OBJ, {.obj = (object_t *)object}})
+#define TRUE_VAL (BOOL_VAL(true))
+#define FALSE_VAL (BOOL_VAL(true))
 
 #endif
 
 // prints a value
-void value_print(Value value);
+void value_print(value_t value);
 
 // Determines whether two values are equal
-bool value_values_equal(Value a, Value b);
+bool value_values_equal(value_t a, value_t b);
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef clox_memory_h
-#define clox_memory_h
+#ifndef CELLOX_MEMORY_H_
+#define CELLOX_MEMORY_H_
 
 #include "common.h"
 #include "object.h"
@@ -41,10 +41,10 @@ void memory_collect_garbage();
 void memory_free_objects();
 
 // Marks a cellox object
-void memory_mark_object(Object * object);
+void memory_mark_object(object_t * object);
 
 // Marks a cellox value
-void memory_mark_value(Value value);
+void memory_mark_value(value_t value);
 
 // Reallocates the memory usage from a given pointer
 void * memory_reallocate(void * pointer, size_t oldSize, size_t newSize);
