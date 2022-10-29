@@ -9,27 +9,27 @@
 #include "compiler.h"
 #include "debug.h"
 #include "memory.h"
-#include "native_fun.h"
+#include "native_functions.h"
 #include "value.h"
 
 // Global VirtualMachine variable
-VirtualMachine virtualMachine;
+virtual_machine_t virtualMachine;
 
-static bool vm_bind_method(ObjectClass *, ObjectString *);
-static bool vm_call(ObjectClosure *, uint32_t);
-static bool vm_call_value(Value, uint32_t);
-static ObjectUpvalue *vm_capture_upvalue(Value *);
-static void vm_close_upvalues(Value *);
+static bool vm_bind_method(object_class_t *, object_string_t *);
+static bool vm_call(object_closure_t *, uint32_t);
+static bool vm_call_value(value_t, uint32_t);
+static object_upvalue_t *vm_capture_upvalue(value_t *);
+static void vm_close_upvalues(value_t *);
 static void vm_concatenate();
-static void vm_define_method(ObjectString *);
-static void vm_define_native(char const *, NativeFn);
+static void vm_define_method(object_string_t *);
+static void vm_define_native(char const *, native_function_t);
 static void vm_define_natives();
-static bool vm_invoke(ObjectString *, uint32_t);
-static bool vm_invoke_from_class(ObjectClass *, ObjectString *, uint32_t);
-static bool vm_is_falsey(Value);
-static Value vm_peek(int32_t);
+static bool vm_invoke(object_string_t *, uint32_t);
+static bool vm_invoke_from_class(object_class_t *, object_string_t *, uint32_t);
+static bool vm_is_falsey(value_t);
+static value_t vm_peek(int32_t);
 static void vm_reset_stack();
-static InterpretResult vm_run();
+static interpret_result_t vm_run();
 static void vm_runtime_error(char const *, ...);
 
 void vm_free()
@@ -61,47 +61,40 @@ void vm_init()
 
 static void vm_define_natives()
 {
-    vm_define_native("class_of", (NativeFn)native_classof);
-    vm_define_native("clock", (NativeFn)native_clock);
-    vm_define_native("exit", (NativeFn)native_exit);
-    vm_define_native("get_user_name", (NativeFn)native_get_username);
-    vm_define_native("random", (NativeFn)native_random);
-    vm_define_native("readLine", (NativeFn)native_read_line);
-    vm_define_native("on_linux", (NativeFn)native_on_linux);
-    vm_define_native("on_windows", (NativeFn)native_on_windows);
-    vm_define_native("strlen", (NativeFn)native_string_length);
-    vm_define_native("system", (NativeFn)native_system);    
-    vm_define_native("wait", (NativeFn)native_wait);
+    size_t upperBound = native_get_function_count();
+    native_function_config_t * configs = native_get_function_configs();
+    for (size_t i = 0; i < upperBound; i++)
+        vm_define_native(configs[i].functionName, configs[i].function);
 }
 
-InterpretResult vm_interpret(char const *source)
+interpret_result_t vm_interpret(char const *source)
 {
-    ObjectFunction *function = compiler_compile(source);
+    object_function_t *function = compiler_compile(source);
     if (function == NULL)
         return INTERPRET_COMPILE_ERROR;
     vm_push(OBJECT_VAL(function));
-    ObjectClosure *closure = object_new_closure(function);
+    object_closure_t *closure = object_new_closure(function);
     vm_pop();
     vm_push(OBJECT_VAL(closure));
     vm_call(closure, 0u);
     return vm_run();
 }
 
-void vm_push(Value value)
+void vm_push(value_t value)
 {
     *virtualMachine.stackTop = value;
     virtualMachine.stackTop++;
 }
 
-Value vm_pop()
+value_t vm_pop()
 {
     virtualMachine.stackTop--;
     return *virtualMachine.stackTop;
 }
 
-static bool vm_bind_method(ObjectClass * celloxClass, ObjectString * name)
+static bool vm_bind_method(object_class_t * celloxClass, object_string_t * name)
 {
-    Value method;
+    value_t method;
     if (!table_get(&celloxClass->methods, name, &method))
     {
         vm_runtime_error("Undefined property '%s'.", name->chars);
@@ -113,7 +106,7 @@ static bool vm_bind_method(ObjectClass * celloxClass, ObjectString * name)
     return true;
 }
 
-static bool vm_call(ObjectClosure * closure, uint32_t argCount)
+static bool vm_call(object_closure_t * closure, uint32_t argCount)
 {
     if (argCount != closure->function->arity)
     {
@@ -128,14 +121,14 @@ static bool vm_call(ObjectClosure * closure, uint32_t argCount)
         return false;
     }
 
-    CallFrame *frame = &virtualMachine.callStack[virtualMachine.frameCount++];
+    call_frame_t *frame = &virtualMachine.callStack[virtualMachine.frameCount++];
     frame->closure = closure;
     frame->ip = closure->function->chunk.code;
     frame->slots = virtualMachine.stackTop - argCount - 1;
     return true;
 }
 
-static bool vm_call_value(Value callee, uint32_t argCount)
+static bool vm_call_value(value_t callee, uint32_t argCount)
 {
     if (IS_OBJECT(callee))
     {
@@ -149,9 +142,9 @@ static bool vm_call_value(Value callee, uint32_t argCount)
         }
         case OBJECT_CLASS:
         {
-            ObjectClass *celloxClass = AS_CLASS(callee);
+            object_class_t *celloxClass = AS_CLASS(callee);
             virtualMachine.stackTop[-argCount - 1] = OBJECT_VAL(object_new_instance(celloxClass));
-            Value initializer;
+            value_t initializer;
             if (table_get(&celloxClass->methods, virtualMachine.initString, &initializer))
                 return vm_call(AS_CLOSURE(initializer), argCount);
             else if (argCount != 0)
@@ -165,8 +158,8 @@ static bool vm_call_value(Value callee, uint32_t argCount)
             return vm_call(AS_CLOSURE(callee), argCount);
         case OBJECT_NATIVE:
         {
-            NativeFn native = AS_NATIVE(callee);
-            Value result = native(argCount, virtualMachine.stackTop - argCount);
+            native_function_t native = AS_NATIVE(callee);
+            value_t result = native(argCount, virtualMachine.stackTop - argCount);
             virtualMachine.stackTop -= argCount + 1;
             vm_push(result);
             return true;
@@ -179,10 +172,10 @@ static bool vm_call_value(Value callee, uint32_t argCount)
     return false;
 }
 
-static ObjectUpvalue *vm_capture_upvalue(Value * local)
+static object_upvalue_t *vm_capture_upvalue(value_t * local)
 {
-    ObjectUpvalue *prevUpvalue = NULL;
-    ObjectUpvalue *upvalue = virtualMachine.openUpvalues;
+    object_upvalue_t *prevUpvalue = NULL;
+    object_upvalue_t *upvalue = virtualMachine.openUpvalues;
     while (upvalue != NULL && upvalue->location > local)
     {
         prevUpvalue = upvalue;
@@ -191,7 +184,7 @@ static ObjectUpvalue *vm_capture_upvalue(Value * local)
 
     if (upvalue != NULL && upvalue->location == local)
         return upvalue;
-    ObjectUpvalue *createdUpvalue = object_new_upvalue(local);
+    object_upvalue_t *createdUpvalue = object_new_upvalue(local);
     createdUpvalue->next = upvalue;
     if (!prevUpvalue)
         virtualMachine.openUpvalues = createdUpvalue;
@@ -205,11 +198,11 @@ static ObjectUpvalue *vm_capture_upvalue(Value * local)
  * The concept of an upvalue is borrowed from Lua - see https://www.lua.org/pil/27.3.3.html.
  * A upvalue is closed by copying the objects value into the closed field in te ObjectValue.
  */
-static void vm_close_upvalues(Value * last)
+static void vm_close_upvalues(value_t * last)
 {
     while (virtualMachine.openUpvalues != NULL && virtualMachine.openUpvalues->location >= last)
     {
-        ObjectUpvalue *upvalue = virtualMachine.openUpvalues;
+        object_upvalue_t *upvalue = virtualMachine.openUpvalues;
         upvalue->closed = *upvalue->location;
         upvalue->location = &upvalue->closed;
         virtualMachine.openUpvalues = upvalue->next;
@@ -219,30 +212,30 @@ static void vm_close_upvalues(Value * last)
 // Concatenates the two upper values on the stack
 static void vm_concatenate()
 {
-    ObjectString *b = AS_STRING(vm_peek(0));
-    ObjectString *a = AS_STRING(vm_peek(1));
+    object_string_t *b = AS_STRING(vm_peek(0));
+    object_string_t *a = AS_STRING(vm_peek(1));
     uint32_t length = a->length + b->length;
     char *chars = ALLOCATE(char, length + 1u);
     memcpy(chars, a->chars, a->length);
     memcpy(chars + a->length, b->chars, b->length);
     chars[length] = '\0';
-    ObjectString *result = object_take_string(chars, length);
+    object_string_t *result = object_take_string(chars, length);
     vm_pop();
     vm_pop();
     vm_push(OBJECT_VAL(result));
 }
 
 // Defines a new Method in the hashTable of the celloxclass instance
-static void vm_define_method(ObjectString *name)
+static void vm_define_method(object_string_t *name)
 {
-    Value method = vm_peek(0);
-    ObjectClass *celloxClass = AS_CLASS(vm_peek(1));
+    value_t method = vm_peek(0);
+    object_class_t *celloxClass = AS_CLASS(vm_peek(1));
     table_set(&celloxClass->methods, name, method);
     vm_pop();
 }
 
 // Defines a native function for the virtual machine
-static void vm_define_native(char const * name, NativeFn function)
+static void vm_define_native(char const * name, native_function_t function)
 {
     vm_push(OBJECT_VAL(object_copy_string(name, (int32_t)strlen(name), false)));
     vm_push(OBJECT_VAL(object_new_native(function)));
@@ -251,16 +244,16 @@ static void vm_define_native(char const * name, NativeFn function)
     vm_pop();
 }
 
-static bool vm_invoke(ObjectString *name, uint32_t argCount)
+static bool vm_invoke(object_string_t *name, uint32_t argCount)
 {
-    Value receiver = vm_peek(argCount);
+    value_t receiver = vm_peek(argCount);
     if (!IS_INSTANCE(receiver))
     {
         vm_runtime_error("Only instances have methods.");
         return false;
     }
-    ObjectInstance *instance = AS_INSTANCE(receiver);
-    Value value;
+    object_instance_t *instance = AS_INSTANCE(receiver);
+    value_t value;
     if (table_get(&instance->fields, name, &value))
     {
         virtualMachine.stackTop[-argCount - 1] = value;
@@ -269,9 +262,9 @@ static bool vm_invoke(ObjectString *name, uint32_t argCount)
     return vm_invoke_from_class(instance->celloxClass, name, argCount);
 }
 
-static bool vm_invoke_from_class(ObjectClass * celloxClass, ObjectString * name, uint32_t argCount)
+static bool vm_invoke_from_class(object_class_t * celloxClass, object_string_t * name, uint32_t argCount)
 {
-    Value method;
+    value_t method;
     if (!table_get(&celloxClass->methods, name, &method))
     {
         vm_runtime_error("Undefined property '%s'.", name->chars);
@@ -281,13 +274,13 @@ static bool vm_invoke_from_class(ObjectClass * celloxClass, ObjectString * name,
 }
 
 // Determines if a value is falsey (either nil or false)
-static bool vm_is_falsey(Value value)
+static bool vm_is_falsey(value_t value)
 {
     return IS_NULL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
 
 // Retuns the Value on top of the stack without poping it
-static Value vm_peek(int32_t distance)
+static value_t vm_peek(int32_t distance)
 {
     return virtualMachine.stackTop[-1 - distance];
 }
@@ -301,7 +294,7 @@ static void vm_reset_stack()
 }
 
 // Runs a lox program that was converted to bytecode instructions
-static InterpretResult vm_run()
+static interpret_result_t vm_run()
 {
 #ifdef DEBUG_TRACE_EXECUTION
     printf("== execution ==\n");
@@ -335,7 +328,7 @@ so all the statements in it get executed if they are after an if 🤮 */
     } while (false)
 
     // Makro reads the next byte at the current positioon in the chunk
-    CallFrame *frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+    call_frame_t *frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
 
     for (;;)
     {
@@ -383,8 +376,8 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_CLOSURE:
         {
-            ObjectFunction *function = AS_FUNCTION(READ_CONSTANT());
-            ObjectClosure *closure = object_new_closure(function);
+            object_function_t *function = AS_FUNCTION(READ_CONSTANT());
+            object_closure_t *closure = object_new_closure(function);
             vm_push(OBJECT_VAL(closure));
             for (uint32_t i = 0; i < closure->upvalueCount; i++)
             {
@@ -403,13 +396,13 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_CONSTANT:
         {
-            Value constant = READ_CONSTANT();
+            value_t constant = READ_CONSTANT();
             vm_push(constant);
             break;
         }
         case OP_DEFINE_GLOBAL:
         {
-            ObjectString *name = READ_STRING();
+            object_string_t *name = READ_STRING();
             table_set(&virtualMachine.globals, name, vm_peek(0));
             vm_pop();
             break;
@@ -419,8 +412,8 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_EQUAL:
         {
-            Value a = vm_pop();
-            Value b = vm_pop();
+            value_t a = vm_pop();
+            value_t b = vm_pop();
             vm_push(BOOL_VAL(value_values_equal(a, b)));
             break;
         }
@@ -444,8 +437,8 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_GET_GLOBAL:
         {
-            ObjectString *name = READ_STRING();
-            Value value;
+            object_string_t *name = READ_STRING();
+            value_t value;
             if (!table_get(&virtualMachine.globals, name, &value))
             {
                 vm_runtime_error("Undefined variable '%s'.", name->chars);
@@ -467,10 +460,10 @@ so all the statements in it get executed if they are after an if 🤮 */
                 vm_runtime_error("Only instances have properties.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            ObjectInstance *instance = AS_INSTANCE(vm_peek(0));
-            ObjectString *name = READ_STRING();
+            object_instance_t *instance = AS_INSTANCE(vm_peek(0));
+            object_string_t *name = READ_STRING();
 
-            Value value;
+            value_t value;
             if (table_get(&instance->fields, name, &value))
             {
                 vm_pop(); // Instance.
@@ -487,8 +480,8 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_GET_SUPER:
         {
-            ObjectString *name = READ_STRING();
-            ObjectClass *superclass = AS_CLASS(vm_pop());
+            object_string_t *name = READ_STRING();
+            object_class_t *superclass = AS_CLASS(vm_pop());
 
             if (!vm_bind_method(superclass, name))
             {
@@ -510,7 +503,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             if (IS_NUMBER(vm_peek(0)) && IS_STRING(vm_peek(1)))
             {
                 int num = AS_NUMBER(vm_pop());
-                ObjectString * str = AS_STRING(vm_pop());
+                object_string_t * str = AS_STRING(vm_pop());
                 if(num >= str->length || num < 0)
                 {
                     vm_runtime_error("accessed string out of bounds");
@@ -519,7 +512,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 char *chars = ALLOCATE(char, 2u);
                 chars[0] = str->chars[num];
                 chars[1] = '\0';
-                ObjectString *result = object_take_string(chars, 1u);
+                object_string_t *result = object_take_string(chars, 1u);
                 vm_push(OBJECT_VAL(result));
             }
             else
@@ -531,13 +524,13 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_INHERIT:
         {
-            Value superclass = vm_peek(1);
+            value_t superclass = vm_peek(1);
             if (!IS_CLASS(superclass))
             {
                 vm_runtime_error("Superclass must be a class.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            ObjectClass *subclass = AS_CLASS(vm_peek(0));
+            object_class_t *subclass = AS_CLASS(vm_peek(0));
             table_add_all(&AS_CLASS(superclass)->methods,
                         &subclass->methods);
             vm_pop(); // Subclass.
@@ -545,7 +538,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_INVOKE:
         {
-            ObjectString *method = READ_STRING();
+            object_string_t *method = READ_STRING();
             int argCount = READ_BYTE();
             if (!vm_invoke(method, argCount))
             {
@@ -622,7 +615,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_RETURN:
         {
-            Value result = vm_pop();
+            value_t result = vm_pop();
             vm_close_upvalues(frame->slots);
             virtualMachine.frameCount--;
             if (virtualMachine.frameCount == 0)
@@ -637,7 +630,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_SET_GLOBAL:
         {
-            ObjectString *name = READ_STRING();
+            object_string_t *name = READ_STRING();
             if (table_set(&virtualMachine.globals, name, vm_peek(0)))
             {
                 table_delete(&virtualMachine.globals, name);
@@ -659,9 +652,9 @@ so all the statements in it get executed if they are after an if 🤮 */
                 vm_runtime_error("Only instances have fields.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            ObjectInstance *instance = AS_INSTANCE(vm_peek(1));
+            object_instance_t *instance = AS_INSTANCE(vm_peek(1));
             table_set(&instance->fields, READ_STRING(), vm_peek(0));
-            Value value = vm_pop();
+            value_t value = vm_pop();
             vm_pop();
             vm_push(value);
             break;
@@ -677,9 +670,9 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_SUPER_INVOKE:
         {
-            ObjectString *method = READ_STRING();
+            object_string_t *method = READ_STRING();
             int argCount = READ_BYTE();
-            ObjectClass *superclass = AS_CLASS(vm_pop());
+            object_class_t *superclass = AS_CLASS(vm_pop());
             if (!vm_invoke_from_class(superclass, method, argCount))
             {
                 return INTERPRET_RUNTIME_ERROR;
@@ -711,8 +704,8 @@ static void vm_runtime_error(char const * format, ...)
     fputs("\n", stderr);
     for (int32_t i = virtualMachine.frameCount - 1; i >= 0; i--)
     {
-        CallFrame *frame = &virtualMachine.callStack[i];
-        ObjectFunction *function = frame->closure->function;
+        call_frame_t *frame = &virtualMachine.callStack[i];
+        object_function_t *function = frame->closure->function;
         size_t instruction = frame->ip - function->chunk.code - 1;
         fprintf(stderr, "[line %d] in ", function->chunk.lines[instruction]);
         if (function->name == NULL)

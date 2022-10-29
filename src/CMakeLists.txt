@@ -14,7 +14,7 @@ set(HEADERS
     init.h
     lexer.h
     memory.h
-    native_fun.h
+    native_functions.h
     object.h
     string_utils.h
     table.h
@@ -32,7 +32,7 @@ set(SOURCES
     lexer.c
     main.c
     memory.c 
-    native_fun.c
+    native_functions.c
     object.c 
     string_utils.c
     table.c

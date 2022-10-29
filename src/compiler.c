@@ -18,14 +18,14 @@
 typedef struct
 {
     // The token that is currently being parsed
-    Token current;
+    token_t current;
     // The token that was previously parsed
-    Token previous;
+    token_t previous;
     // Flag that indicates whether an error occured during the compilation
     bool hadError;
     // Flag that indicates that the compiler couldn't synchronize after an errror occured
     bool panicMode;
-} Parser;
+} parser_t;
 
 // Precedences of the Tokens
 typedef enum
@@ -41,28 +41,28 @@ typedef enum
     PREC_UNARY,      // ! -
     PREC_CALL,       // . () []
     PREC_PRIMARY
-} Precedence;
+} precedence_t;
 
-typedef void (* ParseFn)(bool canAssign);
+typedef void (* parse_function_t)(bool canAssign);
 
 // Type definition of a parsing rule structure
 typedef struct
 {
-    ParseFn prefix;
-    ParseFn infix;
-    Precedence precedence;
-} ParseRule;
+    parse_function_t prefix;
+    parse_function_t infix;
+    precedence_t precedence;
+} parse_rule_t;
 
 // Type definition of a local variable structure
 typedef struct
 {
     // Name of the local variable
-    Token name;
+    token_t name;
     // Scope depth where the local variable was declared
     int32_t depth;
     // Boolean value that determines whether the local variable is captured by a closure
     bool isCaptured;
-} Local;
+} local_t;
 
 // Type definition of an upvalue structure
 typedef struct
@@ -71,7 +71,7 @@ typedef struct
     uint8_t index;
     // Flag that indicates whether the value is a local value
     bool isLocal;
-} Upvalue;
+} upvalue_t;
 
 // Types of a function - either a script or a function
 typedef enum
@@ -80,37 +80,37 @@ typedef enum
     TYPE_INITIALIZER,
     TYPE_METHOD,
     TYPE_SCRIPT
-} FunctionType;
+} function_type_t;
 
 // Type definition of the compiler structure
-typedef struct Compiler
+typedef struct compiler_t
 {
-    struct Compiler * enclosing;
-    ObjectFunction * function;
-    FunctionType type;
-    Local locals[UINT8_COUNT];
+    struct compiler_t * enclosing;
+    object_function_t * function;
+    function_type_t type;
+    local_t locals[UINT8_COUNT];
     int32_t localCount;
-    Upvalue upvalues[UINT8_COUNT];
+    upvalue_t upvalues[UINT8_COUNT];
     int32_t scopeDepth;
-} Compiler;
+} compiler_t;
 
-typedef struct ClassCompiler
+typedef struct class_compiler_t
 {
-    struct ClassCompiler *enclosing;
+    struct class_compiler_t *enclosing;
     bool hasSuperclass;
-} ClassCompiler;
+} class_compiler_t;
 
 // Global parser variable
-Parser parser;
+parser_t parser;
 
 // Global compiler variable
-Compiler * current = NULL;
+compiler_t * current = NULL;
 
 // Global classCompiler variable
-ClassCompiler * currentClass = NULL;
+class_compiler_t * currentClass = NULL;
 
-static void compiler_add_local(Token);
-static uint32_t compiler_add_upvalue(Compiler *, uint8_t, bool);
+static void compiler_add_local(token_t);
+static uint32_t compiler_add_upvalue(compiler_t *, uint8_t, bool);
 static void compiler_advance();
 static void compiler_and(bool);
 static uint8_t compiler_argument_list();
@@ -118,68 +118,68 @@ static void compiler_begin_scope();
 static void compiler_binary(bool);
 static void compiler_block();
 static void compiler_call(bool);
-static bool compiler_check(TokenType);
+static bool compiler_check(tokentype_t);
 static void compiler_class_declaration();
-static void compiler_consume(TokenType, char const *);
-static Chunk *compiler_current_chunk();
+static void compiler_consume(tokentype_t, char const *);
+static chunk_t *compiler_current_chunk();
 static void compiler_declaration();
 static void compiler_declare_variable();
 static void compiler_define_variable(uint8_t);
 static void compiler_dot(bool);
 static void compiler_emit_byte(uint8_t);
 static void compiler_emit_bytes(uint8_t, uint8_t);
-static void compiler_emit_constant(Value);
+static void compiler_emit_constant(value_t);
 static int32_t compiler_emit_jump(uint8_t);
 static void compiler_emit_loop(int32_t);
 static void compiler_emit_return();
-static ObjectFunction *compiler_end();
+static object_function_t *compiler_end();
 static void compiler_end_scope();
 static void compiler_error(char const *);
-static void compiler_error_at(Token *, char const *);
+static void compiler_error_at(token_t *, char const *);
 static void compiler_error_at_current(char const *);
 static void compiler_expression();
 static void compiler_expression_statement();
 static void compiler_for_statement();
-static void compiler_function(FunctionType);
+static void compiler_function(function_type_t);
 static void compiler_function_declaration();
-static ParseRule *compiler_get_rule(TokenType);
+static parse_rule_t *compiler_get_rule(tokentype_t);
 static void compiler_grouping(bool);
-static uint8_t compiler_identifier_constant(Token *);
-static bool compiler_identifiers_equal(Token *, Token *);
+static uint8_t compiler_identifier_constant(token_t *);
+static bool compiler_identifiers_equal(token_t *, token_t *);
 static void compiler_if_statement();
-static void compiler_init(Compiler *, FunctionType);
+static void compiler_init(compiler_t *, function_type_t);
 static void compiler_index_of(bool);
 static void compiler_literal(bool);
 static void compiler_mark_initialized();
-static uint8_t compiler_make_constant(Value);
-static bool compiler_match_token(TokenType);
+static uint8_t compiler_make_constant(value_t);
+static bool compiler_match_token(tokentype_t);
 static void compiler_method();
-static void compiler_named_variable(Token, bool);
+static void compiler_named_variable(token_t, bool);
 static void compiler_nondirect_assignment(uint8_t, uint8_t, uint8_t, uint8_t);
 static void compiler_number(bool);
 static void compiler_or(bool);
-static void compiler_parse_precedence(Precedence);
+static void compiler_parse_precedence(precedence_t);
 static uint8_t compiler_parse_variable(char const *);
 static void compiler_patch_jump(int32_t);
 static void compiler_print_statement();
-static int32_t compiler_resolve_local(Compiler *, Token *);
-static int32_t compiler_resolve_upvalue(Compiler *, Token *);
+static int32_t compiler_resolve_local(compiler_t *, token_t *);
+static int32_t compiler_resolve_upvalue(compiler_t *, token_t *);
 static void compiler_return_statement();
 static void compiler_statement();
 static void compiler_string(bool);
 static void compiler_super(bool);
 static void compiler_synchronize();
-static Token compiler_synthetic_token(char const *);
+static token_t compiler_synthetic_token(char const *);
 static void compiler_this(bool);
 static void compiler_unary(bool);
 static void compiler_var_declaration();
 static void compiler_variable(bool);
 static void compiler_while_statement();
 
-ObjectFunction * compiler_compile(char const * source)
+object_function_t * compiler_compile(char const * source)
 {
     lexer_init(source);
-    Compiler compiler;
+    compiler_t compiler;
     compiler_init(&compiler, TYPE_SCRIPT);
     parser.hadError = false;
     parser.panicMode = false;
@@ -187,16 +187,16 @@ ObjectFunction * compiler_compile(char const * source)
     // We keep compiling until we hit the end of the source file
     while (!compiler_match_token(TOKEN_EOF))
         compiler_declaration();
-    ObjectFunction *function = compiler_end();
+    object_function_t *function = compiler_end();
     return parser.hadError ? NULL : function;
 }
 
 void compiler_mark_roots()
 {
-    Compiler * compiler = current;
+    compiler_t * compiler = current;
     while (compiler != NULL)
     {
-        memory_mark_object((Object *)compiler->function);
+        memory_mark_object((object_t *)compiler->function);
         compiler = compiler->enclosing;
     }
 }
@@ -204,9 +204,9 @@ void compiler_mark_roots()
 /* ParseRules for the language
  * Prefix - at the beginning of a statement
  * Infix - in the middle/end of a statement
- * Precedence
+ * precedence_t
 */
-ParseRule rules[] = {
+parse_rule_t rules[] = {
     [TOKEN_AND] = {NULL, compiler_and, PREC_AND},
     [TOKEN_BANG] = {compiler_unary, NULL, PREC_UNARY},
     [TOKEN_BANG_EQUAL] = {NULL, compiler_binary, PREC_EQUALITY},
@@ -259,7 +259,7 @@ ParseRule rules[] = {
 };
 
 // Adds a new local variable to the stack
-static void compiler_add_local(Token name)
+static void compiler_add_local(token_t name)
 {
     if (current->localCount == UINT8_COUNT)
     {
@@ -267,20 +267,20 @@ static void compiler_add_local(Token name)
         compiler_error("Too many local variables in function.");
         return;
     }
-    Local *local = &current->locals[current->localCount++];
+    local_t *local = &current->locals[current->localCount++];
     local->name = name;
     local->depth = -1;
     local->isCaptured = false;
 }
 
 // Adds an upValue to the compiler
-static uint32_t compiler_add_upvalue(Compiler * compiler, uint8_t index, bool isLocal)
+static uint32_t compiler_add_upvalue(compiler_t * compiler, uint8_t index, bool isLocal)
 {
     uint32_t upvalueCount = compiler->function->upvalueCount;
 
     for (uint32_t i = 0; i < upvalueCount; i++)
     {
-        Upvalue *upvalue = &compiler->upvalues[i];
+        upvalue_t *upvalue = &compiler->upvalues[i];
         if (upvalue->index == index && upvalue->isLocal == isLocal)
             return i;
     }
@@ -346,9 +346,9 @@ static void compiler_begin_scope()
 // Compiles a binary expression
 static void compiler_binary(bool canAssign)
 {
-    TokenType operatorType = parser.previous.type;
-    ParseRule * rule = compiler_get_rule(operatorType);
-    compiler_parse_precedence((Precedence)(rule->precedence + 1));
+    tokentype_t operatorType = parser.previous.type;
+    parse_rule_t * rule = compiler_get_rule(operatorType);
+    compiler_parse_precedence((precedence_t)(rule->precedence + 1));
 
     switch (operatorType)
     {
@@ -409,7 +409,7 @@ static void compiler_call(bool canAssign)
 }
 
 // Checks if the next Token is of a given type
-static bool compiler_check(TokenType type)
+static bool compiler_check(tokentype_t type)
 {
     return parser.current.type == type;
 }
@@ -418,12 +418,12 @@ static bool compiler_check(TokenType type)
 static void compiler_class_declaration()
 {
     compiler_consume(TOKEN_IDENTIFIER, "Expect class name.");
-    Token className = parser.previous;
+    token_t className = parser.previous;
     uint8_t nameConstant = compiler_identifier_constant(&parser.previous);
     compiler_declare_variable();
     compiler_emit_bytes(OP_CLASS, nameConstant);
     compiler_define_variable(nameConstant);
-    ClassCompiler classCompiler;
+    class_compiler_t classCompiler;
     classCompiler.hasSuperclass = false;
     classCompiler.enclosing = currentClass;
     currentClass = &classCompiler;
@@ -452,7 +452,7 @@ static void compiler_class_declaration()
 }
 
 // Consumes a Token
-static void compiler_consume(TokenType type, char const *message)
+static void compiler_consume(tokentype_t type, char const *message)
 {
     if (parser.current.type == type)
     {
@@ -462,7 +462,7 @@ static void compiler_consume(TokenType type, char const *message)
     compiler_error_at_current(message);
 }
 
-static Chunk *compiler_current_chunk()
+static chunk_t *compiler_current_chunk()
 {
     return &current->function->chunk;
 }
@@ -489,10 +489,10 @@ static void compiler_declare_variable()
     if (!current->scopeDepth)
         return;
 
-    Token * name = &parser.previous;
+    token_t * name = &parser.previous;
     for (int32_t i = current->localCount - 1; i >= 0; i--)
     {
-        Local *local = &current->locals[i];
+        local_t *local = &current->locals[i];
         if (local->depth != -1 && local->depth < current->scopeDepth)
             break;
 
@@ -505,7 +505,7 @@ static void compiler_declare_variable()
 // Defines a new Variable
 static void compiler_define_variable(uint8_t global)
 {
-    // Local Variable
+    // local_t Variable
     if (current->scopeDepth > 0)
     {
         compiler_mark_initialized();
@@ -551,7 +551,7 @@ static void compiler_emit_bytes(uint8_t byte1, uint8_t byte2)
 }
 
 // Creates a constant bytecode instruction
-static void compiler_emit_constant(Value value)
+static void compiler_emit_constant(value_t value)
 {
     compiler_emit_bytes(OP_CONSTANT, compiler_make_constant(value));
 }
@@ -590,10 +590,10 @@ static void compiler_emit_return()
 }
 
 // yields a newly created function object after the compilation process finished
-static ObjectFunction *compiler_end()
+static object_function_t *compiler_end()
 {
     compiler_emit_return();
-    ObjectFunction * function = current->function;
+    object_function_t * function = current->function;
 #ifdef DEBUG_PRINT_CODE
     if (!parser.hadError)
         debug_disassemble_chunk(compiler_current_chunk(), function->name != NULL ? function->name->chars : "<script>");
@@ -626,7 +626,7 @@ static void compiler_error(char const *message)
 }
 
 // Reports an error that was triggered by a specifiec token
-static void compiler_error_at(Token *token, char const *message)
+static void compiler_error_at(token_t *token, char const *message)
 {
     if (parser.panicMode)
         return;
@@ -711,9 +711,9 @@ static void compiler_for_statement()
 }
 
 // Compiles a function declaration statement to bytecode instructions
-static void compiler_function(FunctionType type)
+static void compiler_function(function_type_t type)
 {
-    Compiler compiler;
+    compiler_t compiler;
     compiler_init(&compiler, type);
     compiler_begin_scope();
 
@@ -732,7 +732,7 @@ static void compiler_function(FunctionType type)
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after parameters.");
     compiler_consume(TOKEN_LEFT_BRACE, "Expect '{' before function body.");
     compiler_block();
-    ObjectFunction * function = compiler_end();
+    object_function_t * function = compiler_end();
     compiler_emit_bytes(OP_CLOSURE, compiler_make_constant(OBJECT_VAL(function)));
     for (int32_t i = 0; i < function->upvalueCount; i++)
     {
@@ -751,7 +751,7 @@ static void compiler_function_declaration()
 }
 
 // Gets the parsing rule for a specific token type
-static ParseRule *compiler_get_rule(TokenType type)
+static parse_rule_t *compiler_get_rule(tokentype_t type)
 {
     return &rules[type];
 }
@@ -764,13 +764,13 @@ static void compiler_grouping(bool canAssign)
 }
 
 // Used to create a string object from an identifier token
-static uint8_t compiler_identifier_constant(Token *name)
+static uint8_t compiler_identifier_constant(token_t *name)
 {
     return compiler_make_constant(OBJECT_VAL(object_copy_string(name->start, name->length, false)));
 }
 
 // Determines whether two identifiers are equal
-static bool compiler_identifiers_equal(Token * a, Token * b)
+static bool compiler_identifiers_equal(token_t * a, token_t * b)
 {
     if (a->length != b->length)
         return false;
@@ -795,7 +795,7 @@ static void compiler_if_statement()
 }
 
 // Initializes the compiler
-static void compiler_init(Compiler * compiler, FunctionType type)
+static void compiler_init(compiler_t * compiler, function_type_t type)
 {
     compiler->enclosing = current;
     compiler->function = NULL;
@@ -806,7 +806,7 @@ static void compiler_init(Compiler * compiler, FunctionType type)
     current = compiler;
     if (type != TYPE_SCRIPT)
         current->function->name = object_copy_string(parser.previous.start, parser.previous.length, false);
-    Local *local = &current->locals[current->localCount++];
+    local_t *local = &current->locals[current->localCount++];
     local->depth = 0;
     local->isCaptured = false;
     if (type != TYPE_FUNCTION)
@@ -860,7 +860,7 @@ static void compiler_mark_initialized()
 }
 
 // Emits a constant bytecode instruction with the value that was passed as an argument up opon the function call
-static uint8_t compiler_make_constant(Value value)
+static uint8_t compiler_make_constant(value_t value)
 {
     int32_t constant = chunk_add_constant(compiler_current_chunk(), value);
     if (constant > (int32_t)UINT8_MAX)
@@ -872,7 +872,7 @@ static uint8_t compiler_make_constant(Value value)
 }
 
 // Determines weather the next Token is from the specified TokenTypes and advances a position further, if that is the case
-static bool compiler_match_token(TokenType type)
+static bool compiler_match_token(tokentype_t type)
 {
     if (!compiler_check(type))
         return false;
@@ -885,7 +885,7 @@ static void compiler_method()
 {
     compiler_consume(TOKEN_IDENTIFIER, "Expect method name.");
     uint8_t constant = compiler_identifier_constant(&parser.previous);
-    FunctionType type = TYPE_METHOD;
+    function_type_t type = TYPE_METHOD;
     if (parser.previous.length == 4 && memcmp(parser.previous.start, "init", 4) == 0)
         type = TYPE_INITIALIZER;
     compiler_function(type);
@@ -893,7 +893,7 @@ static void compiler_method()
 }
 
 // Handles getting and setting a variable (locals, globals and upvalues)
-static void compiler_named_variable(Token name, bool canAssign)
+static void compiler_named_variable(token_t name, bool canAssign)
 {
     uint8_t getOp, setOp;
     int32_t arg = compiler_resolve_local(current, &name);
@@ -961,10 +961,10 @@ static void compiler_or(bool canAssign)
 }
 
 // Parses the precedence of a statement to determine whether a valid assignment target is specified
-static void compiler_parse_precedence(Precedence precedence)
+static void compiler_parse_precedence(precedence_t precedence)
 {
     compiler_advance();
-    ParseFn prefixRule = compiler_get_rule(parser.previous.type)->prefix;
+    parse_function_t prefixRule = compiler_get_rule(parser.previous.type)->prefix;
     if (prefixRule == NULL)
     {
         compiler_error("Expect expression.");
@@ -975,7 +975,7 @@ static void compiler_parse_precedence(Precedence precedence)
     while (precedence <= compiler_get_rule(parser.current.type)->precedence)
     {
         compiler_advance();
-        ParseFn infixRule = compiler_get_rule(parser.previous.type)->infix;
+        parse_function_t infixRule = compiler_get_rule(parser.previous.type)->infix;
         infixRule(canAssign);
     }
     if (canAssign && compiler_match_token(TOKEN_EQUAL))
@@ -1012,11 +1012,11 @@ static void compiler_print_statement()
 }
 
 // Resolves a local variable name
-static int32_t compiler_resolve_local(Compiler * compiler, Token *name)
+static int32_t compiler_resolve_local(compiler_t * compiler, token_t *name)
 {
     for (int32_t i = compiler->localCount - 1; i >= 0; i--)
     {
-        Local *local = &compiler->locals[i];
+        local_t *local = &compiler->locals[i];
         if (compiler_identifiers_equal(name, &local->name))
         {
             if (local->depth == -1)
@@ -1029,7 +1029,7 @@ static int32_t compiler_resolve_local(Compiler * compiler, Token *name)
 
 /* Looks for a local variable declared in any of the surrounding functions.
 If an upvalue is found it returns an upvalue index, if not -1 is returned.*/
-static int32_t compiler_resolve_upvalue(Compiler * compiler, Token *name)
+static int32_t compiler_resolve_upvalue(compiler_t * compiler, token_t *name)
 {
     if (compiler->enclosing == NULL)
         return -1; // not found
@@ -1043,7 +1043,7 @@ static int32_t compiler_resolve_upvalue(Compiler * compiler, Token *name)
     int32_t upvalue = compiler_resolve_upvalue(compiler->enclosing, name);
     if (upvalue != -1)
         return compiler_add_upvalue(compiler, (uint8_t)upvalue, false);
-    // Upvalue couldn't be found
+    // upvalue_t couldn't be found
     return -1;
 }
 
@@ -1090,7 +1090,7 @@ static void compiler_statement()
 // compiles a string literal expression
 static void compiler_string(bool canAssign)
 {
-    ObjectString * string = object_copy_string(parser.previous.start + 1, parser.previous.length - 2, true);
+    object_string_t * string = object_copy_string(parser.previous.start + 1, parser.previous.length - 2, true);
     if(string == NULL)
     {
         compiler_error("Unknown escape sequence in string");
@@ -1151,9 +1151,9 @@ static void compiler_synchronize()
     }
 }
 
-static Token compiler_synthetic_token(char const * text)
+static token_t compiler_synthetic_token(char const * text)
 {
-    Token token;
+    token_t token;
     token.start = text;
     token.length = (int)strlen(text);
     return token;
@@ -1174,7 +1174,7 @@ static void compiler_this(bool canAssign)
 // Compiles a unary expression
 static void compiler_unary(bool canAssign)
 {
-    TokenType operatorType = parser.previous.type;
+    tokentype_t operatorType = parser.previous.type;
     // Compile the operand.
     compiler_parse_precedence(PREC_UNARY);
     // Emit the operator instruction.
@@ -1206,8 +1206,8 @@ static void compiler_var_declaration()
 /*Compiles a variable
 * Get Global variable or
 * Set Global variable or
-* Get Local variable or
-Set Local variable*/
+* Get local_t variable or
+Set local_t variable*/
 static void compiler_variable(bool canAssign)
 {
     compiler_named_variable(parser.previous, canAssign);

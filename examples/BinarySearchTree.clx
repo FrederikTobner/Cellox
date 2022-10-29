@@ -24,10 +24,7 @@ class BinarySearchTree
         var node = this.rootNode;
         for(;;) 
         {
-            if(node.value == x) 
-            {
-                return;
-            }
+            if(node.value == x) return;
             if(node.value > x) 
             {
                 if(node.left == null)
@@ -66,8 +63,5 @@ class BinarySearchTree
 }
 
 var bst = BinarySearchTree();
-for(var i = 0; i < 10; i += 1)
-{
-    bst.add(random() % 100);
-}
+for(var i = 0; i < 10; i += 1) bst.add(random() % 100);
 bst.printValues();

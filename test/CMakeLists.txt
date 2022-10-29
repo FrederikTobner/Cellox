@@ -12,9 +12,6 @@ FetchContent_Declare(
   GIT_TAG release-1.12.1
 )
 
-# Path of the sources of the cellox interpreter
-set(SOURCEPATH ../src/)
-
 # testfiles
 set(TESTSOURCES
 assignment_operator.cc
@@ -33,41 +30,6 @@ test_cellox.cc
 test_cellox.hh
 unary_operator.cc
 while_loops.cc
-)
-
-# source files of the interpreter
-set(CELLOXSOURCES
-${SOURCEPATH}chunk.c
-${SOURCEPATH}compiler.c
-${SOURCEPATH}compiler.h
-${SOURCEPATH}dynamic_array.c
-${SOURCEPATH}debug.c
-${SOURCEPATH}init.c 
-${SOURCEPATH}lexer.c
-${SOURCEPATH}memory.c 
-${SOURCEPATH}native_fun.c
-${SOURCEPATH}object.c
-${SOURCEPATH}string_utils.c
-${SOURCEPATH}table.c
-${SOURCEPATH}value.c  
-${SOURCEPATH}virtual_machine.c
-)
-
-# headers of the interpreter
-set(CELLOXHEADERS
-${SOURCEPATH}chunk.h
-${SOURCEPATH}compiler.h
-${SOURCEPATH}dynamic_array.h
-${SOURCEPATH}debug.h
-${SOURCEPATH}init.h
-${SOURCEPATH}lexer.h
-${SOURCEPATH}memory.h
-${SOURCEPATH}native_fun.h
-${SOURCEPATH}object.h
-${SOURCEPATH}string_utils.h
-${SOURCEPATH}table.h
-${SOURCEPATH}value.h
-${SOURCEPATH}virtual_machine.h
 )
 
 add_compile_definitions(
@@ -99,7 +61,8 @@ FetchContent_MakeAvailable(googletest)
 #Links googletest libary and cellox tests
 target_link_libraries(${THIS} GTest::gtest_main)
 
-#Includes google test framework
+
+# Includes google test framework
 include(googletest)
 # Automatic discovering of tests
 gtest_discover_tests(${THIS})

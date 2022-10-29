@@ -37,28 +37,28 @@
     ((ObjectBoundMethod *)AS_OBJECT(value))
 // Makro that gets the value of an object as a cellox class instance
 #define AS_INSTANCE(value) \
-    ((ObjectInstance *)AS_OBJECT(value))
+    ((object_instance_t *)AS_OBJECT(value))
 // Makro that gets the value of an object as a class
 #define AS_CLASS(value) \
-    ((ObjectClass *)AS_OBJECT(value))
+    ((object_class_t *)AS_OBJECT(value))
 // Makro that gets the value of an object as a closure
 #define AS_CLOSURE(value) \
-    ((ObjectClosure *)AS_OBJECT(value))
+    ((object_closure_t *)AS_OBJECT(value))
 // Makro that gets the value of an object as a function
 #define AS_FUNCTION(value) \
-    ((ObjectFunction *)AS_OBJECT(value))
+    ((object_function_t *)AS_OBJECT(value))
 // Makro that gets the value of an object as a native function
 #define AS_NATIVE(value) \
-    (((ObjectNative *)AS_OBJECT(value))->function)
+    (((object_native_t *)AS_OBJECT(value))->function)
 // Makro that gets the value of an object as a string
 #define AS_STRING(value) \
-    ((ObjectString *)AS_OBJECT(value))
+    ((object_string_t *)AS_OBJECT(value))
 // Makro that gets the value of an object as a cstring
 #define AS_CSTRING(value) \
-    (((ObjectString *)AS_OBJECT(value))->chars)
+    (((object_string_t *)AS_OBJECT(value))->chars)
 
 // Typedefinition of a native function
-typedef Value (*NativeFn)(int32_t argCount, Value *args);
+typedef value_t (*native_function_t)(int32_t argCount, value_t *args);
 
 // Different type of objects
 typedef enum
@@ -79,48 +79,48 @@ typedef enum
     OBJECT_STRING,
     // An upvalue
     OBJECT_UPVALUE,
-} ObjectType;
+} object_type_t;
 
 // struct containing the data that defines an object
-struct Object
+struct object_t
 {
     // The type of the object
-    ObjectType type;
+    object_type_t type;
     // Determines whether the object has already been marked by the grabage collector
     bool isMarked;
     // pointer to the next object in the linear sequence of objects stored on the heap
-    struct Object * next;
+    struct object_t * next;
 };
 
 // struct containing the data that defines a cellox function
 typedef struct
 {
     // data that defines all types of objects
-    Object obj;
+    object_t obj;
     // The number of arguments a function expects
     uint32_t arity;
     // Number of values from enclosing scopes
     uint32_t upvalueCount;
     // The instructions in the function
-    Chunk chunk;
+    chunk_t chunk;
     // The name of the function
-    ObjectString * name;
-} ObjectFunction;
+    object_string_t * name;
+} object_function_t;
 
 // Type definition of a native function structure
 typedef struct
 {
     // data that defines all types of objects
-    Object obj;
+    object_t obj;
     // Reference to the native implementation in c
-    NativeFn function;
-} ObjectNative;
+    native_function_t function;
+} object_native_t;
 
 // ObjectString structure definition
-struct ObjectString
+struct object_string_t
 {
     //  data that defines all types of objects
-    Object obj;
+    object_t obj;
     // The length of the string
     uint32_t length;
     // Pointer to the address in memory under that the string is stored
@@ -130,17 +130,17 @@ struct ObjectString
 };
 
 // Type definition of an object up-value structure (a local variable in an enclosing function)
-typedef struct ObjectUpvalue
+typedef struct object_upvalue_t
 {
     // data that defines all types of objects
-    Object obj;
+    object_t obj;
     // location of the upvalue in memory
-    Value * location;
+    value_t * location;
     // The Enclosed value after the current environment is left
-    Value closed;
+    value_t closed;
     // The memory location of the next upvalue in memory
-    struct ObjectUpvalue * next;
-} ObjectUpvalue;
+    struct object_upvalue_t * next;
+} object_upvalue_t;
 
 /*
  * Type definition of a closure, also called lexical closure or function closure.
@@ -152,71 +152,71 @@ typedef struct ObjectUpvalue
 typedef struct
 {
     // data that defines all types of objects
-    Object obj;
-    ObjectFunction * function;
-    ObjectUpvalue ** upvalues;
+    object_t obj;
+    object_function_t * function;
+    object_upvalue_t ** upvalues;
     uint32_t upvalueCount;
-} ObjectClosure;
+} object_closure_t;
 
 // Type definition of a class structure - a class in cellox
 typedef struct
 {
     // data that defines all types of objects
-    Object obj;
-    ObjectString * name;
-    Table methods;
-} ObjectClass;
+    object_t obj;
+    object_string_t * name;
+    table_t methods;
+} object_class_t;
 
 // Type definition of a cellox class instance
 typedef struct
 {
     // data that defines all types of objects
-    Object obj;
-    ObjectClass * celloxClass;
-    Table fields;
-} ObjectInstance;
+    object_t obj;
+    object_class_t * celloxClass;
+    table_t fields;
+} object_instance_t;
 
 // Type definition of a bound method
 typedef struct
 {
     // data that defines all types of objects
-    Object obj;
-    Value receiver;
-    ObjectClosure * method;
+    object_t obj;
+    value_t receiver;
+    object_closure_t * method;
 } ObjectBoundMethod;
 
 // Copys the value of a string in the hashtable of the virtualMachine
-ObjectString * object_copy_string(char const *chars, uint32_t length, bool removeBackSlash);
+object_string_t * object_copy_string(char const *chars, uint32_t length, bool removeBackSlash);
 
 // Creates a new bound method
-ObjectBoundMethod * object_new_bound_method(Value receiver, ObjectClosure *method);
+ObjectBoundMethod * object_new_bound_method(value_t receiver, object_closure_t *method);
 
 // Creates a new class in cellox
-ObjectClass * object_new_class(ObjectString *name);
+object_class_t * object_new_class(object_string_t *name);
 
 // Creates a new Closure
-ObjectClosure * object_new_closure(ObjectFunction *function);
+object_closure_t * object_new_closure(object_function_t *function);
 
 // Creates a new cellox function
-ObjectFunction * object_new_function();
+object_function_t * object_new_function();
 
 // Creates a new cellox class instance
-ObjectInstance * object_new_instance(ObjectClass *celloxClass);
+object_instance_t * object_new_instance(object_class_t *celloxClass);
 
 // Creates a new native function
-ObjectNative * object_new_native(NativeFn function);
+object_native_t * object_new_native(native_function_t function);
 
 // Takes a string from the hashtable of the virtualMachine and returns it
-ObjectString * object_take_string(char *chars, uint32_t length);
+object_string_t * object_take_string(char *chars, uint32_t length);
 
 // Creates a new upvalue
-ObjectUpvalue * object_new_upvalue(Value *slot);
+object_upvalue_t * object_new_upvalue(value_t *slot);
 
 // Prints the object
-void object_print(Value value);
+void object_print(value_t value);
 
 // Determines whether a value is of a given type
-static inline bool object_is_type(Value value, ObjectType type)
+static inline bool object_is_type(value_t value, object_type_t type)
 {
     return IS_OBJECT(value) && AS_OBJECT(value)->type == type;
 }

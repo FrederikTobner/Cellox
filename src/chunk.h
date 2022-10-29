@@ -1,5 +1,5 @@
-#ifndef cellox_chunk_h
-#define cellox_chunk_h
+#ifndef CELLOX_CHUNK_H_
+#define CELLOX_CHUNK_H_
 
 #include "common.h"
 #include "value.h"
@@ -88,7 +88,7 @@ typedef enum
     OP_SUPER_INVOKE,
     // Pushes the boolean value true on the stack
     OP_TRUE,
-} Opcode;
+} opcode_t;
 
 /* Type definition of a dynamic array structure of bytecode instructions
 bytecode instructions are idalized instructions for an abstract/virtual computer*/
@@ -103,19 +103,19 @@ typedef struct
     // Stores line information to the corresponding lox program
     uint32_t * lines;
     // Constants stored in the chunk
-    DynamicArray constants;
-} Chunk;
+    dynamic_array_t constants;
+} chunk_t;
 
 // Adds a constant to the chunk
-int32_t chunk_add_constant(Chunk * chunk, Value value);
+int32_t chunk_add_constant(chunk_t * chunk, value_t value);
 
 // Free's a chunk (Deallocates the memory used by the chunk)
-void chunk_free(Chunk * chunk);
+void chunk_free(chunk_t * chunk);
 
 // Initializes a chunk
-void chunk_init(Chunk * chunk);
+void chunk_init(chunk_t * chunk);
 
 // Write to a already existing chunk
-void chunk_write(Chunk * chunk, uint8_t byte, int32_t line);
+void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line);
 
 #endif

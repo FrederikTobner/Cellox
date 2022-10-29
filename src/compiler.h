@@ -1,10 +1,10 @@
-#ifndef cellox_compiler_h
-#define cellox_compiler_h
+#ifndef CELLOX_COMPILER_H_
+#define CELLOX_COMPILER_H_
 
 #include "object.h"
 
 // Compiles a chunk of bytecode
-ObjectFunction * compiler_compile(char const * source);
+object_function_t * compiler_compile(char const * source);
 
 /* Marks the compiler roots.
  * These are all the the objects that can be directly accessed by the virtualMachine

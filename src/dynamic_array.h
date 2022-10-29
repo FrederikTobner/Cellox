@@ -1,5 +1,5 @@
-#ifndef cellox_dynamic_array_h
-#define cellox_dynamic_array_h
+#ifndef CELLOX_DYNAMIC_ARRAY_H_
+#define CELLOX_DYNAMIC_ARRAY_H_
 
 #include "common.h"
 #include "value.h"
@@ -9,16 +9,16 @@ typedef struct
 {
     uint32_t capacity;
     uint32_t count;
-    Value * values;
-} DynamicArray;
+    value_t * values;
+} dynamic_array_t;
 
 // Dealocates the memory used by the dynamic array
-void dynamic_array_free(DynamicArray * array);
+void dynamic_array_free(dynamic_array_t * array);
 
 // initializes the dynamic array
-void dynamic_array_init(DynamicArray * array);
+void dynamic_array_init(dynamic_array_t * array);
 
 // Adds a value to the dynamic array
-void dynamic_array_write(DynamicArray * array, Value value);
+void dynamic_array_write(dynamic_array_t * array, value_t value);
 
 #endif

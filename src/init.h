@@ -1,5 +1,5 @@
-#ifndef cellox_init_h
-#define cellox_init_h
+#ifndef CELLOX_INIT_H_
+#define CELLOX_INIT_H_
 
 #ifdef __cplusplus
 extern "C" {

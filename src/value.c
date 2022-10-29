@@ -4,7 +4,7 @@
 
 #include "object.h"
 
-void value_print(Value value)
+void value_print(value_t value)
 {
 #ifdef NAN_BOXING
   if (IS_BOOL(value))
@@ -35,7 +35,7 @@ void value_print(Value value)
 #endif
 }
 
-bool value_values_equal(Value a, Value b)
+bool value_values_equal(value_t a, value_t b)
 {
 #ifdef NAN_BOXING
   if (IS_NUMBER(a) && IS_NUMBER(b))
