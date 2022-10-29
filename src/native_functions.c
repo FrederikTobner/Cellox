@@ -197,7 +197,7 @@ static void native_assert_arrity(uint8_t function, uint32_t argcount)
 {
     if (native_function_configs[function].arrity != argcount)
     {
-        printf("%s expects %d arguments but was called with %d", 
+        printf("%s expects %zu arguments but was called with %d", 
         native_function_configs[function].functionName, 
         native_function_configs[function].arrity, 
         argcount);
