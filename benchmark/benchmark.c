@@ -1,10 +1,10 @@
 #include "benchmark.h"
 
-#include "float.h"
-#include "stdlib.h"
-#include "stddef.h"
-#include "stdio.h"
-#include "string.h"
+#include <float.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "init.h"
 
@@ -16,21 +16,25 @@ typedef struct
 }benchmark_config_t;
 
 static benchmark_config_t benchmarks[] = {
+    [BENCHMARK_FIBONACCI] =
     {
         .benchmarkName = "Fibonacci",
         .benchmarkFileName = "FibonacciBenchmark.clx",
         .executionCount = 3
     },
+    [BENCHMARK_INSTANTIATION] =
     {
         .benchmarkName = "Instantiation",
         .benchmarkFileName = "InstantiationBenchmark.clx",
         .executionCount = 3
     },
+    [BENCHMARK_NEGATE] =
     {
         .benchmarkName = "Negate",
         .benchmarkFileName = "NegateBenchmark.clx",
         .executionCount = 3
     },
+    [BENCHMARK_ZOO] =
     {
         .benchmarkName = "Zoo",
         .benchmarkFileName = "ZooBenchmark.clx",
@@ -39,17 +43,23 @@ static benchmark_config_t benchmarks[] = {
 };
 
 
-static void executeBenchmark(benchmark_config_t benchmark);
+static void execute(benchmark_config_t benchmark);
 
-void executeBenchmarks()
+void benchmark_execute_all_benchmarks()
 {
     printf("%15s - %10s - %10s - %10s\n",  "Name", "average", "min", "max" );
     size_t benchmarkCount = sizeof(benchmarks) / sizeof(*benchmarks);
     for (size_t i = 0; i < benchmarkCount; i++)
-        executeBenchmark(*(benchmarks + i));    
+        execute_benchmark(*(benchmarks + i));    
 }
 
-static void executeBenchmark(benchmark_config_t benchmark)
+void benchmark_execute(benchmark_t benchmark)
+{
+    printf("%15s - %10s - %10s - %10s\n",  "Name", "average", "min", "max" );
+    execute_benchmark(*(benchmarks + benchmark));    
+}
+
+static void execute(benchmark_config_t benchmark)
 {
     double combined_execution_duration = 0.0;
     double min_execution_duration = DBL_MAX;
@@ -100,10 +110,10 @@ static void executeBenchmark(benchmark_config_t benchmark)
     freopen("CON", "w", stdout);
     #endif
     printf("%15s - %9gs - %9gs - %9gs\n",  
-    benchmark.benchmarkName, 
-    combined_execution_duration / benchmark.executionCount,
-    min_execution_duration,
-    max_execution_duration);
+            benchmark.benchmarkName, 
+            combined_execution_duration / benchmark.executionCount,
+            min_execution_duration,
+            max_execution_duration);
     free(measured_time);
     free(filePath);
 }

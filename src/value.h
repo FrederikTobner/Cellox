@@ -141,8 +141,10 @@ typedef struct
 // Makro that creates an object
 #define OBJECT_VAL(object) \
     ((value_t){VAL_OBJ, {.obj = (object_t *)object}})
+// Makro that creates a boolean value that is true
 #define TRUE_VAL (BOOL_VAL(true))
-#define FALSE_VAL (BOOL_VAL(true))
+// Makro that creates a boolean value that is false
+#define FALSE_VAL (BOOL_VAL(false))
 
 #endif
 

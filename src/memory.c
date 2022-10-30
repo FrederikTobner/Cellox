@@ -118,7 +118,7 @@ static void memory_blacken_object(object_t * object)
   {
   case OBJECT_BOUND_METHOD:
   {
-    ObjectBoundMethod *bound = (ObjectBoundMethod *)object;
+    object_bound_method_t *bound = (object_bound_method_t *)object;
     memory_mark_value(bound->receiver);
     memory_mark_object((object_t *)bound->method);
     break;
@@ -172,7 +172,7 @@ static void memory_free_object(object_t *object)
   switch (object->type)
   {
   case OBJECT_BOUND_METHOD:
-    FREE(ObjectBoundMethod, object);
+    FREE(object_bound_method_t, object);
     break;
   case OBJECT_CLASS:
   {

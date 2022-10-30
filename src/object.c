@@ -61,9 +61,9 @@ object_string_t *object_copy_string(char const * chars, uint32_t length, bool re
     return object_allocate_string(heapChars, strlen(heapChars), hash);
 }
 
-ObjectBoundMethod * object_new_bound_method(value_t receiver, object_closure_t * method)
+object_bound_method_t * object_new_bound_method(value_t receiver, object_closure_t * method)
 {
-    ObjectBoundMethod * bound = ALLOCATE_OBJECT(ObjectBoundMethod, OBJECT_BOUND_METHOD);
+    object_bound_method_t * bound = ALLOCATE_OBJECT(object_bound_method_t, OBJECT_BOUND_METHOD);
     bound->receiver = receiver;
     bound->method = method;
     return bound;

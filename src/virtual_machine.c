@@ -46,8 +46,7 @@ void vm_init()
     virtualMachine.objects = NULL;
     virtualMachine.bytesAllocated = 0;
     virtualMachine.nextGC = (1 << 20);
-    virtualMachine.grayCount = 0u;
-    virtualMachine.grayCapacity = 0u;
+    virtualMachine.grayCount = virtualMachine.grayCapacity = 0u;
     virtualMachine.grayStack = NULL;
     // Initializes the hashtable that contains the global variables
     table_init(&virtualMachine.globals);
@@ -61,10 +60,11 @@ void vm_init()
 
 static void vm_define_natives()
 {
-    size_t upperBound = native_get_function_count();
+    
     native_function_config_t * configs = native_get_function_configs();
-    for (size_t i = 0; i < upperBound; i++)
-        vm_define_native(configs[i].functionName, configs[i].function);
+    native_function_config_t * upperBound = configs + native_get_function_count();
+    for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound; nativeFunctionPointer++)
+        vm_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
 }
 
 interpret_result_t vm_interpret(char const *source)
@@ -100,7 +100,7 @@ static bool vm_bind_method(object_class_t * celloxClass, object_string_t * name)
         vm_runtime_error("Undefined property '%s'.", name->chars);
         return false;
     }
-    ObjectBoundMethod *bound = object_new_bound_method(vm_peek(0), AS_CLOSURE(method));
+    object_bound_method_t *bound = object_new_bound_method(vm_peek(0), AS_CLOSURE(method));
     vm_pop();
     vm_push(OBJECT_VAL(bound));
     return true;
@@ -136,7 +136,7 @@ static bool vm_call_value(value_t callee, uint32_t argCount)
         {
         case OBJECT_BOUND_METHOD:
         {
-            ObjectBoundMethod *bound = AS_BOUND_METHOD(callee);
+            object_bound_method_t *bound = AS_BOUND_METHOD(callee);
             virtualMachine.stackTop[-argCount - 1] = bound->receiver;
             return vm_call(bound->method, argCount);
         }
@@ -176,13 +176,13 @@ static object_upvalue_t *vm_capture_upvalue(value_t * local)
 {
     object_upvalue_t *prevUpvalue = NULL;
     object_upvalue_t *upvalue = virtualMachine.openUpvalues;
-    while (upvalue != NULL && upvalue->location > local)
+    while (upvalue && upvalue->location > local)
     {
         prevUpvalue = upvalue;
         upvalue = upvalue->next;
     }
 
-    if (upvalue != NULL && upvalue->location == local)
+    if (upvalue && upvalue->location == local)
         return upvalue;
     object_upvalue_t *createdUpvalue = object_new_upvalue(local);
     createdUpvalue->next = upvalue;
@@ -200,7 +200,7 @@ static object_upvalue_t *vm_capture_upvalue(value_t * local)
  */
 static void vm_close_upvalues(value_t * last)
 {
-    while (virtualMachine.openUpvalues != NULL && virtualMachine.openUpvalues->location >= last)
+    while (virtualMachine.openUpvalues && virtualMachine.openUpvalues->location >= last)
     {
         object_upvalue_t *upvalue = virtualMachine.openUpvalues;
         upvalue->closed = *upvalue->location;
@@ -421,8 +421,8 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
             if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
             {
-                int b = AS_NUMBER(vm_pop());
-                int a = AS_NUMBER(vm_pop());
+                double b = AS_NUMBER(vm_pop());
+                double a = AS_NUMBER(vm_pop());
                 vm_push(NUMBER_VAL(pow(a, b)));
             }
             else
@@ -708,14 +708,10 @@ static void vm_runtime_error(char const * format, ...)
         object_function_t *function = frame->closure->function;
         size_t instruction = frame->ip - function->chunk.code - 1;
         fprintf(stderr, "[line %d] in ", function->chunk.lines[instruction]);
-        if (function->name == NULL)
-        {
+        if (!function->name)
             fprintf(stderr, "script\n");
-        }
         else
-        {
             fprintf(stderr, "%s()\n", function->name->chars);
-        }
     }
     vm_reset_stack();
 }

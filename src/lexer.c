@@ -35,8 +35,7 @@ static token_t string();
 
 void lexer_init(char const * source)
 {
-    lexer.start = source;
-    lexer.current = source;
+    lexer.start = lexer.current = source;
     lexer.line = 1u;
 }
 
@@ -123,14 +122,11 @@ token_t scan_token()
     case ':':
         return lexer_make_token(TOKEN_DOUBLEDOT);
     case '<':
-        return lexer_make_token(
-            lexer_match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
+        return lexer_make_token(lexer_match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
     case '>':
-        return lexer_make_token(
-            lexer_match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
+        return lexer_make_token(lexer_match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
     case '%':
-        return lexer_make_token(
-            lexer_match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
+        return lexer_make_token(lexer_match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
     case '|':
         return lexer_match('|') ? lexer_make_token(TOKEN_OR) : lexer_error_token("There is no bitwise or in cellox");
     case '&':
