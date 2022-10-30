@@ -176,6 +176,309 @@ static void compiler_var_declaration();
 static void compiler_variable(bool);
 static void compiler_while_statement();
 
+/* ParseRules for the language
+ * Prefix - at the beginning of a statement
+ * Infix - in the middle/end of a statement
+ * precedence - precedence of the statement (* has for example a higher precendence than +)
+*/
+static parse_rule_t rules[] = 
+{
+    [TOKEN_AND] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_and, 
+        .precedence = PREC_AND
+    },
+    [TOKEN_BANG] =
+    { 
+        .prefix = compiler_unary, 
+        .infix = NULL, 
+        .precedence = PREC_UNARY
+    },
+    [TOKEN_BANG_EQUAL] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_EQUALITY
+    },
+    [TOKEN_CLASS] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_COMMA] =
+    { 
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_DOT] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_dot, 
+        .precedence = PREC_CALL
+    },
+    [TOKEN_EOF] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_ELSE] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_EQUAL] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_ASSIGNMENT
+    },
+    [TOKEN_EQUAL_EQUAL] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_EQUALITY
+    },
+    [TOKEN_ERROR] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_FALSE] =
+    {
+        .prefix = compiler_literal, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_FOR] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_FUN] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_GREATER] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_COMPARISON
+    },
+    [TOKEN_GREATER_EQUAL] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_COMPARISON
+    },
+    [TOKEN_IDENTIFIER] =
+    {
+        .prefix = compiler_variable, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_IF] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_LEFT_BRACE] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_LEFT_PAREN] =
+    {
+        .prefix = compiler_grouping, 
+        .infix = compiler_call, 
+        .precedence = PREC_CALL
+    },
+    [TOKEN_LEFT_BRACKET] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_index_of, 
+        .precedence = PREC_CALL
+    },
+    [TOKEN_LESS] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_COMPARISON
+    },
+    [TOKEN_LESS_EQUAL] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_COMPARISON
+    },
+    [TOKEN_MODULO] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_FACTOR
+    },
+    [TOKEN_MODULO_EQUAL] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_ASSIGNMENT
+    },
+    [TOKEN_MINUS] =
+    {
+        .prefix = compiler_unary, 
+        .infix = compiler_binary, 
+        .precedence = PREC_TERM
+    },
+    [TOKEN_MINUS_EQUAL] =
+    {
+        .prefix = NULL,
+        .infix = NULL,
+        .precedence = PREC_ASSIGNMENT
+    },
+    [TOKEN_NULL] =
+    {
+        .prefix = compiler_literal, 
+        .infix = NULL,
+        .precedence = PREC_NONE
+    },
+    [TOKEN_NUMBER] =
+    {
+        .prefix = compiler_number,
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_PLUS] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_TERM
+    },
+    [TOKEN_PLUS_EQUAL] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_ASSIGNMENT
+    },
+    [TOKEN_OR] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_or, 
+        .precedence = PREC_OR
+    },
+    [TOKEN_PRINT] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_RETURN] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_RIGHT_BRACE] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_RIGHT_PAREN] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_RIGHT_BRACKET] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_SEMICOLON] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_SLASH] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_FACTOR
+    },
+    [TOKEN_SLASH_EQUAL] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_ASSIGNMENT
+    },
+    [TOKEN_STAR] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_FACTOR
+    },
+    [TOKEN_STAR_EQUAL] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_ASSIGNMENT
+    },
+    [TOKEN_STAR_STAR] =
+    {
+        .prefix = NULL, 
+        .infix = compiler_binary, 
+        .precedence = PREC_FACTOR
+    },
+    [TOKEN_STRING] =
+    {
+        .prefix = compiler_string, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_SUPER] =
+    {
+        .prefix = compiler_super, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_THIS] =
+    {
+        .prefix = compiler_this, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_TRUE] =
+    {
+        .prefix = compiler_literal, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_VAR] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_WHILE] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    }
+};
+
 object_function_t * compiler_compile(char const * source)
 {
     lexer_init(source);
@@ -200,63 +503,6 @@ void compiler_mark_roots()
         compiler = compiler->enclosing;
     }
 }
-
-/* ParseRules for the language
- * Prefix - at the beginning of a statement
- * Infix - in the middle/end of a statement
- * precedence_t
-*/
-parse_rule_t rules[] = {
-    [TOKEN_AND] = {NULL, compiler_and, PREC_AND},
-    [TOKEN_BANG] = {compiler_unary, NULL, PREC_UNARY},
-    [TOKEN_BANG_EQUAL] = {NULL, compiler_binary, PREC_EQUALITY},
-    [TOKEN_CLASS] = {NULL, NULL, PREC_NONE},
-    [TOKEN_COMMA] = {NULL, NULL, PREC_NONE},
-    [TOKEN_DOT] = {NULL, compiler_dot, PREC_CALL},
-    [TOKEN_EOF] = {NULL, NULL, PREC_NONE},
-    [TOKEN_ELSE] = {NULL, NULL, PREC_NONE},
-    [TOKEN_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
-    [TOKEN_EQUAL_EQUAL] = {NULL, compiler_binary, PREC_EQUALITY},
-    [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
-    [TOKEN_FALSE] = {compiler_literal, NULL, PREC_NONE},
-    [TOKEN_FOR] = {NULL, NULL, PREC_NONE},
-    [TOKEN_FUN] = {NULL, NULL, PREC_NONE},
-    [TOKEN_GREATER] = {NULL, compiler_binary, PREC_COMPARISON},
-    [TOKEN_GREATER_EQUAL] = {NULL, compiler_binary, PREC_COMPARISON},
-    [TOKEN_IDENTIFIER] = {compiler_variable, NULL, PREC_NONE},
-    [TOKEN_IF] = {NULL, NULL, PREC_NONE},
-    [TOKEN_LEFT_BRACE] = {NULL, NULL, PREC_NONE},
-    [TOKEN_LEFT_PAREN] = {compiler_grouping, compiler_call, PREC_CALL},
-    [TOKEN_LEFT_BRACKET] = {NULL, compiler_index_of, PREC_CALL},
-    [TOKEN_LESS] = {NULL, compiler_binary, PREC_COMPARISON},
-    [TOKEN_LESS_EQUAL] = {NULL, compiler_binary, PREC_COMPARISON},
-    [TOKEN_MODULO] = {NULL, compiler_binary, PREC_FACTOR},
-    [TOKEN_MODULO_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
-    [TOKEN_MINUS] = {compiler_unary, compiler_binary, PREC_TERM},
-    [TOKEN_MINUS_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
-    [TOKEN_NULL] = {compiler_literal, NULL, PREC_NONE},
-    [TOKEN_NUMBER] = {compiler_number, NULL, PREC_NONE},
-    [TOKEN_PLUS] = {NULL, compiler_binary, PREC_TERM},
-    [TOKEN_PLUS_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
-    [TOKEN_OR] = {NULL, compiler_or, PREC_OR},
-    [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
-    [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
-    [TOKEN_RIGHT_BRACE] = {NULL, NULL, PREC_NONE},
-    [TOKEN_RIGHT_PAREN] = {NULL, NULL, PREC_NONE},
-    [TOKEN_RIGHT_BRACKET] = {NULL, NULL, PREC_NONE},
-    [TOKEN_SEMICOLON] = {NULL, NULL, PREC_NONE},
-    [TOKEN_SLASH] = {NULL, compiler_binary, PREC_FACTOR},
-    [TOKEN_SLASH_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
-    [TOKEN_STAR] = {NULL, compiler_binary, PREC_FACTOR},
-    [TOKEN_STAR_EQUAL] = {NULL, NULL, PREC_ASSIGNMENT},
-    [TOKEN_STAR_STAR] = {NULL, compiler_binary, PREC_FACTOR},
-    [TOKEN_STRING] = {compiler_string, NULL, PREC_NONE},
-    [TOKEN_SUPER] = {compiler_super, NULL, PREC_NONE},
-    [TOKEN_THIS] = {compiler_this, NULL, PREC_NONE},
-    [TOKEN_TRUE] = {compiler_literal, NULL, PREC_NONE},
-    [TOKEN_VAR] = {NULL, NULL, PREC_NONE},
-    [TOKEN_WHILE] = {NULL, NULL, PREC_NONE},
-};
 
 // Adds a new local variable to the stack
 static void compiler_add_local(token_t name)

@@ -28,8 +28,7 @@ void chunk_free(chunk_t * chunk)
 // Initializes a chunk
 void chunk_init(chunk_t * chunk)
 {
-  chunk->count = 0;
-  chunk->capacity = 0;
+  chunk->count = chunk->capacity = 0;
   chunk->code = NULL;
   chunk->lines = NULL;
   dynamic_array_init(&chunk->constants);

@@ -20,8 +20,7 @@ void table_free(table_t * table)
 
 void table_init(table_t * table)
 {
-    table->count = 0;
-    table->capacity = 0;
+    table->count = table->capacity = 0;
     table->entries = NULL;
 }
 
@@ -74,7 +73,7 @@ object_string_t * table_find_string(table_t * table, char const * chars, uint32_
             if (IS_NULL(entry->value))
                 return NULL;
         }
-        else if (entry->key->length == length && entry->key->hash == hash && memcmp(entry->key->chars, chars, length) == 0)
+        else if (entry->key->length == length && entry->key->hash == hash && !memcmp(entry->key->chars, chars, length))
             return entry->key; // We found the string
         // We look in the next bucket but eventually we also have to wrap around the array when we reach the end
         index = (index + 1) % table->capacity;

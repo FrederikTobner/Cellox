@@ -34,7 +34,7 @@
 
 //// Makro that gets the value of an object as a bound method
 #define AS_BOUND_METHOD(value) \
-    ((ObjectBoundMethod *)AS_OBJECT(value))
+    ((object_bound_method_t *)AS_OBJECT(value))
 // Makro that gets the value of an object as a cellox class instance
 #define AS_INSTANCE(value) \
     ((object_instance_t *)AS_OBJECT(value))
@@ -183,13 +183,13 @@ typedef struct
     object_t obj;
     value_t receiver;
     object_closure_t * method;
-} ObjectBoundMethod;
+} object_bound_method_t;
 
 // Copys the value of a string in the hashtable of the virtualMachine
 object_string_t * object_copy_string(char const *chars, uint32_t length, bool removeBackSlash);
 
 // Creates a new bound method
-ObjectBoundMethod * object_new_bound_method(value_t receiver, object_closure_t *method);
+object_bound_method_t * object_new_bound_method(value_t receiver, object_closure_t *method);
 
 // Creates a new class in cellox
 object_class_t * object_new_class(object_string_t *name);

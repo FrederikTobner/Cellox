@@ -83,9 +83,16 @@ static void init_repl()
 {
     // Used to store the next line that read from input
     char line[MAX_LINE_LENGTH];
+    printf("   _____     _ _           \n\
+  / ____|   | | |          \n\
+ | |     ___| | | _____  __\n\
+ | |    / _ \\ | |/ _ \\ \\/ /\n\
+ | |___|  __/ | | (_) >  < \n\
+  \\_____\\___|_|_|\\___/_/\\_\\\n");
+  
+//The cellox_config.h.in file is not configured by cmake for the benchmarks and tests
 #ifndef CELLOX_TESTS_RUNNING
 #ifndef BENCHMARKS_RUNNING
-    printf("   _____     _ _           \n  / ____|   | | |          \n | |     ___| | | _____  __\n | |    / _ \\ | |/ _ \\ \\/ /\n | |___|  __/ | | (_) >  < \n  \\_____\\___|_|_|\\___/_/\\_\\\n");
     printf("\t\t Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
 #endif
 #endif

@@ -1,7 +1,7 @@
 #include "benchmark.h"
 
-int main(int argc, char const *argv[])
+int main(int argc, char const ** argv)
 {
-    executeBenchmarks();
+    benchmark_execute(BENCHMARK_NEGATE);
     return 0;
 }

@@ -13,8 +13,7 @@ void dynamic_array_free(dynamic_array_t * array)
 void dynamic_array_init(dynamic_array_t * array)
 {
     array->values = NULL;
-    array->capacity = 0u;
-    array->count = 0u;
+    array->count = array->capacity = 0u;
 }
 
 void dynamic_array_write(dynamic_array_t * array, value_t value)
