@@ -2,6 +2,6 @@
 
 int main(int argc, char const ** argv)
 {
-    execute_benchmark(BENCHMARK_NEGATE);
+    benchmark_execute(BENCHMARK_NEGATE);
     return 0;
 }

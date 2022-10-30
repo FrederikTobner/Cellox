@@ -50,13 +50,13 @@ void benchmark_execute_all_benchmarks()
     printf("%15s - %10s - %10s - %10s\n",  "Name", "average", "min", "max" );
     size_t benchmarkCount = sizeof(benchmarks) / sizeof(*benchmarks);
     for (size_t i = 0; i < benchmarkCount; i++)
-        execute_benchmark(*(benchmarks + i));    
+        execute(*(benchmarks + i));    
 }
 
 void benchmark_execute(benchmark_t benchmark)
 {
     printf("%15s - %10s - %10s - %10s\n",  "Name", "average", "min", "max" );
-    execute_benchmark(*(benchmarks + benchmark));    
+    execute(*(benchmarks + benchmark));    
 }
 
 static void execute(benchmark_config_t benchmark)
