@@ -15,7 +15,7 @@ set(CELLOXSOURCES
 ${SOURCEPATH}chunk.c
 ${SOURCEPATH}compiler.c
 ${SOURCEPATH}compiler.h
-${SOURCEPATH}dynamic_array.c
+${SOURCEPATH}dynamic_value_array.c
 ${SOURCEPATH}debug.c
 ${SOURCEPATH}init.c 
 ${SOURCEPATH}lexer.c
@@ -32,7 +32,7 @@ ${SOURCEPATH}virtual_machine.c
 set(CELLOXHEADERS
 ${SOURCEPATH}chunk.h
 ${SOURCEPATH}compiler.h
-${SOURCEPATH}dynamic_array.h
+${SOURCEPATH}dynamic_value_array.h
 ${SOURCEPATH}debug.h
 ${SOURCEPATH}init.h
 ${SOURCEPATH}lexer.h

@@ -12,4 +12,4 @@ class B : A
 }
 
 var a = B();
-a.Greet(); // expect "hello"
+a.Greet();

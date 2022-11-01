@@ -1,0 +1,9 @@
+class Foo 
+{
+    init(value)
+    {
+        this.value = value;
+    }
+}
+
+Foo(10).value();

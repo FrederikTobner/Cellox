@@ -15,12 +15,12 @@
 // Offset basic for the fowler-noll-vo hash-fuction - 2166136261
 #define OFFSET_BASIS 0x811c9dc5u
 
-static object_t *object_allocate_object(size_t, object_type_t);
-static object_string_t *object_allocate_string(char *, uint32_t, uint32_t);
+static object_t * object_allocate_object(size_t, object_type_t);
+static object_string_t * object_allocate_string(char *, uint32_t, uint32_t);
 static uint32_t object_hash_string(char const *, uint32_t);
 static void object_print_function(object_function_t *);
 
-object_string_t *object_copy_string(char const * chars, uint32_t length, bool removeBackSlash)
+object_string_t * object_copy_string(char const * chars, uint32_t length, bool removeBackSlash)
 {
     uint32_t hash;
     object_string_t * interned;
@@ -69,7 +69,7 @@ object_bound_method_t * object_new_bound_method(value_t receiver, object_closure
     return bound;
 }
 
-object_class_t *object_new_class(object_string_t *name)
+object_class_t * object_new_class(object_string_t *name)
 {
     object_class_t * celloxClass = ALLOCATE_OBJECT(object_class_t, OBJECT_CLASS);
     celloxClass->name = name;
@@ -213,7 +213,7 @@ static object_string_t * object_allocate_string(char * chars, uint32_t length, u
 static object_t * object_allocate_object(size_t size, object_type_t type)
 {
     // Allocates the memory used by the Object
-    object_t *object = (object_t *)memory_reallocate(NULL, 0, size);
+    object_t * object = (object_t *)memory_reallocate(NULL, 0, size);
     // Sets the type of the object
     object->type = type;
     // Disables mark so it is picked up by the Garbage Collection in the next cycle

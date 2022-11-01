@@ -23,6 +23,5 @@ TEST(LiteralExpressions, Strings)
     #endif
     #ifdef linux
         test_cellox_program("literalExpressions/strings.clx", "\na\nA\n123\n!\"$%&/()=?\n1\n2\n3\n");
-    #endif
-    
+    #endif 
 }

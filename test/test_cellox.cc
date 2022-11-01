@@ -26,8 +26,8 @@ static void test_program(std::string const & programPath, std::string const & ex
     *(args + 1) = filePath.c_str();
     
     /* Redirect output */
-    char actual_output [4096];
-    for (size_t i = 0; i < 4096; i++)
+    char actual_output [16384];
+    for (size_t i = 0; i < 16384; i++)
         actual_output[i] = '\0';
     if(producesError)
     {

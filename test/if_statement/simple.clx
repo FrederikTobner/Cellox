@@ -1,0 +1,9 @@
+if (true) print "yes";
+if (false) print "no";
+
+
+if (true) { 
+    print "block"; 
+}
+var a = false;
+if (a = true) print a;

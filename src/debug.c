@@ -7,7 +7,7 @@
 
 static int32_t debug_byte_instruction(char const *, chunk_t *, int32_t);
 static int32_t debug_constant_instruction(char const *, chunk_t *, int32_t);
-static int debug_invoke_instruction(char const *, chunk_t *, int);
+static int debug_invoke_instruction(char const *, chunk_t *, int32_t);
 static int32_t debug_jump_instruction(char const *, int32_t, chunk_t *, int32_t);
 static int32_t debug_simple_instruction(char const *, int32_t);
 
@@ -152,7 +152,7 @@ static int32_t debug_constant_instruction(char const * name, chunk_t * chunk, in
 }
 
 // Dissasembles a invoke instruction
-static int debug_invoke_instruction(char const * name, chunk_t * chunk, int offset)
+static int debug_invoke_instruction(char const * name, chunk_t * chunk, int32_t offset)
 {
   uint8_t constant = *(chunk->code + offset + 1);
   uint8_t argCount = *(chunk->code + offset + 2);
@@ -171,7 +171,7 @@ static int32_t debug_jump_instruction(char const * name, int32_t sign, chunk_t *
   return offset + 3;
 }
 
-// Dissasembles a return instruction - OP_RETURN
+// Dissasembles a simple instruction
 static int32_t debug_simple_instruction(char const * name, int32_t offset)
 {
   printf("%s\n", name);

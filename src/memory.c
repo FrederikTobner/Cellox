@@ -13,7 +13,7 @@
 
 static void memory_blacken_object(object_t *);
 static void memory_free_object(object_t *);
-static void memory_mark_array(dynamic_array_t *);
+static void memory_mark_array(dynamic_value_array_t *);
 static void memory_mark_roots();
 static void memory_sweep();
 static void memory_trace_references();
@@ -50,9 +50,9 @@ void memory_free_objects()
   free(virtualMachine.grayStack);
 }
 
-void memory_mark_object(object_t *object)
+void memory_mark_object(object_t * object)
 {
-  if (object == NULL)
+  if (!object)
     return;
   // Object is already marked, so we don't need to mark it again
   if (object->isMarked)
@@ -68,7 +68,7 @@ void memory_mark_object(object_t *object)
     virtualMachine.grayCapacity = GROW_CAPACITY(virtualMachine.grayCapacity);
     virtualMachine.grayStack = (object_t **)realloc(virtualMachine.grayStack, sizeof(object_t *) * virtualMachine.grayCapacity);
   }
-  if (virtualMachine.grayStack == NULL)
+  if (!virtualMachine.grayStack)
     exit(1);
   virtualMachine.grayStack[virtualMachine.grayCount++] = object;
 }
@@ -80,7 +80,7 @@ void memory_mark_value(value_t value)
 }
 
 // Helper method for reallocating the memory used by a dynamic Array
-void * memory_reallocate(void *pointer, size_t oldSize, size_t newSize)
+void *memory_reallocate(void * pointer, size_t oldSize, size_t newSize)
 {
   virtualMachine.bytesAllocated += newSize - oldSize;
   if (newSize > oldSize)
@@ -91,14 +91,14 @@ void * memory_reallocate(void *pointer, size_t oldSize, size_t newSize)
     if (virtualMachine.bytesAllocated > virtualMachine.nextGC)
       memory_collect_garbage();
   }
-  if (newSize == 0)
+  if (!newSize)
   {
     free(pointer);
     return NULL;
   }
 
   void *result = realloc(pointer, newSize);
-  if (result == NULL)
+  if (!result)
   {
     fprintf(stderr, "Failed too allocate memory");
     exit(70);
@@ -118,14 +118,14 @@ static void memory_blacken_object(object_t * object)
   {
   case OBJECT_BOUND_METHOD:
   {
-    object_bound_method_t *bound = (object_bound_method_t *)object;
+    object_bound_method_t * bound = (object_bound_method_t *)object;
     memory_mark_value(bound->receiver);
     memory_mark_object((object_t *)bound->method);
     break;
   }
   case OBJECT_CLASS:
   {
-    object_class_t *celloxClass = (object_class_t *)object;
+    object_class_t * celloxClass = (object_class_t *)object;
     memory_mark_object((object_t *)celloxClass->name);
     table_mark(&celloxClass->methods);
     break;
@@ -164,7 +164,7 @@ static void memory_blacken_object(object_t * object)
 }
 
 // Dealocates the memomory used by the object
-static void memory_free_object(object_t *object)
+static void memory_free_object(object_t * object)
 {
 #ifdef DEBUG_LOG_GC
   printf("freed object %p of the type %d\n", (void *)object, object->type);
@@ -219,7 +219,7 @@ static void memory_free_object(object_t *object)
 }
 
 // Marks all the values in an array
-static void memory_mark_array(dynamic_array_t * array)
+static void memory_mark_array(dynamic_value_array_t * array)
 {
   for (int32_t i = 0; i < array->count; i++)
     memory_mark_value(array->values[i]);
@@ -251,7 +251,7 @@ static void memory_sweep()
 {
   object_t * previous = NULL;
   object_t * object = virtualMachine.objects;
-  while (object != NULL)
+  while (object)
   {
     if (object->isMarked)
     {
@@ -276,9 +276,9 @@ static void memory_sweep()
 // Traces all the references that the objects of the virtualMachine contain
 static void memory_trace_references()
 {
-  while (virtualMachine.grayCount > 0)
+  while (virtualMachine.grayCount)
   {
-    object_t *object = virtualMachine.grayStack[--virtualMachine.grayCount];
+    object_t * object = virtualMachine.grayStack[--virtualMachine.grayCount];
     memory_blacken_object(object);
   }
 }

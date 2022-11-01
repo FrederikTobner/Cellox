@@ -15,29 +15,54 @@ typedef struct
     size_t executionCount;
 }benchmark_config_t;
 
-static benchmark_config_t benchmarks[] = {
+static benchmark_config_t benchmarks[] = 
+{
+    [BENCHMARK_EQUALITY] =
+    {
+        .benchmarkName = "Equality",
+        .benchmarkFileName = "Equality.clx",
+        .executionCount = 3
+    },
     [BENCHMARK_FIBONACCI] =
     {
         .benchmarkName = "Fibonacci",
-        .benchmarkFileName = "FibonacciBenchmark.clx",
+        .benchmarkFileName = "Fibonacci.clx",
         .executionCount = 3
     },
     [BENCHMARK_INSTANTIATION] =
     {
         .benchmarkName = "Instantiation",
-        .benchmarkFileName = "InstantiationBenchmark.clx",
+        .benchmarkFileName = "Instantiation.clx",
+        .executionCount = 3
+    },
+    [BENCHMARK_METHOD_CALL] =
+    {
+        .benchmarkName = "Method Call",
+        .benchmarkFileName = "MethodCall.clx",
         .executionCount = 3
     },
     [BENCHMARK_NEGATE] =
     {
         .benchmarkName = "Negate",
-        .benchmarkFileName = "NegateBenchmark.clx",
+        .benchmarkFileName = "Negate.clx",
+        .executionCount = 3
+    },
+    [BENCHMARK_PROPERTIES] =
+    {
+        .benchmarkName = "Properties",
+        .benchmarkFileName = "Properties.clx",
+        .executionCount = 3
+    },
+    [BENCHMARK_STRING_EQUALITY] =
+    {
+        .benchmarkName = "String Equality",
+        .benchmarkFileName = "StringEquality.clx",
         .executionCount = 3
     },
     [BENCHMARK_ZOO] =
     {
         .benchmarkName = "Zoo",
-        .benchmarkFileName = "ZooBenchmark.clx",
+        .benchmarkFileName = "Zoo.clx",
         .executionCount = 3
     }
 };

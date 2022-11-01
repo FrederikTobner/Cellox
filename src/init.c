@@ -53,7 +53,7 @@ static char * init_read_file(char const * path)
 {
     // Opens a file of a nonspecified format (b) in read mode (r)
     FILE * file = fopen(path, "rb");
-    if (file == NULL)
+    if (!file)
     {
         fprintf(stderr, "Could not open file \"%s\".\n", path);
         exit(74);
@@ -62,7 +62,7 @@ static char * init_read_file(char const * path)
     size_t fileSize = ftell(file);
     rewind(file);
     char * buffer = (char *)malloc(fileSize + 1);
-    if (buffer == NULL)
+    if (!buffer)
     {
         fprintf(stderr, "Not enough memory to read \"%s\".\n", path);
         exit(74);

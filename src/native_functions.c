@@ -27,7 +27,7 @@ typedef enum
     NATIVE_FUNCTION_READ_LINE,
     NATIVE_FUNCTION_STRLEN,
     NATIVE_FUNCTION_SYSTEM,
-    NATIVE_FUNCTION_WAIT,
+    NATIVE_FUNCTION_WAIT
 }native_functions_t;
 
 native_function_config_t native_function_configs [] = 

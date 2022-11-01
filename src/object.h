@@ -186,31 +186,31 @@ typedef struct
 } object_bound_method_t;
 
 // Copys the value of a string in the hashtable of the virtualMachine
-object_string_t * object_copy_string(char const *chars, uint32_t length, bool removeBackSlash);
+object_string_t * object_copy_string(char const * chars, uint32_t length, bool removeBackSlash);
 
 // Creates a new bound method
-object_bound_method_t * object_new_bound_method(value_t receiver, object_closure_t *method);
+object_bound_method_t * object_new_bound_method(value_t receiver, object_closure_t * method);
 
 // Creates a new class in cellox
-object_class_t * object_new_class(object_string_t *name);
+object_class_t * object_new_class(object_string_t * name);
 
 // Creates a new Closure
-object_closure_t * object_new_closure(object_function_t *function);
+object_closure_t * object_new_closure(object_function_t * function);
 
 // Creates a new cellox function
 object_function_t * object_new_function();
 
 // Creates a new cellox class instance
-object_instance_t * object_new_instance(object_class_t *celloxClass);
+object_instance_t * object_new_instance(object_class_t * celloxClass);
 
 // Creates a new native function
 object_native_t * object_new_native(native_function_t function);
 
 // Takes a string from the hashtable of the virtualMachine and returns it
-object_string_t * object_take_string(char *chars, uint32_t length);
+object_string_t * object_take_string(char * chars, uint32_t length);
 
 // Creates a new upvalue
-object_upvalue_t * object_new_upvalue(value_t *slot);
+object_upvalue_t * object_new_upvalue(value_t * slot);
 
 // Prints the object
 void object_print(value_t value);
