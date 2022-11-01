@@ -1,7 +1,8 @@
 fun revstr(src)
 {
     var reversed = "";
-    for(var i = 0; i < strlen(src); i += 1) reversed += src[strlen(src) - i - 1];
+    var length = strlen(src);
+    for(var i = 0; i < length; i += 1) reversed += src[length - i - 1];
     return reversed;
 }
 

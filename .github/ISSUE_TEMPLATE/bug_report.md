@@ -11,7 +11,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **Program**
-code that reproduces the behavior:
+Code that reproduces the behavior:
 
 ```
 // Add program here

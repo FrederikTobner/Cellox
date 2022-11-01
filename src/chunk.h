@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "value.h"
-#include "dynamic_array.h"
+#include "dynamic_value_array.h"
 
 // opcodes of the bytecode instruction set
 typedef enum
@@ -103,7 +103,7 @@ typedef struct
     // Stores line information to the corresponding lox program
     uint32_t * lines;
     // Constants stored in the chunk
-    dynamic_array_t constants;
+    dynamic_value_array_t constants;
 } chunk_t;
 
 // Adds a constant to the chunk

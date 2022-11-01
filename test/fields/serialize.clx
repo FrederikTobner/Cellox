@@ -7,4 +7,4 @@ class Foo
     }
 }
 
-print Foo(10, "test"); // expect: Foo instance
+print Foo(10, "test");

@@ -509,7 +509,7 @@ static void compiler_add_local(token_t name)
 {
     if (current->localCount == UINT8_COUNT)
     {
-        // We can only have 256 objects on the stack 😔
+        // We can only have 255 objects on the stack 😔
         compiler_error("Too many local variables in function.");
         return;
     }
@@ -1020,7 +1020,7 @@ static bool compiler_identifiers_equal(token_t * a, token_t * b)
 {
     if (a->length != b->length)
         return false;
-    return memcmp(a->start, b->start, a->length) == 0;
+    return !memcmp(a->start, b->start, a->length);
 }
 
 // Compiles an if-statement
@@ -1052,7 +1052,7 @@ static void compiler_init(compiler_t * compiler, function_type_t type)
     current = compiler;
     if (type != TYPE_SCRIPT)
         current->function->name = object_copy_string(parser.previous.start, parser.previous.length, false);
-    local_t *local = &current->locals[current->localCount++];
+    local_t * local = &current->locals[current->localCount++];
     local->depth = 0;
     local->isCaptured = false;
     if (type != TYPE_FUNCTION)
@@ -1100,7 +1100,7 @@ static void compiler_literal(bool canAssign)
 // Marks a variable that already has been declared as initialized
 static void compiler_mark_initialized()
 {
-    if (current->scopeDepth == 0)
+    if (!current->scopeDepth)
         return;
     current->locals[current->localCount - 1].depth = current->scopeDepth;
 }
@@ -1111,6 +1111,7 @@ static uint8_t compiler_make_constant(value_t value)
     int32_t constant = chunk_add_constant(compiler_current_chunk(), value);
     if (constant > (int32_t)UINT8_MAX)
     {
+        // A chunk can only contain 255 constants
         compiler_error("Too many constants in one chunk.");
         return 0;
     }
@@ -1132,7 +1133,7 @@ static void compiler_method()
     compiler_consume(TOKEN_IDENTIFIER, "Expect method name.");
     uint8_t constant = compiler_identifier_constant(&parser.previous);
     function_type_t type = TYPE_METHOD;
-    if (parser.previous.length == 4 && memcmp(parser.previous.start, "init", 4) == 0)
+    if (parser.previous.length == 4 && !memcmp(parser.previous.start, "init", 4))
         type = TYPE_INITIALIZER;
     compiler_function(type);
     compiler_emit_bytes(OP_METHOD, constant);
@@ -1258,7 +1259,7 @@ static void compiler_print_statement()
 }
 
 // Resolves a local variable name
-static int32_t compiler_resolve_local(compiler_t * compiler, token_t *name)
+static int32_t compiler_resolve_local(compiler_t * compiler, token_t * name)
 {
     for (int32_t i = compiler->localCount - 1; i >= 0; i--)
     {
@@ -1275,7 +1276,7 @@ static int32_t compiler_resolve_local(compiler_t * compiler, token_t *name)
 
 /* Looks for a local variable declared in any of the surrounding functions.
 If an upvalue is found it returns an upvalue index, if not -1 is returned.*/
-static int32_t compiler_resolve_upvalue(compiler_t * compiler, token_t *name)
+static int32_t compiler_resolve_upvalue(compiler_t * compiler, token_t * name)
 {
     if (compiler->enclosing == NULL)
         return -1; // not found
@@ -1397,11 +1398,12 @@ static void compiler_synchronize()
     }
 }
 
+// Creates a token out of a stream of characters
 static token_t compiler_synthetic_token(char const * text)
 {
     token_t token;
     token.start = text;
-    token.length = (int)strlen(text);
+    token.length = (uint32_t)strlen(text);
     return token;
 }
 
@@ -1449,11 +1451,11 @@ static void compiler_var_declaration()
     compiler_define_variable(global);
 }
 
-/*Compiles a variable
-* Get Global variable or
-* Set Global variable or
-* Get local_t variable or
-Set local_t variable*/
+/*
+* Compiles a variable
+* sets/gets global variable or
+* sets/gets local variable
+*/
 static void compiler_variable(bool canAssign)
 {
     compiler_named_variable(parser.previous, canAssign);
@@ -1464,6 +1466,7 @@ static void compiler_while_statement()
 {
     int32_t loopStart = compiler_current_chunk()->count;
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
+    // Compiles condition
     compiler_expression();
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
     int32_t exitJump = compiler_emit_jump(OP_JUMP_IF_FALSE);

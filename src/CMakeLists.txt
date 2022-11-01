@@ -9,7 +9,7 @@ configure_file(cellox_config.h.in cellox_config.h)
 set(HEADERS
     chunk.h
     compiler.h
-    dynamic_array.h
+    dynamic_value_array.h
     debug.h
     init.h
     lexer.h
@@ -26,7 +26,7 @@ set(SOURCES
     chunk.c
     compiler.c
     compiler.h
-    dynamic_array.c
+    dynamic_value_array.c
     debug.c
     init.c 
     lexer.c

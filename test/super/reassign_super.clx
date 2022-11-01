@@ -1,0 +1,22 @@
+class Base {
+  method() {
+    print "yes";
+  }
+}
+
+class Derived : Base {
+  method() {
+    super.method();
+  }
+}
+
+class OtherBase {
+  method() {
+    print "no";
+  }
+}
+
+var derived = Derived();
+derived.method();
+Base = OtherBase;
+derived.method();

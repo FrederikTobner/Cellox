@@ -55,9 +55,9 @@ void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)
   }
   // Writes the bytecodeintstruction to the chunk
   chunk->code[chunk->count] = byte;
-  // Adds line info from the sourceCode in case a runtime error occurs, so we can show the line in case of an error
-  chunk->lines[chunk->count] = line;
-  chunk->count++;
+/* Adds line info from the sourceCode in case a runtime error occurs, 
+   so we can show the line in case of an error and increases the counter of the chunk */
+  chunk->lines[chunk->count++] = line;
 }
 
 static bool chunk_is_full(chunk_t * chunk)

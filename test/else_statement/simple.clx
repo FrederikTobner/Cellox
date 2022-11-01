@@ -1,0 +1,5 @@
+if (true) print "yes"; else print "no";
+if (false) print "no"; else print "yes";
+
+if (false) null;
+else { print "block"; }

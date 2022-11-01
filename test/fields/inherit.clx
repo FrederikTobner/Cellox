@@ -15,4 +15,4 @@ class B : A
 }
 
 var a = B("test");
-print a.value; // expect "test"
+print a.value;

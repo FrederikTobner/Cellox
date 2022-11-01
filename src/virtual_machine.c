@@ -60,14 +60,13 @@ void vm_init()
 
 static void vm_define_natives()
 {
-    
     native_function_config_t * configs = native_get_function_configs();
     native_function_config_t * upperBound = configs + native_get_function_count();
     for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound; nativeFunctionPointer++)
         vm_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
 }
 
-interpret_result_t vm_interpret(char const *source)
+interpret_result_t vm_interpret(char const * source)
 {
     object_function_t *function = compiler_compile(source);
     if (function == NULL)
@@ -82,6 +81,9 @@ interpret_result_t vm_interpret(char const *source)
 
 void vm_push(value_t value)
 {
+    // There are  16384 values on the stack 🤯
+    if ((virtualMachine.stackTop - virtualMachine.stack) == STACK_MAX)
+        vm_runtime_error("Stack overflow!!!");
     *virtualMachine.stackTop = value;
     virtualMachine.stackTop++;
 }
@@ -121,7 +123,7 @@ static bool vm_call(object_closure_t * closure, uint32_t argCount)
         return false;
     }
 
-    call_frame_t *frame = &virtualMachine.callStack[virtualMachine.frameCount++];
+    call_frame_t * frame = &virtualMachine.callStack[virtualMachine.frameCount++];
     frame->closure = closure;
     frame->ip = closure->function->chunk.code;
     frame->slots = virtualMachine.stackTop - argCount - 1;
@@ -136,13 +138,13 @@ static bool vm_call_value(value_t callee, uint32_t argCount)
         {
         case OBJECT_BOUND_METHOD:
         {
-            object_bound_method_t *bound = AS_BOUND_METHOD(callee);
+            object_bound_method_t * bound = AS_BOUND_METHOD(callee);
             virtualMachine.stackTop[-argCount - 1] = bound->receiver;
             return vm_call(bound->method, argCount);
         }
         case OBJECT_CLASS:
         {
-            object_class_t *celloxClass = AS_CLASS(callee);
+            object_class_t * celloxClass = AS_CLASS(callee);
             virtualMachine.stackTop[-argCount - 1] = OBJECT_VAL(object_new_instance(celloxClass));
             value_t initializer;
             if (table_get(&celloxClass->methods, virtualMachine.initString, &initializer))
@@ -172,10 +174,10 @@ static bool vm_call_value(value_t callee, uint32_t argCount)
     return false;
 }
 
-static object_upvalue_t *vm_capture_upvalue(value_t * local)
+static object_upvalue_t * vm_capture_upvalue(value_t * local)
 {
-    object_upvalue_t *prevUpvalue = NULL;
-    object_upvalue_t *upvalue = virtualMachine.openUpvalues;
+    object_upvalue_t * prevUpvalue = NULL;
+    object_upvalue_t * upvalue = virtualMachine.openUpvalues;
     while (upvalue && upvalue->location > local)
     {
         prevUpvalue = upvalue;
@@ -184,7 +186,7 @@ static object_upvalue_t *vm_capture_upvalue(value_t * local)
 
     if (upvalue && upvalue->location == local)
         return upvalue;
-    object_upvalue_t *createdUpvalue = object_new_upvalue(local);
+    object_upvalue_t * createdUpvalue = object_new_upvalue(local);
     createdUpvalue->next = upvalue;
     if (!prevUpvalue)
         virtualMachine.openUpvalues = createdUpvalue;
@@ -202,8 +204,8 @@ static void vm_close_upvalues(value_t * last)
 {
     while (virtualMachine.openUpvalues && virtualMachine.openUpvalues->location >= last)
     {
-        object_upvalue_t *upvalue = virtualMachine.openUpvalues;
-        upvalue->closed = *upvalue->location;
+        object_upvalue_t * upvalue = virtualMachine.openUpvalues;
+        upvalue->closed = * upvalue->location;
         upvalue->location = &upvalue->closed;
         virtualMachine.openUpvalues = upvalue->next;
     }
@@ -212,8 +214,8 @@ static void vm_close_upvalues(value_t * last)
 // Concatenates the two upper values on the stack
 static void vm_concatenate()
 {
-    object_string_t *b = AS_STRING(vm_peek(0));
-    object_string_t *a = AS_STRING(vm_peek(1));
+    object_string_t * b = AS_STRING(vm_peek(0));
+    object_string_t * a = AS_STRING(vm_peek(1));
     uint32_t length = a->length + b->length;
     char *chars = ALLOCATE(char, length + 1u);
     memcpy(chars, a->chars, a->length);
@@ -226,7 +228,7 @@ static void vm_concatenate()
 }
 
 // Defines a new Method in the hashTable of the celloxclass instance
-static void vm_define_method(object_string_t *name)
+static void vm_define_method(object_string_t * name)
 {
     value_t method = vm_peek(0);
     object_class_t *celloxClass = AS_CLASS(vm_peek(1));
@@ -244,7 +246,7 @@ static void vm_define_native(char const * name, native_function_t function)
     vm_pop();
 }
 
-static bool vm_invoke(object_string_t *name, uint32_t argCount)
+static bool vm_invoke(object_string_t * name, uint32_t argCount)
 {
     value_t receiver = vm_peek(argCount);
     if (!IS_INSTANCE(receiver))
@@ -314,17 +316,17 @@ static interpret_result_t vm_run()
 /*Macro for creating a binary operator
 We have to embed the marco into a do while, which isn't followed by a semicolon,
 so all the statements in it get executed if they are after an if 🤮 */
-#define BINARY_OP(valueType, op)                        \
-    do                                                  \
-    {                                                   \
+#define BINARY_OP(valueType, op)                              \
+    do                                                        \
+    {                                                         \
         if (!IS_NUMBER(vm_peek(0)) || !IS_NUMBER(vm_peek(1))) \
-        {                                               \
-            vm_runtime_error("Operands must be numbers.");  \
-            return INTERPRET_RUNTIME_ERROR;             \
-        }                                               \
-        double b = AS_NUMBER(vm_pop());                    \
-        double a = AS_NUMBER(vm_pop());                    \
-        vm_push(valueType(a op b));                        \
+        {                                                     \
+            vm_runtime_error("Operands must be numbers.");    \
+            return INTERPRET_RUNTIME_ERROR;                   \
+        }                                                     \
+        double b = AS_NUMBER(vm_pop());                       \
+        double a = AS_NUMBER(vm_pop());                       \
+        vm_push(valueType(a op b));                           \
     } while (false)
 
     // Makro reads the next byte at the current positioon in the chunk
@@ -376,8 +378,8 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_CLOSURE:
         {
-            object_function_t *function = AS_FUNCTION(READ_CONSTANT());
-            object_closure_t *closure = object_new_closure(function);
+            object_function_t * function = AS_FUNCTION(READ_CONSTANT());
+            object_closure_t * closure = object_new_closure(function);
             vm_push(OBJECT_VAL(closure));
             for (uint32_t i = 0; i < closure->upvalueCount; i++)
             {
@@ -402,7 +404,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_DEFINE_GLOBAL:
         {
-            object_string_t *name = READ_STRING();
+            object_string_t * name = READ_STRING();
             table_set(&virtualMachine.globals, name, vm_peek(0));
             vm_pop();
             break;
@@ -437,7 +439,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_GET_GLOBAL:
         {
-            object_string_t *name = READ_STRING();
+            object_string_t * name = READ_STRING();
             value_t value;
             if (!table_get(&virtualMachine.globals, name, &value))
             {
@@ -452,7 +454,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             uint8_t slot = READ_BYTE();
             vm_push(frame->slots[slot]);
             break;
-        }      
+        }
         case OP_GET_PROPERTY:
         {
             if (!IS_INSTANCE(vm_peek(0)))
@@ -460,8 +462,8 @@ so all the statements in it get executed if they are after an if 🤮 */
                 vm_runtime_error("Only instances have properties.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            object_instance_t *instance = AS_INSTANCE(vm_peek(0));
-            object_string_t *name = READ_STRING();
+            object_instance_t * instance = AS_INSTANCE(vm_peek(0));
+            object_string_t * name = READ_STRING();
 
             value_t value;
             if (table_get(&instance->fields, name, &value))
@@ -480,8 +482,8 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_GET_SUPER:
         {
-            object_string_t *name = READ_STRING();
-            object_class_t *superclass = AS_CLASS(vm_pop());
+            object_string_t * name = READ_STRING();
+            object_class_t * superclass = AS_CLASS(vm_pop());
 
             if (!vm_bind_method(superclass, name))
             {
@@ -504,7 +506,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             {
                 int num = AS_NUMBER(vm_pop());
                 object_string_t * str = AS_STRING(vm_pop());
-                if(num >= str->length || num < 0)
+                if (num >= str->length || num < 0)
                 {
                     vm_runtime_error("accessed string out of bounds");
                     return INTERPRET_RUNTIME_ERROR;
@@ -531,14 +533,13 @@ so all the statements in it get executed if they are after an if 🤮 */
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_class_t *subclass = AS_CLASS(vm_peek(0));
-            table_add_all(&AS_CLASS(superclass)->methods,
-                        &subclass->methods);
+            table_add_all(&AS_CLASS(superclass)->methods, &subclass->methods);
             vm_pop(); // Subclass.
             break;
         }
         case OP_INVOKE:
         {
-            object_string_t *method = READ_STRING();
+            object_string_t * method = READ_STRING();
             int argCount = READ_BYTE();
             if (!vm_invoke(method, argCount))
             {
@@ -588,10 +589,10 @@ so all the statements in it get executed if they are after an if 🤮 */
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
-        }     
+        }
         case OP_MULTIPLY:
             BINARY_OP(NUMBER_VAL, *);
-            break;   
+            break;
         case OP_NEGATE:
             if (!IS_NUMBER(vm_peek(0)))
             {
@@ -602,7 +603,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_NOT:
             vm_push(BOOL_VAL(vm_is_falsey(vm_pop())));
-            break;    
+            break;
         case OP_NULL:
             vm_push(NULL_VAL);
             break;
@@ -652,7 +653,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 vm_runtime_error("Only instances have fields.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            object_instance_t *instance = AS_INSTANCE(vm_peek(1));
+            object_instance_t * instance = AS_INSTANCE(vm_peek(1));
             table_set(&instance->fields, READ_STRING(), vm_peek(0));
             value_t value = vm_pop();
             vm_pop();
@@ -664,15 +665,15 @@ so all the statements in it get executed if they are after an if 🤮 */
             uint8_t slot = READ_BYTE();
             *frame->closure->upvalues[slot]->location = vm_peek(0);
             break;
-        }        
+        }
         case OP_SUBTRACT:
             BINARY_OP(NUMBER_VAL, -);
             break;
         case OP_SUPER_INVOKE:
         {
-            object_string_t *method = READ_STRING();
+            object_string_t * method = READ_STRING();
             int argCount = READ_BYTE();
-            object_class_t *superclass = AS_CLASS(vm_pop());
+            object_class_t * superclass = AS_CLASS(vm_pop());
             if (!vm_invoke_from_class(superclass, method, argCount))
             {
                 return INTERPRET_RUNTIME_ERROR;
@@ -704,7 +705,7 @@ static void vm_runtime_error(char const * format, ...)
     fputs("\n", stderr);
     for (int32_t i = virtualMachine.frameCount - 1; i >= 0; i--)
     {
-        call_frame_t *frame = &virtualMachine.callStack[i];
+        call_frame_t * frame = &virtualMachine.callStack[i];
         object_function_t *function = frame->closure->function;
         size_t instruction = frame->ip - function->chunk.code - 1;
         fprintf(stderr, "[line %d] in ", function->chunk.lines[instruction]);
