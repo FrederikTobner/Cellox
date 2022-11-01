@@ -18,5 +18,10 @@ TEST(LiteralExpressions, Numbers)
 
 TEST(LiteralExpressions, Strings)
 {
-    test_cellox_program("literalExpressions/strings.clx", "\na\nA\n123\n!\"$%&/()=?\n1\n2\n3\n");   
+    #ifdef _WIN32
+        test_cellox_program("literalExpressions/strings.clx", "\na\nA\n123\n!\"$%&/()=?\n1\r\n2\r\n3\n");
+    #endif
+    #ifdef linux
+        test_cellox_program("literalExpressions/strings.clx", "\na\nA\n123\n!\"$%&/()=?\n1\n2\n3\n");
+    #endif 
 }
