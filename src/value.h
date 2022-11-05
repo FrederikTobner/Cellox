@@ -1,11 +1,14 @@
-#ifndef cellox_value_h
-#define cellox_value_h
+#ifndef CELLOX_VALUE_H_
+#define CELLOX_VALUE_H_
 
 #include <string.h>
 
 #include "common.h"
 
+/// @brief Typedefinition of a object_t
 typedef struct object_t object_t;
+
+/// @brief Typedefinition of a object_string_t
 typedef struct object_string_t object_string_t;
 
 #ifdef NAN_BOXING
@@ -64,14 +67,18 @@ typedef uint64_t value_t;
 #define OBJECT_VAL(obj) \
     (value_t)(SIGN_BIT | QNAN | (uint64_t)(uintptr_t)(obj))
 
-// Converts the value of a number to a Value using type punning
-static inline value_t numToValue(double num)
+/// @brief Converts a double to a value_t using type punning
+/// @param number The value that is converted (a double)
+/// @return A value_t
+static inline value_t numToValue(double number)
 {
     value_t value;
-    memcpy(&value, &num, sizeof(double));
+    memcpy(&value, &number, sizeof(double));
     return value;
 }
-// Converts a Value to a number using type punning
+/// @brief Converts a value_t to a double using type punning
+/// @param value The value that is converted (value_t)
+/// @return A double
 static inline double valueToNum(value_t value)
 {
     double num;
@@ -81,7 +88,7 @@ static inline double valueToNum(value_t value)
 
 #else
 
-// Type definition of the types of values that can be stored in a dynamic array
+/// @brief Type definition of the types of values that can be stored in a dynamic array
 typedef enum
 {
     // Boolean value
@@ -94,7 +101,7 @@ typedef enum
     VAL_OBJ
 } ValueType;
 
-// Type definition of a value structure that can bew either a boolean, a number or an object (e.g. a string or a cellox object)
+/// @brief Type definition of a value structure that can bew either a boolean, a number or an object (e.g. a string or a cellox object)
 typedef struct
 {
     ValueType type;
@@ -148,10 +155,14 @@ typedef struct
 
 #endif
 
-// prints a value
+/// @brief prints a value
+/// @param value The vallue that is printed
 void value_print(value_t value);
 
-// Determines whether two values are equal
+/// @brief Determines whether two values are equal
+/// @param a The first value
+/// @param b The second value
+/// @return A boolean value that indicates whether the first and the second value are equal
 bool value_values_equal(value_t a, value_t b);
 
 #endif

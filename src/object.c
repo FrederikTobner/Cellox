@@ -195,7 +195,11 @@ object_string_t * object_take_string(char * chars, uint32_t length)
     return object_allocate_string(chars, length, hash);
 }
 
-// Allocates memory to store a string
+/// @brief Creates a string allocates memory to store a string
+/// @param chars Pointer to the start of the string
+/// @param length The length of the string
+/// @param hash The hashvalue of the string
+/// @return The created string
 static object_string_t * object_allocate_string(char * chars, uint32_t length, uint32_t hash)
 {
     object_string_t * string = ALLOCATE_OBJECT(object_string_t, OBJECT_STRING);
@@ -209,7 +213,10 @@ static object_string_t * object_allocate_string(char * chars, uint32_t length, u
     return string;
 }
 
-// Allocates the memory for an object of a given type
+/// @brief Allocates the memory for an object of a given type
+/// @param size The size of the object that is allocated
+/// @param type The type of the allocated object
+/// @return The allocated object
 static object_t * object_allocate_object(size_t size, object_type_t type)
 {
     // Allocates the memory used by the Object
@@ -227,9 +234,11 @@ static object_t * object_allocate_object(size_t size, object_type_t type)
     return object;
 }
 
-/*  FNV-1a hash function
- *   <href>https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function</href>
- */
+/// @brief FNV-1a hash function
+/// @details https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+/// @param key The key that is hashed
+/// @param length The length of the key
+/// @return The hashvalue of the key
 static uint32_t object_hash_string(char const * key, uint32_t length)
 {
     uint32_t hash = OFFSET_BASIS;
@@ -241,7 +250,8 @@ static uint32_t object_hash_string(char const * key, uint32_t length)
     return hash;
 }
 
-// Prints a function
+/// @brief Prints a function
+/// @param function The function that is printed
 static void object_print_function(object_function_t * function)
 {
     if (!function->name)

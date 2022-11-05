@@ -24,8 +24,6 @@ void dynamic_array_write(dynamic_value_array_t * array, value_t value)
         array->capacity = GROW_CAPACITY(oldCapacity);
         value_t * grownArray;
         grownArray = GROW_ARRAY(value_t, array->values, oldCapacity, array->capacity);
-        if(!grownArray)
-            exit(80);
         array->values = grownArray;
     }
     array->values[array->count] = value;

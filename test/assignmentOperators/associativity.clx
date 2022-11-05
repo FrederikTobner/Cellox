@@ -1,0 +1,9 @@
+var a = "foo";
+var b = "bar";
+var c = "baz";
+
+// Assignment is right-associative.
+a = b = c;
+print a;
+print b;
+print c;

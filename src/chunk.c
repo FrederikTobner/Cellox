@@ -7,7 +7,6 @@
 
 static bool chunk_is_full(chunk_t * chunk);
 
-// Adds a constant to the chunk
 int32_t chunk_add_constant(chunk_t * chunk, value_t value)
 {
   vm_push(value);
@@ -16,7 +15,6 @@ int32_t chunk_add_constant(chunk_t * chunk, value_t value)
   return chunk->constants.count - 1;
 }
 
-// Free's a chunk (Deallocates the memory used by the chunk)
 void chunk_free(chunk_t * chunk)
 {
   FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
@@ -25,7 +23,6 @@ void chunk_free(chunk_t * chunk)
   chunk_init(chunk);
 }
 
-// Initializes a chunk
 void chunk_init(chunk_t * chunk)
 {
   chunk->count = chunk->capacity = 0;
@@ -34,7 +31,6 @@ void chunk_init(chunk_t * chunk)
   dynamic_array_init(&chunk->constants);
 }
 
-// Write to a already existing chunk
 void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)
 {
   if (chunk_is_full(chunk))
@@ -60,6 +56,9 @@ void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)
   chunk->lines[chunk->count++] = line;
 }
 
+/// @brief Determines whether a chunk is completely filled with bytecode instructions
+/// @param chunk The chunk that is checked if it is already filled
+/// @return True if the chunk is full, false if not
 static bool chunk_is_full(chunk_t * chunk)
 {
     return chunk->capacity < chunk->count + 1;

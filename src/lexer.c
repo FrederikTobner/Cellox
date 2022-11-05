@@ -33,9 +33,9 @@ static char lexer_peek_next();
 static void lexer_skip_whitespace();
 static token_t string();
 
-void lexer_init(char const * source)
+void lexer_init(char const * sourcecode)
 {
-    lexer.start = lexer.current = source;
+    lexer.start = lexer.current = sourcecode;
     lexer.line = 1u;
 }
 
@@ -89,7 +89,7 @@ token_t scan_token()
         else if (lexer_match('*'))
         {
             uint32_t commentDepth = 1;
-            while (commentDepth)
+            while (commentDepth && !lexer_is_at_end())
             {
                 if (lexer_match('*') && lexer_match('/'))
                     commentDepth--;
@@ -100,6 +100,8 @@ token_t scan_token()
                 else
                     lexer_advance();
             }
+            if(commentDepth && lexer_is_at_end())
+                return lexer_error_token("Unterminated comment");
             return scan_token();
         }
         return lexer_make_token(

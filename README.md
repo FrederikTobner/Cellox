@@ -48,6 +48,11 @@ Cellox also offers some [native functions](https://github.com/FrederikTobner/Cel
 
 Cellox is a objectoriented language that features inheritance and methods that are bound to a [class](https://github.com/FrederikTobner/Cellox/wiki/Classes) instance.
 
+## Strings
+
+A string in cellox is a special type of object.
+Strings can contain escape sequences that will be resolved at compile time.
+
 ## IDE Integration
 
 Cellox offers an extension for [vscode](https://github.com/FrederikTobner/vscode-cellox) that provides syntax highlighting and code snippets.

@@ -79,7 +79,6 @@ void memory_mark_value(value_t value)
     memory_mark_object(AS_OBJECT(value));
 }
 
-// Helper method for reallocating the memory used by a dynamic Array
 void *memory_reallocate(void * pointer, size_t oldSize, size_t newSize)
 {
   virtualMachine.bytesAllocated += newSize - oldSize;
@@ -101,7 +100,7 @@ void *memory_reallocate(void * pointer, size_t oldSize, size_t newSize)
   if (!result)
   {
     fprintf(stderr, "Failed too allocate memory");
-    exit(70);
+    exit(80);
   }
   return result;
 }
@@ -244,9 +243,10 @@ static void memory_mark_roots()
   memory_mark_object((object_t *)virtualMachine.initString);
 }
 
-/* Walks through the linked list of objects on the heap and checks their mark bits.
- * If an object is unmarked, it is unlinked from the list
- * and the memory used by the object is reclaimed*/
+/** @brief Walks through the linked list of objects on the heap and checks their mark bits.
+ * @details If an object is unmarked, it is unlinked from the list
+ * and the memory used by the object is reclaimed
+ */
 static void memory_sweep()
 {
   object_t * previous = NULL;

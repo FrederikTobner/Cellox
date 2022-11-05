@@ -24,8 +24,8 @@
 #define FREE_ARRAY(type, pointer, oldCount) \
     memory_reallocate(pointer, sizeof(type) * (oldCount), 0)
 
-/* Starts the garbage collection process.
- * The garbage collector of cellox is a precise GC.
+/** @brief Starts the garbage collection process.
+ * @details The garbage collector of cellox is a precise GC.
  * That means that the garbage collector knows whether words in memory are pointers
  * and which store a value - like a string, boolean or a number.
  * The Algorithm that is used is called mark-and-sweep.
@@ -37,16 +37,22 @@
  */
 void memory_collect_garbage();
 
-// Dealocates the memory used by the objects of the virtualMachine
+/// @brief Dealocates the memory used by the objects of the virtualMachine
 void memory_free_objects();
 
-// Marks a cellox object
+/// @brief Marks a cellox object
+/// @param object The object that is marked
 void memory_mark_object(object_t * object);
 
-// Marks a cellox value
+/// @brief Marks a cellox value
+/// @param value The value that is marked
 void memory_mark_value(value_t value);
 
-// Reallocates the memory usage from a given pointer
+/// @brief Reallocates a block in memory
+/// @param pointer Pointer to the memory block that is reallocated
+/// @param oldSize The oldsize if the memory block
+/// @param newSize The new size of the memory block
+/// @return The reallocated memory block
 void * memory_reallocate(void * pointer, size_t oldSize, size_t newSize);
 
 #endif  

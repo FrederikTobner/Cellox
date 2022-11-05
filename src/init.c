@@ -18,18 +18,8 @@
 // Maximum length of a line is 1024 characters
 #define MAX_LINE_LENGTH 1024u
 
-// Reads a lox program from a file
 static char *init_read_file(char const *);
-
-/* Run with repl
- * 1. Read the user input
- * 2. Evaluate your code
- * 3. Print any results
- * 4. Loop back to step 1
- */
 static void init_repl();
-
-// Reads a lox program from a file and executes the program
 static void init_run_from_file(char const *);
 
 void init_initialize(int const argc, char const ** argv)
@@ -49,6 +39,9 @@ void init_initialize(int const argc, char const ** argv)
     vm_free();
 }
 
+/// @brief Reads a file from disk
+/// @param path The path of the file
+/// @return The contents of the file or NULL if something went wrong 😕
 static char * init_read_file(char const * path)
 {
     // Opens a file of a nonspecified format (b) in read mode (r)
@@ -56,7 +49,11 @@ static char * init_read_file(char const * path)
     if (!file)
     {
         fprintf(stderr, "Could not open file \"%s\".\n", path);
+        #ifndef CELLOX_TESTS_RUNNING
         exit(74);
+        #else
+        return NULL;
+        #endif
     }
     fseek(file, 0L, SEEK_END);
     size_t fileSize = ftell(file);
@@ -65,13 +62,21 @@ static char * init_read_file(char const * path)
     if (!buffer)
     {
         fprintf(stderr, "Not enough memory to read \"%s\".\n", path);
+        #ifndef CELLOX_TESTS_RUNNING
         exit(74);
+        #else
+        return NULL;
+        #endif
     }
     size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
     if (bytesRead < fileSize)
     {
         fprintf(stderr, "Could not read file \"%s\".\n", path);
+        #ifndef CELLOX_TESTS_RUNNING
         exit(74);
+        #else
+        return NULL;
+        #endif
     }
     // We add null the end of the source-code to mark the end of the file
     buffer[bytesRead] = '\0';
@@ -79,6 +84,12 @@ static char * init_read_file(char const * path)
     return buffer;
 }
 
+/** @brief Run with repl
+* @details  1. Read the user input
+*           2. Evaluate your code
+*           3. Print any results
+*           4. Loop back to step 1
+*/
 static void init_repl()
 {
     // Used to store the next line that read from input
@@ -113,9 +124,15 @@ static void init_repl()
     }
 }
 
+/// @brief Reads a lox program from a file and executes the program
+/// @param path The path of the lox program
 static void init_run_from_file(char const * path)
 {
     char * source = init_read_file(path);
+    #ifdef CELLOX_TESTS_RUNNING
+    if(!source)
+        return;
+    #endif
     interpret_result_t result = vm_interpret(source);
     free(source);
     #ifndef CELLOX_TESTS_RUNNING

@@ -12,7 +12,7 @@
 #include "native_functions.h"
 #include "value.h"
 
-// Global VirtualMachine variable
+/// @brief Global VirtualMachine variable
 virtual_machine_t virtualMachine;
 
 static bool vm_bind_method(object_class_t *, object_string_t *);
@@ -58,17 +58,9 @@ void vm_init()
     vm_define_natives();
 }
 
-static void vm_define_natives()
+interpret_result_t vm_interpret(char const * program)
 {
-    native_function_config_t * configs = native_get_function_configs();
-    native_function_config_t * upperBound = configs + native_get_function_count();
-    for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound; nativeFunctionPointer++)
-        vm_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
-}
-
-interpret_result_t vm_interpret(char const * source)
-{
-    object_function_t *function = compiler_compile(source);
+    object_function_t *function = compiler_compile(program);
     if (function == NULL)
         return INTERPRET_COMPILE_ERROR;
     vm_push(OBJECT_VAL(function));
@@ -81,7 +73,7 @@ interpret_result_t vm_interpret(char const * source)
 
 void vm_push(value_t value)
 {
-    // There are  16384 values on the stack 🤯
+    // There are 16384 values on the stack 🤯
     if ((virtualMachine.stackTop - virtualMachine.stack) == STACK_MAX)
         vm_runtime_error("Stack overflow!!!");
     *virtualMachine.stackTop = value;
@@ -94,6 +86,19 @@ value_t vm_pop()
     return *virtualMachine.stackTop;
 }
 
+/// @brief Defines the native functions of the virtual machine
+static void vm_define_natives()
+{
+    native_function_config_t * configs = native_get_function_configs();
+    native_function_config_t * upperBound = configs + native_get_function_count();
+    for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound; nativeFunctionPointer++)
+        vm_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
+}
+
+/// @brief Binds a method to a cellox class
+/// @param celloxClass The class the method is bound to
+/// @param name The name of the method
+/// @return true if the method was defiened, false if not
 static bool vm_bind_method(object_class_t * celloxClass, object_string_t * name)
 {
     value_t method;
@@ -108,6 +113,10 @@ static bool vm_bind_method(object_class_t * celloxClass, object_string_t * name)
     return true;
 }
 
+/// @brief Calls a function that is bound to a closure
+/// @param closure The closure the function belongs to
+/// @param argCount The amount of arguments that are used when the function is envoked
+/// @return true if everything went well, false if something went wrong (stack overflow / wrong argument count)
 static bool vm_call(object_closure_t * closure, uint32_t argCount)
 {
     if (argCount != closure->function->arity)
@@ -174,6 +183,9 @@ static bool vm_call_value(value_t callee, uint32_t argCount)
     return false;
 }
 
+/// @brief Captures an upvalue of the enclosing environment
+/// @param local 
+/// @return 
 static object_upvalue_t * vm_capture_upvalue(value_t * local)
 {
     object_upvalue_t * prevUpvalue = NULL;
@@ -195,8 +207,8 @@ static object_upvalue_t * vm_capture_upvalue(value_t * local)
     return createdUpvalue;
 }
 
-/* Function takes a slot of the stack as a parameter.
- * Then it closes all upvalues it can find in that slot and the slots above that slot in the stack.
+/** @brief Function takes a slot of the stack as a parameter.
+ * @details Then it closes all upvalues it can find in that slot and the slots above that slot in the stack.
  * The concept of an upvalue is borrowed from Lua - see https://www.lua.org/pil/27.3.3.html.
  * A upvalue is closed by copying the objects value into the closed field in te ObjectValue.
  */
@@ -211,7 +223,7 @@ static void vm_close_upvalues(value_t * last)
     }
 }
 
-// Concatenates the two upper values on the stack
+/// @brief Concatenates the two upper values on the stack
 static void vm_concatenate()
 {
     object_string_t * b = AS_STRING(vm_peek(0));
@@ -227,7 +239,8 @@ static void vm_concatenate()
     vm_push(OBJECT_VAL(result));
 }
 
-// Defines a new Method in the hashTable of the celloxclass instance
+/// @brief Defines a new Method in the hashTable of the cellox class instance
+/// @param name The name of the method
 static void vm_define_method(object_string_t * name)
 {
     value_t method = vm_peek(0);
@@ -236,7 +249,9 @@ static void vm_define_method(object_string_t * name)
     vm_pop();
 }
 
-// Defines a native function for the virtual machine
+/// @brief Defines a native function for the virtual machine
+/// @param name The name of the native function
+/// @param function The function that is defined
 static void vm_define_native(char const * name, native_function_t function)
 {
     vm_push(OBJECT_VAL(object_copy_string(name, (int32_t)strlen(name), false)));
@@ -246,6 +261,10 @@ static void vm_define_native(char const * name, native_function_t function)
     vm_pop();
 }
 
+/// @brief Invokes a method bound to a cellox class instance
+/// @param name The name of the method that is envoked
+/// @param argCount The amount of arguments that are used when calling the method
+/// @return true if everything went well, false if something went wrong (not a cellox instance / undefiened method / stack overflow / wrong argument count)
 static bool vm_invoke(object_string_t * name, uint32_t argCount)
 {
     value_t receiver = vm_peek(argCount);
@@ -264,6 +283,11 @@ static bool vm_invoke(object_string_t * name, uint32_t argCount)
     return vm_invoke_from_class(instance->celloxClass, name, argCount);
 }
 
+/// @brief Invokes a method from a celloxclass
+/// @param celloxClass The class where the method is envoked
+/// @param name Thee name of the method that is envoked
+/// @param argCount The amount of arguments that are used when envoking the function
+/// @return true if everything went well, false if something went wrong (undefiened method / stack overflow / wrong argument count)
 static bool vm_invoke_from_class(object_class_t * celloxClass, object_string_t * name, uint32_t argCount)
 {
     value_t method;
@@ -275,19 +299,23 @@ static bool vm_invoke_from_class(object_class_t * celloxClass, object_string_t *
     return vm_call(AS_CLOSURE(method), argCount);
 }
 
-// Determines if a value is falsey (either nil or false)
+/// @brief  Determines if a value is falsey (either null or false)
+/// @param value The value that is evalued
+/// @return true if the value is null or false, otherwise false
 static bool vm_is_falsey(value_t value)
 {
     return IS_NULL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
 
-// Retuns the Value on top of the stack without poping it
+/// @brief Gets the value at the specified distance on the stacj
+/// @param distance The distance to the value
+/// @return The value at the specified distance
 static value_t vm_peek(int32_t distance)
 {
     return virtualMachine.stackTop[-1 - distance];
 }
 
-// Resets the stack of the vm
+/// @brief Resets the stack of the vm
 static void vm_reset_stack()
 {
     virtualMachine.stackTop = virtualMachine.stack;
@@ -295,7 +323,8 @@ static void vm_reset_stack()
     virtualMachine.openUpvalues = NULL;
 }
 
-// Runs a lox program that was converted to bytecode instructions
+/// @brief Runs a lox program that was converted to bytecode instructions
+/// @return OK if the program was executed sucessfull or a runtime error code if a runtime error occured
 static interpret_result_t vm_run()
 {
 #ifdef DEBUG_TRACE_EXECUTION
@@ -695,7 +724,9 @@ so all the statements in it get executed if they are after an if 🤮 */
 #undef BINARY_OP
 }
 
-// Reports an error that has occured during runtime
+/// @brief Reports an error that has occured at runtime
+/// @param format The formater of the error message
+/// @param args Arguments that are passed in for the formatter
 static void vm_runtime_error(char const * format, ...)
 {
     va_list args;

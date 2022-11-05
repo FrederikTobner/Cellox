@@ -193,6 +193,9 @@ value_t native_wait(uint32_t argCount, value_t const * args)
     return NULL_VAL;
 }
 
+/// @brief Asserts that the native function was called with the appropriate argumentcount
+/// @param function The native function that was called
+/// @param argcount The amount of arguments that were used to call the native function
 static void native_assert_arrity(uint8_t function, uint32_t argcount)
 {
     if (native_function_configs[function].arrity != argcount)
