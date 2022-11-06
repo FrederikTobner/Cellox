@@ -165,4 +165,6 @@ void value_print(value_t value);
 /// @return A boolean value that indicates whether the first and the second value are equal
 bool value_values_equal(value_t a, value_t b);
 
+char const * value_stringify_type(value_t value);
+
 #endif

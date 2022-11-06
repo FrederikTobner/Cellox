@@ -149,7 +149,7 @@ static uint8_t compiler_identifier_constant(token_t *);
 static bool compiler_identifiers_equal(token_t *, token_t *);
 static void compiler_if_statement();
 static void compiler_init(compiler_t *, function_type_t);
-static void compiler_index_of(bool);
+static void compiler_index_of(bool, uint8_t, uint8_t, uint32_t);
 static void compiler_literal(bool);
 static void compiler_mark_initialized();
 static uint8_t compiler_make_constant(value_t);
@@ -307,7 +307,7 @@ static parse_rule_t rules[] =
     [TOKEN_LEFT_BRACKET] =
     {
         .prefix = NULL, 
-        .infix = compiler_index_of, 
+        .infix = NULL, 
         .precedence = PREC_CALL
     },
     [TOKEN_LESS] =
@@ -1096,16 +1096,26 @@ static void compiler_init(compiler_t * compiler, function_type_t type)
 
 /// @brief Compiles a index of expression
 /// @param canAssign Unsused for index of expressions
-static void compiler_index_of(bool canAssign)
+static void compiler_index_of(bool canAssign, uint8_t getOp, uint8_t setOp, uint32_t arg)
 {
+    compiler_emit_bytes(getOp, (uint8_t)arg);
     compiler_expression();
     if(!compiler_match_token(TOKEN_RIGHT_BRACKET))
     {
         compiler_error("expected closing bracket ]");
         return;
     }
-    compiler_emit_byte(OP_INDEX_OF);
     /// TODO: if a equal follows -> compile experssion -> emit a SET_INDEX_OF
+    if(compiler_match_token(TOKEN_EQUAL))
+    {
+        compiler_expression();
+        compiler_emit_byte(OP_SET_INDEX_OF);
+        compiler_emit_bytes(setOp, arg);
+    }
+    else
+    {           
+        compiler_emit_byte(OP_GET_INDEX_OF);
+    }
 }
 
 /// @brief Compiles a boolean literal expression
@@ -1214,6 +1224,8 @@ static void compiler_named_variable(token_t name, bool canAssign)
         compiler_nondirect_assignment(OP_MODULO, getOp, setOp, arg);
     else if (canAssign && compiler_match_token(TOKEN_STAR_STAR_EQUAL))
         compiler_nondirect_assignment(OP_EXPONENT, getOp, setOp, arg);
+    else if(canAssign && compiler_match_token(TOKEN_LEFT_BRACKET))
+        compiler_index_of(canAssign, getOp, setOp, arg);
     else
         compiler_emit_bytes(getOp, (uint8_t)arg);
 }

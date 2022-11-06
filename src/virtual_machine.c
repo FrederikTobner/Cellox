@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "common.h"
@@ -238,7 +239,7 @@ static void vm_concatenate()
     memcpy(chars, a->chars, a->length);
     memcpy(chars + a->length, b->chars, b->length);
     chars[length] = '\0';
-    object_string_t *result = object_take_string(chars, length);
+    object_string_t * result = object_take_string(chars, length);
     vm_pop();
     vm_pop();
     vm_push(OBJECT_VAL(result));
@@ -355,7 +356,7 @@ so all the statements in it get executed if they are after an if 🤮 */
     {                                                         \
         if (!IS_NUMBER(vm_peek(0)) || !IS_NUMBER(vm_peek(1))) \
         {                                                     \
-            vm_runtime_error("Operands must be numbers.");    \
+            vm_runtime_error("Operands must be numbers but they are a %s value and a %s value", value_stringify_type(vm_peek(0)), value_stringify_type(vm_peek(1)));    \
             return INTERPRET_RUNTIME_ERROR;                   \
         }                                                     \
         double b = AS_NUMBER(vm_pop());                       \
@@ -394,7 +395,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             }
             else
             {
-                vm_runtime_error("Operands must be two numbers or two strings.");
+                vm_runtime_error("Operands must be two numbers or two strings but they are a %s value and a %s value", value_stringify_type(vm_peek(0)), value_stringify_type(vm_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -463,7 +464,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             }
             else
             {
-                vm_runtime_error("Operands must be two numbers");
+                vm_runtime_error("Operands must be two numbers but they are a %s value and a %s value", value_stringify_type(vm_peek(0)), value_stringify_type(vm_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -481,6 +482,30 @@ so all the statements in it get executed if they are after an if 🤮 */
                 return INTERPRET_RUNTIME_ERROR;
             }
             vm_push(value);
+            break;
+        }
+        case OP_GET_INDEX_OF:
+        {
+            if (IS_NUMBER(vm_peek(0)) && IS_STRING(vm_peek(1)))
+            {
+                int num = AS_NUMBER(vm_pop());
+                object_string_t * str = AS_STRING(vm_pop());
+                if (num >= str->length || num < 0)
+                {
+                    vm_runtime_error("accessed string out of bounds");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                char *chars = ALLOCATE(char, 2u);
+                chars[0] = str->chars[num];
+                chars[1] = '\0';
+                object_string_t *result = object_take_string(chars, 1u);
+                vm_push(OBJECT_VAL(result));
+            }
+            else
+            {
+                vm_runtime_error("Operands must a number and a string but was called with a %s value and a %s value", value_stringify_type(vm_peek(0)),  value_stringify_type(vm_peek(1)));
+                return INTERPRET_RUNTIME_ERROR;
+            }
             break;
         }
         case OP_GET_LOCAL:
@@ -534,30 +559,6 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_GREATER:
             BINARY_OP(BOOL_VAL, >);
             break;
-        case OP_INDEX_OF:
-        {
-            if (IS_NUMBER(vm_peek(0)) && IS_STRING(vm_peek(1)))
-            {
-                int num = AS_NUMBER(vm_pop());
-                object_string_t * str = AS_STRING(vm_pop());
-                if (num >= str->length || num < 0)
-                {
-                    vm_runtime_error("accessed string out of bounds");
-                    return INTERPRET_RUNTIME_ERROR;
-                }
-                char *chars = ALLOCATE(char, 2u);
-                chars[0] = str->chars[num];
-                chars[1] = '\0';
-                object_string_t *result = object_take_string(chars, 1u);
-                vm_push(OBJECT_VAL(result));
-            }
-            else
-            {
-                vm_runtime_error("Operands must a number and a string");
-                return INTERPRET_RUNTIME_ERROR;
-            }
-            break;
-        }
         case OP_INHERIT:
         {
             value_t superclass = vm_peek(1);
@@ -619,7 +620,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             }
             else
             {
-                vm_runtime_error("Operands must be two numbers");
+                vm_runtime_error("Operands must be two numbers but they are a %s value and a %s value", value_stringify_type(vm_peek(0)), value_stringify_type(vm_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -630,7 +631,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_NEGATE:
             if (!IS_NUMBER(vm_peek(0)))
             {
-                vm_runtime_error("Operand must be a number.");
+                vm_runtime_error("Operand must be a number but is a %s value.", value_stringify_type(vm_peek(0)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             vm_push(NUMBER_VAL(-AS_NUMBER(vm_pop(0))));
@@ -670,6 +671,32 @@ so all the statements in it get executed if they are after an if 🤮 */
             {
                 table_delete(&virtualMachine.globals, name);
                 vm_runtime_error("Undefined variable '%s'.", name->chars);
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            break;
+        }
+        case OP_SET_INDEX_OF:
+        {
+            if (IS_STRING(vm_peek(0)) && IS_NUMBER(vm_peek(1)) && IS_STRING(vm_peek(2)))
+            {
+                object_string_t * character = AS_STRING(vm_pop());
+                int num = AS_NUMBER(vm_pop());
+                object_string_t * str = AS_STRING(vm_pop());
+                if (num >= str->length || num < 0 || character->length != 1)
+                {
+                    vm_runtime_error("accessed string out of bounds");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                char * newCharacterSequence = malloc(str->length + 1);
+                memcpy(newCharacterSequence, str->chars, str->length); 
+                newCharacterSequence[num] = character->chars[0];
+                newCharacterSequence[str->length] = '\0';
+                object_string_t * newString = object_take_string(newCharacterSequence, str->length);
+                vm_push(OBJECT_VAL(newString));
+            }
+            else
+            {
+                vm_runtime_error("Can only be called with a sting a number and string but was called with a %s value and a %s value", value_stringify_type(vm_peek(0)),  value_stringify_type(vm_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;

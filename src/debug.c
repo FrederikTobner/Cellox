@@ -69,6 +69,8 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
     return debug_simple_instruction("FALSE", offset);
   case OP_GET_GLOBAL:
     return debug_constant_instruction("GET_GLOBAL", chunk, offset);
+  case OP_GET_INDEX_OF:
+    return debug_simple_instruction("GET INDEX OF", offset);
   case OP_GET_LOCAL:
     return debug_byte_instruction("GET_LOCAL", chunk, offset);
   case OP_GET_PROPERTY:
@@ -79,8 +81,6 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
     return debug_byte_instruction("GET_UPVALUE", chunk, offset);
   case OP_GREATER:
     return debug_simple_instruction("GREATER", offset);
-  case OP_INDEX_OF:
-    return debug_simple_instruction("INDEX OF", offset);
   case OP_INHERIT:
     return debug_simple_instruction("INHERIT", offset);
   case OP_INVOKE:
@@ -111,10 +111,12 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
     return debug_simple_instruction("PRINT", offset);
   case OP_RETURN:
     return debug_simple_instruction("RETURN", offset);
-  case OP_SET_LOCAL:
-    return debug_byte_instruction("SET_LOCAL", chunk, offset);
   case OP_SET_GLOBAL:
     return debug_constant_instruction("SET_GLOBAL", chunk, offset);
+  case OP_SET_INDEX_OF:
+    return debug_simple_instruction("SET INDEX OF", offset);
+  case OP_SET_LOCAL:
+    return debug_byte_instruction("SET_LOCAL", chunk, offset);
   case OP_SET_UPVALUE:
     return debug_byte_instruction("SET_UPVALUE", chunk, offset);
   case OP_SET_PROPERTY:
