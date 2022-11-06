@@ -2,6 +2,11 @@
 
 #include "test_cellox.hh"
 
+TEST(IndexOperator, ChangeStringByIndex)
+{
+    test_cellox_program("indexOperator/change_string_by_index.clx", "celiop\ncellop\ncellox\n");
+}
+
 TEST(IndexOperator, OutOfBounds)
 {
     test_failing_cellox_program("indexOperator/out_of_bounds.clx", "accessed string out of bounds\n[line 2] in script\n");

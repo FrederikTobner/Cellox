@@ -32,6 +32,8 @@ typedef enum
     OP_FALSE,
     // Gets the value of a global variable  and stores it on the stack
     OP_GET_GLOBAL,
+    // Gets the value of a single character in a string at the specified index. Pushes the result on the stack
+    OP_GET_INDEX_OF,
     // Gets the value of a local variable and stores it on the stack
     OP_GET_LOCAL,
     // Gets the value of the property of a Cellox object and stores it on the stack
@@ -42,8 +44,6 @@ typedef enum
     OP_GET_UPVALUE,
     // Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is greater than the second number
     OP_GREATER,
-    // Pops the two most upper values from the stack, and pushes the value gets the value at the index of the second value in the first value (value is a string) 
-    OP_INDEX_OF,
     // Adds another class as the parent to a class declaration
     OP_INHERIT,
     // Invokes a function
@@ -76,6 +76,8 @@ typedef enum
     OP_RETURN,
     // Sets the value of a global variable
     OP_SET_GLOBAL,
+    // Copies the value of a string and alters a single character at the specified index. Pushes the result on the stack.
+    OP_SET_INDEX_OF,
     // Sets the value of a local variable
     OP_SET_LOCAL,
     // Sets the value of a property

@@ -12,7 +12,7 @@ Cellox is a scripting language based on the programming language [lox](https://c
 
 Cellox is a dynamically typed, object oriented, high-level scripting language.
 
-Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be include in the comming versions of the interpreter.
+Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be include in the upcoming versions of the interpreter.
 
 ## Values
 
@@ -41,7 +41,7 @@ This means that you can for example get the reference to a function and assign i
 
 ## Functions
 
-A [Function](https://github.com/FrederikTobner/Cellox/wiki/Functions) in Cellox is a group of statements that together perform a task.
+A [Function](https://github.com/FrederikTobner/Cellox/wiki/Functions) in Cellox is a group of statements, that together perform a task.
 Cellox also offers some [native functions](https://github.com/FrederikTobner/Cellox/wiki/Native-Functions) that are implemented in C.
 
 ## Classes
@@ -52,6 +52,7 @@ Cellox is a objectoriented language that features inheritance and methods that a
 
 A string in cellox is a special type of object.
 Strings can contain escape sequences that will be resolved at compile time.
+The characters that a string contains can be accessed and altered by the index.
 
 ## IDE Integration
 
@@ -61,18 +62,18 @@ Cellox offers an extension for [vscode](https://github.com/FrederikTobner/vscode
 
 The language provides automatic memory management using it's own [garbage collector](https://github.com/FrederikTobner/Cellox/wiki/Garbage-Collector), that uses the mark-and-sweep algorithm.
 
-The variables defiened in a cellox program are stored in a hashtable. The variable name is used as the key for the value is the hashtable.
+The variables defiened in a cellox program are stored in a hashtable. The variable name is used as the key for the value stored in the hashtable.
 
 A cellox program is converted into bytecode and executed by a stack based [virtual machine](https://github.com/FrederikTobner/Cellox/wiki/Virtual-Machine).
 
 ## Dependencies
 
-Cellox is written in C, using the C99 standard and only depends on the C standard libary.
+Cellox is written in C, using the C99 standard and only depends on the C standard libary, so give it a try!.
 
 [CMake](https://cmake.org/) is used for building within the whole project.
 
 ## Testing
 
-The test are written in C++ using the [google-test framework](https://github.com/google/googletest).
+The test are written in C++ using the [google-test framework](https://github.com/google/googletest) (version 1.12.1).
 
 For testing a cellox program is executed and the standard output redirected to a string. The string is compared with the expected output after the program was executed.
