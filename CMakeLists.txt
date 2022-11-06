@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Cellox 
+project(Cellox
 VERSION 0.1.0
 )
 
@@ -17,14 +17,14 @@ ${SOURCEPATH}compiler.c
 ${SOURCEPATH}compiler.h
 ${SOURCEPATH}dynamic_value_array.c
 ${SOURCEPATH}debug.c
-${SOURCEPATH}init.c 
+${SOURCEPATH}init.c
 ${SOURCEPATH}lexer.c
-${SOURCEPATH}memory.c 
+${SOURCEPATH}memory.c
 ${SOURCEPATH}native_functions.c
 ${SOURCEPATH}object.c
 ${SOURCEPATH}string_utils.c
 ${SOURCEPATH}table.c
-${SOURCEPATH}value.c  
+${SOURCEPATH}value.c
 ${SOURCEPATH}virtual_machine.c
 )
 

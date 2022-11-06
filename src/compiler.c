@@ -1433,11 +1433,11 @@ static void compiler_super(bool canAssign)
 static void compiler_synchronize()
 {
     parser.panicMode = false;
-
     while (parser.current.type != TOKEN_EOF)
-    {
+    {        
         if (parser.previous.type == TOKEN_SEMICOLON)
             return;
+        compiler_advance();
         switch (parser.current.type)
         {
         case TOKEN_CLASS:
@@ -1450,9 +1450,9 @@ static void compiler_synchronize()
         case TOKEN_RETURN:
             return;
 
-        default:;
-        }
+        default:
         compiler_advance();
+        }        
     }
 }
 

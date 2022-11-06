@@ -52,6 +52,7 @@ typedef struct
     object_t * objects;
     // The stack that contains all the gray objects
     object_t ** grayStack;
+    char * program;
 } virtual_machine_t;
 
 /// @brief Result of the interpretation (sucessfull, error during compilation or at runtime)
@@ -76,7 +77,7 @@ void vm_init();
 /// @brief Interprets a lox program
 /// @param source The source that is interpreted
 /// @return A interpret result that indicates whether the program execution sucessful
-interpret_result_t vm_interpret(char const * program);
+interpret_result_t vm_interpret(char * program, bool freeProgram);
 
 /// @brief Pushes a new Value on the stack
 /// @param value The value that is pushed on the stack

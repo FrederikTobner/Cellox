@@ -3,6 +3,7 @@
 
 #include "chunk.h"
 #include "common.h"
+#include "native_functions.h"
 #include "table.h"
 #include "value.h"
 
@@ -56,9 +57,6 @@
 // Makro that gets the value of an object as a cstring
 #define AS_CSTRING(value) \
     (((object_string_t *)AS_OBJECT(value))->chars)
-
-/// @brief Typedefinition of a native function
-typedef value_t (*native_function_t)(int32_t argCount, value_t *args);
 
 /// @brief Different type of objects
 typedef enum

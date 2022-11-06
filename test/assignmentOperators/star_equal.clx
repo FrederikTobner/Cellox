@@ -1,3 +1,5 @@
 var v = 5;
 v *= 3;
 print v;
+v *= -1.5;
+print v;

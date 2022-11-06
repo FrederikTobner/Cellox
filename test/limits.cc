@@ -4,7 +4,7 @@
 
 TEST(Limits, LoopBodyTooLarge)
 {
-    test_failing_cellox_program("limits/loop_body_too_large.clx", "[line 2351] Error at '}': Loop body too large.\n");
+    test_failing_cellox_program("limits/loop_body_too_large.clx", "[line 2051] Error at '}': Loop body too large.\n");
 }
 
 TEST(Limits, ToManyConstants)

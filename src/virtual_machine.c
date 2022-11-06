@@ -37,12 +37,15 @@ void vm_free()
     table_free(&virtualMachine.globals);
     table_free(&virtualMachine.strings);
     virtualMachine.initString = NULL;
+    if(virtualMachine.program)
+        free(virtualMachine.program);
     memory_free_objects();
 }
 
 void vm_init()
 {
     vm_reset_stack();
+    virtualMachine.program = NULL;
     virtualMachine.objects = NULL;
     virtualMachine.bytesAllocated = 0;
     virtualMachine.nextGC = (1 << 20);
@@ -58,7 +61,7 @@ void vm_init()
     vm_define_natives();
 }
 
-interpret_result_t vm_interpret(char const * program)
+interpret_result_t vm_interpret(char * program, bool freeProgram)
 {
     object_function_t *function = compiler_compile(program);
     if (function == NULL)
@@ -68,6 +71,8 @@ interpret_result_t vm_interpret(char const * program)
     vm_pop();
     vm_push(OBJECT_VAL(closure));
     vm_call(closure, 0u);
+    if(freeProgram)
+        virtualMachine.program = program;
     return vm_run();
 }
 

@@ -1,0 +1,7 @@
+// Assignment on RHS of variable.
+var a = "foo";
+var b = "bar";
+var c = b = a = "baz";
+print a;
+print b;
+print c;

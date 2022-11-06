@@ -120,7 +120,7 @@ static void init_repl()
         // We close the command prompt if the last input was empty - \n
         if (strlen(line) == 1)
             exit(0);
-        vm_interpret(line);
+        vm_interpret(line, false);
     }
 }
 
@@ -133,8 +133,7 @@ static void init_run_from_file(char const * path)
     if(!source)
         return;
     #endif
-    interpret_result_t result = vm_interpret(source);
-    free(source);
+    interpret_result_t result = vm_interpret(source, true);
     #ifndef CELLOX_TESTS_RUNNING
     if(result != INTERPRET_OK)
         vm_free();

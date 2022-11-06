@@ -12,6 +12,8 @@ void * function;
 size_t arrity;
 }native_function_config_t;
 
+/// @brief Typedefinition of a native function
+typedef value_t (*native_function_t)(int32_t argCount, value_t *args);
 
 /// @brief Gets the configuration of the native functions
 /// @return an array that contains the native function configurations 
@@ -33,7 +35,7 @@ value_t native_classof(uint32_t argCount, value_t const * args);
 /// @return The amount of seconds that have passed since the program execution started
 value_t native_clock(uint32_t argCount, value_t const * args);
 
-/// @brief Native Exit function (TODO fix leaking memory when using exit)
+/// @brief Native Exit function
 /// @param argCount The amount of arguments that were used when exit was called
 /// @param args The arguments that exit was called with
 /// @return Nothing because the program will exit

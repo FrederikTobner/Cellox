@@ -35,6 +35,7 @@ test_cellox.cc
 test_cellox.hh
 this.cc
 unary_operator.cc
+variable.cc
 while_loops.cc
 )
 

@@ -2,6 +2,11 @@
 
 #include "test_cellox.hh"
 
+TEST(Functions, duplicateParameter)
+{
+    test_failing_cellox_program("functions/duplicate_parameter.clx", "[line 1] Error at 'a': Already a variable with this name in this scope.\n");
+}
+
 TEST(Functions, emptyBody)
 {
     test_cellox_program("functions/empty_body.clx", "null\n");
