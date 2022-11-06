@@ -21,3 +21,8 @@ TEST(WhileLoops, SingleExpressionBody)
 {
     test_cellox_program("whileLoops/single_expression_body.clx", "1\n2\n3\n");
 }
+
+TEST(WhileLoops, VarInBody)
+{
+    test_failing_cellox_program("whileLoops/var_in_body.clx", "[line 1] Error at 'var': Expect expression.\n");
+}

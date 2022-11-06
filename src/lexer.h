@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-// Tokens of the language
+/// @brief Tokens of the language
 typedef enum
 {
   // and
@@ -110,7 +110,7 @@ typedef enum
   TOKEN_WHILE,
 } tokentype_t;
 
-// Type definition of a token
+/// @brief Type definition of a token
 typedef struct
 {
   // The type of the token
@@ -123,10 +123,12 @@ typedef struct
   uint32_t line;
 } token_t;
 
-// Initializes the lexer
-void lexer_init(char const * source);
+/// @brief Initializes the lexer
+/// @param sourcecode The sourcecode that is used for initialitizing the lexer
+void lexer_init(char const * sourcecode);
 
-// Scans the next token in the sourcecode and saves it in a linear sequence of tokens
+/// @brief Scans the next token in the sourcecode and saves it in a linear sequence of tokens
+/// @return The Next Token in the sourcecode
 token_t scan_token();
 
 #endif

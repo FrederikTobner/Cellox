@@ -1,8 +1,9 @@
-#ifndef cellox_object_h
-#define cellox_object_h
+#ifndef CELLOX_OBJECT_H_
+#define CELLOX_OBJECT_H_
 
 #include "chunk.h"
 #include "common.h"
+#include "native_functions.h"
 #include "table.h"
 #include "value.h"
 
@@ -57,10 +58,7 @@
 #define AS_CSTRING(value) \
     (((object_string_t *)AS_OBJECT(value))->chars)
 
-// Typedefinition of a native function
-typedef value_t (*native_function_t)(int32_t argCount, value_t *args);
-
-// Different type of objects
+/// @brief Different type of objects
 typedef enum
 {
     // A method the is bound to an object
@@ -81,7 +79,7 @@ typedef enum
     OBJECT_UPVALUE,
 } object_type_t;
 
-// struct containing the data that defines an object
+/// @brief struct containing the data that defines an object
 struct object_t
 {
     // The type of the object
@@ -92,7 +90,7 @@ struct object_t
     struct object_t * next;
 };
 
-// struct containing the data that defines a cellox function
+/// @brief struct containing the data that defines a cellox function
 typedef struct
 {
     // data that defines all types of objects
@@ -107,7 +105,7 @@ typedef struct
     object_string_t * name;
 } object_function_t;
 
-// Type definition of a native function structure
+/// @brief Type definition of a native function structure
 typedef struct
 {
     // data that defines all types of objects
@@ -116,7 +114,7 @@ typedef struct
     native_function_t function;
 } object_native_t;
 
-// ObjectString structure definition
+/// @brief ObjectString structure definition
 struct object_string_t
 {
     //  data that defines all types of objects
@@ -129,7 +127,7 @@ struct object_string_t
     uint32_t hash;
 };
 
-// Type definition of an object up-value structure (a local variable in an enclosing function)
+/// @brief Type definition of an object up-value structure (a local variable in an enclosing function)
 typedef struct object_upvalue_t
 {
     // data that defines all types of objects
@@ -142,9 +140,9 @@ typedef struct object_upvalue_t
     struct object_upvalue_t * next;
 } object_upvalue_t;
 
-/*
- * Type definition of a closure, also called lexical closure or function closure.
- * A closure is the combination of a function and references to its surrounding state).
+/**
+ * @brief Type definition of a closure, also called lexical closure or function closure.
+ * @details A closure is the combination of a function and references to its surrounding state).
  * The closures in cellox are based on the closures used by the LuaVM.
  * In other words, a closure gives you access to an outer function's scope from an inner function.
  * https://en.wikipedia.org/wiki/Closure_(computer_programming)
@@ -158,7 +156,7 @@ typedef struct
     uint32_t upvalueCount;
 } object_closure_t;
 
-// Type definition of a class structure - a class in cellox
+/// @brief Type definition of a class structure - a class in cellox
 typedef struct
 {
     // data that defines all types of objects
@@ -167,7 +165,7 @@ typedef struct
     table_t methods;
 } object_class_t;
 
-// Type definition of a cellox class instance
+/// @brief Type definition of a cellox class instance
 typedef struct
 {
     // data that defines all types of objects
@@ -176,7 +174,7 @@ typedef struct
     table_t fields;
 } object_instance_t;
 
-// Type definition of a bound method
+/// @brief Type definition of a bound method
 typedef struct
 {
     // data that defines all types of objects
@@ -185,37 +183,62 @@ typedef struct
     object_closure_t * method;
 } object_bound_method_t;
 
-// Copys the value of a string in the hashtable of the virtualMachine
+/// @brief Copys the value of a string in the hashtable of the virtualMachine
+/// @param chars Pointer to the character sequence / string
+/// @param length The length of the character sequence
+/// @param removeBackSlash Boolean value that determines whether backslashes should be resolved
+/// @return The created string
 object_string_t * object_copy_string(char const * chars, uint32_t length, bool removeBackSlash);
 
-// Creates a new bound method
+/// @brief Creates a new method, that is bound to a closure
+/// @param receiver The closure the method is bound to
+/// @param method The method that is bound to the closure
+/// @return The created method
 object_bound_method_t * object_new_bound_method(value_t receiver, object_closure_t * method);
 
-// Creates a new class in cellox
+/// @brief Creates a new class in cellox
+/// @param name The name of the class
+/// @return The created class
 object_class_t * object_new_class(object_string_t * name);
 
-// Creates a new Closure
+/// @brief Creates a new Closure
+/// @param function The function that is used to create the upvalue
+/// @return The created closure
 object_closure_t * object_new_closure(object_function_t * function);
 
-// Creates a new cellox function
+/// @brief Creates a new cellox function
+/// @return The new function that was created
 object_function_t * object_new_function();
 
-// Creates a new cellox class instance
+/// @brief Creates a new cellox class instance
+/// @param celloxClass The class of the instance
+/// @return The new instance that was created
 object_instance_t * object_new_instance(object_class_t * celloxClass);
 
-// Creates a new native function
+/// @brief Creates a new native function object
+/// @param function The native_function_t that is used to create the native function object
+/// @return The new function that was created
 object_native_t * object_new_native(native_function_t function);
 
-// Takes a string from the hashtable of the virtualMachine and returns it
+/// @brief Creates a string or returns a string from the hashtable of the virtualMachine if it already exists
+/// @param chars Pointer to the character sequence
+/// @param length The length of the character sequence
+/// @return The string that was created or found
 object_string_t * object_take_string(char * chars, uint32_t length);
 
-// Creates a new upvalue
+/// @brief Creates a new upvalue
+/// @param slot The slot where the value will be placed
+/// @return The upvalue that was created
 object_upvalue_t * object_new_upvalue(value_t * slot);
 
-// Prints the object
+/// @brief Prints the object
+/// @param value The value that is printed
 void object_print(value_t value);
 
-// Determines whether a value is of a given type
+/// @brief Determines whether a value is of a given type
+/// @param value The value
+/// @param type The type
+/// @return true is the value is of the given type, false if not
 static inline bool object_is_type(value_t value, object_type_t type)
 {
     return IS_OBJECT(value) && AS_OBJECT(value)->type == type;

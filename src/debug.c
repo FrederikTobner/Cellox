@@ -11,15 +11,13 @@ static int debug_invoke_instruction(char const *, chunk_t *, int32_t);
 static int32_t debug_jump_instruction(char const *, int32_t, chunk_t *, int32_t);
 static int32_t debug_simple_instruction(char const *, int32_t);
 
-// Dissasembles a chunk of bytecode instructions
-void debug_disassemble_chunk(chunk_t * chunk, char const *name)
+void debug_disassemble_chunk(chunk_t * chunk, char const * name)
 {
   printf("== %s ==\n", name);
   for (int32_t offset = 0; offset < chunk->count;)
     offset = debug_disassemble_instruction(chunk, offset);
 }
 
-// Dissasembles a single instruction
 int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
 {
   printf("%04X ", offset);
@@ -133,7 +131,11 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
   }
 }
 
-// Shows the slot number of a local variable
+/// @brief Shows the slot number of a local variable
+/// @param name The name of the local variable
+/// @param chunk The chunk where the local variable is stored
+/// @param offset The offset of the local variable, used for getting the local variable
+/// @return The index of the next bytecode instruction in the chunk
 static int32_t debug_byte_instruction(char const * name, chunk_t * chunk, int32_t offset)
 {
   uint8_t slot = *(chunk->code + offset + 1);
@@ -141,7 +143,11 @@ static int32_t debug_byte_instruction(char const * name, chunk_t * chunk, int32_
   return offset + 2;
 }
 
-// Dissasembles a constant instruction - OP_CONSTANT
+/// @brief Dissasembles a constant instruction - OP_CONSTANT
+/// @param name The name of the constant
+/// @param chunk The chunk where the constant is located
+/// @param offset The offset of the constant
+/// @return The 
 static int32_t debug_constant_instruction(char const * name, chunk_t * chunk, int32_t offset)
 {
   uint8_t constant = chunk->code[offset + 1];

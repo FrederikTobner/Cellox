@@ -37,6 +37,11 @@ TEST(BinaryOperators, multiply)
     test_cellox_program("binaryOperators/multiply.clx", "15\n");
 }
 
+TEST(BinaryOperators, not_equal)
+{
+    test_cellox_program("binaryOperators/not_equal.clx", "true\ntrue\ntrue\nfalse\nfalse\nfalse\n");
+}
+
 TEST(BinaryOperators, plus)
 {
     test_cellox_program("binaryOperators/plus.clx", "8\ntest\n");
@@ -55,10 +60,4 @@ TEST(BinaryOperators, smaller)
 TEST(BinaryOperators, smaller_equal)
 {
     test_cellox_program("binaryOperators/smaller_equal.clx", "true\ntrue\nfalse\n");
-}
-
-
-TEST(BinaryOperators, not_equal)
-{
-    test_cellox_program("binaryOperators/not_equal.clx", "true\ntrue\ntrue\nfalse\nfalse\nfalse\n");
 }

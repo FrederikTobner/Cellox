@@ -4,7 +4,7 @@
 #include "common.h"
 #include "value.h"
 
-// Configuration of a native function
+/// @brief Configuration of a native function
 typedef struct
 {
 char const * functionName;
@@ -12,44 +12,81 @@ void * function;
 size_t arrity;
 }native_function_config_t;
 
+/// @brief Typedefinition of a native function
+typedef value_t (*native_function_t)(int32_t argCount, value_t *args);
 
-// Returns an array that contains the native function configurations
+/// @brief Gets the configuration of the native functions
+/// @return an array that contains the native function configurations 
 native_function_config_t * native_get_function_configs();
 
-// The amount of native functions that are defiened
+/// @brief Gets the amount of defined native functions
+/// @return The amount of native functions that are defiened 
 size_t native_get_function_count();
 
-// Determines the class of a cellox instance
+/// @brief Determines the class of a cellox instance
+/// @param argCount The amount of arguments that were used when class_of was called
+/// @param args The arguments that class_of was called with
+/// @return The class of the instance
 value_t native_classof(uint32_t argCount, value_t const * args);
 
-// Native clock function - used for benchmarks
+/// @brief Native clock function - used for benchmarks
+/// @param argCount The amount of arguments that were used when clock was called
+/// @param args The arguments that clock was called with
+/// @return The amount of seconds that have passed since the program execution started
 value_t native_clock(uint32_t argCount, value_t const * args);
 
-// Native Exit function
+/// @brief Native Exit function
+/// @param argCount The amount of arguments that were used when exit was called
+/// @param args The arguments that exit was called with
+/// @return Nothing because the program will exit
 value_t native_exit(uint32_t argCount, value_t const * args);
 
-// Gets the user name
+/// @brief Gets the user name
+/// @param argCount The amount of arguments that were used when get_username was called
+/// @param args The aguments that get_username was called with
+/// @return An object string that represents the user name
 value_t native_get_username(uint32_t argCount, value_t const * args);
 
-// Native random function - returns a random number
+/// @brief Native random function
+/// @param argCount The amount of arguments that were used when random was called
+/// @param args The arguments that random was called with
+/// @return a random number
 value_t native_random(uint32_t argCount, value_t const * args);
 
-// Native readLine function
+/// @brief Reads the next line of characters from the standard input
+/// @param argCount The amount of arguments that were used when read_line was called
+/// @param args The aguments that read_line was called with
+/// @return The line that was read
 value_t native_read_line(uint32_t argCount, value_t const * args);
 
-// Returns true if the program is executed on a linux system and false if not
+/// @brief Determines whether the program is executed under linux
+/// @param argCount The amount of arguments that were used when on_linux was called
+/// @param args The aguments that on_linux was called with
+/// @return true if the program is executed on a linux system and false if not
 value_t native_on_linux(uint32_t argCount, value_t const * args);
 
-// Returns true if the program is executed on a windows system and false if not
+/// @brief Determines whether the program is executed under windows
+/// @param argCount The amount of arguments that were used when on_windows was called
+/// @param args The aguments that on_windows was called with
+/// @return true if the program is executed on a windows system and false if not
 value_t native_on_windows(uint32_t argCount, value_t const * args);
 
-// Determines the length of a string
+/// @brief Determines the length of a string
+/// @param argCount The amount of arguments that were used when strlen was called
+/// @param args The aguments that strlen was called with
+/// @return The length of the string
 value_t native_string_length(uint32_t argCount, value_t const * args);
 
-// Used to execute a terminal command
+/// @brief  Used to execute a system call
+/// @param argCount The amount of arguments that were used when system was called
+/// @param args The aguments that system was called with
+/// @return NULL
 value_t native_system(uint32_t argCount, value_t const * args);
 
-// Native wait function
+/// @brief Native wait function - waits for the specified amount of seconds
+/// @param argCount The amount of arguments that were used when wait was called
+/// @param args The aguments that wait was called with
+/// @return NULL
 value_t native_wait(uint32_t argCount, value_t const * args);
 
 #endif

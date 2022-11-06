@@ -1,0 +1,3 @@
+var a = "foo";
+var a;
+print a;

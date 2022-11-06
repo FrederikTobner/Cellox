@@ -1,5 +1,5 @@
-#ifndef cellox_vm_h
-#define cellox_vm_h
+#ifndef CELLOX_VIRTUAL_MACHINE_H_
+#define CELLOX_VIRTUAL_MACHINE_H_
 
 #include "object.h"
 #include "table.h"
@@ -10,7 +10,7 @@
 // Maximum amount values that can be allocated on the stack of the VirtualMachine - currently 16384 values
 #define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
 
-// type definition of a call frame structure - represents a single ongoing function call
+/// @brief type definition of a call frame structure - represents a single ongoing function call
 typedef struct
 {
     // The closure of the callframe
@@ -21,7 +21,7 @@ typedef struct
     value_t * slots;
 } call_frame_t;
 
-// Type definition of the stackbased virtual machine
+/// @brief Type definition of the stackbased virtual machine
 typedef struct
 {
     // Callstack of the virtual machine
@@ -52,9 +52,10 @@ typedef struct
     object_t * objects;
     // The stack that contains all the gray objects
     object_t ** grayStack;
+    char * program;
 } virtual_machine_t;
 
-// Result of the interpretation (sucessfull, error during compilation or at runtime)
+/// @brief Result of the interpretation (sucessfull, error during compilation or at runtime)
 typedef enum
 {
     // No error occured
@@ -67,19 +68,23 @@ typedef enum
 
 extern virtual_machine_t virtualMachine;
 
-// Deallocates the memory used by the VirtualMachine
+/// @brief Deallocates the memory used by the VirtualMachine
 void vm_free();
 
-// Creates a new VirtualMachine
+/// @brief Initializes a VirtualMachine
 void vm_init();
 
-// Interprets a lox program
-interpret_result_t vm_interpret(char const *);
+/// @brief Interprets a lox program
+/// @param source The source that is interpreted
+/// @return A interpret result that indicates whether the program execution sucessful
+interpret_result_t vm_interpret(char * program, bool freeProgram);
 
-// Pushes a new Value on the stack
-void vm_push(value_t);
+/// @brief Pushes a new Value on the stack
+/// @param value The value that is pushed on the stack
+void vm_push(value_t value);
 
-// Pops a value from the stack
+/// @brief Pops a value from the stack
+/// @return The value that was popped from the stack
 value_t vm_pop();
 
 #endif

@@ -9,8 +9,8 @@
 // The max load factor of the hashtable, if the max load factor multiplied with the capacity is reached is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
 
-static void table_adjust_capacity(table_t *, int32_t);
-static entry_t *table_find_entry(entry_t *, int32_t, object_string_t *);
+static void table_adjust_capacity(table_t * , int32_t );
+static entry_t * table_find_entry(entry_t * , int32_t , object_string_t *);
 
 void table_free(table_t * table)
 {
@@ -122,7 +122,9 @@ bool table_set(table_t * table, object_string_t * key, value_t value)
     return isNewKey;
 }
 
-// Adjusts the capacity of the hash table
+/// @brief Adjusts the capicity of a hashtable
+/// @param table The hashtable where the capacity is changed
+/// @param capacity The new capacity of the hashtable
 static void table_adjust_capacity(table_t * table, int32_t capacity)
 {
     entry_t * entries = ALLOCATE(entry_t, capacity);
@@ -147,8 +149,12 @@ static void table_adjust_capacity(table_t * table, int32_t capacity)
     table->capacity = capacity;
 }
 
-// Looks up an entry in the hashtable, based on a key
-static entry_t * table_find_entry(entry_t * entries, int32_t capacity, object_string_t *key)
+/// @brief Looks up an entry in the hashtable
+/// @param entries The entries of the hashtable that is searched
+/// @param capacity The capacity of the hashtable
+/// @param key The key of the hashtable that is looked up
+/// @return Return sthe entry or NULL if the value has already been deleted
+static entry_t * table_find_entry(entry_t * entries, int32_t capacity, object_string_t * key)
 {
     uint32_t index = key->hash % capacity;
     entry_t *tombstone = NULL;

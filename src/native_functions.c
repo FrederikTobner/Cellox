@@ -14,6 +14,7 @@
 #include "native_functions.h"
 #include "object.h"
 #include "value.h"
+#include "virtual_machine.h"
 
 typedef enum
 {
@@ -59,6 +60,7 @@ native_function_config_t native_function_configs [] =
 #define MAX_READ_LINE_INPUT 1024
 #define MAX_USER_NAME_LENGTH 256
 
+static void native_arguments_error(char const * format, ...);
 static void native_assert_arrity(uint8_t, uint32_t);
 
 native_function_config_t * native_get_function_configs()
@@ -75,10 +77,7 @@ value_t native_classof(uint32_t argCount, value_t const * args)
 {
     native_assert_arrity(NATIVE_FUNCTION_CLASS_OF, argCount);
     if (!IS_INSTANCE(*args))
-    {
-        printf("class_of can only be called with an instance as argument");
-        exit(65);
-    }
+        native_arguments_error("class_of can only be called with an instance as argument");
     return OBJECT_VAL(AS_INSTANCE(*args)->celloxClass);
 }
 
@@ -92,11 +91,10 @@ value_t native_exit(uint32_t argCount, value_t const * args)
 {
     native_assert_arrity(NATIVE_FUNCTION_EXIT, argCount);
     if (!IS_NUMBER(*args))
-    {
-        printf("exit can only be called with a number as argument");
-        exit(65);
-    }
-    exit(AS_NUMBER(*args));
+        native_arguments_error("exit can only be called with a number as argument");
+    int exitCode = AS_NUMBER(*args);
+    vm_free();
+    exit(exitCode);
 }
 
 value_t native_get_username(uint32_t argCount, value_t const * args)
@@ -155,10 +153,7 @@ value_t native_string_length(uint32_t argCount, value_t const * args)
 {
     native_assert_arrity(NATIVE_FUNCTION_STRLEN, argCount);
     if(!IS_STRING(*args))
-    {
-        printf("strlen can only be called with a string as argument");
-        exit(65);
-    }
+        native_arguments_error("strlen can only be called with a string as argument");
     return NUMBER_VAL(strlen(AS_CSTRING(*args)));
 }
 
@@ -166,10 +161,7 @@ value_t native_system(uint32_t argCount, value_t const * args)
 {
      native_assert_arrity(NATIVE_FUNCTION_SYSTEM, argCount);
     if (!IS_STRING(*args))
-    {
-        printf("system can only be called with a string as argument");
-        exit(65);
-    }
+        native_arguments_error("system can only be called with a string as argument");
     system(AS_CSTRING(*args));
     return NULL_VAL;
 }
@@ -178,10 +170,7 @@ value_t native_wait(uint32_t argCount, value_t const * args)
 {
     native_assert_arrity(NATIVE_FUNCTION_WAIT, argCount);
     if (!IS_NUMBER(*args))
-    {
-        printf("wait can only be called with a number as argument");
-        exit(65);
-    }
+        native_arguments_error("wait can only be called with a number as argument");
 #ifdef _WIN32
     // Milliseconds -> multiply with 1000
     Sleep(AS_NUMBER(*args) * 1000);
@@ -193,14 +182,26 @@ value_t native_wait(uint32_t argCount, value_t const * args)
     return NULL_VAL;
 }
 
+/// @brief Asserts that the native function was called with the appropriate argumentcount
+/// @param function The native function that was called
+/// @param argcount The amount of arguments that were used to call the native function
 static void native_assert_arrity(uint8_t function, uint32_t argcount)
 {
     if (native_function_configs[function].arrity != argcount)
     {
-        printf("%s expects %zu arguments but was called with %d", 
+        native_arguments_error("%s expects %zu arguments but was called with %d", 
         native_function_configs[function].functionName, 
         native_function_configs[function].arrity, 
         argcount);
-        exit(65);
     }
+}
+
+static void native_arguments_error(char const * format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
+    vm_free();
+    exit(65);
 }

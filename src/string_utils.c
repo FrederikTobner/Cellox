@@ -117,7 +117,9 @@ int string_utils_resolve_escape_sequence(char * text, uint32_t * length)
     return 0;    
 }
 
-// Removes the first character in a sequence of characters
+/// @brief Removes the first character in a character sequence
+/// @param text The character sequence where the first character is removed
+/// @param length Pointer to the length if the character sequence of the string (decremented by 1 in function)
 static void string_utils_behead(char * text, int * length)
 {
     uint32_t stringLength = strlen(text);

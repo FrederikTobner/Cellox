@@ -28,12 +28,14 @@ index_operator.cc
 limits.cc
 literal_expressions.cc
 logical_operators.cc
+method.cc
 native_functions.cc
 super.cc
 test_cellox.cc
 test_cellox.hh
 this.cc
 unary_operator.cc
+variable.cc
 while_loops.cc
 )
 
@@ -65,7 +67,6 @@ FetchContent_MakeAvailable(googletest)
 
 #Links googletest libary and cellox tests
 target_link_libraries(${THIS} GTest::gtest_main)
-
 
 # Includes google test framework
 include(googletest)
