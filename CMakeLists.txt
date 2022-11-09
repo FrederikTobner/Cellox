@@ -59,7 +59,7 @@ add_subdirectory(benchmark)
 if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
 # usual approach doesn't work under linux using gcc 
 else()
-# Please use msvc for testing (pthreads isn't included under windows using mingw and gcc and include googletest fails under ubuntu)
+# Please use msvc x86 for testing (pthreads isn't included under windows using mingw and gcc and include googletest fails under ubuntu and tests behave weird under x64)
 enable_testing()
 # Builds tests for the interpreter
 add_subdirectory(test)

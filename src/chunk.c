@@ -9,9 +9,9 @@ static bool chunk_is_full(chunk_t * chunk);
 
 int32_t chunk_add_constant(chunk_t * chunk, value_t value)
 {
-  vm_push(value);
-  dynamic_array_write(&chunk->constants, value);
-  vm_pop();
+  virtual_machine_push(value);
+  dynamic_value_array_write(&chunk->constants, value);
+  virtual_machine_pop();
   return chunk->constants.count - 1;
 }
 
@@ -19,7 +19,7 @@ void chunk_free(chunk_t * chunk)
 {
   FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
   FREE_ARRAY(uint32_t, chunk->lines, chunk->capacity);
-  dynamic_array_free(&chunk->constants);
+  dynamic_value_array_free(&chunk->constants);
   chunk_init(chunk);
 }
 
@@ -28,7 +28,7 @@ void chunk_init(chunk_t * chunk)
   chunk->count = chunk->capacity = 0;
   chunk->code = NULL;
   chunk->lines = NULL;
-  dynamic_array_init(&chunk->constants);
+  dynamic_value_array_init(&chunk->constants);
 }
 
 void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)
@@ -42,12 +42,12 @@ void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)
     // Allocates bytecode array
     uint8_t * grownChunk = GROW_ARRAY(uint8_t, chunk->code, oldCapacity, chunk->capacity);
     if(!grownChunk)
-        exit(80);    
+        exit(EXIT_CODE_SYSTEM_ERROR);    
     chunk->code = grownChunk;
     // Allocates line array
     chunk->lines = GROW_ARRAY(uint32_t, chunk->lines, oldCapacity, chunk->capacity);
     if(!chunk->lines)
-      exit(80);
+      exit(EXIT_CODE_SYSTEM_ERROR);
   }
   // Writes the bytecodeintstruction to the chunk
   chunk->code[chunk->count] = byte;

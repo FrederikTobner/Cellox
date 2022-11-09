@@ -206,10 +206,10 @@ static object_string_t * object_allocate_string(char * chars, uint32_t length, u
     string->length = length;
     string->chars = chars;
     string->hash = hash;
-    vm_push(OBJECT_VAL(string));
+    virtual_machine_push(OBJECT_VAL(string));
     // Adds the string to hashtable storing all the strings allocated by the virtualMachine
     table_set(&virtualMachine.strings, string, NULL_VAL);
-    vm_pop();
+    virtual_machine_pop();
     return string;
 }
 

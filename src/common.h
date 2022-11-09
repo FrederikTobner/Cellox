@@ -1,6 +1,16 @@
 #ifndef CELLOX_COMMON_H_
 #define CELLOX_COMMON_H_
 
+typedef enum
+{
+    EXIT_CODE_OK = 0,
+    EXIT_CODE_COMMAND_LINE_USAGE_ERROR = 64,
+    EXIT_CODE_COMPILATION_ERROR = 65,
+    EXIT_CODE_RUNTIME_ERROR = 70,
+    EXIT_CODE_SYSTEM_ERROR = 71,
+    EXIT_CODE_INPUT_OUTPUT_ERROR = 74
+}interpreter_exit_code_t;
+
 // Bool from the C99 standard
 #include <stdbool.h>
 
@@ -15,6 +25,9 @@
 
 //Flag for enabeling NAN boxing / NAN tagging
 #define NAN_BOXING
+
+// Flag that inidcates that is defined the build variant for the interpreter is not debug
+#ifndef NDEBUG
 
 // Flag that indicates that a test is executed
 #ifndef CELLOX_TESTS_RUNNING
@@ -40,4 +53,6 @@ Should only be used for debugging*/
 
 #endif // CELLOX_TESTS_RUNNING
 
-#endif // cellox_common_h
+#endif // NDEBUG
+
+#endif // CELLOX_COMMON_H_

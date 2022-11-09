@@ -6,12 +6,15 @@ endif()
 set(THIS ${PROJECT_NAME}Benchmarks)
 
 set(BENCHMARK_HEADERS
-benchmark.h
+benchmark_runner.h
+command_line_argument_parser.h
+common.h
 )
 
 set(BENCHMARK_SOURCES
-benchmark.c 
+benchmark_runner.c 
 main.c
+command_line_argument_parser.c
 )
 
 add_compile_definitions(
@@ -29,6 +32,3 @@ endif()
 
 
 add_executable(${THIS} ${CELLOXSOURCES} ${CELLOXHEADERS} ${BENCHMARK_HEADERS} ${BENCHMARK_SOURCES})
-
-# Includes SourcePath of the compiler for shorter includes
-target_include_directories(${THIS} PUBLIC ${SOURCEPATH})

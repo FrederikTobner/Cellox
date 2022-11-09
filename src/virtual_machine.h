@@ -69,22 +69,22 @@ typedef enum
 extern virtual_machine_t virtualMachine;
 
 /// @brief Deallocates the memory used by the VirtualMachine
-void vm_free();
+void virtual_machine_free();
 
 /// @brief Initializes a VirtualMachine
-void vm_init();
+void virtual_machine_init();
 
 /// @brief Interprets a lox program
 /// @param source The source that is interpreted
 /// @return A interpret result that indicates whether the program execution sucessful
-interpret_result_t vm_interpret(char * program, bool freeProgram);
+interpret_result_t virtual_machine_interpret(char * program, bool freeProgram);
 
 /// @brief Pushes a new Value on the stack
 /// @param value The value that is pushed on the stack
-void vm_push(value_t value);
+void virtual_machine_push(value_t value);
 
 /// @brief Pops a value from the stack
 /// @return The value that was popped from the stack
-value_t vm_pop();
+value_t virtual_machine_pop();
 
 #endif

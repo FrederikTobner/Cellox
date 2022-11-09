@@ -69,7 +69,7 @@ void memory_mark_object(object_t * object)
     virtualMachine.grayStack = (object_t **)realloc(virtualMachine.grayStack, sizeof(object_t *) * virtualMachine.grayCapacity);
   }
   if (!virtualMachine.grayStack)
-    exit(1);
+    exit(EXIT_CODE_SYSTEM_ERROR);
   virtualMachine.grayStack[virtualMachine.grayCount++] = object;
 }
 
@@ -100,7 +100,7 @@ void *memory_reallocate(void * pointer, size_t oldSize, size_t newSize)
   if (!result)
   {
     fprintf(stderr, "Failed too allocate memory");
-    exit(80);
+    exit(EXIT_CODE_SYSTEM_ERROR);
   }
   return result;
 }
