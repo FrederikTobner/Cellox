@@ -16,24 +16,24 @@
 /// @brief Global VirtualMachine variable
 virtual_machine_t virtualMachine;
 
-static bool vm_bind_method(object_class_t *, object_string_t *);
-static bool vm_call(object_closure_t *, uint32_t);
-static bool vm_call_value(value_t, uint32_t);
-static object_upvalue_t *vm_capture_upvalue(value_t *);
-static void vm_close_upvalues(value_t *);
-static void vm_concatenate();
-static void vm_define_method(object_string_t *);
-static void vm_define_native(char const *, native_function_t);
-static void vm_define_natives();
-static bool vm_invoke(object_string_t *, uint32_t);
-static bool vm_invoke_from_class(object_class_t *, object_string_t *, uint32_t);
-static bool vm_is_falsey(value_t);
-static value_t vm_peek(int32_t);
-static void vm_reset_stack();
-static interpret_result_t vm_run();
-static void vm_runtime_error(char const *, ...);
+static bool virtual_machine_bind_method(object_class_t *, object_string_t *);
+static bool virtual_machine_call(object_closure_t *, uint32_t);
+static bool virtual_machine_call_value(value_t, uint32_t);
+static object_upvalue_t * virtual_machine_capture_upvalue(value_t *);
+static void virtual_machine_close_upvalues(value_t *);
+static void virtual_machine_concatenate();
+static void virtual_machine_define_method(object_string_t *);
+static void virtual_machine_define_native(char const *, native_function_t);
+static void virtual_machine_define_natives();
+static bool virtual_machine_invoke(object_string_t *, uint32_t);
+static bool virtual_machine_invoke_from_class(object_class_t *, object_string_t *, uint32_t);
+static bool virtual_machine_is_falsey(value_t);
+static value_t virtual_machine_peek(int32_t);
+static void virtual_machine_reset_stack();
+static interpret_result_t virtual_machine_run();
+static void virtual_machine_runtime_error(char const *, ...);
 
-void vm_free()
+void virtual_machine_free()
 {
     table_free(&virtualMachine.globals);
     table_free(&virtualMachine.strings);
@@ -43,9 +43,9 @@ void vm_free()
     memory_free_objects();
 }
 
-void vm_init()
+void virtual_machine_init()
 {
-    vm_reset_stack();
+    virtual_machine_reset_stack();
     virtualMachine.program = NULL;
     virtualMachine.objects = NULL;
     virtualMachine.bytesAllocated = 0;
@@ -59,63 +59,63 @@ void vm_init()
     virtualMachine.initString = NULL;
     virtualMachine.initString = object_copy_string("init", 4u, false);
     // defines the native functions supported by the virtual machine
-    vm_define_natives();
+    virtual_machine_define_natives();
 }
 
-interpret_result_t vm_interpret(char * program, bool freeProgram)
+interpret_result_t virtual_machine_interpret(char * program, bool freeProgram)
 {
     object_function_t *function = compiler_compile(program);
     if (function == NULL)
         return INTERPRET_COMPILE_ERROR;
-    vm_push(OBJECT_VAL(function));
+    virtual_machine_push(OBJECT_VAL(function));
     object_closure_t *closure = object_new_closure(function);
-    vm_pop();
-    vm_push(OBJECT_VAL(closure));
-    vm_call(closure, 0u);
+    virtual_machine_pop();
+    virtual_machine_push(OBJECT_VAL(closure));
+    virtual_machine_call(closure, 0u);
     if(freeProgram)
         virtualMachine.program = program;
-    return vm_run();
+    return virtual_machine_run();
 }
 
-void vm_push(value_t value)
+void virtual_machine_push(value_t value)
 {
     // There are 16384 values on the stack 🤯
     if ((virtualMachine.stackTop - virtualMachine.stack) == STACK_MAX)
-        vm_runtime_error("Stack overflow!!!");
+        virtual_machine_runtime_error("Stack overflow!!!");
     *virtualMachine.stackTop = value;
     virtualMachine.stackTop++;
 }
 
-value_t vm_pop()
+value_t virtual_machine_pop()
 {
     virtualMachine.stackTop--;
     return *virtualMachine.stackTop;
 }
 
 /// @brief Defines the native functions of the virtual machine
-static void vm_define_natives()
+static void virtual_machine_define_natives()
 {
-    native_function_config_t * configs = native_get_function_configs();
-    native_function_config_t * upperBound = configs + native_get_function_count();
+    native_function_config_t * configs = native_functions_get_function_configs();
+    native_function_config_t * upperBound = configs + native_functions_get_function_count();
     for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound; nativeFunctionPointer++)
-        vm_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
+        virtual_machine_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
 }
 
 /// @brief Binds a method to a cellox class
 /// @param celloxClass The class the method is bound to
 /// @param name The name of the method
 /// @return true if the method was defiened, false if not
-static bool vm_bind_method(object_class_t * celloxClass, object_string_t * name)
+static bool virtual_machine_bind_method(object_class_t * celloxClass, object_string_t * name)
 {
     value_t method;
     if (!table_get(&celloxClass->methods, name, &method))
     {
-        vm_runtime_error("Undefined property '%s'.", name->chars);
+        virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
         return false;
     }
-    object_bound_method_t *bound = object_new_bound_method(vm_peek(0), AS_CLOSURE(method));
-    vm_pop();
-    vm_push(OBJECT_VAL(bound));
+    object_bound_method_t *bound = object_new_bound_method(virtual_machine_peek(0), AS_CLOSURE(method));
+    virtual_machine_pop();
+    virtual_machine_push(OBJECT_VAL(bound));
     return true;
 }
 
@@ -123,18 +123,18 @@ static bool vm_bind_method(object_class_t * celloxClass, object_string_t * name)
 /// @param closure The closure the function belongs to
 /// @param argCount The amount of arguments that are used when the function is envoked
 /// @return true if everything went well, false if something went wrong (stack overflow / wrong argument count)
-static bool vm_call(object_closure_t * closure, uint32_t argCount)
+static bool virtual_machine_call(object_closure_t * closure, uint32_t argCount)
 {
     if (argCount != closure->function->arity)
     {
-        vm_runtime_error("Expected %d arguments but got %d.", closure->function->arity, argCount);
+        virtual_machine_runtime_error("Expected %d arguments but got %d.", closure->function->arity, argCount);
         return false;
     }
 
     if (virtualMachine.frameCount == FRAMES_MAX)
     {
         // The callstack is 64 calls deep 🤯
-        vm_runtime_error("Stack overflow.");
+        virtual_machine_runtime_error("Stack overflow.");
         return false;
     }
 
@@ -145,7 +145,7 @@ static bool vm_call(object_closure_t * closure, uint32_t argCount)
     return true;
 }
 
-static bool vm_call_value(value_t callee, uint32_t argCount)
+static bool virtual_machine_call_value(value_t callee, uint32_t argCount)
 {
     if (IS_OBJECT(callee))
     {
@@ -155,7 +155,7 @@ static bool vm_call_value(value_t callee, uint32_t argCount)
         {
             object_bound_method_t * bound = AS_BOUND_METHOD(callee);
             virtualMachine.stackTop[-argCount - 1] = bound->receiver;
-            return vm_call(bound->method, argCount);
+            return virtual_machine_call(bound->method, argCount);
         }
         case OBJECT_CLASS:
         {
@@ -163,36 +163,36 @@ static bool vm_call_value(value_t callee, uint32_t argCount)
             virtualMachine.stackTop[-argCount - 1] = OBJECT_VAL(object_new_instance(celloxClass));
             value_t initializer;
             if (table_get(&celloxClass->methods, virtualMachine.initString, &initializer))
-                return vm_call(AS_CLOSURE(initializer), argCount);
+                return virtual_machine_call(AS_CLOSURE(initializer), argCount);
             else if (argCount != 0)
             {
-                vm_runtime_error("Expected 0 arguments but got %d.", argCount);
+                virtual_machine_runtime_error("Expected 0 arguments but got %d.", argCount);
                 return false;
             }
             return true;
         }
         case OBJECT_CLOSURE:
-            return vm_call(AS_CLOSURE(callee), argCount);
+            return virtual_machine_call(AS_CLOSURE(callee), argCount);
         case OBJECT_NATIVE:
         {
             native_function_t native = AS_NATIVE(callee);
             value_t result = native(argCount, virtualMachine.stackTop - argCount);
             virtualMachine.stackTop -= argCount + 1;
-            vm_push(result);
+            virtual_machine_push(result);
             return true;
         }
         default:
             break; // Non-callable object type.
         }
     }
-    vm_runtime_error("Can only call functions and classes.");
+    virtual_machine_runtime_error("Can only call functions and classes.");
     return false;
 }
 
 /// @brief Captures an upvalue of the enclosing environment
 /// @param local 
 /// @return 
-static object_upvalue_t * vm_capture_upvalue(value_t * local)
+static object_upvalue_t * virtual_machine_capture_upvalue(value_t * local)
 {
     object_upvalue_t * prevUpvalue = NULL;
     object_upvalue_t * upvalue = virtualMachine.openUpvalues;
@@ -218,7 +218,7 @@ static object_upvalue_t * vm_capture_upvalue(value_t * local)
  * The concept of an upvalue is borrowed from Lua - see https://www.lua.org/pil/27.3.3.html.
  * A upvalue is closed by copying the objects value into the closed field in te ObjectValue.
  */
-static void vm_close_upvalues(value_t * last)
+static void virtual_machine_close_upvalues(value_t * last)
 {
     while (virtualMachine.openUpvalues && virtualMachine.openUpvalues->location >= last)
     {
@@ -230,53 +230,53 @@ static void vm_close_upvalues(value_t * last)
 }
 
 /// @brief Concatenates the two upper values on the stack
-static void vm_concatenate()
+static void virtual_machine_concatenate()
 {
-    object_string_t * b = AS_STRING(vm_peek(0));
-    object_string_t * a = AS_STRING(vm_peek(1));
+    object_string_t * b = AS_STRING(virtual_machine_peek(0));
+    object_string_t * a = AS_STRING(virtual_machine_peek(1));
     uint32_t length = a->length + b->length;
     char *chars = ALLOCATE(char, length + 1u);
     memcpy(chars, a->chars, a->length);
     memcpy(chars + a->length, b->chars, b->length);
     chars[length] = '\0';
     object_string_t * result = object_take_string(chars, length);
-    vm_pop();
-    vm_pop();
-    vm_push(OBJECT_VAL(result));
+    virtual_machine_pop();
+    virtual_machine_pop();
+    virtual_machine_push(OBJECT_VAL(result));
 }
 
 /// @brief Defines a new Method in the hashTable of the cellox class instance
 /// @param name The name of the method
-static void vm_define_method(object_string_t * name)
+static void virtual_machine_define_method(object_string_t * name)
 {
-    value_t method = vm_peek(0);
-    object_class_t *celloxClass = AS_CLASS(vm_peek(1));
+    value_t method = virtual_machine_peek(0);
+    object_class_t *celloxClass = AS_CLASS(virtual_machine_peek(1));
     table_set(&celloxClass->methods, name, method);
-    vm_pop();
+    virtual_machine_pop();
 }
 
 /// @brief Defines a native function for the virtual machine
 /// @param name The name of the native function
 /// @param function The function that is defined
-static void vm_define_native(char const * name, native_function_t function)
+static void virtual_machine_define_native(char const * name, native_function_t function)
 {
-    vm_push(OBJECT_VAL(object_copy_string(name, (int32_t)strlen(name), false)));
-    vm_push(OBJECT_VAL(object_new_native(function)));
+    virtual_machine_push(OBJECT_VAL(object_copy_string(name, (int32_t)strlen(name), false)));
+    virtual_machine_push(OBJECT_VAL(object_new_native(function)));
     table_set(&virtualMachine.globals, AS_STRING(virtualMachine.stack[0]), virtualMachine.stack[1]);
-    vm_pop();
-    vm_pop();
+    virtual_machine_pop();
+    virtual_machine_pop();
 }
 
 /// @brief Invokes a method bound to a cellox class instance
 /// @param name The name of the method that is envoked
 /// @param argCount The amount of arguments that are used when calling the method
 /// @return true if everything went well, false if something went wrong (not a cellox instance / undefiened method / stack overflow / wrong argument count)
-static bool vm_invoke(object_string_t * name, uint32_t argCount)
+static bool virtual_machine_invoke(object_string_t * name, uint32_t argCount)
 {
-    value_t receiver = vm_peek(argCount);
+    value_t receiver = virtual_machine_peek(argCount);
     if (!IS_INSTANCE(receiver))
     {
-        vm_runtime_error("Only instances have methods.");
+        virtual_machine_runtime_error("Only instances have methods.");
         return false;
     }
     object_instance_t *instance = AS_INSTANCE(receiver);
@@ -284,9 +284,9 @@ static bool vm_invoke(object_string_t * name, uint32_t argCount)
     if (table_get(&instance->fields, name, &value))
     {
         virtualMachine.stackTop[-argCount - 1] = value;
-        return vm_call_value(value, argCount);
+        return virtual_machine_call_value(value, argCount);
     }
-    return vm_invoke_from_class(instance->celloxClass, name, argCount);
+    return virtual_machine_invoke_from_class(instance->celloxClass, name, argCount);
 }
 
 /// @brief Invokes a method from a celloxclass
@@ -294,21 +294,21 @@ static bool vm_invoke(object_string_t * name, uint32_t argCount)
 /// @param name Thee name of the method that is envoked
 /// @param argCount The amount of arguments that are used when envoking the function
 /// @return true if everything went well, false if something went wrong (undefiened method / stack overflow / wrong argument count)
-static bool vm_invoke_from_class(object_class_t * celloxClass, object_string_t * name, uint32_t argCount)
+static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, object_string_t * name, uint32_t argCount)
 {
     value_t method;
     if (!table_get(&celloxClass->methods, name, &method))
     {
-        vm_runtime_error("Undefined property '%s'.", name->chars);
+        virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
         return false;
     }
-    return vm_call(AS_CLOSURE(method), argCount);
+    return virtual_machine_call(AS_CLOSURE(method), argCount);
 }
 
 /// @brief  Determines if a value is falsey (either null or false)
 /// @param value The value that is evalued
 /// @return true if the value is null or false, otherwise false
-static bool vm_is_falsey(value_t value)
+static bool virtual_machine_is_falsey(value_t value)
 {
     return IS_NULL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
@@ -316,13 +316,13 @@ static bool vm_is_falsey(value_t value)
 /// @brief Gets the value at the specified distance on the stacj
 /// @param distance The distance to the value
 /// @return The value at the specified distance
-static value_t vm_peek(int32_t distance)
+static value_t virtual_machine_peek(int32_t distance)
 {
     return virtualMachine.stackTop[-1 - distance];
 }
 
 /// @brief Resets the stack of the vm
-static void vm_reset_stack()
+static void virtual_machine_reset_stack()
 {
     virtualMachine.stackTop = virtualMachine.stack;
     virtualMachine.frameCount = 0u;
@@ -331,7 +331,7 @@ static void vm_reset_stack()
 
 /// @brief Runs a lox program that was converted to bytecode instructions
 /// @return OK if the program was executed sucessfull or a runtime error code if a runtime error occured
-static interpret_result_t vm_run()
+static interpret_result_t virtual_machine_run()
 {
 #ifdef DEBUG_TRACE_EXECUTION
     printf("== execution ==\n");
@@ -354,14 +354,14 @@ so all the statements in it get executed if they are after an if 🤮 */
 #define BINARY_OP(valueType, op)                              \
     do                                                        \
     {                                                         \
-        if (!IS_NUMBER(vm_peek(0)) || !IS_NUMBER(vm_peek(1))) \
+        if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) \
         {                                                     \
-            vm_runtime_error("Operands must be numbers but they are a %s value and a %s value", value_stringify_type(vm_peek(0)), value_stringify_type(vm_peek(1)));    \
+            virtual_machine_runtime_error("Operands must be numbers but they are a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));    \
             return INTERPRET_RUNTIME_ERROR;                   \
         }                                                     \
-        double b = AS_NUMBER(vm_pop());                       \
-        double a = AS_NUMBER(vm_pop());                       \
-        vm_push(valueType(a op b));                           \
+        double b = AS_NUMBER(virtual_machine_pop());                       \
+        double a = AS_NUMBER(virtual_machine_pop());                       \
+        virtual_machine_push(valueType(a op b));                           \
     } while (false)
 
     // Makro reads the next byte at the current positioon in the chunk
@@ -385,17 +385,17 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
         case OP_ADD:
         {
-            if (IS_STRING(vm_peek(0)) && IS_STRING(vm_peek(1)))
+            if (IS_STRING(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1)))
             {
-                vm_concatenate();
+                virtual_machine_concatenate();
             }
-            else if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
+            else if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)))
             {
                 BINARY_OP(NUMBER_VAL, +);
             }
             else
             {
-                vm_runtime_error("Operands must be two numbers or two strings but they are a %s value and a %s value", value_stringify_type(vm_peek(0)), value_stringify_type(vm_peek(1)));
+                virtual_machine_runtime_error("Operands must be two numbers or two strings but they are a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -403,7 +403,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_CALL:
         {
             int32_t argCount = READ_BYTE();
-            if (!vm_call_value(vm_peek(argCount), argCount))
+            if (!virtual_machine_call_value(virtual_machine_peek(argCount), argCount))
             {
                 // Amount of arguments used to call a function is not correct
                 return INTERPRET_RUNTIME_ERROR;
@@ -415,33 +415,33 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
             object_function_t * function = AS_FUNCTION(READ_CONSTANT());
             object_closure_t * closure = object_new_closure(function);
-            vm_push(OBJECT_VAL(closure));
+            virtual_machine_push(OBJECT_VAL(closure));
             for (uint32_t i = 0; i < closure->upvalueCount; i++)
             {
                 uint8_t isLocal = READ_BYTE();
                 uint8_t index = READ_BYTE();
-                closure->upvalues[i] = isLocal ? vm_capture_upvalue(frame->slots + index) : frame->closure->upvalues[index];
+                closure->upvalues[i] = isLocal ? virtual_machine_capture_upvalue(frame->slots + index) : frame->closure->upvalues[index];
             }
             break;
         }
         case OP_CLASS:
-            vm_push(OBJECT_VAL(object_new_class(READ_STRING())));
+            virtual_machine_push(OBJECT_VAL(object_new_class(READ_STRING())));
             break;
         case OP_CLOSE_UPVALUE:
-            vm_close_upvalues(virtualMachine.stackTop - 1);
-            vm_pop();
+            virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
+            virtual_machine_pop();
             break;
         case OP_CONSTANT:
         {
             value_t constant = READ_CONSTANT();
-            vm_push(constant);
+            virtual_machine_push(constant);
             break;
         }
         case OP_DEFINE_GLOBAL:
         {
             object_string_t * name = READ_STRING();
-            table_set(&virtualMachine.globals, name, vm_peek(0));
-            vm_pop();
+            table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
+            virtual_machine_pop();
             break;
         }
         case OP_DIVIDE:
@@ -449,28 +449,28 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_EQUAL:
         {
-            value_t a = vm_pop();
-            value_t b = vm_pop();
-            vm_push(BOOL_VAL(value_values_equal(a, b)));
+            value_t a = virtual_machine_pop();
+            value_t b = virtual_machine_pop();
+            virtual_machine_push(BOOL_VAL(value_values_equal(a, b)));
             break;
         }
         case OP_EXPONENT:
         {
-            if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
+            if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)))
             {
-                double b = AS_NUMBER(vm_pop());
-                double a = AS_NUMBER(vm_pop());
-                vm_push(NUMBER_VAL(pow(a, b)));
+                double b = AS_NUMBER(virtual_machine_pop());
+                double a = AS_NUMBER(virtual_machine_pop());
+                virtual_machine_push(NUMBER_VAL(pow(a, b)));
             }
             else
             {
-                vm_runtime_error("Operands must be two numbers but they are a %s value and a %s value", value_stringify_type(vm_peek(0)), value_stringify_type(vm_peek(1)));
+                virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
         }
         case OP_FALSE:
-            vm_push(BOOL_VAL(false));
+            virtual_machine_push(BOOL_VAL(false));
             break;
         case OP_GET_GLOBAL:
         {
@@ -478,32 +478,32 @@ so all the statements in it get executed if they are after an if 🤮 */
             value_t value;
             if (!table_get(&virtualMachine.globals, name, &value))
             {
-                vm_runtime_error("Undefined variable '%s'.", name->chars);
+                virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
                 return INTERPRET_RUNTIME_ERROR;
             }
-            vm_push(value);
+            virtual_machine_push(value);
             break;
         }
         case OP_GET_INDEX_OF:
         {
-            if (IS_NUMBER(vm_peek(0)) && IS_STRING(vm_peek(1)))
+            if (IS_NUMBER(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1)))
             {
-                int num = AS_NUMBER(vm_pop());
-                object_string_t * str = AS_STRING(vm_pop());
+                int num = AS_NUMBER(virtual_machine_pop());
+                object_string_t * str = AS_STRING(virtual_machine_pop());
                 if (num >= str->length || num < 0)
                 {
-                    vm_runtime_error("accessed string out of bounds");
+                    virtual_machine_runtime_error("accessed string out of bounds");
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 char *chars = ALLOCATE(char, 2u);
                 chars[0] = str->chars[num];
                 chars[1] = '\0';
                 object_string_t *result = object_take_string(chars, 1u);
-                vm_push(OBJECT_VAL(result));
+                virtual_machine_push(OBJECT_VAL(result));
             }
             else
             {
-                vm_runtime_error("Operands must a number and a string but was called with a %s value and a %s value", value_stringify_type(vm_peek(0)),  value_stringify_type(vm_peek(1)));
+                virtual_machine_runtime_error("Operands must a number and a string but was called with a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)),  value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -511,40 +511,40 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_GET_LOCAL:
         {
             uint8_t slot = READ_BYTE();
-            vm_push(frame->slots[slot]);
+            virtual_machine_push(frame->slots[slot]);
             break;
         }
         case OP_GET_PROPERTY:
         {
-            if (!IS_INSTANCE(vm_peek(0)))
+            if (!IS_INSTANCE(virtual_machine_peek(0)))
             {
-                vm_runtime_error("Only instances have properties.");
+                virtual_machine_runtime_error("Only instances have properties.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            object_instance_t * instance = AS_INSTANCE(vm_peek(0));
+            object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(0));
             object_string_t * name = READ_STRING();
 
             value_t value;
             if (table_get(&instance->fields, name, &value))
             {
-                vm_pop(); // Instance.
-                vm_push(value);
+                virtual_machine_pop(); // Instance.
+                virtual_machine_push(value);
                 break;
             }
-            if (!vm_bind_method(instance->celloxClass, name))
+            if (!virtual_machine_bind_method(instance->celloxClass, name))
             {
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
-            vm_runtime_error("Undefined property '%s'.", name->chars);
+            virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
             return INTERPRET_RUNTIME_ERROR;
         }
         case OP_GET_SUPER:
         {
             object_string_t * name = READ_STRING();
-            object_class_t * superclass = AS_CLASS(vm_pop());
+            object_class_t * superclass = AS_CLASS(virtual_machine_pop());
 
-            if (!vm_bind_method(superclass, name))
+            if (!virtual_machine_bind_method(superclass, name))
             {
                 return INTERPRET_RUNTIME_ERROR;
             }
@@ -553,7 +553,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_GET_UPVALUE:
         {
             uint8_t slot = READ_BYTE();
-            vm_push(*frame->closure->upvalues[slot]->location);
+            virtual_machine_push(*frame->closure->upvalues[slot]->location);
             break;
         }
         case OP_GREATER:
@@ -561,22 +561,22 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_INHERIT:
         {
-            value_t superclass = vm_peek(1);
+            value_t superclass = virtual_machine_peek(1);
             if (!IS_CLASS(superclass))
             {
-                vm_runtime_error("Superclass must be a class.");
+                virtual_machine_runtime_error("Superclass must be a class.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            object_class_t *subclass = AS_CLASS(vm_peek(0));
+            object_class_t *subclass = AS_CLASS(virtual_machine_peek(0));
             table_add_all(&AS_CLASS(superclass)->methods, &subclass->methods);
-            vm_pop(); // Subclass.
+            virtual_machine_pop(); // Subclass.
             break;
         }
         case OP_INVOKE:
         {
             object_string_t * method = READ_STRING();
             int argCount = READ_BYTE();
-            if (!vm_invoke(method, argCount))
+            if (!virtual_machine_invoke(method, argCount))
             {
                 return INTERPRET_RUNTIME_ERROR;
             }
@@ -593,7 +593,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_JUMP_IF_FALSE:
         {
             uint16_t offset = READ_SHORT();
-            if (vm_is_falsey(vm_peek(0)))
+            if (virtual_machine_is_falsey(virtual_machine_peek(0)))
                 // We jump 🦘
                 frame->ip += offset;
             break;
@@ -608,19 +608,19 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         }
         case OP_METHOD:
-            vm_define_method(READ_STRING());
+            virtual_machine_define_method(READ_STRING());
             break;
         case OP_MODULO:
         {
-            if (IS_NUMBER(vm_peek(0)) && IS_NUMBER(vm_peek(1)))
+            if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)))
             {
-                int b = AS_NUMBER(vm_pop());
-                int a = AS_NUMBER(vm_pop());
-                vm_push(NUMBER_VAL(a % b));
+                int b = AS_NUMBER(virtual_machine_pop());
+                int a = AS_NUMBER(virtual_machine_pop());
+                virtual_machine_push(NUMBER_VAL(a % b));
             }
             else
             {
-                vm_runtime_error("Operands must be two numbers but they are a %s value and a %s value", value_stringify_type(vm_peek(0)), value_stringify_type(vm_peek(1)));
+                virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -629,62 +629,62 @@ so all the statements in it get executed if they are after an if 🤮 */
             BINARY_OP(NUMBER_VAL, *);
             break;
         case OP_NEGATE:
-            if (!IS_NUMBER(vm_peek(0)))
+            if (!IS_NUMBER(virtual_machine_peek(0)))
             {
-                vm_runtime_error("Operand must be a number but is a %s value.", value_stringify_type(vm_peek(0)));
+                virtual_machine_runtime_error("Operand must be a number but is a %s value.", value_stringify_type(virtual_machine_peek(0)));
                 return INTERPRET_RUNTIME_ERROR;
             }
-            vm_push(NUMBER_VAL(-AS_NUMBER(vm_pop(0))));
+            virtual_machine_push(NUMBER_VAL(-AS_NUMBER(virtual_machine_pop(0))));
             break;
         case OP_NOT:
-            vm_push(BOOL_VAL(vm_is_falsey(vm_pop())));
+            virtual_machine_push(BOOL_VAL(virtual_machine_is_falsey(virtual_machine_pop())));
             break;
         case OP_NULL:
-            vm_push(NULL_VAL);
+            virtual_machine_push(NULL_VAL);
             break;
         case OP_POP:
-            vm_pop();
+            virtual_machine_pop();
             break;
         case OP_PRINT:
-            value_print(vm_pop());
+            value_print(virtual_machine_pop());
             printf("\n");
             break;
         case OP_RETURN:
         {
-            value_t result = vm_pop();
-            vm_close_upvalues(frame->slots);
+            value_t result = virtual_machine_pop();
+            virtual_machine_close_upvalues(frame->slots);
             virtualMachine.frameCount--;
             if (virtualMachine.frameCount == 0)
             {
-                vm_pop();
+                virtual_machine_pop();
                 return INTERPRET_OK;
             }
             virtualMachine.stackTop = frame->slots;
-            vm_push(result);
+            virtual_machine_push(result);
             frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
             break;
         }
         case OP_SET_GLOBAL:
         {
             object_string_t *name = READ_STRING();
-            if (table_set(&virtualMachine.globals, name, vm_peek(0)))
+            if (table_set(&virtualMachine.globals, name, virtual_machine_peek(0)))
             {
                 table_delete(&virtualMachine.globals, name);
-                vm_runtime_error("Undefined variable '%s'.", name->chars);
+                virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
         }
         case OP_SET_INDEX_OF:
         {
-            if (IS_STRING(vm_peek(0)) && IS_NUMBER(vm_peek(1)) && IS_STRING(vm_peek(2)))
+            if (IS_STRING(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)) && IS_STRING(virtual_machine_peek(2)))
             {
-                object_string_t * character = AS_STRING(vm_pop());
-                int num = AS_NUMBER(vm_pop());
-                object_string_t * str = AS_STRING(vm_pop());
+                object_string_t * character = AS_STRING(virtual_machine_pop());
+                int num = AS_NUMBER(virtual_machine_pop());
+                object_string_t * str = AS_STRING(virtual_machine_pop());
                 if (num >= str->length || num < 0 || character->length != 1)
                 {
-                    vm_runtime_error("accessed string out of bounds");
+                    virtual_machine_runtime_error("accessed string out of bounds");
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 char * newCharacterSequence = malloc(str->length + 1);
@@ -692,11 +692,11 @@ so all the statements in it get executed if they are after an if 🤮 */
                 newCharacterSequence[num] = character->chars[0];
                 newCharacterSequence[str->length] = '\0';
                 object_string_t * newString = object_take_string(newCharacterSequence, str->length);
-                vm_push(OBJECT_VAL(newString));
+                virtual_machine_push(OBJECT_VAL(newString));
             }
             else
             {
-                vm_runtime_error("Can only be called with a sting a number and string but was called with a %s value and a %s value", value_stringify_type(vm_peek(0)),  value_stringify_type(vm_peek(1)));
+                virtual_machine_runtime_error("Can only be called with a sting a number and string but was called with a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)),  value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -704,27 +704,27 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_SET_LOCAL:
         {
             uint8_t slot = READ_BYTE();
-            frame->slots[slot] = vm_peek(0);
+            frame->slots[slot] = virtual_machine_peek(0);
             break;
         }
         case OP_SET_PROPERTY:
         {
-            if (!IS_INSTANCE(vm_peek(1)))
+            if (!IS_INSTANCE(virtual_machine_peek(1)))
             {
-                vm_runtime_error("Only instances have fields.");
+                virtual_machine_runtime_error("Only instances have fields.");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            object_instance_t * instance = AS_INSTANCE(vm_peek(1));
-            table_set(&instance->fields, READ_STRING(), vm_peek(0));
-            value_t value = vm_pop();
-            vm_pop();
-            vm_push(value);
+            object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(1));
+            table_set(&instance->fields, READ_STRING(), virtual_machine_peek(0));
+            value_t value = virtual_machine_pop();
+            virtual_machine_pop();
+            virtual_machine_push(value);
             break;
         }
         case OP_SET_UPVALUE:
         {
             uint8_t slot = READ_BYTE();
-            *frame->closure->upvalues[slot]->location = vm_peek(0);
+            *frame->closure->upvalues[slot]->location = virtual_machine_peek(0);
             break;
         }
         case OP_SUBTRACT:
@@ -734,8 +734,8 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
             object_string_t * method = READ_STRING();
             int argCount = READ_BYTE();
-            object_class_t * superclass = AS_CLASS(vm_pop());
-            if (!vm_invoke_from_class(superclass, method, argCount))
+            object_class_t * superclass = AS_CLASS(virtual_machine_pop());
+            if (!virtual_machine_invoke_from_class(superclass, method, argCount))
             {
                 return INTERPRET_RUNTIME_ERROR;
             }
@@ -743,7 +743,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         }
         case OP_TRUE:
-            vm_push(BOOL_VAL(true));
+            virtual_machine_push(BOOL_VAL(true));
             break;
         default:
             printf("Bytecode intstruction not supported by VM");
@@ -759,7 +759,7 @@ so all the statements in it get executed if they are after an if 🤮 */
 /// @brief Reports an error that has occured at runtime
 /// @param format The formater of the error message
 /// @param args Arguments that are passed in for the formatter
-static void vm_runtime_error(char const * format, ...)
+static void virtual_machine_runtime_error(char const * format, ...)
 {
     va_list args;
     va_start(args, format);
@@ -777,5 +777,5 @@ static void vm_runtime_error(char const * format, ...)
         else
             fprintf(stderr, "%s()\n", function->name->chars);
     }
-    vm_reset_stack();
+    virtual_machine_reset_stack();
 }

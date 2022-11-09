@@ -1,5 +1,6 @@
 #include "init.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,13 +19,14 @@
 // Maximum length of a line is 1024 characters
 #define MAX_LINE_LENGTH 1024u
 
+static void init_io_error(char const *, ...);
 static char *init_read_file(char const *);
 static void init_repl();
 static void init_run_from_file(char const *);
 
 void init_initialize(int const argc, char const ** argv)
 {
-    vm_init();
+    virtual_machine_init();
     if (argc == 1)
         init_repl();
     else if (argc == 2)
@@ -33,10 +35,25 @@ void init_initialize(int const argc, char const ** argv)
     {
         // Too much arguments (>1) TODO: Add argumenrs for the compiler e.g. --analyze/-a, --help, --store/-s and --version/-v options 
         fprintf(stderr, "Usage: Cellox [path]\n");        
-        vm_free();
-        exit(64);
+        virtual_machine_free();
+        exit(EXIT_CODE_COMMAND_LINE_USAGE_ERROR);
     }
-    vm_free();
+    virtual_machine_free();
+}
+
+/// @brief Prints a error message for io errors and exits if no tests are executed
+/// @param format The formater of the error message
+/// @param args The arguments that are formated
+static void init_io_error(char const * format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
+    fputs("\n", stderr);
+    #ifndef CELLOX_TESTS_RUNNING
+        exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
+    #endif
 }
 
 /// @brief Reads a file from disk
@@ -48,12 +65,8 @@ static char * init_read_file(char const * path)
     FILE * file = fopen(path, "rb");
     if (!file)
     {
-        fprintf(stderr, "Could not open file \"%s\".\n", path);
-        #ifndef CELLOX_TESTS_RUNNING
-        exit(74);
-        #else
+        init_io_error("Could not open file \"%s\".\n", path);
         return NULL;
-        #endif
     }
     fseek(file, 0L, SEEK_END);
     size_t fileSize = ftell(file);
@@ -61,22 +74,14 @@ static char * init_read_file(char const * path)
     char * buffer = (char *)malloc(fileSize + 1);
     if (!buffer)
     {
-        fprintf(stderr, "Not enough memory to read \"%s\".\n", path);
-        #ifndef CELLOX_TESTS_RUNNING
-        exit(74);
-        #else
+        init_io_error("Not enough memory to read \"%s\".\n", path);
         return NULL;
-        #endif
     }
     size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
     if (bytesRead < fileSize)
     {
-        fprintf(stderr, "Could not read file \"%s\".\n", path);
-        #ifndef CELLOX_TESTS_RUNNING
-        exit(74);
-        #else
+        init_io_error("Could not read file \"%s\".\n", path);
         return NULL;
-        #endif
     }
     // We add null the end of the source-code to mark the end of the file
     buffer[bytesRead] = '\0';
@@ -119,8 +124,11 @@ static void init_repl()
         }
         // We close the command prompt if the last input was empty - \n
         if (strlen(line) == 1)
-            exit(0);
-        vm_interpret(line, false);
+        {
+            virtual_machine_free();
+            exit(EXIT_CODE_OK);            
+        }
+        virtual_machine_interpret(line, false);
     }
 }
 
@@ -133,15 +141,15 @@ static void init_run_from_file(char const * path)
     if(!source)
         return;
     #endif
-    interpret_result_t result = vm_interpret(source, true);
+    interpret_result_t result = virtual_machine_interpret(source, true);
     #ifndef CELLOX_TESTS_RUNNING
     if(result != INTERPRET_OK)
-        vm_free();
+        virtual_machine_free();
     // Error during compilation process
     if (result == INTERPRET_COMPILE_ERROR)
-        exit(65);
+        exit(EXIT_CODE_COMPILATION_ERROR);
     // Error during runtime
     if (result == INTERPRET_RUNTIME_ERROR)
-        exit(70);
+        exit(EXIT_CODE_RUNTIME_ERROR);
     #endif
 }

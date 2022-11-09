@@ -68,7 +68,7 @@ A cellox program is converted into bytecode and executed by a stack based [virtu
 
 ## Dependencies
 
-Cellox is written in C, using the C99 standard and only depends on the C standard libary, so give it a try!.
+Cellox is written in C, using the C99 standard and only depends on the C standard libary, so give it a try!
 
 [CMake](https://cmake.org/) is used for building within the whole project.
 
@@ -76,4 +76,6 @@ Cellox is written in C, using the C99 standard and only depends on the C standar
 
 The test are written in C++ using the [google-test framework](https://github.com/google/googletest) (version 1.12.1).
 
-For testing a cellox program is executed and the standard output redirected to a string. The string is compared with the expected output after the program was executed.
+For testing a cellox program is executed and the standard output is redirected to a string. The string is compared with the expected output after the program was executed.
+
+A small benchmarking suite to measure the performance of cellox programs is also included.

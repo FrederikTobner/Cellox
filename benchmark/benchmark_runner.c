@@ -1,102 +1,107 @@
-#include "benchmark.h"
+#include "benchmark_runner.h"
 
 #include <float.h>
+#include <stdbool.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
-#include "init.h"
-
-typedef struct
-{
-    char const * benchmarkName;
-    char const * benchmarkFileName;
-    size_t executionCount;
-}benchmark_config_t;
+#include "../src/init.h"
 
 static benchmark_config_t benchmarks[] = 
 {
     [BENCHMARK_EQUALITY] =
     {
         .benchmarkName = "Equality",
-        .benchmarkFileName = "Equality.clx",
+        .benchmarkFilePath = "Equality.clx",
         .executionCount = 3
     },
     [BENCHMARK_FIBONACCI] =
     {
         .benchmarkName = "Fibonacci",
-        .benchmarkFileName = "Fibonacci.clx",
+        .benchmarkFilePath = "Fibonacci.clx",
         .executionCount = 3
     },
     [BENCHMARK_INSTANTIATION] =
     {
         .benchmarkName = "Instantiation",
-        .benchmarkFileName = "Instantiation.clx",
+        .benchmarkFilePath = "Instantiation.clx",
         .executionCount = 3
     },
     [BENCHMARK_METHOD_CALL] =
     {
         .benchmarkName = "Method Call",
-        .benchmarkFileName = "MethodCall.clx",
+        .benchmarkFilePath = "MethodCall.clx",
         .executionCount = 3
     },
     [BENCHMARK_NEGATE] =
     {
         .benchmarkName = "Negate",
-        .benchmarkFileName = "Negate.clx",
+        .benchmarkFilePath = "Negate.clx",
         .executionCount = 3
     },
     [BENCHMARK_PROPERTIES] =
     {
         .benchmarkName = "Properties",
-        .benchmarkFileName = "Properties.clx",
+        .benchmarkFilePath = "Properties.clx",
         .executionCount = 3
     },
     [BENCHMARK_STRING_EQUALITY] =
     {
         .benchmarkName = "String Equality",
-        .benchmarkFileName = "StringEquality.clx",
+        .benchmarkFilePath = "StringEquality.clx",
         .executionCount = 3
     },
     [BENCHMARK_ZOO] =
     {
         .benchmarkName = "Zoo",
-        .benchmarkFileName = "Zoo.clx",
+        .benchmarkFilePath = "Zoo.clx",
         .executionCount = 3
     }
 };
 
 
-static void execute(benchmark_config_t benchmark);
+static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, bool custom);
 
-void benchmark_execute_all_benchmarks()
+void benchmark_runner_execute_all_predefiened()
 {
-    printf("%15s - %10s - %10s - %10s\n",  "Name", "average", "min", "max" );
+    printf("%10s | %10s | %10s | %8s\n",  "average", "min", "max", "name" );
     size_t benchmarkCount = sizeof(benchmarks) / sizeof(*benchmarks);
     for (size_t i = 0; i < benchmarkCount; i++)
-        execute(*(benchmarks + i));    
+        benchmark_runner_execute_benchmark(*(benchmarks + i), false);    
 }
 
-void benchmark_execute(benchmark_t benchmark)
+void benchmark_runner_execute_predefiened(benchmark_t benchmark)
 {
-    printf("%15s - %10s - %10s - %10s\n",  "Name", "average", "min", "max" );
-    execute(*(benchmarks + benchmark));    
+    printf("%10s | %10s | %10s | %8s\n",  "average", "min", "max", "name" );
+    benchmark_runner_execute_benchmark(*(benchmarks + benchmark), false);    
 }
 
-static void execute(benchmark_config_t benchmark)
+void benchmark_runner_execute_custom_benchmarks(benchmark_config_t * config, size_t count)
+{
+    printf("%10s | %10s | %10s | %8s\n-----------|------------|------------|-----------\n",  "average", "min", "max", "name" );
+    for (size_t i = 0; i < count; i++)
+        benchmark_runner_execute_benchmark(config[i], true);    
+}
+
+static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, bool custom)
 {
     double combined_execution_duration = 0.0;
     double min_execution_duration = DBL_MAX;
     double max_execution_duration = DBL_MIN;
-
-    char * filePath = (char *)malloc(1024);
-    *filePath = '\0';
-    strcat(filePath, BENCHMARK_BASE_PATH);
-    strcat(filePath, benchmark.benchmarkFileName);
-    filePath[strlen(BENCHMARK_BASE_PATH) + strlen(filePath)] = '\0';
+    char * filePath = NULL;
     const char *args[2];
-    *(args + 1) = filePath;
+    if(!custom)
+    {
+        filePath = (char *)malloc(strlen(BENCHMARK_BASE_PATH) + strlen(benchmark.benchmarkFilePath) + 1);
+        *filePath = '\0';
+        strcat(filePath, BENCHMARK_BASE_PATH);
+        strcat(filePath, benchmark.benchmarkFilePath);
+        filePath[strlen(BENCHMARK_BASE_PATH) + strlen(filePath)] = '\0';
+        *(args + 1) = filePath;
+    }
+    else
+        *(args + 1) = benchmark.benchmarkFilePath;  
 
     char * measured_time = (char *)calloc(1024, sizeof(char));
     #ifdef _WIN32
@@ -134,11 +139,11 @@ static void execute(benchmark_config_t benchmark)
     #ifdef linux
     freopen("CON", "w", stdout);
     #endif
-    printf("%15s - %9gs - %9gs - %9gs\n",  
-            benchmark.benchmarkName, 
+    printf("%9gs | %9gs | %9gs | %s\n", 
             combined_execution_duration / benchmark.executionCount,
             min_execution_duration,
-            max_execution_duration);
+            max_execution_duration,
+            benchmark.benchmarkName);
+    if(!custom)
     free(measured_time);
-    free(filePath);
 }

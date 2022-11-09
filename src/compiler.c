@@ -1488,7 +1488,7 @@ static void compiler_this(bool canAssign)
         compiler_error("Can't use 'this' outside of a class.");
         return;
     }
-
+    // This can not be reassigned
     compiler_variable(false);
 }
 
