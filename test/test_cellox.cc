@@ -24,10 +24,7 @@ static void test_program(std::string const & programPath, std::string const & ex
 {
     // Create absolute filepath
     std::string filePath = TEST_PROGRAM_BASE_PATH;
-    filePath.append(programPath);    
-    // Create call args
-    char const * args[2];
-    *(args + 1) = filePath.c_str();
+    filePath.append(programPath);
     
     // Redirect output
     char actual_output [1024];
@@ -55,7 +52,7 @@ static void test_program(std::string const & programPath, std::string const & ex
     }
     
     // Execute Test 🚀
-    init_initialize(2, args);
+    init_run_from_file(filePath.c_str(), false);
 
     if(producesError)
     {
@@ -68,7 +65,7 @@ static void test_program(std::string const & programPath, std::string const & ex
         #endif
     }
     else
-    {
+    {   
         // Reset stdout redirection
         #ifdef _WIN32
         freopen("CON", "w", stdout);

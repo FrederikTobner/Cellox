@@ -35,8 +35,8 @@ static void virtual_machine_runtime_error(char const *, ...);
 
 void virtual_machine_free()
 {
-    table_free(&virtualMachine.globals);
-    table_free(&virtualMachine.strings);
+    hash_table_free(&virtualMachine.globals);
+    hash_table_free(&virtualMachine.strings);
     virtualMachine.initString = NULL;
     if(virtualMachine.program)
         free(virtualMachine.program);
@@ -53,9 +53,10 @@ void virtual_machine_init()
     virtualMachine.grayCount = virtualMachine.grayCapacity = 0u;
     virtualMachine.grayStack = NULL;
     // Initializes the hashtable that contains the global variables
-    table_init(&virtualMachine.globals);
+    hash_table_init(&virtualMachine.globals);
     // Initializes the hashtable that contains the strings
-    table_init(&virtualMachine.strings);
+    hash_table_init(&virtualMachine.strings);
+    //virtualMachine.stackTop = virtualMachine.stack;
     virtualMachine.initString = NULL;
     virtualMachine.initString = object_copy_string("init", 4u, false);
     // defines the native functions supported by the virtual machine
@@ -108,7 +109,7 @@ static void virtual_machine_define_natives()
 static bool virtual_machine_bind_method(object_class_t * celloxClass, object_string_t * name)
 {
     value_t method;
-    if (!table_get(&celloxClass->methods, name, &method))
+    if (!hash_table_get(&celloxClass->methods, name, &method))
     {
         virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
         return false;
@@ -162,7 +163,7 @@ static bool virtual_machine_call_value(value_t callee, uint32_t argCount)
             object_class_t * celloxClass = AS_CLASS(callee);
             virtualMachine.stackTop[-argCount - 1] = OBJECT_VAL(object_new_instance(celloxClass));
             value_t initializer;
-            if (table_get(&celloxClass->methods, virtualMachine.initString, &initializer))
+            if (hash_table_get(&celloxClass->methods, virtualMachine.initString, &initializer))
                 return virtual_machine_call(AS_CLOSURE(initializer), argCount);
             else if (argCount != 0)
             {
@@ -251,7 +252,7 @@ static void virtual_machine_define_method(object_string_t * name)
 {
     value_t method = virtual_machine_peek(0);
     object_class_t *celloxClass = AS_CLASS(virtual_machine_peek(1));
-    table_set(&celloxClass->methods, name, method);
+    hash_table_set(&celloxClass->methods, name, method);
     virtual_machine_pop();
 }
 
@@ -262,7 +263,7 @@ static void virtual_machine_define_native(char const * name, native_function_t f
 {
     virtual_machine_push(OBJECT_VAL(object_copy_string(name, (int32_t)strlen(name), false)));
     virtual_machine_push(OBJECT_VAL(object_new_native(function)));
-    table_set(&virtualMachine.globals, AS_STRING(virtualMachine.stack[0]), virtualMachine.stack[1]);
+    hash_table_set(&virtualMachine.globals, AS_STRING(virtualMachine.stack[0]), virtualMachine.stack[1]);
     virtual_machine_pop();
     virtual_machine_pop();
 }
@@ -281,7 +282,7 @@ static bool virtual_machine_invoke(object_string_t * name, uint32_t argCount)
     }
     object_instance_t *instance = AS_INSTANCE(receiver);
     value_t value;
-    if (table_get(&instance->fields, name, &value))
+    if (hash_table_get(&instance->fields, name, &value))
     {
         virtualMachine.stackTop[-argCount - 1] = value;
         return virtual_machine_call_value(value, argCount);
@@ -297,7 +298,7 @@ static bool virtual_machine_invoke(object_string_t * name, uint32_t argCount)
 static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, object_string_t * name, uint32_t argCount)
 {
     value_t method;
-    if (!table_get(&celloxClass->methods, name, &method))
+    if (!hash_table_get(&celloxClass->methods, name, &method))
     {
         virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
         return false;
@@ -440,7 +441,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_DEFINE_GLOBAL:
         {
             object_string_t * name = READ_STRING();
-            table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
+            hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
             virtual_machine_pop();
             break;
         }
@@ -476,7 +477,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
             object_string_t * name = READ_STRING();
             value_t value;
-            if (!table_get(&virtualMachine.globals, name, &value))
+            if (!hash_table_get(&virtualMachine.globals, name, &value))
             {
                 virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
                 return INTERPRET_RUNTIME_ERROR;
@@ -525,7 +526,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             object_string_t * name = READ_STRING();
 
             value_t value;
-            if (table_get(&instance->fields, name, &value))
+            if (hash_table_get(&instance->fields, name, &value))
             {
                 virtual_machine_pop(); // Instance.
                 virtual_machine_push(value);
@@ -568,7 +569,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_class_t *subclass = AS_CLASS(virtual_machine_peek(0));
-            table_add_all(&AS_CLASS(superclass)->methods, &subclass->methods);
+            hash_table_add_all(&AS_CLASS(superclass)->methods, &subclass->methods);
             virtual_machine_pop(); // Subclass.
             break;
         }
@@ -667,9 +668,9 @@ so all the statements in it get executed if they are after an if 🤮 */
         case OP_SET_GLOBAL:
         {
             object_string_t *name = READ_STRING();
-            if (table_set(&virtualMachine.globals, name, virtual_machine_peek(0)))
+            if (hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0)))
             {
-                table_delete(&virtualMachine.globals, name);
+                hash_table_delete(&virtualMachine.globals, name);
                 virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
                 return INTERPRET_RUNTIME_ERROR;
             }
@@ -715,7 +716,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(1));
-            table_set(&instance->fields, READ_STRING(), virtual_machine_peek(0));
+            hash_table_set(&instance->fields, READ_STRING(), virtual_machine_peek(0));
             value_t value = virtual_machine_pop();
             virtual_machine_pop();
             virtual_machine_push(value);

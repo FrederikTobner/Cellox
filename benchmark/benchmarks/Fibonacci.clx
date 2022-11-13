@@ -5,6 +5,6 @@ fun fibo(n)
 }
 
 var start = clock();
-fibo(35);
+fibo(30);
 var end = clock();
 print end - start;

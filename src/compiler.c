@@ -856,7 +856,7 @@ static object_function_t * compiler_end()
     object_function_t * function = current->function;
 #ifdef DEBUG_PRINT_CODE
     if (!parser.hadError)
-        debug_disassemble_chunk(compiler_current_chunk(), function->name != NULL ? function->name->chars : "<script>");
+        debug_disassemble_chunk(compiler_current_chunk(), function->name != NULL ? function->name->chars : "main", function->arity);
 #endif
     current = current->enclosing;
     return function;
@@ -1403,7 +1403,7 @@ static void compiler_statement()
 }
 
 /// @brief compiles a string literal expression
-/// @param canAssign Unused for strinf literaks
+/// @param canAssign Unused for string literals
 static void compiler_string(bool canAssign)
 {
     object_string_t * string = object_copy_string(parser.previous.start + 1, parser.previous.length - 2, true);

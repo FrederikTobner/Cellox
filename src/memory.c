@@ -27,7 +27,7 @@ void memory_collect_garbage()
   memory_mark_roots();
   memory_trace_references();
   // We have to remove the strings with a another method, because they have their own hashtable
-  table_remove_white(&virtualMachine.strings);
+  hash_table_remove_white(&virtualMachine.strings);
   // reclaim the garbage
   memory_sweep();
   // Adjusts the threshold when the next garbage collection will occur
@@ -47,7 +47,9 @@ void memory_free_objects()
     memory_free_object(object);
     object = next;
   }
-  free(virtualMachine.grayStack);
+  if(virtualMachine.grayStack)
+    free(virtualMachine.grayStack);
+  virtualMachine.objects = NULL;
 }
 
 void memory_mark_object(object_t * object)
@@ -126,7 +128,7 @@ static void memory_blacken_object(object_t * object)
   {
     object_class_t * celloxClass = (object_class_t *)object;
     memory_mark_object((object_t *)celloxClass->name);
-    table_mark(&celloxClass->methods);
+    hash_table_mark(&celloxClass->methods);
     break;
   }
   case OBJECT_CLOSURE:
@@ -150,7 +152,7 @@ static void memory_blacken_object(object_t * object)
   {
     object_instance_t * instance = (object_instance_t *)object;
     memory_mark_object((object_t *)instance->celloxClass);
-    table_mark(&instance->fields);
+    hash_table_mark(&instance->fields);
     break;
   }
   case OBJECT_UPVALUE:
@@ -176,7 +178,7 @@ static void memory_free_object(object_t * object)
   case OBJECT_CLASS:
   {
     object_class_t * celloxClass = (object_class_t *)object;
-    table_free(&celloxClass->methods);
+    hash_table_free(&celloxClass->methods);
     FREE(object_class_t, object);
     break;
   }
@@ -197,7 +199,7 @@ static void memory_free_object(object_t * object)
   case OBJECT_INSTANCE:
   {
     object_instance_t * instance = (object_instance_t *)object;
-    table_free(&instance->fields);
+    hash_table_free(&instance->fields);
     FREE(object_instance_t, object);
     break;
   }
@@ -237,7 +239,7 @@ static void memory_mark_roots()
   for (object_upvalue_t * upvalue = virtualMachine.openUpvalues; upvalue; upvalue = upvalue->next)
     memory_mark_object((object_t *)upvalue);
   // all the global variables
-  table_mark(&virtualMachine.globals);
+  hash_table_mark(&virtualMachine.globals);
   // And all the compiler roots allocated on the heap
   compiler_mark_roots();
   memory_mark_object((object_t *)virtualMachine.initString);

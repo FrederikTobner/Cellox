@@ -3,29 +3,13 @@
 
 #include <stddef.h>
 
-typedef enum
-{
-    BENCHMARK_EQUALITY,
-    BENCHMARK_FIBONACCI,
-    BENCHMARK_INSTANTIATION,
-    BENCHMARK_METHOD_CALL,
-    BENCHMARK_NEGATE,
-    BENCHMARK_PROPERTIES,
-    BENCHMARK_STRING_EQUALITY,
-    BENCHMARK_ZOO
-}benchmark_t;
-
-typedef struct
-{
-    char const * benchmarkName;
-    char const * benchmarkFilePath;
-    size_t executionCount;
-}benchmark_config_t;
+#include "benchmark_config.h"
+#include "dynamic_benchmark_config_array.h"
 
 void benchmark_runner_execute_all_predefiened();
 
 void benchmark_runner_execute_predefiened(benchmark_t benchmark);
 
-void benchmark_runner_execute_custom_benchmarks(benchmark_config_t * config, size_t count);
+void benchmark_runner_execute_custom_benchmarks(dynamic_benchmark_config_array_t * config_array);
 
 #endif

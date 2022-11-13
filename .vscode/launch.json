@@ -6,14 +6,14 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/examples/BinarySearchTreee.clx"
+                "${workspaceFolder}/examples/HelloWorld.clx",
             ],
             "stopAtEntry": false,
             "externalConsole": true,
             "cwd": "${workspaceFolder}",
             "program": "${workspaceFolder}/build/src/Cellox.exe",
             "MIMode": "gdb",
-            "miDebuggerPath": "gdb",
+            "miDebuggerPath": "C:/MinGW64/bin/gdb.exe",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -37,7 +37,7 @@
             "cwd": "${workspaceFolder}",
             "program": "${workspaceFolder}/build/benchmark/CelloxBenchmarks.exe",
             "MIMode": "gdb",
-            "miDebuggerPath": "gdb",
+            "miDebuggerPath": "C:/MinGW64/bin/gdb.exe",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",

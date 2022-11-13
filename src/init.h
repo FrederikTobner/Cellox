@@ -5,10 +5,10 @@
 extern "C" {
 #endif
 
-/// @brief Initialization method of the interpreter
-/// @param argc The amount of arguments that were specified by the user
-/// @param argv The arguments that were spepcified by the user
-void init_initialize(int const argc, char const ** argv);
+#include <stdbool.h>
+
+void init_repl();
+void init_run_from_file(char const *, bool);
 
 #ifdef __cplusplus
 }

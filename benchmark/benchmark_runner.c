@@ -8,6 +8,7 @@
 
 #include "../src/init.h"
 
+/// @brief Benchmarks that are included in the benchmarking suite
 static benchmark_config_t benchmarks[] = 
 {
     [BENCHMARK_EQUALITY] =
@@ -77,11 +78,11 @@ void benchmark_runner_execute_predefiened(benchmark_t benchmark)
     benchmark_runner_execute_benchmark(*(benchmarks + benchmark), false);    
 }
 
-void benchmark_runner_execute_custom_benchmarks(benchmark_config_t * config, size_t count)
+void benchmark_runner_execute_custom_benchmarks(dynamic_benchmark_config_array_t * config_array)
 {
     printf("%10s | %10s | %10s | %8s\n-----------|------------|------------|-----------\n",  "average", "min", "max", "name" );
-    for (size_t i = 0; i < count; i++)
-        benchmark_runner_execute_benchmark(config[i], true);    
+    for (size_t i = 0; i < config_array->count; i++)
+        benchmark_runner_execute_benchmark(config_array->configs[i], true);    
 }
 
 static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, bool custom)
@@ -90,7 +91,6 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
     double min_execution_duration = DBL_MAX;
     double max_execution_duration = DBL_MIN;
     char * filePath = NULL;
-    const char *args[2];
     if(!custom)
     {
         filePath = (char *)malloc(strlen(BENCHMARK_BASE_PATH) + strlen(benchmark.benchmarkFilePath) + 1);
@@ -98,10 +98,9 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
         strcat(filePath, BENCHMARK_BASE_PATH);
         strcat(filePath, benchmark.benchmarkFilePath);
         filePath[strlen(BENCHMARK_BASE_PATH) + strlen(filePath)] = '\0';
-        *(args + 1) = filePath;
     }
     else
-        *(args + 1) = benchmark.benchmarkFilePath;  
+        filePath = (char *)benchmark.benchmarkFilePath;  
 
     char * measured_time = (char *)calloc(1024, sizeof(char));
     #ifdef _WIN32
@@ -116,8 +115,9 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
     {
         // Redirect standard output to the beginnining of the buffer
         setbuf(stdout, measured_time);
-        // Execute benchmark
-        init_initialize(2, args);
+            
+        // Execute benchmark 🚀
+        init_run_from_file(filePath, false);
         // Remove newline at the end of the buffer
         measured_time[strlen(measured_time) - 1] = '\0';
         // store result

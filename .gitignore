@@ -1,2 +1,6 @@
+# Ignore build folder
 [Bb][Uu][Ii][Ll][Dd]/
+# Ignore Settings .json from vscode
 [Ss][Ee][Tt][Tt][Ii][Nn][Gg][Ss].[Jj][Ss][Oo][Nn]
+# Ignore cellox bytecode files
+*.[Cc][Xx][Cc][Ff]

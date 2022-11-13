@@ -7,27 +7,30 @@ endif()
 configure_file(cellox_config.h.in cellox_config.h)
 
 set(HEADERS
+    chunk_file.h
     chunk.h
     compiler.h
     dynamic_value_array.h
     debug.h
+    hash_table.h
     init.h
     lexer.h
     memory.h
     native_functions.h
     object.h
     string_utils.h
-    table.h
     value.h
     virtual_machine.h
 )
 
 set(SOURCES
+    chunk_file.c 
     chunk.c
     compiler.c
     compiler.h
     dynamic_value_array.c
     debug.c
+    hash_table.c
     init.c 
     lexer.c
     main.c
@@ -35,7 +38,6 @@ set(SOURCES
     native_functions.c
     object.c 
     string_utils.c
-    table.c
     value.c  
     virtual_machine.c
 )

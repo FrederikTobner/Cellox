@@ -4,7 +4,7 @@
 #include "chunk.h"
 #include "common.h"
 #include "native_functions.h"
-#include "table.h"
+#include "hash_table.h"
 #include "value.h"
 
 // Makro that determines the type of an object
