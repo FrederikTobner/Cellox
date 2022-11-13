@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 
+/// @brief A Benchmark configuration that can be used to execute a benchmark using the benchmarkrunner
 typedef struct
 {
     char const * benchmarkName;
@@ -10,6 +11,7 @@ typedef struct
     size_t executionCount;
 }benchmark_config_t;
 
+/// @brief Indexes of the benchmarks included in the benchmarking suite
 typedef enum
 {
     BENCHMARK_EQUALITY,

@@ -1,7 +1,8 @@
 {
-    "configurations": [
+    "configurations": 
+    [
         {
-            "name": "MinGW",
+            "name": "MinGW64",
             "includePath": [
                 "${workspaceFolder}/**"
             ],
@@ -10,8 +11,23 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:/MinGW/bin/gcc.exe",
-            "cStandard": "c11",
+            "compilerPath": "C:/MinGW64/bin/gcc.exe",
+            "cStandard": "c99",
+            "cppStandard": "c++14",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        },
+        {
+            "name": "MinGW32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/MinGW32/bin/gcc.exe",
+            "cStandard": "c99",
             "cppStandard": "c++14",
             "configurationProvider": "ms-vscode.cmake-tools"
         }

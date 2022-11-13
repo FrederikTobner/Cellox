@@ -1,7 +1,9 @@
 #include "debug.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
+#include "common.h"
 #include "object.h"
 #include "value.h"
 
@@ -11,14 +13,57 @@ static int debug_invoke_instruction(char const *, chunk_t *, int32_t);
 static int32_t debug_jump_instruction(char const *, int32_t, chunk_t *, int32_t);
 static int32_t debug_simple_instruction(char const *, int32_t);
 
-void debug_disassemble_chunk(chunk_t * chunk, char const * name)
+void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
 {
-  printf("== %s ==\n", name);
+  uint32_t stringCount, numberCount, functionCount;
+  dynamic_value_array_t functionNames;
+  dynamic_value_array_init(&functionNames);
+  stringCount = numberCount = functionCount = 0;
+  printf("function <%s> (%lu bytes of bytecode at 0x%p)\n", name, chunk->count, chunk->code);
+  for (size_t i = 0; i < chunk->constants.count; i++)
+  {
+    if (IS_OBJECT(chunk->constants.values[i]))
+    {
+      switch (OBJECT_TYPE(chunk->constants.values[i]))
+      {
+      case OBJECT_FUNCTION:
+        functionCount++;
+        dynamic_value_array_write(&functionNames, chunk->constants.values[i]);
+        break;
+      }
+    }
+  }
+  for (size_t i = 0; i < chunk->constants.count; i++)
+  {
+    if (IS_OBJECT(chunk->constants.values[i]))
+    {
+      switch (OBJECT_TYPE(chunk->constants.values[i]))
+      {
+      case OBJECT_STRING:
+        size_t i;
+        for (i = 0; i < functionNames.count; i++)
+        {
+          // String constant is a function call
+          if (!strcmp(AS_CSTRING(chunk->constants.values[i]), AS_FUNCTION(functionNames.values[i])->name->chars))
+            break;
+        }
+        if (i == functionNames.count)
+          stringCount++;
+        break;
+      }
+    }
+    else // Numbers
+    {
+      numberCount++;
+    }
+  }
+  printf("%lu %s, %lu %s, %lu %s, %lu %s\n", arity, arity == 1 ? "param" : "params", stringCount, stringCount == 1 ? "string constant" : "string constants", numberCount, numberCount == 1 ? "numerical constant" : "numerical constants", functionCount, functionCount == 1 ? "function" : "functions");
+  dynamic_value_array_free(&functionNames);
   for (int32_t offset = 0; offset < chunk->count;)
     offset = debug_disassemble_instruction(chunk, offset);
 }
 
-int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
+int32_t debug_disassemble_instruction(chunk_t *chunk, int32_t offset)
 {
   printf("%04X ", offset);
   if (offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1])
@@ -84,7 +129,7 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
   case OP_INHERIT:
     return debug_simple_instruction("INHERIT", offset);
   case OP_INVOKE:
-    return debug_invoke_instruction("INVOKE", chunk, offset);    
+    return debug_invoke_instruction("INVOKE", chunk, offset);
   case OP_JUMP:
     return debug_jump_instruction("JUMP", 1, chunk, offset);
   case OP_JUMP_IF_FALSE:
@@ -138,7 +183,7 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
 /// @param chunk The chunk where the local variable is stored
 /// @param offset The offset of the local variable, used for getting the local variable
 /// @return The index of the next bytecode instruction in the chunk
-static int32_t debug_byte_instruction(char const * name, chunk_t * chunk, int32_t offset)
+static int32_t debug_byte_instruction(char const *name, chunk_t *chunk, int32_t offset)
 {
   uint8_t slot = *(chunk->code + offset + 1);
   printf("%-16s %04X\n", name, slot);
@@ -149,8 +194,8 @@ static int32_t debug_byte_instruction(char const * name, chunk_t * chunk, int32_
 /// @param name The name of the constant
 /// @param chunk The chunk where the constant is located
 /// @param offset The offset of the constant
-/// @return The 
-static int32_t debug_constant_instruction(char const * name, chunk_t * chunk, int32_t offset)
+/// @return The
+static int32_t debug_constant_instruction(char const *name, chunk_t *chunk, int32_t offset)
 {
   uint8_t constant = chunk->code[offset + 1];
   printf("%-16s %04X '", name, constant);
@@ -160,7 +205,7 @@ static int32_t debug_constant_instruction(char const * name, chunk_t * chunk, in
 }
 
 // Dissasembles a invoke instruction
-static int debug_invoke_instruction(char const * name, chunk_t * chunk, int32_t offset)
+static int debug_invoke_instruction(char const *name, chunk_t *chunk, int32_t offset)
 {
   uint8_t constant = *(chunk->code + offset + 1);
   uint8_t argCount = *(chunk->code + offset + 2);
@@ -171,7 +216,7 @@ static int debug_invoke_instruction(char const * name, chunk_t * chunk, int32_t 
 }
 
 // Dissasembles a jump instruction (with a 16-bit operand)
-static int32_t debug_jump_instruction(char const * name, int32_t sign, chunk_t * chunk, int32_t offset)
+static int32_t debug_jump_instruction(char const *name, int32_t sign, chunk_t *chunk, int32_t offset)
 {
   uint16_t jump = (uint16_t)(*(chunk->code + offset + 1) << 8);
   jump |= *(chunk->code + offset + 2);
@@ -180,7 +225,7 @@ static int32_t debug_jump_instruction(char const * name, int32_t sign, chunk_t *
 }
 
 // Dissasembles a simple instruction
-static int32_t debug_simple_instruction(char const * name, int32_t offset)
+static int32_t debug_simple_instruction(char const *name, int32_t offset)
 {
   printf("%s\n", name);
   return offset + 1;

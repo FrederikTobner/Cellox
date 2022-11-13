@@ -127,9 +127,6 @@ static void chunk_file_append_constant(value_t value, dynamic_value_array_t * fu
     {
         switch (OBJECT_TYPE(value))
         {
-            case OBJECT_CLOSURE:
-                dynamic_value_array_write(functions, *(value_t *)&AS_CLOSURE(value)->function);
-                break;
             case OBJECT_FUNCTION:
                 dynamic_value_array_write(functions, value);
                 break;
@@ -139,7 +136,7 @@ static void chunk_file_append_constant(value_t value, dynamic_value_array_t * fu
                 fputc(0, filePointer);
                 break;
             default:
-                printf("Object type not spupported");
+                fprintf(stderr, "Object type not spupported");
                 exit(EXIT_CODE_COMPILATION_ERROR);
         }
     }

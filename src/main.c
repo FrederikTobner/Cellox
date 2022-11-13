@@ -11,7 +11,7 @@
 /// @return 0 -> OK, 64 -> wrong usage, 70 -> runtime error, 74 error reading from file, 80 memory allocation error
 int main(int argc, char const ** argv)
 {
-    virtual_machine_init();
+    
     if (argc == 1)
         init_repl();
     else if (argc == 2)
@@ -21,10 +21,8 @@ int main(int argc, char const ** argv)
     else
     {
         // Too much arguments (>1) TODO: Add argumenrs for the compiler e.g. --analyze/-a, --help, --store/-s and --version/-v options 
-        fprintf(stderr, "Usage: Cellox (-s|-r)? [path]\n");        
-        virtual_machine_free();
+        fprintf(stderr, "Usage: Cellox (-s|-r)? [path]\n");
         return EXIT_CODE_COMMAND_LINE_USAGE_ERROR;
     }
-    virtual_machine_free();
     return EXIT_CODE_OK;
 }

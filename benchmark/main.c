@@ -2,8 +2,6 @@
 #include "command_line_argument_parser.h"
 #include "common.h"
 
-static void show_usage();
-
 /// @brief Main entry point of the cellox benchmarking suite
 /// @param argc The amount of arguments that were specified by the user - unused
 /// @param argv The arguments that were spepcified by the user - unused

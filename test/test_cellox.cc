@@ -3,7 +3,6 @@
 #include "gtest/gtest.h"
 
 #include "init.h"
-#include "virtual_machine.h"
 
 /// @brief Test a cellox program
 /// @param programPath The path of the program that is tested
@@ -52,7 +51,6 @@ static void test_program(std::string const & programPath, std::string const & ex
         setbuf(stdout, actual_output);
     }
     
-    virtual_machine_init();
     // Execute Test 🚀
     init_run_from_file(filePath.c_str(), false);
 
@@ -68,8 +66,6 @@ static void test_program(std::string const & programPath, std::string const & ex
     }
     else
     {   
-        // Free vm
-        virtual_machine_free();
         // Reset stdout redirection
         #ifdef _WIN32
         freopen("CON", "w", stdout);

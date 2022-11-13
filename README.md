@@ -66,6 +66,8 @@ The variables defiened in a cellox program are stored in a hashtable. The variab
 
 A cellox program is converted into bytecode and executed by a stack based [virtual machine](https://github.com/FrederikTobner/Cellox/wiki/Virtual-Machine).
 
+The bytecode can also be stored in a [seperate file](https://github.com/FrederikTobner/Cellox/wiki/Chunk-Files) in order to be executed at a later point in time.
+
 ## Dependencies
 
 Cellox is written in C, using the C99 standard and [CMake](https://cmake.org/) is used for building within the whole project.

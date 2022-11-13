@@ -32,6 +32,7 @@ static char *init_read_file(char const *);
 */
 void init_repl()
 {
+    virtual_machine_init();
     // Used to store the next line that read from input
     char line[MAX_LINE_LENGTH];
     printf("   _____     _ _           \n\
@@ -71,6 +72,7 @@ void init_repl()
 /// @param path The path of the lox program
 void init_run_from_file(char const * path, bool compile)
 {
+    virtual_machine_init();
     char * source = init_read_file(path);
     #ifdef CELLOX_TESTS_RUNNING
     if(!source)
@@ -99,6 +101,7 @@ void init_run_from_file(char const * path, bool compile)
     if (result == INTERPRET_RUNTIME_ERROR)
         exit(EXIT_CODE_RUNTIME_ERROR);
     #endif
+    virtual_machine_free();
 }
 
 /// @brief Prints a error message for io errors and exits if no tests are executed
