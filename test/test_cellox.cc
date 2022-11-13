@@ -3,6 +3,7 @@
 #include "gtest/gtest.h"
 
 #include "init.h"
+#include "virtual_machine.h"
 
 /// @brief Test a cellox program
 /// @param programPath The path of the program that is tested
@@ -24,10 +25,7 @@ static void test_program(std::string const & programPath, std::string const & ex
 {
     // Create absolute filepath
     std::string filePath = TEST_PROGRAM_BASE_PATH;
-    filePath.append(programPath);    
-    // Create call args
-    char const * args[2];
-    *(args + 1) = filePath.c_str();
+    filePath.append(programPath);
     
     // Redirect output
     char actual_output [1024];
@@ -54,8 +52,9 @@ static void test_program(std::string const & programPath, std::string const & ex
         setbuf(stdout, actual_output);
     }
     
+    virtual_machine_init();
     // Execute Test 🚀
-    init_initialize(2, args);
+    init_run_from_file(filePath.c_str(), false);
 
     if(producesError)
     {
@@ -68,7 +67,9 @@ static void test_program(std::string const & programPath, std::string const & ex
         #endif
     }
     else
-    {
+    {   
+        // Free vm
+        virtual_machine_free();
         // Reset stdout redirection
         #ifdef _WIN32
         freopen("CON", "w", stdout);

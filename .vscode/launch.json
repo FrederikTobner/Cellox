@@ -6,7 +6,8 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/examples/BinarySearchTreee.clx"
+                "-c",
+                "${workspaceFolder}/examples/Counter.clx",
             ],
             "stopAtEntry": false,
             "externalConsole": true,

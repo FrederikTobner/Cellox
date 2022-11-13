@@ -9,4 +9,6 @@ class Rectangle
 	{
 		return this.x * this.y * 0.5;
 	}
-}  
+}
+
+print Rectangle(1, 2).area();

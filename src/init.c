@@ -11,7 +11,9 @@
 #endif
 #endif
 
+#include "chunk_file.h"
 #include "common.h"
+#include "compiler.h"
 #include "chunk.h"
 #include "debug.h"
 #include "virtual_machine.h"
@@ -21,24 +23,82 @@
 
 static void init_io_error(char const *, ...);
 static char *init_read_file(char const *);
-static void init_repl();
-static void init_run_from_file(char const *);
 
-void init_initialize(int const argc, char const ** argv)
+/** @brief Run with repl
+* @details  1. Read the user input
+*           2. Evaluate your code
+*           3. Print any results
+*           4. Loop back to step 1
+*/
+void init_repl()
 {
-    virtual_machine_init();
-    if (argc == 1)
-        init_repl();
-    else if (argc == 2)
-        init_run_from_file(argv[1]);
-    else
+    // Used to store the next line that read from input
+    char line[MAX_LINE_LENGTH];
+    printf("   _____     _ _           \n\
+  / ____|   | | |          \n\
+ | |     ___| | | _____  __\n\
+ | |    / _ \\ | |/ _ \\ \\/ /\n\
+ | |___|  __/ | | (_) >  < \n\
+  \\_____\\___|_|_|\\___/_/\\_\\\n");
+  
+//The cellox_config.h.in file is not configured by cmake for the benchmarks and tests
+#ifndef CELLOX_TESTS_RUNNING
+#ifndef BENCHMARKS_RUNNING
+    printf("\t\t Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
+#endif
+#endif
+    for (;;)
     {
-        // Too much arguments (>1) TODO: Add argumenrs for the compiler e.g. --analyze/-a, --help, --store/-s and --version/-v options 
-        fprintf(stderr, "Usage: Cellox [path]\n");        
-        virtual_machine_free();
-        exit(EXIT_CODE_COMMAND_LINE_USAGE_ERROR);
+        // Prints command prompt
+        printf("> ");
+        // Reads the next line that was input by the user and stores
+        if (!fgets(line, sizeof(line), stdin))
+        {
+            printf("\n");
+            break;
+        }
+        // We close the command prompt if the last input was empty - \n
+        if (strlen(line) == 1)
+        {
+            virtual_machine_free();
+            exit(EXIT_CODE_OK);            
+        }
+        virtual_machine_interpret(line, false);
     }
-    virtual_machine_free();
+}
+
+/// @brief Reads a lox program from a file and executes the program
+/// @param path The path of the lox program
+void init_run_from_file(char const * path, bool compile)
+{
+    char * source = init_read_file(path);
+    #ifdef CELLOX_TESTS_RUNNING
+    if(!source)
+        return;
+    #endif
+    interpret_result_t result;
+    if(compile)
+    {
+        object_function_t * function = compiler_compile(source);        
+        if (function == NULL)
+            result = INTERPRET_COMPILE_ERROR;
+        if(chunk_file_store(function->chunk, path, 0))
+            result = INTERPRET_COMPILE_ERROR;
+        else
+            result = INTERPRET_OK;
+    }
+    else
+        result = virtual_machine_interpret(source, true);
+    #ifndef CELLOX_TESTS_RUNNING
+    if(result != INTERPRET_OK)
+        virtual_machine_free();
+    // Error during compilation process
+    if (result == INTERPRET_COMPILE_ERROR)
+        exit(EXIT_CODE_COMPILATION_ERROR);
+    // Error during runtime
+    if (result == INTERPRET_RUNTIME_ERROR)
+        exit(EXIT_CODE_RUNTIME_ERROR);
+    #endif
 }
 
 /// @brief Prints a error message for io errors and exits if no tests are executed
@@ -87,69 +147,4 @@ static char * init_read_file(char const * path)
     buffer[bytesRead] = '\0';
     fclose(file);
     return buffer;
-}
-
-/** @brief Run with repl
-* @details  1. Read the user input
-*           2. Evaluate your code
-*           3. Print any results
-*           4. Loop back to step 1
-*/
-static void init_repl()
-{
-    // Used to store the next line that read from input
-    char line[MAX_LINE_LENGTH];
-    printf("   _____     _ _           \n\
-  / ____|   | | |          \n\
- | |     ___| | | _____  __\n\
- | |    / _ \\ | |/ _ \\ \\/ /\n\
- | |___|  __/ | | (_) >  < \n\
-  \\_____\\___|_|_|\\___/_/\\_\\\n");
-  
-//The cellox_config.h.in file is not configured by cmake for the benchmarks and tests
-#ifndef CELLOX_TESTS_RUNNING
-#ifndef BENCHMARKS_RUNNING
-    printf("\t\t Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
-#endif
-#endif
-    for (;;)
-    {
-        // Prints command prompt
-        printf("> ");
-        // Reads the next line that was input by the user and stores
-        if (!fgets(line, sizeof(line), stdin))
-        {
-            printf("\n");
-            break;
-        }
-        // We close the command prompt if the last input was empty - \n
-        if (strlen(line) == 1)
-        {
-            virtual_machine_free();
-            exit(EXIT_CODE_OK);            
-        }
-        virtual_machine_interpret(line, false);
-    }
-}
-
-/// @brief Reads a lox program from a file and executes the program
-/// @param path The path of the lox program
-static void init_run_from_file(char const * path)
-{
-    char * source = init_read_file(path);
-    #ifdef CELLOX_TESTS_RUNNING
-    if(!source)
-        return;
-    #endif
-    interpret_result_t result = virtual_machine_interpret(source, true);
-    #ifndef CELLOX_TESTS_RUNNING
-    if(result != INTERPRET_OK)
-        virtual_machine_free();
-    // Error during compilation process
-    if (result == INTERPRET_COMPILE_ERROR)
-        exit(EXIT_CODE_COMPILATION_ERROR);
-    // Error during runtime
-    if (result == INTERPRET_RUNTIME_ERROR)
-        exit(EXIT_CODE_RUNTIME_ERROR);
-    #endif
 }

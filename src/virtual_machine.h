@@ -1,8 +1,12 @@
 #ifndef CELLOX_VIRTUAL_MACHINE_H_
 #define CELLOX_VIRTUAL_MACHINE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "object.h"
-#include "table.h"
+#include "hash_table.h"
 
 // Maximum amount of frames the virtual machine can hold - The maxiimum depth of the callstack
 #define FRAMES_MAX 64
@@ -86,5 +90,10 @@ void virtual_machine_push(value_t value);
 /// @brief Pops a value from the stack
 /// @return The value that was popped from the stack
 value_t virtual_machine_pop();
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif

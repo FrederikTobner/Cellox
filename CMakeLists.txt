@@ -12,35 +12,37 @@ set(SOURCEPATH ../src/)
 
 # source files of the interpreter
 set(CELLOXSOURCES
+${SOURCEPATH}chunk_file.c
 ${SOURCEPATH}chunk.c
 ${SOURCEPATH}compiler.c
 ${SOURCEPATH}compiler.h
 ${SOURCEPATH}dynamic_value_array.c
 ${SOURCEPATH}debug.c
+${SOURCEPATH}hash_table.c
 ${SOURCEPATH}init.c
 ${SOURCEPATH}lexer.c
 ${SOURCEPATH}memory.c
 ${SOURCEPATH}native_functions.c
 ${SOURCEPATH}object.c
 ${SOURCEPATH}string_utils.c
-${SOURCEPATH}table.c
 ${SOURCEPATH}value.c
 ${SOURCEPATH}virtual_machine.c
 )
 
 # headers of the interpreter
 set(CELLOXHEADERS
+${SOURCEPATH}chunk_file.h
 ${SOURCEPATH}chunk.h
 ${SOURCEPATH}compiler.h
 ${SOURCEPATH}dynamic_value_array.h
 ${SOURCEPATH}debug.h
+${SOURCEPATH}hash_table.h
 ${SOURCEPATH}init.h
 ${SOURCEPATH}lexer.h
 ${SOURCEPATH}memory.h
 ${SOURCEPATH}native_functions.h
 ${SOURCEPATH}object.h
 ${SOURCEPATH}string_utils.h
-${SOURCEPATH}table.h
 ${SOURCEPATH}value.h
 ${SOURCEPATH}virtual_machine.h
 )

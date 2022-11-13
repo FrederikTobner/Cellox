@@ -68,9 +68,17 @@ A cellox program is converted into bytecode and executed by a stack based [virtu
 
 ## Dependencies
 
-Cellox is written in C, using the C99 standard and only depends on the C standard libary, so give it a try!
+Cellox is written in C, using the C99 standard and [CMake](https://cmake.org/) is used for building within the whole project.
 
-[CMake](https://cmake.org/) is used for building within the whole project.
+Under windows:
+
+* conio.h
+* windows.h
+
+Under linux:
+
+* curses.h
+* unistd.h
 
 ## Testing
 

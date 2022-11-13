@@ -1403,7 +1403,7 @@ static void compiler_statement()
 }
 
 /// @brief compiles a string literal expression
-/// @param canAssign Unused for strinf literaks
+/// @param canAssign Unused for string literals
 static void compiler_string(bool canAssign)
 {
     object_string_t * string = object_copy_string(parser.previous.start + 1, parser.previous.length - 2, true);

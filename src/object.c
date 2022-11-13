@@ -29,7 +29,7 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
     if (!string_utils_contains_character_restricted(chars, '\\', length))
     {
         hash = object_hash_string(chars, length);
-        interned = table_find_string(&virtualMachine.strings, chars, length, hash);
+        interned = hash_table_find_string(&virtualMachine.strings, chars, length, hash);
         if (interned)
             return interned;
         heapChars = ALLOCATE(char, length + 1);
@@ -50,7 +50,7 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
         }
         // We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
         hash = object_hash_string(heapChars, length);
-        interned = table_find_string(&virtualMachine.strings, heapChars, length, hash);
+        interned = hash_table_find_string(&virtualMachine.strings, heapChars, length, hash);
         if (interned)
         {
             free(heapChars);
@@ -73,7 +73,7 @@ object_class_t * object_new_class(object_string_t *name)
 {
     object_class_t * celloxClass = ALLOCATE_OBJECT(object_class_t, OBJECT_CLASS);
     celloxClass->name = name;
-    table_init(&celloxClass->methods);
+    hash_table_init(&celloxClass->methods);
     return celloxClass;
 }
 
@@ -103,7 +103,7 @@ object_instance_t * object_new_instance(object_class_t * celloxClass)
 {
     object_instance_t *instance = ALLOCATE_OBJECT(object_instance_t, OBJECT_INSTANCE);
     instance->celloxClass = celloxClass;
-    table_init(&instance->fields);
+    hash_table_init(&instance->fields);
     return instance;
 }
 
@@ -186,7 +186,7 @@ void object_print(value_t value)
 object_string_t * object_take_string(char * chars, uint32_t length)
 {
     uint32_t hash = object_hash_string(chars, length);
-    object_string_t * interned = table_find_string(&virtualMachine.strings, chars, length, hash);
+    object_string_t * interned = hash_table_find_string(&virtualMachine.strings, chars, length, hash);
     if (interned)
     {
         FREE_ARRAY(char, chars, length + 1);
@@ -208,7 +208,7 @@ static object_string_t * object_allocate_string(char * chars, uint32_t length, u
     string->hash = hash;
     virtual_machine_push(OBJECT_VAL(string));
     // Adds the string to hashtable storing all the strings allocated by the virtualMachine
-    table_set(&virtualMachine.strings, string, NULL_VAL);
+    hash_table_set(&virtualMachine.strings, string, NULL_VAL);
     virtual_machine_pop();
     return string;
 }
