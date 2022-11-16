@@ -8,16 +8,16 @@ set(THIS ${PROJECT_NAME}Benchmarks)
 set(BENCHMARK_HEADERS
 benchmark_config.h
 benchmark_runner.h
-command_line_argument_parser.h
+benchmark_argument_parser.h
 common.h
 dynamic_benchmark_config_array.h
 )
 
 set(BENCHMARK_SOURCES
-benchmark_runner.c 
-main.c
-command_line_argument_parser.c
+benchmark_runner.c
+benchmark_argument_parser.c
 dynamic_benchmark_config_array.c
+main.c
 )
 
 add_compile_definitions(

@@ -5,9 +5,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
-#endif
-
-#ifdef linux
+#elif linux
 #include <curses.h>
 #include <unistd.h>
 #endif

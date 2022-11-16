@@ -70,6 +70,7 @@ void init_repl()
 
 /// @brief Reads a lox program from a file and executes the program
 /// @param path The path of the lox program
+/// @param compile boolean value that determines whether the program is compiled and stored as a chunk file
 void init_run_from_file(char const * path, bool compile)
 {
     virtual_machine_init();
@@ -102,6 +103,20 @@ void init_run_from_file(char const * path, bool compile)
         exit(EXIT_CODE_RUNTIME_ERROR);
     #endif
     virtual_machine_free();
+}
+
+void init_show_help()
+{
+    printf("Cellox Help\n%s\n", CELLOX_USAGE_MESSAGE);
+}
+
+void init_show_version()
+{
+#ifndef BENCHMARKS_RUNNING
+#ifndef CELLOX_TESTS_RUNNING
+    printf("Cellox Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
+#endif
+#endif
 }
 
 /// @brief Prints a error message for io errors and exits if no tests are executed

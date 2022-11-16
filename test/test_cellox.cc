@@ -34,8 +34,7 @@ static void test_program(std::string const & programPath, std::string const & ex
     {
         #ifdef _WIN32
         freopen("NUL", "a", stderr);
-        #endif
-        #ifdef linux
+        #elif linux
         freopen("/dev/nul", "a", stderr);
         #endif
         setbuf(stderr, actual_output);
@@ -44,8 +43,7 @@ static void test_program(std::string const & programPath, std::string const & ex
     {
         #ifdef _WIN32
         freopen("NUL", "a", stdout);
-        #endif
-        #ifdef linux
+        #elif linux
         freopen("/dev/nul", "a", stdout);
         #endif
         setbuf(stdout, actual_output);
@@ -55,25 +53,9 @@ static void test_program(std::string const & programPath, std::string const & ex
     init_run_from_file(filePath.c_str(), false);
 
     if(producesError)
-    {
-        // Reset stderr redirection
-        #ifdef _WIN32
         freopen("CON", "w", stderr);
-        #endif
-        #ifdef linux
-        freopen("CON", "w", stderr);
-        #endif
-    }
     else
-    {   
-        // Reset stdout redirection
-        #ifdef _WIN32
         freopen("CON", "w", stdout);
-        #endif
-        #ifdef linux
-        freopen("CON", "w", stdout);
-        #endif
-    }
 
     ASSERT_STREQ(expectedOutput.c_str(), actual_output);
 }
