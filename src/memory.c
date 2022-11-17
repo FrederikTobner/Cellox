@@ -26,11 +26,11 @@ void memory_collect_garbage()
 #endif
   memory_mark_roots();
   memory_trace_references();
-  // We have to remove the strings with a another method, because they have their own hashtable
+  /// We have to remove the strings with a another method, because they have their own hashtable
   hash_table_remove_white(&virtualMachine.strings);
-  // reclaim the garbage
+  /// reclaim the garbage
   memory_sweep();
-  // Adjusts the threshold when the next garbage collection will occur
+  /// Adjusts the threshold when the next garbage collection will occur
   virtualMachine.nextGC = virtualMachine.bytesAllocated * GC_HEAP_GROWTH_FACTOR;
 #ifdef DEBUG_LOG_GC
   printf("garbage collection process has ended\n");
@@ -56,7 +56,7 @@ void memory_mark_object(object_t * object)
 {
   if (!object)
     return;
-  // Object is already marked, so we don't need to mark it again
+  /// Object is already marked, so we don't need to mark it again
   if (object->isMarked)
     return;
 #ifdef DEBUG_LOG_GC
@@ -107,7 +107,7 @@ void *memory_reallocate(void * pointer, size_t oldSize, size_t newSize)
   return result;
 }
 
-// Blackens an object - all the references that this object have been marked
+/// Blackens an object - all the references that this object have been marked
 static void memory_blacken_object(object_t * object)
 {
 #ifdef DEBUG_LOG_GC
@@ -164,7 +164,7 @@ static void memory_blacken_object(object_t * object)
   }
 }
 
-// Dealocates the memomory used by the object
+/// Dealocates the memomory used by the object
 static void memory_free_object(object_t * object)
 {
 #ifdef DEBUG_LOG_GC
@@ -219,28 +219,28 @@ static void memory_free_object(object_t * object)
   }
 }
 
-// Marks all the values in an array
+/// Marks all the values in an array
 static void memory_mark_array(dynamic_value_array_t * array)
 {
   for (int32_t i = 0; i < array->count; i++)
     memory_mark_value(array->values[i]);
 }
 
-// Marks the roots - local variables or temporaries sitting in the VirtualMachine's stack
+/// Marks the roots - local variables or temporaries sitting in the VirtualMachine's stack
 static void memory_mark_roots()
 {
-  // We mark all the values
+  /// We mark all the values
   for (value_t * slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++)
     memory_mark_value(*slot);
-  // all the objects
+  /// all the objects
   for (int32_t i = 0; i < virtualMachine.frameCount; i++)
     memory_mark_object((object_t *)virtualMachine.callStack[i].closure);
-  // all the ObjectUpvalues
+  /// all the ObjectUpvalues
   for (object_upvalue_t * upvalue = virtualMachine.openUpvalues; upvalue; upvalue = upvalue->next)
     memory_mark_object((object_t *)upvalue);
-  // all the global variables
+  /// all the global variables
   hash_table_mark(&virtualMachine.globals);
-  // And all the compiler roots allocated on the heap
+  /// And all the compiler roots allocated on the heap
   compiler_mark_roots();
   memory_mark_object((object_t *)virtualMachine.initString);
 }
@@ -257,7 +257,7 @@ static void memory_sweep()
   {
     if (object->isMarked)
     {
-      // We need to unmark the object so it is picked up during the next grabage collection process
+      /// We need to unmark the object so it is picked up during the next grabage collection process
       object->isMarked = false;
       previous = object;
       object = object->next;
@@ -275,7 +275,7 @@ static void memory_sweep()
   }
 }
 
-// Traces all the references that the objects of the virtualMachine contain
+/// Traces all the references that the objects of the virtualMachine contain
 static void memory_trace_references()
 {
   while (virtualMachine.grayCount)

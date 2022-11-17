@@ -14,8 +14,9 @@ set(SOURCEPATH ../src/)
 set(CELLOXSOURCES
 ${SOURCEPATH}chunk_file.c
 ${SOURCEPATH}chunk.c
+${SOURCEPATH}command_line_argument_parser.c
 ${SOURCEPATH}compiler.c
-${SOURCEPATH}compiler.h
+${SOURCEPATH}compiler.c
 ${SOURCEPATH}dynamic_value_array.c
 ${SOURCEPATH}debug.c
 ${SOURCEPATH}hash_table.c
@@ -33,6 +34,7 @@ ${SOURCEPATH}virtual_machine.c
 set(CELLOXHEADERS
 ${SOURCEPATH}chunk_file.h
 ${SOURCEPATH}chunk.h
+${SOURCEPATH}command_line_argument_parser.h
 ${SOURCEPATH}compiler.h
 ${SOURCEPATH}dynamic_value_array.h
 ${SOURCEPATH}debug.h

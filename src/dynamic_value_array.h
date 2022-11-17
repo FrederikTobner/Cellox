@@ -1,10 +1,10 @@
-#ifndef CELLOX_DYNAMIC_ARRAY_H_
-#define CELLOX_DYNAMIC_ARRAY_H_
+#ifndef CELLOX_DYNAMIC_VALUE_ARRAY_H_
+#define CELLOX_DYNAMIC_VALUE_ARRAY_H_
 
 #include "common.h"
 #include "value.h"
 
-//// @brief Type definition of the dynamic value array
+/// @brief A dynamic value array
 typedef struct
 {
     uint32_t capacity;

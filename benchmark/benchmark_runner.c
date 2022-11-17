@@ -105,8 +105,7 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
     char * measured_time = (char *)calloc(1024, sizeof(char));
     #ifdef _WIN32
     freopen("NUL", "a", stdout);
-    #endif
-    #ifdef linux
+    #elif linux
     freopen("/dev/nul", "a", stdout);
     #endif
     
@@ -133,12 +132,7 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
     }    
 
     // Reset stdout redirection
-    #ifdef _WIN32
     freopen("CON", "w", stdout);
-    #endif
-    #ifdef linux
-    freopen("CON", "w", stdout);
-    #endif
     printf("%9gs | %9gs | %9gs | %s\n", 
             combined_execution_duration / benchmark.executionCount,
             min_execution_duration,

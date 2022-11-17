@@ -9,6 +9,7 @@ configure_file(cellox_config.h.in cellox_config.h)
 set(HEADERS
     chunk_file.h
     chunk.h
+    command_line_argument_parser.h
     compiler.h
     dynamic_value_array.h
     debug.h
@@ -26,6 +27,7 @@ set(HEADERS
 set(SOURCES
     chunk_file.c 
     chunk.c
+    command_line_argument_parser.c
     compiler.c
     compiler.h
     dynamic_value_array.c

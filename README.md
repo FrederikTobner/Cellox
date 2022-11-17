@@ -37,6 +37,7 @@ Cellox features [assignment](https://github.com/FrederikTobner/Cellox/wiki/Opera
 ## Objects
 
 In Cellox everything besides the 3 base data types is considered to be a cellox [object](https://github.com/FrederikTobner/Cellox/wiki/Objects).
+Even functions and classes are considered to be a cellox object.
 This means that you can for example get the reference to a function and assign it to a variable.
 
 ## Functions

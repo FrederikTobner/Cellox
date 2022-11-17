@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/examples/HelloWorld.clx",
+                "-v",
             ],
             "stopAtEntry": false,
             "externalConsole": true,

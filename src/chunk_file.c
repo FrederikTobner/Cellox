@@ -140,7 +140,7 @@ static void chunk_file_append_constant(value_t value, dynamic_value_array_t * fu
                 exit(EXIT_CODE_COMPILATION_ERROR);
         }
     }
-    else // Numbers
+    else /// Numbers
     {
         fputc(CONSTANT_TYPE_NUMBER, filePointer);
         uint64_t number = AS_NUMBER(value);

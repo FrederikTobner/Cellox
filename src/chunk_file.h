@@ -5,6 +5,7 @@
 
 #include "chunk.h"
 
+/// @brief Compiler flags
 typedef enum
 {
 COMPILE_FLAG_LINE_INFO_INCLUDED     =       0b00000001u,

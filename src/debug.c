@@ -43,7 +43,7 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
         size_t i;
         for (i = 0; i < functionNames.count; i++)
         {
-          // String constant is a function call
+          /// String constant is a function call
           if (!strcmp(AS_CSTRING(chunk->constants.values[i]), AS_FUNCTION(functionNames.values[i])->name->chars))
             break;
         }
@@ -52,7 +52,7 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
         break;
       }
     }
-    else // Numbers
+    else /// Numbers
     {
       numberCount++;
     }
@@ -70,9 +70,9 @@ int32_t debug_disassemble_instruction(chunk_t *chunk, int32_t offset)
     printf("   | ");
   else
     printf("%4d ", chunk->lines[offset]);
-  // Instruction specific behaviour
+  /// Instruction specific behaviour
   uint8_t instruction = chunk->code[offset];
-  // Switch statement could be converted to a computed goto https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables for efficiency
+  /// Switch statement could be converted to a computed goto https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables for efficiency
   printf(" OP_%02X: ", instruction);
   switch (instruction)
   {
@@ -204,7 +204,7 @@ static int32_t debug_constant_instruction(char const *name, chunk_t *chunk, int3
   return offset + 2;
 }
 
-// Dissasembles a invoke instruction
+/// Dissasembles a invoke instruction
 static int debug_invoke_instruction(char const *name, chunk_t *chunk, int32_t offset)
 {
   uint8_t constant = *(chunk->code + offset + 1);
@@ -215,7 +215,7 @@ static int debug_invoke_instruction(char const *name, chunk_t *chunk, int32_t of
   return offset + 3;
 }
 
-// Dissasembles a jump instruction (with a 16-bit operand)
+/// Dissasembles a jump instruction (with a 16-bit operand)
 static int32_t debug_jump_instruction(char const *name, int32_t sign, chunk_t *chunk, int32_t offset)
 {
   uint16_t jump = (uint16_t)(*(chunk->code + offset + 1) << 8);
@@ -224,7 +224,7 @@ static int32_t debug_jump_instruction(char const *name, int32_t sign, chunk_t *c
   return offset + 3;
 }
 
-// Dissasembles a simple instruction
+/// Dissasembles a simple instruction
 static int32_t debug_simple_instruction(char const *name, int32_t offset)
 {
   printf("%s\n", name);

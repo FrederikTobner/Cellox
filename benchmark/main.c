@@ -1,5 +1,5 @@
 #include "benchmark_runner.h"
-#include "command_line_argument_parser.h"
+#include "benchmark_argument_parser.h"
 #include "common.h"
 
 /// @brief Main entry point of the cellox benchmarking suite
@@ -11,6 +11,6 @@ int main(int argc, char const ** argv)
     if (argc == 1)
         benchmark_runner_execute_all_predefiened();
     else
-        command_line_argument_parser_parse(argc, argv);
+        benchmark_argument_parser_parse(argc, argv);
     return EXIT_CODE_OK;
 }
