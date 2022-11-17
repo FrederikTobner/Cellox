@@ -4,23 +4,23 @@
 #include "common.h"
 #include "object.h"
 
-// Makro that allocates the memory needed for a given type multiplied by the count
+/// Makro that allocates the memory needed for a given type multiplied by the count
 #define ALLOCATE(type, count) \
     (type *)memory_reallocate(NULL, 0, sizeof(type) * (count))
 
-// Makro that frees the memory used by a given type at the position specified by the pointer
+/// Makro that frees the memory used by a given type at the position specified by the pointer
 #define FREE(type, pointer) \
     memory_reallocate(pointer, sizeof(type), 0)
 
-// Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)
+/// Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)
 #define GROW_CAPACITY(capacity) \
     ((capacity) < 8u ? 8u : (capacity) + 2u)
 
-// Makro that increases the size of a dynamic Array
+/// Makro that increases the size of a dynamic Array
 #define GROW_ARRAY(type, pointer, oldCount, newCount) \
     (type *)memory_reallocate(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount))
 
-// Makro that dealocates an existing dynamic array
+/// Makro that dealocates an existing dynamic array
 #define FREE_ARRAY(type, pointer, oldCount) \
     memory_reallocate(pointer, sizeof(type) * (oldCount), 0)
 

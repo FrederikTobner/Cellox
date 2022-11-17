@@ -4,7 +4,7 @@
 #include "common.h"
 #include "value.h"
 
-//// @brief Type definition of the dynamic value array
+/// @brief A dynamic value array
 typedef struct
 {
     uint32_t capacity;

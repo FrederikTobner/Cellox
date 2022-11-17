@@ -8,11 +8,11 @@
 #include "string_utils.h"
 #include "virtual_machine.h"
 
-// Marko for allocating a new object
+/// Marko for allocating a new object
 #define ALLOCATE_OBJECT(type, objectType) \
     (type *)object_allocate_object(sizeof(type), objectType)
 
-// Offset basic for the fowler-noll-vo hash-fuction - 2166136261
+/// Offset basic for the fowler-noll-vo hash-fuction - 2166136261
 #define OFFSET_BASIS 0x811c9dc5u
 
 static object_t * object_allocate_object(size_t, object_type_t);
@@ -48,7 +48,7 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
                 if(string_utils_resolve_escape_sequence(&heapChars[i], &length))
                 return NULL;
         }
-        // We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
+        /// We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
         hash = object_hash_string(heapChars, length);
         interned = hash_table_find_string(&virtualMachine.strings, heapChars, length, hash);
         if (interned)
@@ -116,13 +116,13 @@ object_native_t * object_new_native(native_function_t function)
 
 object_upvalue_t * object_new_upvalue(value_t *slot)
 {
-    // Allocating the memory used by the upvalue
+    /// Allocating the memory used by the upvalue
     object_upvalue_t * upvalue = ALLOCATE_OBJECT(object_upvalue_t, OBJECT_UPVALUE);
-    // We zero out the closed field of the upvalue when we create it
+    /// We zero out the closed field of the upvalue when we create it
     upvalue->closed = NULL_VAL;
-    // Adress of the slot where the closed over variables live (enclosing environment)
+    /// Adress of the slot where the closed over variables live (enclosing environment)
     upvalue->location = slot;
-    // When we allocate a new upvalue, it is not attached to any list
+    /// When we allocate a new upvalue, it is not attached to any list
     upvalue->next = NULL;
     return upvalue;
 }
@@ -219,13 +219,13 @@ static object_string_t * object_allocate_string(char * chars, uint32_t length, u
 /// @return The allocated object
 static object_t * object_allocate_object(size_t size, object_type_t type)
 {
-    // Allocates the memory used by the Object
+    /// Allocates the memory used by the Object
     object_t * object = (object_t *)memory_reallocate(NULL, 0, size);
-    // Sets the type of the object
+    /// Sets the type of the object
     object->type = type;
-    // Disables mark so it is picked up by the Garbage Collection in the next cycle
+    /// Disables mark so it is picked up by the Garbage Collection in the next cycle
     object->isMarked = false;
-    // Adds the object at the start of the linked list storing the objects allocated by the virtualMachine
+    /// Adds the object at the start of the linked list storing the objects allocated by the virtualMachine
     object->next = virtualMachine.objects;
     virtualMachine.objects = object;
 #ifdef DEBUG_LOG_GC
@@ -256,10 +256,10 @@ static void object_print_function(object_function_t * function)
 {
     if (!function->name)
     {
-        // top level code
+        /// top level code
         printf("<script>");
         return;
     }
-    // A function
+    /// A function
     printf("<fun %s>", function->name->chars);
 }

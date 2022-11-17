@@ -24,16 +24,10 @@
 static void init_io_error(char const *, ...);
 static char *init_read_file(char const *);
 
-/** @brief Run with repl
-* @details  1. Read the user input
-*           2. Evaluate your code
-*           3. Print any results
-*           4. Loop back to step 1
-*/
 void init_repl()
 {
     virtual_machine_init();
-    // Used to store the next line that read from input
+    /// Used to store the next line that read from input
     char line[MAX_LINE_LENGTH];
     printf("   _____     _ _           \n\
   / ____|   | | |          \n\
@@ -42,7 +36,7 @@ void init_repl()
  | |___|  __/ | | (_) >  < \n\
   \\_____\\___|_|_|\\___/_/\\_\\\n");
   
-//The cellox_config.h.in file is not configured by cmake for the benchmarks and tests
+/// The cellox_config.h.in file is not configured by cmake for the benchmarks and tests -> so we just ignore it
 #ifndef CELLOX_TESTS_RUNNING
 #ifndef BENCHMARKS_RUNNING
     printf("\t\t Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
@@ -50,15 +44,15 @@ void init_repl()
 #endif
     for (;;)
     {
-        // Prints command prompt
+        /// Prints command prompt
         printf("> ");
-        // Reads the next line that was input by the user and stores
+        /// Reads the next line that was input by the user and stores
         if (!fgets(line, sizeof(line), stdin))
         {
             printf("\n");
             break;
         }
-        // We close the command prompt if the last input was empty - \n
+        /// We close the command prompt if the last input was empty - \n
         if (strlen(line) == 1)
         {
             virtual_machine_free();
@@ -68,9 +62,6 @@ void init_repl()
     }
 }
 
-/// @brief Reads a lox program from a file and executes the program
-/// @param path The path of the lox program
-/// @param compile boolean value that determines whether the program is compiled and stored as a chunk file
 void init_run_from_file(char const * path, bool compile)
 {
     virtual_machine_init();
@@ -139,7 +130,7 @@ static void init_io_error(char const * format, ...)
 /// @return The contents of the file or NULL if something went wrong 😕
 static char * init_read_file(char const * path)
 {
-    // Opens a file of a nonspecified format (b) in read mode (r)
+    /// Opens a file of a nonspecified format (b) in read mode (r)
     FILE * file = fopen(path, "rb");
     if (!file)
     {
@@ -161,7 +152,7 @@ static char * init_read_file(char const * path)
         init_io_error("Could not read file \"%s\".\n", path);
         return NULL;
     }
-    // We add null the end of the source-code to mark the end of the file
+    /// We add null the end of the source-code to mark the end of the file
     buffer[bytesRead] = '\0';
     fclose(file);
     return buffer;

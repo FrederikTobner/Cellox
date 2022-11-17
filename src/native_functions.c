@@ -183,11 +183,11 @@ value_t native_functions_wait(uint32_t argCount, value_t const * args)
     if (!IS_NUMBER(*args))
         native_functions_arguments_error("wait can only be called with a number as argument");
 #ifdef _WIN32
-    // Milliseconds -> multiply with 1000
+    /// Milliseconds -> multiply with 1000
     Sleep(AS_NUMBER(*args) * 1000);
 #endif
 #ifdef linux
-    // Seconds
+    /// Seconds
     sleep(AS_NUMBER(*args));
 #endif
     return NULL_VAL;

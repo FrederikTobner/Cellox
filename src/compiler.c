@@ -14,7 +14,7 @@
 #include "debug.h"
 #endif
 
-/// @brief Struct definition of a parser
+/// @brief A cellox parser
 typedef struct
 {
     // The token that is currently being parsed
@@ -45,7 +45,7 @@ typedef enum
 
 typedef void (* parse_function_t)(bool canAssign);
 
-/// @brief Type definition of a parsing rule structure
+/// @brief A parsing rule structure
 typedef struct
 {
     parse_function_t prefix;
@@ -53,27 +53,27 @@ typedef struct
     precedence_t precedence;
 } parse_rule_t;
 
-/// @brief Type definition of a local variable structure
+/// @brief A local variable structure
 typedef struct
 {
-    // Name of the local variable
+    /// Name of the local variable
     token_t name;
-    // Scope depth where the local variable was declared
+    /// Scope depth where the local variable was declared
     int32_t depth;
-    // Boolean value that determines whether the local variable is captured by a closure
+    /// Boolean value that determines whether the local variable is captured by a closure
     bool isCaptured;
 } local_t;
 
-/// @brief Type definition of an upvalue structure
+/// @brief An upvalue structure
 typedef struct
 {
-    // Index of the upvalue
+    /// Index of the upvalue
     uint8_t index;
-    // Flag that indicates whether the value is a local value
+    /// Flag that indicates whether the value is a local value
     bool isLocal;
 } upvalue_t;
 
-/// @brief Types of a function - either a script or a function
+/// @brief A cellox function 
 typedef enum
 {
     TYPE_FUNCTION,
@@ -82,7 +82,7 @@ typedef enum
     TYPE_SCRIPT
 } function_type_t;
 
-/// @brief compiler_t struct definition
+/// @brief The cellox compiler
 typedef struct compiler_t
 {
     struct compiler_t * enclosing;
@@ -101,13 +101,13 @@ typedef struct class_compiler_t
     bool hasSuperclass;
 } class_compiler_t;
 
-/// @brief   Global parser variable
+/// @brief Global parser variable
 parser_t parser;
 
-/// @brief  Global compiler variable
+/// @brief Global compiler variable
 compiler_t * current = NULL;
 
-/// @brief  Global classCompiler variable
+/// @brief Global classCompiler variable
 class_compiler_t * currentClass = NULL;
 
 static void compiler_add_local(token_t);
@@ -488,7 +488,7 @@ object_function_t * compiler_compile(char const * program)
     parser.hadError = false;
     parser.panicMode = false;
     compiler_advance();
-    // We keep compiling until we hit the end of the source file
+    /// We keep compiling until we hit the end of the source file
     while (!compiler_match_token(TOKEN_EOF))
         compiler_declaration();
     object_function_t *function = compiler_end();
@@ -505,12 +505,12 @@ void compiler_mark_roots()
     }
 }
 
-// Adds a new local variable to the stack
+/// Adds a new local variable to the stack
 static void compiler_add_local(token_t name)
 {
     if (current->localCount == UINT8_COUNT)
     {
-        // We can only have 255 objects on the stack 😔
+        /// We can only have 255 objects on the stack 😔
         compiler_error("Too many local variables in function.");
         return;
     }
@@ -596,7 +596,7 @@ static void compiler_begin_scope()
     current->scopeDepth++;
 }
 
-// Compiles a binary expression
+/// Compiles a binary expression
 static void compiler_binary(bool canAssign)
 {
     tokentype_t operatorType = parser.previous.type;
@@ -761,7 +761,7 @@ static void compiler_declare_variable()
     compiler_add_local(*name);
 }
 
-// Defines a new Variable
+/// Defines a new Variable
 static void compiler_define_variable(uint8_t global)
 {
     // local_t Variable
@@ -773,7 +773,7 @@ static void compiler_define_variable(uint8_t global)
     compiler_emit_bytes(OP_DEFINE_GLOBAL, global);
 }
 
-// Compiles a dot statement (get or set)
+/// Compiles a dot statement (get or set)
 static void compiler_dot(bool canAssign)
 {
     compiler_consume(TOKEN_IDENTIFIER, "Expect property name after '.'.");
@@ -796,13 +796,13 @@ static void compiler_dot(bool canAssign)
     }
 }
 
-// Emits a single byte as bytecode instructionn
+/// Emits a single byte as bytecode instructionn
 static void compiler_emit_byte(uint8_t byte)
 {
     chunk_write(compiler_current_chunk(), byte, parser.previous.line);
 }
 
-// Emits two bytes as bytecode instructions
+/// Emits two bytes as bytecode instructions
 static void compiler_emit_bytes(uint8_t byte1, uint8_t byte2)
 {
     compiler_emit_byte(byte1);
@@ -828,7 +828,7 @@ static int32_t compiler_emit_jump(uint8_t instruction)
     return compiler_current_chunk()->count - 2;
 }
 
-// Emits the bytecode instructions for creating a loop
+/// Emits the bytecode instructions for creating a loop
 static void compiler_emit_loop(int32_t loopStart)
 {
     compiler_emit_byte(OP_LOOP);
@@ -903,7 +903,7 @@ static void compiler_error_at(token_t * token, char const * message)
     parser.hadError = true;
 }
 
-// Reports an error at the current position
+/// Reports an error at the current position
 static void compiler_error_at_current(char const *message)
 {
     compiler_error_at(&parser.current, message);
@@ -929,7 +929,7 @@ static void compiler_for_statement()
     compiler_begin_scope();
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'for'.");
 
-    // Initializer clause
+    /// Initializer clause
     if (compiler_match_token(TOKEN_VAR))
         compiler_var_declaration();
     else if(!compiler_match_token(TOKEN_SEMICOLON))
@@ -938,7 +938,7 @@ static void compiler_for_statement()
     int32_t loopStart = compiler_current_chunk()->count;
     int32_t exitJump = -1;
 
-    // Conditional clause
+    /// Conditional clause
     if (!compiler_match_token(TOKEN_SEMICOLON))
     {
         compiler_expression();
@@ -948,7 +948,7 @@ static void compiler_for_statement()
         compiler_emit_byte(OP_POP); // Condition.
     }
 
-    // Increment clause
+    /// Increment clause
     if (!compiler_match_token(TOKEN_RIGHT_PAREN))
     {
         int32_t bodyJump = compiler_emit_jump(OP_JUMP);
@@ -967,7 +967,7 @@ static void compiler_for_statement()
     if (exitJump != -1)
     {
         compiler_patch_jump(exitJump);
-        compiler_emit_byte(OP_POP); // Condition.
+        compiler_emit_byte(OP_POP); /// Condition.
     }
 
     compiler_end_scope();
@@ -1488,7 +1488,7 @@ static void compiler_this(bool canAssign)
         compiler_error("Can't use 'this' outside of a class.");
         return;
     }
-    // This can not be reassigned
+    /// This can not be reassigned
     compiler_variable(false);
 }
 
@@ -1497,9 +1497,9 @@ static void compiler_this(bool canAssign)
 static void compiler_unary(bool canAssign)
 {
     tokentype_t operatorType = parser.previous.type;
-    // Compile the operand.
+    //// Compile the operand.
     compiler_parse_precedence(PREC_UNARY);
-    // Emit the operator instruction.
+    /// Emit the operator instruction.
     switch (operatorType)
     {
     case TOKEN_BANG:
@@ -1509,7 +1509,7 @@ static void compiler_unary(bool canAssign)
         compiler_emit_byte(OP_NEGATE);
         break;
     default:
-        return; // Unreachable.
+        return; /// Unreachable.
     }
 }
 
@@ -1518,9 +1518,9 @@ static void compiler_var_declaration()
 {
     uint8_t global = compiler_parse_variable("Expect variable name.");
     if (compiler_match_token(TOKEN_EQUAL))
-        compiler_expression(); // Variable was initialzed
+        compiler_expression(); /// Variable was initialzed
     else
-        compiler_emit_byte(OP_NULL); // Variable was not initialzed -> therefore is null
+        compiler_emit_byte(OP_NULL); /// Variable was not initialzed -> therefore is null
     compiler_consume(TOKEN_SEMICOLON, "Expect ';' after variable declaration.");
     compiler_define_variable(global);
 }
@@ -1537,7 +1537,7 @@ static void compiler_while_statement()
 {
     int32_t loopStart = compiler_current_chunk()->count;
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
-    // Compiles condition
+    /// Compiles condition
     compiler_expression();
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
     int32_t exitJump = compiler_emit_jump(OP_JUMP_IF_FALSE);

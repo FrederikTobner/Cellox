@@ -3,18 +3,19 @@
 #include <stdio.h>
 #include <string.h>
 
-// Type definition of a lexer/scanner
+/// @brief A lexer or more commonly called scanner
+/// @details It is used to scan the tokens in a cellox source file
 typedef struct
 {
-    // Pointer to the start of the current line where the lexical analysis is performed
+    /// Pointer to the start of the current line where the lexical analysis is performed
     const char * start;
-    // Pointer to the current position in the current line where the lexical analysis is performed
+    /// Pointer to the current position in the current line where the lexical analysis is performed
     const char * current;
-    // Line counter - used for error reporting
+    /// Line counter - used for error reporting
     uint32_t line;
 } lexer_t;
 
-// Global Lexer variable
+/// Global Lexer variable
 lexer_t lexer;
 
 static char lexer_advance();
@@ -137,13 +138,13 @@ token_t scan_token()
     return lexer_error_token("Unexpected character.");
 }
 
-// Advances a position further in the sourceCode and returns the prevoius Token
+/// Advances a position further in the sourceCode and returns the prevoius Token
 static char lexer_advance()
 {
     return *lexer.current++;
 }
 
-// Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
+/// Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
 static tokentype_t lexer_check_keyword(uint32_t start, uint32_t length, char const * rest, tokentype_t type)
 {
     if (lexer.current - lexer.start == start + length && memcmp(lexer.start + start, rest, length) == 0)
@@ -153,7 +154,7 @@ static tokentype_t lexer_check_keyword(uint32_t start, uint32_t length, char con
     return TOKEN_IDENTIFIER;
 }
 
-// Creates an error Token with a message
+/// Creates an error Token with a message
 static token_t lexer_error_token(char const * message)
 {
     token_t token;
@@ -164,7 +165,7 @@ static token_t lexer_error_token(char const * message)
     return token;
 }
 
-// Creates a new identifier token
+/// Creates a new identifier token
 static token_t lexer_identifier()
 {
     while (lexer_is_alpha(lexer_peek()) || lexer_is_digit(lexer_peek()))
@@ -174,7 +175,7 @@ static token_t lexer_identifier()
     return lexer_make_token(lexer_identifier_type());
 }
 
-// Creates a new identifier token or a reserved keyword
+/// Creates a new identifier token or a reserved keyword
 static tokentype_t lexer_identifier_type()
 {
     switch (lexer.start[0])
@@ -188,7 +189,7 @@ static tokentype_t lexer_identifier_type()
     case 'f':
         if (lexer.current - lexer.start > 1)
         {
-            // Switch for the branches coming of the 'f' node (a -> 'false', o -> 'for' and u -> 'fun')
+            /// Switch for the branches coming of the 'f' node (a -> 'false', o -> 'for' and u -> 'fun')
             switch (lexer.start[1])
             {
             case 'a':
@@ -215,7 +216,7 @@ static tokentype_t lexer_identifier_type()
     case 't':
         if (lexer.current - lexer.start > 1)
         {
-            // Switch for the branches coming of the t node (h -> this and r -> true)
+            /// Switch for the branches coming of the t node (h -> this and r -> true)
             switch (lexer.start[1])
             {
             case 'h':
@@ -240,19 +241,19 @@ static bool lexer_is_alpha(char c)
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
-// checks if the char c is a digit
+/// checks if the char c is a digit
 static bool lexer_is_digit(char c)
 {
     return c >= '0' && c <= '9';
 }
 
-// Determines wheather we reached the end in the sourceCode
+/// Determines wheather we reached the end in the sourceCode
 static bool lexer_is_at_end()
 {
     return *lexer.current == '\0';
 }
 
-// Creates a new Token of a given type
+/// Creates a new Token of a given type
 static token_t lexer_make_token(tokentype_t type)
 {
     token_t token;
@@ -263,7 +264,7 @@ static token_t lexer_make_token(tokentype_t type)
     return token;
 }
 
-// Matches the character at the current position of the lexer in the sourcecode with a given character
+/// Matches the character at the current position of the lexer in the sourcecode with a given character
 static bool lexer_match(char expected)
 {
     if (lexer_is_at_end())
@@ -274,7 +275,7 @@ static bool lexer_match(char expected)
     return true;
 }
 
-// Creates a new number literal token
+/// Creates a new number literal token
 static token_t lexer_number()
 {
     while (lexer_is_digit(lexer_peek()))
@@ -282,7 +283,7 @@ static token_t lexer_number()
         lexer_advance();
     }
 
-    // Look for a fractional part.
+    /// Look for a fractional part.
     if (lexer_peek() == '.' && lexer_is_digit(lexer_peek_next()))
     {
         // Consume the ".".
@@ -301,7 +302,7 @@ static char lexer_peek()
     return *lexer.current;
 }
 
-// Returns the char one position ahead of the current Position
+/// Returns the char one position ahead of the current Position
 static char lexer_peek_next()
 {
     if (lexer_is_at_end())
@@ -309,7 +310,7 @@ static char lexer_peek_next()
     return lexer.current[1];
 }
 
-// Skips whitespaces, linebreaks, carriage returns comments an tabstobs
+/// Skips whitespaces, linebreaks, carriage returns comments an tabstobs
 static void lexer_skip_whitespace()
 {
     for (;;)
@@ -320,22 +321,20 @@ static void lexer_skip_whitespace()
         case ' ':
         case '\r':
         case '\t':
-            // Whitespaces tabstops and carriage returns are ignored
+            /// Whitespaces tabstops and carriage returns are ignored
             lexer_advance();
             break;
         case '\n':
-            // Linecounter will increase on a linefeed
+            /// Linecounter will increase on a linefeed
             lexer.line++;
             lexer_advance();
             break;
         case '/':
             if (lexer_peek_next() == '/')
             {
-                // A comment goes until the end of the line.
+                /// A comment goes until the end of the line.
                 while (lexer_peek() != '\n' && !lexer_is_at_end())
-                {
                     lexer_advance();
-                }
             }
             else
             {
@@ -348,7 +347,7 @@ static void lexer_skip_whitespace()
     }
 }
 
-// Creates a new string literal token
+/// Creates a new string literal token
 static token_t string()
 {
     while (lexer_peek() != '"' && !lexer_is_at_end())
@@ -361,7 +360,7 @@ static token_t string()
     }
     if (lexer_is_at_end())
         return lexer_error_token("Unterminated string.");
-    // The closing quote.
+    /// The closing quote.
     lexer_advance();
     return lexer_make_token(TOKEN_STRING);
 }

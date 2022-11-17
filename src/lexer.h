@@ -6,120 +6,120 @@
 /// @brief Tokens of the language
 typedef enum
 {
-  // and
+  /// and
   TOKEN_AND,
-  // !
+  /// !
   TOKEN_BANG,
-  // !=
+  /// !=
   TOKEN_BANG_EQUAL,
-  // class
+  /// class
   TOKEN_CLASS,
-  // ,
+  /// ,
   TOKEN_COMMA,
-  // .
+  /// .
   TOKEN_DOT,
-  // : (Used for inheritance)
+  /// : (Used for inheritance)
   TOKEN_DOUBLEDOT,
-  // else
+  /// else
   TOKEN_ELSE,
   /// Used to mark the end of the file
   TOKEN_EOF,
-  // =
+  /// =
   TOKEN_EQUAL,
-  // ==
+  /// ==
   TOKEN_EQUAL_EQUAL,
-  // Used to mark an error in the parsing process
+  /// Used to mark an error in the parsing process
   TOKEN_ERROR,
-  // Boolean literal false
+  /// Boolean literal false
   TOKEN_FALSE,
-  // for
+  /// for
   TOKEN_FOR,
-  // fun
+  /// fun
   TOKEN_FUN,
-  // >
+  /// >
   TOKEN_GREATER,
-  // >=
+  /// >=
   TOKEN_GREATER_EQUAL,
-  // An identifier e.g. for the variable named x
+  /// An identifier e.g. for the variable named x
   TOKEN_IDENTIFIER,
-  // if
+  /// if
   TOKEN_IF,
-  // {
+  /// {
   TOKEN_LEFT_BRACE,
-  // (
+  /// (
   TOKEN_LEFT_PAREN,
-  // [
+  /// [
   TOKEN_LEFT_BRACKET,
-  // <
+  /// <
   TOKEN_LESS,
-  // <=
+  /// <=
   TOKEN_LESS_EQUAL,
-  // -
+  /// -
   TOKEN_MINUS,
-  // -=
+  /// -=
   TOKEN_MINUS_EQUAL,
-  // %
+  /// %
   TOKEN_MODULO,
-  // %=
+  /// %=
   TOKEN_MODULO_EQUAL,
-  // literal nil-value/null-value/undefiened value
+  /// literal nil-value/null-value/undefiened value
   TOKEN_NULL,
-  // A number literal e.g. 5.3
+  /// A number literal e.g. 5.3
   TOKEN_NUMBER,
-  // or
+  /// or
   TOKEN_OR,
-  // print
+  /// print
   TOKEN_PRINT,
-  // return
+  /// return
   TOKEN_RETURN,
-  // }
+  /// }
   TOKEN_RIGHT_BRACE,
-  // )
+  /// )
   TOKEN_RIGHT_PAREN,
-    // ]
+  /// ]
   TOKEN_RIGHT_BRACKET,
-  // +
+  /// +
   TOKEN_PLUS,
-  // +=
+  /// +=
   TOKEN_PLUS_EQUAL,
-  // ;
+  /// ;
   TOKEN_SEMICOLON,
-  // /
+  /// /
   TOKEN_SLASH,
-  // /=
+  /// /=
   TOKEN_SLASH_EQUAL,
-  // *
+  /// *
   TOKEN_STAR,
-  // *=
+  /// *=
   TOKEN_STAR_EQUAL,
-  // **
+  /// **
   TOKEN_STAR_STAR,
-  // **=
+  /// **=
   TOKEN_STAR_STAR_EQUAL,
-  // A string literal e.g. "Hello World!"
+  /// A string literal e.g. "Hello World!"
   TOKEN_STRING,
-  // super
+  /// super
   TOKEN_SUPER,
-  // this
+  /// this
   TOKEN_THIS,
-  // Boolean literal true
+  /// Boolean literal true
   TOKEN_TRUE,
-  // var
+  /// var
   TOKEN_VAR,
-  // while
+  /// while
   TOKEN_WHILE,
 } tokentype_t;
 
-/// @brief Type definition of a token
+/// @brief A token of the cellox programming language
 typedef struct
 {
-  // The type of the token
+  /// The type of the token
   tokentype_t type;
-  // Pointer to the start of the character sequence
+  /// Pointer to the start of the character sequence
   char const * start;
-  // Length of the character sequence
+  /// Length of the character sequence
   uint32_t length;
-  // Line in the sourceCode
+  /// Line in the sourceCode
   uint32_t line;
 } token_t;
 

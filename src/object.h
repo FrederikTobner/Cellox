@@ -7,141 +7,141 @@
 #include "hash_table.h"
 #include "value.h"
 
-// Makro that determines the type of an object
+/// Makro that determines the type of an object
 #define OBJECT_TYPE(value) \
     (AS_OBJECT(value)->type)
 
-//  Makro that determines if the object has the object type bound-method
+///  Makro that determines if the object has the object type bound-method
 #define IS_BOUND_METHOD(value) \
     object_is_type(value, OBJECT_BOUND_METHOD)
-//  Makro that determines if the object has the object type instance
+///  Makro that determines if the object has the object type instance
 #define IS_INSTANCE(value) \
     object_is_type(value, OBJECT_INSTANCE)
-// Makro that determines if the object has the object type class
+/// Makro that determines if the object has the object type class
 #define IS_CLASS(value) \
     object_is_type(value, OBJECT_CLASS)
-// Makro that determines if the object has the object type closure
+/// Makro that determines if the object has the object type closure
 #define IS_CLOSURE(value) \
     object_is_type(value, OBJECT_CLOSURE)
-// Makro that determines if the object has the object type function
+/// Makro that determines if the object has the object type function
 #define IS_FUNCTION(value) \
     object_is_type(value, OBJECT_FUNCTION)
-// Makro that determines if the object has the object type native - native function
+/// Makro that determines if the object has the object type native - native function
 #define IS_NATIVE(value) \
     object_is_type(value, OBJECT_NATIVE)
-// Makro that determines if the object has the object type string
+/// Makro that determines if the object has the object type string
 #define IS_STRING(value) \
     object_is_type(value, OBJECT_STRING)
 
-//// Makro that gets the value of an object as a bound method
+/// Makro that gets the value of an object as a bound method
 #define AS_BOUND_METHOD(value) \
     ((object_bound_method_t *)AS_OBJECT(value))
-// Makro that gets the value of an object as a cellox class instance
+/// Makro that gets the value of an object as a cellox class instance
 #define AS_INSTANCE(value) \
     ((object_instance_t *)AS_OBJECT(value))
-// Makro that gets the value of an object as a class
+/// Makro that gets the value of an object as a class
 #define AS_CLASS(value) \
     ((object_class_t *)AS_OBJECT(value))
-// Makro that gets the value of an object as a closure
+/// Makro that gets the value of an object as a closure
 #define AS_CLOSURE(value) \
     ((object_closure_t *)AS_OBJECT(value))
-// Makro that gets the value of an object as a function
+/// Makro that gets the value of an object as a function
 #define AS_FUNCTION(value) \
     ((object_function_t *)AS_OBJECT(value))
-// Makro that gets the value of an object as a native function
+/// Makro that gets the value of an object as a native function
 #define AS_NATIVE(value) \
     (((object_native_t *)AS_OBJECT(value))->function)
-// Makro that gets the value of an object as a string
+/// Makro that gets the value of an object as a string
 #define AS_STRING(value) \
     ((object_string_t *)AS_OBJECT(value))
-// Makro that gets the value of an object as a cstring
+/// Makro that gets the value of an object as a cstring
 #define AS_CSTRING(value) \
     (((object_string_t *)AS_OBJECT(value))->chars)
 
 /// @brief Different type of objects
 typedef enum
 {
-    // A method the is bound to an object
+    /// A method the is bound to an object
     OBJECT_BOUND_METHOD,
-    // A instance of a cellox class
+    /// A instance of a cellox class
     OBJECT_INSTANCE,
-    // A class in cellox
+    /// A class in cellox
     OBJECT_CLASS,
-    // A closure
+    /// A closure
     OBJECT_CLOSURE,
-    // A cellox function
+    /// A cellox function
     OBJECT_FUNCTION,
-    // A native function
+    /// A native function
     OBJECT_NATIVE,
-    // A string
+    /// A string
     OBJECT_STRING,
-    // An upvalue
+    /// An upvalue
     OBJECT_UPVALUE,
 } object_type_t;
 
-/// @brief struct containing the data that defines an object
+/// @brief A cellox object
 struct object_t
 {
-    // The type of the object
+    /// The type of the object
     object_type_t type;
-    // Determines whether the object has already been marked by the grabage collector
+    /// Determines whether the object has already been marked by the grabage collector
     bool isMarked;
-    // pointer to the next object in the linear sequence of objects stored on the heap
+    /// pointer to the next object in the linear sequence of objects stored on the heap
     struct object_t * next;
 };
 
-/// @brief struct containing the data that defines a cellox function
+/// @brief A cellox function
 typedef struct
 {
-    // data that defines all types of objects
+    /// data that defines all types of objects
     object_t obj;
-    // The number of arguments a function expects
+    /// The number of arguments a function expects
     uint32_t arity;
-    // Number of values from enclosing scopes
+    /// Number of values from enclosing scopes
     uint32_t upvalueCount;
-    // The instructions in the function
+    /// The instructions in the function
     chunk_t chunk;
-    // The name of the function
+    /// The name of the function
     object_string_t * name;
 } object_function_t;
 
-/// @brief Type definition of a native function structure
+/// @brief A native function
 typedef struct
 {
-    // data that defines all types of objects
+    //// data that defines all types of objects
     object_t obj;
-    // Reference to the native implementation in c
+    /// Reference to the native implementation in c
     native_function_t function;
 } object_native_t;
 
 /// @brief ObjectString structure definition
 struct object_string_t
 {
-    //  data that defines all types of objects
+    /// data that defines all types of objects
     object_t obj;
-    // The length of the string
+    /// The length of the string
     uint32_t length;
-    // Pointer to the address in memory under that the string is stored
+    /// Pointer to the address in memory under that the string is stored
     char * chars;
-    // The hashValue of the string
+    /// The hashValue of the string
     uint32_t hash;
 };
 
-/// @brief Type definition of an object up-value structure (a local variable in an enclosing function)
+/// @brief An object up-value structure (a local variable in an enclosing function)
 typedef struct object_upvalue_t
 {
-    // data that defines all types of objects
+    /// data that defines all types of objects
     object_t obj;
-    // location of the upvalue in memory
+    /// location of the upvalue in memory
     value_t * location;
-    // The Enclosed value after the current environment is left
+    /// The Enclosed value after the current environment is left
     value_t closed;
-    // The memory location of the next upvalue in memory
+    /// The memory location of the next upvalue in memory
     struct object_upvalue_t * next;
 } object_upvalue_t;
 
 /**
- * @brief Type definition of a closure, also called lexical closure or function closure.
+ * @brief A closure, also called lexical closure or function closure.
  * @details A closure is the combination of a function and references to its surrounding state).
  * The closures in cellox are based on the closures used by the LuaVM.
  * In other words, a closure gives you access to an outer function's scope from an inner function.
@@ -149,35 +149,35 @@ typedef struct object_upvalue_t
  */
 typedef struct
 {
-    // data that defines all types of objects
+    /// data that defines all types of objects
     object_t obj;
     object_function_t * function;
     object_upvalue_t ** upvalues;
     uint32_t upvalueCount;
 } object_closure_t;
 
-/// @brief Type definition of a class structure - a class in cellox
+/// @brief A class structure - a class in cellox
 typedef struct
 {
-    // data that defines all types of objects
+    /// data that defines all types of objects
     object_t obj;
     object_string_t * name;
-    table_t methods;
+    hash_table_t methods;
 } object_class_t;
 
-/// @brief Type definition of a cellox class instance
+/// @brief A cellox class instance
 typedef struct
 {
-    // data that defines all types of objects
+    /// data that defines all types of objects
     object_t obj;
     object_class_t * celloxClass;
-    table_t fields;
+    hash_table_t fields;
 } object_instance_t;
 
-/// @brief Type definition of a bound method
+/// @brief A bound method
 typedef struct
 {
-    // data that defines all types of objects
+    /// data that defines all types of objects
     object_t obj;
     value_t receiver;
     object_closure_t * method;

@@ -38,7 +38,7 @@ static command_line_option_type_config_t optionConfigs [] =
 {
     [OPTION_NO_OPTION] = 
     {
-
+        .singularOption = false
     },
     [OPTION_TYPE_HELP] = 
     {
@@ -136,14 +136,14 @@ static inline bool command_line_argument_parser_is_option(char const * argument)
 /// @param currentOption The option that was previously specified
 static void command_line_argument_parser_parse_option(char const * option, command_line_option_type_t * currentOption)
 {
-    // Old options is a singular option
+    /// Old options is a singular option
     if(optionConfigs[*currentOption].singularOption)
         command_line_argument_parser_error("Multiple options specified");
     for (size_t i = 1; i < sizeof(optionConfigs) / sizeof(command_line_option_type_config_t); i++)
     {
         if(!strcmp(optionConfigs[i].shortRepresentation, option) || !strcmp(optionConfigs[i].longRepresentation, option))
         {
-            // New option is a singular option
+            /// New option is a singular option
             if(optionConfigs[i].singularOption && *currentOption)
                 command_line_argument_parser_error("Multiple options specified");
             *currentOption = i;

@@ -15,7 +15,7 @@ typedef struct object_string_t object_string_t;
 
 #define SIGN_BIT \
     ((uint64_t)0x8000000000000000)
-// quiet not a number 🤫
+/// quiet not a number 🤫
 #define QNAN \
     ((uint64_t)0x7ffc000000000000)
 
@@ -23,47 +23,49 @@ typedef struct object_string_t object_string_t;
 #define TAG_FALSE 0x2
 #define TAG_TRUE 0x3
 
+/// @brief An value type
+/// @details In Cellox a value can be either a numerical, a boolean or a undefiended value. Additionally a value can also be a cellox object
 typedef uint64_t value_t;
 
-// Makro that determines whether a value is of the type bool
+/// Makro that determines whether a value is of the type bool
 #define IS_BOOL(value) \
     (((value) | 1) == TRUE_VAL)
-// Makro that determines whether a value is nil
+/// Makro that determines whether a value is nil
 #define IS_NULL(value) \
     ((value) == NULL_VAL)
-// Makro that determines whether a value is of the type number
+/// Makro that determines whether a value is of the type number
 #define IS_NUMBER(value) \
     (((value)&QNAN) != QNAN)
-// Makro that determines whether a value is of the type obejct
+/// Makro that determines whether a value is of the type obejct
 #define IS_OBJECT(value) \
     (((value) & (QNAN | SIGN_BIT)) == (QNAN | SIGN_BIT))
 
-// Makro that yields the value of a boolean and converts to a c boolean
+/// Makro that yields the value of a boolean and converts to a c boolean
 #define AS_BOOL(value) \
     ((value) == TRUE_VAL)
-// Makro that yields the value of a number and converts to a c double
+/// Makro that yields the value of a number and converts to a c double
 #define AS_NUMBER(value) \
     valueToNum(value)
-// Makro that yields the value of an object and converts to an object pointer
+/// Makro that yields the value of an object and converts to an object pointer
 #define AS_OBJECT(value) \
     ((object_t *)(uintptr_t)((value) & ~(SIGN_BIT | QNAN)))
 
-// Makro that yields the boolean value stored in a Value
+/// Makro that yields the boolean value stored in a Value
 #define BOOL_VAL(b) \
     ((b) ? TRUE_VAL : FALSE_VAL)
-// Makro that yields a false value
+/// Makro that yields a false value
 #define FALSE_VAL \
     ((value_t)(uint64_t)(QNAN | TAG_FALSE))
-// Makro that yields a true value
+/// Makro that yields a true value
 #define TRUE_VAL \
     ((value_t)(uint64_t)(QNAN | TAG_TRUE))
-// Makro that yields null
+/// Makro that yields null
 #define NULL_VAL \
     ((value_t)(uint64_t)(QNAN | TAG_NIL))
-// Makro that yields the numerical value
+/// Makro that yields the numerical value
 #define NUMBER_VAL(num) \
     numToValue(num)
-// Makro that yields the value of a object
+/// Makro that yields the value of a object
 #define OBJECT_VAL(obj) \
     (value_t)(SIGN_BIT | QNAN | (uint64_t)(uintptr_t)(obj))
 
@@ -88,20 +90,21 @@ static inline double valueToNum(value_t value)
 
 #else
 
-/// @brief Type definition of the types of values that can be stored in a dynamic array
+/// @brief The types of values that can be stored in a dynamic array
 typedef enum
 {
-    // Boolean value
+    /// Boolean value
     VAL_BOOL,
-    // Null value
+    /// Null value
     VAL_NULL,
-    // A numerical value
+    /// A numerical value
     VAL_NUMBER,
-    // A cellox object
+    /// A cellox object
     VAL_OBJ
 } ValueType;
 
-/// @brief Type definition of a value structure that can bew either a boolean, a number or an object (e.g. a string or a cellox object)
+/// @brief An value type
+/// @details In Cellox a value can be either a numerical, a boolean or a undefiended value. Additionally a value can also be a cellox object
 typedef struct
 {
     ValueType type;
@@ -113,44 +116,44 @@ typedef struct
     } as;
 } value_t;
 
-// Makro that determines whether a value is of the type bool
+/// Makro that determines whether a value is of the type bool
 #define IS_BOOL(value) \
     ((value).type == VAL_BOOL)
-// Makro that determines whether a value is of the type nil
+/// Makro that determines whether a value is of the type nil
 #define IS_NULL(value) \
     ((value).type == VAL_NULL)
-// Makro that determines whether a value is of the type number
+/// Makro that determines whether a value is of the type number
 #define IS_NUMBER(value) \
     ((value).type == VAL_NUMBER)
-// Makro that determines whether a value is of the type object
+/// Makro that determines whether a value is of the type object
 #define IS_OBJECT(value) \
     ((value).type == VAL_OBJ)
 
-// Makro that returns the boolean value in the union
+/// Makro that returns the boolean value in the union
 #define AS_BOOL(value) \
     ((value).as.boolean)
-// Makro that returns the value of a number in the union
+/// Makro that returns the value of a number in the union
 #define AS_NUMBER(value) \
     ((value).as.number)
-// Makro that returns the value of an object in the union
+/// Makro that returns the value of an object in the union
 #define AS_OBJECT(value) \
     ((value).as.obj)
 
-// Makro that creates a boolean value
+/// Makro that creates a boolean value
 #define BOOL_VAL(value) \
     ((value_t){VAL_BOOL, {.boolean = value}})
-// Makro that creates a null value
+/// Makro that creates a null value
 #define NULL_VAL \
     ((value_t){VAL_NULL, {.number = 0}})
-// Makro that creates a numerical value
+/// Makro that creates a numerical value
 #define NUMBER_VAL(value) \
     ((value_t){VAL_NUMBER, {.number = value}})
-// Makro that creates an object
+/// Makro that creates an object
 #define OBJECT_VAL(object) \
     ((value_t){VAL_OBJ, {.obj = (object_t *)object}})
-// Makro that creates a boolean value that is true
+/// Makro that creates a boolean value that is true
 #define TRUE_VAL (BOOL_VAL(true))
-// Makro that creates a boolean value that is false
+/// Makro that creates a boolean value that is false
 #define FALSE_VAL (BOOL_VAL(false))
 
 #endif
@@ -165,6 +168,9 @@ void value_print(value_t value);
 /// @return A boolean value that indicates whether the first and the second value are equal
 bool value_values_equal(value_t a, value_t b);
 
+/// @brief Gets the name of the type of a value_t
+/// @param value The value where the type is determined
+/// @return A character sequence that represents the type 
 char const * value_stringify_type(value_t value);
 
 #endif
