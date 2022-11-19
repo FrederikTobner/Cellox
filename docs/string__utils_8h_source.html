@@ -12,6 +12,7 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -73,16 +74,19 @@ $(function() {
   <div class="headertitle"><div class="title">string_utils.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CELLOX_STRING_UTILS_H_</span></div>
+<a href="string__utils_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CELLOX_STRING_UTILS_H_</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define CELLOX_STRING_UTILS_H_</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;common.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">common.h</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keywordtype">bool</span> string_utils_contains_character_restricted(<span class="keywordtype">char</span> <span class="keyword">const</span> * text, <span class="keywordtype">char</span> character, uint32_t length);</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keywordtype">bool</span> <a class="code hl_function" href="string__utils_8h.html#ad51887e1d189f5bb5c32079ba21472dd">string_utils_contains_character_restricted</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * text, <span class="keywordtype">char</span> character, uint32_t length);</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordtype">int</span> string_utils_resolve_escape_sequence(<span class="keywordtype">char</span> * text, uint32_t * length);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordtype">int</span> <a class="code hl_function" href="string__utils_8h.html#a1f0688092d57609f45dbd33fb9670383">string_utils_resolve_escape_sequence</a>(<span class="keywordtype">char</span> * text, uint32_t * length);</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div></div>
+<div class="ttc" id="astring__utils_8h_html_a1f0688092d57609f45dbd33fb9670383"><div class="ttname"><a href="string__utils_8h.html#a1f0688092d57609f45dbd33fb9670383">string_utils_resolve_escape_sequence</a></div><div class="ttdeci">int string_utils_resolve_escape_sequence(char *text, uint32_t *length)</div><div class="ttdoc">Resolves all the escape sequences specified in a string literal and returns an int that indicates whe...</div><div class="ttdef"><b>Definition:</b> string_utils.c:23</div></div>
+<div class="ttc" id="astring__utils_8h_html_ad51887e1d189f5bb5c32079ba21472dd"><div class="ttname"><a href="string__utils_8h.html#ad51887e1d189f5bb5c32079ba21472dd">string_utils_contains_character_restricted</a></div><div class="ttdeci">bool string_utils_contains_character_restricted(char const *text, char character, uint32_t length)</div><div class="ttdoc">Checks if a string contains the specified character restricted the specified length.</div><div class="ttdef"><b>Definition:</b> string_utils.c:10</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

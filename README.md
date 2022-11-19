@@ -12,7 +12,7 @@ Cellox is a scripting language based on the programming language [lox](https://c
 
 Cellox is a dynamically typed, object oriented, high-level scripting language.
 
-Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be include in the upcoming versions of the interpreter.
+Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the interpreter.
 
 ## Values
 
@@ -36,7 +36,7 @@ Cellox features [assignment](https://github.com/FrederikTobner/Cellox/wiki/Opera
 
 ## Objects
 
-In Cellox everything besides the 3 base data types is considered to be a cellox [object](https://github.com/FrederikTobner/Cellox/wiki/Objects).
+In Cellox everything besides the three base data types is considered to be a cellox [object](https://github.com/FrederikTobner/Cellox/wiki/Objects).
 Even functions and classes are considered to be a cellox object.
 This means that you can for example get the reference to a function and assign it to a variable.
 

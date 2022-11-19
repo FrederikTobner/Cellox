@@ -8,9 +8,9 @@
 typedef struct
 {
     /// Pointer to the start of the current line where the lexical analysis is performed
-    const char * start;
+    char const * start;
     /// Pointer to the current position in the current line where the lexical analysis is performed
-    const char * current;
+    char const * current;
     /// Line counter - used for error reporting
     uint32_t line;
 } lexer_t;
@@ -189,7 +189,6 @@ static tokentype_t lexer_identifier_type()
     case 'f':
         if (lexer.current - lexer.start > 1)
         {
-            /// Switch for the branches coming of the 'f' node (a -> 'false', o -> 'for' and u -> 'fun')
             switch (lexer.start[1])
             {
             case 'a':
@@ -216,7 +215,6 @@ static tokentype_t lexer_identifier_type()
     case 't':
         if (lexer.current - lexer.start > 1)
         {
-            /// Switch for the branches coming of the t node (h -> this and r -> true)
             switch (lexer.start[1])
             {
             case 'h':
@@ -234,8 +232,8 @@ static tokentype_t lexer_identifier_type()
     return TOKEN_IDENTIFIER;
 }
 
-/* Checks if the char c is from the alphabet or an underscore.
-These are the valid characters for identifiers.*/
+/// @brief Checks if the char c is from the alphabet or an underscore.
+/// @details These are the valid characters for identifiers.
 static bool lexer_is_alpha(char c)
 {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
@@ -279,19 +277,15 @@ static bool lexer_match(char expected)
 static token_t lexer_number()
 {
     while (lexer_is_digit(lexer_peek()))
-    {
         lexer_advance();
-    }
 
-    /// Look for a fractional part.
+    // Look for a fractional part.
     if (lexer_peek() == '.' && lexer_is_digit(lexer_peek_next()))
     {
         // Consume the ".".
         lexer_advance();
         while (lexer_is_digit(lexer_peek()))
-        {
             lexer_advance();
-        }
     }
     return lexer_make_token(TOKEN_NUMBER);
 }
@@ -321,18 +315,18 @@ static void lexer_skip_whitespace()
         case ' ':
         case '\r':
         case '\t':
-            /// Whitespaces tabstops and carriage returns are ignored
+            // Whitespaces tabstops and carriage returns are ignored
             lexer_advance();
             break;
         case '\n':
-            /// Linecounter will increase on a linefeed
+            // Linecounter will increase on a linefeed
             lexer.line++;
             lexer_advance();
             break;
         case '/':
             if (lexer_peek_next() == '/')
             {
-                /// A comment goes until the end of the line.
+                // A comment goes until the end of the line.
                 while (lexer_peek() != '\n' && !lexer_is_at_end())
                     lexer_advance();
             }

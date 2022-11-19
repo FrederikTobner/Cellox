@@ -1,19 +1,21 @@
 #ifndef CELLOX_INIT_H_
 #define CELLOX_INIT_H_
 
+// Init.h is included in the test-suite
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <stdbool.h>
 
+/// Message that is explains the usage of the cellox interpreter
 #define CELLOX_USAGE_MESSAGE ("Usage: Cellox ((-h|--help|-v|--version) | ((-scf | --store-chunk-file) |(-rcf |--read-chunk-file)) [path]\n")
 
 /** @brief Run with repl
-* @details  1. Read the user input
-*           2. Evaluate your code
-*           3. Print any results
-*           4. Loop back to step 1
+* @details  1. Read the user input   -   (R)
+*           2. Evaluate your code    -   (E)
+*           3. Print any results     -   (P)
+*           4. Loop back to step 1   -   (L)
 */
 void init_repl();
 

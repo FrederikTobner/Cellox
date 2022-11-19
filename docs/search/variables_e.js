@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['slots_0',['slots',['../structcall__frame__t.html#a260b816c5173ef60e38b49d2c4f67681',1,'call_frame_t']]],
-  ['stack_1',['stack',['../structvirtual__machine__t.html#a3a01286420f23d09307571cf2cdb499e',1,'virtual_machine_t']]],
-  ['stacktop_2',['stackTop',['../structvirtual__machine__t.html#a99dd70f02df666165d26b084309adb1a',1,'virtual_machine_t']]],
-  ['start_3',['start',['../structlexer__t.html#ac621bcfb466f3b6a6421c5f48b30ade3',1,'lexer_t::start()'],['../structtoken__t.html#ad63735bb1e8f9126d806c2eec49ac941',1,'token_t::start()']]],
-  ['strings_4',['strings',['../structvirtual__machine__t.html#a555273d2a01e34049cd19e1d5dec6d7d',1,'virtual_machine_t']]]
+  ['panicmode_0',['panicMode',['../structparser__t.html#a73f915537724bd961727c111c46cebd4',1,'parser_t']]],
+  ['parser_1',['parser',['../compiler_8c.html#a0a1493079542f9299323bcb1ac7488f4',1,'compiler.c']]],
+  ['precedence_2',['precedence',['../structparse__rule__t.html#a4a9446609190910050c2a2f6936163c8',1,'parse_rule_t']]],
+  ['prefix_3',['prefix',['../structparse__rule__t.html#a68ed40dc8ec0c4b3f403716e978e380b',1,'parse_rule_t']]],
+  ['previous_4',['previous',['../structparser__t.html#afb03a4993da355287d7be9e0834b7206',1,'parser_t']]],
+  ['program_5',['program',['../structvirtual__machine__t.html#a24bffa4be3efba394b2090a77170e3d1',1,'virtual_machine_t']]]
 ];

@@ -12,6 +12,7 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -83,24 +84,79 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a2269642720772ebb310d3740f81af52f"><td class="memItemLeft" align="right" valign="top"><a id="a2269642720772ebb310d3740f81af52f" name="a2269642720772ebb310d3740f81af52f"></a>
-<a class="el" href="structobject__t.html">object_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>obj</b></td></tr>
-<tr class="memdesc:a2269642720772ebb310d3740f81af52f"><td class="mdescLeft">&#160;</td><td class="mdescRight">data that defines all types of objects <br /></td></tr>
+<tr class="memitem:a2269642720772ebb310d3740f81af52f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__t.html">object_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__closure__t.html#a2269642720772ebb310d3740f81af52f">obj</a></td></tr>
+<tr class="memdesc:a2269642720772ebb310d3740f81af52f"><td class="mdescLeft">&#160;</td><td class="mdescRight">data that defines all types of objects  <a href="structobject__closure__t.html#a2269642720772ebb310d3740f81af52f">More...</a><br /></td></tr>
 <tr class="separator:a2269642720772ebb310d3740f81af52f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ea5e688e8dc462b6245a728932c2972"><td class="memItemLeft" align="right" valign="top"><a id="a6ea5e688e8dc462b6245a728932c2972" name="a6ea5e688e8dc462b6245a728932c2972"></a>
-<a class="el" href="structobject__function__t.html">object_function_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>function</b></td></tr>
+<tr class="memitem:a6ea5e688e8dc462b6245a728932c2972"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__function__t.html">object_function_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__closure__t.html#a6ea5e688e8dc462b6245a728932c2972">function</a></td></tr>
 <tr class="separator:a6ea5e688e8dc462b6245a728932c2972"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2587884aed3e2ff9956200f60c990729"><td class="memItemLeft" align="right" valign="top"><a id="a2587884aed3e2ff9956200f60c990729" name="a2587884aed3e2ff9956200f60c990729"></a>
-<a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a> **&#160;</td><td class="memItemRight" valign="bottom"><b>upvalues</b></td></tr>
+<tr class="memitem:a2587884aed3e2ff9956200f60c990729"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__closure__t.html#a2587884aed3e2ff9956200f60c990729">upvalues</a></td></tr>
 <tr class="separator:a2587884aed3e2ff9956200f60c990729"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2af3fd6a60b0e43192452c7ac4f94779"><td class="memItemLeft" align="right" valign="top"><a id="a2af3fd6a60b0e43192452c7ac4f94779" name="a2af3fd6a60b0e43192452c7ac4f94779"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>upvalueCount</b></td></tr>
+<tr class="memitem:a2af3fd6a60b0e43192452c7ac4f94779"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__closure__t.html#a2af3fd6a60b0e43192452c7ac4f94779">upvalueCount</a></td></tr>
 <tr class="separator:a2af3fd6a60b0e43192452c7ac4f94779"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >A closure, also called lexical closure or function closure. </p>
 <p >A closure is the combination of a function and references to its surrounding state). The closures in cellox are based on the closures used by the LuaVM. In other words, a closure gives you access to an outer function's scope from an inner function. <a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">https://en.wikipedia.org/wiki/Closure_(computer_programming)</a> </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a6ea5e688e8dc462b6245a728932c2972" name="a6ea5e688e8dc462b6245a728932c2972"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ea5e688e8dc462b6245a728932c2972">&#9670;&#160;</a></span>function</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__function__t.html">object_function_t</a>* function</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2269642720772ebb310d3740f81af52f" name="a2269642720772ebb310d3740f81af52f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2269642720772ebb310d3740f81af52f">&#9670;&#160;</a></span>obj</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__t.html">object_t</a> obj</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>data that defines all types of objects </p>
+
+</div>
+</div>
+<a id="a2af3fd6a60b0e43192452c7ac4f94779" name="a2af3fd6a60b0e43192452c7ac4f94779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2af3fd6a60b0e43192452c7ac4f94779">&#9670;&#160;</a></span>upvalueCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t upvalueCount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2587884aed3e2ff9956200f60c990729" name="a2587884aed3e2ff9956200f60c990729"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2587884aed3e2ff9956200f60c990729">&#9670;&#160;</a></span>upvalues</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a>** upvalues</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="object_8h_source.html">object.h</a></li>
 </ul>
 </div><!-- contents -->

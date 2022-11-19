@@ -1,8 +1,24 @@
 var searchData=
 [
-  ['slots_0',['slots',['../structcall__frame__t.html#a260b816c5173ef60e38b49d2c4f67681',1,'call_frame_t']]],
-  ['stack_1',['stack',['../structvirtual__machine__t.html#a3a01286420f23d09307571cf2cdb499e',1,'virtual_machine_t']]],
-  ['stacktop_2',['stackTop',['../structvirtual__machine__t.html#a99dd70f02df666165d26b084309adb1a',1,'virtual_machine_t']]],
-  ['start_3',['start',['../structlexer__t.html#ac621bcfb466f3b6a6421c5f48b30ade3',1,'lexer_t::start()'],['../structtoken__t.html#ad63735bb1e8f9126d806c2eec49ac941',1,'token_t::start()']]],
-  ['strings_4',['strings',['../structvirtual__machine__t.html#a555273d2a01e34049cd19e1d5dec6d7d',1,'virtual_machine_t']]]
+  ['panicmode_0',['panicMode',['../structparser__t.html#a73f915537724bd961727c111c46cebd4',1,'parser_t']]],
+  ['parse_5ffunction_5ft_1',['parse_function_t',['../compiler_8c.html#aac3bebec3509a6a5b06942dd0de1a334',1,'compiler.c']]],
+  ['parse_5frule_5ft_2',['parse_rule_t',['../structparse__rule__t.html',1,'']]],
+  ['parser_3',['parser',['../compiler_8c.html#a0a1493079542f9299323bcb1ac7488f4',1,'compiler.c']]],
+  ['parser_5ft_4',['parser_t',['../structparser__t.html',1,'']]],
+  ['prec_5fand_5',['PREC_AND',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfafd1def1a9d1ac4d3e573e407227c8f56',1,'compiler.c']]],
+  ['prec_5fassignment_6',['PREC_ASSIGNMENT',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa5576e7223ab7e815dc3f0daefcaf5fe3',1,'compiler.c']]],
+  ['prec_5fcall_7',['PREC_CALL',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa935e24750e9ae953c5291c5567be873a',1,'compiler.c']]],
+  ['prec_5fcomparison_8',['PREC_COMPARISON',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa97393227c3b9b3664833fb648de3c8af',1,'compiler.c']]],
+  ['prec_5fequality_9',['PREC_EQUALITY',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa336bf98f3bbc6c9ec4436e7728ca9389',1,'compiler.c']]],
+  ['prec_5ffactor_10',['PREC_FACTOR',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa512d339d43a8a07254dc51ae5cbf61de',1,'compiler.c']]],
+  ['prec_5fnone_11',['PREC_NONE',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa2be887a6eb50f60bf0d6643d5986289c',1,'compiler.c']]],
+  ['prec_5for_12',['PREC_OR',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa461532d1f6f71dc9a5f506644cdad7e5',1,'compiler.c']]],
+  ['prec_5fprimary_13',['PREC_PRIMARY',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa59b5adac5b20fde37b2be48df04b90de',1,'compiler.c']]],
+  ['prec_5fterm_14',['PREC_TERM',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfaf8854b546d1ca4c09e1f8684a3cd6af3',1,'compiler.c']]],
+  ['prec_5funary_15',['PREC_UNARY',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa0f109c9eef878893165c6180c86caa96',1,'compiler.c']]],
+  ['precedence_16',['precedence',['../structparse__rule__t.html#a4a9446609190910050c2a2f6936163c8',1,'parse_rule_t']]],
+  ['precedence_5ft_17',['precedence_t',['../compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdf',1,'compiler.c']]],
+  ['prefix_18',['prefix',['../structparse__rule__t.html#a68ed40dc8ec0c4b3f403716e978e380b',1,'parse_rule_t']]],
+  ['previous_19',['previous',['../structparser__t.html#afb03a4993da355287d7be9e0834b7206',1,'parser_t']]],
+  ['program_20',['program',['../structvirtual__machine__t.html#a24bffa4be3efba394b2090a77170e3d1',1,'virtual_machine_t']]]
 ];

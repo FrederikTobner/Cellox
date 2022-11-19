@@ -12,6 +12,7 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -73,16 +74,19 @@ $(function() {
   <div class="headertitle"><div class="title">debug.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CELLOX_DEBUG_H_</span></div>
+<a href="debug_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CELLOX_DEBUG_H_</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define CELLOX_DEBUG_H_</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;chunk.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="chunk_8h.html">chunk.h</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keywordtype">void</span> debug_disassemble_chunk(<a class="code hl_struct" href="structchunk__t.html">chunk_t</a> * chunk, <span class="keywordtype">char</span> <span class="keyword">const</span> * name, uint32_t arity);</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keywordtype">void</span> <a class="code hl_function" href="debug_8h.html#a88a73d83f01d87198f1cc84507a3300e">debug_disassemble_chunk</a>(<a class="code hl_struct" href="structchunk__t.html">chunk_t</a> * chunk, <span class="keywordtype">char</span> <span class="keyword">const</span> * name, uint32_t arity);</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>int32_t debug_disassemble_instruction(<a class="code hl_struct" href="structchunk__t.html">chunk_t</a> * chunk, int32_t offset);</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>int32_t <a class="code hl_function" href="debug_8h.html#addc14de06cca69f6aa036f3041e62554">debug_disassemble_instruction</a>(<a class="code hl_struct" href="structchunk__t.html">chunk_t</a> * chunk, int32_t offset);</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="achunk_8h_html"><div class="ttname"><a href="chunk_8h.html">chunk.h</a></div></div>
+<div class="ttc" id="adebug_8h_html_a88a73d83f01d87198f1cc84507a3300e"><div class="ttname"><a href="debug_8h.html#a88a73d83f01d87198f1cc84507a3300e">debug_disassemble_chunk</a></div><div class="ttdeci">void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)</div><div class="ttdoc">Dissasembles a chunk of bytecode instructions.</div><div class="ttdef"><b>Definition:</b> debug.c:16</div></div>
+<div class="ttc" id="adebug_8h_html_addc14de06cca69f6aa036f3041e62554"><div class="ttname"><a href="debug_8h.html#addc14de06cca69f6aa036f3041e62554">debug_disassemble_instruction</a></div><div class="ttdeci">int32_t debug_disassemble_instruction(chunk_t *chunk, int32_t offset)</div><div class="ttdoc">Dissasembles a single instruction.</div><div class="ttdef"><b>Definition:</b> debug.c:66</div></div>
 <div class="ttc" id="astructchunk__t_html"><div class="ttname"><a href="structchunk__t.html">chunk_t</a></div><div class="ttdoc">A dynamic array structure of bytecode instructions and constants.</div><div class="ttdef"><b>Definition:</b> chunk.h:98</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

@@ -12,6 +12,7 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -83,22 +84,68 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a171aa496e67b0ae15dc49138771e726f"><td class="memItemLeft" align="right" valign="top"><a id="a171aa496e67b0ae15dc49138771e726f" name="a171aa496e67b0ae15dc49138771e726f"></a>
-<a class="el" href="structobject__closure__t.html">object_closure_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>closure</b></td></tr>
-<tr class="memdesc:a171aa496e67b0ae15dc49138771e726f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The closure of the callframe. <br /></td></tr>
+<tr class="memitem:a171aa496e67b0ae15dc49138771e726f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__closure__t.html">object_closure_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcall__frame__t.html#a171aa496e67b0ae15dc49138771e726f">closure</a></td></tr>
+<tr class="memdesc:a171aa496e67b0ae15dc49138771e726f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The closure of the callframe.  <a href="structcall__frame__t.html#a171aa496e67b0ae15dc49138771e726f">More...</a><br /></td></tr>
 <tr class="separator:a171aa496e67b0ae15dc49138771e726f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9a214ca95b98ffdff0a9a4398d2c174"><td class="memItemLeft" align="right" valign="top"><a id="ae9a214ca95b98ffdff0a9a4398d2c174" name="ae9a214ca95b98ffdff0a9a4398d2c174"></a>
-uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>ip</b></td></tr>
-<tr class="memdesc:ae9a214ca95b98ffdff0a9a4398d2c174"><td class="mdescLeft">&#160;</td><td class="mdescRight">The instruction pointer in the callframe. <br /></td></tr>
+<tr class="memitem:ae9a214ca95b98ffdff0a9a4398d2c174"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcall__frame__t.html#ae9a214ca95b98ffdff0a9a4398d2c174">ip</a></td></tr>
+<tr class="memdesc:ae9a214ca95b98ffdff0a9a4398d2c174"><td class="mdescLeft">&#160;</td><td class="mdescRight">The instruction pointer in the callframe.  <a href="structcall__frame__t.html#ae9a214ca95b98ffdff0a9a4398d2c174">More...</a><br /></td></tr>
 <tr class="separator:ae9a214ca95b98ffdff0a9a4398d2c174"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a260b816c5173ef60e38b49d2c4f67681"><td class="memItemLeft" align="right" valign="top"><a id="a260b816c5173ef60e38b49d2c4f67681" name="a260b816c5173ef60e38b49d2c4f67681"></a>
-value_t *&#160;</td><td class="memItemRight" valign="bottom"><b>slots</b></td></tr>
-<tr class="memdesc:a260b816c5173ef60e38b49d2c4f67681"><td class="mdescLeft">&#160;</td><td class="mdescRight">Points to the first slot in the stack of the virtualMachine the function can use. <br /></td></tr>
+<tr class="memitem:a260b816c5173ef60e38b49d2c4f67681"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcall__frame__t.html#a260b816c5173ef60e38b49d2c4f67681">slots</a></td></tr>
+<tr class="memdesc:a260b816c5173ef60e38b49d2c4f67681"><td class="mdescLeft">&#160;</td><td class="mdescRight">Points to the first slot in the stack of the virtualMachine the function can use.  <a href="structcall__frame__t.html#a260b816c5173ef60e38b49d2c4f67681">More...</a><br /></td></tr>
 <tr class="separator:a260b816c5173ef60e38b49d2c4f67681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >A call frame structure - represents a single ongoing function call. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a171aa496e67b0ae15dc49138771e726f" name="a171aa496e67b0ae15dc49138771e726f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a171aa496e67b0ae15dc49138771e726f">&#9670;&#160;</a></span>closure</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__closure__t.html">object_closure_t</a>* closure</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The closure of the callframe. </p>
+
+</div>
+</div>
+<a id="ae9a214ca95b98ffdff0a9a4398d2c174" name="ae9a214ca95b98ffdff0a9a4398d2c174"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9a214ca95b98ffdff0a9a4398d2c174">&#9670;&#160;</a></span>ip</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t* ip</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The instruction pointer in the callframe. </p>
+
+</div>
+</div>
+<a id="a260b816c5173ef60e38b49d2c4f67681" name="a260b816c5173ef60e38b49d2c4f67681"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a260b816c5173ef60e38b49d2c4f67681">&#9670;&#160;</a></span>slots</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>* slots</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Points to the first slot in the stack of the virtualMachine the function can use. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="virtual__machine_8h_source.html">virtual_machine.h</a></li>
 </ul>
 </div><!-- contents -->

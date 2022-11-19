@@ -12,6 +12,7 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -76,28 +77,94 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A cellox parser.  
+<p>The cellox parser.  
  <a href="structparser__t.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a5f41758f712817bb899ec2c7dddaf8a2"><td class="memItemLeft" align="right" valign="top"><a id="a5f41758f712817bb899ec2c7dddaf8a2" name="a5f41758f712817bb899ec2c7dddaf8a2"></a>
-<a class="el" href="structtoken__t.html">token_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>current</b></td></tr>
+<tr class="memitem:a5f41758f712817bb899ec2c7dddaf8a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structtoken__t.html">token_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__t.html#a5f41758f712817bb899ec2c7dddaf8a2">current</a></td></tr>
+<tr class="memdesc:a5f41758f712817bb899ec2c7dddaf8a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The token that is currently being parsed.  <a href="structparser__t.html#a5f41758f712817bb899ec2c7dddaf8a2">More...</a><br /></td></tr>
 <tr class="separator:a5f41758f712817bb899ec2c7dddaf8a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb03a4993da355287d7be9e0834b7206"><td class="memItemLeft" align="right" valign="top"><a id="afb03a4993da355287d7be9e0834b7206" name="afb03a4993da355287d7be9e0834b7206"></a>
-<a class="el" href="structtoken__t.html">token_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>previous</b></td></tr>
+<tr class="memitem:afb03a4993da355287d7be9e0834b7206"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structtoken__t.html">token_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__t.html#afb03a4993da355287d7be9e0834b7206">previous</a></td></tr>
+<tr class="memdesc:afb03a4993da355287d7be9e0834b7206"><td class="mdescLeft">&#160;</td><td class="mdescRight">The token that was previously parsed.  <a href="structparser__t.html#afb03a4993da355287d7be9e0834b7206">More...</a><br /></td></tr>
 <tr class="separator:afb03a4993da355287d7be9e0834b7206"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5acd1c773774df929c1a561128c90189"><td class="memItemLeft" align="right" valign="top"><a id="a5acd1c773774df929c1a561128c90189" name="a5acd1c773774df929c1a561128c90189"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>hadError</b></td></tr>
+<tr class="memitem:a5acd1c773774df929c1a561128c90189"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__t.html#a5acd1c773774df929c1a561128c90189">hadError</a></td></tr>
+<tr class="memdesc:a5acd1c773774df929c1a561128c90189"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag that indicates whether an error occured during the compilation.  <a href="structparser__t.html#a5acd1c773774df929c1a561128c90189">More...</a><br /></td></tr>
 <tr class="separator:a5acd1c773774df929c1a561128c90189"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73f915537724bd961727c111c46cebd4"><td class="memItemLeft" align="right" valign="top"><a id="a73f915537724bd961727c111c46cebd4" name="a73f915537724bd961727c111c46cebd4"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>panicMode</b></td></tr>
+<tr class="memitem:a73f915537724bd961727c111c46cebd4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__t.html#a73f915537724bd961727c111c46cebd4">panicMode</a></td></tr>
+<tr class="memdesc:a73f915537724bd961727c111c46cebd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag that indicates that the compiler couldn't synchronize after an errror occured.  <a href="structparser__t.html#a73f915537724bd961727c111c46cebd4">More...</a><br /></td></tr>
 <tr class="separator:a73f915537724bd961727c111c46cebd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >A cellox parser. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li>compiler.c</li>
+<div class="textblock"><p >The cellox parser. </p>
+<p >The parser builds an abstract syntax tree out of the tokens that were produced by the lexer </p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a5f41758f712817bb899ec2c7dddaf8a2" name="a5f41758f712817bb899ec2c7dddaf8a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f41758f712817bb899ec2c7dddaf8a2">&#9670;&#160;</a></span>current</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structtoken__t.html">token_t</a> current</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The token that is currently being parsed. </p>
+
+</div>
+</div>
+<a id="a5acd1c773774df929c1a561128c90189" name="a5acd1c773774df929c1a561128c90189"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5acd1c773774df929c1a561128c90189">&#9670;&#160;</a></span>hadError</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hadError</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag that indicates whether an error occured during the compilation. </p>
+
+</div>
+</div>
+<a id="a73f915537724bd961727c111c46cebd4" name="a73f915537724bd961727c111c46cebd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73f915537724bd961727c111c46cebd4">&#9670;&#160;</a></span>panicMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool panicMode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag that indicates that the compiler couldn't synchronize after an errror occured. </p>
+
+</div>
+</div>
+<a id="afb03a4993da355287d7be9e0834b7206" name="afb03a4993da355287d7be9e0834b7206"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb03a4993da355287d7be9e0834b7206">&#9670;&#160;</a></span>previous</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structtoken__t.html">token_t</a> previous</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The token that was previously parsed. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="compiler_8c.html">compiler.c</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
