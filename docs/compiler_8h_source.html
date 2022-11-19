@@ -12,6 +12,7 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -73,16 +74,19 @@ $(function() {
   <div class="headertitle"><div class="title">compiler.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CELLOX_COMPILER_H_</span></div>
+<a href="compiler_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CELLOX_COMPILER_H_</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define CELLOX_COMPILER_H_</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;object.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="object_8h.html">object.h</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><a class="code hl_struct" href="structobject__function__t.html">object_function_t</a> * compiler_compile(<span class="keywordtype">char</span> <span class="keyword">const</span> * code);</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><a class="code hl_struct" href="structobject__function__t.html">object_function_t</a> * <a class="code hl_function" href="compiler_8h.html#a7faf66ff17e49b9aed300608134c3314">compiler_compile</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * code);</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keywordtype">void</span> compiler_mark_roots();</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keywordtype">void</span> <a class="code hl_function" href="compiler_8h.html#a215f151f826af03aaa3690d865620a77">compiler_mark_roots</a>();</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="acompiler_8h_html_a215f151f826af03aaa3690d865620a77"><div class="ttname"><a href="compiler_8h.html#a215f151f826af03aaa3690d865620a77">compiler_mark_roots</a></div><div class="ttdeci">void compiler_mark_roots()</div><div class="ttdoc">Marks the compiler roots.</div><div class="ttdef"><b>Definition:</b> compiler.c:519</div></div>
+<div class="ttc" id="acompiler_8h_html_a7faf66ff17e49b9aed300608134c3314"><div class="ttname"><a href="compiler_8h.html#a7faf66ff17e49b9aed300608134c3314">compiler_compile</a></div><div class="ttdeci">object_function_t * compiler_compile(char const *code)</div><div class="ttdoc">Compiles a cellox program.</div><div class="ttdef"><b>Definition:</b> compiler.c:504</div></div>
+<div class="ttc" id="aobject_8h_html"><div class="ttname"><a href="object_8h.html">object.h</a></div></div>
 <div class="ttc" id="astructobject__function__t_html"><div class="ttname"><a href="structobject__function__t.html">object_function_t</a></div><div class="ttdoc">A cellox function.</div><div class="ttdef"><b>Definition:</b> object.h:95</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

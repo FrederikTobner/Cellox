@@ -70,9 +70,9 @@ int32_t debug_disassemble_instruction(chunk_t *chunk, int32_t offset)
     printf("   | ");
   else
     printf("%4d ", chunk->lines[offset]);
-  /// Instruction specific behaviour
+  // Instruction specific behaviour
   uint8_t instruction = chunk->code[offset];
-  /// Switch statement could be converted to a computed goto https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables for efficiency
+  // Switch statement could be converted to a computed goto https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables for efficiency
   printf(" OP_%02X: ", instruction);
   switch (instruction)
   {

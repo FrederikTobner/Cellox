@@ -5,51 +5,67 @@
 #include <string.h>
 
 #include "common.h"
-#include "memory.h"
-#include "lexer.h"
-#include "virtual_machine.h"
-
-// The debug header file only needs to be included if the DEBUG_CODE is defined
+// The debug header file only needs to be included if the bytecode is dissasembled
 #ifdef DEBUG_PRINT_CODE
 #include "debug.h"
 #endif
+#include "lexer.h"
+#include "memory.h"
+#include "virtual_machine.h"
 
-/// @brief A cellox parser
+/// @brief The cellox parser
+/// @details The parser builds an abstract syntax tree out of the tokens that were produced by the lexer
 typedef struct
 {
-    // The token that is currently being parsed
+    /// The token that is currently being parsed
     token_t current;
-    // The token that was previously parsed
+    /// The token that was previously parsed
     token_t previous;
-    // Flag that indicates whether an error occured during the compilation
+    /// Flag that indicates whether an error occured during the compilation
     bool hadError;
-    // Flag that indicates that the compiler couldn't synchronize after an errror occured
+    /// Flag that indicates that the compiler couldn't synchronize after an errror occured
     bool panicMode;
-} parser_t;
+}parser_t;
 
 /// @brief Precedences of the Tokens
 typedef enum
 {
+    /// Lowest precedence
     PREC_NONE,
-    PREC_ASSIGNMENT, // = += -= *= /= %= **=
-    PREC_OR,         // or ||
-    PREC_AND,        // and  &&
-    PREC_EQUALITY,   // == !=
-    PREC_COMPARISON, // < > <= >=
-    PREC_TERM,       // + -
-    PREC_FACTOR,     // * / % **
+    ///  = += -= *= /= %= **=
+    PREC_ASSIGNMENT,
+    ///  or ||
+    PREC_OR,
+    /// and  &&
+    PREC_AND,
+    /// == != 
+    PREC_EQUALITY,
+    /// < > <= >= 
+    PREC_COMPARISON,
+    /// + -
+    PREC_TERM,
+    /// * / % **
+    PREC_FACTOR,
+    /// 
     PREC_UNARY,      // ! -
-    PREC_CALL,       // . () []
+    ///  . () []
+    PREC_CALL,
+    /// Primary precedence (unused)
     PREC_PRIMARY
 } precedence_t;
 
+/// @brief A parse function
+/// @details This provides a common pattern for all parsing function
 typedef void (* parse_function_t)(bool canAssign);
 
-/// @brief A parsing rule structure
+/// @brief A parsing rule that applies to a special token
 typedef struct
 {
+    /// @brief The prefix rule of the parsing rule
     parse_function_t prefix;
+    /// @brief The infix rule of the parsing rule
     parse_function_t infix;
+    /// @brief The precedence of a token
     precedence_t precedence;
 } parse_rule_t;
 
@@ -76,15 +92,22 @@ typedef struct
 /// @brief A cellox function 
 typedef enum
 {
+    /// Marks a normal function
     TYPE_FUNCTION,
+    /// @brief Marks an initializer function
+    /// @details In other programming languages this often called a contstuctor
     TYPE_INITIALIZER,
+    /// A method that is bound to a class
     TYPE_METHOD,
+    /// A cellox script
     TYPE_SCRIPT
 } function_type_t;
 
 /// @brief The cellox compiler
 typedef struct compiler_t
 {
+    /// @brief The enclosing compiler
+    /// @details This is needed to compile functions that are enclosed in another function or a script
     struct compiler_t * enclosing;
     object_function_t * function;
     function_type_t type;
@@ -97,7 +120,8 @@ typedef struct compiler_t
 /// @brief  Classcompiler struct definition
 typedef struct class_compiler_t
 {
-    struct class_compiler_t *enclosing;
+    struct class_compiler_t * enclosing;
+    /// @brief boolean value that determines whether a class has a superclass
     bool hasSuperclass;
 } class_compiler_t;
 
@@ -108,6 +132,7 @@ parser_t parser;
 compiler_t * current = NULL;
 
 /// @brief Global classCompiler variable
+/// @details Used to model inheritance for a cellox class
 class_compiler_t * currentClass = NULL;
 
 static void compiler_add_local(token_t);
@@ -177,11 +202,7 @@ static void compiler_var_declaration();
 static void compiler_variable(bool);
 static void compiler_while_statement();
 
-/** @brief ParseRules for the language
- * @details Prefix - at the beginning of a statement
- * Infix - in the middle/end of a statement
- * precedence - precedence of the statement (* has for example a higher precendence than +)
-*/
+/// ParseRules for the tokens of cellox
 static parse_rule_t rules[] = 
 {
     [TOKEN_AND] =
@@ -510,7 +531,7 @@ static void compiler_add_local(token_t name)
 {
     if (current->localCount == UINT8_COUNT)
     {
-        /// We can only have 255 objects on the stack 😔
+        /// We can only have 255 local variable on the stack 😔
         compiler_error("Too many local variables in function.");
         return;
     }
@@ -863,11 +884,15 @@ static object_function_t * compiler_end()
 }
 
 /// @brief Handles the closing of a scope
+/** @details We walk backward through the local array looking for any variables,
+ * that where declared at the scope depth we just left, when we pop a scope.
+ * If the value is captured it is an upvalue and therefor the value has to be adjusted / closed.
+*/
 static void compiler_end_scope()
 {
     current->scopeDepth--;
-    /* We walk backward through the local array looking for any variables,
-     * that where declared at the scope depth we just left, when we pop a scope
+    /* 
+     * 
      */
     while (current->localCount > 0 && current->locals[current->localCount - 1].depth > current->scopeDepth)
     {
@@ -887,8 +912,8 @@ static void compiler_error(char const * message)
 }
 
 /// @brief Reports an error that was triggered by a specifiec token
-/// @param token 
-/// @param message 
+/// @param token The token that has produced the error
+/// @param message The message that is omited by the compiler
 static void compiler_error_at(token_t * token, char const * message)
 {
     if (parser.panicMode)
@@ -903,7 +928,8 @@ static void compiler_error_at(token_t * token, char const * message)
     parser.hadError = true;
 }
 
-/// Reports an error at the current position
+/// @brief Reports an error at the current position
+/// @param message The error message that is displayed
 static void compiler_error_at_current(char const *message)
 {
     compiler_error_at(&parser.current, message);
@@ -929,7 +955,7 @@ static void compiler_for_statement()
     compiler_begin_scope();
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'for'.");
 
-    /// Initializer clause
+    // Initializer clause
     if (compiler_match_token(TOKEN_VAR))
         compiler_var_declaration();
     else if(!compiler_match_token(TOKEN_SEMICOLON))
@@ -938,7 +964,7 @@ static void compiler_for_statement()
     int32_t loopStart = compiler_current_chunk()->count;
     int32_t exitJump = -1;
 
-    /// Conditional clause
+    // Conditional clause
     if (!compiler_match_token(TOKEN_SEMICOLON))
     {
         compiler_expression();
@@ -948,7 +974,7 @@ static void compiler_for_statement()
         compiler_emit_byte(OP_POP); // Condition.
     }
 
-    /// Increment clause
+    // Increment clause
     if (!compiler_match_token(TOKEN_RIGHT_PAREN))
     {
         int32_t bodyJump = compiler_emit_jump(OP_JUMP);
@@ -967,7 +993,7 @@ static void compiler_for_statement()
     if (exitJump != -1)
     {
         compiler_patch_jump(exitJump);
-        compiler_emit_byte(OP_POP); /// Condition.
+        compiler_emit_byte(OP_POP); // Condition.
     }
 
     compiler_end_scope();
@@ -1488,7 +1514,7 @@ static void compiler_this(bool canAssign)
         compiler_error("Can't use 'this' outside of a class.");
         return;
     }
-    /// This can not be reassigned
+    // This can not be reassigned
     compiler_variable(false);
 }
 
@@ -1497,9 +1523,9 @@ static void compiler_this(bool canAssign)
 static void compiler_unary(bool canAssign)
 {
     tokentype_t operatorType = parser.previous.type;
-    //// Compile the operand.
+    // Compile the operand.
     compiler_parse_precedence(PREC_UNARY);
-    /// Emit the operator instruction.
+    // Emit the operator instruction.
     switch (operatorType)
     {
     case TOKEN_BANG:
@@ -1509,7 +1535,7 @@ static void compiler_unary(bool canAssign)
         compiler_emit_byte(OP_NEGATE);
         break;
     default:
-        return; /// Unreachable.
+        return; // Unreachable.
     }
 }
 
@@ -1518,9 +1544,9 @@ static void compiler_var_declaration()
 {
     uint8_t global = compiler_parse_variable("Expect variable name.");
     if (compiler_match_token(TOKEN_EQUAL))
-        compiler_expression(); /// Variable was initialzed
+        compiler_expression(); // Variable was initialzed
     else
-        compiler_emit_byte(OP_NULL); /// Variable was not initialzed -> therefore is null
+        compiler_emit_byte(OP_NULL); // Variable was not initialzed -> therefore is null
     compiler_consume(TOKEN_SEMICOLON, "Expect ';' after variable declaration.");
     compiler_define_variable(global);
 }
@@ -1537,7 +1563,7 @@ static void compiler_while_statement()
 {
     int32_t loopStart = compiler_current_chunk()->count;
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
-    /// Compiles condition
+    // Compiles condition
     compiler_expression();
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
     int32_t exitJump = compiler_emit_jump(OP_JUMP_IF_FALSE);

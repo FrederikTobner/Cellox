@@ -7,7 +7,8 @@
 /// Maximum amount of frames the virtual machine can hold - The maxiimum depth of the callstack
 #define FRAMES_MAX 64
 
-// Maximum amount values that can be allocated on the stack of the VirtualMachine - currently 16384 values
+/// @brief Maximum amount values that can be allocated on the stack of the VirtualMachine 
+/// @details These are currently 16384 values
 #define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
 
 /// @brief A call frame structure - represents a single ongoing function call
@@ -70,10 +71,10 @@ typedef enum
 
 extern virtual_machine_t virtualMachine;
 
-/// @brief Deallocates the memory used by the VirtualMachine
+/// @brief Deallocates the memory used by the virtual machine
 void virtual_machine_free();
 
-/// @brief Initializes a VirtualMachine
+/// @brief Initializes the virtual machine
 void virtual_machine_init();
 
 /// @brief Interprets a lox program

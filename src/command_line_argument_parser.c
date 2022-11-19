@@ -12,15 +12,15 @@
 /// @brief Command line options of the cellox interpreter
 typedef enum
 {
-    // No option specified (yet)
+    //// No option specified (yet)
     OPTION_NO_OPTION,
-    // --help / -h
+    /// --help / -h
     OPTION_TYPE_HELP,
-    // --version / -v
+    /// --version / -v
     OPTION_TYPE_VERSION,
-    // --store / -s
+    /// --store / -s
     OPTION_TYPE_STORE_CHUNK_FILE,
-    // --run-chunk-file / -rcf
+    /// --run-chunk-file / -rcf
     OPTION_TYPE_RUN_CHUNK_FILE
 }command_line_option_type_t;
 
@@ -104,6 +104,9 @@ void command_line_argument_parser_parse(int argc, char const ** argv)
         break;
     case OPTION_TYPE_VERSION:
         init_show_version();
+        break;
+    case OPTION_NO_OPTION:
+        init_repl();
         break;
     default:
         command_line_argument_parser_show_usage();

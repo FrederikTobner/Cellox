@@ -1,13 +1,22 @@
 #ifndef CELLOX_COMMON_H_
 #define CELLOX_COMMON_H_
 
+/// @brief Exit codes of the cellox interpreter
+/// @details These exit codes are based on the exit codes that used under linux.
+/// They can be found under 
 typedef enum
 {
+    /// Signals a Sucess
     EXIT_CODE_OK = 0,
+    /// Signals a command line error usage
     EXIT_CODE_COMMAND_LINE_USAGE_ERROR = 64,
+    /// Signals an error that occured during compile time
     EXIT_CODE_COMPILATION_ERROR = 65,
+    /// Signals an error that occured during runtime time
     EXIT_CODE_RUNTIME_ERROR = 70,
+    /// Signals an error that occured during system time
     EXIT_CODE_SYSTEM_ERROR = 71,
+    /// Signals an error regarding the input or the output
     EXIT_CODE_INPUT_OUTPUT_ERROR = 74
 }interpreter_exit_code_t;
 
@@ -38,9 +47,11 @@ typedef enum
 /// Flag for printing out the bytecode, can be removed if you want to disable it
 #define DEBUG_PRINT_CODE
 
-/*Optional stress mode for the garbage collector.
-* When this flag is defiened the Garbage collector runs as often as it cans.
-Should only be used for debugging*/
+/**
+ * Optional stress mode for the garbage collector.
+ * When this flag is defiened the Garbage collector runs as often as it cans.
+ * Should only be used for debugging
+*/
 //#define DEBUG_STRESS_GC
 
 /// Optional Flag for logging the garbage collection process.

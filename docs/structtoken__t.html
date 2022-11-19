@@ -12,6 +12,7 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -83,26 +84,87 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:abdd68296a8dd061f7c32642f61c3c81f"><td class="memItemLeft" align="right" valign="top"><a id="abdd68296a8dd061f7c32642f61c3c81f" name="abdd68296a8dd061f7c32642f61c3c81f"></a>
-tokentype_t&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
-<tr class="memdesc:abdd68296a8dd061f7c32642f61c3c81f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the token. <br /></td></tr>
+<tr class="memitem:abdd68296a8dd061f7c32642f61c3c81f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bad">tokentype_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtoken__t.html#abdd68296a8dd061f7c32642f61c3c81f">type</a></td></tr>
+<tr class="memdesc:abdd68296a8dd061f7c32642f61c3c81f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the token.  <a href="structtoken__t.html#abdd68296a8dd061f7c32642f61c3c81f">More...</a><br /></td></tr>
 <tr class="separator:abdd68296a8dd061f7c32642f61c3c81f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad63735bb1e8f9126d806c2eec49ac941"><td class="memItemLeft" align="right" valign="top"><a id="ad63735bb1e8f9126d806c2eec49ac941" name="ad63735bb1e8f9126d806c2eec49ac941"></a>
-char const  *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td></tr>
-<tr class="memdesc:ad63735bb1e8f9126d806c2eec49ac941"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the start of the character sequence. <br /></td></tr>
+<tr class="memitem:ad63735bb1e8f9126d806c2eec49ac941"><td class="memItemLeft" align="right" valign="top">char const  *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtoken__t.html#ad63735bb1e8f9126d806c2eec49ac941">start</a></td></tr>
+<tr class="memdesc:ad63735bb1e8f9126d806c2eec49ac941"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the start of the character sequence.  <a href="structtoken__t.html#ad63735bb1e8f9126d806c2eec49ac941">More...</a><br /></td></tr>
 <tr class="separator:ad63735bb1e8f9126d806c2eec49ac941"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebb70c2aab3407a9f05334c47131a43b"><td class="memItemLeft" align="right" valign="top"><a id="aebb70c2aab3407a9f05334c47131a43b" name="aebb70c2aab3407a9f05334c47131a43b"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>length</b></td></tr>
-<tr class="memdesc:aebb70c2aab3407a9f05334c47131a43b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of the character sequence. <br /></td></tr>
+<tr class="memitem:aebb70c2aab3407a9f05334c47131a43b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtoken__t.html#aebb70c2aab3407a9f05334c47131a43b">length</a></td></tr>
+<tr class="memdesc:aebb70c2aab3407a9f05334c47131a43b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of the character sequence.  <a href="structtoken__t.html#aebb70c2aab3407a9f05334c47131a43b">More...</a><br /></td></tr>
 <tr class="separator:aebb70c2aab3407a9f05334c47131a43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a311196674133e618759342d6be698474"><td class="memItemLeft" align="right" valign="top"><a id="a311196674133e618759342d6be698474" name="a311196674133e618759342d6be698474"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>line</b></td></tr>
-<tr class="memdesc:a311196674133e618759342d6be698474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line in the sourceCode. <br /></td></tr>
+<tr class="memitem:a311196674133e618759342d6be698474"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtoken__t.html#a311196674133e618759342d6be698474">line</a></td></tr>
+<tr class="memdesc:a311196674133e618759342d6be698474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line in the sourceCode.  <a href="structtoken__t.html#a311196674133e618759342d6be698474">More...</a><br /></td></tr>
 <tr class="separator:a311196674133e618759342d6be698474"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >A token of the cellox programming language. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="aebb70c2aab3407a9f05334c47131a43b" name="aebb70c2aab3407a9f05334c47131a43b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebb70c2aab3407a9f05334c47131a43b">&#9670;&#160;</a></span>length</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t length</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Length of the character sequence. </p>
+
+</div>
+</div>
+<a id="a311196674133e618759342d6be698474" name="a311196674133e618759342d6be698474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a311196674133e618759342d6be698474">&#9670;&#160;</a></span>line</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t line</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Line in the sourceCode. </p>
+
+</div>
+</div>
+<a id="ad63735bb1e8f9126d806c2eec49ac941" name="ad63735bb1e8f9126d806c2eec49ac941"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad63735bb1e8f9126d806c2eec49ac941">&#9670;&#160;</a></span>start</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const* start</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pointer to the start of the character sequence. </p>
+
+</div>
+</div>
+<a id="abdd68296a8dd061f7c32642f61c3c81f" name="abdd68296a8dd061f7c32642f61c3c81f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdd68296a8dd061f7c32642f61c3c81f">&#9670;&#160;</a></span>type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bad">tokentype_t</a> type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of the token. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="lexer_8h_source.html">lexer.h</a></li>
 </ul>
 </div><!-- contents -->

@@ -7,8 +7,11 @@
 /// @brief A dynamic value array
 typedef struct
 {
+    /// @brief The capacity of the dynamic value array
     uint32_t capacity;
+    /// @brief The amount of values stored in the array
     uint32_t count;
+    /// @brief A pointer to the beginning of the values stored in the array
     value_t * values;
 } dynamic_value_array_t;
 

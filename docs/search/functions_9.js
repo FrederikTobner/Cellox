@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['value_5fprint_0',['value_print',['../value_8c.html#afbcb72d28bc42542e9023a4382a088f9',1,'value_print(value_t value):&#160;value.c'],['../value_8h.html#afbcb72d28bc42542e9023a4382a088f9',1,'value_print(value_t value):&#160;value.c']]],
+  ['value_5fstringify_5ftype_1',['value_stringify_type',['../value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b',1,'value_stringify_type(value_t value):&#160;value.c'],['../value_8h.html#aa4c6abcb77005bff8a6ecdec294b036b',1,'value_stringify_type(value_t value):&#160;value.c']]],
+  ['value_5fvalues_5fequal_2',['value_values_equal',['../value_8c.html#af8e6ab5238270682bf4b20c23cd8d3b1',1,'value_values_equal(value_t a, value_t b):&#160;value.c'],['../value_8h.html#af8e6ab5238270682bf4b20c23cd8d3b1',1,'value_values_equal(value_t a, value_t b):&#160;value.c']]],
+  ['valuetonum_3',['valueToNum',['../value_8h.html#ab2c2e43249b32b0b8051353106336144',1,'value.h']]],
+  ['virtual_5fmachine_5fbind_5fmethod_4',['virtual_machine_bind_method',['../virtual__machine_8c.html#a434c488c4200b5dc16454f333ca0f3f8',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fcall_5',['virtual_machine_call',['../virtual__machine_8c.html#ad26c19d2d5db416f6be8dd584448a6ca',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fcall_5fvalue_6',['virtual_machine_call_value',['../virtual__machine_8c.html#a300b9dd794f9f459a708a052e03b2d80',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fcapture_5fupvalue_7',['virtual_machine_capture_upvalue',['../virtual__machine_8c.html#a4942408db3de7ea05ea9b98fde452458',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fclose_5fupvalues_8',['virtual_machine_close_upvalues',['../virtual__machine_8c.html#a5cc90276196d7a7ebafd0d6798b7e495',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fconcatenate_9',['virtual_machine_concatenate',['../virtual__machine_8c.html#afefc9bbee261c6a69d970173777f860b',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fdefine_5fmethod_10',['virtual_machine_define_method',['../virtual__machine_8c.html#a5351b4a129b99a02da6eb1e5d9a7ba11',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fdefine_5fnative_11',['virtual_machine_define_native',['../virtual__machine_8c.html#a48bc5513f68a21feba246331f899b020',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fdefine_5fnatives_12',['virtual_machine_define_natives',['../virtual__machine_8c.html#a9bd783bbaccb66ec6ae88e2e66675608',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5ffree_13',['virtual_machine_free',['../virtual__machine_8c.html#aee9d0770df4d74e69a9d335c177a0e01',1,'virtual_machine_free():&#160;virtual_machine.c'],['../virtual__machine_8h.html#aee9d0770df4d74e69a9d335c177a0e01',1,'virtual_machine_free():&#160;virtual_machine.c']]],
+  ['virtual_5fmachine_5finit_14',['virtual_machine_init',['../virtual__machine_8c.html#ab9bab8441eb3cd3f3051255a7c7df026',1,'virtual_machine_init():&#160;virtual_machine.c'],['../virtual__machine_8h.html#ab9bab8441eb3cd3f3051255a7c7df026',1,'virtual_machine_init():&#160;virtual_machine.c']]],
+  ['virtual_5fmachine_5finterpret_15',['virtual_machine_interpret',['../virtual__machine_8c.html#a3b45ab7445e0d28102bce2bee9b705bd',1,'virtual_machine_interpret(char *program, bool freeProgram):&#160;virtual_machine.c'],['../virtual__machine_8h.html#a3b45ab7445e0d28102bce2bee9b705bd',1,'virtual_machine_interpret(char *program, bool freeProgram):&#160;virtual_machine.c']]],
+  ['virtual_5fmachine_5finvoke_16',['virtual_machine_invoke',['../virtual__machine_8c.html#a10dbe40d6d7ba6464d3dfd0530302f97',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5finvoke_5ffrom_5fclass_17',['virtual_machine_invoke_from_class',['../virtual__machine_8c.html#adf6825d421302b43f4019799ec3b0cc9',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fis_5ffalsey_18',['virtual_machine_is_falsey',['../virtual__machine_8c.html#a39f4d8e7a3c437cf51506b6ecc992ffe',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fpeek_19',['virtual_machine_peek',['../virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fpop_20',['virtual_machine_pop',['../virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4',1,'virtual_machine_pop():&#160;virtual_machine.c'],['../virtual__machine_8h.html#acecc837f6d14140d8d88151ddcee8fe4',1,'virtual_machine_pop():&#160;virtual_machine.c']]],
+  ['virtual_5fmachine_5fpush_21',['virtual_machine_push',['../virtual__machine_8c.html#aae87423d28b469680e69b4af6a4cc651',1,'virtual_machine_push(value_t value):&#160;virtual_machine.c'],['../virtual__machine_8h.html#aae87423d28b469680e69b4af6a4cc651',1,'virtual_machine_push(value_t value):&#160;virtual_machine.c']]],
+  ['virtual_5fmachine_5freset_5fstack_22',['virtual_machine_reset_stack',['../virtual__machine_8c.html#a673f48ed0fbff646a88662ec10b95dfa',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5frun_23',['virtual_machine_run',['../virtual__machine_8c.html#a7a64db27da79cc0d1ad1dfb90ef6060f',1,'virtual_machine.c']]],
+  ['virtual_5fmachine_5fruntime_5ferror_24',['virtual_machine_runtime_error',['../virtual__machine_8c.html#a2b4425b182a0ef48af9d3886b02a7dfa',1,'virtual_machine.c']]]
+];

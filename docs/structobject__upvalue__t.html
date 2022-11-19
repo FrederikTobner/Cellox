@@ -12,6 +12,7 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -83,26 +84,87 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a2269642720772ebb310d3740f81af52f"><td class="memItemLeft" align="right" valign="top"><a id="a2269642720772ebb310d3740f81af52f" name="a2269642720772ebb310d3740f81af52f"></a>
-<a class="el" href="structobject__t.html">object_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>obj</b></td></tr>
-<tr class="memdesc:a2269642720772ebb310d3740f81af52f"><td class="mdescLeft">&#160;</td><td class="mdescRight">data that defines all types of objects <br /></td></tr>
+<tr class="memitem:a2269642720772ebb310d3740f81af52f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__t.html">object_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__upvalue__t.html#a2269642720772ebb310d3740f81af52f">obj</a></td></tr>
+<tr class="memdesc:a2269642720772ebb310d3740f81af52f"><td class="mdescLeft">&#160;</td><td class="mdescRight">data that defines all types of objects  <a href="structobject__upvalue__t.html#a2269642720772ebb310d3740f81af52f">More...</a><br /></td></tr>
 <tr class="separator:a2269642720772ebb310d3740f81af52f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab39a36623c8d492162307a8c4935aaa7"><td class="memItemLeft" align="right" valign="top"><a id="ab39a36623c8d492162307a8c4935aaa7" name="ab39a36623c8d492162307a8c4935aaa7"></a>
-value_t *&#160;</td><td class="memItemRight" valign="bottom"><b>location</b></td></tr>
-<tr class="memdesc:ab39a36623c8d492162307a8c4935aaa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">location of the upvalue in memory <br /></td></tr>
+<tr class="memitem:ab39a36623c8d492162307a8c4935aaa7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__upvalue__t.html#ab39a36623c8d492162307a8c4935aaa7">location</a></td></tr>
+<tr class="memdesc:ab39a36623c8d492162307a8c4935aaa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">location of the upvalue in memory  <a href="structobject__upvalue__t.html#ab39a36623c8d492162307a8c4935aaa7">More...</a><br /></td></tr>
 <tr class="separator:ab39a36623c8d492162307a8c4935aaa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add2ac7006e1eae0786ace36717eabfc5"><td class="memItemLeft" align="right" valign="top"><a id="add2ac7006e1eae0786ace36717eabfc5" name="add2ac7006e1eae0786ace36717eabfc5"></a>
-value_t&#160;</td><td class="memItemRight" valign="bottom"><b>closed</b></td></tr>
-<tr class="memdesc:add2ac7006e1eae0786ace36717eabfc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Enclosed value after the current environment is left. <br /></td></tr>
+<tr class="memitem:add2ac7006e1eae0786ace36717eabfc5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__upvalue__t.html#add2ac7006e1eae0786ace36717eabfc5">closed</a></td></tr>
+<tr class="memdesc:add2ac7006e1eae0786ace36717eabfc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Enclosed value after the current environment is left.  <a href="structobject__upvalue__t.html#add2ac7006e1eae0786ace36717eabfc5">More...</a><br /></td></tr>
 <tr class="separator:add2ac7006e1eae0786ace36717eabfc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a522dcd29ca6f3c3bebd5e8a53927a087"><td class="memItemLeft" align="right" valign="top"><a id="a522dcd29ca6f3c3bebd5e8a53927a087" name="a522dcd29ca6f3c3bebd5e8a53927a087"></a>
-struct <a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>next</b></td></tr>
-<tr class="memdesc:a522dcd29ca6f3c3bebd5e8a53927a087"><td class="mdescLeft">&#160;</td><td class="mdescRight">The memory location of the next upvalue in memory. <br /></td></tr>
+<tr class="memitem:a522dcd29ca6f3c3bebd5e8a53927a087"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__upvalue__t.html#a522dcd29ca6f3c3bebd5e8a53927a087">next</a></td></tr>
+<tr class="memdesc:a522dcd29ca6f3c3bebd5e8a53927a087"><td class="mdescLeft">&#160;</td><td class="mdescRight">The memory location of the next upvalue in memory.  <a href="structobject__upvalue__t.html#a522dcd29ca6f3c3bebd5e8a53927a087">More...</a><br /></td></tr>
 <tr class="separator:a522dcd29ca6f3c3bebd5e8a53927a087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >An object up-value structure (a local variable in an enclosing function) </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="add2ac7006e1eae0786ace36717eabfc5" name="add2ac7006e1eae0786ace36717eabfc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add2ac7006e1eae0786ace36717eabfc5">&#9670;&#160;</a></span>closed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> closed</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The Enclosed value after the current environment is left. </p>
+
+</div>
+</div>
+<a id="ab39a36623c8d492162307a8c4935aaa7" name="ab39a36623c8d492162307a8c4935aaa7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab39a36623c8d492162307a8c4935aaa7">&#9670;&#160;</a></span>location</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>* location</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>location of the upvalue in memory </p>
+
+</div>
+</div>
+<a id="a522dcd29ca6f3c3bebd5e8a53927a087" name="a522dcd29ca6f3c3bebd5e8a53927a087"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a522dcd29ca6f3c3bebd5e8a53927a087">&#9670;&#160;</a></span>next</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a>* next</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The memory location of the next upvalue in memory. </p>
+
+</div>
+</div>
+<a id="a2269642720772ebb310d3740f81af52f" name="a2269642720772ebb310d3740f81af52f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2269642720772ebb310d3740f81af52f">&#9670;&#160;</a></span>obj</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__t.html">object_t</a> obj</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>data that defines all types of objects </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="object_8h_source.html">object.h</a></li>
 </ul>
 </div><!-- contents -->

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+// The cellox_config.h file is not available for the testing suite and the benchmark runner
 #ifndef CELLOX_TESTS_RUNNING
 #ifndef BENCHMARKS_RUNNING
 #include "cellox_config.h"
@@ -130,7 +131,7 @@ static void init_io_error(char const * format, ...)
 /// @return The contents of the file or NULL if something went wrong 😕
 static char * init_read_file(char const * path)
 {
-    /// Opens a file of a nonspecified format (b) in read mode (r)
+    // Opens a file of a nonspecified format (b) in read mode (r)
     FILE * file = fopen(path, "rb");
     if (!file)
     {
@@ -152,7 +153,7 @@ static char * init_read_file(char const * path)
         init_io_error("Could not read file \"%s\".\n", path);
         return NULL;
     }
-    /// We add null the end of the source-code to mark the end of the file
+    // We add null the end of the source-code to mark the end of the file
     buffer[bytesRead] = '\0';
     fclose(file);
     return buffer;

@@ -12,6 +12,7 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -76,25 +77,74 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A parsing rule structure.  
+<p>A parsing rule that applies to a special token.  
  <a href="structparse__rule__t.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a68ed40dc8ec0c4b3f403716e978e380b"><td class="memItemLeft" align="right" valign="top"><a id="a68ed40dc8ec0c4b3f403716e978e380b" name="a68ed40dc8ec0c4b3f403716e978e380b"></a>
-parse_function_t&#160;</td><td class="memItemRight" valign="bottom"><b>prefix</b></td></tr>
+<tr class="memitem:a68ed40dc8ec0c4b3f403716e978e380b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="compiler_8c.html#aac3bebec3509a6a5b06942dd0de1a334">parse_function_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparse__rule__t.html#a68ed40dc8ec0c4b3f403716e978e380b">prefix</a></td></tr>
+<tr class="memdesc:a68ed40dc8ec0c4b3f403716e978e380b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The prefix rule of the parsing rule.  <a href="structparse__rule__t.html#a68ed40dc8ec0c4b3f403716e978e380b">More...</a><br /></td></tr>
 <tr class="separator:a68ed40dc8ec0c4b3f403716e978e380b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a520d3a5da9778c0c0772b856ac15d82a"><td class="memItemLeft" align="right" valign="top"><a id="a520d3a5da9778c0c0772b856ac15d82a" name="a520d3a5da9778c0c0772b856ac15d82a"></a>
-parse_function_t&#160;</td><td class="memItemRight" valign="bottom"><b>infix</b></td></tr>
+<tr class="memitem:a520d3a5da9778c0c0772b856ac15d82a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="compiler_8c.html#aac3bebec3509a6a5b06942dd0de1a334">parse_function_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparse__rule__t.html#a520d3a5da9778c0c0772b856ac15d82a">infix</a></td></tr>
+<tr class="memdesc:a520d3a5da9778c0c0772b856ac15d82a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The infix rule of the parsing rule.  <a href="structparse__rule__t.html#a520d3a5da9778c0c0772b856ac15d82a">More...</a><br /></td></tr>
 <tr class="separator:a520d3a5da9778c0c0772b856ac15d82a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a9446609190910050c2a2f6936163c8"><td class="memItemLeft" align="right" valign="top"><a id="a4a9446609190910050c2a2f6936163c8" name="a4a9446609190910050c2a2f6936163c8"></a>
-precedence_t&#160;</td><td class="memItemRight" valign="bottom"><b>precedence</b></td></tr>
+<tr class="memitem:a4a9446609190910050c2a2f6936163c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdf">precedence_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparse__rule__t.html#a4a9446609190910050c2a2f6936163c8">precedence</a></td></tr>
+<tr class="memdesc:a4a9446609190910050c2a2f6936163c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The precedence of a token.  <a href="structparse__rule__t.html#a4a9446609190910050c2a2f6936163c8">More...</a><br /></td></tr>
 <tr class="separator:a4a9446609190910050c2a2f6936163c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >A parsing rule structure. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li>compiler.c</li>
+<div class="textblock"><p >A parsing rule that applies to a special token. </p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a520d3a5da9778c0c0772b856ac15d82a" name="a520d3a5da9778c0c0772b856ac15d82a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a520d3a5da9778c0c0772b856ac15d82a">&#9670;&#160;</a></span>infix</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="compiler_8c.html#aac3bebec3509a6a5b06942dd0de1a334">parse_function_t</a> infix</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The infix rule of the parsing rule. </p>
+
+</div>
+</div>
+<a id="a4a9446609190910050c2a2f6936163c8" name="a4a9446609190910050c2a2f6936163c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a9446609190910050c2a2f6936163c8">&#9670;&#160;</a></span>precedence</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdf">precedence_t</a> precedence</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The precedence of a token. </p>
+
+</div>
+</div>
+<a id="a68ed40dc8ec0c4b3f403716e978e380b" name="a68ed40dc8ec0c4b3f403716e978e380b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68ed40dc8ec0c4b3f403716e978e380b">&#9670;&#160;</a></span>prefix</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="compiler_8c.html#aac3bebec3509a6a5b06942dd0de1a334">parse_function_t</a> prefix</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The prefix rule of the parsing rule. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="compiler_8c.html">compiler.c</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

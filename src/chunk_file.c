@@ -15,17 +15,25 @@
 /// @brief Chunk segment prefixes
 typedef enum
 {
+    /// Prefix of a bytecode segment
     CHUNK_SEGMENT_TYPE_BYTECODE = 2,
+    /// Prefix of a constant segment
     CHUNK_SEGMENT_TYPE_CONSTANTS = 0,
+    /// @brief Prefix of a inner seqment
+    /// @details These are fucntions that are nested inside another function or script
     CHUNK_SEGMENT_TYPE_INNER = 1   
 }chunk_segment_prefix_t;
 
 /// @brief Constant prefixes for cellox
 typedef enum
 {
+    /// Prefix of a class constant
     CONSTANT_TYPE_CLASS,
+    /// Prefix of a function constant
     CONSTANT_TYPE_FUNCTION,
+    /// Prefix of a numerical constant
     CONSTANT_TYPE_NUMBER,
+    /// Prefix of a string constant
     CONSTANT_TYPE_STRING
 }constant_type_prefix_t;
 
@@ -80,7 +88,7 @@ chunk_t * chunk_file_load(char const * filePath)
     chunk_t * mainChunk = malloc(sizeof(chunk_t));
     if(!mainChunk)
         return mainChunk;
-    /// TODO: Read a cellox bytecode file and prepare the chunk accordingly
+    // TODO: Read a cellox bytecode file and prepare the chunk accordingly
     return mainChunk;
 }
 

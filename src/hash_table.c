@@ -6,7 +6,8 @@
 #include "memory.h"
 #include "object.h"
 
-/// The max load factor of the hashtable, if the max load factor multiplied with the capacity is reached is reached the hashtable grows
+/// @brief The max load factor of the hashtable
+/// @details If the max load factor multiplied with the capacity is reached is reached the hashtable grows
 #define TABLE_MAX_LOAD 0.75
 
 static void hash_table_adjust_capacity(hash_table_t * , int32_t );
