@@ -2,8 +2,8 @@ class Foo {}
 
 var foo = Foo();
 
-print foo.bar = "bar!";
-print foo.baz = "baz!";
+println foo.bar = "bar!";
+println foo.baz = "baz!";
 
-print foo.bar;
-print foo.baz;
+println foo.bar;
+println foo.baz;

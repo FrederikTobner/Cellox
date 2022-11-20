@@ -139,7 +139,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The max load factor of the hashtable. </p>
-<p >If the max load factor multiplied with the capacity is reached is reached the hashtable grows </p>
+<p >If the max load factor multiplied with the capacity is reached we grow the hashtable </p>
 
 </div>
 </div>
@@ -261,8 +261,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A boolean value that indicates whether a value was deleted </dd></dl>
-<p >Find the entry.</p>
-<p >Place a tombstone in the entry.</p>
 
 </div>
 </div>
@@ -315,9 +313,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return sthe entry or NULL if the value has already been deleted </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the entry or NULL if the value has already been deleted </dd></dl>
 <p >Empty entry.</p>
-<p >We found the key 🔑</p>
 
 </div>
 </div>
@@ -567,7 +564,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if an entry coresponding to the given key has been found </dd></dl>
-<p >We grow the hashtable when it becomes 75% full</p>
 
 </div>
 </div>

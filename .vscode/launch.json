@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "-v",
+                "${workspaceFolder}/examples/99BottlesOfBeer.clx",
             ],
             "stopAtEntry": false,
             "externalConsole": true,

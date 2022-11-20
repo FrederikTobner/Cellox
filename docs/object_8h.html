@@ -82,8 +82,8 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="chunk_8h_source.html">chunk.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="native__functions_8h_source.html">native_functions.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hash__table_8h_source.html">hash_table.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="native__functions_8h_source.html">native_functions.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="value_8h_source.html">value.h</a>&quot;</code><br />
 </div>
 <p><a href="object_8h_source.html">Go to the source code of this file.</a></p>
@@ -212,7 +212,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a7826f0afd0b5a3c134d12ff75fefb1e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__instance__t.html">object_instance_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a7826f0afd0b5a3c134d12ff75fefb1e5">object_new_instance</a> (<a class="el" href="structobject__class__t.html">object_class_t</a> *celloxClass)</td></tr>
 <tr class="memdesc:a7826f0afd0b5a3c134d12ff75fefb1e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new cellox class instance.  <a href="object_8h.html#a7826f0afd0b5a3c134d12ff75fefb1e5">More...</a><br /></td></tr>
 <tr class="separator:a7826f0afd0b5a3c134d12ff75fefb1e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a531e0d044d567b40189dfe2afff49444"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__native__t.html">object_native_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a531e0d044d567b40189dfe2afff49444">object_new_native</a> (<a class="el" href="native__functions_8h.html#a1af57ce169de07949702e0f4326db0d7">native_function_t</a> function)</td></tr>
+<tr class="memitem:a531e0d044d567b40189dfe2afff49444"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__native__t.html">object_native_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a531e0d044d567b40189dfe2afff49444">object_new_native</a> (<a class="el" href="native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a> function)</td></tr>
 <tr class="memdesc:a531e0d044d567b40189dfe2afff49444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new native function object.  <a href="object_8h.html#a531e0d044d567b40189dfe2afff49444">More...</a><br /></td></tr>
 <tr class="separator:a531e0d044d567b40189dfe2afff49444"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520a8e4a061b39c3bf328fa5ce1513f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__string__t.html">object_string_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a520a8e4a061b39c3bf328fa5ce1513f7">object_take_string</a> (char *chars, uint32_t length)</td></tr>
@@ -224,6 +224,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a76dd015cb99008998a7bd0d9c3485b1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a76dd015cb99008998a7bd0d9c3485b1b">object_print</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> value)</td></tr>
 <tr class="memdesc:a76dd015cb99008998a7bd0d9c3485b1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the object.  <a href="object_8h.html#a76dd015cb99008998a7bd0d9c3485b1b">More...</a><br /></td></tr>
 <tr class="separator:a76dd015cb99008998a7bd0d9c3485b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a0bd8a458ac170ad1c907ec1ab864d3fd">object_stringify_type</a> (<a class="el" href="structobject__t.html">object_t</a> *object)</td></tr>
+<tr class="separator:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83fcd6c8e38462fd37b28864ec72b4e5"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a83fcd6c8e38462fd37b28864ec72b4e5">object_is_type</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> value, <a class="el" href="object_8h.html#a3af7baddc641a3b4f5a9189b589eccf7">object_type_t</a> type)</td></tr>
 <tr class="memdesc:a83fcd6c8e38462fd37b28864ec72b4e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether a value is of a given type.  <a href="object_8h.html#a83fcd6c8e38462fd37b28864ec72b4e5">More...</a><br /></td></tr>
 <tr class="separator:a83fcd6c8e38462fd37b28864ec72b4e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -842,7 +844,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structobject__native__t.html">object_native_t</a> * object_new_native </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="native__functions_8h.html#a1af57ce169de07949702e0f4326db0d7">native_function_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a>&#160;</td>
           <td class="paramname"><em>function</em></td><td>)</td>
           <td></td>
         </tr>
@@ -914,6 +916,32 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a0bd8a458ac170ad1c907ec1ab864d3fd" name="a0bd8a458ac170ad1c907ec1ab864d3fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bd8a458ac170ad1c907ec1ab864d3fd">&#9670;&#160;</a></span>object_stringify_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const  * object_stringify_type </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structobject__t.html">object_t</a> *&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">object</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
 
 </div>
 </div>

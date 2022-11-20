@@ -4,7 +4,7 @@ var searchData=
   ['scopedepth_1',['scopeDepth',['../structcompiler__t.html#a6675505a54412ab99ed57375dd0fdf35',1,'compiler_t']]],
   ['shortrepresentation_2',['shortRepresentation',['../structcommand__line__option__type__config__t.html#a8221067f9f311bc4105d522d941ba0aa',1,'command_line_option_type_config_t']]],
   ['sign_5fbit_3',['SIGN_BIT',['../value_8h.html#a23ba328b586aa404188bf6dbcac1dc91',1,'value.h']]],
-  ['singularoption_4',['singularOption',['../structcommand__line__option__type__config__t.html#ad02367f19696fd245eb7349f98eee3a5',1,'command_line_option_type_config_t']]],
+  ['size_5fcheck_5fusing_5ftype_4',['SIZE_CHECK_USING_TYPE',['../memory_8h.html#a3994dbba05a44c5bdf179596db016253',1,'memory.h']]],
   ['slots_5',['slots',['../structcall__frame__t.html#a260b816c5173ef60e38b49d2c4f67681',1,'call_frame_t']]],
   ['stack_6',['stack',['../structvirtual__machine__t.html#a3a01286420f23d09307571cf2cdb499e',1,'virtual_machine_t']]],
   ['stack_5fmax_7',['STACK_MAX',['../virtual__machine_8h.html#a27b296fccb4da1e9cfcf1f9c810e619e',1,'virtual_machine.h']]],

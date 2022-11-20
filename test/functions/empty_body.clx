@@ -1,2 +1,2 @@
 fun f() {}
-print f(); // expect 'null'
+println f(); // expect 'null'

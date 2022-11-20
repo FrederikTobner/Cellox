@@ -4,6 +4,6 @@ var c = "baz";
 
 // Assignment is right-associative.
 a = b = c;
-print a;
-print b;
-print c;
+println a;
+println b;
+println c;

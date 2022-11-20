@@ -18,46 +18,99 @@
 
 typedef enum
 {
+    /// Native class_of function
     NATIVE_FUNCTION_CLASS_OF,
+    /// Native clock function
     NATIVE_FUNCTION_CLOCK,
+    /// Native exit function
     NATIVE_FUNCTION_EXIT,
+    /// Native get_user_name function
     NATIVE_FUNCTION_GET_USER_NAME,
+    /// Native on_linux function
     NATIVE_FUNCTION_ON_LINUX,
+    /// Native on_windows function
     NATIVE_FUNCTION_ON_WINDOWS,
+    /// Native random function
     NATIVE_FUNCTION_RANDOM,
+    /// Native read_key function
     NATIVE_FUNCTION_READ_KEY,
+    /// Native read_line function
     NATIVE_FUNCTION_READ_LINE,
+    /// Native strlen function
     NATIVE_FUNCTION_STRLEN,
+    /// Native system function
     NATIVE_FUNCTION_SYSTEM,
+    /// Native wait function
     NATIVE_FUNCTION_WAIT
 }native_functions_t;
 
 native_function_config_t native_function_configs [] = 
 {
-[NATIVE_FUNCTION_CLASS_OF]      =
-{.functionName = "class_of", .function = native_functions_classof, .arrity = 1},
-[NATIVE_FUNCTION_CLOCK]         =
-{.functionName = "clock", .function = native_functions_clock},
-[NATIVE_FUNCTION_EXIT]          =
-{.functionName = "exit", .function = native_functions_exit, .arrity = 1},
-[NATIVE_FUNCTION_GET_USER_NAME] =
-{.functionName = "get_user_name", .function = native_functions_get_username},
-[NATIVE_FUNCTION_ON_LINUX]      =
-{.functionName = "on_linux", .function = native_functions_on_linux},
-[NATIVE_FUNCTION_ON_WINDOWS]    =
-{.functionName = "on_windows", .function = native_functions_on_windows},
-[NATIVE_FUNCTION_RANDOM]        =
-{.functionName = "random", .function = native_functions_random},
-[NATIVE_FUNCTION_READ_KEY] = 
-{.functionName = "read_key", .function = native_functions_read_key},
-[NATIVE_FUNCTION_READ_LINE]     =
-{.functionName = "read_line", .function = native_functions_read_line},
-[NATIVE_FUNCTION_STRLEN]        =
-{.functionName = "strlen", .function = native_functions_string_length, .arrity = 1},
-[NATIVE_FUNCTION_SYSTEM]        =
-{.functionName = "system", .function = native_functions_system, .arrity = 1},
-[NATIVE_FUNCTION_WAIT]          =
-{.functionName = "wait", .function = native_functions_wait, .arrity = 1}
+    [NATIVE_FUNCTION_CLASS_OF]      =
+    {
+        .functionName = "class_of", 
+        .function = native_functions_classof, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_CLOCK]         =
+    {
+        .functionName = "clock", 
+        .function = native_functions_clock
+    },
+    [NATIVE_FUNCTION_EXIT]          =
+    {
+        .functionName = "exit", 
+        .function = native_functions_exit, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_GET_USER_NAME] =
+    {
+        .functionName = "get_user_name", 
+        .function = native_functions_get_username
+    },
+    [NATIVE_FUNCTION_ON_LINUX]      =
+    {
+        .functionName = "on_linux", 
+        .function = native_functions_on_linux
+    },
+    [NATIVE_FUNCTION_ON_WINDOWS]    =
+    {
+        .functionName = "on_windows", 
+        .function = native_functions_on_windows
+    },
+    [NATIVE_FUNCTION_RANDOM]        =
+    {
+        .functionName = "random", 
+        .function = native_functions_random
+    },
+    [NATIVE_FUNCTION_READ_KEY] = 
+    {
+        .functionName = "read_key", 
+        .function = native_functions_read_key
+    },
+    [NATIVE_FUNCTION_READ_LINE]     =
+    {
+        .functionName = "read_line", 
+        .function = native_functions_read_line
+    },
+    [NATIVE_FUNCTION_STRLEN]        =
+    {
+        .functionName = "strlen", 
+        .function = native_functions_string_length, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_SYSTEM]        =
+    {
+        .functionName = "system", 
+        .function = native_functions_system, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_WAIT]          =
+    {
+        .functionName = "wait", 
+        .function = native_functions_wait, 
+        .arrity = 1
+    }
 };
 
 #define MAX_READ_LINE_INPUT 1024
@@ -107,8 +160,7 @@ value_t native_functions_get_username(uint32_t argCount, value_t const * args)
     DWORD bufCharCount = MAX_USER_NAME_LENGTH;
     TCHAR name[MAX_USER_NAME_LENGTH];
     GetUserNameA(name, &bufCharCount);
-#endif
-#ifdef linux
+#elif linux
     char name[MAX_USER_NAME_LENGTH];
     getlogin_r(&name[0], MAX_USER_NAME_LENGTH);
 #endif
@@ -120,8 +172,7 @@ value_t native_functions_on_linux(uint32_t argCount, value_t const * args)
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_LINUX, argCount);
     #ifdef _WIN32
     return FALSE_VAL;
-    #endif
-    #ifdef linux
+    #elif linux
     return TRUE_VAL;
     #endif
 }
@@ -131,8 +182,7 @@ value_t native_functions_on_windows(uint32_t argCount, value_t const * args)
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_WINDOWS, argCount);
     #ifdef _WIN32
     return TRUE_VAL;
-    #endif
-    #ifdef linux
+    #elif linux
     return FALSE_VAL;
     #endif
 }
@@ -185,8 +235,7 @@ value_t native_functions_wait(uint32_t argCount, value_t const * args)
 #ifdef _WIN32
     /// Milliseconds -> multiply with 1000
     Sleep(AS_NUMBER(*args) * 1000);
-#endif
-#ifdef linux
+#elif linux
     /// Seconds
     sleep(AS_NUMBER(*args));
 #endif
@@ -209,7 +258,7 @@ static void native_functions_assert_arrity(uint8_t function, uint32_t argcount)
 
 /// @brief Emits a error message regarding a faulty native function call and exits with the appropriate exit code (70 - runtime error) 
 /// @param format The format of the error message
-/// @param args The arguments that are printed using the format
+/// @param ... The arguments that are printed using the format
 static void native_functions_arguments_error(char const * format, ...)
 {
     va_list args;

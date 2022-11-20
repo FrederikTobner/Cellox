@@ -6,7 +6,6 @@
 
 static void string_utils_behead(char *, int *);
 
-// Checks if a string contains the specified character restricted the specified length
 bool string_utils_contains_character_restricted(char const * text, char character, uint32_t length)
 {
     for (uint32_t i = 0u; i < length; i++)
@@ -19,7 +18,6 @@ bool string_utils_contains_character_restricted(char const * text, char characte
     return false;
 }
 
-// Resolves all the escape sequences inside a string literal
 int string_utils_resolve_escape_sequence(char * text, uint32_t * length)
 {
     string_utils_behead(text, length);

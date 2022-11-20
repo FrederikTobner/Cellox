@@ -20,7 +20,7 @@ typedef enum
     /// Prefix of a constant segment
     CHUNK_SEGMENT_TYPE_CONSTANTS = 0,
     /// @brief Prefix of a inner seqment
-    /// @details These are fucntions that are nested inside another function or script
+    /// @details These are functions that are nested inside another function or script
     CHUNK_SEGMENT_TYPE_INNER = 1   
 }chunk_segment_prefix_t;
 
@@ -99,6 +99,7 @@ chunk_t * chunk_file_load(char const * filePath)
  * ----inner---------
  * ----bytecode------
  * @param chunk The chunk that is written to a file
+ * @param flags Compile flags used to compile the sourcecode to a cellox chunk file
  * @param filePointer Pointer to the file
  */
 static void chunk_file_append_chunk(chunk_t chunk,  chunk_file_compile_flags flags, FILE * filePointer)
@@ -128,6 +129,7 @@ static void chunk_file_append_code_segment(uint8_t * code, uint32_t codeSize, FI
 /// @brief Appends a single constant to a cellox bytecode file
 /// @param value The value of the constant that is appended
 /// @param functions Pointer to an dynamic array of functions that are used to build the inner segmment of the chunk later
+/// @param flags Compile flags used to compile the sourcecode to a cellox chunk file
 /// @param filePointer Pointer to the file
 static void chunk_file_append_constant(value_t value, dynamic_value_array_t * functions, chunk_file_compile_flags flags, FILE * filePointer)
 {
@@ -148,7 +150,7 @@ static void chunk_file_append_constant(value_t value, dynamic_value_array_t * fu
                 exit(EXIT_CODE_COMPILATION_ERROR);
         }
     }
-    else /// Numbers
+    else // Numbers
     {
         fputc(CONSTANT_TYPE_NUMBER, filePointer);
         uint64_t number = AS_NUMBER(value);
@@ -166,6 +168,7 @@ static void chunk_file_append_constant(value_t value, dynamic_value_array_t * fu
 /// @brief Appends the constants segment of a chunk to the file
 /// @param constants The constants that are stored in the chunk
 /// @param functions Pointer to an dynamic array of functions that are used to build the inner segmment of the chunk later
+/// @param flags Compile flags used to compile the sourcecode to a cellox chunk file
 /// @param filePointer Pointer to the file
 static void chunk_file_append_constant_segment(dynamic_value_array_t constants, dynamic_value_array_t * functions, chunk_file_compile_flags flags, FILE * filePointer)
 {
@@ -195,6 +198,7 @@ static void chunk_file_append_function_meta_data(object_function_t function, FIL
 
 /// @brief Appends the inner segment of the chunk to tthe file
 /// @param functions The inner functions of the chunk
+/// @param flags Compile flags used to compile the sourcecode to a cellox chunk file
 /// @param filePointer Pointer to the file
 static void chunk_file_append_inner_segment(dynamic_value_array_t functions, chunk_file_compile_flags flags, FILE * filePointer)
 {
@@ -208,7 +212,7 @@ static void chunk_file_append_inner_segment(dynamic_value_array_t functions, chu
 }
 
 /// @brief Appends the meta data of a cellox bytecode file (chunk file writer options and the cellox version)
-/// @param options The chunk file writer options used to store the chunk
+/// @param flags Compile flags used to compile the sourcecode to a cellox chunk file
 /// @param filePointer Pointer to the file
 static void chunk_file_append_meta_data(chunk_file_compile_flags flags, FILE * filePointer)
 {

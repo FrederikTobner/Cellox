@@ -83,15 +83,34 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a8221067f9f311bc4105d522d941ba0aa"><td class="memItemLeft" align="right" valign="top">char const  *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcommand__line__option__type__config__t.html#a8221067f9f311bc4105d522d941ba0aa">shortRepresentation</a></td></tr>
+<tr class="memdesc:a8221067f9f311bc4105d522d941ba0aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The short representation of the option.  <a href="structcommand__line__option__type__config__t.html#a8221067f9f311bc4105d522d941ba0aa">More...</a><br /></td></tr>
 <tr class="separator:a8221067f9f311bc4105d522d941ba0aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afda5c7581b47d58a4eb2c0222faa804a"><td class="memItemLeft" align="right" valign="top">char const  *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcommand__line__option__type__config__t.html#afda5c7581b47d58a4eb2c0222faa804a">longRepresentation</a></td></tr>
+<tr class="memdesc:afda5c7581b47d58a4eb2c0222faa804a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The short representation of the option.  <a href="structcommand__line__option__type__config__t.html#afda5c7581b47d58a4eb2c0222faa804a">More...</a><br /></td></tr>
 <tr class="separator:afda5c7581b47d58a4eb2c0222faa804a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad02367f19696fd245eb7349f98eee3a5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcommand__line__option__type__config__t.html#ad02367f19696fd245eb7349f98eee3a5">singularOption</a></td></tr>
-<tr class="separator:ad02367f19696fd245eb7349f98eee3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44c4517e4591592f3c2d56ba6368b686"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcommand__line__option__type__config__t.html#a44c4517e4591592f3c2d56ba6368b686">exclusionaryOption</a></td></tr>
+<tr class="memdesc:a44c4517e4591592f3c2d56ba6368b686"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boolean value that determines whether the option is exclusionary (can not be combined with other options)  <a href="structcommand__line__option__type__config__t.html#a44c4517e4591592f3c2d56ba6368b686">More...</a><br /></td></tr>
+<tr class="separator:a44c4517e4591592f3c2d56ba6368b686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Models a command line option configuration. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a id="a44c4517e4591592f3c2d56ba6368b686" name="a44c4517e4591592f3c2d56ba6368b686"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44c4517e4591592f3c2d56ba6368b686">&#9670;&#160;</a></span>exclusionaryOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool exclusionaryOption</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Boolean value that determines whether the option is exclusionary (can not be combined with other options) </p>
+
+</div>
+</div>
 <a id="afda5c7581b47d58a4eb2c0222faa804a" name="afda5c7581b47d58a4eb2c0222faa804a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afda5c7581b47d58a4eb2c0222faa804a">&#9670;&#160;</a></span>longRepresentation</h2>
 
@@ -103,6 +122,9 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The short representation of the option. </p>
+<p >E.g. for the help option that would be "--help" </p>
 
 </div>
 </div>
@@ -118,19 +140,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="ad02367f19696fd245eb7349f98eee3a5" name="ad02367f19696fd245eb7349f98eee3a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad02367f19696fd245eb7349f98eee3a5">&#9670;&#160;</a></span>singularOption</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool singularOption</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>The short representation of the option. </p>
+<p >E.g. for the help option that would be "-h" </p>
 
 </div>
 </div>

@@ -4,23 +4,27 @@
 #include "common.h"
 #include "value.h"
 
-/// @brief Configuration of a native function
+/// Typedefinition of a native function
+typedef value_t (*native_function_t)(uint32_t argCount, value_t const * args);
+
+/// Configuration of a native function
 typedef struct
 {
+/// The name of the native function
 char const * functionName;
-void * function;
+/// Pointer to the native function
+native_function_t function;
+/// The amount of arguments the native function expects
 size_t arrity;
 }native_function_config_t;
 
-/// @brief Typedefinition of a native function
-typedef value_t (*native_function_t)(int32_t argCount, value_t *args);
 
 /// @brief Gets the configuration of the native functions
 /// @return an array that contains the native function configurations 
 native_function_config_t * native_functions_get_function_configs();
 
 /// @brief Gets the amount of defined native functions
-/// @return The amount of native functions that are defiened 
+/// @return The amount of native functions that are defiened
 size_t native_functions_get_function_count();
 
 /// @brief Determines the class of a cellox instance

@@ -1,5 +1,5 @@
-print 123;
-print -10;
+println 123;
+println -10;
 
-print 123.456;
-print -0.001;
+println 123.456;
+println -0.001;

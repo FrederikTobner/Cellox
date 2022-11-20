@@ -1,3 +1,3 @@
-print strlen("");
-print strlen("Cellox");
-print strlen("Hello World");
+println strlen("");
+println strlen("Cellox");
+println strlen("Hello World");

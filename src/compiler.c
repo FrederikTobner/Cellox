@@ -27,28 +27,28 @@ typedef struct
     bool panicMode;
 }parser_t;
 
-/// @brief Precedences of the Tokens
+/// @brief Precedences that corresponds to a single or a group of tokens
 typedef enum
 {
     /// Lowest precedence
     PREC_NONE,
-    ///  = += -= *= /= %= **=
+    ///  Precedence of &quot;= += -= *= /= %= **=&quot;
     PREC_ASSIGNMENT,
-    ///  or ||
+    ///  Precedence of &quot;or ||&quot;
     PREC_OR,
-    /// and  &&
+    /// Precedence of "and  &&"
     PREC_AND,
-    /// == != 
+    /// Precedence of &quot;== !=&quot;
     PREC_EQUALITY,
-    /// < > <= >= 
+    /// Precedence of &quot;< > <= >=&quot;
     PREC_COMPARISON,
-    /// + -
+    /// Precedence of &quot;\+ &minus;&quot;
     PREC_TERM,
-    /// * / % **
+    /// Precedence of &quot;\* / % **&quot;
     PREC_FACTOR,
-    /// 
-    PREC_UNARY,      // ! -
-    ///  . () []
+    /// Precedence of &quot;! -&quot;
+    PREC_UNARY,
+    ///  &quot;. () []&quot;
     PREC_CALL,
     /// Primary precedence (unused)
     PREC_PRIMARY
@@ -188,6 +188,7 @@ static void compiler_parse_precedence(precedence_t);
 static uint8_t compiler_parse_variable(char const *);
 static void compiler_patch_jump(int32_t);
 static void compiler_print_statement();
+static void compiler_print_line_statement();
 static int32_t compiler_resolve_local(compiler_t *, token_t *);
 static int32_t compiler_resolve_upvalue(compiler_t *, token_t *);
 static void compiler_return_statement();
@@ -1122,6 +1123,9 @@ static void compiler_init(compiler_t * compiler, function_type_t type)
 
 /// @brief Compiles a index of expression
 /// @param canAssign Unsused for index of expressions
+/// @param getOp Indicates whether the index of gets a value
+/// @param setOp Indicates whether the index of sets a value
+/// @param arg The index of the constant
 static void compiler_index_of(bool canAssign, uint8_t getOp, uint8_t setOp, uint32_t arg)
 {
     compiler_emit_bytes(getOp, (uint8_t)arg);
@@ -1347,6 +1351,14 @@ static void compiler_print_statement()
     compiler_emit_byte(OP_PRINT);
 }
 
+/// @brief Compiles a printline statement
+static void compiler_print_line_statement()
+{
+    compiler_expression();
+    compiler_consume(TOKEN_SEMICOLON, "Expect ';' after value.");
+    compiler_emit_byte(OP_PRINT_LINE);
+}
+
 /// @brief Resolves a local variable name
 /// @param compiler The compiler where the local variable is resolved
 /// @param name The name of tthe local variable
@@ -1410,6 +1422,8 @@ static void compiler_statement()
 {
     if (compiler_match_token(TOKEN_PRINT))
         compiler_print_statement();
+    else if(compiler_match_token(TOKEN_PRINT_LINE))
+        compiler_print_line_statement();
     else if (compiler_match_token(TOKEN_FOR))
         compiler_for_statement();
     else if (compiler_match_token(TOKEN_IF))
@@ -1485,6 +1499,7 @@ static void compiler_synchronize()
         case TOKEN_IF:
         case TOKEN_WHILE:
         case TOKEN_PRINT:
+        case TOKEN_PRINT_LINE:
         case TOKEN_RETURN:
             return;
 

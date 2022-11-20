@@ -1,9 +1,9 @@
-if (true) print "yes";
-if (false) print "no";
+if (true) println "yes";
+if (false) println "no";
 
 
 if (true) { 
-    print "block"; 
+    println "block"; 
 }
 var a = false;
-if (a = true) print a;
+if (a = true) println a;

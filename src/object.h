@@ -3,8 +3,8 @@
 
 #include "chunk.h"
 #include "common.h"
-#include "native_functions.h"
 #include "hash_table.h"
+#include "native_functions.h"
 #include "value.h"
 
 /// Makro that determines the type of an object
@@ -234,6 +234,11 @@ object_upvalue_t * object_new_upvalue(value_t * slot);
 /// @brief Prints the object
 /// @param value The value that is printed
 void object_print(value_t value);
+
+/// @brief 
+/// @param object 
+/// @return 
+char const * object_stringify_type(object_t * object);
 
 /// @brief Determines whether a value is of a given type
 /// @param value The value

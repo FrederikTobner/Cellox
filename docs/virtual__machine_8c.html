@@ -126,7 +126,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a5351b4a129b99a02da6eb1e5d9a7ba11"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a5351b4a129b99a02da6eb1e5d9a7ba11">virtual_machine_define_method</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name)</td></tr>
 <tr class="memdesc:a5351b4a129b99a02da6eb1e5d9a7ba11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a new Method in the hashTable of the cellox class instance.  <a href="virtual__machine_8c.html#a5351b4a129b99a02da6eb1e5d9a7ba11">More...</a><br /></td></tr>
 <tr class="separator:a5351b4a129b99a02da6eb1e5d9a7ba11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48bc5513f68a21feba246331f899b020"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a48bc5513f68a21feba246331f899b020">virtual_machine_define_native</a> (char const *name, <a class="el" href="native__functions_8h.html#a1af57ce169de07949702e0f4326db0d7">native_function_t</a> function)</td></tr>
+<tr class="memitem:a48bc5513f68a21feba246331f899b020"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a48bc5513f68a21feba246331f899b020">virtual_machine_define_native</a> (char const *name, <a class="el" href="native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a> function)</td></tr>
 <tr class="memdesc:a48bc5513f68a21feba246331f899b020"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a native function for the virtual machine.  <a href="virtual__machine_8c.html#a48bc5513f68a21feba246331f899b020">More...</a><br /></td></tr>
 <tr class="separator:a48bc5513f68a21feba246331f899b020"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bd783bbaccb66ec6ae88e2e66675608"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9bd783bbaccb66ec6ae88e2e66675608">virtual_machine_define_natives</a> ()</td></tr>
@@ -212,12 +212,12 @@ Variables</h2></td></tr>
 <div class="line">        <span class="keywordtype">double</span> a = <a class="code hl_define" href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a>(<a class="code hl_function" href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a>());                       \</div>
 <div class="line">        virtual_machine_push(valueType(a op b));                           \</div>
 <div class="line">    } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
-<div class="ttc" id="avalue_8c_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition:</b> value.c:38</div></div>
+<div class="ttc" id="avalue_8c_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition:</b> value.c:45</div></div>
 <div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition:</b> value.h:37</div></div>
 <div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that yields the value of a number and converts to a c double.</div><div class="ttdef"><b>Definition:</b> value.h:47</div></div>
 <div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stacj.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:320</div></div>
 <div class="ttc" id="avirtual__machine_8c_html_acecc837f6d14140d8d88151ddcee8fe4"><div class="ttname"><a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop()</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:90</div></div>
-<div class="ttc" id="avirtual__machine_8h_html_a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:68</div></div>
+<div class="ttc" id="avirtual__machine_8h_html_a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:69</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -562,7 +562,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="native__functions_8h.html#a1af57ce169de07949702e0f4326db0d7">native_function_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a>&#160;</td>
           <td class="paramname"><em>function</em>&#160;</td>
         </tr>
         <tr>
@@ -683,7 +683,8 @@ Variables</h2></td></tr>
 <p>Interprets a lox program. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td>The source that is interpreted </td></tr>
+    <tr><td class="paramname">program</td><td>The source that is interpreted </td></tr>
+    <tr><td class="paramname">freeProgram</td><td>Boolean value that determines whether the sourcecode is freed by the virtual machine </td></tr>
   </table>
   </dd>
 </dl>
@@ -999,7 +1000,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">format</td><td>The formater of the error message </td></tr>
-    <tr><td class="paramname">args</td><td>Arguments that are passed in for the formatter </td></tr>
+    <tr><td class="paramname">...</td><td>Arguments that are passed in for the formatter </td></tr>
   </table>
   </dd>
 </dl>

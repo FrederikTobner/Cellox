@@ -149,7 +149,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a5403ffa8f5ac47c96dc372fa76d5496ca35c0078b6dfec245fa3ca22172adec8d" name="a5403ffa8f5ac47c96dc372fa76d5496ca35c0078b6dfec245fa3ca22172adec8d"></a>CHUNK_SEGMENT_TYPE_CONSTANTS&#160;</td><td class="fielddoc"><p >Prefix of a constant segment. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a5403ffa8f5ac47c96dc372fa76d5496cae22e1e182db174cdcee17c72d4d5d549" name="a5403ffa8f5ac47c96dc372fa76d5496cae22e1e182db174cdcee17c72d4d5d549"></a>CHUNK_SEGMENT_TYPE_INNER&#160;</td><td class="fielddoc"><p >Prefix of a inner seqment. </p>
-<p >These are fucntions that are nested inside another function or script </p>
+<p >These are functions that are nested inside another function or script </p>
 </td></tr>
 </table>
 
@@ -226,6 +226,7 @@ Functions</h2></td></tr>
 <p >A chunk that is stored in a file has the following structure -&mdash;constants--&mdash; -&mdash;inner------&mdash; -&mdash;bytecode---&mdash; </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">chunk</td><td>The chunk that is written to a file </td></tr>
+    <tr><td class="paramname">flags</td><td>Compile flags used to compile the sourcecode to a cellox chunk file </td></tr>
     <tr><td class="paramname">filePointer</td><td>Pointer to the file </td></tr>
   </table>
   </dd>
@@ -336,11 +337,11 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">value</td><td>The value of the constant that is appended </td></tr>
     <tr><td class="paramname">functions</td><td>Pointer to an dynamic array of functions that are used to build the inner segmment of the chunk later </td></tr>
+    <tr><td class="paramname">flags</td><td>Compile flags used to compile the sourcecode to a cellox chunk file </td></tr>
     <tr><td class="paramname">filePointer</td><td>Pointer to the file </td></tr>
   </table>
   </dd>
 </dl>
-<p >Numbers</p>
 
 </div>
 </div>
@@ -395,6 +396,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">constants</td><td>The constants that are stored in the chunk </td></tr>
     <tr><td class="paramname">functions</td><td>Pointer to an dynamic array of functions that are used to build the inner segmment of the chunk later </td></tr>
+    <tr><td class="paramname">flags</td><td>Compile flags used to compile the sourcecode to a cellox chunk file </td></tr>
     <tr><td class="paramname">filePointer</td><td>Pointer to the file </td></tr>
   </table>
   </dd>
@@ -491,6 +493,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">functions</td><td>The inner functions of the chunk </td></tr>
+    <tr><td class="paramname">flags</td><td>Compile flags used to compile the sourcecode to a cellox chunk file </td></tr>
     <tr><td class="paramname">filePointer</td><td>Pointer to the file </td></tr>
   </table>
   </dd>
@@ -535,7 +538,7 @@ Functions</h2></td></tr>
 <p>Appends the meta data of a cellox bytecode file (chunk file writer options and the cellox version) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">options</td><td>The chunk file writer options used to store the chunk </td></tr>
+    <tr><td class="paramname">flags</td><td>Compile flags used to compile the sourcecode to a cellox chunk file </td></tr>
     <tr><td class="paramname">filePointer</td><td>Pointer to the file </td></tr>
   </table>
   </dd>
@@ -607,7 +610,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">chunk</td><td>The chunk that is stored </td></tr>
     <tr><td class="paramname">programmPath</td><td>The program path of the cellox program </td></tr>
-    <tr><td class="paramname">options</td><td>The bytecode file writer options </td></tr>
+    <tr><td class="paramname">flags</td><td>Compile flags used to compile the sourcecode to a cellox chunk file </td></tr>
   </table>
   </dd>
 </dl>

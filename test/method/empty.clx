@@ -2,4 +2,4 @@ class Foo {
   bar() {}
 }
 
-print Foo().bar();
+println Foo().bar();

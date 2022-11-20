@@ -15,7 +15,7 @@ var searchData=
   ['native_5ffunction_5fread_5fline_12',['NATIVE_FUNCTION_READ_LINE',['../native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78ab32ae17b1e47112c23e558a3964c1159',1,'native_functions.c']]],
   ['native_5ffunction_5fstrlen_13',['NATIVE_FUNCTION_STRLEN',['../native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a8ca40e5bd663150bbb8ee04b0f6519e6',1,'native_functions.c']]],
   ['native_5ffunction_5fsystem_14',['NATIVE_FUNCTION_SYSTEM',['../native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a2bd4737e39eb4d1071c2b2bed90a1568',1,'native_functions.c']]],
-  ['native_5ffunction_5ft_15',['native_function_t',['../native__functions_8h.html#a1af57ce169de07949702e0f4326db0d7',1,'native_functions.h']]],
+  ['native_5ffunction_5ft_15',['native_function_t',['../native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7',1,'native_functions.h']]],
   ['native_5ffunction_5fwait_16',['NATIVE_FUNCTION_WAIT',['../native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a746d67984d40c6d42945a568e0dabad9',1,'native_functions.c']]],
   ['native_5ffunctions_2ec_17',['native_functions.c',['../native__functions_8c.html',1,'']]],
   ['native_5ffunctions_2eh_18',['native_functions.h',['../native__functions_8h.html',1,'']]],

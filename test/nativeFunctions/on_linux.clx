@@ -1,1 +1,1 @@
-print on_linux();
+println on_linux();

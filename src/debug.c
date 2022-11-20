@@ -18,7 +18,7 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
   uint32_t stringCount, numberCount, functionCount;
   dynamic_value_array_t functionNames;
   dynamic_value_array_init(&functionNames);
-  stringCount = numberCount = functionCount = 0;
+  stringCount = numberCount = functionCount = 0u;
   printf("function <%s> (%lu bytes of bytecode at 0x%p)\n", name, chunk->count, chunk->code);
   for (size_t i = 0; i < chunk->constants.count; i++)
   {
@@ -40,11 +40,11 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
       switch (OBJECT_TYPE(chunk->constants.values[i]))
       {
       case OBJECT_STRING:
-        size_t i;
-        for (i = 0; i < functionNames.count; i++)
+         i;
+        for (size_t j = 0; j < functionNames.count; j++)
         {
           /// String constant is a function call
-          if (!strcmp(AS_CSTRING(chunk->constants.values[i]), AS_FUNCTION(functionNames.values[i])->name->chars))
+          if (!strcmp(AS_CSTRING(chunk->constants.values[i]), AS_FUNCTION(functionNames.values[j])->name->chars))
             break;
         }
         if (i == functionNames.count)
@@ -52,18 +52,22 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
         break;
       }
     }
-    else /// Numbers
+    else // Numbers
     {
       numberCount++;
     }
   }
-  printf("%lu %s, %lu %s, %lu %s, %lu %s\n", arity, arity == 1 ? "param" : "params", stringCount, stringCount == 1 ? "string constant" : "string constants", numberCount, numberCount == 1 ? "numerical constant" : "numerical constants", functionCount, functionCount == 1 ? "function" : "functions");
+  printf("%lu %s, %lu %s, %lu %s, %lu %s\n",
+          arity, arity == 1 ? "param" : "params", 
+          stringCount, stringCount == 1 ? "string constant" : "string constants",
+          numberCount, numberCount == 1 ? "numerical constant" : "numerical constants",
+          functionCount, functionCount == 1 ? "function" : "functions");
   dynamic_value_array_free(&functionNames);
   for (int32_t offset = 0; offset < chunk->count;)
     offset = debug_disassemble_instruction(chunk, offset);
 }
 
-int32_t debug_disassemble_instruction(chunk_t *chunk, int32_t offset)
+int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
 {
   printf("%04X ", offset);
   if (offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1])
@@ -154,6 +158,8 @@ int32_t debug_disassemble_instruction(chunk_t *chunk, int32_t offset)
     return debug_simple_instruction("POP", offset);
   case OP_PRINT:
     return debug_simple_instruction("PRINT", offset);
+  case OP_PRINT_LINE:
+    return debug_simple_instruction("PRINT_LINE", offset);
   case OP_RETURN:
     return debug_simple_instruction("RETURN", offset);
   case OP_SET_GLOBAL:
@@ -183,7 +189,7 @@ int32_t debug_disassemble_instruction(chunk_t *chunk, int32_t offset)
 /// @param chunk The chunk where the local variable is stored
 /// @param offset The offset of the local variable, used for getting the local variable
 /// @return The index of the next bytecode instruction in the chunk
-static int32_t debug_byte_instruction(char const *name, chunk_t *chunk, int32_t offset)
+static int32_t debug_byte_instruction(char const * name, chunk_t * chunk, int32_t offset)
 {
   uint8_t slot = *(chunk->code + offset + 1);
   printf("%-16s %04X\n", name, slot);
@@ -195,7 +201,7 @@ static int32_t debug_byte_instruction(char const *name, chunk_t *chunk, int32_t 
 /// @param chunk The chunk where the constant is located
 /// @param offset The offset of the constant
 /// @return The
-static int32_t debug_constant_instruction(char const *name, chunk_t *chunk, int32_t offset)
+static int32_t debug_constant_instruction(char const * name, chunk_t * chunk, int32_t offset)
 {
   uint8_t constant = chunk->code[offset + 1];
   printf("%-16s %04X '", name, constant);
@@ -205,7 +211,7 @@ static int32_t debug_constant_instruction(char const *name, chunk_t *chunk, int3
 }
 
 /// Dissasembles a invoke instruction
-static int debug_invoke_instruction(char const *name, chunk_t *chunk, int32_t offset)
+static int debug_invoke_instruction(char const * name, chunk_t *chunk, int32_t offset)
 {
   uint8_t constant = *(chunk->code + offset + 1);
   uint8_t argCount = *(chunk->code + offset + 2);
@@ -216,7 +222,7 @@ static int debug_invoke_instruction(char const *name, chunk_t *chunk, int32_t of
 }
 
 /// Dissasembles a jump instruction (with a 16-bit operand)
-static int32_t debug_jump_instruction(char const *name, int32_t sign, chunk_t *chunk, int32_t offset)
+static int32_t debug_jump_instruction(char const * name, int32_t sign, chunk_t * chunk, int32_t offset)
 {
   uint16_t jump = (uint16_t)(*(chunk->code + offset + 1) << 8);
   jump |= *(chunk->code + offset + 2);
@@ -225,7 +231,7 @@ static int32_t debug_jump_instruction(char const *name, int32_t sign, chunk_t *c
 }
 
 /// Dissasembles a simple instruction
-static int32_t debug_simple_instruction(char const *name, int32_t offset)
+static int32_t debug_simple_instruction(char const * name, int32_t offset)
 {
   printf("%s\n", name);
   return offset + 1;

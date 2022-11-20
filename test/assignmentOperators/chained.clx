@@ -2,6 +2,6 @@
 var a = "foo";
 var b = "bar";
 var c = b = a = "baz";
-print a;
-print b;
-print c;
+println a;
+println b;
+println c;

@@ -4,12 +4,12 @@
 #include <stdio.h>
 
 #include "compiler.h"
-#include "virtual_machine.h"
 #ifdef DEBUG_LOG_GC
 #include "debug.h"
 #endif
+#include "virtual_machine.h"
 
-#define GC_HEAP_GROWTH_FACTOR 2
+#define GC_HEAP_GROWTH_FACTOR (2)
 
 static void memory_blacken_object(object_t *);
 static void memory_free_object(object_t *);
@@ -81,7 +81,7 @@ void memory_mark_value(value_t value)
     memory_mark_object(AS_OBJECT(value));
 }
 
-void *memory_reallocate(void * pointer, size_t oldSize, size_t newSize)
+void * memory_reallocate(void * pointer, size_t oldSize, size_t newSize)
 {
   virtualMachine.bytesAllocated += newSize - oldSize;
   if (newSize > oldSize)
@@ -275,7 +275,7 @@ static void memory_sweep()
   }
 }
 
-/// Traces all the references that the objects of the virtualMachine contain
+/// Traces all the references that the objects of the virtual machine contain
 static void memory_trace_references()
 {
   while (virtualMachine.grayCount)

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "common.h"
 #include "command_line_argument_parser.h"
+#include "common.h"
 
 /// @brief Main entry point of the cellox interpreter
 /// @param argc The amount of arguments that were specified by the user

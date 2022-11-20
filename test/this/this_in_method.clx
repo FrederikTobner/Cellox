@@ -4,4 +4,4 @@ class Foo
   baz() { return "baz"; }
 }
 
-print Foo().bar().baz();
+println Foo().bar().baz();

@@ -14,4 +14,4 @@ fun fibonacci()
 }
 var fibo = fibonacci();
 for (var i = 0; i < 10; i += 1)
-	print fibo();
+	println fibo();

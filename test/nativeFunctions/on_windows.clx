@@ -1,1 +1,1 @@
-print on_windows();
+println on_windows();

@@ -84,19 +84,22 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">ALLOCATE</a>(type,  count)&#160;&#160;&#160;    (type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(NULL, 0, sizeof(type) * (count))</td></tr>
+<tr class="memitem:a3994dbba05a44c5bdf179596db016253"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a3994dbba05a44c5bdf179596db016253">SIZE_CHECK_USING_TYPE</a>(type,  count)&#160;&#160;&#160;    ((SIZE_MAX / sizeof(type)) &gt;= (count))</td></tr>
+<tr class="memdesc:a3994dbba05a44c5bdf179596db016253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size check using a type and the amount of memory allocated for the specified type (used for the checked malloc)  <a href="memory_8h.html#a3994dbba05a44c5bdf179596db016253">More...</a><br /></td></tr>
+<tr class="separator:a3994dbba05a44c5bdf179596db016253"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">ALLOCATE</a>(type,  count)&#160;&#160;&#160;    ((type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(NULL, 0, <a class="el" href="memory_8h.html#a3994dbba05a44c5bdf179596db016253">SIZE_CHECK_USING_TYPE</a>(type, count) ? sizeof(type) * (count) : 0))</td></tr>
 <tr class="memdesc:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that allocates the memory needed for a given type multiplied by the count.  <a href="memory_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">More...</a><br /></td></tr>
 <tr class="separator:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15985952db75d2608fdc0e24dd06e775"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a15985952db75d2608fdc0e24dd06e775">FREE</a>(type,  pointer)&#160;&#160;&#160;    <a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type), 0)</td></tr>
+<tr class="memitem:a15985952db75d2608fdc0e24dd06e775"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a15985952db75d2608fdc0e24dd06e775">FREE</a>(type,  pointer)&#160;&#160;&#160;    (<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type), 0))</td></tr>
 <tr class="memdesc:a15985952db75d2608fdc0e24dd06e775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that frees the memory used by a given type at the position specified by the pointer.  <a href="memory_8h.html#a15985952db75d2608fdc0e24dd06e775">More...</a><br /></td></tr>
 <tr class="separator:a15985952db75d2608fdc0e24dd06e775"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3f26420257fbc4c78eece0f473860c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#ad3f26420257fbc4c78eece0f473860c2">GROW_CAPACITY</a>(capacity)&#160;&#160;&#160;    ((capacity) &lt; 8u ? 8u : (capacity) + 2u)</td></tr>
 <tr class="memdesc:ad3f26420257fbc4c78eece0f473860c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)  <a href="memory_8h.html#ad3f26420257fbc4c78eece0f473860c2">More...</a><br /></td></tr>
 <tr class="separator:ad3f26420257fbc4c78eece0f473860c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a535c54c8dcb6e740b47e09ee33c07f8f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a535c54c8dcb6e740b47e09ee33c07f8f">GROW_ARRAY</a>(type,  pointer,  oldCount,  newCount)&#160;&#160;&#160;    (type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount))</td></tr>
+<tr class="memitem:a535c54c8dcb6e740b47e09ee33c07f8f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a535c54c8dcb6e740b47e09ee33c07f8f">GROW_ARRAY</a>(type,  pointer,  oldCount,  newCount)&#160;&#160;&#160;    ((type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))</td></tr>
 <tr class="memdesc:a535c54c8dcb6e740b47e09ee33c07f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that increases the size of a dynamic Array.  <a href="memory_8h.html#a535c54c8dcb6e740b47e09ee33c07f8f">More...</a><br /></td></tr>
 <tr class="separator:a535c54c8dcb6e740b47e09ee33c07f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b69129733a4bd10f3c5726e4ea6e518"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a3b69129733a4bd10f3c5726e4ea6e518">FREE_ARRAY</a>(type,  pointer,  oldCount)&#160;&#160;&#160;    <a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type) * (oldCount), 0)</td></tr>
+<tr class="memitem:a3b69129733a4bd10f3c5726e4ea6e518"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a3b69129733a4bd10f3c5726e4ea6e518">FREE_ARRAY</a>(type,  pointer,  oldCount)&#160;&#160;&#160;    (<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type) * (oldCount), 0))</td></tr>
 <tr class="memdesc:a3b69129733a4bd10f3c5726e4ea6e518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that dealocates an existing dynamic array.  <a href="memory_8h.html#a3b69129733a4bd10f3c5726e4ea6e518">More...</a><br /></td></tr>
 <tr class="separator:a3b69129733a4bd10f3c5726e4ea6e518"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -140,7 +143,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;    (type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(NULL, 0, sizeof(type) * (count))</td>
+          <td></td><td>&#160;&#160;&#160;    ((type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(NULL, 0, <a class="el" href="memory_8h.html#a3994dbba05a44c5bdf179596db016253">SIZE_CHECK_USING_TYPE</a>(type, count) ? sizeof(type) * (count) : 0))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -170,7 +173,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;    <a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type), 0)</td>
+          <td></td><td>&#160;&#160;&#160;    (<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type), 0))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -206,7 +209,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;    <a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type) * (oldCount), 0)</td>
+          <td></td><td>&#160;&#160;&#160;    (<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type) * (oldCount), 0))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -248,7 +251,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;    (type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount))</td>
+          <td></td><td>&#160;&#160;&#160;    ((type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -274,6 +277,36 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8) </p>
+
+</div>
+</div>
+<a id="a3994dbba05a44c5bdf179596db016253" name="a3994dbba05a44c5bdf179596db016253"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3994dbba05a44c5bdf179596db016253">&#9670;&#160;</a></span>SIZE_CHECK_USING_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SIZE_CHECK_USING_TYPE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">type, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">count&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    ((SIZE_MAX / sizeof(type)) &gt;= (count))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Size check using a type and the amount of memory allocated for the specified type (used for the checked malloc) </p>
 
 </div>
 </div>
