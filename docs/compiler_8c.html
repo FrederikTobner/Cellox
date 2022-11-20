@@ -141,7 +141,7 @@ Enumerations</h2></td></tr>
 , <a class="el" href="compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdfa59b5adac5b20fde37b2be48df04b90de">PREC_PRIMARY</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a9e5fdf365cd8dc7be4d972daf07f8bdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Precedences of the Tokens.  <a href="compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdf">More...</a><br /></td></tr>
+<tr class="memdesc:a9e5fdf365cd8dc7be4d972daf07f8bdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Precedences that corresponds to a single or a group of tokens.  <a href="compiler_8c.html#a9e5fdf365cd8dc7be4d972daf07f8bdf">More...</a><br /></td></tr>
 <tr class="separator:a9e5fdf365cd8dc7be4d972daf07f8bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a219b42b1180414a012100af75c31c8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a8a219b42b1180414a012100af75c31c8">function_type_t</a> { <a class="el" href="compiler_8c.html#a8a219b42b1180414a012100af75c31c8ae40264fa7bcc3bc4091d70ddd42bd542">TYPE_FUNCTION</a>
 , <a class="el" href="compiler_8c.html#a8a219b42b1180414a012100af75c31c8a1db5a3fdcea9031ec8cd258000ae43ae">TYPE_INITIALIZER</a>
@@ -311,6 +311,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a85481624fe33eb97e93e2deea49a4ca1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a85481624fe33eb97e93e2deea49a4ca1">compiler_print_statement</a> ()</td></tr>
 <tr class="memdesc:a85481624fe33eb97e93e2deea49a4ca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a print statement.  <a href="compiler_8c.html#a85481624fe33eb97e93e2deea49a4ca1">More...</a><br /></td></tr>
 <tr class="separator:a85481624fe33eb97e93e2deea49a4ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20c8ca2c99a46925440b1c24927e0703"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a20c8ca2c99a46925440b1c24927e0703">compiler_print_line_statement</a> ()</td></tr>
+<tr class="memdesc:a20c8ca2c99a46925440b1c24927e0703"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a printline statement.  <a href="compiler_8c.html#a20c8ca2c99a46925440b1c24927e0703">More...</a><br /></td></tr>
+<tr class="separator:a20c8ca2c99a46925440b1c24927e0703"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af80a4b333cedee89d2448a8b7bef3a0c"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#af80a4b333cedee89d2448a8b7bef3a0c">compiler_resolve_local</a> (<a class="el" href="structcompiler__t.html">compiler_t</a> *compiler, <a class="el" href="structtoken__t.html">token_t</a> *name)</td></tr>
 <tr class="memdesc:af80a4b333cedee89d2448a8b7bef3a0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves a local variable name.  <a href="compiler_8c.html#af80a4b333cedee89d2448a8b7bef3a0c">More...</a><br /></td></tr>
 <tr class="separator:af80a4b333cedee89d2448a8b7bef3a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -462,30 +465,27 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Precedences of the Tokens. </p>
+<p>Precedences that corresponds to a single or a group of tokens. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa2be887a6eb50f60bf0d6643d5986289c" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa2be887a6eb50f60bf0d6643d5986289c"></a>PREC_NONE&#160;</td><td class="fielddoc"><p >Lowest precedence. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa5576e7223ab7e815dc3f0daefcaf5fe3" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa5576e7223ab7e815dc3f0daefcaf5fe3"></a>PREC_ASSIGNMENT&#160;</td><td class="fielddoc"><p >= += -= *= /= %= **= </p>
+<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa5576e7223ab7e815dc3f0daefcaf5fe3" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa5576e7223ab7e815dc3f0daefcaf5fe3"></a>PREC_ASSIGNMENT&#160;</td><td class="fielddoc"><p >Precedence of &quot;= += -= *= /= %= **=&quot;. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa461532d1f6f71dc9a5f506644cdad7e5" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa461532d1f6f71dc9a5f506644cdad7e5"></a>PREC_OR&#160;</td><td class="fielddoc"><p >or || </p>
+<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa461532d1f6f71dc9a5f506644cdad7e5" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa461532d1f6f71dc9a5f506644cdad7e5"></a>PREC_OR&#160;</td><td class="fielddoc"><p >Precedence of &quot;or ||&quot;. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfafd1def1a9d1ac4d3e573e407227c8f56" name="a9e5fdf365cd8dc7be4d972daf07f8bdfafd1def1a9d1ac4d3e573e407227c8f56"></a>PREC_AND&#160;</td><td class="fielddoc"><p >and &amp;&amp; </p>
+<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfafd1def1a9d1ac4d3e573e407227c8f56" name="a9e5fdf365cd8dc7be4d972daf07f8bdfafd1def1a9d1ac4d3e573e407227c8f56"></a>PREC_AND&#160;</td><td class="fielddoc"><p >Precedence of "and  &amp;&amp;". </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa336bf98f3bbc6c9ec4436e7728ca9389" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa336bf98f3bbc6c9ec4436e7728ca9389"></a>PREC_EQUALITY&#160;</td><td class="fielddoc"><p >== != </p>
+<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa336bf98f3bbc6c9ec4436e7728ca9389" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa336bf98f3bbc6c9ec4436e7728ca9389"></a>PREC_EQUALITY&#160;</td><td class="fielddoc"><p >Precedence of &quot;== !=&quot;. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa97393227c3b9b3664833fb648de3c8af" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa97393227c3b9b3664833fb648de3c8af"></a>PREC_COMPARISON&#160;</td><td class="fielddoc"><p >&lt; &gt; &lt;= &gt;= </p>
+<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa97393227c3b9b3664833fb648de3c8af" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa97393227c3b9b3664833fb648de3c8af"></a>PREC_COMPARISON&#160;</td><td class="fielddoc"><p >Precedence of &quot;&lt; &gt; &lt;= &gt;=&quot;. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfaf8854b546d1ca4c09e1f8684a3cd6af3" name="a9e5fdf365cd8dc7be4d972daf07f8bdfaf8854b546d1ca4c09e1f8684a3cd6af3"></a>PREC_TERM&#160;</td><td class="fielddoc"><ul>
-<li>- </li>
-</ul>
+<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfaf8854b546d1ca4c09e1f8684a3cd6af3" name="a9e5fdf365cd8dc7be4d972daf07f8bdfaf8854b546d1ca4c09e1f8684a3cd6af3"></a>PREC_TERM&#160;</td><td class="fielddoc"><p >Precedence of &quot;+ &minus;&quot;. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa512d339d43a8a07254dc51ae5cbf61de" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa512d339d43a8a07254dc51ae5cbf61de"></a>PREC_FACTOR&#160;</td><td class="fielddoc"><ul>
-<li>/ % ** </li>
-</ul>
+<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa512d339d43a8a07254dc51ae5cbf61de" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa512d339d43a8a07254dc51ae5cbf61de"></a>PREC_FACTOR&#160;</td><td class="fielddoc"><p >Precedence of &quot;* / % **&quot;. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa0f109c9eef878893165c6180c86caa96" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa0f109c9eef878893165c6180c86caa96"></a>PREC_UNARY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa935e24750e9ae953c5291c5567be873a" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa935e24750e9ae953c5291c5567be873a"></a>PREC_CALL&#160;</td><td class="fielddoc"><p >. () [] </p>
+<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa0f109c9eef878893165c6180c86caa96" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa0f109c9eef878893165c6180c86caa96"></a>PREC_UNARY&#160;</td><td class="fielddoc"><p >Precedence of &quot;! -&quot;. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa935e24750e9ae953c5291c5567be873a" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa935e24750e9ae953c5291c5567be873a"></a>PREC_CALL&#160;</td><td class="fielddoc"><p >&quot;. () []&quot; </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa59b5adac5b20fde37b2be48df04b90de" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa59b5adac5b20fde37b2be48df04b90de"></a>PREC_PRIMARY&#160;</td><td class="fielddoc"><p >Primary precedence (unused) </p>
 </td></tr>
@@ -1771,6 +1771,9 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">canAssign</td><td>Unsused for index of expressions </td></tr>
+    <tr><td class="paramname">getOp</td><td>Indicates whether the index of gets a value </td></tr>
+    <tr><td class="paramname">setOp</td><td>Indicates whether the index of sets a value </td></tr>
+    <tr><td class="paramname">arg</td><td>The index of the constant </td></tr>
   </table>
   </dd>
 </dl>
@@ -2274,6 +2277,33 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a20c8ca2c99a46925440b1c24927e0703" name="a20c8ca2c99a46925440b1c24927e0703"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20c8ca2c99a46925440b1c24927e0703">&#9670;&#160;</a></span>compiler_print_line_statement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void compiler_print_line_statement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compiles a printline statement. </p>
 
 </div>
 </div>

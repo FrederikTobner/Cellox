@@ -1,8 +1,8 @@
-print "";
-print "a";
-print "A";
-print "123";
-print "!\"$%&/()=?";
-print "1
+println "";
+println "a";
+println "A";
+println "123";
+println "!\"$%&/()=?";
+println "1
 2
 3";

@@ -7,7 +7,7 @@
 #include "object.h"
 
 /// @brief The max load factor of the hashtable
-/// @details If the max load factor multiplied with the capacity is reached is reached the hashtable grows
+/// @details If the max load factor multiplied with the capacity is reached we grow the hashtable
 #define TABLE_MAX_LOAD 0.75
 
 static void hash_table_adjust_capacity(hash_table_t * , int32_t );
@@ -45,15 +45,15 @@ void hash_table_add_all(hash_table_t * from, hash_table_t *to)
     }
 }
 
-bool hash_table_delete(hash_table_t *table, object_string_t *key)
+bool hash_table_delete(hash_table_t * table, object_string_t * key)
 {
     if (!table->count)
         return false;
-    /// Find the entry.
+    // Find the entry.
     hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
     if (!entry->key)
         return false;
-    /// Place a tombstone in the entry.
+    // Replace the entry with a tombstone
     entry->key = NULL;
     entry->value = BOOL_VAL(true);
     return true;
@@ -94,11 +94,11 @@ bool hash_table_get(hash_table_t * table, object_string_t * key, value_t * value
     return true;
 }
 
-void hash_table_remove_white(hash_table_t *table)
+void hash_table_remove_white(hash_table_t * table)
 {
     for (uint32_t i = 0; i < table->capacity; i++)
     {
-        hash_table_entry_t *entry = &table->entries[i];
+        hash_table_entry_t * entry = &table->entries[i];
         if (entry->key && !entry->key->obj.isMarked)
             hash_table_delete(table, entry->key);
     }
@@ -106,18 +106,16 @@ void hash_table_remove_white(hash_table_t *table)
 
 bool hash_table_set(hash_table_t * table, object_string_t * key, value_t value)
 {
-    /// We grow the hashtable when it becomes 75% full
+    // We grow the hashtable when it becomes 75% full
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
         uint32_t capacity = GROW_CAPACITY(table->capacity);
         hash_table_adjust_capacity(table, capacity);
     }
-
-    hash_table_entry_t *entry = hash_table_find_entry(table->entries, table->capacity, key);
+    hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
     bool isNewKey = !entry->key;
     if (isNewKey && IS_NULL(entry->value))
         table->count++;
-
     entry->key = key;
     entry->value = value;
     return isNewKey;
@@ -154,7 +152,7 @@ static void hash_table_adjust_capacity(hash_table_t * table, int32_t capacity)
 /// @param entries The entries of the hashtable that is searched
 /// @param capacity The capacity of the hashtable
 /// @param key The key of the hashtable that is looked up
-/// @return Return sthe entry or NULL if the value has already been deleted
+/// @return Returns the entry or NULL if the value has already been deleted
 static hash_table_entry_t * hash_table_find_entry(hash_table_entry_t * entries, int32_t capacity, object_string_t * key)
 {
     uint32_t index = key->hash % capacity;
@@ -173,13 +171,14 @@ static hash_table_entry_t * hash_table_find_entry(hash_table_entry_t * entries, 
                  * A tombstone marks the slot of a value that has already been deleted.
                  * This is done so because when we look up an entry that has been moved by a collision,
                  * the entry that has occupied the slot where the collision occured has been deleted,
-                 * so we need a value to indicate that another value prevouisly occupied the slot so we don't stop looking for the entry*/
+                 * so we need a value to indicate that another value prevouisly occupied the slot so we don't stop looking for the entry
+                 */
                 if (!tombstone)
                     tombstone = entry;
             }
         }
         else if (entry->key == key)
-            return entry; /// We found the key 🔑
+            return entry; // We found the key 🔑
         index = (index + 1) % capacity;
     }
 }

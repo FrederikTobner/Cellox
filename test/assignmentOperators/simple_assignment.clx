@@ -1,8 +1,8 @@
 var v = 5;
-print v;
+println v;
 v = "test";
-print v;
+println v;
 v = true;
-print v;
+println v;
 v = null;
-print v;
+println v;

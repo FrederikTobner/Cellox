@@ -1,1 +1,1 @@
-print 2 ** 5;
+println 2 ** 5;

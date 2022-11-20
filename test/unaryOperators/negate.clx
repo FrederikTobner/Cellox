@@ -1,2 +1,2 @@
-print -5;
-print -(-10);
+println -5;
+println -(-10);

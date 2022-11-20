@@ -11,8 +11,7 @@ TEST(NativeFunctions, on_linux)
 {
 #ifdef _WIN32
         test_cellox_program("nativeFunctions/on_linux.clx", "false\n");
-#endif
-#ifdef linux
+#elif linux
         test_cellox_program("nativeFunctions/on_linux.clx", "true\n");
 #endif
     
@@ -23,8 +22,7 @@ TEST(NativeFunctions, on_windows)
     
 #ifdef _WIN32
         test_cellox_program("nativeFunctions/on_windows.clx", "true\n");
-#endif
-#ifdef linux
+#elif linux
         test_cellox_program("nativeFunctions/on_windows.clx", "false\n");
 #endif
 }

@@ -6,7 +6,7 @@
 /// @brief Tokens of the language
 typedef enum
 {
-  /// and
+  /// and / &amp;%amp;
   TOKEN_AND,
   /// !
   TOKEN_BANG,
@@ -16,7 +16,7 @@ typedef enum
   TOKEN_CLASS,
   /// ,
   TOKEN_COMMA,
-  /// .
+  /// &sdot;
   TOKEN_DOT,
   /// : (Used for inheritance)
   TOKEN_DOUBLEDOT,
@@ -36,7 +36,7 @@ typedef enum
   TOKEN_FOR,
   /// fun
   TOKEN_FUN,
-  /// >
+  /// &gt;
   TOKEN_GREATER,
   /// >=
   TOKEN_GREATER_EQUAL,
@@ -54,7 +54,7 @@ typedef enum
   TOKEN_LESS,
   /// <=
   TOKEN_LESS_EQUAL,
-  /// -
+  /// &minus;
   TOKEN_MINUS,
   /// -=
   TOKEN_MINUS_EQUAL,
@@ -70,6 +70,8 @@ typedef enum
   TOKEN_OR,
   /// print
   TOKEN_PRINT,
+  /// println
+  TOKEN_PRINT_LINE,
   /// return
   TOKEN_RETURN,
   /// }
@@ -78,17 +80,17 @@ typedef enum
   TOKEN_RIGHT_PAREN,
   /// ]
   TOKEN_RIGHT_BRACKET,
-  /// +
+  /// \+
   TOKEN_PLUS,
   /// +=
   TOKEN_PLUS_EQUAL,
   /// ;
   TOKEN_SEMICOLON,
-  /// /
+  /// &frasl;
   TOKEN_SLASH,
   /// /=
   TOKEN_SLASH_EQUAL,
-  /// *
+  /// \*;
   TOKEN_STAR,
   /// *=
   TOKEN_STAR_EQUAL,

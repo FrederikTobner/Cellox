@@ -19,7 +19,7 @@
 #include "debug.h"
 #include "virtual_machine.h"
 
-// Maximum length of a line is 1024 characters
+/// Maximum length of a line is 1024 characters
 #define MAX_LINE_LENGTH 1024u
 
 static void init_io_error(char const *, ...);
@@ -28,7 +28,7 @@ static char *init_read_file(char const *);
 void init_repl()
 {
     virtual_machine_init();
-    /// Used to store the next line that read from input
+    // Used to store the next line that is read from input
     char line[MAX_LINE_LENGTH];
     printf("   _____     _ _           \n\
   / ____|   | | |          \n\
@@ -37,7 +37,7 @@ void init_repl()
  | |___|  __/ | | (_) >  < \n\
   \\_____\\___|_|_|\\___/_/\\_\\\n");
   
-/// The cellox_config.h.in file is not configured by cmake for the benchmarks and tests -> so we just ignore it
+// The cellox_config.h.in file is not configured by cmake for the benchmarks and tests -> so we just ignore it
 #ifndef CELLOX_TESTS_RUNNING
 #ifndef BENCHMARKS_RUNNING
     printf("\t\t Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
@@ -45,15 +45,15 @@ void init_repl()
 #endif
     for (;;)
     {
-        /// Prints command prompt
+        // Prints command prompt
         printf("> ");
-        /// Reads the next line that was input by the user and stores
+        // Reads the next line that was input by the user and stores
         if (!fgets(line, sizeof(line), stdin))
         {
             printf("\n");
             break;
         }
-        /// We close the command prompt if the last input was empty - \n
+        // We close the command prompt if the last input was empty - \n
         if (strlen(line) == 1)
         {
             virtual_machine_free();
@@ -113,7 +113,7 @@ void init_show_version()
 
 /// @brief Prints a error message for io errors and exits if no tests are executed
 /// @param format The formater of the error message
-/// @param args The arguments that are formated
+/// @param ... The arguments that are formated
 static void init_io_error(char const * format, ...)
 {
     va_list args;

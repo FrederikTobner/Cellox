@@ -4,6 +4,13 @@
 
 #include "object.h"
 
+/// The value types of cellox as a string
+static char const * valueTypesStringified [] = {
+  "boolean",
+  "undefiened",
+  "numerical",
+};
+
 void value_print(value_t value)
 {
 #ifdef NAN_BOXING
@@ -39,56 +46,26 @@ char const * value_stringify_type(value_t value)
 {
 #ifdef NAN_BOXING
   if (IS_BOOL(value))
-    return "boolean";
+    return valueTypesStringified[0];
   else if (IS_NULL(value))
-    return "undefiened";
+    return valueTypesStringified[1];
   else if (IS_NUMBER(value))
-    return "numerical";
+    return valueTypesStringified[2];
   else
   {
-    if(IS_BOUND_METHOD(value))
-      return "method";
-    if(IS_CLASS(value))
-      return "class";
-    if(IS_FUNCTION(value))
-      return "function";
-    if(IS_CLOSURE(value))
-      return "closure";
-    if(IS_INSTANCE(value))
-      return AS_INSTANCE(value)->celloxClass->name->chars;
-    if(IS_NATIVE(value))
-      return "native function";
-    if(IS_STRING(value))
-      return "string";
-    return "unknown";
+    return object_stringify_type(AS_OBJECT(value));
   }
 #else
   switch (value.type)
   {
   case VAL_BOOL:
-    return "boolean";
+    return valueTypesStringified[0];
   case VAL_NULL:
-    return "null";
+    return valueTypesStringified[1];
   case VAL_NUMBER:
-    return "number";
+    return valueTypesStringified[2];
   default:
-    {
-      if(IS_BOUND_METHOD(value))
-        return "method";
-      if(IS_CLASS(value))
-        return "class";
-      if(IS_FUNCTION(value))
-        return "function";
-      if(IS_CLOSURE(value))
-        return "closure";
-      if(IS_INSTANCE(value))
-        return AS_INSTANCE(value)->celloxClass->name->chars;
-      if(IS_NATIVE(value))
-        return "native function";
-      if(IS_STRING(value))
-        return "string";
-      return "unknown";
-    }
+      return object_stringify_type(AS_OBJECT(value));
   }
 #endif
 }

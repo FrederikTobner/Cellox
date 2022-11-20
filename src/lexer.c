@@ -207,7 +207,10 @@ static tokentype_t lexer_identifier_type()
     case 'o':
         return lexer_check_keyword(1, 1, "r", TOKEN_OR);
     case 'p':
-        return lexer_check_keyword(1, 4, "rint", TOKEN_PRINT);
+        tokentype_t token = lexer_check_keyword(1, 4, "rint", TOKEN_PRINT);
+        if(token != TOKEN_IDENTIFIER)
+            return token;
+        return lexer_check_keyword(1, 6, "rintln", TOKEN_PRINT_LINE);
     case 'r':
         return lexer_check_keyword(1, 5, "eturn", TOKEN_RETURN);
     case 's':

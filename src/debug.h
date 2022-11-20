@@ -6,6 +6,7 @@
 /// @brief  Dissasembles a chunk of bytecode instructions
 /// @param chunk The chunk that is dissasembled
 /// @param name The name of the chunk (based on the function)
+/// @param arity The arity of the top level funtion of the chunk
 void debug_disassemble_chunk(chunk_t * chunk, char const * name, uint32_t arity);
 
 /// @brief Dissasembles a single instruction

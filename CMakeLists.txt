@@ -7,7 +7,7 @@ VERSION 0.1.0
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-# Path of the sources of the cellox interpreter
+# raltive path to the sources of the cellox interpreter (for the tests and the benchmarking suite)
 set(SOURCEPATH ../src/)
 
 # source files of the interpreter

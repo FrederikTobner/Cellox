@@ -1,6 +1,6 @@
 var v = 3;
 v **= 3;
-print v;
+println v;
 v = 9;
 v **= 0.5;
-print v;
+println v;

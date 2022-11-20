@@ -10,7 +10,7 @@ typedef struct
 {
     /// Key of the entry 🔑
     object_string_t * key;
-    /// Value associated with the key
+    /// The value that is associated with the key
     value_t value;
 } hash_table_entry_t;
 
@@ -20,7 +20,7 @@ typedef struct
 {
     /// Number of entries in the hashtable
     uint32_t count;
-    /// Capacity of the hashtable
+    /// The capacity of the hashtable
     uint32_t capacity;
     /// Pointer to the first entry that is stored in the hashtable
     hash_table_entry_t * entries;

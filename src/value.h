@@ -88,7 +88,7 @@ static inline double valueToNum(value_t value)
     return num;
 }
 
-#else
+#else // No NAN_BOXING defined
 
 /// @brief The types of values that can be stored in a dynamic array
 typedef enum
@@ -173,4 +173,4 @@ bool value_values_equal(value_t a, value_t b);
 /// @return A character sequence that represents the type 
 char const * value_stringify_type(value_t value);
 
-#endif
+#endif // NAN_BOXING

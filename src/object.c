@@ -15,6 +15,20 @@
 /// Offset basic for the fowler-noll-vo hash-fuction - 2166136261
 #define OFFSET_BASIS 0x811c9dc5u
 
+/// The object types of cellox as a string
+static char const * objectTypesStringified [] = {
+    "method",
+    "class",
+    "closure",
+    "function",
+    "object instance"
+    "native function",
+    "string",
+    "upvalue",
+    "unknown"
+};
+
+
 static object_t * object_allocate_object(size_t, object_type_t);
 static object_string_t * object_allocate_string(char *, uint32_t, uint32_t);
 static uint32_t object_hash_string(char const *, uint32_t);
@@ -219,13 +233,13 @@ static object_string_t * object_allocate_string(char * chars, uint32_t length, u
 /// @return The allocated object
 static object_t * object_allocate_object(size_t size, object_type_t type)
 {
-    /// Allocates the memory used by the Object
+    // Allocates the memory used by the Object
     object_t * object = (object_t *)memory_reallocate(NULL, 0, size);
-    /// Sets the type of the object
+    // Sets the type of the object
     object->type = type;
-    /// Disables mark so it is picked up by the Garbage Collection in the next cycle
+    // Disables mark so it is picked up by the Garbage Collection in the next cycle
     object->isMarked = false;
-    /// Adds the object at the start of the linked list storing the objects allocated by the virtualMachine
+    // Adds the object at the start of the linked list storing the objects allocated by the virtualMachine
     object->next = virtualMachine.objects;
     virtualMachine.objects = object;
 #ifdef DEBUG_LOG_GC
@@ -235,7 +249,8 @@ static object_t * object_allocate_object(size_t size, object_type_t type)
 }
 
 /// @brief FNV-1a hash function
-/// @details https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+/// @details Fownler-Noll-Vo is a non-cryptographic hash function, that comes in three different version FNV-0, FNV-1 and FNV-1a.
+/// There are 32-, 64-, 128-, 256-, 512-, and 1024-bit variants of the function. We use the 32-bit variant to hash all the strings in cellox.
 /// @param key The key that is hashed
 /// @param length The length of the key
 /// @return The hashvalue of the key
@@ -250,16 +265,41 @@ static uint32_t object_hash_string(char const * key, uint32_t length)
     return hash;
 }
 
-/// @brief Prints a function
+/// @brief Prints a function or a script
 /// @param function The function that is printed
 static void object_print_function(object_function_t * function)
 {
     if (!function->name)
     {
-        /// top level code
+        // top level code
         printf("<script>");
         return;
     }
-    /// A function
+    // A function
     printf("<fun %s>", function->name->chars);
+}
+
+char const * object_stringify_type(object_t * object)
+{
+    switch (object->type)
+    {
+    case OBJECT_BOUND_METHOD:
+        return objectTypesStringified[0];
+    case OBJECT_CLASS:
+        return objectTypesStringified[1];
+    case OBJECT_CLOSURE:
+        return objectTypesStringified[2];
+    case OBJECT_FUNCTION:
+        return objectTypesStringified[3];
+    case OBJECT_INSTANCE:
+        return ((object_instance_t *) object)->celloxClass->name->chars;;
+    case OBJECT_NATIVE:
+        return objectTypesStringified[4];
+    case OBJECT_STRING:
+        return objectTypesStringified[5];
+    case OBJECT_UPVALUE:
+        return objectTypesStringified[6];
+    default:
+        return objectTypesStringified[7];;
+    }
 }

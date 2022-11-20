@@ -100,7 +100,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:a48b601641bf3e2604770f9ee5ed0abed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum amount of frames the virtual machine can hold - The maxiimum depth of the callstack.  <a href="virtual__machine_8h.html#a48b601641bf3e2604770f9ee5ed0abed">More...</a><br /></td></tr>
 <tr class="separator:a48b601641bf3e2604770f9ee5ed0abed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27b296fccb4da1e9cfcf1f9c810e619e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#a27b296fccb4da1e9cfcf1f9c810e619e">STACK_MAX</a>&#160;&#160;&#160;(<a class="el" href="virtual__machine_8h.html#a48b601641bf3e2604770f9ee5ed0abed">FRAMES_MAX</a> * <a class="el" href="common_8h.html#a2c580133a436e5d548aadde685fdbb52">UINT8_COUNT</a>)</td></tr>
-<tr class="memdesc:a27b296fccb4da1e9cfcf1f9c810e619e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum amount values that can be allocated on the stack of the VirtualMachine - currently 16384 values.  <a href="virtual__machine_8h.html#a27b296fccb4da1e9cfcf1f9c810e619e">More...</a><br /></td></tr>
+<tr class="memdesc:a27b296fccb4da1e9cfcf1f9c810e619e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum amount values that can be allocated on the stack of the VirtualMachine.  <a href="virtual__machine_8h.html#a27b296fccb4da1e9cfcf1f9c810e619e">More...</a><br /></td></tr>
 <tr class="separator:a27b296fccb4da1e9cfcf1f9c810e619e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
@@ -165,7 +165,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Maximum amount values that can be allocated on the stack of the VirtualMachine - currently 16384 values. </p>
+<p>Maximum amount values that can be allocated on the stack of the VirtualMachine. </p>
+<p >These are currently 16384 values </p>
 
 </div>
 </div>
@@ -262,7 +263,8 @@ Variables</h2></td></tr>
 <p>Interprets a lox program. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td>The source that is interpreted </td></tr>
+    <tr><td class="paramname">program</td><td>The source that is interpreted </td></tr>
+    <tr><td class="paramname">freeProgram</td><td>Boolean value that determines whether the sourcecode is freed by the virtual machine </td></tr>
   </table>
   </dd>
 </dl>

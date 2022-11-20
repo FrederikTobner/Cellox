@@ -10,7 +10,7 @@ Cellox is a scripting language based on the programming language [lox](https://c
 
 ## Overview
 
-Cellox is a dynamically typed, object oriented, high-level scripting language.
+Cellox is a dynamically typed, object oriented, general purpose, high-level scripting language that offers automatic memory management to the programmer.
 
 Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the interpreter.
 

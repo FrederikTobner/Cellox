@@ -2,4 +2,4 @@ class Foo
 {
 }
 
-print Foo();
+println Foo();

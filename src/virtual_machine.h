@@ -23,7 +23,7 @@ typedef struct
 } call_frame_t;
 
 /// @brief A virtual machine
-/// @details The prcessbased virtual machine is stackbased
+/// @details The processbased virtual machine that is used by the cellox interpreter is a stackbased virtual machine
 typedef struct
 {
     /// Callstack of the virtual machine
@@ -78,7 +78,8 @@ void virtual_machine_free();
 void virtual_machine_init();
 
 /// @brief Interprets a lox program
-/// @param source The source that is interpreted
+/// @param program The source that is interpreted
+/// @param freeProgram Boolean value that determines whether the sourcecode is freed by the virtual machine
 /// @return A interpret result that indicates whether the program execution sucessful
 interpret_result_t virtual_machine_interpret(char * program, bool freeProgram);
 

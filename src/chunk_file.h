@@ -12,7 +12,7 @@ typedef enum
 COMPILE_FLAG_LINE_INFO_INCLUDED     =       0b00000001u,
 /// Compile flag that incicates that line information is included in the chunk file
 COMPILE_FLAG_ANONYMIZE_FUNCTIONS    =       0b00000010u,
-/// Compile flag that incicates whether the contents have already been optimized in the chunk file
+/// Compile flag that incicates whether the contents have already been optimized in the chunk file (may be removed)
 COMPILE_FLAG_OPTIMIZE               =       0b00000100u,
 /// All compile flags combined
 COMPILE_FLAG_ALL                    =       0b11111111u
@@ -25,7 +25,7 @@ COMPILE_FLAG_ALL                    =       0b11111111u
  * ----top level chunk----
  * @param chunk The chunk that is stored
  * @param programmPath The program path of the cellox program
- * @param options The bytecode file writer options 
+ * @param flags Compile flags used to compile the sourcecode to a cellox chunk file
  * @return 0 -> OK, -1 -> Error
  */
 int chunk_file_store(chunk_t chunk, char const * programmPath, chunk_file_compile_flags flags);

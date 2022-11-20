@@ -12,7 +12,7 @@
 /// @brief Command line options of the cellox interpreter
 typedef enum
 {
-    //// No option specified (yet)
+    /// No option specified (yet)
     OPTION_NO_OPTION,
     /// --help / -h
     OPTION_TYPE_HELP,
@@ -27,9 +27,14 @@ typedef enum
 /// @brief Models a command line option configuration
 typedef struct
 {
+    /// @brief The short representation of the option
+    /// @details E.g. for the help option that would be "-h"
     char const * shortRepresentation;
+    /// @brief The short representation of the option
+    /// @details E.g. for the help option that would be "--help"
     char const * longRepresentation;
-    bool singularOption;
+    /// Boolean value that determines whether the option is exclusionary (can not be combined with other options)
+    bool exclusionaryOption;
 }command_line_option_type_config_t;
 
 
@@ -38,31 +43,31 @@ static command_line_option_type_config_t optionConfigs [] =
 {
     [OPTION_NO_OPTION] = 
     {
-        .singularOption = false
+        .exclusionaryOption = false
     },
     [OPTION_TYPE_HELP] = 
     {
         .shortRepresentation = "-h", 
         .longRepresentation = "--help",
-        .singularOption = true
+        .exclusionaryOption = true
     },
     [OPTION_TYPE_VERSION] = 
     {
         .shortRepresentation = "-v", 
         .longRepresentation = "--version",
-        .singularOption = true
+        .exclusionaryOption = true
     },
     [OPTION_TYPE_RUN_CHUNK_FILE] = 
     {
         .shortRepresentation = "-rcf", 
         .longRepresentation = "--run-chunk-file",
-        .singularOption = true
+        .exclusionaryOption = true
     },
     [OPTION_TYPE_STORE_CHUNK_FILE] = 
     {
         .shortRepresentation = "-scf", 
         .longRepresentation = "--store-chunk-file",
-        .singularOption = true
+        .exclusionaryOption = true
     }
 };
 
@@ -115,7 +120,7 @@ void command_line_argument_parser_parse(int argc, char const ** argv)
 
 /// @brief Emits an error and exits the program with the appropriate exit code
 /// @param format The format of the message that is printed
-/// @param args The arguments that are printed using the previously specified format
+/// @param ... The arguments that are printed using the previously specified format
 static void command_line_argument_parser_error(char const * format, ...)
 {
     va_list args;
@@ -140,14 +145,14 @@ static inline bool command_line_argument_parser_is_option(char const * argument)
 static void command_line_argument_parser_parse_option(char const * option, command_line_option_type_t * currentOption)
 {
     /// Old options is a singular option
-    if(optionConfigs[*currentOption].singularOption)
+    if(optionConfigs[*currentOption].exclusionaryOption)
         command_line_argument_parser_error("Multiple options specified");
     for (size_t i = 1; i < sizeof(optionConfigs) / sizeof(command_line_option_type_config_t); i++)
     {
         if(!strcmp(optionConfigs[i].shortRepresentation, option) || !strcmp(optionConfigs[i].longRepresentation, option))
         {
             /// New option is a singular option
-            if(optionConfigs[i].singularOption && *currentOption)
+            if(optionConfigs[i].exclusionaryOption && *currentOption)
                 command_line_argument_parser_error("Multiple options specified");
             *currentOption = i;
             break;

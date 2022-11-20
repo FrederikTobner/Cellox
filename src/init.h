@@ -1,7 +1,7 @@
 #ifndef CELLOX_INIT_H_
 #define CELLOX_INIT_H_
 
-// Init.h is included in the test-suite
+// Init.h is included in the test-suite that is written in c++ using the google-test framework
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -24,10 +24,10 @@ void init_repl();
 /// @param compile boolean value that determines whether the program is compiled and stored as a chunk file
 void init_run_from_file(char const *, bool);
 
-/// @brief Shows the help of the cellox interpreter
+/// Shows the help of the cellox interpreter
 void init_show_help();
 
-/// @brief Shows the version of the cellox interpreter
+/// Shows the version of the cellox interpreter
 void init_show_version();
 
 #ifdef __cplusplus

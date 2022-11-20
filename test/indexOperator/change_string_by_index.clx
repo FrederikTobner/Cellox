@@ -1,6 +1,6 @@
 var t = "celiop";
-print t;
+println t;
 t[3] = "l";
-print t;
+println t;
 t[5] = "x";
-print t;
+println t;

@@ -13,7 +13,7 @@
 #include "native_functions.h"
 #include "value.h"
 
-/// @brief Global VirtualMachine variable
+/// Global VirtualMachine variable
 virtual_machine_t virtualMachine;
 
 static bool virtual_machine_bind_method(object_class_t *, object_string_t *);
@@ -648,7 +648,10 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_PRINT:
             value_print(virtual_machine_pop());
-            printf("\n");
+            break;
+        case OP_PRINT_LINE:
+            value_print(virtual_machine_pop());
+            putc('\n', stdout);
             break;
         case OP_RETURN:
         {
@@ -759,7 +762,7 @@ so all the statements in it get executed if they are after an if 🤮 */
 
 /// @brief Reports an error that has occured at runtime
 /// @param format The formater of the error message
-/// @param args Arguments that are passed in for the formatter
+/// @param ... Arguments that are passed in for the formatter
 static void virtual_machine_runtime_error(char const * format, ...)
 {
     va_list args;

@@ -79,8 +79,8 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="value_8h_source.html">value.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="dynamic__value__array_8h_source.html">dynamic_value_array.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="value_8h_source.html">value.h</a>&quot;</code><br />
 </div>
 <p><a href="chunk_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -133,17 +133,18 @@ Enumerations</h2></td></tr>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dafb3c2d934da3bfb01e4fd56338324e21">OP_POP</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da8064a796d29992a8e4042a55d34d69ab">OP_PRINT</a>
 , <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dad436c18b194473f5ec64c28b774e41b3">OP_RETURN</a>
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da68aa2b18a18b761da1c60d24abdd00fe">OP_PRINT_LINE</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dad436c18b194473f5ec64c28b774e41b3">OP_RETURN</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da1878b0c98afd38ba282c15ff90368700">OP_SET_GLOBAL</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dae1a8aba4d1bbda836d2ec37e81642645">OP_SET_INDEX_OF</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da7fded28a708b5128f74d1ee932c1e2cd">OP_SET_LOCAL</a>
 , <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daa81d7d906822e3e4f40bbaa2fb576415">OP_SET_PROPERTY</a>
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da7fded28a708b5128f74d1ee932c1e2cd">OP_SET_LOCAL</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daa81d7d906822e3e4f40bbaa2fb576415">OP_SET_PROPERTY</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da72308153bbaabc78a9bffd5beba94357">OP_SET_UPVALUE</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dadedf7e5a9b5ff1438fc168f1ceb9acc2">OP_SUBTRACT</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da1c724ef5985b6f80949ac0fc32353a2e">OP_SUPER_INVOKE</a>
 , <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da804f1324daff5d2d04639a57ce6b8ec3">OP_TRUE</a>
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da1c724ef5985b6f80949ac0fc32353a2e">OP_SUPER_INVOKE</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da804f1324daff5d2d04639a57ce6b8ec3">OP_TRUE</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a8d0559dcae6e251ff5663e79d5581c7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">opcodes of the bytecode instruction set  <a href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7d">More...</a><br /></td></tr>
@@ -179,7 +180,7 @@ Functions</h2></td></tr>
 
 <p>opcodes of the bytecode instruction set </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7da96186829480e5b34b1373288e956b1c8" name="a8d0559dcae6e251ff5663e79d5581c7da96186829480e5b34b1373288e956b1c8"></a>OP_ADD&#160;</td><td class="fielddoc"><p >Pops the two most upper values from the stack adds them and pushes the result onto the stack. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7da96186829480e5b34b1373288e956b1c8" name="a8d0559dcae6e251ff5663e79d5581c7da96186829480e5b34b1373288e956b1c8"></a>OP_ADD&#160;</td><td class="fielddoc"><p >Pops the two most upper values from the stack, adds them and pushes the result onto the stack. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7da098bbeea13096667b102f7fd90cbe38f" name="a8d0559dcae6e251ff5663e79d5581c7da098bbeea13096667b102f7fd90cbe38f"></a>OP_CALL&#160;</td><td class="fielddoc"><p >Defines the arguments for the next function invocation. </p>
 </td></tr>
@@ -242,6 +243,8 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7dafb3c2d934da3bfb01e4fd56338324e21" name="a8d0559dcae6e251ff5663e79d5581c7dafb3c2d934da3bfb01e4fd56338324e21"></a>OP_POP&#160;</td><td class="fielddoc"><p >Pops a value from the stack. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7da8064a796d29992a8e4042a55d34d69ab" name="a8d0559dcae6e251ff5663e79d5581c7da8064a796d29992a8e4042a55d34d69ab"></a>OP_PRINT&#160;</td><td class="fielddoc"><p >Pops the value from the top of the stack and writes it to the standard output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7da68aa2b18a18b761da1c60d24abdd00fe" name="a8d0559dcae6e251ff5663e79d5581c7da68aa2b18a18b761da1c60d24abdd00fe"></a>OP_PRINT_LINE&#160;</td><td class="fielddoc"><p >Pops the value from the top of the stack and writes it to the standard output. Also adds an automatic linebreak at the end of the output. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7dad436c18b194473f5ec64c28b774e41b3" name="a8d0559dcae6e251ff5663e79d5581c7dad436c18b194473f5ec64c28b774e41b3"></a>OP_RETURN&#160;</td><td class="fielddoc"><p >Returns the value that is stored on the top of the stack. </p>
 </td></tr>
@@ -393,10 +396,11 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">chunk</td><td>The chunk where the byte is added </td></tr>
     <tr><td class="paramname">byte</td><td>The value of the byte that is added to the chunk </td></tr>
-    <tr><td class="paramname">line</td><td>Line counter of the Token that corresponds to the generated bytecode </td></tr>
+    <tr><td class="paramname">line</td><td>Line counter of the Token that corresponds to the generated bytecode</td></tr>
   </table>
   </dd>
 </dl>
+<p>The line in the soucecode that corresponds to the bytecode instruction that is stored </p>
 
 </div>
 </div>
