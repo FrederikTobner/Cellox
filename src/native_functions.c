@@ -6,10 +6,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
-#elif linux
-#include <curses.h>
-#include <unistd.h>
-#elif __APPLE__
+#elif __unix__
 #include <curses.h>
 #include <unistd.h>
 #endif
@@ -164,12 +161,9 @@ value_t native_functions_get_username(uint32_t argCount, value_t const * args)
     DWORD bufCharCount = MAX_USER_NAME_LENGTH;
     TCHAR name[MAX_USER_NAME_LENGTH];
     GetUserNameA(name, &bufCharCount);
-#elif linux
+#elif __unix__
     char name[MAX_USER_NAME_LENGTH];
     getlogin_r(&name[0], MAX_USER_NAME_LENGTH);
-#elif __APPLE__
-    char name[MAX_USER_NAME_LENGTH];
-    getlogin(&name[0], MAX_USER_NAME_LENGTH);
 #endif
     return OBJECT_VAL(object_copy_string(&name[0], strlen(name), false));
 }
