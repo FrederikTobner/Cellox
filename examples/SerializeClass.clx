@@ -16,4 +16,4 @@ class Bar
     }
 }
 
-print Bar(12.5, Foo(25, "Test"));
+println Bar(12.5, Foo(25, "Test"));
