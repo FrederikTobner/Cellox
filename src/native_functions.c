@@ -164,7 +164,7 @@ value_t native_functions_get_username(uint32_t argCount, value_t const * args)
     DWORD bufCharCount = MAX_USER_NAME_LENGTH;
     TCHAR name[MAX_USER_NAME_LENGTH];
     GetUserNameA(name, &bufCharCount);
-#elif __unix__
+#elif linux
     char name[MAX_USER_NAME_LENGTH];
     getlogin_r(&name[0], MAX_USER_NAME_LENGTH);
 #elif __APPLE__
