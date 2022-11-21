@@ -40,10 +40,9 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
       switch (OBJECT_TYPE(chunk->constants.values[i]))
       {
       case OBJECT_STRING:
-         i;
         for (size_t j = 0; j < functionNames.count; j++)
         {
-          /// String constant is a function call
+          // String constant is a function call
           if (!strcmp(AS_CSTRING(chunk->constants.values[i]), AS_FUNCTION(functionNames.values[j])->name->chars))
             break;
         }

@@ -1,3 +1,4 @@
+#include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -6,6 +7,9 @@
 #include <windows.h>
 #include <conio.h>
 #elif linux
+#include <curses.h>
+#include <unistd.h>
+#elif TARGET_OS_MAC
 #include <curses.h>
 #include <unistd.h>
 #endif
@@ -163,6 +167,9 @@ value_t native_functions_get_username(uint32_t argCount, value_t const * args)
 #elif linux
     char name[MAX_USER_NAME_LENGTH];
     getlogin_r(&name[0], MAX_USER_NAME_LENGTH);
+#elif TARGET_OS_MAC
+    char name[MAX_USER_NAME_LENGTH];
+    getlogin(&name[0], MAX_USER_NAME_LENGTH);
 #endif
     return OBJECT_VAL(object_copy_string(&name[0], strlen(name), false));
 }
@@ -174,6 +181,8 @@ value_t native_functions_on_linux(uint32_t argCount, value_t const * args)
     return FALSE_VAL;
     #elif linux
     return TRUE_VAL;
+    #elif TARGET_OS_MAC
+    return FALSE_VAL;
     #endif
 }
 
@@ -183,6 +192,8 @@ value_t native_functions_on_windows(uint32_t argCount, value_t const * args)
     #ifdef _WIN32
     return TRUE_VAL;
     #elif linux
+    return FALSE_VAL;
+    #elif TARGET_OS_MAC
     return FALSE_VAL;
     #endif
 }
@@ -237,6 +248,8 @@ value_t native_functions_wait(uint32_t argCount, value_t const * args)
     Sleep(AS_NUMBER(*args) * 1000);
 #elif linux
     /// Seconds
+    sleep(AS_NUMBER(*args));
+#elif TARGET_OS_MAC
     sleep(AS_NUMBER(*args));
 #endif
     return NULL_VAL;
