@@ -1,6 +1,8 @@
-name: Build
+name: Build Interpreter
 
 on:
+  push:
+    branches: [ "dev" ]
   pull_request:
     branches: [ "master" ]
 
@@ -13,7 +15,11 @@ jobs:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest, macOS]
 
     steps:
     - uses: actions/checkout@v3
@@ -25,9 +31,3 @@ jobs:
 
     - name: Build Interpreter
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target Cellox
-
-    - name: Build Tests
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxTests
-
-    - name: Build BenchmarkingSuite
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxBenchmarks

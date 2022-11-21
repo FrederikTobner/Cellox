@@ -1,8 +1,3 @@
-# deletes build folder to ensure there are no makefiles that make the build fail (multiple target patterns)
-if( MSVC )
-execute_process(COMMAND ${CMAKE_COMMAND} "-E" "remove_directory" ${PROJECT_BINARY_DIR}/src)
-endif()
-
 # configure cellox config to show version
 configure_file(cellox_config.h.in cellox_config.h)
 
@@ -51,6 +46,10 @@ if( MSVC )
     target_precompile_headers(${PROJECT_NAME} PUBLIC common.h common.c) # VisualStudio only accepts header files that also have a source file
 else()
     target_precompile_headers(${PROJECT_NAME} PUBLIC common.h)
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+target_link_libraries(${PROJECT_NAME} m)
 endif()
 
 # for including the cellox_config.h file

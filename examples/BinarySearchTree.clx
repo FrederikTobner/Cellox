@@ -52,7 +52,7 @@ class BinarySearchTree
         if(node != null) 
         {
             this.printFromNode(node.left);
-            print node.value;
+            println node.value;
             this.printFromNode(node.right);
         }
     }

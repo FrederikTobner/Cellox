@@ -1,8 +1,3 @@
-# deletes build folder to ensure there are no makefiles that make the build fail (multiple target patterns)
-if(MSVC)
-execute_process(COMMAND ${CMAKE_COMMAND} "-E" "remove_directory" ${PROJECT_BINARY_DIR}/benchmark)
-endif()
-
 set(THIS ${PROJECT_NAME}Benchmarks)
 
 set(BENCHMARK_HEADERS
@@ -32,6 +27,5 @@ if(MSVC)
 else()
     target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h)
 endif()
-
 
 add_executable(${THIS} ${CELLOXSOURCES} ${CELLOXHEADERS} ${BENCHMARK_HEADERS} ${BENCHMARK_SOURCES})

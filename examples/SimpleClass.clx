@@ -11,4 +11,4 @@ class Rectangle
 	}
 }
 
-print Rectangle(1, 2).area();
+println Rectangle(1, 2).area();

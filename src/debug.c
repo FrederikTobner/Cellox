@@ -19,7 +19,7 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
   dynamic_value_array_t functionNames;
   dynamic_value_array_init(&functionNames);
   stringCount = numberCount = functionCount = 0u;
-  printf("function <%s> (%lu bytes of bytecode at 0x%p)\n", name, chunk->count, chunk->code);
+  printf("function <%s> (%i bytes of bytecode at 0x%p)\n", name, chunk->count, chunk->code);
   for (size_t i = 0; i < chunk->constants.count; i++)
   {
     if (IS_OBJECT(chunk->constants.values[i]))
@@ -57,7 +57,7 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
       numberCount++;
     }
   }
-  printf("%lu %s, %lu %s, %lu %s, %lu %s\n",
+  printf("%i %s, %i %s, %i %s, %i %s\n",
           arity, arity == 1 ? "param" : "params", 
           stringCount, stringCount == 1 ? "string constant" : "string constants",
           numberCount, numberCount == 1 ? "numerical constant" : "numerical constants",

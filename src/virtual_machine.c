@@ -17,8 +17,8 @@
 virtual_machine_t virtualMachine;
 
 static bool virtual_machine_bind_method(object_class_t *, object_string_t *);
-static bool virtual_machine_call(object_closure_t *, uint32_t);
-static bool virtual_machine_call_value(value_t, uint32_t);
+static bool virtual_machine_call(object_closure_t *, int32_t);
+static bool virtual_machine_call_value(value_t, int32_t);
 static object_upvalue_t * virtual_machine_capture_upvalue(value_t *);
 static void virtual_machine_close_upvalues(value_t *);
 static void virtual_machine_concatenate();
@@ -124,7 +124,7 @@ static bool virtual_machine_bind_method(object_class_t * celloxClass, object_str
 /// @param closure The closure the function belongs to
 /// @param argCount The amount of arguments that are used when the function is envoked
 /// @return true if everything went well, false if something went wrong (stack overflow / wrong argument count)
-static bool virtual_machine_call(object_closure_t * closure, uint32_t argCount)
+static bool virtual_machine_call(object_closure_t * closure, int32_t argCount)
 {
     if (argCount != closure->function->arity)
     {
@@ -146,7 +146,7 @@ static bool virtual_machine_call(object_closure_t * closure, uint32_t argCount)
     return true;
 }
 
-static bool virtual_machine_call_value(value_t callee, uint32_t argCount)
+static bool virtual_machine_call_value(value_t callee, int32_t argCount)
 {
     if (IS_OBJECT(callee))
     {

@@ -49,11 +49,6 @@ ${SOURCEPATH}value.h
 ${SOURCEPATH}virtual_machine.h
 )
 
-# Links compiler with the math.h libary
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    add_compile_options(-lm)
-endif()
-
 # Builds the cellox interpreter
 add_subdirectory(src)
 
