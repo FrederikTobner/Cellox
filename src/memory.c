@@ -61,7 +61,7 @@ void memory_mark_object(object_t * object)
     return;
 #ifdef DEBUG_LOG_GC
   printf("%p marked ", (void *)object);
-  value_print(OBJ_VAL(object));
+  value_print(OBJECT_VAL(object));
   printf("\n");
 #endif
   object->isMarked = true;
@@ -112,7 +112,7 @@ static void memory_blacken_object(object_t * object)
 {
 #ifdef DEBUG_LOG_GC
   printf("%p blackened ", (void *)object);
-  value_print(OBJ_VAL(object));
+  value_print(OBJECT_VAL(object));
   printf("\n");
 #endif
   switch (object->type)

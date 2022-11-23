@@ -49,13 +49,13 @@ typedef enum
 
 /// @brief Optional stress mode for the garbage collector.
 /// @details  When this flag is defiened the Garbage collector runs as often as it cans. Should only be used for debugging
-#define DEBUG_STRESS_GC
+//#define DEBUG_STRESS_GC
 
 /// Optional Flag for logging the garbage collection process.
-#define DEBUG_LOG_GC
+//#define DEBUG_LOG_GC
 
 /// Flag for tracing the execution, can be removed if you want to disable it
-#define DEBUG_TRACE_EXECUTION
+//#define DEBUG_TRACE_EXECUTION
 
 #endif // BENCHMARKS_RUNNING
 
