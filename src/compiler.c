@@ -187,8 +187,6 @@ static void compiler_or(bool);
 static void compiler_parse_precedence(precedence_t);
 static uint8_t compiler_parse_variable(char const *);
 static void compiler_patch_jump(int32_t);
-static void compiler_print_statement();
-static void compiler_print_line_statement();
 static int32_t compiler_resolve_local(compiler_t *, token_t *);
 static int32_t compiler_resolve_upvalue(compiler_t *, token_t *);
 static void compiler_return_statement();
@@ -1343,22 +1341,6 @@ static void compiler_patch_jump(int32_t offset)
     compiler_current_chunk()->code[offset + 1] = jump & 0xff;
 }
 
-/// @brief Compiles a print statement
-static void compiler_print_statement()
-{
-    compiler_expression();
-    compiler_consume(TOKEN_SEMICOLON, "Expect ';' after value.");
-    compiler_emit_byte(OP_PRINT);
-}
-
-/// @brief Compiles a printline statement
-static void compiler_print_line_statement()
-{
-    compiler_expression();
-    compiler_consume(TOKEN_SEMICOLON, "Expect ';' after value.");
-    compiler_emit_byte(OP_PRINT_LINE);
-}
-
 /// @brief Resolves a local variable name
 /// @param compiler The compiler where the local variable is resolved
 /// @param name The name of tthe local variable
@@ -1420,11 +1402,7 @@ static void compiler_return_statement()
 /// @brief Compiles a statement
 static void compiler_statement()
 {
-    if (compiler_match_token(TOKEN_PRINT))
-        compiler_print_statement();
-    else if(compiler_match_token(TOKEN_PRINT_LINE))
-        compiler_print_line_statement();
-    else if (compiler_match_token(TOKEN_FOR))
+    if (compiler_match_token(TOKEN_FOR))
         compiler_for_statement();
     else if (compiler_match_token(TOKEN_IF))
         compiler_if_statement();
@@ -1498,8 +1476,6 @@ static void compiler_synchronize()
         case TOKEN_FOR:
         case TOKEN_IF:
         case TOKEN_WHILE:
-        case TOKEN_PRINT:
-        case TOKEN_PRINT_LINE:
         case TOKEN_RETURN:
             return;
 

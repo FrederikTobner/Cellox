@@ -39,7 +39,7 @@ class SingleLinkedList
 		var current = this.head;
 		while(current != null)
 		{	
-			println current.value;		
+			println(current.value);		
 			current = current.nextNode;
 		}
 	}

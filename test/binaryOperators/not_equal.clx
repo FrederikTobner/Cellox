@@ -1,6 +1,6 @@
-println 1 != null;
-println 3 != 5;
-println "test" != "tes";
-println null != null;
-println 5 != 5;
-println "test" != "test";
+println(1 != null);
+println(3 != 5);
+println("test" != "tes");
+println(null != null);
+println(5 != 5);
+println("test" != "test");

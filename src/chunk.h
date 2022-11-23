@@ -70,10 +70,6 @@ typedef enum
     OP_NULL,
     /// Pops a value from the stack
     OP_POP,
-    /// Pops the value from the top of the stack and writes it to the standard output
-    OP_PRINT,
-    /// Pops the value from the top of the stack and writes it to the standard output. Also adds an automatic linebreak at the end of the output.
-    OP_PRINT_LINE,
     /// Returns the value that is stored on the top of the stack
     OP_RETURN,
     /// Sets the value of a global variable

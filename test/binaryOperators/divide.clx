@@ -1,1 +1,1 @@
-println 9 / 3;
+println(9 / 3);

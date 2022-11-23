@@ -155,10 +155,6 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
     return debug_simple_instruction("NULL", offset);
   case OP_POP:
     return debug_simple_instruction("POP", offset);
-  case OP_PRINT:
-    return debug_simple_instruction("PRINT", offset);
-  case OP_PRINT_LINE:
-    return debug_simple_instruction("PRINT_LINE", offset);
   case OP_RETURN:
     return debug_simple_instruction("RETURN", offset);
   case OP_SET_GLOBAL:

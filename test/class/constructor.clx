@@ -7,4 +7,4 @@ class A
 }
 
 var a = A("a field");
-println a.field;
+println(a.field);

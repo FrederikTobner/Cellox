@@ -12,5 +12,5 @@ class Derived : Base {
 }
 
 var derived = Derived("a", "b");
-println derived.a;
-println derived.b;
+println(derived.a);
+println(derived.b);

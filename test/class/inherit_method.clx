@@ -2,7 +2,7 @@ class A
 {
     Greet()
     {
-        println "hello";
+        println("hello");
     }
 }
 

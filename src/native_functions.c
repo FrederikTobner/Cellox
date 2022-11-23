@@ -32,8 +32,14 @@ typedef enum
     NATIVE_FUNCTION_GET_USER_NAME,
     /// Native on_linux function
     NATIVE_FUNCTION_ON_LINUX,
+    /// Native on_macOS function
+    NATIVE_FUNCTION_ON_MACOS,
     /// Native on_windows function
     NATIVE_FUNCTION_ON_WINDOWS,
+    /// Native print function
+    NATIVE_FUNCTION_PRINT,
+    /// Native println function
+    NATIVE_FUNCTION_PRINT_LINE,
     /// Native random function
     NATIVE_FUNCTION_RANDOM,
     /// Native read_key function
@@ -77,11 +83,28 @@ native_function_config_t native_function_configs [] =
         .functionName = "on_linux", 
         .function = native_functions_on_linux
     },
+    [NATIVE_FUNCTION_ON_MACOS]      =
+    {
+        .functionName = "on_macOS", 
+        .function = native_functions_on_macOS
+    },
     [NATIVE_FUNCTION_ON_WINDOWS]    =
     {
         .functionName = "on_windows", 
         .function = native_functions_on_windows
     },
+    [NATIVE_FUNCTION_PRINT]         =
+    {
+        .functionName = "print",
+        .function = native_functions_print,
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_PRINT_LINE]    =
+    {
+        .functionName = "println",
+        .function = native_functions_print_line,
+        .arrity = 1
+    }, 
     [NATIVE_FUNCTION_RANDOM]        =
     {
         .functionName = "random", 
@@ -186,6 +209,18 @@ value_t native_functions_on_linux(uint32_t argCount, value_t const * args)
     #endif
 }
 
+value_t native_functions_on_macOS(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_ON_LINUX, argCount);
+    #ifdef _WIN32
+    return FALSE_VAL;
+    #elif linux
+    return FALSE_VAL;
+    #elif __APPLE__
+    return TRUE_VAL;
+    #endif
+}
+
 value_t native_functions_on_windows(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_WINDOWS, argCount);
@@ -196,6 +231,21 @@ value_t native_functions_on_windows(uint32_t argCount, value_t const * args)
     #elif __APPLE__
     return FALSE_VAL;
     #endif
+}
+
+value_t native_functions_print(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_PRINT, argCount);
+    value_print(*args);
+    return NULL_VAL;
+}
+
+value_t native_functions_print_line(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_PRINT_LINE, argCount);
+    value_print(*args);
+    putc('\n', stdout);
+    return NULL_VAL;
 }
 
 value_t native_functions_random(uint32_t argCount, value_t const * args)

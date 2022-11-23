@@ -1,6 +1,6 @@
 # Cellox
 
-[![Build](https://github.com/FrederikTobner/Cellox/actions/workflows/build.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build.yml)
+[![Build](https://github.com/FrederikTobner/Cellox/actions/workflows/build_interpreter.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build_interpreter.yml)
 [![Test](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
 [![Analyze](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml)
 
@@ -12,6 +12,7 @@ Cellox is a scripting language based on the programming language [lox](https://c
 
 Cellox is a dynamically typed, object oriented, general purpose, high-level scripting language that offers automatic memory management to the programmer.
 
+Cellox is available under windows, linux and macOS, but has only been thoroughly tested under windows.
 Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the interpreter.
 
 ## Values

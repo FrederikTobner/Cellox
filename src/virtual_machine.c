@@ -372,7 +372,7 @@ so all the statements in it get executed if they are after an if 🤮 */
     {
 #ifdef DEBUG_TRACE_EXECUTION
         printf("          ");
-        for (Value *slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++)
+        for (value_t *slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++)
         {
             printf("[ ");
             value_print(*slot);
@@ -645,13 +645,6 @@ so all the statements in it get executed if they are after an if 🤮 */
             break;
         case OP_POP:
             virtual_machine_pop();
-            break;
-        case OP_PRINT:
-            value_print(virtual_machine_pop());
-            break;
-        case OP_PRINT_LINE:
-            value_print(virtual_machine_pop());
-            putc('\n', stdout);
             break;
         case OP_RETURN:
         {

@@ -1,1 +1,1 @@
-println 4 - 2;
+println(4 - 2);
