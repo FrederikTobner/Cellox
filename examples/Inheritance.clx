@@ -6,7 +6,7 @@ class Person
     }
     Greet()
     {
-        println "Hi, my name is " + this.name + ".";
+        println("Hi, my name is " + this.name + ".");
     }
 }
 
@@ -21,7 +21,7 @@ class Student : Person
     Greet()
     {
         super.Greet();
-        println "I study " + this.courseOfStudy + " at the " + this.university + "."; 
+        println("I study " + this.courseOfStudy + " at the " + this.university + "."); 
     }
 }
 

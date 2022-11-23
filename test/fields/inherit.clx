@@ -15,4 +15,4 @@ class B : A
 }
 
 var a = B("test");
-println a.value;
+println(a.value);

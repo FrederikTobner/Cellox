@@ -1,1 +1,1 @@
-for (var c = 0; c < 4;) println c += 1;
+for (var c = 0; c < 4;) println(c += 1);

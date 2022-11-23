@@ -79,7 +79,8 @@ $(function() {
   <div class="headertitle"><div class="title">native_functions.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;stdarg.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;time.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="memory_8h_source.html">memory.h</a>&quot;</code><br />
@@ -104,12 +105,16 @@ Enumerations</h2></td></tr>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a82e1bab9e75b5d2e35d5becec0df9b75">NATIVE_FUNCTION_GET_USER_NAME</a>
 , <br />
 &#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a0149b1beb94bc04abe437f204cb1083f">NATIVE_FUNCTION_ON_LINUX</a>
+, <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78ab207fdc6c40592718c9f9220f822cf26">NATIVE_FUNCTION_ON_MACOS</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78aa30a14d13ece088b1c0be7de447c0fcb">NATIVE_FUNCTION_ON_WINDOWS</a>
+, <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a8aa48af2f3a07d2e167b52bfbf1b75a4">NATIVE_FUNCTION_PRINT</a>
+, <br />
+&#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a7f7434088db5f3323709fd702d06c87a">NATIVE_FUNCTION_PRINT_LINE</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a687c87b317e62d3432f620fde2df383d">NATIVE_FUNCTION_RANDOM</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a25fd91fbe70619441d605447f8abc870">NATIVE_FUNCTION_READ_KEY</a>
+, <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78ab32ae17b1e47112c23e558a3964c1159">NATIVE_FUNCTION_READ_LINE</a>
 , <br />
-&#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78ab32ae17b1e47112c23e558a3964c1159">NATIVE_FUNCTION_READ_LINE</a>
-, <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a8ca40e5bd663150bbb8ee04b0f6519e6">NATIVE_FUNCTION_STRLEN</a>
+&#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a8ca40e5bd663150bbb8ee04b0f6519e6">NATIVE_FUNCTION_STRLEN</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a2bd4737e39eb4d1071c2b2bed90a1568">NATIVE_FUNCTION_SYSTEM</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a746d67984d40c6d42945a568e0dabad9">NATIVE_FUNCTION_WAIT</a>
 <br />
@@ -145,9 +150,18 @@ Functions</h2></td></tr>
 <tr class="memitem:acaca54aee3b6b870e27f946e470c80a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#acaca54aee3b6b870e27f946e470c80a6">native_functions_on_linux</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
 <tr class="memdesc:acaca54aee3b6b870e27f946e470c80a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the program is executed under linux.  <a href="native__functions_8c.html#acaca54aee3b6b870e27f946e470c80a6">More...</a><br /></td></tr>
 <tr class="separator:acaca54aee3b6b870e27f946e470c80a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8eecc6f0bcfeca3d35a5e35ea4da040"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ab8eecc6f0bcfeca3d35a5e35ea4da040">native_functions_on_macOS</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memdesc:ab8eecc6f0bcfeca3d35a5e35ea4da040"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the program is executed under macOS.  <a href="native__functions_8c.html#ab8eecc6f0bcfeca3d35a5e35ea4da040">More...</a><br /></td></tr>
+<tr class="separator:ab8eecc6f0bcfeca3d35a5e35ea4da040"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d52e2189581ef8dffadd66e8d4b2881"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a7d52e2189581ef8dffadd66e8d4b2881">native_functions_on_windows</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a7d52e2189581ef8dffadd66e8d4b2881"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the program is executed under windows.  <a href="native__functions_8c.html#a7d52e2189581ef8dffadd66e8d4b2881">More...</a><br /></td></tr>
 <tr class="separator:a7d52e2189581ef8dffadd66e8d4b2881"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7f6da49841cd1a260a11e06161af2ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#aa7f6da49841cd1a260a11e06161af2ae">native_functions_print</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memdesc:aa7f6da49841cd1a260a11e06161af2ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the value that is passed as a argument.  <a href="native__functions_8c.html#aa7f6da49841cd1a260a11e06161af2ae">More...</a><br /></td></tr>
+<tr class="separator:aa7f6da49841cd1a260a11e06161af2ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9072e048bd54c8b1198ba40117357d0f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a9072e048bd54c8b1198ba40117357d0f">native_functions_print_line</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memdesc:a9072e048bd54c8b1198ba40117357d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the value that is passed as a argument and ads a automatic line break.  <a href="native__functions_8c.html#a9072e048bd54c8b1198ba40117357d0f">More...</a><br /></td></tr>
+<tr class="separator:a9072e048bd54c8b1198ba40117357d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3343250917b5eef57fd042882baee909"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a3343250917b5eef57fd042882baee909">native_functions_random</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a3343250917b5eef57fd042882baee909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native random function.  <a href="native__functions_8c.html#a3343250917b5eef57fd042882baee909">More...</a><br /></td></tr>
 <tr class="separator:a3343250917b5eef57fd042882baee909"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,7 +238,13 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a0149b1beb94bc04abe437f204cb1083f" name="aff7a506996fcda1214415dd14d22ba78a0149b1beb94bc04abe437f204cb1083f"></a>NATIVE_FUNCTION_ON_LINUX&#160;</td><td class="fielddoc"><p >Native on_linux function. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78ab207fdc6c40592718c9f9220f822cf26" name="aff7a506996fcda1214415dd14d22ba78ab207fdc6c40592718c9f9220f822cf26"></a>NATIVE_FUNCTION_ON_MACOS&#160;</td><td class="fielddoc"><p >Native on_macOS function. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78aa30a14d13ece088b1c0be7de447c0fcb" name="aff7a506996fcda1214415dd14d22ba78aa30a14d13ece088b1c0be7de447c0fcb"></a>NATIVE_FUNCTION_ON_WINDOWS&#160;</td><td class="fielddoc"><p >Native on_windows function. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a8aa48af2f3a07d2e167b52bfbf1b75a4" name="aff7a506996fcda1214415dd14d22ba78a8aa48af2f3a07d2e167b52bfbf1b75a4"></a>NATIVE_FUNCTION_PRINT&#160;</td><td class="fielddoc"><p >Native print function. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a7f7434088db5f3323709fd702d06c87a" name="aff7a506996fcda1214415dd14d22ba78a7f7434088db5f3323709fd702d06c87a"></a>NATIVE_FUNCTION_PRINT_LINE&#160;</td><td class="fielddoc"><p >Native println function. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a687c87b317e62d3432f620fde2df383d" name="aff7a506996fcda1214415dd14d22ba78a687c87b317e62d3432f620fde2df383d"></a>NATIVE_FUNCTION_RANDOM&#160;</td><td class="fielddoc"><p >Native random function. </p>
 </td></tr>
@@ -564,6 +584,44 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ab8eecc6f0bcfeca3d35a5e35ea4da040" name="ab8eecc6f0bcfeca3d35a5e35ea4da040"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8eecc6f0bcfeca3d35a5e35ea4da040">&#9670;&#160;</a></span>native_functions_on_macOS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_on_macOS </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines whether the program is executed under macOS. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when on_macOS was called </td></tr>
+    <tr><td class="paramname">args</td><td>The aguments that on_macOS was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the program is executed on a macOS system and false if not </dd></dl>
+
+</div>
+</div>
 <a id="a7d52e2189581ef8dffadd66e8d4b2881" name="a7d52e2189581ef8dffadd66e8d4b2881"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7d52e2189581ef8dffadd66e8d4b2881">&#9670;&#160;</a></span>native_functions_on_windows()</h2>
 
@@ -599,6 +657,82 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the program is executed on a windows system and false if not </dd></dl>
+
+</div>
+</div>
+<a id="aa7f6da49841cd1a260a11e06161af2ae" name="aa7f6da49841cd1a260a11e06161af2ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7f6da49841cd1a260a11e06161af2ae">&#9670;&#160;</a></span>native_functions_print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_print </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints the value that is passed as a argument. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when print was called </td></tr>
+    <tr><td class="paramname">args</td><td>The aguments that print was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
+
+</div>
+</div>
+<a id="a9072e048bd54c8b1198ba40117357d0f" name="a9072e048bd54c8b1198ba40117357d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9072e048bd54c8b1198ba40117357d0f">&#9670;&#160;</a></span>native_functions_print_line()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_print_line </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints the value that is passed as a argument and ads a automatic line break. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when println was called </td></tr>
+    <tr><td class="paramname">args</td><td>The aguments that print was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
 
 </div>
 </div>

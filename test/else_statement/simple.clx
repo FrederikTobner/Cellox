@@ -1,5 +1,5 @@
-if (true) println "yes"; else println "no";
-if (false) println "no"; else println "yes";
+if (true) println("yes"); else println("no");
+if (false) println("no"); else println("yes");
 
 if (false) null;
-else { println "block"; }
+else { println("block"); }

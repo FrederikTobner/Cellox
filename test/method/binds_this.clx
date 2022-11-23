@@ -1,7 +1,7 @@
 class Foo {
   sayName(a) {
-    println this.name;
-    println a;
+    println(this.name);
+    println(a);
   }
 }
 

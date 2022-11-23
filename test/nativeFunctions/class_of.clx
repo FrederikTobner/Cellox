@@ -1,4 +1,4 @@
 class Foo {}
 var v = Foo();
-println class_of(v);
-println class_of(v) == Foo;
+println(class_of(v));
+println(class_of(v) == Foo);

@@ -1,7 +1,7 @@
-println 5 + 3;
-println "Hello " + "World!";
-println 5 - 3;
-println 5 * 3;
-println 5 / 3;
-println 5 % 3; 
-println 5 ** 3; // 5³
+println(5 + 3);
+println("Hello " + "World!");
+println(5 - 3);
+println(5 * 3);
+println(5 / 3);
+println(5 % 3); 
+println(5 ** 3); // 5³

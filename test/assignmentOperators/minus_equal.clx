@@ -1,5 +1,5 @@
 var v = 5;
 v -= 3;
-println v;
+println(v);
 v -= -2;
-println v;
+println(v);

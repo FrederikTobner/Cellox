@@ -75,11 +75,29 @@ value_t native_functions_read_line(uint32_t argCount, value_t const * args);
 /// @return true if the program is executed on a linux system and false if not
 value_t native_functions_on_linux(uint32_t argCount, value_t const * args);
 
+/// @brief Determines whether the program is executed under macOS
+/// @param argCount The amount of arguments that were used when on_macOS was called
+/// @param args The aguments that on_macOS was called with
+/// @return true if the program is executed on a macOS system and false if not
+value_t native_functions_on_macOS(uint32_t argCount, value_t const * args);
+
 /// @brief Determines whether the program is executed under windows
 /// @param argCount The amount of arguments that were used when on_windows was called
 /// @param args The aguments that on_windows was called with
 /// @return true if the program is executed on a windows system and false if not
 value_t native_functions_on_windows(uint32_t argCount, value_t const * args);
+
+/// @brief Prints the value that is passed as a argument
+/// @param argCount The amount of arguments that were used when print was called
+/// @param args The aguments that print was called with
+/// @return NULL
+value_t native_functions_print(uint32_t argCount, value_t const * args);
+
+/// @brief Prints the value that is passed as a argument and ads a automatic line break
+/// @param argCount The amount of arguments that were used when println was called
+/// @param args The aguments that print was called with
+/// @return NULL
+value_t native_functions_print_line(uint32_t argCount, value_t const * args);
 
 /// @brief Determines the length of a string
 /// @param argCount The amount of arguments that were used when strlen was called

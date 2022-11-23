@@ -1,1 +1,1 @@
-println "\a\b\f\n\t\v\r";
+println("\a\b\f\n\t\v\r");
