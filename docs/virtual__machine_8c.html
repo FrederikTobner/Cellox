@@ -109,11 +109,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a434c488c4200b5dc16454f333ca0f3f8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a434c488c4200b5dc16454f333ca0f3f8">virtual_machine_bind_method</a> (<a class="el" href="structobject__class__t.html">object_class_t</a> *celloxClass, <a class="el" href="structobject__string__t.html">object_string_t</a> *name)</td></tr>
 <tr class="memdesc:a434c488c4200b5dc16454f333ca0f3f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds a method to a cellox class.  <a href="virtual__machine_8c.html#a434c488c4200b5dc16454f333ca0f3f8">More...</a><br /></td></tr>
 <tr class="separator:a434c488c4200b5dc16454f333ca0f3f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad26c19d2d5db416f6be8dd584448a6ca"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ad26c19d2d5db416f6be8dd584448a6ca">virtual_machine_call</a> (<a class="el" href="structobject__closure__t.html">object_closure_t</a> *closure, uint32_t argCount)</td></tr>
-<tr class="memdesc:ad26c19d2d5db416f6be8dd584448a6ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a function that is bound to a closure.  <a href="virtual__machine_8c.html#ad26c19d2d5db416f6be8dd584448a6ca">More...</a><br /></td></tr>
-<tr class="separator:ad26c19d2d5db416f6be8dd584448a6ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a300b9dd794f9f459a708a052e03b2d80"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a300b9dd794f9f459a708a052e03b2d80">virtual_machine_call_value</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>, uint32_t)</td></tr>
-<tr class="separator:a300b9dd794f9f459a708a052e03b2d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43cdb54453e9612011a64902a3924835"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a43cdb54453e9612011a64902a3924835">virtual_machine_call</a> (<a class="el" href="structobject__closure__t.html">object_closure_t</a> *closure, int32_t argCount)</td></tr>
+<tr class="memdesc:a43cdb54453e9612011a64902a3924835"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a function that is bound to a closure.  <a href="virtual__machine_8c.html#a43cdb54453e9612011a64902a3924835">More...</a><br /></td></tr>
+<tr class="separator:a43cdb54453e9612011a64902a3924835"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fa0cc6d71b5f13b783e5b5fe6964740"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9fa0cc6d71b5f13b783e5b5fe6964740">virtual_machine_call_value</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>, int32_t)</td></tr>
+<tr class="separator:a9fa0cc6d71b5f13b783e5b5fe6964740"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4942408db3de7ea05ea9b98fde452458"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a4942408db3de7ea05ea9b98fde452458">virtual_machine_capture_upvalue</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> *local)</td></tr>
 <tr class="memdesc:a4942408db3de7ea05ea9b98fde452458"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures an upvalue of the enclosing environment.  <a href="virtual__machine_8c.html#a4942408db3de7ea05ea9b98fde452458">More...</a><br /></td></tr>
 <tr class="separator:a4942408db3de7ea05ea9b98fde452458"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -336,8 +336,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ad26c19d2d5db416f6be8dd584448a6ca" name="ad26c19d2d5db416f6be8dd584448a6ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad26c19d2d5db416f6be8dd584448a6ca">&#9670;&#160;</a></span>virtual_machine_call()</h2>
+<a id="a43cdb54453e9612011a64902a3924835" name="a43cdb54453e9612011a64902a3924835"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43cdb54453e9612011a64902a3924835">&#9670;&#160;</a></span>virtual_machine_call()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -354,7 +354,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>argCount</em>&#160;</td>
         </tr>
         <tr>
@@ -382,8 +382,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a300b9dd794f9f459a708a052e03b2d80" name="a300b9dd794f9f459a708a052e03b2d80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a300b9dd794f9f459a708a052e03b2d80">&#9670;&#160;</a></span>virtual_machine_call_value()</h2>
+<a id="a9fa0cc6d71b5f13b783e5b5fe6964740" name="a9fa0cc6d71b5f13b783e5b5fe6964740"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fa0cc6d71b5f13b783e5b5fe6964740">&#9670;&#160;</a></span>virtual_machine_call_value()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -400,7 +400,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>argCount</em>&#160;</td>
         </tr>
         <tr>
