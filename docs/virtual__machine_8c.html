@@ -132,12 +132,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a9bd783bbaccb66ec6ae88e2e66675608"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9bd783bbaccb66ec6ae88e2e66675608">virtual_machine_define_natives</a> ()</td></tr>
 <tr class="memdesc:a9bd783bbaccb66ec6ae88e2e66675608"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the native functions of the virtual machine.  <a href="virtual__machine_8c.html#a9bd783bbaccb66ec6ae88e2e66675608">More...</a><br /></td></tr>
 <tr class="separator:a9bd783bbaccb66ec6ae88e2e66675608"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10dbe40d6d7ba6464d3dfd0530302f97"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a10dbe40d6d7ba6464d3dfd0530302f97">virtual_machine_invoke</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name, uint32_t argCount)</td></tr>
-<tr class="memdesc:a10dbe40d6d7ba6464d3dfd0530302f97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a method bound to a cellox class instance.  <a href="virtual__machine_8c.html#a10dbe40d6d7ba6464d3dfd0530302f97">More...</a><br /></td></tr>
-<tr class="separator:a10dbe40d6d7ba6464d3dfd0530302f97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf6825d421302b43f4019799ec3b0cc9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#adf6825d421302b43f4019799ec3b0cc9">virtual_machine_invoke_from_class</a> (<a class="el" href="structobject__class__t.html">object_class_t</a> *celloxClass, <a class="el" href="structobject__string__t.html">object_string_t</a> *name, uint32_t argCount)</td></tr>
-<tr class="memdesc:adf6825d421302b43f4019799ec3b0cc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a method from a celloxclass.  <a href="virtual__machine_8c.html#adf6825d421302b43f4019799ec3b0cc9">More...</a><br /></td></tr>
-<tr class="separator:adf6825d421302b43f4019799ec3b0cc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a691b78b954ba9ce4d6169b27cbe2c056"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a691b78b954ba9ce4d6169b27cbe2c056">virtual_machine_invoke</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name, int32_t argCount)</td></tr>
+<tr class="memdesc:a691b78b954ba9ce4d6169b27cbe2c056"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a method bound to a cellox class instance.  <a href="virtual__machine_8c.html#a691b78b954ba9ce4d6169b27cbe2c056">More...</a><br /></td></tr>
+<tr class="separator:a691b78b954ba9ce4d6169b27cbe2c056"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a878f62fd42536a5c0265340fffd8d4ae"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a878f62fd42536a5c0265340fffd8d4ae">virtual_machine_invoke_from_class</a> (<a class="el" href="structobject__class__t.html">object_class_t</a> *celloxClass, <a class="el" href="structobject__string__t.html">object_string_t</a> *name, int32_t argCount)</td></tr>
+<tr class="memdesc:a878f62fd42536a5c0265340fffd8d4ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a method from a celloxclass.  <a href="virtual__machine_8c.html#a878f62fd42536a5c0265340fffd8d4ae">More...</a><br /></td></tr>
+<tr class="separator:a878f62fd42536a5c0265340fffd8d4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a39f4d8e7a3c437cf51506b6ecc992ffe">virtual_machine_is_falsey</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> value)</td></tr>
 <tr class="memdesc:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if a value is falsey (either null or false)  <a href="virtual__machine_8c.html#a39f4d8e7a3c437cf51506b6ecc992ffe">More...</a><br /></td></tr>
 <tr class="separator:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -692,8 +692,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a10dbe40d6d7ba6464d3dfd0530302f97" name="a10dbe40d6d7ba6464d3dfd0530302f97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10dbe40d6d7ba6464d3dfd0530302f97">&#9670;&#160;</a></span>virtual_machine_invoke()</h2>
+<a id="a691b78b954ba9ce4d6169b27cbe2c056" name="a691b78b954ba9ce4d6169b27cbe2c056"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a691b78b954ba9ce4d6169b27cbe2c056">&#9670;&#160;</a></span>virtual_machine_invoke()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -710,7 +710,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>argCount</em>&#160;</td>
         </tr>
         <tr>
@@ -738,8 +738,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="adf6825d421302b43f4019799ec3b0cc9" name="adf6825d421302b43f4019799ec3b0cc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf6825d421302b43f4019799ec3b0cc9">&#9670;&#160;</a></span>virtual_machine_invoke_from_class()</h2>
+<a id="a878f62fd42536a5c0265340fffd8d4ae" name="a878f62fd42536a5c0265340fffd8d4ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a878f62fd42536a5c0265340fffd8d4ae">&#9670;&#160;</a></span>virtual_machine_invoke_from_class()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -762,7 +762,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>argCount</em>&#160;</td>
         </tr>
         <tr>

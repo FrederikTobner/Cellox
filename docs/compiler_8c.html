@@ -321,7 +321,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a4e11fc78f770aee7ae2547fa07359720"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a statement.  <a href="compiler_8c.html#a4e11fc78f770aee7ae2547fa07359720">More...</a><br /></td></tr>
 <tr class="separator:a4e11fc78f770aee7ae2547fa07359720"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8f4dcb81afd30a444d2f5c6d15a2a95"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#ad8f4dcb81afd30a444d2f5c6d15a2a95">compiler_string</a> (bool canAssign)</td></tr>
-<tr class="memdesc:ad8f4dcb81afd30a444d2f5c6d15a2a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">compiles a string literal expression  <a href="compiler_8c.html#ad8f4dcb81afd30a444d2f5c6d15a2a95">More...</a><br /></td></tr>
+<tr class="memdesc:ad8f4dcb81afd30a444d2f5c6d15a2a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a string literal expression.  <a href="compiler_8c.html#ad8f4dcb81afd30a444d2f5c6d15a2a95">More...</a><br /></td></tr>
 <tr class="separator:ad8f4dcb81afd30a444d2f5c6d15a2a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21b9f7c42b4461526314d152937e4fea"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a21b9f7c42b4461526314d152937e4fea">compiler_super</a> (bool canAssign)</td></tr>
 <tr class="memdesc:a21b9f7c42b4461526314d152937e4fea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a super expression.  <a href="compiler_8c.html#a21b9f7c42b4461526314d152937e4fea">More...</a><br /></td></tr>
@@ -2444,13 +2444,14 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>compiles a string literal expression </p>
+<p>Compiles a string literal expression. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">canAssign</td><td>Unused for string literals </td></tr>
+    <tr><td class="paramname">canAssign</td><td>Unused for string literals</td></tr>
   </table>
   </dd>
 </dl>
+<p>The escape sequences in the string are resolved by this function. If the string contains an unknowns escape sequence we show a compile error </p>
 
 </div>
 </div>
