@@ -59,6 +59,7 @@ set(CPACK_PACKAGE_NAME "Cellox")
 set(CPACK_PACKAGE_VERSION "0.1.0")
 set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_BINARY_DIR}/../License)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cellox Interpreter")
+set(CPACK_BUILD_SOURCE_DIRS "${PROJECT_BINARY_DIR}/src")
 
 include(CPack)
 # installs cellox interpreter (cmake --install . --config Release -> in the build/src directory)

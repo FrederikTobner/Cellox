@@ -68,5 +68,5 @@ if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 else()
 enable_testing()
 # Builds tests for the interpreter
-add_subdirectory(test)
+add_subdirectory(test EXCLUDE_FROM_ALL)
 endif()
