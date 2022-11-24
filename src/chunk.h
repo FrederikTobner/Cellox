@@ -112,7 +112,7 @@ typedef struct
 /// @return The index of the added constant
 int32_t chunk_add_constant(chunk_t * chunk, value_t value);
 
-/// @brief Free's a chunk (Deallocates the memory used by the chunk)
+/// @brief Deallocates the memory used by the chunk
 /// @param chunk The chunk that is freed
 void chunk_free(chunk_t * chunk);
 

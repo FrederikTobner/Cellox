@@ -25,8 +25,8 @@ static void virtual_machine_concatenate();
 static void virtual_machine_define_method(object_string_t *);
 static void virtual_machine_define_native(char const *, native_function_t);
 static void virtual_machine_define_natives();
-static bool virtual_machine_invoke(object_string_t *, uint32_t);
-static bool virtual_machine_invoke_from_class(object_class_t *, object_string_t *, uint32_t);
+static bool virtual_machine_invoke(object_string_t *, int32_t);
+static bool virtual_machine_invoke_from_class(object_class_t *, object_string_t *, int32_t);
 static bool virtual_machine_is_falsey(value_t);
 static value_t virtual_machine_peek(int32_t);
 static void virtual_machine_reset_stack();
@@ -272,7 +272,7 @@ static void virtual_machine_define_native(char const * name, native_function_t f
 /// @param name The name of the method that is envoked
 /// @param argCount The amount of arguments that are used when calling the method
 /// @return true if everything went well, false if something went wrong (not a cellox instance / undefiened method / stack overflow / wrong argument count)
-static bool virtual_machine_invoke(object_string_t * name, uint32_t argCount)
+static bool virtual_machine_invoke(object_string_t * name, int32_t argCount)
 {
     value_t receiver = virtual_machine_peek(argCount);
     if (!IS_INSTANCE(receiver))
@@ -295,7 +295,7 @@ static bool virtual_machine_invoke(object_string_t * name, uint32_t argCount)
 /// @param name Thee name of the method that is envoked
 /// @param argCount The amount of arguments that are used when envoking the function
 /// @return true if everything went well, false if something went wrong (undefiened method / stack overflow / wrong argument count)
-static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, object_string_t * name, uint32_t argCount)
+static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, object_string_t * name, int32_t argCount)
 {
     value_t method;
     if (!hash_table_get(&celloxClass->methods, name, &method))

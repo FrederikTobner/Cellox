@@ -23,7 +23,7 @@
 #define MAX_LINE_LENGTH 1024u
 
 static void init_io_error(char const *, ...);
-static char *init_read_file(char const *);
+static char * init_read_file(char const *);
 
 void init_repl()
 {
@@ -40,7 +40,7 @@ void init_repl()
 // The cellox_config.h.in file is not configured by cmake for the benchmarks and tests -> so we just ignore it
 #ifndef CELLOX_TESTS_RUNNING
 #ifndef BENCHMARKS_RUNNING
-    printf("\t\t Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
+    printf("\t\t Version %i.%i\n", PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
 #endif
 #endif
     for (;;)
@@ -99,14 +99,18 @@ void init_run_from_file(char const * path, bool compile)
 
 void init_show_help()
 {
-    printf("Cellox Help\n%s\n", CELLOX_USAGE_MESSAGE);
+    #ifndef BENCHMARKS_RUNNING
+    #ifndef CELLOX_TESTS_RUNNING
+    printf("%s Help\n%s\n", PROJECT_NAME_STRING, CELLOX_USAGE_MESSAGE);
+    #endif
+    #endif
 }
 
 void init_show_version()
 {
 #ifndef BENCHMARKS_RUNNING
 #ifndef CELLOX_TESTS_RUNNING
-    printf("Cellox Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
+    printf("%s Version %i.%i\n", PROJECT_NAME_STRING, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
 #endif
 #endif
 }

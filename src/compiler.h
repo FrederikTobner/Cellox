@@ -3,7 +3,7 @@
 
 #include "object.h"
 
-/// @brief Compiles a cellox program
+/// @brief Compiles a cellox program.
 /// @param code The cellox program that is compiled
 /// @return A obect_function_t that that stores all the instructions that of the cellox program
 object_function_t * compiler_compile(char const * code);

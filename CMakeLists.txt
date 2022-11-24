@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(Cellox
 VERSION 0.1.0
 )
+include(CheckIncludeFile)
 
 # C99 standard is required to build the interpreter
 set(CMAKE_C_STANDARD 99)
@@ -49,16 +50,22 @@ ${SOURCEPATH}value.h
 ${SOURCEPATH}virtual_machine.h
 )
 
+if(UNIX)
+CHECK_INCLUDE_FILE("curses.h" CURSES_AVAILABLE)
+if(NOT ${CURSES_AVAILABLE})
+message(FATAL_ERROR "curses.h is required to build the interpreter under unix-like systems. Please install it and try again after that")
+endif() # Curses not available
+endif() # Unix system
+
 # Builds the cellox interpreter
 add_subdirectory(src)
 
 # Builds benchmarks for the cellox interpreter
 add_subdirectory(benchmark)
 
-if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
-# usual approach doesn't work under linux using gcc 
+# Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 else()
-# Please use msvc x86 for testing (build fails using gcc and include googletest fails under ubuntu and tests behave weird under x64)
 enable_testing()
 # Builds tests for the interpreter
 add_subdirectory(test)

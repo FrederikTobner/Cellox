@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.16)
 # configure cellox config to show version
 configure_file(cellox_config.h.in cellox_config.h)
 
@@ -38,7 +39,6 @@ set(SOURCES
     value.c  
     virtual_machine.c
 )
-
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
 # Precompiles common.h to speed up compilation of the target
@@ -48,9 +48,17 @@ else()
     target_precompile_headers(${PROJECT_NAME} PUBLIC common.h)
 endif()
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 target_link_libraries(${PROJECT_NAME} m)
 endif()
 
 # for including the cellox_config.h file
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/src)
+
+set(CPACK_PACKAGE_NAME "Cellox")
+set(CPACK_PACKAGE_VERSION "0.1.0")
+
+include(CPack)
+# installs cellox interpreter (cmake --install . --config Release -> in the build/src directory)
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+

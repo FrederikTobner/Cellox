@@ -28,4 +28,8 @@ else()
     target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h)
 endif()
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+target_link_libraries(${PROJECT_NAME} m)
+endif()
+
 add_executable(${THIS} ${CELLOXSOURCES} ${CELLOXHEADERS} ${BENCHMARK_HEADERS} ${BENCHMARK_SOURCES})

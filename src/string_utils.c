@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void string_utils_behead(char *, int *);
+static void string_utils_behead(char *, uint32_t *);
 
 bool string_utils_contains_character_restricted(char const * text, char character, uint32_t length)
 {
@@ -117,12 +117,13 @@ int string_utils_resolve_escape_sequence(char * text, uint32_t * length)
 
 /// @brief Removes the first character in a character sequence
 /// @param text The character sequence where the first character is removed
-/// @param length Pointer to the length if the character sequence of the string (decremented by 1 in function)
-static void string_utils_behead(char * text, int * length)
+/// @param length Pointer to the length of the character sequence of the string (decremented by 1 in function)
+static void string_utils_behead(char * text, uint32_t * length)
 {
-    uint32_t stringLength = strlen(text);
-    for (uint32_t j = 0u; j < stringLength; j++)
-        *(text + j) = *(text + j + 1);
-    *(text + stringLength) = '\0';
+    uint32_t distanceToEnd = strlen(text);
+    char * upperBound = text + distanceToEnd;
+    for (char * cp = text; cp < upperBound; cp++)
+        *cp = *(cp + 1);
+    *(text + distanceToEnd) = '\0';
     (*length)--;
 }
