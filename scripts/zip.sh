@@ -1,2 +1,2 @@
 cd ../build/src
-cpack -G ZIP
+cpack -G ZIP --config ../CPackConfig.cmake

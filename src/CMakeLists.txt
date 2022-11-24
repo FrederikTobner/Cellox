@@ -49,7 +49,7 @@ else()
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-target_link_libraries(${PROJECT_NAME} m)
+    target_link_libraries(${PROJECT_NAME} m)
 endif()
 
 # for including the cellox_config.h file
@@ -64,4 +64,3 @@ set(CPACK_BUILD_SOURCE_DIRS "${PROJECT_BINARY_DIR}/src")
 include(CPack)
 # installs cellox interpreter (cmake --install . --config Release -> in the build/src directory)
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-

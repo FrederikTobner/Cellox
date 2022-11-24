@@ -1,3 +1,3 @@
 cd ../build/src
-echo "Installing Cellox..."
+echo "Installing Cellox ..."
 cmake --install . --config Release
