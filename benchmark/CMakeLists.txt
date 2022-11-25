@@ -23,12 +23,14 @@ BENCHMARK_BASE_PATH="${PROJECT_SOURCE_DIR}/benchmark/benchmarks/"
 
 # Precompiles common.h to speed up compilation of the target
 if(MSVC)    
-    target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h ${SOURCEPATH}common.c) # VisualStudio only accepts header files that also have a source file
+    # VisualStudio only accepts header files that also have a source file
+    target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h ${SOURCEPATH}common.c)
 else()
     target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h)
 endif()
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+# Includes Libmath
+if(UNIX)
     target_link_libraries(${PROJECT_NAME} m)
 endif()
 

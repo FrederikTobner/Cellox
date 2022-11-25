@@ -48,19 +48,23 @@ else()
     target_precompile_headers(${PROJECT_NAME} PUBLIC common.h)
 endif()
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+# Includes Libmath
+if(UNIX)
     target_link_libraries(${PROJECT_NAME} m)
 endif()
 
 # for including the cellox_config.h file
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/src)
 
+get_filename_component(DIR_ONE_ABOVE ../ ABSOLUTE)
+
 set(CPACK_PACKAGE_NAME "Cellox")
 set(CPACK_PACKAGE_VERSION "0.1.0")
-set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_BINARY_DIR}/../License)
+set(CPACK_RESOURCE_FILE_LICENSE ${DIR_ONE_ABOVE}/License)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cellox Interpreter")
 set(CPACK_BUILD_SOURCE_DIRS "${PROJECT_BINARY_DIR}/src")
 
 include(CPack)
 # installs cellox interpreter (cmake --install . --config Release -> in the build/src directory)
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(FILES  ${DIR_ONE_ABOVE}/License DESTINATION docs)
