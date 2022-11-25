@@ -1,4 +1,4 @@
-set(THIS ${PROJECT_NAME}Benchmarks)
+set(LANGUAGE_BENCHMARKS ${PROJECT_NAME}Benchmarks)
 
 set(BENCHMARK_HEADERS
 benchmark_config.h
@@ -21,17 +21,11 @@ BENCHMARKS_RUNNING
 BENCHMARK_BASE_PATH="${PROJECT_SOURCE_DIR}/benchmark/benchmarks/"
 )
 
-# Precompiles common.h to speed up compilation of the target
-if(MSVC)    
-    # VisualStudio only accepts header files that also have a source file
-    target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h ${SOURCEPATH}common.c)
-else()
-    target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h)
-endif()
-
 # Includes Libmath
 if(UNIX)
     target_link_libraries(${PROJECT_NAME} m)
 endif()
 
-add_executable(${THIS} ${CELLOXSOURCES} ${CELLOXHEADERS} ${BENCHMARK_HEADERS} ${BENCHMARK_SOURCES})
+add_executable(${LANGUAGE_BENCHMARKS} ${CELLOXSOURCES} ${CELLOXHEADERS} ${BENCHMARK_HEADERS} ${BENCHMARK_SOURCES})
+
+target_include_directories(${LANGUAGE_BENCHMARKS} PUBLIC ${PROJECT_BINARY_DIR}/src)

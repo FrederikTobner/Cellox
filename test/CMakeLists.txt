@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.24)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(THIS ${PROJECT_NAME}Tests)
+set(INTERPRETER_TESTS ${PROJECT_NAME}Tests)
 
 #Fetches google-test framework from the github repo
 include(FetchContent)
@@ -48,18 +48,11 @@ CELLOX_TESTS_RUNNING
 TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
 )
 
-# Precompiles common.h to speed up compilation of the target
-if( MSVC )    
-    target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h ${SOURCEPATH}common.c) # VisualStudio only accepts header files that also have a source file
-else()
-    target_precompile_headers(${PROJECT_NAME} PUBLIC ${SOURCEPATH}common.h)
-endif()
-
 # Builds cellox tests
-add_executable(${THIS} ${TESTSOURCES} ${CELLOXSOURCES} ${CELLOXHEADERS})
+add_executable(${INTERPRETER_TESTS} ${TESTSOURCES} ${CELLOXSOURCES} ${CELLOXHEADERS})
 
-# Includes SourcePath of the compiler for shorter includes
-target_include_directories(${THIS} PUBLIC ${SOURCEPATH})
+# Includes SourcePath of the compiler for shorter includes and the config file
+target_include_directories(${INTERPRETER_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -68,9 +61,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 #Links googletest libary and cellox tests
-target_link_libraries(${THIS} GTest::gtest_main)
+target_link_libraries(${INTERPRETER_TESTS} GTest::gtest_main)
 
 # Includes google test framework
 include(googletest)
 # Automatic discovering of tests
-gtest_discover_tests(${THIS})
+gtest_discover_tests(${INTERPRETER_TESTS})

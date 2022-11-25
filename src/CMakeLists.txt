@@ -42,7 +42,7 @@ set(SOURCES
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
 # Precompiles common.h to speed up compilation of the target
-if( MSVC )    
+if(MSVC)    
     target_precompile_headers(${PROJECT_NAME} PUBLIC common.h common.c) # VisualStudio only accepts header files that also have a source file
 else()
     target_precompile_headers(${PROJECT_NAME} PUBLIC common.h)
@@ -56,15 +56,13 @@ endif()
 # for including the cellox_config.h file
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/src)
 
-get_filename_component(DIR_ONE_ABOVE ../ ABSOLUTE)
-
-set(CPACK_PACKAGE_NAME "Cellox")
-set(CPACK_PACKAGE_VERSION "0.1.0")
-set(CPACK_RESOURCE_FILE_LICENSE ${DIR_ONE_ABOVE}/License)
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cellox Interpreter")
+# Sets properties for the package created using cpack
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_PACKAGE_VERSION "${Cellox_VERSION_MAJOR}.${Cellox_VERSION_MINOR}.0")
+set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_DIRECTORY}/License)
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_NAME} Interpreter")
 set(CPACK_BUILD_SOURCE_DIRS "${PROJECT_BINARY_DIR}/src")
 
 include(CPack)
-# installs cellox interpreter (cmake --install . --config Release -> in the build/src directory)
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-install(FILES  ${DIR_ONE_ABOVE}/License DESTINATION docs)
+install(FILES ${PROJECT_DIRECTORY}/License DESTINATION docs)

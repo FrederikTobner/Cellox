@@ -5,13 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// The cellox_config.h file is not available for the testing suite and the benchmark runner
-#ifndef CELLOX_TESTS_RUNNING
-#ifndef BENCHMARKS_RUNNING
 #include "cellox_config.h"
-#endif
-#endif
-
 #include "chunk_file.h"
 #include "common.h"
 #include "compiler.h"
@@ -38,11 +32,7 @@ void init_repl()
   \\_____\\___|_|_|\\___/_/\\_\\\n");
   
 // The cellox_config.h.in file is not configured by cmake for the benchmarks and tests -> so we just ignore it
-#ifndef CELLOX_TESTS_RUNNING
-#ifndef BENCHMARKS_RUNNING
     printf("\t\t Version %i.%i\n", PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
-#endif
-#endif
     for (;;)
     {
         // Prints command prompt
@@ -108,11 +98,7 @@ void init_show_help()
 
 void init_show_version()
 {
-#ifndef BENCHMARKS_RUNNING
-#ifndef CELLOX_TESTS_RUNNING
     printf("%s Version %i.%i\n", PROJECT_NAME_STRING, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
-#endif
-#endif
 }
 
 /// @brief Prints a error message for io errors and exits if no tests are executed
