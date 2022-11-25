@@ -219,8 +219,8 @@ static void chunk_file_append_meta_data(chunk_file_compile_flags flags, FILE * f
     fputc(flags, filePointer);
     #ifndef CELLOX_TESTS_RUNNING
     #ifndef BENCHMARKS_RUNNING
-    fputc(CELLOX_VERSION_MAJOR, filePointer);    
-    fputc(CELLOX_VERSION_MINOR, filePointer);
+    fputc(PROJECT_VERSION_MAJOR, filePointer);    
+    fputc(PROJECT_VERSION_MINOR, filePointer);
     #endif
     #endif
 }

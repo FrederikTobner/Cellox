@@ -62,7 +62,7 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
                 if(string_utils_resolve_escape_sequence(&heapChars[i], &length))
                 return NULL;
         }
-        /// We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
+        // We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
         hash = object_hash_string(heapChars, length);
         interned = hash_table_find_string(&virtualMachine.strings, heapChars, length, hash);
         if (interned)

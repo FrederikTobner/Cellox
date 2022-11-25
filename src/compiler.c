@@ -1399,7 +1399,7 @@ static void compiler_return_statement()
     }
 }
 
-/// @brief Compiles a statement
+/// Compiles a statement
 static void compiler_statement()
 {
     if (compiler_match_token(TOKEN_FOR))
@@ -1420,8 +1420,10 @@ static void compiler_statement()
         compiler_expression_statement();
 }
 
-/// @brief compiles a string literal expression
+/// @brief Compiles a string literal expression
 /// @param canAssign Unused for string literals
+/// @details The escape sequences in the string are resolved by this function.
+/// If the string contains an unknowns escape sequence we show a compile error
 static void compiler_string(bool canAssign)
 {
     object_string_t * string = object_copy_string(parser.previous.start + 1, parser.previous.length - 2, true);

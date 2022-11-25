@@ -5,13 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// The cellox_config.h file is not available for the testing suite and the benchmark runner
-#ifndef CELLOX_TESTS_RUNNING
-#ifndef BENCHMARKS_RUNNING
 #include "cellox_config.h"
-#endif
-#endif
-
 #include "chunk_file.h"
 #include "common.h"
 #include "compiler.h"
@@ -23,7 +17,7 @@
 #define MAX_LINE_LENGTH 1024u
 
 static void init_io_error(char const *, ...);
-static char *init_read_file(char const *);
+static char * init_read_file(char const *);
 
 void init_repl()
 {
@@ -38,11 +32,7 @@ void init_repl()
   \\_____\\___|_|_|\\___/_/\\_\\\n");
   
 // The cellox_config.h.in file is not configured by cmake for the benchmarks and tests -> so we just ignore it
-#ifndef CELLOX_TESTS_RUNNING
-#ifndef BENCHMARKS_RUNNING
-    printf("\t\t Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
-#endif
-#endif
+    printf("\t\t Version %i.%i\n", PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
     for (;;)
     {
         // Prints command prompt
@@ -99,16 +89,16 @@ void init_run_from_file(char const * path, bool compile)
 
 void init_show_help()
 {
-    printf("Cellox Help\n%s\n", CELLOX_USAGE_MESSAGE);
+    #ifndef BENCHMARKS_RUNNING
+    #ifndef CELLOX_TESTS_RUNNING
+    printf("%s Help\n%s\n", PROJECT_NAME_STRING, CELLOX_USAGE_MESSAGE);
+    #endif
+    #endif
 }
 
 void init_show_version()
 {
-#ifndef BENCHMARKS_RUNNING
-#ifndef CELLOX_TESTS_RUNNING
-    printf("Cellox Version %i.%i\n", CELLOX_VERSION_MAJOR, CELLOX_VERSION_MINOR);
-#endif
-#endif
+    printf("%s Version %i.%i\n", PROJECT_NAME_STRING, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
 }
 
 /// @brief Prints a error message for io errors and exits if no tests are executed
