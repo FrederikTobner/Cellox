@@ -6,10 +6,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
-#elif linux
-#include <curses.h>
-#include <unistd.h>
-#elif __APPLE__
+#elif __unix__
 #include <curses.h>
 #include <unistd.h>
 #endif
@@ -22,14 +19,14 @@
 
 typedef enum
 {
+    /// Native append_to_file function
+    NATIVE_FUNCTION_APPEND_TO_FILE,
     /// Native class_of function
     NATIVE_FUNCTION_CLASS_OF,
     /// Native clock function
     NATIVE_FUNCTION_CLOCK,
     /// Native exit function
     NATIVE_FUNCTION_EXIT,
-    /// Native get_user_name function
-    NATIVE_FUNCTION_GET_USER_NAME,
     /// Native on_linux function
     NATIVE_FUNCTION_ON_LINUX,
     /// Native on_macOS function
@@ -42,6 +39,8 @@ typedef enum
     NATIVE_FUNCTION_PRINT_LINE,
     /// Native random function
     NATIVE_FUNCTION_RANDOM,
+    /// Native read_file function
+    NATIVE_FUNCTION_READ_FILE,
     /// Native read_key function
     NATIVE_FUNCTION_READ_KEY,
     /// Native read_line function
@@ -51,97 +50,112 @@ typedef enum
     /// Native system function
     NATIVE_FUNCTION_SYSTEM,
     /// Native wait function
-    NATIVE_FUNCTION_WAIT
+    NATIVE_FUNCTION_WAIT,
+    /// Native write to file function
+    NATIVE_FUNCTION_WRITE_TO_FILE
 }native_functions_t;
 
 native_function_config_t native_function_configs [] = 
 {
-    [NATIVE_FUNCTION_CLASS_OF]      =
+    [NATIVE_FUNCTION_APPEND_TO_FILE]   =
+    {
+        .functionName = "append_to_file",
+        .function = native_functions_append_to_file,
+        .arrity = 2
+    },
+    [NATIVE_FUNCTION_CLASS_OF]          =
     {
         .functionName = "class_of", 
         .function = native_functions_classof, 
         .arrity = 1
     },
-    [NATIVE_FUNCTION_CLOCK]         =
+    [NATIVE_FUNCTION_CLOCK]             =
     {
         .functionName = "clock", 
         .function = native_functions_clock
     },
-    [NATIVE_FUNCTION_EXIT]          =
+    [NATIVE_FUNCTION_EXIT]              =
     {
         .functionName = "exit", 
         .function = native_functions_exit, 
         .arrity = 1
     },
-    [NATIVE_FUNCTION_GET_USER_NAME] =
-    {
-        .functionName = "get_user_name", 
-        .function = native_functions_get_username
-    },
-    [NATIVE_FUNCTION_ON_LINUX]      =
+    [NATIVE_FUNCTION_ON_LINUX]          =
     {
         .functionName = "on_linux", 
         .function = native_functions_on_linux
     },
-    [NATIVE_FUNCTION_ON_MACOS]      =
+    [NATIVE_FUNCTION_ON_MACOS]          =
     {
         .functionName = "on_macOS", 
         .function = native_functions_on_macOS
     },
-    [NATIVE_FUNCTION_ON_WINDOWS]    =
+    [NATIVE_FUNCTION_ON_WINDOWS]        =
     {
         .functionName = "on_windows", 
         .function = native_functions_on_windows
     },
-    [NATIVE_FUNCTION_PRINT]         =
+    [NATIVE_FUNCTION_PRINT]             =
     {
         .functionName = "print",
         .function = native_functions_print,
         .arrity = 1
     },
-    [NATIVE_FUNCTION_PRINT_LINE]    =
+    [NATIVE_FUNCTION_PRINT_LINE]        =
     {
         .functionName = "println",
         .function = native_functions_print_line,
         .arrity = 1
     }, 
-    [NATIVE_FUNCTION_RANDOM]        =
+    [NATIVE_FUNCTION_RANDOM]            =
     {
         .functionName = "random", 
         .function = native_functions_random
     },
-    [NATIVE_FUNCTION_READ_KEY] = 
+    [NATIVE_FUNCTION_READ_FILE]         =
+    {
+        .functionName = "read_file",
+        .function = native_functions_read_file,
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_READ_KEY]          = 
     {
         .functionName = "read_key", 
         .function = native_functions_read_key
     },
-    [NATIVE_FUNCTION_READ_LINE]     =
+    [NATIVE_FUNCTION_READ_LINE]         =
     {
         .functionName = "read_line", 
         .function = native_functions_read_line
     },
-    [NATIVE_FUNCTION_STRLEN]        =
+    [NATIVE_FUNCTION_STRLEN]            =
     {
         .functionName = "strlen", 
         .function = native_functions_string_length, 
         .arrity = 1
     },
-    [NATIVE_FUNCTION_SYSTEM]        =
+    [NATIVE_FUNCTION_SYSTEM]            =
     {
         .functionName = "system", 
         .function = native_functions_system, 
         .arrity = 1
     },
-    [NATIVE_FUNCTION_WAIT]          =
+    [NATIVE_FUNCTION_WAIT]              =
     {
         .functionName = "wait", 
         .function = native_functions_wait, 
         .arrity = 1
+    },
+    [NATIVE_FUNCTION_WRITE_TO_FILE]    =
+    {
+        .functionName = "write_to_file",
+        .function = native_functions_write_to_file,
+        .arrity = 2
     }
 };
 
-#define MAX_READ_LINE_INPUT 1024
-#define MAX_USER_NAME_LENGTH 256
+#define MAX_READ_LINE_INPUT (1024)
+#define MAX_USER_NAME_LENGTH (256)
 
 static void native_functions_arguments_error(char const * format, ...);
 static void native_functions_assert_arrity(uint8_t, uint32_t);
@@ -154,6 +168,20 @@ native_function_config_t * native_functions_get_function_configs()
 size_t native_functions_get_function_count()
 {
     return sizeof(native_function_configs) / sizeof(*native_function_configs);
+}
+
+value_t native_functions_append_to_file(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_APPEND_TO_FILE, argCount);
+    if (!IS_STRING(*args) || !IS_STRING(*(args + 1)))
+        native_functions_arguments_error("read_file can only be called with a string as argument");
+    FILE * file;
+    file = fopen(AS_CSTRING(*(args)), "a");
+    if (!file)
+        return FALSE_VAL;
+    fprintf(file, "%s", AS_CSTRING(*(args + 1)));
+    fclose(file);
+    return TRUE_VAL;
 }
 
 value_t native_functions_classof(uint32_t argCount, value_t const * args)
@@ -178,23 +206,6 @@ value_t native_functions_exit(uint32_t argCount, value_t const * args)
     int exitCode = AS_NUMBER(*args);
     virtual_machine_free();
     exit(exitCode);
-}
-
-value_t native_functions_get_username(uint32_t argCount, value_t const * args)
-{
-    native_functions_assert_arrity(NATIVE_FUNCTION_GET_USER_NAME, argCount);
-#ifdef _WIN32
-    DWORD bufCharCount = MAX_USER_NAME_LENGTH;
-    TCHAR name[MAX_USER_NAME_LENGTH];
-    GetUserNameA(name, &bufCharCount);
-#elif linux
-    char name[MAX_USER_NAME_LENGTH];
-    getlogin_r(&name[0], MAX_USER_NAME_LENGTH);
-#elif __APPLE__
-    char name[MAX_USER_NAME_LENGTH];
-    getlogin_r(&name[0], MAX_USER_NAME_LENGTH);
-#endif
-    return OBJECT_VAL(object_copy_string(&name[0], strlen(name), false));
 }
 
 value_t native_functions_on_linux(uint32_t argCount, value_t const * args)
@@ -226,11 +237,10 @@ value_t native_functions_on_windows(uint32_t argCount, value_t const * args)
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_WINDOWS, argCount);
     #ifdef _WIN32
     return TRUE_VAL;
-    #elif linux
-    return FALSE_VAL;
-    #elif __APPLE__
+    #else
     return FALSE_VAL;
     #endif
+   
 }
 
 value_t native_functions_print(uint32_t argCount, value_t const * args)
@@ -252,6 +262,28 @@ value_t native_functions_random(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_RANDOM, argCount);
     return NUMBER_VAL(rand());
+}
+
+value_t native_functions_read_file(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_READ_FILE, argCount);
+    if (!IS_STRING(*args))
+        native_functions_arguments_error("read_file can only be called with a string as argument");
+    char * path = AS_CSTRING(*args);
+    FILE * file = fopen(path, "rb");
+    if (!file)
+        return NULL_VAL;
+    fseek(file, 0L, SEEK_END);
+    uint32_t fileSize = ftell(file);
+    rewind(file);
+    char * buffer = (char *)malloc(fileSize);
+    if (!buffer)
+        return NULL_VAL;
+    size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
+    if (bytesRead < fileSize)
+        return NULL_VAL;
+    fclose(file);
+    return OBJECT_VAL(object_copy_string(buffer, fileSize, false));
 }
 
 value_t native_functions_read_key(uint32_t argCount, value_t const * args)
@@ -293,16 +325,28 @@ value_t native_functions_wait(uint32_t argCount, value_t const * args)
     native_functions_assert_arrity(NATIVE_FUNCTION_WAIT, argCount);
     if (!IS_NUMBER(*args))
         native_functions_arguments_error("wait can only be called with a number as argument");
-#ifdef _WIN32
-    /// Milliseconds -> multiply with 1000
+    #ifdef _WIN32
+    // Milliseconds -> multiply with 1000
     Sleep(AS_NUMBER(*args) * 1000);
-#elif linux
-    /// Seconds
+    #elif __unix__
+    // Seconds
     sleep(AS_NUMBER(*args));
-#elif __APPLE__
-    sleep(AS_NUMBER(*args));
-#endif
+    #endif
     return NULL_VAL;
+}
+
+value_t native_functions_write_to_file(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_WRITE_TO_FILE, argCount);
+    if (!IS_STRING(*args) || !IS_STRING(*(args + 1)))
+        native_functions_arguments_error("read_file can only be called with a string as argument");
+    FILE * file;
+    file = fopen(AS_CSTRING(*(args)), "w");
+    if (!file)
+        return FALSE_VAL;
+    fprintf(file, "%s", AS_CSTRING(*(args + 1)));
+    fclose(file);
+    return TRUE_VAL;
 }
 
 /// @brief Asserts that the native function was called with the appropriate argumentcount

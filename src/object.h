@@ -108,7 +108,7 @@ typedef struct
 /// @brief A native function
 typedef struct
 {
-    //// data that defines all types of objects
+    /// data that defines all types of objects
     object_t obj;
     /// Reference to the native implementation in c
     native_function_t function;
@@ -235,9 +235,9 @@ object_upvalue_t * object_new_upvalue(value_t * slot);
 /// @param value The value that is printed
 void object_print(value_t value);
 
-/// @brief 
-/// @param object 
-/// @return 
+/// @brief Gets the textual representation of a cellox type
+/// @param object The object that is used
+/// @return A character pointer that represents the type
 char const * object_stringify_type(object_t * object);
 
 /// @brief Determines whether a value is of a given type

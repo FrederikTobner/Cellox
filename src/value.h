@@ -76,7 +76,7 @@ static inline value_t numToValue(double number)
 {
     value_t value;
     memcpy(&value, &number, sizeof(double));
-    return value;
+    return value; 
 }
 /// @brief Converts a value_t to a double using type punning
 /// @param value The value that is converted (value_t)

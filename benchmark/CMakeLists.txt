@@ -21,6 +21,12 @@ BENCHMARKS_RUNNING
 BENCHMARK_BASE_PATH="${PROJECT_SOURCE_DIR}/benchmark/benchmarks/"
 )
 
+if(NAN_BOXING_ACTIVATED)
+add_compile_definitions(
+NAN_BOXING
+)
+endif()
+
 # Includes Libmath
 if(UNIX)
     target_link_libraries(${PROJECT_NAME} m)

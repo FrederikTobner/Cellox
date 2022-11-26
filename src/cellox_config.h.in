@@ -4,6 +4,6 @@
 /// the configured options and settings for Cellox
 #define PROJECT_VERSION_MAJOR (@Cellox_VERSION_MAJOR@)
 #define PROJECT_VERSION_MINOR (@Cellox_VERSION_MINOR@)
-#define PROJECT_NAME_STRING ("@PROJECT_NAME@") 
+#define PROJECT_NAME ("@PROJECT_NAME@")
 
 #endif

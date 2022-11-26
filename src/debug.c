@@ -30,6 +30,8 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
         functionCount++;
         dynamic_value_array_write(&functionNames, chunk->constants.values[i]);
         break;
+      default:
+        break;
       }
     }
   }
@@ -40,14 +42,20 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
       switch (OBJECT_TYPE(chunk->constants.values[i]))
       {
       case OBJECT_STRING:
-        for (size_t j = 0; j < functionNames.count; j++)
+      {
+        size_t j;
+        for (j = 0; j < functionNames.count; j++)
         {
           // String constant is a function call
           if (!strcmp(AS_CSTRING(chunk->constants.values[i]), AS_FUNCTION(functionNames.values[j])->name->chars))
             break;
+          // TODO: Check native functions
         }
-        if (i == functionNames.count)
+        if (j == functionNames.count)
           stringCount++;
+        break;
+      }
+      default:
         break;
       }
     }

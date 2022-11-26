@@ -18,7 +18,6 @@ native_function_t function;
 size_t arrity;
 }native_function_config_t;
 
-
 /// @brief Gets the configuration of the native functions
 /// @return an array that contains the native function configurations 
 native_function_config_t * native_functions_get_function_configs();
@@ -26,6 +25,12 @@ native_function_config_t * native_functions_get_function_configs();
 /// @brief Gets the amount of defined native functions
 /// @return The amount of native functions that are defiened
 size_t native_functions_get_function_count();
+
+/// @brief Appends the content of a cellox string to a file
+/// @param argCount The amount of arguments that were used when append_to was called 
+/// @param args The arguments that append_to_file was called with
+/// @return True -> Sucess, False -> Error
+value_t native_functions_append_to_file(uint32_t argCount, value_t const * args);
 
 /// @brief Determines the class of a cellox instance
 /// @param argCount The amount of arguments that were used when class_of was called
@@ -45,33 +50,33 @@ value_t native_functions_clock(uint32_t argCount, value_t const * args);
 /// @return Nothing because the program will exit
 value_t native_functions_exit(uint32_t argCount, value_t const * args);
 
-/// @brief Gets the user name
-/// @param argCount The amount of arguments that were used when get_username was called
-/// @param args The aguments that get_username was called with
-/// @return An object string that represents the user name
-value_t native_functions_get_username(uint32_t argCount, value_t const * args);
-
 /// @brief Native random function
 /// @param argCount The amount of arguments that were used when random was called
 /// @param args The arguments that random was called with
 /// @return a random number
 value_t native_functions_random(uint32_t argCount, value_t const * args);
 
+/// @brief Reads the contents of a file and creates a cellox string based on the content of the file
+/// @param argCount The amount of arguments that were used when read_file was called
+/// @param args The arguments that read_file was called with
+/// @return NULL if an error occured, otherwise a string that represents the content of the file
+value_t native_functions_read_file(uint32_t argCount, value_t const * args);
+
 /// @brief Reads the next character from the standard input
 /// @param argCount The amount of arguments that were used when read_key was called
-/// @param args The aguments that read_key was called with
+/// @param args The arguments that read_key was called with
 /// @return The key that was read
 value_t native_functions_read_key(uint32_t argCount, value_t const * args);
 
 /// @brief Reads the next line of characters from the standard input
 /// @param argCount The amount of arguments that were used when read_line was called
-/// @param args The aguments that read_line was called with
+/// @param args The arguments that read_line was called with
 /// @return The line that was read
 value_t native_functions_read_line(uint32_t argCount, value_t const * args);
 
 /// @brief Determines whether the program is executed under linux
 /// @param argCount The amount of arguments that were used when on_linux was called
-/// @param args The aguments that on_linux was called with
+/// @param args The arguments that on_linux was called with
 /// @return true if the program is executed on a linux system and false if not
 value_t native_functions_on_linux(uint32_t argCount, value_t const * args);
 
@@ -83,7 +88,7 @@ value_t native_functions_on_macOS(uint32_t argCount, value_t const * args);
 
 /// @brief Determines whether the program is executed under windows
 /// @param argCount The amount of arguments that were used when on_windows was called
-/// @param args The aguments that on_windows was called with
+/// @param args The arguments that on_windows was called with
 /// @return true if the program is executed on a windows system and false if not
 value_t native_functions_on_windows(uint32_t argCount, value_t const * args);
 
@@ -95,13 +100,13 @@ value_t native_functions_print(uint32_t argCount, value_t const * args);
 
 /// @brief Prints the value that is passed as a argument and ads a automatic line break
 /// @param argCount The amount of arguments that were used when println was called
-/// @param args The aguments that print was called with
+/// @param args The arguments that print was called with
 /// @return NULL
 value_t native_functions_print_line(uint32_t argCount, value_t const * args);
 
 /// @brief Determines the length of a string
 /// @param argCount The amount of arguments that were used when strlen was called
-/// @param args The aguments that strlen was called with
+/// @param args The arguments that strlen was called with
 /// @return The length of the string
 value_t native_functions_string_length(uint32_t argCount, value_t const * args);
 
@@ -113,8 +118,14 @@ value_t native_functions_system(uint32_t argCount, value_t const * args);
 
 /// @brief Native wait function - waits for the specified amount of seconds
 /// @param argCount The amount of arguments that were used when wait was called
-/// @param args The aguments that wait was called with
+/// @param args The arguments that wait was called with
 /// @return NULL
 value_t native_functions_wait(uint32_t argCount, value_t const * args);
+
+/// @brief Writes the content of a cellox string to a file
+/// @param argCount The amount of arguments that were used when write_to_file was called 
+/// @param args The arguments that write_to_file was called with
+/// @return True -> Sucess, False -> Error
+value_t native_functions_write_to_file(uint32_t argCount, value_t const * args);
 
 #endif
