@@ -45,7 +45,7 @@ void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)
         exit(EXIT_CODE_SYSTEM_ERROR);    
     chunk->code = grownChunk;
     // Allocates line array
-    chunk->lines = GROW_ARRAY(int32_t, chunk->lines, oldCapacity, chunk->capacity);
+    chunk->lines = GROW_ARRAY(uint32_t, chunk->lines, oldCapacity, chunk->capacity);
     if(!chunk->lines)
       exit(EXIT_CODE_SYSTEM_ERROR);
   }
