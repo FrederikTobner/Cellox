@@ -48,6 +48,12 @@ CELLOX_TESTS_RUNNING
 TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
 )
 
+if(NAN_BOXING_ACTIVATED)
+add_compile_definitions(
+NAN_BOXING
+)
+endif()
+
 # Builds cellox tests
 add_executable(${INTERPRETER_TESTS} ${TESTSOURCES} ${CELLOXSOURCES} ${CELLOXHEADERS})
 

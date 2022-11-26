@@ -91,18 +91,18 @@ $(function() {
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a8dc045b236157ab984301d146f6cf2fe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a8dc045b236157ab984301d146f6cf2fe">MAX_READ_LINE_INPUT</a>&#160;&#160;&#160;1024</td></tr>
+<tr class="memitem:a8dc045b236157ab984301d146f6cf2fe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a8dc045b236157ab984301d146f6cf2fe">MAX_READ_LINE_INPUT</a>&#160;&#160;&#160;(1024)</td></tr>
 <tr class="separator:a8dc045b236157ab984301d146f6cf2fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7030536a5c5dd8f4632840201cdac39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ac7030536a5c5dd8f4632840201cdac39">MAX_USER_NAME_LENGTH</a>&#160;&#160;&#160;256</td></tr>
+<tr class="memitem:ac7030536a5c5dd8f4632840201cdac39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ac7030536a5c5dd8f4632840201cdac39">MAX_USER_NAME_LENGTH</a>&#160;&#160;&#160;(256)</td></tr>
 <tr class="separator:ac7030536a5c5dd8f4632840201cdac39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:aff7a506996fcda1214415dd14d22ba78"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78">native_functions_t</a> { <br />
-&#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a38c0f4fa8e562b3c18ff364fcae4db7b">NATIVE_FUNCTION_CLASS_OF</a>
+&#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78afecbd122c2853877a66844966f105e6a">NATIVE_FUNCTION_APPEND_TO_FILE</a>
+, <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a38c0f4fa8e562b3c18ff364fcae4db7b">NATIVE_FUNCTION_CLASS_OF</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78ad8b27f8d731236c02912ee850fb14f6f">NATIVE_FUNCTION_CLOCK</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a86840296c1b85d26d50a2575274da5ba">NATIVE_FUNCTION_EXIT</a>
-, <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a82e1bab9e75b5d2e35d5becec0df9b75">NATIVE_FUNCTION_GET_USER_NAME</a>
 , <br />
 &#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a0149b1beb94bc04abe437f204cb1083f">NATIVE_FUNCTION_ON_LINUX</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78ab207fdc6c40592718c9f9220f822cf26">NATIVE_FUNCTION_ON_MACOS</a>
@@ -111,12 +111,15 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a7f7434088db5f3323709fd702d06c87a">NATIVE_FUNCTION_PRINT_LINE</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a687c87b317e62d3432f620fde2df383d">NATIVE_FUNCTION_RANDOM</a>
+, <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a6a1cb946d013d40cbb812364e744320a">NATIVE_FUNCTION_READ_FILE</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a25fd91fbe70619441d605447f8abc870">NATIVE_FUNCTION_READ_KEY</a>
-, <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78ab32ae17b1e47112c23e558a3964c1159">NATIVE_FUNCTION_READ_LINE</a>
 , <br />
-&#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a8ca40e5bd663150bbb8ee04b0f6519e6">NATIVE_FUNCTION_STRLEN</a>
+&#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78ab32ae17b1e47112c23e558a3964c1159">NATIVE_FUNCTION_READ_LINE</a>
+, <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a8ca40e5bd663150bbb8ee04b0f6519e6">NATIVE_FUNCTION_STRLEN</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a2bd4737e39eb4d1071c2b2bed90a1568">NATIVE_FUNCTION_SYSTEM</a>
 , <a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78a746d67984d40c6d42945a568e0dabad9">NATIVE_FUNCTION_WAIT</a>
+, <br />
+&#160;&#160;<a class="el" href="native__functions_8c.html#aff7a506996fcda1214415dd14d22ba78afc79908e3f304d87d4529954098e0ed7">NATIVE_FUNCTION_WRITE_TO_FILE</a>
 <br />
  }</td></tr>
 <tr class="separator:aff7a506996fcda1214415dd14d22ba78"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,51 +138,57 @@ Functions</h2></td></tr>
 <tr class="memitem:aaf4cfc75bddfaade6ffce9fabca9827b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#aaf4cfc75bddfaade6ffce9fabca9827b">native_functions_get_function_count</a> ()</td></tr>
 <tr class="memdesc:aaf4cfc75bddfaade6ffce9fabca9827b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the amount of defined native functions.  <a href="native__functions_8c.html#aaf4cfc75bddfaade6ffce9fabca9827b">More...</a><br /></td></tr>
 <tr class="separator:aaf4cfc75bddfaade6ffce9fabca9827b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab635486c85bef1f65c97cb53c538d11e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ab635486c85bef1f65c97cb53c538d11e">native_functions_classof</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:a964acf053097d97a86bcf8ec8989c3b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a964acf053097d97a86bcf8ec8989c3b7">native_functions_append_to_file</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:a964acf053097d97a86bcf8ec8989c3b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the content of a cellox string to a file.  <a href="native__functions_8c.html#a964acf053097d97a86bcf8ec8989c3b7">More...</a><br /></td></tr>
+<tr class="separator:a964acf053097d97a86bcf8ec8989c3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab635486c85bef1f65c97cb53c538d11e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ab635486c85bef1f65c97cb53c538d11e">native_functions_classof</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:ab635486c85bef1f65c97cb53c538d11e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the class of a cellox instance.  <a href="native__functions_8c.html#ab635486c85bef1f65c97cb53c538d11e">More...</a><br /></td></tr>
 <tr class="separator:ab635486c85bef1f65c97cb53c538d11e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae72a168223d8510317faeceb9c27a419"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ae72a168223d8510317faeceb9c27a419">native_functions_clock</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:ae72a168223d8510317faeceb9c27a419"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ae72a168223d8510317faeceb9c27a419">native_functions_clock</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:ae72a168223d8510317faeceb9c27a419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native clock function - used for benchmarks.  <a href="native__functions_8c.html#ae72a168223d8510317faeceb9c27a419">More...</a><br /></td></tr>
 <tr class="separator:ae72a168223d8510317faeceb9c27a419"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add9bcf00f403607af07ab3118b8d8dc8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#add9bcf00f403607af07ab3118b8d8dc8">native_functions_exit</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:add9bcf00f403607af07ab3118b8d8dc8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#add9bcf00f403607af07ab3118b8d8dc8">native_functions_exit</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:add9bcf00f403607af07ab3118b8d8dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native Exit function.  <a href="native__functions_8c.html#add9bcf00f403607af07ab3118b8d8dc8">More...</a><br /></td></tr>
 <tr class="separator:add9bcf00f403607af07ab3118b8d8dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a942e2c2a441c1b313299d917cd583a33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a942e2c2a441c1b313299d917cd583a33">native_functions_get_username</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
-<tr class="memdesc:a942e2c2a441c1b313299d917cd583a33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the user name.  <a href="native__functions_8c.html#a942e2c2a441c1b313299d917cd583a33">More...</a><br /></td></tr>
-<tr class="separator:a942e2c2a441c1b313299d917cd583a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaca54aee3b6b870e27f946e470c80a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#acaca54aee3b6b870e27f946e470c80a6">native_functions_on_linux</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:acaca54aee3b6b870e27f946e470c80a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#acaca54aee3b6b870e27f946e470c80a6">native_functions_on_linux</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:acaca54aee3b6b870e27f946e470c80a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the program is executed under linux.  <a href="native__functions_8c.html#acaca54aee3b6b870e27f946e470c80a6">More...</a><br /></td></tr>
 <tr class="separator:acaca54aee3b6b870e27f946e470c80a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8eecc6f0bcfeca3d35a5e35ea4da040"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ab8eecc6f0bcfeca3d35a5e35ea4da040">native_functions_on_macOS</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:ab8eecc6f0bcfeca3d35a5e35ea4da040"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ab8eecc6f0bcfeca3d35a5e35ea4da040">native_functions_on_macOS</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:ab8eecc6f0bcfeca3d35a5e35ea4da040"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the program is executed under macOS.  <a href="native__functions_8c.html#ab8eecc6f0bcfeca3d35a5e35ea4da040">More...</a><br /></td></tr>
 <tr class="separator:ab8eecc6f0bcfeca3d35a5e35ea4da040"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d52e2189581ef8dffadd66e8d4b2881"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a7d52e2189581ef8dffadd66e8d4b2881">native_functions_on_windows</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:a7d52e2189581ef8dffadd66e8d4b2881"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a7d52e2189581ef8dffadd66e8d4b2881">native_functions_on_windows</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a7d52e2189581ef8dffadd66e8d4b2881"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the program is executed under windows.  <a href="native__functions_8c.html#a7d52e2189581ef8dffadd66e8d4b2881">More...</a><br /></td></tr>
 <tr class="separator:a7d52e2189581ef8dffadd66e8d4b2881"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7f6da49841cd1a260a11e06161af2ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#aa7f6da49841cd1a260a11e06161af2ae">native_functions_print</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:aa7f6da49841cd1a260a11e06161af2ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#aa7f6da49841cd1a260a11e06161af2ae">native_functions_print</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:aa7f6da49841cd1a260a11e06161af2ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the value that is passed as a argument.  <a href="native__functions_8c.html#aa7f6da49841cd1a260a11e06161af2ae">More...</a><br /></td></tr>
 <tr class="separator:aa7f6da49841cd1a260a11e06161af2ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9072e048bd54c8b1198ba40117357d0f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a9072e048bd54c8b1198ba40117357d0f">native_functions_print_line</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:a9072e048bd54c8b1198ba40117357d0f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a9072e048bd54c8b1198ba40117357d0f">native_functions_print_line</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a9072e048bd54c8b1198ba40117357d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the value that is passed as a argument and ads a automatic line break.  <a href="native__functions_8c.html#a9072e048bd54c8b1198ba40117357d0f">More...</a><br /></td></tr>
 <tr class="separator:a9072e048bd54c8b1198ba40117357d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3343250917b5eef57fd042882baee909"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a3343250917b5eef57fd042882baee909">native_functions_random</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:a3343250917b5eef57fd042882baee909"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a3343250917b5eef57fd042882baee909">native_functions_random</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a3343250917b5eef57fd042882baee909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native random function.  <a href="native__functions_8c.html#a3343250917b5eef57fd042882baee909">More...</a><br /></td></tr>
 <tr class="separator:a3343250917b5eef57fd042882baee909"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79f399ef792765fed5c2f713cb3a7ec2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a79f399ef792765fed5c2f713cb3a7ec2">native_functions_read_key</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:a3c0169cb80b6351b310c2a6d4a8579eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a3c0169cb80b6351b310c2a6d4a8579eb">native_functions_read_file</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:a3c0169cb80b6351b310c2a6d4a8579eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the contents of a file and creates a cellox string based on the content of the file.  <a href="native__functions_8c.html#a3c0169cb80b6351b310c2a6d4a8579eb">More...</a><br /></td></tr>
+<tr class="separator:a3c0169cb80b6351b310c2a6d4a8579eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79f399ef792765fed5c2f713cb3a7ec2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a79f399ef792765fed5c2f713cb3a7ec2">native_functions_read_key</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a79f399ef792765fed5c2f713cb3a7ec2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the next character from the standard input.  <a href="native__functions_8c.html#a79f399ef792765fed5c2f713cb3a7ec2">More...</a><br /></td></tr>
 <tr class="separator:a79f399ef792765fed5c2f713cb3a7ec2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8c466af41128bd597f26fa261b31860"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ae8c466af41128bd597f26fa261b31860">native_functions_read_line</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:ae8c466af41128bd597f26fa261b31860"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ae8c466af41128bd597f26fa261b31860">native_functions_read_line</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:ae8c466af41128bd597f26fa261b31860"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the next line of characters from the standard input.  <a href="native__functions_8c.html#ae8c466af41128bd597f26fa261b31860">More...</a><br /></td></tr>
 <tr class="separator:ae8c466af41128bd597f26fa261b31860"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03cb138dd22b99a3d16456ee8b51a1d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a03cb138dd22b99a3d16456ee8b51a1d2">native_functions_string_length</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:a03cb138dd22b99a3d16456ee8b51a1d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a03cb138dd22b99a3d16456ee8b51a1d2">native_functions_string_length</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a03cb138dd22b99a3d16456ee8b51a1d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the length of a string.  <a href="native__functions_8c.html#a03cb138dd22b99a3d16456ee8b51a1d2">More...</a><br /></td></tr>
 <tr class="separator:a03cb138dd22b99a3d16456ee8b51a1d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada83cf8c4c7e6b91d148c88a3e8d2ce2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ada83cf8c4c7e6b91d148c88a3e8d2ce2">native_functions_system</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:ada83cf8c4c7e6b91d148c88a3e8d2ce2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ada83cf8c4c7e6b91d148c88a3e8d2ce2">native_functions_system</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:ada83cf8c4c7e6b91d148c88a3e8d2ce2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to execute a system call.  <a href="native__functions_8c.html#ada83cf8c4c7e6b91d148c88a3e8d2ce2">More...</a><br /></td></tr>
 <tr class="separator:ada83cf8c4c7e6b91d148c88a3e8d2ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6af21c2a3a763083968fb8e8c15d7195"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a6af21c2a3a763083968fb8e8c15d7195">native_functions_wait</a> (uint32_t argCount, <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *args)</td></tr>
+<tr class="memitem:a6af21c2a3a763083968fb8e8c15d7195"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a6af21c2a3a763083968fb8e8c15d7195">native_functions_wait</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a6af21c2a3a763083968fb8e8c15d7195"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native wait function - waits for the specified amount of seconds.  <a href="native__functions_8c.html#a6af21c2a3a763083968fb8e8c15d7195">More...</a><br /></td></tr>
 <tr class="separator:a6af21c2a3a763083968fb8e8c15d7195"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fba9cf1dfdb8a896a3fadba136df1fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a4fba9cf1dfdb8a896a3fadba136df1fc">native_functions_write_to_file</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:a4fba9cf1dfdb8a896a3fadba136df1fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the content of a cellox string to a file.  <a href="native__functions_8c.html#a4fba9cf1dfdb8a896a3fadba136df1fc">More...</a><br /></td></tr>
+<tr class="separator:a4fba9cf1dfdb8a896a3fadba136df1fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -194,7 +203,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MAX_READ_LINE_INPUT&#160;&#160;&#160;1024</td>
+          <td class="memname">#define MAX_READ_LINE_INPUT&#160;&#160;&#160;(1024)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -208,7 +217,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MAX_USER_NAME_LENGTH&#160;&#160;&#160;256</td>
+          <td class="memname">#define MAX_USER_NAME_LENGTH&#160;&#160;&#160;(256)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -228,13 +237,13 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a38c0f4fa8e562b3c18ff364fcae4db7b" name="aff7a506996fcda1214415dd14d22ba78a38c0f4fa8e562b3c18ff364fcae4db7b"></a>NATIVE_FUNCTION_CLASS_OF&#160;</td><td class="fielddoc"><p >Native class_of function. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78afecbd122c2853877a66844966f105e6a" name="aff7a506996fcda1214415dd14d22ba78afecbd122c2853877a66844966f105e6a"></a>NATIVE_FUNCTION_APPEND_TO_FILE&#160;</td><td class="fielddoc"><p >Native append_to_file function. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a38c0f4fa8e562b3c18ff364fcae4db7b" name="aff7a506996fcda1214415dd14d22ba78a38c0f4fa8e562b3c18ff364fcae4db7b"></a>NATIVE_FUNCTION_CLASS_OF&#160;</td><td class="fielddoc"><p >Native class_of function. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78ad8b27f8d731236c02912ee850fb14f6f" name="aff7a506996fcda1214415dd14d22ba78ad8b27f8d731236c02912ee850fb14f6f"></a>NATIVE_FUNCTION_CLOCK&#160;</td><td class="fielddoc"><p >Native clock function. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a86840296c1b85d26d50a2575274da5ba" name="aff7a506996fcda1214415dd14d22ba78a86840296c1b85d26d50a2575274da5ba"></a>NATIVE_FUNCTION_EXIT&#160;</td><td class="fielddoc"><p >Native exit function. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a82e1bab9e75b5d2e35d5becec0df9b75" name="aff7a506996fcda1214415dd14d22ba78a82e1bab9e75b5d2e35d5becec0df9b75"></a>NATIVE_FUNCTION_GET_USER_NAME&#160;</td><td class="fielddoc"><p >Native get_user_name function. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a0149b1beb94bc04abe437f204cb1083f" name="aff7a506996fcda1214415dd14d22ba78a0149b1beb94bc04abe437f204cb1083f"></a>NATIVE_FUNCTION_ON_LINUX&#160;</td><td class="fielddoc"><p >Native on_linux function. </p>
 </td></tr>
@@ -248,6 +257,8 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a687c87b317e62d3432f620fde2df383d" name="aff7a506996fcda1214415dd14d22ba78a687c87b317e62d3432f620fde2df383d"></a>NATIVE_FUNCTION_RANDOM&#160;</td><td class="fielddoc"><p >Native random function. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a6a1cb946d013d40cbb812364e744320a" name="aff7a506996fcda1214415dd14d22ba78a6a1cb946d013d40cbb812364e744320a"></a>NATIVE_FUNCTION_READ_FILE&#160;</td><td class="fielddoc"><p >Native read_file function. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a25fd91fbe70619441d605447f8abc870" name="aff7a506996fcda1214415dd14d22ba78a25fd91fbe70619441d605447f8abc870"></a>NATIVE_FUNCTION_READ_KEY&#160;</td><td class="fielddoc"><p >Native read_key function. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78ab32ae17b1e47112c23e558a3964c1159" name="aff7a506996fcda1214415dd14d22ba78ab32ae17b1e47112c23e558a3964c1159"></a>NATIVE_FUNCTION_READ_LINE&#160;</td><td class="fielddoc"><p >Native read_line function. </p>
@@ -258,11 +269,51 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78a746d67984d40c6d42945a568e0dabad9" name="aff7a506996fcda1214415dd14d22ba78a746d67984d40c6d42945a568e0dabad9"></a>NATIVE_FUNCTION_WAIT&#160;</td><td class="fielddoc"><p >Native wait function. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="aff7a506996fcda1214415dd14d22ba78afc79908e3f304d87d4529954098e0ed7" name="aff7a506996fcda1214415dd14d22ba78afc79908e3f304d87d4529954098e0ed7"></a>NATIVE_FUNCTION_WRITE_TO_FILE&#160;</td><td class="fielddoc"><p >Native write to file function. </p>
+</td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a964acf053097d97a86bcf8ec8989c3b7" name="a964acf053097d97a86bcf8ec8989c3b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a964acf053097d97a86bcf8ec8989c3b7">&#9670;&#160;</a></span>native_functions_append_to_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_append_to_file </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Appends the content of a cellox string to a file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when append_to was called </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that append_to_file was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True -&gt; Sucess, False -&gt; Error </dd></dl>
+
+</div>
+</div>
 <a id="afb5fcba5fcb2e51db8279f3f812eb681" name="afb5fcba5fcb2e51db8279f3f812eb681"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afb5fcba5fcb2e51db8279f3f812eb681">&#9670;&#160;</a></span>native_functions_arguments_error()</h2>
 
@@ -360,7 +411,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_classof </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_classof </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -368,7 +419,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -398,7 +449,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_clock </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_clock </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -406,7 +457,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -436,7 +487,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_exit </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_exit </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -444,7 +495,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -508,44 +559,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a942e2c2a441c1b313299d917cd583a33" name="a942e2c2a441c1b313299d917cd583a33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a942e2c2a441c1b313299d917cd583a33">&#9670;&#160;</a></span>native_functions_get_username()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_get_username </td>
-          <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>argCount</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
-          <td class="paramname"><em>args</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Gets the user name. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when get_username was called </td></tr>
-    <tr><td class="paramname">args</td><td>The aguments that get_username was called with </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An object string that represents the user name </dd></dl>
-
-</div>
-</div>
 <a id="acaca54aee3b6b870e27f946e470c80a6" name="acaca54aee3b6b870e27f946e470c80a6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acaca54aee3b6b870e27f946e470c80a6">&#9670;&#160;</a></span>native_functions_on_linux()</h2>
 
@@ -553,7 +566,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_on_linux </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_on_linux </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -561,7 +574,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -576,7 +589,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when on_linux was called </td></tr>
-    <tr><td class="paramname">args</td><td>The aguments that on_linux was called with </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that on_linux was called with </td></tr>
   </table>
   </dd>
 </dl>
@@ -591,7 +604,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_on_macOS </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_on_macOS </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -599,7 +612,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -629,7 +642,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_on_windows </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_on_windows </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -637,7 +650,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -652,7 +665,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when on_windows was called </td></tr>
-    <tr><td class="paramname">args</td><td>The aguments that on_windows was called with </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that on_windows was called with </td></tr>
   </table>
   </dd>
 </dl>
@@ -667,7 +680,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_print </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_print </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -675,7 +688,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -705,7 +718,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_print_line </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_print_line </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -713,7 +726,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -728,7 +741,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when println was called </td></tr>
-    <tr><td class="paramname">args</td><td>The aguments that print was called with </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that print was called with </td></tr>
   </table>
   </dd>
 </dl>
@@ -743,7 +756,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_random </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_random </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -751,7 +764,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -774,14 +787,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a79f399ef792765fed5c2f713cb3a7ec2" name="a79f399ef792765fed5c2f713cb3a7ec2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79f399ef792765fed5c2f713cb3a7ec2">&#9670;&#160;</a></span>native_functions_read_key()</h2>
+<a id="a3c0169cb80b6351b310c2a6d4a8579eb" name="a3c0169cb80b6351b310c2a6d4a8579eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c0169cb80b6351b310c2a6d4a8579eb">&#9670;&#160;</a></span>native_functions_read_file()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_read_key </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_read_file </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -789,7 +802,45 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads the contents of a file and creates a cellox string based on the content of the file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when read_file was called </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that read_file was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NULL if an error occured, otherwise a string that represents the content of the file </dd></dl>
+
+</div>
+</div>
+<a id="a79f399ef792765fed5c2f713cb3a7ec2" name="a79f399ef792765fed5c2f713cb3a7ec2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79f399ef792765fed5c2f713cb3a7ec2">&#9670;&#160;</a></span>native_functions_read_key()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_read_key </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -804,7 +855,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when read_key was called </td></tr>
-    <tr><td class="paramname">args</td><td>The aguments that read_key was called with </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that read_key was called with </td></tr>
   </table>
   </dd>
 </dl>
@@ -819,7 +870,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_read_line </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_read_line </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -827,7 +878,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -842,7 +893,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when read_line was called </td></tr>
-    <tr><td class="paramname">args</td><td>The aguments that read_line was called with </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that read_line was called with </td></tr>
   </table>
   </dd>
 </dl>
@@ -857,7 +908,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_string_length </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_string_length </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -865,7 +916,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -880,7 +931,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when strlen was called </td></tr>
-    <tr><td class="paramname">args</td><td>The aguments that strlen was called with </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that strlen was called with </td></tr>
   </table>
   </dd>
 </dl>
@@ -895,7 +946,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_system </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_system </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -903,7 +954,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -933,7 +984,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> native_functions_wait </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_wait </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>argCount</em>, </td>
@@ -941,7 +992,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> const *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -956,11 +1007,49 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when wait was called </td></tr>
-    <tr><td class="paramname">args</td><td>The aguments that wait was called with </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that wait was called with </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
+
+</div>
+</div>
+<a id="a4fba9cf1dfdb8a896a3fadba136df1fc" name="a4fba9cf1dfdb8a896a3fadba136df1fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fba9cf1dfdb8a896a3fadba136df1fc">&#9670;&#160;</a></span>native_functions_write_to_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_write_to_file </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Writes the content of a cellox string to a file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when write_to_file was called </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that write_to_file was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True -&gt; Sucess, False -&gt; Error </dd></dl>
 
 </div>
 </div>

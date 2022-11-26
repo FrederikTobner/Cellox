@@ -32,9 +32,6 @@ typedef enum
 /// Number of values in a dynamic array (used for upvalues and locals)
 #define UINT8_COUNT (256)
 
-///Flag for enabeling NAN boxing / NAN tagging
-#define NAN_BOXING
-
 /// Flag that indicates that is defined the build variant for the interpreter is not debug
 #ifndef NDEBUG
 

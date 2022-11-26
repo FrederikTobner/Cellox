@@ -91,14 +91,14 @@ void init_show_help()
 {
     #ifndef BENCHMARKS_RUNNING
     #ifndef CELLOX_TESTS_RUNNING
-    printf("%s Help\n%s\n", PROJECT_NAME_STRING, CELLOX_USAGE_MESSAGE);
+    printf("%s Help\n%s\n", PROJECT_NAME, CELLOX_USAGE_MESSAGE);
     #endif
     #endif
 }
 
 void init_show_version()
 {
-    printf("%s Version %i.%i\n", PROJECT_NAME_STRING, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
+    printf("%s Version %i.%i\n", PROJECT_NAME, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
 }
 
 /// @brief Prints a error message for io errors and exits if no tests are executed

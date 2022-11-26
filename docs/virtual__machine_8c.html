@@ -112,12 +112,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a43cdb54453e9612011a64902a3924835"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a43cdb54453e9612011a64902a3924835">virtual_machine_call</a> (<a class="el" href="structobject__closure__t.html">object_closure_t</a> *closure, int32_t argCount)</td></tr>
 <tr class="memdesc:a43cdb54453e9612011a64902a3924835"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a function that is bound to a closure.  <a href="virtual__machine_8c.html#a43cdb54453e9612011a64902a3924835">More...</a><br /></td></tr>
 <tr class="separator:a43cdb54453e9612011a64902a3924835"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fa0cc6d71b5f13b783e5b5fe6964740"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9fa0cc6d71b5f13b783e5b5fe6964740">virtual_machine_call_value</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>, int32_t)</td></tr>
+<tr class="memitem:a9fa0cc6d71b5f13b783e5b5fe6964740"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9fa0cc6d71b5f13b783e5b5fe6964740">virtual_machine_call_value</a> (<a class="el" href="structvalue__t.html">value_t</a>, int32_t)</td></tr>
 <tr class="separator:a9fa0cc6d71b5f13b783e5b5fe6964740"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4942408db3de7ea05ea9b98fde452458"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a4942408db3de7ea05ea9b98fde452458">virtual_machine_capture_upvalue</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> *local)</td></tr>
+<tr class="memitem:a4942408db3de7ea05ea9b98fde452458"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a4942408db3de7ea05ea9b98fde452458">virtual_machine_capture_upvalue</a> (<a class="el" href="structvalue__t.html">value_t</a> *local)</td></tr>
 <tr class="memdesc:a4942408db3de7ea05ea9b98fde452458"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures an upvalue of the enclosing environment.  <a href="virtual__machine_8c.html#a4942408db3de7ea05ea9b98fde452458">More...</a><br /></td></tr>
 <tr class="separator:a4942408db3de7ea05ea9b98fde452458"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cc90276196d7a7ebafd0d6798b7e495"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a5cc90276196d7a7ebafd0d6798b7e495">virtual_machine_close_upvalues</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> *last)</td></tr>
+<tr class="memitem:a5cc90276196d7a7ebafd0d6798b7e495"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a5cc90276196d7a7ebafd0d6798b7e495">virtual_machine_close_upvalues</a> (<a class="el" href="structvalue__t.html">value_t</a> *last)</td></tr>
 <tr class="memdesc:a5cc90276196d7a7ebafd0d6798b7e495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function takes a slot of the stack as a parameter.  <a href="virtual__machine_8c.html#a5cc90276196d7a7ebafd0d6798b7e495">More...</a><br /></td></tr>
 <tr class="separator:a5cc90276196d7a7ebafd0d6798b7e495"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afefc9bbee261c6a69d970173777f860b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#afefc9bbee261c6a69d970173777f860b">virtual_machine_concatenate</a> ()</td></tr>
@@ -138,10 +138,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a878f62fd42536a5c0265340fffd8d4ae"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a878f62fd42536a5c0265340fffd8d4ae">virtual_machine_invoke_from_class</a> (<a class="el" href="structobject__class__t.html">object_class_t</a> *celloxClass, <a class="el" href="structobject__string__t.html">object_string_t</a> *name, int32_t argCount)</td></tr>
 <tr class="memdesc:a878f62fd42536a5c0265340fffd8d4ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a method from a celloxclass.  <a href="virtual__machine_8c.html#a878f62fd42536a5c0265340fffd8d4ae">More...</a><br /></td></tr>
 <tr class="separator:a878f62fd42536a5c0265340fffd8d4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a39f4d8e7a3c437cf51506b6ecc992ffe">virtual_machine_is_falsey</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> value)</td></tr>
+<tr class="memitem:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a39f4d8e7a3c437cf51506b6ecc992ffe">virtual_machine_is_falsey</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if a value is falsey (either null or false)  <a href="virtual__machine_8c.html#a39f4d8e7a3c437cf51506b6ecc992ffe">More...</a><br /></td></tr>
 <tr class="separator:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0ec70aec5b3b580191b56a0b91cbd36"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a> (int32_t distance)</td></tr>
+<tr class="memitem:aa0ec70aec5b3b580191b56a0b91cbd36"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a> (int32_t distance)</td></tr>
 <tr class="memdesc:aa0ec70aec5b3b580191b56a0b91cbd36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the value at the specified distance on the stacj.  <a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">More...</a><br /></td></tr>
 <tr class="separator:aa0ec70aec5b3b580191b56a0b91cbd36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a673f48ed0fbff646a88662ec10b95dfa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a673f48ed0fbff646a88662ec10b95dfa">virtual_machine_reset_stack</a> ()</td></tr>
@@ -162,10 +162,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a3b45ab7445e0d28102bce2bee9b705bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">interpret_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a3b45ab7445e0d28102bce2bee9b705bd">virtual_machine_interpret</a> (char *program, bool freeProgram)</td></tr>
 <tr class="memdesc:a3b45ab7445e0d28102bce2bee9b705bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interprets a lox program.  <a href="virtual__machine_8c.html#a3b45ab7445e0d28102bce2bee9b705bd">More...</a><br /></td></tr>
 <tr class="separator:a3b45ab7445e0d28102bce2bee9b705bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae87423d28b469680e69b4af6a4cc651"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aae87423d28b469680e69b4af6a4cc651">virtual_machine_push</a> (<a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> value)</td></tr>
+<tr class="memitem:aae87423d28b469680e69b4af6a4cc651"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aae87423d28b469680e69b4af6a4cc651">virtual_machine_push</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:aae87423d28b469680e69b4af6a4cc651"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a new Value on the stack.  <a href="virtual__machine_8c.html#aae87423d28b469680e69b4af6a4cc651">More...</a><br /></td></tr>
 <tr class="separator:aae87423d28b469680e69b4af6a4cc651"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acecc837f6d14140d8d88151ddcee8fe4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a> ()</td></tr>
+<tr class="memitem:acecc837f6d14140d8d88151ddcee8fe4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a> ()</td></tr>
 <tr class="memdesc:acecc837f6d14140d8d88151ddcee8fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pops a value from the stack.  <a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">More...</a><br /></td></tr>
 <tr class="separator:acecc837f6d14140d8d88151ddcee8fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -213,8 +213,8 @@ Variables</h2></td></tr>
 <div class="line">        virtual_machine_push(valueType(a op b));                           \</div>
 <div class="line">    } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
 <div class="ttc" id="avalue_8c_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition:</b> value.c:45</div></div>
-<div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition:</b> value.h:37</div></div>
-<div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that yields the value of a number and converts to a c double.</div><div class="ttdef"><b>Definition:</b> value.h:47</div></div>
+<div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition:</b> value.h:126</div></div>
+<div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition:</b> value.h:136</div></div>
 <div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stacj.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:320</div></div>
 <div class="ttc" id="avirtual__machine_8c_html_acecc837f6d14140d8d88151ddcee8fe4"><div class="ttname"><a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop()</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:90</div></div>
 <div class="ttc" id="avirtual__machine_8h_html_a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:69</div></div>
@@ -394,7 +394,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">static bool virtual_machine_call_value </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
           <td class="paramname"><em>callee</em>, </td>
         </tr>
         <tr>
@@ -430,7 +430,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">static <a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a> * virtual_machine_capture_upvalue </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> *&#160;</td>
           <td class="paramname"><em>local</em></td><td>)</td>
           <td></td>
         </tr>
@@ -466,7 +466,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">static void virtual_machine_close_upvalues </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> *&#160;</td>
           <td class="paramname"><em>last</em></td><td>)</td>
           <td></td>
         </tr>
@@ -803,7 +803,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">static bool virtual_machine_is_falsey </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
@@ -836,7 +836,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> virtual_machine_peek </td>
+          <td class="memname">static <a class="el" href="structvalue__t.html">value_t</a> virtual_machine_peek </td>
           <td>(</td>
           <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>distance</em></td><td>)</td>
@@ -868,7 +868,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a> virtual_machine_pop </td>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> virtual_machine_pop </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -890,7 +890,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void virtual_machine_push </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="value_8h.html#a005c2bd31b789ec39ed5942bb08033b6">value_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
