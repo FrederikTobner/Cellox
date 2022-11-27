@@ -6,10 +6,12 @@
 /// @brief Compiles a cellox program.
 /// @param code The cellox program that is compiled
 /// @return A obect_function_t that that stores all the instructions that of the cellox program
+/// @details Converts the textual representation of a cellox program in a cellox chunk.
+/// The source code is for that purposed scanned, parsed and then converted to a intermediate representation
 object_function_t * compiler_compile(char const * code);
 
 /// @brief Marks the compiler roots.
-/// @details These are all the the objects that can be directly accessed by the virtualMachine and not through a reference in some other object..
+/// @details These are all the the objects that can be directly accessed by the virtualMachine and not through a reference in some other object.
 void compiler_mark_roots();
 
 #endif

@@ -120,9 +120,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a5cc90276196d7a7ebafd0d6798b7e495"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a5cc90276196d7a7ebafd0d6798b7e495">virtual_machine_close_upvalues</a> (<a class="el" href="structvalue__t.html">value_t</a> *last)</td></tr>
 <tr class="memdesc:a5cc90276196d7a7ebafd0d6798b7e495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function takes a slot of the stack as a parameter.  <a href="virtual__machine_8c.html#a5cc90276196d7a7ebafd0d6798b7e495">More...</a><br /></td></tr>
 <tr class="separator:a5cc90276196d7a7ebafd0d6798b7e495"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afefc9bbee261c6a69d970173777f860b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#afefc9bbee261c6a69d970173777f860b">virtual_machine_concatenate</a> ()</td></tr>
-<tr class="memdesc:afefc9bbee261c6a69d970173777f860b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates the two upper values on the stack.  <a href="virtual__machine_8c.html#afefc9bbee261c6a69d970173777f860b">More...</a><br /></td></tr>
-<tr class="separator:afefc9bbee261c6a69d970173777f860b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa5e270446497f40e305762d37ab8442"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aaa5e270446497f40e305762d37ab8442">virtual_machine_concatenate_strings</a> ()</td></tr>
+<tr class="memdesc:aaa5e270446497f40e305762d37ab8442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates the two upper values (cellox strings) on the stack.  <a href="virtual__machine_8c.html#aaa5e270446497f40e305762d37ab8442">More...</a><br /></td></tr>
+<tr class="separator:aaa5e270446497f40e305762d37ab8442"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5351b4a129b99a02da6eb1e5d9a7ba11"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a5351b4a129b99a02da6eb1e5d9a7ba11">virtual_machine_define_method</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name)</td></tr>
 <tr class="memdesc:a5351b4a129b99a02da6eb1e5d9a7ba11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a new Method in the hashTable of the cellox class instance.  <a href="virtual__machine_8c.html#a5351b4a129b99a02da6eb1e5d9a7ba11">More...</a><br /></td></tr>
 <tr class="separator:a5351b4a129b99a02da6eb1e5d9a7ba11"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,8 +215,8 @@ Variables</h2></td></tr>
 <div class="ttc" id="avalue_8c_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition:</b> value.c:45</div></div>
 <div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition:</b> value.h:126</div></div>
 <div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition:</b> value.h:136</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stacj.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:320</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_acecc837f6d14140d8d88151ddcee8fe4"><div class="ttname"><a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop()</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:90</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stacj.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:329</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_acecc837f6d14140d8d88151ddcee8fe4"><div class="ttname"><a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop()</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:92</div></div>
 <div class="ttc" id="avirtual__machine_8h_html_a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:69</div></div>
 </div><!-- fragment -->
 </div>
@@ -445,12 +445,11 @@ Variables</h2></td></tr>
 <p>Captures an upvalue of the enclosing environment. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">local</td><td></td></tr>
+    <tr><td class="paramname">local</td><td>The slot of the local variable that is captured </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><br  />
- </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The created upvalue </dd></dl>
 
 </div>
 </div>
@@ -483,8 +482,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="afefc9bbee261c6a69d970173777f860b" name="afefc9bbee261c6a69d970173777f860b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afefc9bbee261c6a69d970173777f860b">&#9670;&#160;</a></span>virtual_machine_concatenate()</h2>
+<a id="aaa5e270446497f40e305762d37ab8442" name="aaa5e270446497f40e305762d37ab8442"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa5e270446497f40e305762d37ab8442">&#9670;&#160;</a></span>virtual_machine_concatenate_strings()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -493,7 +492,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void virtual_machine_concatenate </td>
+          <td class="memname">static void virtual_machine_concatenate_strings </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -506,7 +505,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Concatenates the two upper values on the stack. </p>
+<p>Concatenates the two upper values (cellox strings) on the stack. </p>
 
 </div>
 </div>
@@ -613,6 +612,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Defines the native functions of the virtual machine. </p>
+<p >These are functions that are implemented in C </p>
 
 </div>
 </div>
@@ -959,6 +959,11 @@ Variables</h2></td></tr>
 
 <p>Runs a lox program that was converted to bytecode instructions. </p>
 <dl class="section return"><dt>Returns</dt><dd>OK if the program was executed sucessfull or a runtime error code if a runtime error occured </dd></dl>
+<p >Reads the next instruction from the current frame on top of the callstack</p>
+<p >Reads a single short (unsigned 16-bit integer value from the current frame on top of the callstack</p>
+<p >Reads a constant from the closure of the current frame on the callstack</p>
+<p >Makro readsa string in the chunk, at stores it as a constant</p>
+<p >Macro for creating a binary operator, based on a operator in C We have to embed the marco into a do while, which isn't followed by a semicolon, so all the statements in it get executed if they are after an if 🤮</p>
 
 </div>
 </div>
@@ -1000,7 +1005,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">format</td><td>The formater of the error message </td></tr>
-    <tr><td class="paramname">...</td><td>Arguments that are passed in for the formatter </td></tr>
+    <tr><td class="paramname">...</td><td>Arguments that are passed in for the formatter If no tests are executed the program exits with a exit code that indiactes an error at compile time </td></tr>
   </table>
   </dd>
 </dl>

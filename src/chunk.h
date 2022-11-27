@@ -91,7 +91,8 @@ typedef enum
 } opcode_t;
 
 /// @brief A dynamic array structure of bytecode instructions and constants
-/// @details instructions are idealized instructions for an abstract/virtual computer. The constants in the program are defined at the beginning of the chunk
+/// @details instructions are idealized instructions for an abstract/virtual computer. 
+/// The constants in the program are defined at the beginning of the chunk.
 typedef struct
 {
     /// Amount of bytecode instructions in the chunk

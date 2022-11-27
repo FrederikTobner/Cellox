@@ -95,7 +95,7 @@ typedef struct
 {
     /// data that defines all types of objects
     object_t obj;
-    /// The number of arguments a function expects
+    /// The number of parametters a function has
     uint32_t arity;
     /// Number of values from enclosing scopes
     uint32_t upvalueCount;

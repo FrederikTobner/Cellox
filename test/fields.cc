@@ -4,37 +4,37 @@
 
 TEST(Fields, Call)
 {
-    test_failing_cellox_program("fields/call.clx", "Can only call functions and classes.\n[line 9] in script\n");
+    test_failing_cellox_program("fields/call.clx", "Can only call functions and classes, but call expression was performed with numerical\n[line 9] in script\n");
 }
 
 TEST(Fields, GetOnBool)
 {
-    test_failing_cellox_program("fields/get_on_bool.clx", "Only instances have properties.\n[line 1] in script\n");
+    test_failing_cellox_program("fields/get_on_bool.clx", "Only instances have properties but get expression was created with boolean value\n[line 1] in script\n");
 }
 
 TEST(Fields, GetOnClass)
 {
-    test_failing_cellox_program("fields/get_on_class.clx", "Only instances have properties.\n[line 2] in script\n");
+    test_failing_cellox_program("fields/get_on_class.clx", "Only instances have properties but get expression was created with class value\n[line 2] in script\n");
 }
 
 TEST(Fields, GetOnFunction)
 {
-    test_failing_cellox_program("fields/get_on_function.clx", "Only instances have properties.\n[line 3] in script\n");
+    test_failing_cellox_program("fields/get_on_function.clx", "Only instances have properties but get expression was created with closure value\n[line 3] in script\n");
 }
 
 TEST(Fields, GetOnNull)
 {
-    test_failing_cellox_program("fields/get_on_null.clx", "Only instances have properties.\n[line 1] in script\n");
+    test_failing_cellox_program("fields/get_on_null.clx", "Only instances have properties but get expression was created with undefiened value\n[line 1] in script\n");
 }
 
 TEST(Fields, GetOnNumber)
 {
-    test_failing_cellox_program("fields/get_on_number.clx", "Only instances have properties.\n[line 1] in script\n");
+    test_failing_cellox_program("fields/get_on_number.clx", "Only instances have properties but get expression was created with numerical value\n[line 1] in script\n");
 }
 
 TEST(Fields, GetOnString)
 {
-    test_failing_cellox_program("fields/get_on_string.clx", "Only instances have properties.\n[line 1] in script\n");
+    test_failing_cellox_program("fields/get_on_string.clx", "Only instances have properties but get expression was created with string value\n[line 1] in script\n");
 }
 
 TEST(Fields, Inherit)

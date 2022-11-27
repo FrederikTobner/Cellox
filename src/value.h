@@ -5,10 +5,10 @@
 
 #include "common.h"
 
-/// @brief Typedefinition of a object_t
+/// Defines object_t as a new type (specified in object.h)
 typedef struct object_t object_t;
 
-/// @brief Typedefinition of a object_string_t
+/// Defines object_string_t as a new type (specified in object.h)
 typedef struct object_string_t object_string_t;
 
 #ifdef NAN_BOXING

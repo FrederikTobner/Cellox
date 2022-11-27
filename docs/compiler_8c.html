@@ -189,31 +189,32 @@ Functions</h2></td></tr>
 <tr class="memdesc:a2eddf3f1a7e28d82abbe13c4c1ba61f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consumes a Token and emits a error message if the type of the token doesn't match the specified type.  <a href="compiler_8c.html#a2eddf3f1a7e28d82abbe13c4c1ba61f2">More...</a><br /></td></tr>
 <tr class="separator:a2eddf3f1a7e28d82abbe13c4c1ba61f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5379ae1e531163e3884ce754a6241b56"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a5379ae1e531163e3884ce754a6241b56">compiler_current_chunk</a> ()</td></tr>
-<tr class="memdesc:a5379ae1e531163e3884ce754a6241b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a pointer the the token in the chunk that is currently compiled.  <a href="compiler_8c.html#a5379ae1e531163e3884ce754a6241b56">More...</a><br /></td></tr>
+<tr class="memdesc:a5379ae1e531163e3884ce754a6241b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the token that is currently compiled.  <a href="compiler_8c.html#a5379ae1e531163e3884ce754a6241b56">More...</a><br /></td></tr>
 <tr class="separator:a5379ae1e531163e3884ce754a6241b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a197d3f7c5b5d4bfe04a0040896f2cc69"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a197d3f7c5b5d4bfe04a0040896f2cc69">compiler_declaration</a> ()</td></tr>
-<tr class="memdesc:a197d3f7c5b5d4bfe04a0040896f2cc69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a declaration stament or a normal statement.  <a href="compiler_8c.html#a197d3f7c5b5d4bfe04a0040896f2cc69">More...</a><br /></td></tr>
+<tr class="memdesc:a197d3f7c5b5d4bfe04a0040896f2cc69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a declaration stament or another statement.  <a href="compiler_8c.html#a197d3f7c5b5d4bfe04a0040896f2cc69">More...</a><br /></td></tr>
 <tr class="separator:a197d3f7c5b5d4bfe04a0040896f2cc69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d86201abba4435a669f1ba071ddcc47"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a8d86201abba4435a669f1ba071ddcc47">compiler_declare_variable</a> ()</td></tr>
-<tr class="memdesc:a8d86201abba4435a669f1ba071ddcc47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Declares a new variable.  <a href="compiler_8c.html#a8d86201abba4435a669f1ba071ddcc47">More...</a><br /></td></tr>
+<tr class="memdesc:a8d86201abba4435a669f1ba071ddcc47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles the declaration of a variable.  <a href="compiler_8c.html#a8d86201abba4435a669f1ba071ddcc47">More...</a><br /></td></tr>
 <tr class="separator:a8d86201abba4435a669f1ba071ddcc47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00f8904578cd776448f9f8ccab0f6798"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a00f8904578cd776448f9f8ccab0f6798">compiler_define_variable</a> (uint8_t global)</td></tr>
-<tr class="memdesc:a00f8904578cd776448f9f8ccab0f6798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a new Variable.  <a href="compiler_8c.html#a00f8904578cd776448f9f8ccab0f6798">More...</a><br /></td></tr>
+<tr class="memdesc:a00f8904578cd776448f9f8ccab0f6798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles the definition of a variable.  <a href="compiler_8c.html#a00f8904578cd776448f9f8ccab0f6798">More...</a><br /></td></tr>
 <tr class="separator:a00f8904578cd776448f9f8ccab0f6798"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30a28ab576db0e850f8d78ad4e30a98b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a30a28ab576db0e850f8d78ad4e30a98b">compiler_dot</a> (bool canAssign)</td></tr>
-<tr class="memdesc:a30a28ab576db0e850f8d78ad4e30a98b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a dot statement (get or set)  <a href="compiler_8c.html#a30a28ab576db0e850f8d78ad4e30a98b">More...</a><br /></td></tr>
+<tr class="memdesc:a30a28ab576db0e850f8d78ad4e30a98b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a dot statement.  <a href="compiler_8c.html#a30a28ab576db0e850f8d78ad4e30a98b">More...</a><br /></td></tr>
 <tr class="separator:a30a28ab576db0e850f8d78ad4e30a98b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a954e41f88b4e48c4db80e83fccab68bc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a954e41f88b4e48c4db80e83fccab68bc">compiler_emit_byte</a> (uint8_t byte)</td></tr>
-<tr class="memdesc:a954e41f88b4e48c4db80e83fccab68bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits a single byte as bytecode instructionn.  <a href="compiler_8c.html#a954e41f88b4e48c4db80e83fccab68bc">More...</a><br /></td></tr>
+<tr class="memdesc:a954e41f88b4e48c4db80e83fccab68bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits a single byte.  <a href="compiler_8c.html#a954e41f88b4e48c4db80e83fccab68bc">More...</a><br /></td></tr>
 <tr class="separator:a954e41f88b4e48c4db80e83fccab68bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a528487588117ba1c671736c412320119"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a528487588117ba1c671736c412320119">compiler_emit_bytes</a> (uint8_t byte1, uint8_t byte2)</td></tr>
-<tr class="memdesc:a528487588117ba1c671736c412320119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits two bytes as bytecode instructions.  <a href="compiler_8c.html#a528487588117ba1c671736c412320119">More...</a><br /></td></tr>
+<tr class="memdesc:a528487588117ba1c671736c412320119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits two bytes.  <a href="compiler_8c.html#a528487588117ba1c671736c412320119">More...</a><br /></td></tr>
 <tr class="separator:a528487588117ba1c671736c412320119"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2552ae5e3d058d9821112118a26c5fae"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a2552ae5e3d058d9821112118a26c5fae">compiler_emit_constant</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:a2552ae5e3d058d9821112118a26c5fae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a constant bytecode instruction.  <a href="compiler_8c.html#a2552ae5e3d058d9821112118a26c5fae">More...</a><br /></td></tr>
 <tr class="separator:a2552ae5e3d058d9821112118a26c5fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab68f1bbe0232cfeeca607c8e9694c1c3"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#ab68f1bbe0232cfeeca607c8e9694c1c3">compiler_emit_jump</a> (uint8_t)</td></tr>
-<tr class="separator:ab68f1bbe0232cfeeca607c8e9694c1c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac243a0bc8f59c8b22beb0bf6c7cc39f8"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#ac243a0bc8f59c8b22beb0bf6c7cc39f8">compiler_emit_jump</a> (uint8_t instruction)</td></tr>
+<tr class="memdesc:ac243a0bc8f59c8b22beb0bf6c7cc39f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits a bytecode instruction of the type jump (jump or jump-if-false) and writes a placeholder to the jump offset.  <a href="compiler_8c.html#ac243a0bc8f59c8b22beb0bf6c7cc39f8">More...</a><br /></td></tr>
+<tr class="separator:ac243a0bc8f59c8b22beb0bf6c7cc39f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66c5bf18fef66cadce7c7592f53473f6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a66c5bf18fef66cadce7c7592f53473f6">compiler_emit_loop</a> (int32_t loopStart)</td></tr>
 <tr class="memdesc:a66c5bf18fef66cadce7c7592f53473f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits the bytecode instructions for creating a loop.  <a href="compiler_8c.html#a66c5bf18fef66cadce7c7592f53473f6">More...</a><br /></td></tr>
 <tr class="separator:a66c5bf18fef66cadce7c7592f53473f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,7 +222,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:abfdee727f6dfb2b0d282e56ecfc89f3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits a return bytecode instruction.  <a href="compiler_8c.html#abfdee727f6dfb2b0d282e56ecfc89f3b">More...</a><br /></td></tr>
 <tr class="separator:abfdee727f6dfb2b0d282e56ecfc89f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d1401ba77960c443b2b79c5ce6c5aab"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structobject__function__t.html">object_function_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a4d1401ba77960c443b2b79c5ce6c5aab">compiler_end</a> ()</td></tr>
-<tr class="memdesc:a4d1401ba77960c443b2b79c5ce6c5aab"><td class="mdescLeft">&#160;</td><td class="mdescRight">yields a newly created function object after the compilation process finished  <a href="compiler_8c.html#a4d1401ba77960c443b2b79c5ce6c5aab">More...</a><br /></td></tr>
+<tr class="memdesc:a4d1401ba77960c443b2b79c5ce6c5aab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Yields a newly created function object after the compilation process finished.  <a href="compiler_8c.html#a4d1401ba77960c443b2b79c5ce6c5aab">More...</a><br /></td></tr>
 <tr class="separator:a4d1401ba77960c443b2b79c5ce6c5aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a726a02c352707f6f6316e1a3dbe9bd95"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a726a02c352707f6f6316e1a3dbe9bd95">compiler_end_scope</a> ()</td></tr>
 <tr class="memdesc:a726a02c352707f6f6316e1a3dbe9bd95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the closing of a scope.  <a href="compiler_8c.html#a726a02c352707f6f6316e1a3dbe9bd95">More...</a><br /></td></tr>
@@ -682,6 +683,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Handles the beginning of a new Scope. </p>
+<p >Increments the scopecounter that is used to determine whether the current scope is global &frasl; local </p>
 
 </div>
 </div>
@@ -710,6 +712,12 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compiles a binary expression. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">canAssign</td><td>Unused for binary expressions </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -767,10 +775,11 @@ Variables</h2></td></tr>
 <p>Compiles a call expression. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">canAssign</td><td>Unused for call expressions </td></tr>
+    <tr><td class="paramname">canAssign</td><td>Unused for call expressions</td></tr>
   </table>
   </dd>
 </dl>
+<p>For that purpose all the arguments when calling the function are compiled and a CALL instruction is emited followed by the amount of arguments, that where used when the function was called </p>
 
 </div>
 </div>
@@ -805,7 +814,8 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the next token matches the type, false if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the next token matches the type, false if not</dd></dl>
+<p>We do not advance if the token is of the specified type </p>
 
 </div>
 </div>
@@ -859,8 +869,8 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A obect_function_t that that stores all the instructions that of the cellox program </dd></dl>
-<p >We keep compiling until we hit the end of the source file</p>
+<dl class="section return"><dt>Returns</dt><dd>A obect_function_t that that stores all the instructions that of the cellox program</dd></dl>
+<p>Converts the textual representation of a cellox program in a cellox chunk. The source code is for that purposed scanned, parsed and then converted to a intermediate representation </p>
 
 </div>
 </div>
@@ -902,10 +912,11 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">type</td><td>The expected type of the token </td></tr>
-    <tr><td class="paramname">message</td><td>The error message that is displayed, if the compiler is not of the specified type </td></tr>
+    <tr><td class="paramname">message</td><td>The error message that is displayed, if the compiler is not of the specified type</td></tr>
   </table>
   </dd>
 </dl>
+<p>The program will exit with an exit code that indicates an error at compile time </p>
 
 </div>
 </div>
@@ -932,7 +943,8 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets a pointer the the token in the chunk that is currently compiled. </p>
+<p>Gets the token that is currently compiled. </p>
+<p >Gets a pointer the the token in the chunk that is currently compiled </p>
 
 </div>
 </div>
@@ -959,7 +971,8 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Compiles a declaration stament or a normal statement. </p>
+<p>Compiles a declaration stament or another statement. </p>
+<p >A declaration statement can be a class-, function- or variable declaration. If the next statement is not a declaration it is instead compiled (precedence) </p>
 
 </div>
 </div>
@@ -986,7 +999,8 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Declares a new variable. </p>
+<p>Compiles the declaration of a variable. </p>
+<p >Checks for local varoables, if there already has been declared a variable with that name at the current scope </p>
 
 </div>
 </div>
@@ -1014,7 +1028,13 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Defines a new Variable. </p>
+<p>Compiles the definition of a variable. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">global</td><td>The slot of the value </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1042,7 +1062,15 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Compiles a dot statement (get or set) </p>
+<p>Compiles a dot statement. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">canAssign</td><td>Boolean value that determines whether the value can be changed</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This can either be a getting the value of field, setting the value of a field <br  />
+ </p>
 
 </div>
 </div>
@@ -1070,7 +1098,13 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Emits a single byte as bytecode instructionn. </p>
+<p>Emits a single byte. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">byte</td><td>The byte that is emitted </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1108,7 +1142,14 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Emits two bytes as bytecode instructions. </p>
+<p>Emits two bytes. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">byte1</td><td>The first byte that is emitted </td></tr>
+    <tr><td class="paramname">byte2</td><td>The second byte that is emmited </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1139,15 +1180,15 @@ Variables</h2></td></tr>
 <p>Creates a constant bytecode instruction. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">value</td><td>The value of the constant </td></tr>
+    <tr><td class="paramname">value</td><td>The value of the constant This can either be a numerical value or a cellox object </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ab68f1bbe0232cfeeca607c8e9694c1c3" name="ab68f1bbe0232cfeeca607c8e9694c1c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab68f1bbe0232cfeeca607c8e9694c1c3">&#9670;&#160;</a></span>compiler_emit_jump()</h2>
+<a id="ac243a0bc8f59c8b22beb0bf6c7cc39f8" name="ac243a0bc8f59c8b22beb0bf6c7cc39f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac243a0bc8f59c8b22beb0bf6c7cc39f8">&#9670;&#160;</a></span>compiler_emit_jump()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1169,6 +1210,15 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Emits a bytecode instruction of the type jump (jump or jump-if-false) and writes a placeholder to the jump offset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instruction</td><td>The bytecode instruction that is emitted </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>offset (start address) of the then or else branch </dd></dl>
 
 </div>
 </div>
@@ -1250,7 +1300,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>yields a newly created function object after the compilation process finished </p>
+<p>Yields a newly created function object after the compilation process finished. </p>
 
 </div>
 </div>
@@ -1278,7 +1328,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Handles the closing of a scope. </p>
-<p >We walk backward through the local array looking for any variables, that where declared at the scope depth we just left, when we pop a scope. If the value is captured it is an upvalue and therefor the value has to be adjusted / closed. </p>
+<p >We are looking for any variables, that where declared at the scope depth we just left, when we pop a scope. If the value is captured it is an upvalue and therefore the value needs to be adjusted. </p>
 
 </div>
 </div>
@@ -1388,10 +1438,11 @@ Variables</h2></td></tr>
 <p>Reports an error at the current position. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">message</td><td>The error message that is displayed </td></tr>
+    <tr><td class="paramname">message</td><td>The error message that is displayed</td></tr>
   </table>
   </dd>
 </dl>
+<p>Exits the program with an exitcode that indicates a compilation error </p>
 
 </div>
 </div>
@@ -1419,6 +1470,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compiles a expression. </p>
+<p >A Expression in cellox can be a assignment expression, a get expression, a set expression, or expressions, and expression, equality-expressions, comparison expression, term expression, factor expression, unary expression, call expression, set index of expression, get index of expression, identifier expression, grouping expression, or literal expression </p>
 
 </div>
 </div>
@@ -1770,7 +1822,6 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p >TODO: if a equal follows -&gt; compile experssion -&gt; emit a SET_INDEX_OF</p>
 
 </div>
 </div>
@@ -1931,7 +1982,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Marks the compiler roots. </p>
-<p >These are all the the objects that can be directly accessed by the virtualMachine and not through a reference in some other object.. </p>
+<p >These are all the the objects that can be directly accessed by the virtualMachine and not through a reference in some other object. </p>
 
 </div>
 </div>

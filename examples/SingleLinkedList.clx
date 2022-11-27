@@ -11,14 +11,13 @@ class SingleLinkedList {
 	}
 
 	addLast(value) {
-		if(this.head == null) {
+		if(!this.head) {
 			this.head = Node(value, null);
 			return;
 		}
 		var current = this.head;
-		while(current.nextNode != null) {
+		while(current.nextNode)
 			current = current.nextNode;
-		}
 		current.nextNode = Node(value, null);
 	}
 
@@ -28,24 +27,21 @@ class SingleLinkedList {
 
 	printList() {
 		var current = this.head;
-		while(current != null) {	
+		while(current) {	
 			println(current.value);		
 			current = current.nextNode;
 		}
 	}
 
-	remove(value)
-	{
+	remove(value) {
 		var current = this.head;
 		var prevoius = null;
-		while(current != null) {	
+		while(current) {	
 			if(current.value == value) {
-				if(prevoius != null) {
+				if(prevoius)
 					prevoius.nextNode = current.nextNode;
-				}
-				else {
+				else
 					this.head = current.nextNode;
-				}
 			}
 			else {
 				prevoius = current;		

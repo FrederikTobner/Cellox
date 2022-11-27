@@ -508,7 +508,7 @@ object_function_t * compiler_compile(char const * program)
     parser.hadError = false;
     parser.panicMode = false;
     compiler_advance();
-    /// We keep compiling until we hit the end of the source file
+    // We keep compiling until we hit the end of the source file
     while (!compiler_match_token(TOKEN_EOF))
         compiler_declaration();
     object_function_t *function = compiler_end();
@@ -518,7 +518,7 @@ object_function_t * compiler_compile(char const * program)
 void compiler_mark_roots()
 {
     compiler_t * compiler = current;
-    while (compiler != NULL)
+    while (compiler)
     {
         memory_mark_object((object_t *)compiler->function);
         compiler = compiler->enclosing;
@@ -534,7 +534,7 @@ static void compiler_add_local(token_t name)
         compiler_error("Too many local variables in function.");
         return;
     }
-    local_t *local = &current->locals[current->localCount++];
+    local_t * local = &current->locals[current->localCount++];
     local->name = name;
     local->depth = -1;
     local->isCaptured = false;
@@ -551,7 +551,7 @@ static uint32_t compiler_add_upvalue(compiler_t * compiler, uint8_t index, bool 
 
     for (uint32_t i = 0; i < upvalueCount; i++)
     {
-        upvalue_t *upvalue = &compiler->upvalues[i];
+        upvalue_t * upvalue = &compiler->upvalues[i];
         if (upvalue->index == index && upvalue->isLocal == isLocal)
             return i;
     }
@@ -611,12 +611,14 @@ static uint8_t compiler_argument_list()
 }
 
 /// @brief Handles the beginning of a new Scope
+/// @details Increments the scopecounter that is used to determine whether the current scope is global &frasl; local
 static void compiler_begin_scope()
 {
     current->scopeDepth++;
 }
 
-/// Compiles a binary expression
+/// @brief Compiles a binary expression
+/// @param canAssign Unused for binary expressions
 static void compiler_binary(bool canAssign)
 {
     tokentype_t operatorType = parser.previous.type;
@@ -676,6 +678,8 @@ static void compiler_block()
 
 /// @brief Compiles a call expression
 /// @param canAssign Unused for call expressions
+/// @details For that purpose all the arguments when calling the function are compiled and a CALL instruction is emited 
+/// followed by the amount of arguments, that where used when the function was called
 static void compiler_call(bool canAssign)
 {
     uint8_t argCount = compiler_argument_list();
@@ -685,6 +689,7 @@ static void compiler_call(bool canAssign)
 /// @brief  Checks if the next Token is of a given type
 /// @param type The type that the token is matched against
 /// @return True if the next token matches the type, false if not
+/// @details We do not advance if the token is of the specified type
 static bool compiler_check(tokentype_t type)
 {
     return parser.current.type == type;
@@ -693,6 +698,7 @@ static bool compiler_check(tokentype_t type)
 /// @brief Parses a new class declaration
 static void compiler_class_declaration()
 {
+    // Compiles the name of the class
     compiler_consume(TOKEN_IDENTIFIER, "Expect class name.");
     token_t className = parser.previous;
     uint8_t nameConstant = compiler_identifier_constant(&parser.previous);
@@ -700,6 +706,7 @@ static void compiler_class_declaration()
     compiler_emit_bytes(OP_CLASS, nameConstant);
     compiler_define_variable(nameConstant);
     class_compiler_t classCompiler;
+    // If this class has a superclass we will set this to true later
     classCompiler.hasSuperclass = false;
     classCompiler.enclosing = currentClass;
     currentClass = &classCompiler;
@@ -714,6 +721,7 @@ static void compiler_class_declaration()
         compiler_define_variable(0);
         compiler_named_variable(className, false);
         compiler_emit_byte(OP_INHERIT);
+        // The class has a super class declared
         classCompiler.hasSuperclass = true;
     }
     compiler_named_variable(className, false);
@@ -730,6 +738,7 @@ static void compiler_class_declaration()
 /// @brief Consumes a Token and emits a error message if the type of the token doesn't match the specified type
 /// @param type The expected type of the token
 /// @param message The error message that is displayed, if the compiler is not of the specified type
+/// @details The program will exit with an exit code that indicates an error at compile time
 static void compiler_consume(tokentype_t type, char const * message)
 {
     if (parser.current.type == type)
@@ -740,13 +749,16 @@ static void compiler_consume(tokentype_t type, char const * message)
     compiler_error_at_current(message);
 }
 
-/// @brief Gets a pointer the the token in the chunk that is currently compiled
+/// @brief Gets the token that is currently compiled
+/// @details Gets a pointer the the token in the chunk that is currently compiled
 static chunk_t * compiler_current_chunk()
 {
     return &current->function->chunk;
 }
 
-/// @brief Compiles a declaration stament or a normal statement
+/// @brief Compiles a declaration stament or another statement
+/// @details A declaration statement can be a class-, function- or variable declaration.
+/// If the next statement is not a declaration it is instead compiled (precedence)
 static void compiler_declaration()
 {
     if (compiler_match_token(TOKEN_CLASS))
@@ -761,7 +773,8 @@ static void compiler_declaration()
         compiler_synchronize();
 }
 
-/// @brief Declares a new variable
+/// @brief Compiles the declaration of a variable
+/// @details Checks for local varoables, if there already has been declared a variable with that name at the current scope
 static void compiler_declare_variable()
 {
     // Global scope
@@ -781,19 +794,24 @@ static void compiler_declare_variable()
     compiler_add_local(*name);
 }
 
-/// Defines a new Variable
+/// @brief Compiles the definition of a variable
+/// @param global The slot of the value
 static void compiler_define_variable(uint8_t global)
 {
-    // local_t Variable
     if (current->scopeDepth > 0)
     {
+        // Marks the variable as initialized (only used for local variables)
         compiler_mark_initialized();
         return;
     }
+    // The variable has been declared at the global / top level scope
     compiler_emit_bytes(OP_DEFINE_GLOBAL, global);
 }
 
-/// Compiles a dot statement (get or set)
+/// @brief Compiles a dot statement
+/// @param canAssign Boolean value that determines whether the value can be changed
+/// @details This can either be a getting the value of field, setting the value of a field 
+//// or invoking a method of a cellox object instance.
 static void compiler_dot(bool canAssign)
 {
     compiler_consume(TOKEN_IDENTIFIER, "Expect property name after '.'.");
@@ -816,13 +834,16 @@ static void compiler_dot(bool canAssign)
     }
 }
 
-/// Emits a single byte as bytecode instructionn
+/// @brief Emits a single byte
+/// @param byte The byte that is emitted
 static void compiler_emit_byte(uint8_t byte)
 {
     chunk_write(compiler_current_chunk(), byte, parser.previous.line);
 }
 
-/// Emits two bytes as bytecode instructions
+/// @brief Emits two bytes
+/// @param byte1 The first byte that is emitted
+/// @param byte2 The second byte that is emmited
 static void compiler_emit_bytes(uint8_t byte1, uint8_t byte2)
 {
     compiler_emit_byte(byte1);
@@ -831,15 +852,15 @@ static void compiler_emit_bytes(uint8_t byte1, uint8_t byte2)
 
 /// @brief Creates a constant bytecode instruction
 /// @param value The value of the constant
+/// This can either be a numerical value or a cellox object
 static void compiler_emit_constant(value_t value)
 {
     compiler_emit_bytes(OP_CONSTANT, compiler_make_constant(value));
 }
 
-/* Emits a bytecode instruction of the type jump (jump or jump-if-false)
- * and writes a placeholder to the jump offset
- * Additionally returns the offset (start address) of the then or else branch
- */
+/// @brief Emits a bytecode instruction of the type jump (jump or jump-if-false) and writes a placeholder to the jump offset
+/// @param instruction The bytecode instruction that is emitted
+/// @return offset (start address) of the then or else branch
 static int32_t compiler_emit_jump(uint8_t instruction)
 {
     compiler_emit_byte(instruction);
@@ -869,7 +890,7 @@ static void compiler_emit_return()
     compiler_emit_byte(OP_RETURN);
 }
 
-/// @brief yields a newly created function object after the compilation process finished
+/// @brief Yields a newly created function object after the compilation process finished
 static object_function_t * compiler_end()
 {
     compiler_emit_return();
@@ -883,16 +904,14 @@ static object_function_t * compiler_end()
 }
 
 /// @brief Handles the closing of a scope
-/** @details We walk backward through the local array looking for any variables,
+/** @details We are looking for any variables,
  * that where declared at the scope depth we just left, when we pop a scope.
- * If the value is captured it is an upvalue and therefor the value has to be adjusted / closed.
+ * If the value is captured it is an upvalue and therefore the value needs to be adjusted.
 */
 static void compiler_end_scope()
 {
     current->scopeDepth--;
-    /* 
-     * 
-     */
+    // We walk backward through the local array looking for the upvalues in the variables
     while (current->localCount > 0 && current->locals[current->localCount - 1].depth > current->scopeDepth)
     {
         if (current->locals[current->localCount - 1].isCaptured)
@@ -929,12 +948,16 @@ static void compiler_error_at(token_t * token, char const * message)
 
 /// @brief Reports an error at the current position
 /// @param message The error message that is displayed
-static void compiler_error_at_current(char const *message)
+/// @details Exits the program with an exitcode that indicates a compilation error
+static void compiler_error_at_current(char const * message)
 {
     compiler_error_at(&parser.current, message);
 }
 
 /// @brief Compiles a expression
+/// @details A Expression in cellox can be a assignment expression, a get expression, a set expression, or expressions, 
+/// and expression, equality-expressions, comparison expression, term expression, factor expression, unary expression,
+/// call expression, set index of expression, get index of expression, identifier expression, grouping expression, or literal expression
 static void compiler_expression()
 {
     compiler_parse_precedence(PREC_ASSIGNMENT);
@@ -1009,9 +1032,12 @@ static void compiler_function(function_type_t type)
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after function name.");
     if (!compiler_check(TOKEN_RIGHT_PAREN))
     {
+        // Compiling parameters of the function declaration
         do
         {
+            // We expect an additional argument when the function is called
             current->function->arity++;
+            // There are too much parameters specified
             if (current->function->arity > 255)
                 compiler_error_at_current("Can't have more than 255 parameters.");
             uint8_t constant = compiler_parse_variable("Expect parameter name.");
@@ -1020,6 +1046,7 @@ static void compiler_function(function_type_t type)
     }
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after parameters.");
     compiler_consume(TOKEN_LEFT_BRACE, "Expect '{' before function body.");
+    // Compiles the statements inside a the function body
     compiler_block();
     object_function_t * function = compiler_end();
     compiler_emit_bytes(OP_CLOSURE, compiler_make_constant(OBJECT_VAL(function)));
@@ -1036,6 +1063,7 @@ static void compiler_function_declaration()
     uint8_t global = compiler_parse_variable("Expect function name.");
     compiler_mark_initialized();
     compiler_function(TYPE_FUNCTION);
+    // Defines the function at the specified slot
     compiler_define_variable(global);
 }
 
@@ -1069,6 +1097,7 @@ static uint8_t compiler_identifier_constant(token_t * name)
 /// @return true if both identifiers are equal, false if not
 static bool compiler_identifiers_equal(token_t * a, token_t * b)
 {
+    // If two identifiers have different lengths they must be different
     if (a->length != b->length)
         return false;
     return !memcmp(a->start, b->start, a->length);
@@ -1080,14 +1109,16 @@ static void compiler_if_statement()
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'if'.");
     compiler_expression();
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
+    // Offset to the instruction that corresponds to the body of the then block
     int32_t thenJump = compiler_emit_jump(OP_JUMP_IF_FALSE);
     compiler_statement();
+    // Offset to the instruction that corresponds to the body of the else block
     int32_t elseJump = compiler_emit_jump(OP_JUMP);
     compiler_patch_jump(thenJump);
     compiler_emit_byte(OP_POP);
     if (compiler_match_token(TOKEN_ELSE))
         compiler_statement();
-    // We patch that offset after the end of the else body
+    // We patch that offset after the end of the else body or the end of the if body if no else is present
     compiler_patch_jump(elseJump);
 }
 
@@ -1107,6 +1138,7 @@ static void compiler_init(compiler_t * compiler, function_type_t type)
     local_t * local = &current->locals[current->localCount++];
     local->depth = 0;
     local->isCaptured = false;
+    // In a method we refer to locals with this
     if (type != TYPE_FUNCTION)
     {
         local->name.start = "this";
@@ -1133,7 +1165,7 @@ static void compiler_index_of(bool canAssign, uint8_t getOp, uint8_t setOp, uint
         compiler_error("expected closing bracket ]");
         return;
     }
-    /// TODO: if a equal follows -> compile experssion -> emit a SET_INDEX_OF
+    // If an equal follows -> set index of expression
     if(compiler_match_token(TOKEN_EQUAL))
     {
         compiler_expression();

@@ -21,7 +21,7 @@ static bool virtual_machine_call(object_closure_t *, int32_t);
 static bool virtual_machine_call_value(value_t, int32_t);
 static object_upvalue_t * virtual_machine_capture_upvalue(value_t *);
 static void virtual_machine_close_upvalues(value_t *);
-static void virtual_machine_concatenate();
+static void virtual_machine_concatenate_strings();
 static void virtual_machine_define_method(object_string_t *);
 static void virtual_machine_define_native(char const *, native_function_t);
 static void virtual_machine_define_natives();
@@ -83,20 +83,27 @@ void virtual_machine_push(value_t value)
     // There are 16384 values on the stack 🤯
     if ((virtualMachine.stackTop - virtualMachine.stack) == STACK_MAX)
         virtual_machine_runtime_error("Stack overflow!!!");
+    // We add the value to the stack
     *virtualMachine.stackTop = value;
+    // The stacktop points at the next empty slot
     virtualMachine.stackTop++;
 }
 
 value_t virtual_machine_pop()
 {
+    // The stacktop points at the next empty slot -> we first decrement it
     virtualMachine.stackTop--;
+    // Then we return the vakue stored at the stacktop
     return *virtualMachine.stackTop;
 }
 
 /// @brief Defines the native functions of the virtual machine
+/// @details These are functions that are implemented in C
 static void virtual_machine_define_natives()
 {
+    // Pointer to the first configuration
     native_function_config_t * configs = native_functions_get_function_configs();
+    // Upper bound (pointer to the end of the memory segment where the native functions are stored)
     native_function_config_t * upperBound = configs + native_functions_get_function_count();
     for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound; nativeFunctionPointer++)
         virtual_machine_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
@@ -114,7 +121,7 @@ static bool virtual_machine_bind_method(object_class_t * celloxClass, object_str
         virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
         return false;
     }
-    object_bound_method_t *bound = object_new_bound_method(virtual_machine_peek(0), AS_CLOSURE(method));
+    object_bound_method_t * bound = object_new_bound_method(virtual_machine_peek(0), AS_CLOSURE(method));
     virtual_machine_pop();
     virtual_machine_push(OBJECT_VAL(bound));
     return true;
@@ -183,16 +190,18 @@ static bool virtual_machine_call_value(value_t callee, int32_t argCount)
             return true;
         }
         default:
-            break; // Non-callable object type.
+            break;
         }
     }
-    virtual_machine_runtime_error("Can only call functions and classes.");
+     // Non-callable object type.
+    virtual_machine_runtime_error("Can only call functions and classes, but call expression was performed with %s", 
+                                    value_stringify_type(callee));
     return false;
 }
 
 /// @brief Captures an upvalue of the enclosing environment
-/// @param local 
-/// @return 
+/// @param local The slot of the local variable that is captured
+/// @return The created upvalue
 static object_upvalue_t * virtual_machine_capture_upvalue(value_t * local)
 {
     object_upvalue_t * prevUpvalue = NULL;
@@ -230,8 +239,8 @@ static void virtual_machine_close_upvalues(value_t * last)
     }
 }
 
-/// @brief Concatenates the two upper values on the stack
-static void virtual_machine_concatenate()
+/// @brief Concatenates the two upper values (cellox strings) on the stack
+static void virtual_machine_concatenate_strings()
 {
     object_string_t * b = AS_STRING(virtual_machine_peek(0));
     object_string_t * a = AS_STRING(virtual_machine_peek(1));
@@ -338,20 +347,26 @@ static interpret_result_t virtual_machine_run()
     printf("== execution ==\n");
 #endif
 
+/// Reads the next instruction from the current frame on top of the callstack
 #define READ_BYTE() \
     (*frame->ip++)
 
+/// Reads a single short (unsigned 16-bit integer value from the current frame on top of the callstack
 #define READ_SHORT() \
     (frame->ip += 2, (uint16_t)((frame->ip[-2] << 8) | frame->ip[-1]))
 
+/// Reads a constant from the closure of the current frame on the callstack
 #define READ_CONSTANT() \
     (frame->closure->function->chunk.constants.values[READ_BYTE()])
 
-// Makro readsa string in the chunk, at stores it as a constant
+/// Makro readsa string in the chunk, at stores it as a constant
 #define READ_STRING() AS_STRING(READ_CONSTANT())
-/*Macro for creating a binary operator
-We have to embed the marco into a do while, which isn't followed by a semicolon,
-so all the statements in it get executed if they are after an if 🤮 */
+
+/**
+ * Macro for creating a binary operator, based on a operator in C
+ * We have to embed the marco into a do while, which isn't followed by a semicolon,
+ * so all the statements in it get executed if they are after an if 🤮 
+ */
 #define BINARY_OP(valueType, op)                              \
     do                                                        \
     {                                                         \
@@ -365,14 +380,14 @@ so all the statements in it get executed if they are after an if 🤮 */
         virtual_machine_push(valueType(a op b));                           \
     } while (false)
 
-    // Makro reads the next byte at the current positioon in the chunk
-    call_frame_t *frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+    call_frame_t * frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
 
     for (;;)
     {
 #ifdef DEBUG_TRACE_EXECUTION
+        // Prints all the values located on the stack
         printf("          ");
-        for (value_t *slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++)
+        for (value_t * slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++)
         {
             printf("[ ");
             value_print(*slot);
@@ -388,7 +403,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
             if (IS_STRING(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1)))
             {
-                virtual_machine_concatenate();
+                virtual_machine_concatenate_strings();
             }
             else if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)))
             {
@@ -405,10 +420,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
             int32_t argCount = READ_BYTE();
             if (!virtual_machine_call_value(virtual_machine_peek(argCount), argCount))
-            {
-                // Amount of arguments used to call a function is not correct
                 return INTERPRET_RUNTIME_ERROR;
-            }
             frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
             break;
         }
@@ -493,7 +505,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 object_string_t * str = AS_STRING(virtual_machine_pop());
                 if (num >= str->length || num < 0)
                 {
-                    virtual_machine_runtime_error("accessed string out of bounds");
+                    virtual_machine_runtime_error("accessed string out of bounds (at index %i)", num);
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 char *chars = ALLOCATE(char, 2u);
@@ -519,7 +531,8 @@ so all the statements in it get executed if they are after an if 🤮 */
         {
             if (!IS_INSTANCE(virtual_machine_peek(0)))
             {
-                virtual_machine_runtime_error("Only instances have properties.");
+                virtual_machine_runtime_error("Only instances have properties but get expression was created with %s value", 
+                                                value_stringify_type(virtual_machine_peek(0)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(0));
@@ -565,7 +578,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             value_t superclass = virtual_machine_peek(1);
             if (!IS_CLASS(superclass))
             {
-                virtual_machine_runtime_error("Superclass must be a class.");
+                virtual_machine_runtime_error("Superclass must be a class but is a %s", value_stringify_type(superclass));
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_class_t *subclass = AS_CLASS(virtual_machine_peek(0));
@@ -693,6 +706,9 @@ so all the statements in it get executed if they are after an if 🤮 */
             }
             else
             {
+                /* Set index of wasn't used on a variable where the operator 
+                 * can be used or not with a numerical value that specifies the index.
+                 */
                 virtual_machine_runtime_error("Can only be called with a sting a number and string but was called with a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)),  value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
@@ -700,6 +716,7 @@ so all the statements in it get executed if they are after an if 🤮 */
         }
         case OP_SET_LOCAL:
         {
+            // We set the value at the specified slot to the value that is stored on the top of the stack of the virtual machine.
             uint8_t slot = READ_BYTE();
             frame->slots[slot] = virtual_machine_peek(0);
             break;
@@ -733,9 +750,7 @@ so all the statements in it get executed if they are after an if 🤮 */
             int argCount = READ_BYTE();
             object_class_t * superclass = AS_CLASS(virtual_machine_pop());
             if (!virtual_machine_invoke_from_class(superclass, method, argCount))
-            {
                 return INTERPRET_RUNTIME_ERROR;
-            }
             frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
             break;
         }
@@ -756,13 +771,14 @@ so all the statements in it get executed if they are after an if 🤮 */
 /// @brief Reports an error that has occured at runtime
 /// @param format The formater of the error message
 /// @param ... Arguments that are passed in for the formatter
+/// If no tests are executed the program exits with a exit code that indiactes an error at compile time
 static void virtual_machine_runtime_error(char const * format, ...)
 {
     va_list args;
     va_start(args, format);
     vfprintf(stderr, format, args);
     va_end(args);
-    fputs("\n", stderr);
+    fputc('\n', stderr);
     for (int32_t i = virtualMachine.frameCount - 1; i >= 0; i--)
     {
         call_frame_t * frame = &virtualMachine.callStack[i];

@@ -4,7 +4,7 @@
 
 #include "object.h"
 
-/// The value types of cellox as a string
+/// The value types of cellox represented sequence of characters
 static char const * valueTypesStringified [] = {
   "boolean",
   "undefiened",

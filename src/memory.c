@@ -120,7 +120,9 @@ static void memory_blacken_object(object_t * object)
   case OBJECT_BOUND_METHOD:
   {
     object_bound_method_t * bound = (object_bound_method_t *)object;
+    // If a method bound to a instance is reachable the instance itself is reachable, too.
     memory_mark_value(bound->receiver);
+    // If a method bound to a instance is reachable we need to preserve the function
     memory_mark_object((object_t *)bound->method);
     break;
   }
@@ -128,23 +130,25 @@ static void memory_blacken_object(object_t * object)
   {
     object_class_t * celloxClass = (object_class_t *)object;
     memory_mark_object((object_t *)celloxClass->name);
+    // If a class is reachable, all the methods are reachable, too.
     hash_table_mark(&celloxClass->methods);
     break;
   }
   case OBJECT_CLOSURE:
   {
     object_closure_t * closure = (object_closure_t *)object;
+    // If the closoure is reachable, the function is reachable, too.
     memory_mark_object((object_t *)closure->function);
+    // If the closure is reachable all the upvalues captured by the closure are reachable, too.
     for (uint32_t i = 0; i < closure->upvalueCount; i++)
-    {
       memory_mark_object((object_t *)closure->upvalues[i]);
-    }
     break;
   }
   case OBJECT_FUNCTION:
   {
     object_function_t * function = (object_function_t *)object;
     memory_mark_object((object_t *)function->name);
+    // If a function is reachable all of the constants stored in the chunk are reachable, too.
     memory_mark_array(&function->chunk.constants);
     break;
   }
@@ -152,10 +156,12 @@ static void memory_blacken_object(object_t * object)
   {
     object_instance_t * instance = (object_instance_t *)object;
     memory_mark_object((object_t *)instance->celloxClass);
+    // If the instace is reachable all of it's fields are reachable, too.
     hash_table_mark(&instance->fields);
     break;
   }
   case OBJECT_UPVALUE:
+    // If a upvalue is reachable the captured value is reachable, too.
     memory_mark_value(((object_upvalue_t *)object)->closed);
     break;
   case OBJECT_NATIVE:
@@ -178,6 +184,7 @@ static void memory_free_object(object_t * object)
   case OBJECT_CLASS:
   {
     object_class_t * celloxClass = (object_class_t *)object;
+    // If a class is unreachable, all the methods are unreachable, too.
     hash_table_free(&celloxClass->methods);
     FREE(object_class_t, object);
     break;
@@ -185,6 +192,7 @@ static void memory_free_object(object_t * object)
   case OBJECT_CLOSURE:
   {
     object_closure_t * closure = (object_closure_t *)object;
+    // If a closure is unreachable we also need to free all the memory used by the upvalues that are captured by the closure
     FREE_ARRAY(object_upvalue_t *, closure->upvalues, closure->upvalueCount);
     FREE(object_closure_t, object);
     break;
@@ -192,6 +200,7 @@ static void memory_free_object(object_t * object)
   case OBJECT_FUNCTION:
   {
     object_function_t * function = (object_function_t *)object;
+    // If a function is unreachable we also need to free all the memory used by the chunk
     chunk_free(&function->chunk);
     FREE(object_function_t, object);
     break;
@@ -199,6 +208,7 @@ static void memory_free_object(object_t * object)
   case OBJECT_INSTANCE:
   {
     object_instance_t * instance = (object_instance_t *)object;
+    // If a instance is unreachable we also need to free all the memory used by the fields
     hash_table_free(&instance->fields);
     FREE(object_instance_t, object);
     break;
@@ -209,6 +219,7 @@ static void memory_free_object(object_t * object)
   case OBJECT_STRING:
   {
     object_string_t * string = (object_string_t *)object;
+    // If a string is unreachable we need to free the memory the underlying character sequence occupies
     FREE_ARRAY(char, string->chars, string->length + 1);
     FREE(object_string_t, object);
     break;
@@ -229,18 +240,18 @@ static void memory_mark_array(dynamic_value_array_t * array)
 /// Marks the roots - local variables or temporaries sitting in the VirtualMachine's stack
 static void memory_mark_roots()
 {
-  /// We mark all the values
+  // We mark all the values
   for (value_t * slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++)
     memory_mark_value(*slot);
-  /// all the objects
+  // all the objects
   for (int32_t i = 0; i < virtualMachine.frameCount; i++)
     memory_mark_object((object_t *)virtualMachine.callStack[i].closure);
-  /// all the ObjectUpvalues
+  // all the upvalues
   for (object_upvalue_t * upvalue = virtualMachine.openUpvalues; upvalue; upvalue = upvalue->next)
     memory_mark_object((object_t *)upvalue);
-  /// all the global variables
+  // all the global variables
   hash_table_mark(&virtualMachine.globals);
-  /// And all the compiler roots allocated on the heap
+  // and all the compiler roots allocated on the heap
   compiler_mark_roots();
   memory_mark_object((object_t *)virtualMachine.initString);
 }
@@ -257,7 +268,7 @@ static void memory_sweep()
   {
     if (object->isMarked)
     {
-      /// We need to unmark the object so it is picked up during the next grabage collection process
+      // We need to unmark the object so it is picked up during the next grabage collection process
       object->isMarked = false;
       previous = object;
       object = object->next;

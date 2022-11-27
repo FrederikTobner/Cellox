@@ -270,19 +270,26 @@ value_t native_functions_read_file(uint32_t argCount, value_t const * args)
     if (!IS_STRING(*args))
         native_functions_arguments_error("read_file can only be called with a string as argument");
     char * path = AS_CSTRING(*args);
-    FILE * file = fopen(path, "rb");
+    // Open file in read-only mode
+    FILE * file = fopen(path, "r");
     if (!file)
         return NULL_VAL;
+    // Seek end of the file
     fseek(file, 0L, SEEK_END);
+    // Store filesize
     uint32_t fileSize = ftell(file);
+    // Rewind filepointer to the beginning of the file
     rewind(file);
+    // Allocate memory apropriate to store the file
     char * buffer = (char *)malloc(fileSize);
     if (!buffer)
         return NULL_VAL;
+    // Store amount of read bytes
     size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
     if (bytesRead < fileSize)
         return NULL_VAL;
     fclose(file);
+    // Create cellox string from content stored in the character buffer
     return OBJECT_VAL(object_copy_string(buffer, fileSize, false));
 }
 
