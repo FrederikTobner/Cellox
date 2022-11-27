@@ -9,7 +9,7 @@ TEST(IndexOperator, ChangeStringByIndex)
 
 TEST(IndexOperator, OutOfBounds)
 {
-    test_failing_cellox_program("indexOperator/out_of_bounds.clx", "accessed string out of bounds\n[line 2] in script\n");
+    test_failing_cellox_program("indexOperator/out_of_bounds.clx", "accessed string out of bounds (at index 4)\n[line 2] in script\n");
 }
 
 TEST(IndexOperator, String)

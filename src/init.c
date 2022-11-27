@@ -131,11 +131,11 @@ static char * init_read_file(char const * path)
     // Seek end of the file
     fseek(file, 0L, SEEK_END);
     // Store filesize
-    uint32_t fileSize = ftell(file);
+    size_t fileSize = ftell(file);
     // Rewind filepointer to the beginning of the file
     rewind(file);
     // Allocate memory apropriate to store the file
-    char * buffer = (char *)malloc(fileSize);
+    char * buffer = (char *)malloc(fileSize + 1);
     if (!buffer)
     {
         init_io_error("Not enough memory to read \"%s\".\n", path);

@@ -531,7 +531,7 @@ static interpret_result_t virtual_machine_run()
         {
             if (!IS_INSTANCE(virtual_machine_peek(0)))
             {
-                virtual_machine_runtime_error("Only instances have properties but get expression was created with %s", 
+                virtual_machine_runtime_error("Only instances have properties but get expression was created with %s value", 
                                                 value_stringify_type(virtual_machine_peek(0)));
                 return INTERPRET_RUNTIME_ERROR;
             }
