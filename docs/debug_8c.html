@@ -97,6 +97,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a5c90f588ef17b2c250043f576e83a91a"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8c.html#a5c90f588ef17b2c250043f576e83a91a">debug_jump_instruction</a> (char const *name, int32_t sign, <a class="el" href="structchunk__t.html">chunk_t</a> *chunk, int32_t offset)</td></tr>
 <tr class="memdesc:a5c90f588ef17b2c250043f576e83a91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dissasembles a jump instruction (with a 16-bit operand)  <a href="debug_8c.html#a5c90f588ef17b2c250043f576e83a91a">More...</a><br /></td></tr>
 <tr class="separator:a5c90f588ef17b2c250043f576e83a91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38b8baeaddbb77fbccb86ce60dc85f1a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8c.html#a38b8baeaddbb77fbccb86ce60dc85f1a">debug_print_chunk_metadata</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, char const *name, uint32_t arity)</td></tr>
+<tr class="memdesc:a38b8baeaddbb77fbccb86ce60dc85f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides additional metadata to a chunk and prints it to the stdandard output.  <a href="debug_8c.html#a38b8baeaddbb77fbccb86ce60dc85f1a">More...</a><br /></td></tr>
+<tr class="separator:a38b8baeaddbb77fbccb86ce60dc85f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab3a33f1c6890485dab544c7c162b064"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8c.html#aab3a33f1c6890485dab544c7c162b064">debug_simple_instruction</a> (char const *name, int32_t offset)</td></tr>
 <tr class="memdesc:aab3a33f1c6890485dab544c7c162b064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dissasembles a simple instruction.  <a href="debug_8c.html#aab3a33f1c6890485dab544c7c162b064">More...</a><br /></td></tr>
 <tr class="separator:aab3a33f1c6890485dab544c7c162b064"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -387,6 +390,58 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Dissasembles a jump instruction (with a 16-bit operand) </p>
+
+</div>
+</div>
+<a id="a38b8baeaddbb77fbccb86ce60dc85f1a" name="a38b8baeaddbb77fbccb86ce60dc85f1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38b8baeaddbb77fbccb86ce60dc85f1a">&#9670;&#160;</a></span>debug_print_chunk_metadata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void debug_print_chunk_metadata </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td>
+          <td class="paramname"><em>chunk</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>arity</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Provides additional metadata to a chunk and prints it to the stdandard output. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chunk</td><td>The chunk that is examined </td></tr>
+    <tr><td class="paramname">name</td><td>The name of the top level function of the chunk </td></tr>
+    <tr><td class="paramname">arity</td><td>The arity of the top level function of the chunk </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

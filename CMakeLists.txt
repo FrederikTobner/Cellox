@@ -6,11 +6,19 @@ include(CheckIncludeFile)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
+# CPack metadata
 set(PROJECT_PAGE "https://github.com/FrederikTobner/Cellox")
 set(PROJECT_HELP_PAGE "https://github.com/FrederikTobner/Cellox/wiki")
+set(PROJECT_VENDOR "Frederik Tobner")
 
 # Optional NAN-Boxing (Not a number boxing / Not a number tagging)
 option(NAN_BOXING_ACTIVATED "Determines whether \"not a number boxing / tagging\" is used" ON)
+
+# Debug options (only have an effect for debug builds)
+option(DEBUG_PRINT_BYTECODE "Determines whether the chunks are dissassembled and the bytecode is prined" ON)
+option(DEBUG_TRACE_EXECUTION "Determines whether the execution shall be traced" OFF)
+option(DEBUG_STRESS_GARBAGE_COLLECTOR "Determines whether the garbage collector shall be stressed" OFF)
+option(DEBUG_LOG_GARBAGE_COLLECTOIN "Determines whether the garbage collection be logged" OFF)
 
 get_filename_component(PROJECT_DIRECTORY ./ ABSOLUTE)
 get_filename_component(SOURCEPATH ./src ABSOLUTE)
