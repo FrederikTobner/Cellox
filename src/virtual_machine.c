@@ -635,7 +635,7 @@ so all the statements in it get executed if they are after an if 🤮 */
                 virtual_machine_runtime_error("Operand must be a number but is a %s value.", value_stringify_type(virtual_machine_peek(0)));
                 return INTERPRET_RUNTIME_ERROR;
             }
-            virtual_machine_push(NUMBER_VAL(-AS_NUMBER(virtual_machine_pop(0))));
+            virtual_machine_push(NUMBER_VAL(-AS_NUMBER(virtual_machine_pop())));
             break;
         case OP_NOT:
             virtual_machine_push(BOOL_VAL(virtual_machine_is_falsey(virtual_machine_pop())));

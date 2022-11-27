@@ -11,65 +11,12 @@ static int32_t debug_byte_instruction(char const *, chunk_t *, int32_t);
 static int32_t debug_constant_instruction(char const *, chunk_t *, int32_t);
 static int debug_invoke_instruction(char const *, chunk_t *, int32_t);
 static int32_t debug_jump_instruction(char const *, int32_t, chunk_t *, int32_t);
+static void debug_print_chunk_metadata(chunk_t *, char const *, uint32_t);
 static int32_t debug_simple_instruction(char const *, int32_t);
 
-void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
+void debug_disassemble_chunk(chunk_t * chunk, char const * name, uint32_t arity)
 {
-  uint32_t stringCount, numberCount, functionCount;
-  dynamic_value_array_t functionNames;
-  dynamic_value_array_init(&functionNames);
-  stringCount = numberCount = functionCount = 0u;
-  printf("function <%s> (%i bytes of bytecode at 0x%p)\n", name, chunk->count, chunk->code);
-  for (size_t i = 0; i < chunk->constants.count; i++)
-  {
-    if (IS_OBJECT(chunk->constants.values[i]))
-    {
-      switch (OBJECT_TYPE(chunk->constants.values[i]))
-      {
-      case OBJECT_FUNCTION:
-        functionCount++;
-        dynamic_value_array_write(&functionNames, chunk->constants.values[i]);
-        break;
-      default:
-        break;
-      }
-    }
-  }
-  for (size_t i = 0; i < chunk->constants.count; i++)
-  {
-    if (IS_OBJECT(chunk->constants.values[i]))
-    {
-      switch (OBJECT_TYPE(chunk->constants.values[i]))
-      {
-      case OBJECT_STRING:
-      {
-        size_t j;
-        for (j = 0; j < functionNames.count; j++)
-        {
-          // String constant is a function call
-          if (!strcmp(AS_CSTRING(chunk->constants.values[i]), AS_FUNCTION(functionNames.values[j])->name->chars))
-            break;
-          // TODO: Check native functions
-        }
-        if (j == functionNames.count)
-          stringCount++;
-        break;
-      }
-      default:
-        break;
-      }
-    }
-    else // Numbers
-    {
-      numberCount++;
-    }
-  }
-  printf("%i %s, %i %s, %i %s, %i %s\n",
-          arity, arity == 1 ? "param" : "params", 
-          stringCount, stringCount == 1 ? "string constant" : "string constants",
-          numberCount, numberCount == 1 ? "numerical constant" : "numerical constants",
-          functionCount, functionCount == 1 ? "function" : "functions");
-  dynamic_value_array_free(&functionNames);
+  debug_print_chunk_metadata(chunk, name, arity);
   for (int32_t offset = 0; offset < chunk->count;)
     offset = debug_disassemble_instruction(chunk, offset);
 }
@@ -231,6 +178,79 @@ static int32_t debug_jump_instruction(char const * name, int32_t sign, chunk_t *
   jump |= *(chunk->code + offset + 2);
   printf("%-16s %04X -> %04X\n", name, offset, offset + 3 + sign * jump);
   return offset + 3;
+}
+
+/// @brief Provides additional metadata to a chunk and prints it to the stdandard output
+/// @param chunk The chunk that is examined
+/// @param name The name of the top level function of the chunk
+/// @param arity The arity of the top level function of the chunk
+static void debug_print_chunk_metadata(chunk_t * chunk, char const * name, uint32_t arity)
+{
+  uint32_t stringCount, numberCount, functionCount, classCount;
+  stringCount = numberCount = functionCount = classCount = 0u;
+  printf("function <%s> (%i bytes of bytecode at 0x%p)\n", name, chunk->count, chunk->code);
+  for (size_t i = 0; i < chunk->constants.count; i++)
+  {
+    if (IS_OBJECT(chunk->constants.values[i]))
+    {
+      switch (OBJECT_TYPE(chunk->constants.values[i]))
+      {
+      case OBJECT_FUNCTION:
+        functionCount++;
+        break;
+      default:
+        break;
+      }
+    }
+    else
+    {
+      numberCount++;
+    }
+  }
+  for (uint32_t j = 0; j < chunk->count; j++)
+  {
+    switch (chunk->code[j])
+    {
+    case OP_CONSTANT:
+      if(j + 1 == chunk->count)
+        break;;
+      if(IS_STRING(chunk->constants.values[chunk->code[j + 1]]))
+        stringCount++;
+    case OP_CLASS:
+      if(j + 1 == chunk->count)
+        break;
+      if(IS_STRING(chunk->constants.values[chunk->code[j + 1]]))
+        classCount++;
+    case OP_DEFINE_GLOBAL:
+    case OP_GET_GLOBAL:
+    case OP_GET_PROPERTY:
+    case OP_GET_SUPER:
+    case OP_METHOD:
+    case OP_SET_GLOBAL:
+    case OP_SET_PROPERTY:
+    case OP_CALL:
+    case OP_GET_LOCAL:
+    case OP_GET_UPVALUE:
+    case OP_SET_LOCAL:
+    case OP_SET_UPVALUE:
+      j++;
+      break;
+    case OP_INVOKE:
+    case OP_JUMP:
+      j += 2;
+      break;
+    
+    default:
+      break;
+    }
+  } 
+
+  printf("%i %s, %i %s, %i %s, %i %s, %i %s\n",
+          arity, arity == 1 ? "param" : "params", 
+          stringCount, stringCount == 1 ? "string constant" : "string constants",
+          numberCount, numberCount == 1 ? "numerical constant" : "numerical constants",
+          functionCount, functionCount == 1 ? "function" : "functions",
+          classCount, classCount == 1 ? "class" : "classes");
 }
 
 /// Dissasembles a simple instruction

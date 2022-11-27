@@ -4,13 +4,9 @@
 #include "common.h"
 #include "object.h"
 
-/// Size check using a type and the amount of memory allocated for the specified type (used for the checked malloc)
-#define SIZE_CHECK_USING_TYPE(type, count) \
-    ((SIZE_MAX / sizeof(type)) >= (count))
-
 /// Makro that allocates the memory needed for a given type multiplied by the count
 #define ALLOCATE(type, count) \
-    ((type *)memory_reallocate(NULL, 0, SIZE_CHECK_USING_TYPE(type, count) ? sizeof(type) * (count) : 0))
+    ((type *)memory_reallocate(NULL, 0, sizeof(type) * (count)))
 
 /// Makro that frees the memory used by a given type at the position specified by the pointer
 #define FREE(type, pointer) \

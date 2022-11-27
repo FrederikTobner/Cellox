@@ -1,43 +1,32 @@
-class Node
-{
-    init(value, left, right)
-    {
+class Node {
+    init(value, left, right) {
         this.value = value;
         this.left = left;
         this.right = right;
     }
 }
-class BinarySearchTree 
-{
-    init() 
-    {
+class BinarySearchTree {
+    init() {
         this.rootNode = null;
     }
 
-    add(x) 
-    {
-        if(this.rootNode == null) 
-        {
+    add(x) {
+        if(this.rootNode == null) {
             this.rootNode = Node(x, null, null);
             return;
         }
         var node = this.rootNode;
-        for(;;) 
-        {
+        for(;;) {
             if(node.value == x) return;
-            if(node.value > x) 
-            {
-                if(node.left == null)
-                {
+            if(node.value > x) {
+                if(node.left == null) {
                     node.left = Node(x, null, null);
                     return;
                 }
                 node = node.left;            
             }
-            else 
-            {
-                if(node.right == null) 
-                {
+            else {
+                if(node.right == null) {
                     node.right = Node(x, null, null);
                     return;
                 }
@@ -47,10 +36,8 @@ class BinarySearchTree
     }
 
     // Prints the values from a specific node and all the nodes below
-    printFromNode(node) 
-    {
-        if(node != null) 
-        {
+    printFromNode(node) {
+        if(node != null) {
             this.printFromNode(node.left);
             println(node.value);
             this.printFromNode(node.right);
@@ -58,8 +45,7 @@ class BinarySearchTree
     }
 
     // Prints the values stored in a binary search tree
-    printValues() 
-    {
+    printValues() {
        this.printFromNode(this.rootNode);
     }
 }

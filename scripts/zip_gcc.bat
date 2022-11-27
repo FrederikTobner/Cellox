@@ -1,23 +1,19 @@
 @ECHO OFF
-cd ..
-:: Configuring CMake and building for x64
 ECHO Configuring CMake for x64 ...
-cmake -B ./build/msvc_x64 -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 17"
+cmake -B ../build/gcc_x64 -DCMAKE_BUILD_TYPE=Release -G Ninja -DCMAKE_C_COMPILER=C:/MinGW64/bin/gcc.exe
 ECHO Building Interpreter for x64 ...
-cmake --build ./build/msvc_x64 --config Release --target Cellox
-:: Configuring CMake and building for x86
+cmake --build ./build/gcc_x64 --config Release --target Cellox
 ECHO Configuring CMake for x86 ...
-cmake -B ./build/msvc_x86 -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 17" -A Win32
+cmake -B ../build/gcc_x86 -DCMAKE_BUILD_TYPE=Release -G Ninja -DCMAKE_C_COMPILER=C:/MinGW32/bin/gcc.exe
 ECHO Building Interpreter for x86 ...
-cmake --build ./build/msvc_x86 --config Release --target Cellox
-:: Zipping binaries and creating installers
-cd .\build\msvc_x64\src
+cmake --build ../build/gcc_x86 --config Release --target Cellox
+cd ..\build\gcc_x64\src
 ECHO Zipping cellox x64 ...
 cpack -G ZIP --config ../CPackConfig.cmake
 :: Create an installer using NSIS (nullsoft scriptable install system) (https://sourceforge.net/projects/nsis/) for Windows
 ECHO Creating installer - x64 using NSIS ...
 cpack -G NSIS64 --config ../CPackConfig.cmake
-cd ..\..\msvc_x86\src
+cd ..\..\gcc_x86\src
 ECHO Zipping cellox x86 ...
 cpack -G ZIP --config ../CPackConfig.cmake
 :: Create an installer using NSIS (nullsoft scriptable install system) (https://sourceforge.net/projects/nsis/) for Windows

@@ -1,12 +1,9 @@
-class Rectangle
-{
-	init(x, y)
-	{
+class Rectangle {
+	init(x, y) {
 		this.x = x;
 		this.y = y;
 	}
-	area()
-	{
+	area() {
 		return this.x * this.y * 0.5;
 	}
 }

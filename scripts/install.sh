@@ -1,6 +1,7 @@
 #!/bin/bash
-cd ../build/src
-echo "Installing Cellox ..."
-cmake -B ./build -DCMAKE_BUILD_TYPE=Release
-cmake --build ./build --config Release --target Cellox
-cmake --install . --config Release
+echo "Configuring CMake ..."
+cmake -B ../build -DCMAKE_BUILD_TYPE=Release ..
+echo "Building Interpreter ..."
+cmake --build ../build --config Release --target Cellox
+echo "Installing Interpreter ..."
+cmake --install ../build/src --config Release

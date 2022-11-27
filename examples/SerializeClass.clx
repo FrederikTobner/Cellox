@@ -1,16 +1,12 @@
-class Foo 
-{
-    init(x, y)
-    {
+class Foo {
+    init(x, y) {
         this.x = x;
         this.y = y;
     }
 }
 
-class Bar 
-{
-    init(z, foo)
-    {
+class Bar {
+    init(z, foo) {
         this.z = z;
         this.foo = foo;
     }

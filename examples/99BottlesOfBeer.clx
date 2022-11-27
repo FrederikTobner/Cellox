@@ -1,5 +1,4 @@
-for (var i = 99; i > 0; i -= 1)
-{
+for (var i = 99; i > 0; i -= 1) {
     print(i);
     print(" bottles of beer on the wall, ");
     print(i);

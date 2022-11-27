@@ -1,9 +1,8 @@
 :: Administrator permission is needed to install Cellox
 @ECHO OFF
-cd ..
 ECHO Configuring CMake ...
-cmake -B ./build -DCMAKE_BUILD_TYPE=Release
+cmake -B ../build -DCMAKE_BUILD_TYPE=Release ..
 ECHO Building Interpreter ...
-cmake --build ./build --config Release --target Cellox
+cmake --build ../build --config Release --target Cellox
 ECHO Installing Interpreter ...
-cmake --install ./build/src --config Release
+cmake --install ../build/src --config Release

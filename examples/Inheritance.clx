@@ -1,25 +1,19 @@
-class Person
-{
-    init(name)
-    {
+class Person {
+    init(name) {
         this.name = name;
     }
-    Greet()
-    {
+    Greet() {
         println("Hi, my name is " + this.name + ".");
     }
 }
 
-class Student : Person
-{
-    init(name, courseOfStudy, university)
-    {
+class Student : Person {
+    init(name, courseOfStudy, university) {
         super.init(name);
         this.courseOfStudy = courseOfStudy;
         this.university = university;
     }
-    Greet()
-    {
+    Greet() {
         super.Greet();
         println("I study " + this.courseOfStudy + " at the " + this.university + "."); 
     }
