@@ -27,11 +27,11 @@ NAN_BOXING
 )
 endif()
 
+add_executable(${LANGUAGE_BENCHMARKS} ${CELLOXSOURCES} ${CELLOXHEADERS} ${BENCHMARK_HEADERS} ${BENCHMARK_SOURCES})
+
 # Includes Libmath
 if(UNIX)
-    target_link_libraries(${PROJECT_NAME} m)
+    target_link_libraries(${LANGUAGE_BENCHMARKS} m)
 endif()
-
-add_executable(${LANGUAGE_BENCHMARKS} ${CELLOXSOURCES} ${CELLOXHEADERS} ${BENCHMARK_HEADERS} ${BENCHMARK_SOURCES})
 
 target_include_directories(${LANGUAGE_BENCHMARKS} PUBLIC ${PROJECT_BINARY_DIR}/src)

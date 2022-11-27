@@ -288,7 +288,7 @@ value_t native_functions_read_file(uint32_t argCount, value_t const * args)
 
 value_t native_functions_read_key(uint32_t argCount, value_t const * args)
 {
-    native_functions_assert_arrity(NATIVE_FUNCTION_READ_LINE, argCount);
+    native_functions_assert_arrity(NATIVE_FUNCTION_READ_KEY, argCount);
     char character = getchar();
     object_string_t result;
     return OBJECT_VAL(object_copy_string(&character, 1, false));
@@ -296,7 +296,7 @@ value_t native_functions_read_key(uint32_t argCount, value_t const * args)
 
 value_t native_functions_read_line(uint32_t argCount, value_t const * args)
 {
-    native_functions_assert_arrity(NATIVE_FUNCTION_READ_KEY, argCount);
+    native_functions_assert_arrity(NATIVE_FUNCTION_READ_LINE, argCount);
     char line[MAX_READ_LINE_INPUT];
     object_string_t result;
     fgets(line, sizeof(line), stdin);

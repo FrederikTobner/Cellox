@@ -6,6 +6,9 @@ include(CheckIncludeFile)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
+set(PROJECT_PAGE "https://github.com/FrederikTobner/Cellox")
+set(PROJECT_HELP_PAGE "https://github.com/FrederikTobner/Cellox/wiki")
+
 # Optional NAN-Boxing (Not a number boxing / Not a number tagging)
 option(NAN_BOXING_ACTIVATED "Determines whether \"not a number boxing / tagging\" is used" ON)
 
@@ -81,9 +84,11 @@ add_subdirectory(src)
 # Builds benchmarks for the cellox interpreter
 add_subdirectory(benchmark)
 
-# Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
-if(NOT (CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
-    enable_testing()
-    # Builds tests for the interpreter (add exclude from all if the project is packaged)
-    add_subdirectory(test)
+if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
+    # Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
+    if(MSVC)
+        enable_testing()
+        # Builds tests for the interpreter (add exclude from all if the project is packaged)
+        add_subdirectory(test)
+    endif()
 endif()

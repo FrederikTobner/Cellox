@@ -105,7 +105,7 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
     char * measured_time = (char *)calloc(1024, sizeof(char));
     #ifdef _WIN32
     freopen("NUL", "a", stdout);
-    #elif linux
+    #elif __unix__
     freopen("/dev/nul", "a", stdout);
     #endif
     
@@ -113,8 +113,7 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
     for (size_t i = 0; i < benchmark.executionCount; i++)
     {
         // Redirect standard output to the beginnining of the buffer
-        setbuf(stdout, measured_time);
-            
+        setbuf(stdout, measured_time);            
         // Execute benchmark 🚀
         init_run_from_file(filePath, false);
         // Remove newline at the end of the buffer
@@ -129,8 +128,7 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
         // Clear buffer 
         for (char * buffer = measured_time;  *buffer; buffer++)
             *buffer = '\0';
-    }    
-
+    }
     // Reset stdout redirection
     freopen("CON", "w", stdout);
     printf("%9gs | %9gs | %9gs | %s\n", 

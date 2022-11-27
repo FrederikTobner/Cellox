@@ -34,7 +34,7 @@ static void test_program(std::string const & programPath, std::string const & ex
     {
         #ifdef _WIN32
         freopen("NUL", "a", stderr);
-        #elif linux
+        #elif __unix__
         freopen("/dev/nul", "a", stderr);
         #endif
         setbuf(stderr, actual_output);
@@ -43,7 +43,7 @@ static void test_program(std::string const & programPath, std::string const & ex
     {
         #ifdef _WIN32
         freopen("NUL", "a", stdout);
-        #elif linux
+        #elif __unix__
         freopen("/dev/nul", "a", stdout);
         #endif
         setbuf(stdout, actual_output);

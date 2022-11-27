@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ..
+cd ../src
 echo "Generating Documentation ..."
 doxygen
 echo "Moving generated content out of the html folder ..."

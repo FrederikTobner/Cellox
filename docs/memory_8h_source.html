@@ -80,35 +80,32 @@ $(function() {
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">common.h</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="object_8h.html">object.h</a>&quot;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="memory_8h.html#a3994dbba05a44c5bdf179596db016253">    8</a></span><span class="preprocessor">#define SIZE_CHECK_USING_TYPE(type, count) \</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">    ((SIZE_MAX / sizeof(type)) &gt;= (count))</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="memory_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">    8</a></span><span class="preprocessor">#define ALLOCATE(type, count) \</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">    ((type *)memory_reallocate(NULL, 0, sizeof(type) * (count)))</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="memory_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">   12</a></span><span class="preprocessor">#define ALLOCATE(type, count) \</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">    ((type *)memory_reallocate(NULL, 0, SIZE_CHECK_USING_TYPE(type, count) ? sizeof(type) * (count) : 0))</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="memory_8h.html#a15985952db75d2608fdc0e24dd06e775">   12</a></span><span class="preprocessor">#define FREE(type, pointer) \</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">    (memory_reallocate(pointer, sizeof(type), 0))</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="memory_8h.html#a15985952db75d2608fdc0e24dd06e775">   16</a></span><span class="preprocessor">#define FREE(type, pointer) \</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">    (memory_reallocate(pointer, sizeof(type), 0))</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="memory_8h.html#ad3f26420257fbc4c78eece0f473860c2">   16</a></span><span class="preprocessor">#define GROW_CAPACITY(capacity) \</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">    ((capacity) &lt; 8u ? 8u : (capacity) + 2u)</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="memory_8h.html#ad3f26420257fbc4c78eece0f473860c2">   20</a></span><span class="preprocessor">#define GROW_CAPACITY(capacity) \</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">    ((capacity) &lt; 8u ? 8u : (capacity) + 2u)</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="memory_8h.html#a535c54c8dcb6e740b47e09ee33c07f8f">   20</a></span><span class="preprocessor">#define GROW_ARRAY(type, pointer, oldCount, newCount) \</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">    ((type *)memory_reallocate(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="memory_8h.html#a535c54c8dcb6e740b47e09ee33c07f8f">   24</a></span><span class="preprocessor">#define GROW_ARRAY(type, pointer, oldCount, newCount) \</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">    ((type *)memory_reallocate(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="memory_8h.html#a3b69129733a4bd10f3c5726e4ea6e518">   24</a></span><span class="preprocessor">#define FREE_ARRAY(type, pointer, oldCount) \</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">    (memory_reallocate(pointer, sizeof(type) * (oldCount), 0))</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="memory_8h.html#a3b69129733a4bd10f3c5726e4ea6e518">   28</a></span><span class="preprocessor">#define FREE_ARRAY(type, pointer, oldCount) \</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">    (memory_reallocate(pointer, sizeof(type) * (oldCount), 0))</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keywordtype">void</span> <a class="code hl_function" href="memory_8h.html#a98f9f67fecf879a3e82ca5ee2da17619">memory_collect_garbage</a>();</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keywordtype">void</span> <a class="code hl_function" href="memory_8h.html#a840c02b90296a3fe84f9a3b5dcfd0a47">memory_free_objects</a>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keywordtype">void</span> <a class="code hl_function" href="memory_8h.html#a98f9f67fecf879a3e82ca5ee2da17619">memory_collect_garbage</a>();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keywordtype">void</span> <a class="code hl_function" href="memory_8h.html#a840c02b90296a3fe84f9a3b5dcfd0a47">memory_free_objects</a>();</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keywordtype">void</span> <a class="code hl_function" href="memory_8h.html#ac30589da73178c21c008132d3eab5dbe">memory_mark_object</a>(<a class="code hl_struct" href="structobject__t.html">object_t</a> * <span class="keywordtype">object</span>);</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keywordtype">void</span> <a class="code hl_function" href="memory_8h.html#ac30589da73178c21c008132d3eab5dbe">memory_mark_object</a>(<a class="code hl_struct" href="structobject__t.html">object_t</a> * <span class="keywordtype">object</span>);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keywordtype">void</span> <a class="code hl_function" href="memory_8h.html#a1b2a11de725a109683d8997074b1e723">memory_mark_value</a>(<a class="code hl_struct" href="structvalue__t.html">value_t</a> value);</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keywordtype">void</span> <a class="code hl_function" href="memory_8h.html#a1b2a11de725a109683d8997074b1e723">memory_mark_value</a>(<a class="code hl_struct" href="structvalue__t.html">value_t</a> value);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">void</span> * <a class="code hl_function" href="memory_8h.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(<span class="keywordtype">void</span> * pointer, <span class="keywordtype">size_t</span> oldSize, <span class="keywordtype">size_t</span> newSize);</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#endif  </span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keywordtype">void</span> * <a class="code hl_function" href="memory_8h.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(<span class="keywordtype">void</span> * pointer, <span class="keywordtype">size_t</span> oldSize, <span class="keywordtype">size_t</span> newSize);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#endif  </span></div>
 <div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div></div>
 <div class="ttc" id="amemory_8h_html_a1b2a11de725a109683d8997074b1e723"><div class="ttname"><a href="memory_8h.html#a1b2a11de725a109683d8997074b1e723">memory_mark_value</a></div><div class="ttdeci">void memory_mark_value(value_t value)</div><div class="ttdoc">Marks a cellox value.</div><div class="ttdef"><b>Definition:</b> memory.c:78</div></div>
 <div class="ttc" id="amemory_8h_html_a2907a474f57bcc68a7af23d9474ff3a0"><div class="ttname"><a href="memory_8h.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a></div><div class="ttdeci">void * memory_reallocate(void *pointer, size_t oldSize, size_t newSize)</div><div class="ttdoc">Reallocates a block in memory.</div><div class="ttdef"><b>Definition:</b> memory.c:84</div></div>

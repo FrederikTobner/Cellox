@@ -30,6 +30,10 @@ void debug_disassemble_chunk(chunk_t *chunk, char const *name, uint32_t arity)
         functionCount++;
         dynamic_value_array_write(&functionNames, chunk->constants.values[i]);
         break;
+      case OBJECT_CLOSURE:
+        functionCount++;
+        dynamic_value_array_write(&functionNames, *(value_t *)AS_CLOSURE(chunk->constants.values[i])->function);
+        break;
       default:
         break;
       }
