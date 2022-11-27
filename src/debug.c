@@ -160,7 +160,8 @@ static int32_t debug_constant_instruction(char const * name, chunk_t * chunk, in
   return offset + 2;
 }
 
-/// Dissasembles a invoke instruction
+/// @brief Dissasembles a invoke instruction
+/// @details This can either be a INVOKE or a SUPER_INVOKE Instruction
 static int debug_invoke_instruction(char const * name, chunk_t *chunk, int32_t offset)
 {
   uint8_t constant = *(chunk->code + offset + 1);

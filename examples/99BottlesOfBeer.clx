@@ -2,8 +2,7 @@ for (var i = 99; i > 0; i -= 1) {
     print(i);
     print(" bottles of beer on the wall, ");
     print(i);
-    println(" bottles of beer");
-    print("Take one down and pass it around, ");
+    println(" bottles of beer\nTake one down and pass it around, ");
     print(i - 1);
     println(" bottles of beer on the wall\n");
 }

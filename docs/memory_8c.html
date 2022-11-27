@@ -320,11 +320,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Marks the roots - local variables or temporaries sitting in the VirtualMachine's stack. </p>
-<p >We mark all the values</p>
-<p >all the objects</p>
-<p >all the ObjectUpvalues</p>
-<p >all the global variables</p>
-<p >And all the compiler roots allocated on the heap</p>
 
 </div>
 </div>
@@ -424,7 +419,6 @@ Functions</h2></td></tr>
 
 <p>Walks through the linked list of objects on the heap and checks their mark bits. </p>
 <p >If an object is unmarked, it is unlinked from the list and the memory used by the object is reclaimed </p>
-<p >We need to unmark the object so it is picked up during the next grabage collection process</p>
 
 </div>
 </div>

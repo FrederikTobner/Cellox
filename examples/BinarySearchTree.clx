@@ -11,7 +11,7 @@ class BinarySearchTree {
     }
 
     add(x) {
-        if(this.rootNode == null) {
+        if(!this.rootNode) {
             this.rootNode = Node(x, null, null);
             return;
         }
@@ -19,14 +19,14 @@ class BinarySearchTree {
         for(;;) {
             if(node.value == x) return;
             if(node.value > x) {
-                if(node.left == null) {
+                if(!node.left) {
                     node.left = Node(x, null, null);
                     return;
                 }
                 node = node.left;            
             }
             else {
-                if(node.right == null) {
+                if(!node.right) {
                     node.right = Node(x, null, null);
                     return;
                 }
@@ -37,7 +37,7 @@ class BinarySearchTree {
 
     // Prints the values from a specific node and all the nodes below
     printFromNode(node) {
-        if(node != null) {
+        if(node) {
             this.printFromNode(node.left);
             println(node.value);
             this.printFromNode(node.right);
@@ -51,5 +51,6 @@ class BinarySearchTree {
 }
 
 var bst = BinarySearchTree();
-for (var i = 0; i < 10; i += 1) bst.add(random() % 100);
+for (var i = 0; i < 10; i += 1) 
+    bst.add(random() % 100);
 bst.printValues();
