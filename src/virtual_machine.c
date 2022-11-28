@@ -49,6 +49,7 @@ void virtual_machine_init()
     virtualMachine.program = NULL;
     virtualMachine.objects = NULL;
     virtualMachine.bytesAllocated = 0;
+    // Garbage Collection is triggered after 1 MB of data has been allocated
     virtualMachine.nextGC = (1 << 20);
     virtualMachine.grayCount = virtualMachine.grayCapacity = 0u;
     virtualMachine.grayStack = NULL;
@@ -286,7 +287,9 @@ static bool virtual_machine_invoke(object_string_t * name, int32_t argCount)
     value_t receiver = virtual_machine_peek(argCount);
     if (!IS_INSTANCE(receiver))
     {
-        virtual_machine_runtime_error("Only instances have methods.");
+        virtual_machine_runtime_error("Only instances have methods but a %s %s was invoked",
+                                        value_stringify_type(receiver),
+                                        IS_OBJECT(receiver) ? "object" : "value");
         return false;
     }
     object_instance_t *instance = AS_INSTANCE(receiver);
@@ -367,17 +370,21 @@ static interpret_result_t virtual_machine_run()
  * We have to embed the marco into a do while, which isn't followed by a semicolon,
  * so all the statements in it get executed if they are after an if 🤮 
  */
-#define BINARY_OP(valueType, op)                              \
-    do                                                        \
-    {                                                         \
-        if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) \
-        {                                                     \
-            virtual_machine_runtime_error("Operands must be numbers but they are a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));    \
-            return INTERPRET_RUNTIME_ERROR;                   \
-        }                                                     \
-        double b = AS_NUMBER(virtual_machine_pop());                       \
-        double a = AS_NUMBER(virtual_machine_pop());                       \
-        virtual_machine_push(valueType(a op b));                           \
+#define BINARY_OP(valueType, op)                                                                                \
+    do                                                                                                          \
+    {                                                                                                           \
+        if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1)))                         \
+        {                                                                                                       \
+            virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s",          \
+                                            value_stringify_type(virtual_machine_peek(0)),                      \
+                                            IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",            \
+                                            value_stringify_type(virtual_machine_peek(1)),                      \
+                                            IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");           \
+            return INTERPRET_RUNTIME_ERROR;                                                                     \
+        }                                                                                                       \
+        double b = AS_NUMBER(virtual_machine_pop());                                                            \
+        double a = AS_NUMBER(virtual_machine_pop());                                                            \
+        virtual_machine_push(valueType(a op b));                                                                \
     } while (false)
 
     call_frame_t * frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
@@ -411,7 +418,9 @@ static interpret_result_t virtual_machine_run()
             }
             else
             {
-                virtual_machine_runtime_error("Operands must be two numbers or two strings but they are a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));
+                virtual_machine_runtime_error("Operands must be two numbers or two strings but they are a %s value and a %s value", 
+                                                value_stringify_type(virtual_machine_peek(0)), 
+                                                value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -516,7 +525,11 @@ static interpret_result_t virtual_machine_run()
             }
             else
             {
-                virtual_machine_runtime_error("Operands must a number and a string but was called with a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)),  value_stringify_type(virtual_machine_peek(1)));
+                virtual_machine_runtime_error("Operands must a numerical value and a string object but are a %s %s and a %s %s", 
+                                                value_stringify_type(virtual_machine_peek(0)),
+                                                IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", 
+                                                value_stringify_type(virtual_machine_peek(1)),
+                                                IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -531,8 +544,9 @@ static interpret_result_t virtual_machine_run()
         {
             if (!IS_INSTANCE(virtual_machine_peek(0)))
             {
-                virtual_machine_runtime_error("Only instances have properties but get expression was created with %s value", 
-                                                value_stringify_type(virtual_machine_peek(0)));
+                virtual_machine_runtime_error("Only instances have properties but get expression but a %s %s was used", 
+                                                value_stringify_type(virtual_machine_peek(0)),
+                                                IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(0));
@@ -634,7 +648,9 @@ static interpret_result_t virtual_machine_run()
             }
             else
             {
-                virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));
+                virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value", 
+                                                value_stringify_type(virtual_machine_peek(0)), 
+                                                value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -645,7 +661,9 @@ static interpret_result_t virtual_machine_run()
         case OP_NEGATE:
             if (!IS_NUMBER(virtual_machine_peek(0)))
             {
-                virtual_machine_runtime_error("Operand must be a number but is a %s value.", value_stringify_type(virtual_machine_peek(0)));
+                virtual_machine_runtime_error("Operand must be a number but is a %s %s.", 
+                                                value_stringify_type(virtual_machine_peek(0)),
+                                                IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
             virtual_machine_push(NUMBER_VAL(-AS_NUMBER(virtual_machine_pop())));
@@ -709,7 +727,11 @@ static interpret_result_t virtual_machine_run()
                 /* Set index of wasn't used on a variable where the operator 
                  * can be used or not with a numerical value that specifies the index.
                  */
-                virtual_machine_runtime_error("Can only be called with a sting a number and string but was called with a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)),  value_stringify_type(virtual_machine_peek(1)));
+                virtual_machine_runtime_error("Can only be called with a sting a number and string but was called with a %s %s and a %s %s", 
+                                                value_stringify_type(virtual_machine_peek(0)),
+                                                IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", 
+                                                value_stringify_type(virtual_machine_peek(1)),
+                                                IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
