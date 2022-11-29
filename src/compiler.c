@@ -1,5 +1,6 @@
 #include "compiler.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,7 +31,7 @@ typedef struct
 /// @brief Precedences that corresponds to a single or a group of tokens
 typedef enum
 {
-    /// Lowest precedence
+    /// Lowest precedence (literals)
     PREC_NONE,
     ///  Precedence of &quot;= += -= *= /= %= **=&quot;
     PREC_ASSIGNMENT,
@@ -109,17 +110,25 @@ typedef struct compiler_t
     /// @brief The enclosing compiler
     /// @details This is needed to compile functions that are enclosed in another function or a script
     struct compiler_t * enclosing;
+    /// @brief The main function
     object_function_t * function;
+    /// @brief The type of the function that is currently executed
     function_type_t type;
+    /// @brief The locals that were declared in the current scope
     local_t locals[UINT8_COUNT];
+    // @brief The amount of local values that where declared in the current scope
     int32_t localCount;
+    /// @brief The upvalues of the current scope (part of a closure)
     upvalue_t upvalues[UINT8_COUNT];
+    /// @brief The scopedepth
+    /// @details Used to determine whether a declared variable is a global or a local variable
     int32_t scopeDepth;
 } compiler_t;
 
 /// @brief  Classcompiler struct definition
 typedef struct class_compiler_t
 {
+    /// The enclosing class compiler structure
     struct class_compiler_t * enclosing;
     /// @brief boolean value that determines whether a class has a superclass
     bool hasSuperclass;
@@ -160,15 +169,15 @@ static void compiler_emit_loop(int32_t);
 static void compiler_emit_return();
 static object_function_t *compiler_end();
 static void compiler_end_scope();
-static void compiler_error(char const *);
-static void compiler_error_at(token_t *, char const *);
-static void compiler_error_at_current(char const *);
+static void compiler_error(char const *, ...);
+static void compiler_error_at(token_t *, char const *, ...);
+static void compiler_error_at_current(char const *, ...);
 static void compiler_expression();
 static void compiler_expression_statement();
 static void compiler_for_statement();
 static void compiler_function(function_type_t);
 static void compiler_function_declaration();
-static parse_rule_t *compiler_get_rule(tokentype_t);
+static parse_rule_t * compiler_get_rule(tokentype_t);
 static void compiler_grouping(bool);
 static uint8_t compiler_identifier_constant(token_t *);
 static bool compiler_identifiers_equal(token_t *, token_t *);
@@ -811,7 +820,7 @@ static void compiler_define_variable(uint8_t global)
 /// @brief Compiles a dot statement
 /// @param canAssign Boolean value that determines whether the value can be changed
 /// @details This can either be a getting the value of field, setting the value of a field 
-//// or invoking a method of a cellox object instance.
+/// or invoking a method of a cellox object instance.
 static void compiler_dot(bool canAssign)
 {
     compiler_consume(TOKEN_IDENTIFIER, "Expect property name after '.'.");
@@ -924,34 +933,42 @@ static void compiler_end_scope()
 
 /// @brief Reports an error at the previous position
 /// @param message The error message that is displayed
-static void compiler_error(char const * message)
+static void compiler_error(char const * format, ...)
 {
-    compiler_error_at(&parser.previous, message);
+    va_list args;
+    va_start(args, format);
+    compiler_error_at(&parser.previous, format, args);
 }
 
 /// @brief Reports an error that was triggered by a specifiec token
 /// @param token The token that has produced the error
 /// @param message The message that is omited by the compiler
-static void compiler_error_at(token_t * token, char const * message)
+static void compiler_error_at(token_t * token, char const * format, ...)
 {
     if (parser.panicMode)
         return;
     parser.panicMode = true;
     fprintf(stderr, "[line %d] Error", token->line);
     if (token->type == TOKEN_EOF)
-        fprintf(stderr, " at end");
+        fprintf(stderr, " at end: ");
     else
-        fprintf(stderr, " at '%.*s'", token->length, token->start);
-    fprintf(stderr, ": %s\n", message);
+        fprintf(stderr, " at '%.*s': ", token->length, token->start);
+    va_list args;
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
+    fputc('\n', stderr);
     parser.hadError = true;
 }
 
 /// @brief Reports an error at the current position
 /// @param message The error message that is displayed
 /// @details Exits the program with an exitcode that indicates a compilation error
-static void compiler_error_at_current(char const * message)
+static void compiler_error_at_current(char const * format, ...)
 {
-    compiler_error_at(&parser.current, message);
+    va_list args;
+    va_start(args, format);
+    compiler_error_at(&parser.current, format);
 }
 
 /// @brief Compiles a expression
@@ -1199,6 +1216,7 @@ static void compiler_literal(bool canAssign)
 }
 
 /// @brief Marks a variable that already has been declared as initialized
+/// @details This only applies to local variables
 static void compiler_mark_initialized()
 {
     if (!current->scopeDepth)
@@ -1239,7 +1257,7 @@ static void compiler_method()
     uint8_t constant = compiler_identifier_constant(&parser.previous);
     function_type_t type = TYPE_METHOD;
     if (parser.previous.length == 4 && !memcmp(parser.previous.start, "init", 4))
-        type = TYPE_INITIALIZER;
+        type = TYPE_INITIALIZER; // The initializer method, also called constructor in other languages, of a class.
     compiler_function(type);
     compiler_emit_bytes(OP_METHOD, constant);
 }
@@ -1315,7 +1333,9 @@ static void compiler_number(bool canAssign)
 /// @param canAssign Unused for or expressions
 static void compiler_or(bool canAssign)
 {
+    // Jump to the segment that is executed if the condition is not satisfied
     int32_t elseJump = compiler_emit_jump(OP_JUMP_IF_FALSE);
+    // Jump to the statements that are executed a condition is met in the or-expression
     int32_t endJump = compiler_emit_jump(OP_JUMP);
     compiler_patch_jump(elseJump);
     compiler_emit_byte(OP_POP);
@@ -1329,7 +1349,7 @@ static void compiler_parse_precedence(precedence_t precedence)
 {
     compiler_advance();
     parse_function_t prefixRule = compiler_get_rule(parser.previous.type)->prefix;
-    if (prefixRule == NULL)
+    if (!prefixRule)
     {
         compiler_error("Expect expression.");
         return;
@@ -1369,6 +1389,7 @@ static void compiler_patch_jump(int32_t offset)
     int32_t jump = compiler_current_chunk()->count - offset - 2;
     if (jump > (int32_t)UINT16_MAX)
         compiler_error("Too much code to jump over."); // More than 65,535 bytes of code
+    // Jump offset (16-bit value) is split into two bytes
     compiler_current_chunk()->code[offset] = (jump >> 8) & 0xff;
     compiler_current_chunk()->code[offset + 1] = jump & 0xff;
 }
@@ -1418,20 +1439,22 @@ static int32_t compiler_resolve_upvalue(compiler_t * compiler, token_t * name)
 static void compiler_return_statement()
 {
     if (current->type == TYPE_SCRIPT)
-        compiler_error("Can't return from top-level code.");
+        compiler_error(" You can't use return from top-level code.");
     if (compiler_match_token(TOKEN_SEMICOLON))
         compiler_emit_return();
     else
     {
         if (current->type == TYPE_INITIALIZER)
-            compiler_error("Can't return a value from an initializer.");
+            compiler_error("Can't return a value from an initializer. An initializer in cellox is not permitted to return a value.");
         compiler_expression();
         compiler_consume(TOKEN_SEMICOLON, "Expect ';' after return value.");
         compiler_emit_byte(OP_RETURN);
     }
 }
 
-/// Compiles a statement
+///@brief Compiles a statement
+/// @details This can be either a for, an if, a return, a while, or a block statement.
+/// If no statement was specified, the next expression is instead compiled
 static void compiler_statement()
 {
     if (compiler_match_token(TOKEN_FOR))
@@ -1583,7 +1606,13 @@ static void compiler_variable(bool canAssign)
     compiler_named_variable(parser.previous, canAssign);
 }
 
-/// @brief  Compiles a while statement/
+/// @brief Compiles a while statement
+/// @details The generated bytecode has the following structure
+/// start:
+/// if condition not met -> jump to the end
+/// Instructions in the loop body
+/// Jump to start
+/// end:
 static void compiler_while_statement()
 {
     int32_t loopStart = compiler_current_chunk()->count;

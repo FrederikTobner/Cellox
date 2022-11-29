@@ -2,7 +2,7 @@ var start = clock();
 
 var i = 0;
 while (i < 1000000) {
-  i = i + 1;
+  i += 1;
 
   1 == 1; 1 == 2; 1 == null; 1 == "str"; 1 == true;
   null == null; null == 1; null == "str"; null == true;
@@ -10,5 +10,4 @@ while (i < 1000000) {
   "str" == "str"; "str" == "stru"; "str" == 1; "str" == null; "str" == true;
 }
 
-var elapsed = clock() - start;
-print elapsed;
+print(clock() - start);

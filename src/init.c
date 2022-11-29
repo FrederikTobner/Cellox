@@ -3,7 +3,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "cellox_config.h"
 #include "chunk_file.h"
@@ -14,7 +13,7 @@
 #include "virtual_machine.h"
 
 /// Maximum length of a line is 1024 characters
-#define MAX_LINE_LENGTH 1024u
+#define MAX_LINE_LENGTH (1024u)
 
 static void init_io_error(char const *, ...);
 static char * init_read_file(char const *);

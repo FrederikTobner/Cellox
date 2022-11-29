@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-
 #include "command_line_argument_parser.h"
 #include "common.h"
 

@@ -151,9 +151,9 @@ static void command_line_argument_parser_parse_option(char const * option, comma
     {
         if(!strcmp(optionConfigs[i].shortRepresentation, option) || !strcmp(optionConfigs[i].longRepresentation, option))
         {
-            /// New option is a singular option
+            // New option is a singular option
             if(optionConfigs[i].exclusionaryOption && *currentOption)
-                command_line_argument_parser_error("Multiple options specified");
+                command_line_argument_parser_error("Multiple exclusionary options specified");
             *currentOption = i;
             break;
         }

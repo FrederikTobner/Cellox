@@ -9,32 +9,32 @@ TEST(Fields, Call)
 
 TEST(Fields, GetOnBool)
 {
-    test_failing_cellox_program("fields/get_on_bool.clx", "Only instances have properties but get expression was created with boolean value\n[line 1] in script\n");
+    test_failing_cellox_program("fields/get_on_bool.clx", "Only instances have properties but get expression but a boolean value was used\n[line 1] in script\n");
 }
 
 TEST(Fields, GetOnClass)
 {
-    test_failing_cellox_program("fields/get_on_class.clx", "Only instances have properties but get expression was created with class value\n[line 2] in script\n");
+    test_failing_cellox_program("fields/get_on_class.clx", "Only instances have properties but get expression but a class object was used\n[line 2] in script\n");
 }
 
 TEST(Fields, GetOnFunction)
 {
-    test_failing_cellox_program("fields/get_on_function.clx", "Only instances have properties but get expression was created with closure value\n[line 3] in script\n");
+    test_failing_cellox_program("fields/get_on_function.clx", "Only instances have properties but get expression but a closure object was used\n[line 3] in script\n");
 }
 
 TEST(Fields, GetOnNull)
 {
-    test_failing_cellox_program("fields/get_on_null.clx", "Only instances have properties but get expression was created with undefiened value\n[line 1] in script\n");
+    test_failing_cellox_program("fields/get_on_null.clx", "Only instances have properties but get expression but a undefiened value was used\n[line 1] in script\n");
 }
 
 TEST(Fields, GetOnNumber)
 {
-    test_failing_cellox_program("fields/get_on_number.clx", "Only instances have properties but get expression was created with numerical value\n[line 1] in script\n");
+    test_failing_cellox_program("fields/get_on_number.clx", "Only instances have properties but get expression but a numerical value was used\n[line 1] in script\n");
 }
 
 TEST(Fields, GetOnString)
 {
-    test_failing_cellox_program("fields/get_on_string.clx", "Only instances have properties but get expression was created with string value\n[line 1] in script\n");
+    test_failing_cellox_program("fields/get_on_string.clx", "Only instances have properties but get expression but a string object was used\n[line 1] in script\n");
 }
 
 TEST(Fields, Inherit)
@@ -49,32 +49,32 @@ TEST(Fields, OnInstance)
 
 TEST(Fields, SetOnBool)
 {
-    test_failing_cellox_program("fields/set_on_bool.clx", "Only instances have fields.\n[line 1] in script\n");
+    test_failing_cellox_program("fields/set_on_bool.clx", "Only instances have fields but was called with a a boolean value\n[line 1] in script\n");
 }
 
 TEST(Fields, SetOnClass)
 {
-    test_failing_cellox_program("fields/set_on_class.clx", "Only instances have fields.\n[line 2] in script\n");
+    test_failing_cellox_program("fields/set_on_class.clx", "Only instances have fields but was called with a a class object\n[line 2] in script\n");
 }
 
 TEST(Fields, SetOnFunction)
 {
-    test_failing_cellox_program("fields/set_on_function.clx", "Only instances have fields.\n[line 3] in script\n");
+    test_failing_cellox_program("fields/set_on_function.clx", "Only instances have fields but was called with a a closure object\n[line 3] in script\n");
 }
 
 TEST(Fields, SetOnNull)
 {
-    test_failing_cellox_program("fields/set_on_null.clx", "Only instances have fields.\n[line 1] in script\n");
+    test_failing_cellox_program("fields/set_on_null.clx", "Only instances have fields but was called with a a undefiened value\n[line 1] in script\n");
 }
 
 TEST(Fields, SetOnNumber)
 {
-    test_failing_cellox_program("fields/set_on_number.clx", "Only instances have fields.\n[line 1] in script\n");
+    test_failing_cellox_program("fields/set_on_number.clx", "Only instances have fields but was called with a a numerical value\n[line 1] in script\n");
 }
 
 TEST(Fields, SetOnString)
 {
-    test_failing_cellox_program("fields/set_on_string.clx", "Only instances have fields.\n[line 1] in script\n");
+    test_failing_cellox_program("fields/set_on_string.clx", "Only instances have fields but was called with a a string object\n[line 1] in script\n");
 }
 
 TEST(Fields, SerializeProperties)

@@ -141,18 +141,22 @@ typedef struct object_upvalue_t
 } object_upvalue_t;
 
 /**
- * @brief A closure, also called lexical closure or function closure.
+ * @brief Models a closure, also called lexical closure or function closure.
  * @details A closure is the combination of a function and references to its surrounding state).
  * The closures in cellox are based on the closures used by the LuaVM.
  * In other words, a closure gives you access to an outer function's scope from an inner function.
- * https://en.wikipedia.org/wiki/Closure_(computer_programming)
+ * Closures only exist in languages with first class functions
+ * and allow the function to access the values that are captured through it's surrounding state.
  */
 typedef struct
 {
     /// data that defines all types of objects
     object_t obj;
+    /// The function of the closure
     object_function_t * function;
+    /// The upvalues which are captured by the closure
     object_upvalue_t ** upvalues;
+    /// The amount of upvalues that is captured by the closure
     uint32_t upvalueCount;
 } object_closure_t;
 
@@ -161,7 +165,9 @@ typedef struct
 {
     /// data that defines all types of objects
     object_t obj;
+    /// The name of the class
     object_string_t * name;
+    /// The methods that are defined in the class body
     hash_table_t methods;
 } object_class_t;
 
@@ -170,7 +176,9 @@ typedef struct
 {
     /// data that defines all types of objects
     object_t obj;
+    /// The class of the object instance
     object_class_t * celloxClass;
+    /// The fields of the instance
     hash_table_t fields;
 } object_instance_t;
 
@@ -179,7 +187,9 @@ typedef struct
 {
     /// data that defines all types of objects
     object_t obj;
+    /// The value of the object the method is bound to
     value_t receiver;
+    /// The closure of the method (The context of the cellox instance)
     object_closure_t * method;
 } object_bound_method_t;
 
@@ -241,8 +251,8 @@ void object_print(value_t value);
 char const * object_stringify_type(object_t * object);
 
 /// @brief Determines whether a value is of a given type
-/// @param value The value
-/// @param type The type
+/// @param value The value that is checked
+/// @param type The type that is used for checking the value
 /// @return true is the value is of the given type, false if not
 static inline bool object_is_type(value_t value, object_type_t type)
 {

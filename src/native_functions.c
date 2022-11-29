@@ -176,6 +176,7 @@ value_t native_functions_append_to_file(uint32_t argCount, value_t const * args)
     if (!IS_STRING(*args) || !IS_STRING(*(args + 1)))
         native_functions_arguments_error("read_file can only be called with a string as argument");
     FILE * file;
+    // Opens the file in append mode
     file = fopen(AS_CSTRING(*(args)), "a");
     if (!file)
         return FALSE_VAL;
@@ -348,11 +349,13 @@ value_t native_functions_write_to_file(uint32_t argCount, value_t const * args)
     if (!IS_STRING(*args) || !IS_STRING(*(args + 1)))
         native_functions_arguments_error("read_file can only be called with a string as argument");
     FILE * file;
+    // Open file in write mode
     file = fopen(AS_CSTRING(*(args)), "w");
     if (!file)
-        return FALSE_VAL;
+        return FALSE_VAL; // File could not be openend -> false indicates a failure
     fprintf(file, "%s", AS_CSTRING(*(args + 1)));
     fclose(file);
+    // True indicates a successfull exection
     return TRUE_VAL;
 }
 
