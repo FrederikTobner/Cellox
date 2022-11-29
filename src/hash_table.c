@@ -10,8 +10,8 @@
 /// @details If the max load factor multiplied with the capacity is reached we grow the hashtable
 #define TABLE_MAX_LOAD 0.75
 
-static void hash_table_adjust_capacity(hash_table_t * , int32_t );
-static hash_table_entry_t * hash_table_find_entry(hash_table_entry_t * , int32_t , object_string_t *);
+static void hash_table_adjust_capacity(hash_table_t *, int32_t);
+static hash_table_entry_t * hash_table_find_entry(hash_table_entry_t *, int32_t, object_string_t *);
 
 void hash_table_free(hash_table_t * table)
 {
@@ -35,7 +35,7 @@ void hash_table_mark(hash_table_t * table)
     }
 }
 
-void hash_table_add_all(hash_table_t * from, hash_table_t *to)
+void hash_table_add_all(hash_table_t * from, hash_table_t * to)
 {
     for (uint32_t i = 0; i < from->capacity; i++)
     {
@@ -70,13 +70,13 @@ object_string_t * hash_table_find_string(hash_table_t * table, char const * char
         hash_table_entry_t * entry = &table->entries[index];
         if (!entry->key)
         {
-            /// Stop if we find an empty non-tombstone entry.
+            // Stop if we find an empty non-tombstone entry.
             if (IS_NULL(entry->value))
                 return NULL;
         }
         else if (entry->key->length == length && entry->key->hash == hash && !memcmp(entry->key->chars, chars, length))
             return entry->key;  /// We found the string
-        /// We look in the next bucket but eventually we also have to wrap around the array when we reach the end
+        // We look in the next bucket but eventually we also have to wrap around the array when we reach the end
         index = (index + 1) % table->capacity;
     }
 }
@@ -87,6 +87,7 @@ bool hash_table_get(hash_table_t * table, object_string_t * key, value_t * value
         return false;
 
     hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
+    // The entry we found does not correspond to the key
     if (!entry->key)
         return false;
 
@@ -106,7 +107,6 @@ void hash_table_remove_white(hash_table_t * table)
 
 bool hash_table_set(hash_table_t * table, object_string_t * key, value_t value)
 {
-    // We grow the hashtable when it becomes 75% full
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
         uint32_t capacity = GROW_CAPACITY(table->capacity);
@@ -124,6 +124,9 @@ bool hash_table_set(hash_table_t * table, object_string_t * key, value_t value)
 /// @brief Adjusts the capicity of a hashtable
 /// @param table The hashtable where the capacity is changed
 /// @param capacity The new capacity of the hashtable
+/// @details  We grow the hashtable when it becomes 75% is filled, 
+/// so we can wrap around the entries when we look for a key,
+/// without risking an infinite loop when the hashtable is full.
 static void hash_table_adjust_capacity(hash_table_t * table, int32_t capacity)
 {
     hash_table_entry_t * entries = ALLOCATE(hash_table_entry_t, capacity);

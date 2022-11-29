@@ -820,7 +820,7 @@ static void compiler_define_variable(uint8_t global)
 /// @brief Compiles a dot statement
 /// @param canAssign Boolean value that determines whether the value can be changed
 /// @details This can either be a getting the value of field, setting the value of a field 
-//// or invoking a method of a cellox object instance.
+/// or invoking a method of a cellox object instance.
 static void compiler_dot(bool canAssign)
 {
     compiler_consume(TOKEN_IDENTIFIER, "Expect property name after '.'.");

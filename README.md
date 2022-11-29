@@ -10,7 +10,7 @@ Cellox is a scripting language based on the programming language [lox](https://c
 
 ## Overview
 
-Cellox is a dynamically typed, object oriented, general purpose, high-level scripting language that offers automatic memory management to the programmer.
+Cellox is a dynamically typed, object oriented, high-level scripting language.
 
 Cellox is available under windows, linux and macOS, but has only been thoroughly tested under windows.
 Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the interpreter.
@@ -62,7 +62,7 @@ Cellox offers an extension for [vscode](https://github.com/FrederikTobner/vscode
 
 ## How it works
 
-The language provides automatic memory management using it's own [garbage collector](https://github.com/FrederikTobner/Cellox/wiki/Garbage-Collector), that uses the mark-and-sweep algorithm.
+The language provides automatic memory management to the programmer using it's own [garbage collector](https://github.com/FrederikTobner/Cellox/wiki/Garbage-Collector), that uses the mark-and-sweep algorithm.
 
 The variables defiened in a cellox program are stored in a hashtable. The variable name is used as the key for the value stored in the hashtable.
 
@@ -90,4 +90,4 @@ The test are written in C++ using the [google-test framework](https://github.com
 
 For testing a cellox program is executed and the standard output is redirected to a string. The string is compared with the expected output after the program was executed.
 
-A small benchmarking suite to measure the performance of cellox programs is also included.
+A small benchmarking suite to measure the performance of cellox programs is also included (only used for developing the interpreter)

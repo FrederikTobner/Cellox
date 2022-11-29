@@ -56,7 +56,7 @@ void memory_mark_object(object_t * object)
 {
   if (!object)
     return;
-  /// Object is already marked, so we don't need to mark it again
+  // Object is already marked, so we don't need to mark it again
   if (object->isMarked)
     return;
 #ifdef DEBUG_LOG_GC

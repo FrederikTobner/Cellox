@@ -712,7 +712,7 @@ static interpret_result_t virtual_machine_run()
                 object_string_t * str = AS_STRING(virtual_machine_pop());
                 if (num >= str->length || num < 0 || character->length != 1)
                 {
-                    virtual_machine_runtime_error("accessed string out of bounds");
+                    virtual_machine_runtime_error("accessed string out of bounds at index %d", num);
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 char * newCharacterSequence = malloc(str->length + 1);
@@ -747,7 +747,9 @@ static interpret_result_t virtual_machine_run()
         {
             if (!IS_INSTANCE(virtual_machine_peek(1)))
             {
-                virtual_machine_runtime_error("Only instances have fields.");
+                virtual_machine_runtime_error("Only instances have fields but was called with a a %s %s",
+                                                value_stringify_type(virtual_machine_peek(1)),
+                                                IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(1));
@@ -780,7 +782,8 @@ static interpret_result_t virtual_machine_run()
             virtual_machine_push(BOOL_VAL(true));
             break;
         default:
-            printf("Bytecode intstruction not supported by VM");
+            printf("Bytecode instruction not supported by VM");
+            exit(70);
         }
     }
 #undef READ_BYTE

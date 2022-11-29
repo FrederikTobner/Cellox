@@ -2,7 +2,7 @@
 #define CELLOX_COMMON_H_
 
 /// @brief Exit codes of the cellox interpreter
-/// @details These exit codes are based on the exit codes that used under linux.
+/// @details These exit codes are based on the exit codes defined in the UNIX sysexits.h header file (under linux at usr/include/sysexits.h).
 /// They can be found under 
 typedef enum
 {

@@ -1,5 +1,5 @@
 var start = clock();
 var t = 5;
 for(var i = 0; i < 1000000; i += 1) 
-    t = -t;
-print clock() - start;
+    t **= 2;
+print(clock() - start);

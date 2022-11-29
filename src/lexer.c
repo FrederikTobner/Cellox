@@ -147,10 +147,8 @@ static char lexer_advance()
 /// Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
 static tokentype_t lexer_check_keyword(uint32_t start, uint32_t length, char const * rest, tokentype_t type)
 {
-    if (lexer.current - lexer.start == start + length && memcmp(lexer.start + start, rest, length) == 0)
-    {
+    if (lexer.current - lexer.start == start + length && !memcmp(lexer.start + start, rest, length))
         return type;
-    }
     return TOKEN_IDENTIFIER;
 }
 
@@ -169,9 +167,7 @@ static token_t lexer_error_token(char const * message)
 static token_t lexer_identifier()
 {
     while (lexer_is_alpha(lexer_peek()) || lexer_is_digit(lexer_peek()))
-    {
         lexer_advance();
-    }
     return lexer_make_token(lexer_identifier_type());
 }
 
@@ -237,19 +233,24 @@ static bool lexer_is_alpha(char c)
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
-/// checks if the char c is a digit
+/// @brief checks if a character is a digit (0-9)
+/// @param c The character that is checked
+/// @return True if the character is a digit, false if not
 static bool lexer_is_digit(char c)
 {
     return c >= '0' && c <= '9';
 }
 
-/// Determines wheather we reached the end in the sourceCode
+/// @brief Determines wheather we reached the end in the sourcecode
+/// @return True if we reached the end, false if not
 static bool lexer_is_at_end()
 {
     return *lexer.current == '\0';
 }
 
-/// Creates a new Token of a given type
+/// @brief Creates a new Token of a given type
+/// @param type The type of the type that is generated
+/// @return The Token that was created
 static token_t lexer_make_token(tokentype_t type)
 {
     token_t token;
@@ -322,16 +323,11 @@ static void lexer_skip_whitespace()
             lexer_advance();
             break;
         case '/':
-            if (lexer_peek_next() == '/')
-            {
-                // A comment goes until the end of the line.
-                while (lexer_peek() != '\n' && !lexer_is_at_end())
+            if (lexer_peek_next() == '/')                
+                while (lexer_peek() != '\n' && !lexer_is_at_end()) // A comment goes until the end of the line.
                     lexer_advance();
-            }
             else
-            {
                 return;
-            }
             break;
         default:
             return;
@@ -339,7 +335,8 @@ static void lexer_skip_whitespace()
     }
 }
 
-/// Creates a new string literal token
+/// @brief Creates a new string literal token
+/// @return The string literal token that was created
 static token_t string()
 {
     while (lexer_peek() != '"' && !lexer_is_at_end())
@@ -352,7 +349,7 @@ static token_t string()
     }
     if (lexer_is_at_end())
         return lexer_error_token("Unterminated string.");
-    /// The closing quote.
+    // Skips the closing quote.
     lexer_advance();
     return lexer_make_token(TOKEN_STRING);
 }

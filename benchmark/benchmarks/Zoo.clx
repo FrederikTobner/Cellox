@@ -1,7 +1,5 @@
-class Zoo 
-{
-  init() 
-  {
+class Zoo {
+  init() {
     this.aardvark = 1;
     this.baboon   = 1;
     this.cat      = 1;
@@ -20,8 +18,7 @@ class Zoo
 var zoo = Zoo();
 var sum = 0;
 var start = clock();
-while (sum < 10000000) 
-{
+while (sum < 10000000) {
   sum = sum + zoo.ant()
             + zoo.banana()
             + zoo.tuna()
@@ -30,4 +27,4 @@ while (sum < 10000000)
             + zoo.mouse();
 }
 
-print clock() - start;
+print(clock() - start);

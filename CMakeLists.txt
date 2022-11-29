@@ -14,7 +14,7 @@ set(PROJECT_VENDOR "Frederik Tobner")
 # Optional NAN-Boxing (Not a number boxing / Not a number tagging)
 option(NAN_BOXING_ACTIVATED "Determines whether \"not a number boxing / tagging\" is used" ON)
 
-# Debug options (only have an effect for debug builds)
+# Debug options (only have an effect on debug builds)
 option(DEBUG_PRINT_BYTECODE "Determines whether the chunks are dissassembled and the bytecode is prined" OFF)
 option(DEBUG_TRACE_EXECUTION "Determines whether the execution shall be traced" OFF)
 option(DEBUG_STRESS_GARBAGE_COLLECTOR "Determines whether the garbage collector shall be stressed" OFF)

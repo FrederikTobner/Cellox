@@ -8,7 +8,7 @@ extern "C" {
 
 #include <stdbool.h>
 
-/// Message that is explains the usage of the cellox interpreter
+/// Message that explains the usage of the cellox interpreter
 #define CELLOX_USAGE_MESSAGE ("Usage: Cellox ((-h|--help|-v|--version) | ((-scf | --store-chunk-file) |(-rcf |--read-chunk-file)) [path]\n")
 
 /** @brief Run with repl
