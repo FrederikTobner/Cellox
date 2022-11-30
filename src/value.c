@@ -47,14 +47,10 @@ char const * value_stringify_type(value_t value)
 #ifdef NAN_BOXING
   if (IS_BOOL(value))
     return valueTypesStringified[0];
-  else if (IS_NULL(value))
+  if (IS_NULL(value))
     return valueTypesStringified[1];
-  else if (IS_NUMBER(value))
+  if (IS_NUMBER(value))
     return valueTypesStringified[2];
-  else
-  {
-    return object_stringify_type(AS_OBJECT(value));
-  }
 #else
   switch (value.type)
   {
@@ -63,11 +59,10 @@ char const * value_stringify_type(value_t value)
   case VAL_NULL:
     return valueTypesStringified[1];
   case VAL_NUMBER:
-    return valueTypesStringified[2];
-  default:
-      return object_stringify_type(AS_OBJECT(value));
+    return valueTypesStringified[2];      
   }
 #endif
+return object_stringify_type(AS_OBJECT(value));
 }
 
 bool value_values_equal(value_t a, value_t b)

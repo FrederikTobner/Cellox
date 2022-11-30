@@ -226,7 +226,6 @@ static object_upvalue_t * virtual_machine_capture_upvalue(value_t * local)
 
 /** @brief Function takes a slot of the stack as a parameter.
  * @details Then it closes all upvalues it can find in that slot and the slots above that slot in the stack.
- * The concept of an upvalue is borrowed from Lua - see https://www.lua.org/pil/27.3.3.html.
  * A upvalue is closed by copying the objects value into the closed field in te ObjectValue.
  */
 static void virtual_machine_close_upvalues(value_t * last)
@@ -409,13 +408,9 @@ static interpret_result_t virtual_machine_run()
         case OP_ADD:
         {
             if (IS_STRING(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1)))
-            {
                 virtual_machine_concatenate_strings();
-            }
             else if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)))
-            {
                 BINARY_OP(NUMBER_VAL, +);
-            }
             else
             {
                 virtual_machine_runtime_error("Operands must be two numbers or two strings but they are a %s value and a %s value", 
@@ -682,7 +677,7 @@ static interpret_result_t virtual_machine_run()
             value_t result = virtual_machine_pop();
             virtual_machine_close_upvalues(frame->slots);
             virtualMachine.frameCount--;
-            if (virtualMachine.frameCount == 0)
+            if (!virtualMachine.frameCount)
             {
                 virtual_machine_pop();
                 return INTERPRET_OK;
@@ -694,7 +689,7 @@ static interpret_result_t virtual_machine_run()
         }
         case OP_SET_GLOBAL:
         {
-            object_string_t *name = READ_STRING();
+            object_string_t * name = READ_STRING();
             if (hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0)))
             {
                 hash_table_delete(&virtualMachine.globals, name);
@@ -715,6 +710,7 @@ static interpret_result_t virtual_machine_run()
                     virtual_machine_runtime_error("accessed string out of bounds at index %d", num);
                     return INTERPRET_RUNTIME_ERROR;
                 }
+                // We need to allocate a new character sequnce so no other objects are affected
                 char * newCharacterSequence = malloc(str->length + 1);
                 memcpy(newCharacterSequence, str->chars, str->length); 
                 newCharacterSequence[num] = character->chars[0];
