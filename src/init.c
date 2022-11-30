@@ -64,7 +64,7 @@ void init_run_from_file(char const * path, bool compile)
     if(compile)
     {
         object_function_t * function = compiler_compile(source);        
-        if (function == NULL)
+        if (!function)
             result = INTERPRET_COMPILE_ERROR;
         if(chunk_file_store(function->chunk, path, 0))
             result = INTERPRET_COMPILE_ERROR;

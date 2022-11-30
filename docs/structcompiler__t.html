@@ -86,16 +86,21 @@ Data Fields</h2></td></tr>
 <tr class="memdesc:a2070d6bf5603cb3f0def9a5f8e039691"><td class="mdescLeft">&#160;</td><td class="mdescRight">The enclosing compiler.  <a href="structcompiler__t.html#a2070d6bf5603cb3f0def9a5f8e039691">More...</a><br /></td></tr>
 <tr class="separator:a2070d6bf5603cb3f0def9a5f8e039691"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ea5e688e8dc462b6245a728932c2972"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__function__t.html">object_function_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcompiler__t.html#a6ea5e688e8dc462b6245a728932c2972">function</a></td></tr>
+<tr class="memdesc:a6ea5e688e8dc462b6245a728932c2972"><td class="mdescLeft">&#160;</td><td class="mdescRight">The main function.  <a href="structcompiler__t.html#a6ea5e688e8dc462b6245a728932c2972">More...</a><br /></td></tr>
 <tr class="separator:a6ea5e688e8dc462b6245a728932c2972"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88dde9b6b4f4cd569f15eef9a6876b85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="compiler_8c.html#a8a219b42b1180414a012100af75c31c8">function_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcompiler__t.html#a88dde9b6b4f4cd569f15eef9a6876b85">type</a></td></tr>
+<tr class="memdesc:a88dde9b6b4f4cd569f15eef9a6876b85"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the function that is currently executed.  <a href="structcompiler__t.html#a88dde9b6b4f4cd569f15eef9a6876b85">More...</a><br /></td></tr>
 <tr class="separator:a88dde9b6b4f4cd569f15eef9a6876b85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54b34c8c06bbf18f65407a0f855a0cde"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structlocal__t.html">local_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcompiler__t.html#a54b34c8c06bbf18f65407a0f855a0cde">locals</a> [<a class="el" href="common_8h.html#a2c580133a436e5d548aadde685fdbb52">UINT8_COUNT</a>]</td></tr>
+<tr class="memdesc:a54b34c8c06bbf18f65407a0f855a0cde"><td class="mdescLeft">&#160;</td><td class="mdescRight">The locals that were declared in the current scope.  <a href="structcompiler__t.html#a54b34c8c06bbf18f65407a0f855a0cde">More...</a><br /></td></tr>
 <tr class="separator:a54b34c8c06bbf18f65407a0f855a0cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e31cbcd5f82d66b5f8f62c0c92e5f1d"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcompiler__t.html#a9e31cbcd5f82d66b5f8f62c0c92e5f1d">localCount</a></td></tr>
 <tr class="separator:a9e31cbcd5f82d66b5f8f62c0c92e5f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05db503e65cf8982846bcf6683c1f04b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structupvalue__t.html">upvalue_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcompiler__t.html#a05db503e65cf8982846bcf6683c1f04b">upvalues</a> [<a class="el" href="common_8h.html#a2c580133a436e5d548aadde685fdbb52">UINT8_COUNT</a>]</td></tr>
+<tr class="memdesc:a05db503e65cf8982846bcf6683c1f04b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The upvalues of the current scope (part of a closure)  <a href="structcompiler__t.html#a05db503e65cf8982846bcf6683c1f04b">More...</a><br /></td></tr>
 <tr class="separator:a05db503e65cf8982846bcf6683c1f04b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6675505a54412ab99ed57375dd0fdf35"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcompiler__t.html#a6675505a54412ab99ed57375dd0fdf35">scopeDepth</a></td></tr>
+<tr class="memdesc:a6675505a54412ab99ed57375dd0fdf35"><td class="mdescLeft">&#160;</td><td class="mdescRight">The scopedepth.  <a href="structcompiler__t.html#a6675505a54412ab99ed57375dd0fdf35">More...</a><br /></td></tr>
 <tr class="separator:a6675505a54412ab99ed57375dd0fdf35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -130,6 +135,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The main function. </p>
+
 </div>
 </div>
 <a id="a9e31cbcd5f82d66b5f8f62c0c92e5f1d" name="a9e31cbcd5f82d66b5f8f62c0c92e5f1d"></a>
@@ -158,6 +165,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The locals that were declared in the current scope. </p>
+
 </div>
 </div>
 <a id="a6675505a54412ab99ed57375dd0fdf35" name="a6675505a54412ab99ed57375dd0fdf35"></a>
@@ -171,6 +180,9 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The scopedepth. </p>
+<p >Used to determine whether a declared variable is a global or a local variable </p>
 
 </div>
 </div>
@@ -186,6 +198,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The type of the function that is currently executed. </p>
+
 </div>
 </div>
 <a id="a05db503e65cf8982846bcf6683c1f04b" name="a05db503e65cf8982846bcf6683c1f04b"></a>
@@ -199,6 +213,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The upvalues of the current scope (part of a closure) </p>
 
 </div>
 </div>

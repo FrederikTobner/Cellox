@@ -81,6 +81,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="compiler_8h_source.html">compiler.h</a>&quot;</code><br />
+<code>#include &lt;stdarg.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
@@ -227,15 +228,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a726a02c352707f6f6316e1a3dbe9bd95"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a726a02c352707f6f6316e1a3dbe9bd95">compiler_end_scope</a> ()</td></tr>
 <tr class="memdesc:a726a02c352707f6f6316e1a3dbe9bd95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the closing of a scope.  <a href="compiler_8c.html#a726a02c352707f6f6316e1a3dbe9bd95">More...</a><br /></td></tr>
 <tr class="separator:a726a02c352707f6f6316e1a3dbe9bd95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad24758123d043ed353524b6e644e866c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#ad24758123d043ed353524b6e644e866c">compiler_error</a> (char const *message)</td></tr>
-<tr class="memdesc:ad24758123d043ed353524b6e644e866c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports an error at the previous position.  <a href="compiler_8c.html#ad24758123d043ed353524b6e644e866c">More...</a><br /></td></tr>
-<tr class="separator:ad24758123d043ed353524b6e644e866c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e5e342dbefd7e11a0656a551d0b746c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a6e5e342dbefd7e11a0656a551d0b746c">compiler_error_at</a> (<a class="el" href="structtoken__t.html">token_t</a> *token, char const *message)</td></tr>
-<tr class="memdesc:a6e5e342dbefd7e11a0656a551d0b746c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports an error that was triggered by a specifiec token.  <a href="compiler_8c.html#a6e5e342dbefd7e11a0656a551d0b746c">More...</a><br /></td></tr>
-<tr class="separator:a6e5e342dbefd7e11a0656a551d0b746c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f5cad791d2a5b874ae6d8020017c8fb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a7f5cad791d2a5b874ae6d8020017c8fb">compiler_error_at_current</a> (char const *message)</td></tr>
-<tr class="memdesc:a7f5cad791d2a5b874ae6d8020017c8fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports an error at the current position.  <a href="compiler_8c.html#a7f5cad791d2a5b874ae6d8020017c8fb">More...</a><br /></td></tr>
-<tr class="separator:a7f5cad791d2a5b874ae6d8020017c8fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02cbdf785be6da5ba28c824ecf468bf1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a02cbdf785be6da5ba28c824ecf468bf1">compiler_error</a> (char const *format,...)</td></tr>
+<tr class="memdesc:a02cbdf785be6da5ba28c824ecf468bf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports an error at the previous position.  <a href="compiler_8c.html#a02cbdf785be6da5ba28c824ecf468bf1">More...</a><br /></td></tr>
+<tr class="separator:a02cbdf785be6da5ba28c824ecf468bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5c52e6c3a7bbe7230d4b004cdcf8f07"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#aa5c52e6c3a7bbe7230d4b004cdcf8f07">compiler_error_at</a> (<a class="el" href="structtoken__t.html">token_t</a> *token, char const *format,...)</td></tr>
+<tr class="memdesc:aa5c52e6c3a7bbe7230d4b004cdcf8f07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports an error that was triggered by a specifiec token.  <a href="compiler_8c.html#aa5c52e6c3a7bbe7230d4b004cdcf8f07">More...</a><br /></td></tr>
+<tr class="separator:aa5c52e6c3a7bbe7230d4b004cdcf8f07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38bb94798c7c5bada394ef55f38ecd67"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a38bb94798c7c5bada394ef55f38ecd67">compiler_error_at_current</a> (char const *format,...)</td></tr>
+<tr class="memdesc:a38bb94798c7c5bada394ef55f38ecd67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports an error at the current position.  <a href="compiler_8c.html#a38bb94798c7c5bada394ef55f38ecd67">More...</a><br /></td></tr>
+<tr class="separator:a38bb94798c7c5bada394ef55f38ecd67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ff1a09a18a6cda166e1f239eee532ec"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a2ff1a09a18a6cda166e1f239eee532ec">compiler_expression</a> ()</td></tr>
 <tr class="memdesc:a2ff1a09a18a6cda166e1f239eee532ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a expression.  <a href="compiler_8c.html#a2ff1a09a18a6cda166e1f239eee532ec">More...</a><br /></td></tr>
 <tr class="separator:a2ff1a09a18a6cda166e1f239eee532ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -345,7 +346,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a7641fc08790cac59135383e4dea58784"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a variable sets/gets global variable or sets/gets local variable.  <a href="compiler_8c.html#a7641fc08790cac59135383e4dea58784">More...</a><br /></td></tr>
 <tr class="separator:a7641fc08790cac59135383e4dea58784"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a936edacd38504e7e4a33f911162739"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a2a936edacd38504e7e4a33f911162739">compiler_while_statement</a> ()</td></tr>
-<tr class="memdesc:a2a936edacd38504e7e4a33f911162739"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a while statement/.  <a href="compiler_8c.html#a2a936edacd38504e7e4a33f911162739">More...</a><br /></td></tr>
+<tr class="memdesc:a2a936edacd38504e7e4a33f911162739"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a while statement.  <a href="compiler_8c.html#a2a936edacd38504e7e4a33f911162739">More...</a><br /></td></tr>
 <tr class="separator:a2a936edacd38504e7e4a33f911162739"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0cbc8a88815c4fd234e8ea7cf21fc05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__function__t.html">object_function_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#ad0cbc8a88815c4fd234e8ea7cf21fc05">compiler_compile</a> (char const *program)</td></tr>
 <tr class="memdesc:ad0cbc8a88815c4fd234e8ea7cf21fc05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a cellox program.  <a href="compiler_8c.html#ad0cbc8a88815c4fd234e8ea7cf21fc05">More...</a><br /></td></tr>
@@ -461,7 +462,7 @@ Variables</h2></td></tr>
 
 <p>Precedences that corresponds to a single or a group of tokens. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa2be887a6eb50f60bf0d6643d5986289c" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa2be887a6eb50f60bf0d6643d5986289c"></a>PREC_NONE&#160;</td><td class="fielddoc"><p >Lowest precedence. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa2be887a6eb50f60bf0d6643d5986289c" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa2be887a6eb50f60bf0d6643d5986289c"></a>PREC_NONE&#160;</td><td class="fielddoc"><p >Lowest precedence (literals) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a9e5fdf365cd8dc7be4d972daf07f8bdfa5576e7223ab7e815dc3f0daefcaf5fe3" name="a9e5fdf365cd8dc7be4d972daf07f8bdfa5576e7223ab7e815dc3f0daefcaf5fe3"></a>PREC_ASSIGNMENT&#160;</td><td class="fielddoc"><p >Precedence of &quot;= += -= *= /= %= **=&quot;. </p>
 </td></tr>
@@ -1069,8 +1070,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>This can either be a getting the value of field, setting the value of a field <br  />
- </p>
+<p>This can either be a getting the value of field, setting the value of a field or invoking a method of a cellox object instance. </p>
 
 </div>
 </div>
@@ -1332,8 +1332,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ad24758123d043ed353524b6e644e866c" name="ad24758123d043ed353524b6e644e866c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad24758123d043ed353524b6e644e866c">&#9670;&#160;</a></span>compiler_error()</h2>
+<a id="a02cbdf785be6da5ba28c824ecf468bf1" name="a02cbdf785be6da5ba28c824ecf468bf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02cbdf785be6da5ba28c824ecf468bf1">&#9670;&#160;</a></span>compiler_error()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1345,8 +1345,18 @@ Variables</h2></td></tr>
           <td class="memname">static void compiler_error </td>
           <td>(</td>
           <td class="paramtype">char const *&#160;</td>
-          <td class="paramname"><em>message</em></td><td>)</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -1366,8 +1376,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a6e5e342dbefd7e11a0656a551d0b746c" name="a6e5e342dbefd7e11a0656a551d0b746c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e5e342dbefd7e11a0656a551d0b746c">&#9670;&#160;</a></span>compiler_error_at()</h2>
+<a id="aa5c52e6c3a7bbe7230d4b004cdcf8f07" name="aa5c52e6c3a7bbe7230d4b004cdcf8f07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5c52e6c3a7bbe7230d4b004cdcf8f07">&#9670;&#160;</a></span>compiler_error_at()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1385,7 +1395,13 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char const *&#160;</td>
-          <td class="paramname"><em>message</em>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1411,8 +1427,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a7f5cad791d2a5b874ae6d8020017c8fb" name="a7f5cad791d2a5b874ae6d8020017c8fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f5cad791d2a5b874ae6d8020017c8fb">&#9670;&#160;</a></span>compiler_error_at_current()</h2>
+<a id="a38bb94798c7c5bada394ef55f38ecd67" name="a38bb94798c7c5bada394ef55f38ecd67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38bb94798c7c5bada394ef55f38ecd67">&#9670;&#160;</a></span>compiler_error_at_current()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1424,8 +1440,18 @@ Variables</h2></td></tr>
           <td class="memname">static void compiler_error_at_current </td>
           <td>(</td>
           <td class="paramtype">char const *&#160;</td>
-          <td class="paramname"><em>message</em></td><td>)</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -1963,6 +1989,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Marks a variable that already has been declared as initialized. </p>
+<p >This only applies to local variables </p>
 
 </div>
 </div>
@@ -2467,6 +2494,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compiles a statement. </p>
+<p >This can be either a for, an if, a return, a while, or a block statement. If no statement was specified, the next expression is instead compiled </p>
 
 </div>
 </div>
@@ -2753,7 +2781,8 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Compiles a while statement/. </p>
+<p>Compiles a while statement. </p>
+<p >The generated bytecode has the following structure start: if condition not met -&gt; jump to the end Instructions in the loop body Jump to start end: </p>
 
 </div>
 </div>

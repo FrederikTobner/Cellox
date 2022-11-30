@@ -91,7 +91,7 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a2a24a47378ecdcf3512cac2302960ec4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a2a24a47378ecdcf3512cac2302960ec4">memory_blacken_object</a> (<a class="el" href="structobject__t.html">object_t</a> *object)</td></tr>
-<tr class="memdesc:a2a24a47378ecdcf3512cac2302960ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blackens an object - all the references that this object have been marked.  <a href="memory_8c.html#a2a24a47378ecdcf3512cac2302960ec4">More...</a><br /></td></tr>
+<tr class="memdesc:a2a24a47378ecdcf3512cac2302960ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blackens an object.  <a href="memory_8c.html#a2a24a47378ecdcf3512cac2302960ec4">More...</a><br /></td></tr>
 <tr class="separator:a2a24a47378ecdcf3512cac2302960ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a164e21d1ab8b3e0f1af9ed6dcb0ff85b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a164e21d1ab8b3e0f1af9ed6dcb0ff85b">memory_free_object</a> (<a class="el" href="structobject__t.html">object_t</a> *object)</td></tr>
 <tr class="memdesc:a164e21d1ab8b3e0f1af9ed6dcb0ff85b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dealocates the memomory used by the object.  <a href="memory_8c.html#a164e21d1ab8b3e0f1af9ed6dcb0ff85b">More...</a><br /></td></tr>
@@ -100,13 +100,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:aefa83125828cbbfb88915e1a866f3c67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks all the values in an array.  <a href="memory_8c.html#aefa83125828cbbfb88915e1a866f3c67">More...</a><br /></td></tr>
 <tr class="separator:aefa83125828cbbfb88915e1a866f3c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7cf4076b77c7ef5831da62b58a16206"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#ae7cf4076b77c7ef5831da62b58a16206">memory_mark_roots</a> ()</td></tr>
-<tr class="memdesc:ae7cf4076b77c7ef5831da62b58a16206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the roots - local variables or temporaries sitting in the VirtualMachine's stack.  <a href="memory_8c.html#ae7cf4076b77c7ef5831da62b58a16206">More...</a><br /></td></tr>
+<tr class="memdesc:ae7cf4076b77c7ef5831da62b58a16206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the roots of the compiler.  <a href="memory_8c.html#ae7cf4076b77c7ef5831da62b58a16206">More...</a><br /></td></tr>
 <tr class="separator:ae7cf4076b77c7ef5831da62b58a16206"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af164d7ea545b1a1f32257409ea49aaff"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#af164d7ea545b1a1f32257409ea49aaff">memory_sweep</a> ()</td></tr>
 <tr class="memdesc:af164d7ea545b1a1f32257409ea49aaff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Walks through the linked list of objects on the heap and checks their mark bits.  <a href="memory_8c.html#af164d7ea545b1a1f32257409ea49aaff">More...</a><br /></td></tr>
 <tr class="separator:af164d7ea545b1a1f32257409ea49aaff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6af77eec3d217848ffff6e9c3acd517b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a6af77eec3d217848ffff6e9c3acd517b">memory_trace_references</a> ()</td></tr>
-<tr class="memdesc:a6af77eec3d217848ffff6e9c3acd517b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traces all the references that the objects of the virtual machine contain.  <a href="memory_8c.html#a6af77eec3d217848ffff6e9c3acd517b">More...</a><br /></td></tr>
+<tr class="memdesc:a6af77eec3d217848ffff6e9c3acd517b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traces all the references to the objects of the virtual machine that are reachable All the objects that are reachable are marked as gray after the compiler roots are marked.  <a href="memory_8c.html#a6af77eec3d217848ffff6e9c3acd517b">More...</a><br /></td></tr>
 <tr class="separator:a6af77eec3d217848ffff6e9c3acd517b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98f9f67fecf879a3e82ca5ee2da17619"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a98f9f67fecf879a3e82ca5ee2da17619">memory_collect_garbage</a> ()</td></tr>
 <tr class="memdesc:a98f9f67fecf879a3e82ca5ee2da17619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the garbage collection process.  <a href="memory_8c.html#a98f9f67fecf879a3e82ca5ee2da17619">More...</a><br /></td></tr>
@@ -164,7 +164,14 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Blackens an object - all the references that this object have been marked. </p>
+<p>Blackens an object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">object</td><td>The object that is blackened</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This means all the references of this object have been marked </p>
 
 </div>
 </div>
@@ -188,9 +195,6 @@ Functions</h2></td></tr>
 <li>Mark phase</li>
 <li>Sweep phase In the marking phase we start at the roots and traverse through all the objects the roots refer to. In the sweeping phase all the reachable objects have been marked, and therefore we can reclaim the memory that is used by the unmarked objects. </li>
 </ol>
-<p >We have to remove the strings with a another method, because they have their own hashtable</p>
-<p >reclaim the garbage</p>
-<p >Adjusts the threshold when the next garbage collection will occur</p>
 
 </div>
 </div>
@@ -219,6 +223,12 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Dealocates the memomory used by the object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">object</td><td>The object that is freed </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -266,6 +276,12 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Marks all the values in an array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>The array where all the values are marked </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -292,7 +308,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p >Object is already marked, so we don't need to mark it again</p>
 
 </div>
 </div>
@@ -319,7 +334,8 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Marks the roots - local variables or temporaries sitting in the VirtualMachine's stack. </p>
+<p>Marks the roots of the compiler. </p>
+<p >These are the local variables and temporaries sitting in the VirtualMachine's stack </p>
 
 </div>
 </div>
@@ -445,7 +461,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Traces all the references that the objects of the virtual machine contain. </p>
+<p>Traces all the references to the objects of the virtual machine that are reachable All the objects that are reachable are marked as gray after the compiler roots are marked. </p>
 
 </div>
 </div>

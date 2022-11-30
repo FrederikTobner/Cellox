@@ -1155,7 +1155,7 @@ static void compiler_init(compiler_t * compiler, function_type_t type)
     local_t * local = &current->locals[current->localCount++];
     local->depth = 0;
     local->isCaptured = false;
-    // In a method we refer to locals with this
+    // In a method we refer to the memebers with this so we add it to the local values that are accessible
     if (type != TYPE_FUNCTION)
     {
         local->name.start = "this";

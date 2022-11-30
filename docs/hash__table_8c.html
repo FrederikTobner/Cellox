@@ -219,10 +219,11 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">table</td><td>The hashtable where the capacity is changed </td></tr>
-    <tr><td class="paramname">capacity</td><td>The new capacity of the hashtable </td></tr>
+    <tr><td class="paramname">capacity</td><td>The new capacity of the hashtable</td></tr>
   </table>
   </dd>
 </dl>
+<p>We grow the hashtable when it becomes 75% is filled, so we can wrap around the entries when we look for a key, without risking an infinite loop when the hashtable is full. </p>
 
 </div>
 </div>
@@ -367,9 +368,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="structobject__string__t.html" title="ObjectString structure definition.">object_string_t</a> or NULL if the string hasn't been found </dd></dl>
-<p >Stop if we find an empty non-tombstone entry.</p>
 <p >We found the string</p>
-<p >We look in the next bucket but eventually we also have to wrap around the array when we reach the end</p>
 
 </div>
 </div>

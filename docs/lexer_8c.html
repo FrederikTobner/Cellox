@@ -109,10 +109,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:abc90d34a8a5686291eb784d0d88263fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the char c is from the alphabet or an underscore.  <a href="lexer_8c.html#abc90d34a8a5686291eb784d0d88263fa">More...</a><br /></td></tr>
 <tr class="separator:abc90d34a8a5686291eb784d0d88263fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9aed5d54c1d268484387f7162f6b64d8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lexer_8c.html#a9aed5d54c1d268484387f7162f6b64d8">lexer_is_digit</a> (char c)</td></tr>
-<tr class="memdesc:a9aed5d54c1d268484387f7162f6b64d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if the char c is a digit  <a href="lexer_8c.html#a9aed5d54c1d268484387f7162f6b64d8">More...</a><br /></td></tr>
+<tr class="memdesc:a9aed5d54c1d268484387f7162f6b64d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if a character is a digit (0-9)  <a href="lexer_8c.html#a9aed5d54c1d268484387f7162f6b64d8">More...</a><br /></td></tr>
 <tr class="separator:a9aed5d54c1d268484387f7162f6b64d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d6c4e6e7913b514114a3effcd9ca265"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lexer_8c.html#a1d6c4e6e7913b514114a3effcd9ca265">lexer_is_at_end</a> ()</td></tr>
-<tr class="memdesc:a1d6c4e6e7913b514114a3effcd9ca265"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines wheather we reached the end in the sourceCode.  <a href="lexer_8c.html#a1d6c4e6e7913b514114a3effcd9ca265">More...</a><br /></td></tr>
+<tr class="memdesc:a1d6c4e6e7913b514114a3effcd9ca265"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines wheather we reached the end in the sourcecode.  <a href="lexer_8c.html#a1d6c4e6e7913b514114a3effcd9ca265">More...</a><br /></td></tr>
 <tr class="separator:a1d6c4e6e7913b514114a3effcd9ca265"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab76ca48d8c1bf6371f39b9524f73ca4e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structtoken__t.html">token_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lexer_8c.html#ab76ca48d8c1bf6371f39b9524f73ca4e">lexer_make_token</a> (<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bad">tokentype_t</a> type)</td></tr>
 <tr class="memdesc:ab76ca48d8c1bf6371f39b9524f73ca4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new Token of a given type.  <a href="lexer_8c.html#ab76ca48d8c1bf6371f39b9524f73ca4e">More...</a><br /></td></tr>
@@ -386,7 +386,8 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Determines wheather we reached the end in the sourceCode. </p>
+<p>Determines wheather we reached the end in the sourcecode. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if we reached the end, false if not </dd></dl>
 
 </div>
 </div>
@@ -414,7 +415,14 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>checks if the char c is a digit </p>
+<p>checks if a character is a digit (0-9) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>The character that is checked </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the character is a digit, false if not </dd></dl>
 
 </div>
 </div>
@@ -443,6 +451,13 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Creates a new Token of a given type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>The type of the type that is generated </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The Token that was created </dd></dl>
 
 </div>
 </div>
@@ -626,7 +641,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Creates a new string literal token. </p>
-<p >The closing quote.</p>
+<dl class="section return"><dt>Returns</dt><dd>The string literal token that was created </dd></dl>
 
 </div>
 </div>

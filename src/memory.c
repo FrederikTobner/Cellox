@@ -26,11 +26,11 @@ void memory_collect_garbage()
 #endif
   memory_mark_roots();
   memory_trace_references();
-  /// We have to remove the strings with a another method, because they have their own hashtable
+  // We have to remove the strings with a another method, because they have their own hashtable
   hash_table_remove_white(&virtualMachine.strings);
-  /// reclaim the garbage
+  // reclaim the garbage
   memory_sweep();
-  /// Adjusts the threshold when the next garbage collection will occur
+  // Adjusts the threshold when the next garbage collection will occur
   virtualMachine.nextGC = virtualMachine.bytesAllocated * GC_HEAP_GROWTH_FACTOR;
 #ifdef DEBUG_LOG_GC
   printf("garbage collection process has ended\n");
@@ -107,7 +107,9 @@ void * memory_reallocate(void * pointer, size_t oldSize, size_t newSize)
   return result;
 }
 
-/// Blackens an object - all the references that this object have been marked
+/// @brief Blackens an object
+/// @param object The object that is blackened
+/// @details This means all the references of this object have been marked
 static void memory_blacken_object(object_t * object)
 {
 #ifdef DEBUG_LOG_GC
@@ -170,7 +172,8 @@ static void memory_blacken_object(object_t * object)
   }
 }
 
-/// Dealocates the memomory used by the object
+/// @brief Dealocates the memomory used by the object
+/// @param object The object that is freed
 static void memory_free_object(object_t * object)
 {
 #ifdef DEBUG_LOG_GC
@@ -230,14 +233,16 @@ static void memory_free_object(object_t * object)
   }
 }
 
-/// Marks all the values in an array
+/// @brief  Marks all the values in an array
+/// @param array The array where all the values are marked
 static void memory_mark_array(dynamic_value_array_t * array)
 {
   for (int32_t i = 0; i < array->count; i++)
     memory_mark_value(array->values[i]);
 }
 
-/// Marks the roots - local variables or temporaries sitting in the VirtualMachine's stack
+/// @brief Marks the roots of the compiler
+/// @details These are the local variables and temporaries sitting in the VirtualMachine's stack
 static void memory_mark_roots()
 {
   // We mark all the values
@@ -275,6 +280,7 @@ static void memory_sweep()
     }
     else
     {
+      // Unreachable value -> free memory used by the object
       object_t * unreached = object;
       object = object->next;
       if (previous)
@@ -286,7 +292,8 @@ static void memory_sweep()
   }
 }
 
-/// Traces all the references that the objects of the virtual machine contain
+/// @brief Traces all the references to the objects of the virtual machine that are reachable
+/// All the objects that are reachable are marked as gray after the compiler roots are marked.
 static void memory_trace_references()
 {
   while (virtualMachine.grayCount)
