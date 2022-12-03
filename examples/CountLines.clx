@@ -1,3 +1,4 @@
+// Counts the lines of a file
 println("Enter filepath:");
 var path = read_line();
 var content = read_file(path);

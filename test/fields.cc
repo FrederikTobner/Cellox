@@ -4,7 +4,7 @@
 
 TEST(Fields, Call)
 {
-    test_failing_cellox_program("fields/call.clx", "Can only call functions and classes, but call expression was performed with numerical\n[line 9] in script\n");
+    test_failing_cellox_program("fields/call.clx", "Can only call functions and classes, but call expression was performed with a numerical value\n[line 9] in script\n");
 }
 
 TEST(Fields, GetOnBool)

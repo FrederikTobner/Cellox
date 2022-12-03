@@ -22,9 +22,7 @@ BENCHMARK_BASE_PATH="${PROJECT_SOURCE_DIR}/benchmark/benchmarks/"
 )
 
 if(NAN_BOXING_ACTIVATED)
-add_compile_definitions(
-NAN_BOXING
-)
+    add_compile_definitions(NAN_BOXING)
 endif()
 
 add_executable(${LANGUAGE_BENCHMARKS} ${CELLOXSOURCES} ${CELLOXHEADERS} ${BENCHMARK_HEADERS} ${BENCHMARK_SOURCES})

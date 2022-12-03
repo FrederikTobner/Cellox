@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "common.h"
 // The debug header file only needs to be included if the bytecode is dissasembled
 #ifdef DEBUG_PRINT_CODE
@@ -130,7 +129,7 @@ typedef struct class_compiler_t
 {
     /// The enclosing class compiler structure
     struct class_compiler_t * enclosing;
-    /// @brief boolean value that determines whether a class has a superclass
+    /// boolean value that determines whether a class has a superclass
     bool hasSuperclass;
 } class_compiler_t;
 
@@ -207,7 +206,7 @@ static token_t compiler_synthetic_token(char const *);
 static void compiler_this(bool);
 static void compiler_unary(bool);
 static void compiler_var_declaration();
-static void compiler_variable(bool);
+static inline void compiler_variable(bool);
 static void compiler_while_statement();
 
 /// ParseRules for the tokens of cellox
@@ -539,7 +538,7 @@ static void compiler_add_local(token_t name)
 {
     if (current->localCount == UINT8_COUNT)
     {
-        /// We can only have 255 local variable on the stack 😔
+        // We can only have 255 local variable on the stack 😔
         compiler_error("Too many local variables in function.");
         return;
     }
@@ -1502,6 +1501,7 @@ static void compiler_super(bool canAssign)
     compiler_consume(TOKEN_IDENTIFIER, "Expect superclass method name.");
     uint8_t name = compiler_identifier_constant(&parser.previous);
     compiler_named_variable(compiler_synthetic_token("this"), false);
+    // Compiles arguments of the super expression
     if (compiler_match_token(TOKEN_LEFT_PAREN))
     {
         uint8_t argCount = compiler_argument_list();
@@ -1601,7 +1601,7 @@ static void compiler_var_declaration()
 
 /// @brief Compiles a variable sets/gets global variable or sets/gets local variable
 /// @param canAssign boolean value that determines whether a value can be aassigned to the variable
-static void compiler_variable(bool canAssign)
+static inline void compiler_variable(bool canAssign)
 {
     compiler_named_variable(parser.previous, canAssign);
 }

@@ -76,10 +76,10 @@ void init_run_from_file(char const * path, bool compile)
     #ifndef CELLOX_TESTS_RUNNING
     if(result != INTERPRET_OK)
         virtual_machine_free();
-    // Error during compilation process
+    // Error during the compilation process
     if (result == INTERPRET_COMPILE_ERROR)
         exit(EXIT_CODE_COMPILATION_ERROR);
-    // Error during runtime
+    // Error at runtime
     if (result == INTERPRET_RUNTIME_ERROR)
         exit(EXIT_CODE_RUNTIME_ERROR);
     #endif

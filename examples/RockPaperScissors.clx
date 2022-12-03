@@ -1,0 +1,246 @@
+/* Advent of Code 2022 - Day 2 (https://adventofcode.com/2022/day/2 ) - Part 1
+ * 
+ * The Elves begin to set up camp on the beach. 
+ * To decide whose tent gets to be closest to the snack storage, a giant Rock Paper Scissors tournament is already in progress.
+ * Rock Paper Scissors is a game between two players. 
+ * Each game contains many rounds; in each round, the players each simultaneously choose one of Rock, Paper, or Scissors using a hand shape. 
+ * Then, a winner for that round is selected: Rock defeats Scissors, Scissors defeats Paper, and Paper defeats Rock. 
+ * If both players choose the same shape, the round instead ends in a draw.
+ * Appreciative of your help yesterday, one Elf gives you an encrypted strategy guide (your puzzle input) that they say will be sure to help you win. 
+ * "The first column is what your opponent is going to play: A for Rock, B for Paper, and C for Scissors. 
+ * The second column--" Suddenly, the Elf is called away to help with someone's tent.
+ * The second column, you reason, must be what you should play in response: X for Rock, Y for Paper, and Z for Scissors. 
+ * Winning every time would be suspicious, so the responses must have been carefully chosen.
+ * The winner of the whole tournament is the player with the highest score. Your total score is the sum of your scores for each round. 
+ * The score for a single round is the score for the shape you selected (1 for Rock, 2 for Paper, and 3 for Scissors) 
+ * plus the score for the outcome of the round (0 if you lost, 3 if the round was a draw, and 6 if you won).
+ * Since you can't be sure if the Elf is trying to help you or trick you, you should calculate the score you would get if you were to follow the strategy guide.
+ * For example, suppose you were given the following strategy guide:
+ * A Y
+ * B X
+ * C Z
+ * This strategy guide predicts and recommends the following:
+ * In the first round, your opponent will choose Rock (A), and you should choose Paper (Y). 
+ * This ends in a win for you with a score of 8 (2 because you chose Paper + 6 because you won).
+ * In the second round, your opponent will choose Paper (B), and you should choose Rock (X). 
+ * This ends in a loss for you with a score of 1 (1 + 0).
+ * The third round is a draw with both players choosing Scissors, giving you a score of 3 + 3 = 6.
+ * In this example, if you were to follow the strategy guide, you would get a total score of 15 (8 + 1 + 6).
+ * What would your total score be if everything goes exactly according to your strategy guide?
+ * -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * Part 2
+ *
+ * The Elf finishes helping with the tent and sneaks back over to you. 
+ * "Anyway, the second column says how the round needs to end: X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win. Good luck!"
+ * The total score is still calculated in the same way, but now you need to figure out what shape to choose so the round ends as indicated. 
+ * The example above now goes like this:
+ * In the first round, your opponent will choose Rock (A), and you need the round to end in a draw (Y), so you also choose Rock. 
+ * This gives you a score of 1 + 3 = 4.
+ * In the second round, your opponent will choose Paper (B), and you choose Rock so you lose (X) with a score of 1 + 0 = 1.
+ * In the third round, you will defeat your opponent's Scissors with Rock for a score of 1 + 6 = 7.
+ * Now that you're correctly decrypting the ultra top secret strategy guide, you would get a total score of 12.
+ * Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
+ */
+
+// Upvalues of the "playRound" closure
+var firstPlayerScore = 0;
+var secondPlayerScore = 0;
+var firstPlayerInputNumerical = 0;
+var secondPlayerInputNumerical = 0;
+
+fun playRound(firstPlayerInput, secondPlayerInput) {
+    if(firstPlayerInput != "A" && firstPlayerInput != "B" && firstPlayerInput != "C") {
+        println("Can not determine strategy of the first player");
+        println("Input was " + firstPlayerInput);
+        exit(65);
+    }
+    if(secondPlayerInput != "X" && secondPlayerInput != "Y" && secondPlayerInput != "Z") {
+        println("Can not determine strategy of the second player");
+        println("Input was " + secondPlayerInput);
+        exit(65);
+    }
+    
+    if(firstPlayerInput == "A")
+        firstPlayerInputNumerical = 1;
+    else if(firstPlayerInput == "B")
+        firstPlayerInputNumerical = 2;
+    else
+        firstPlayerInputNumerical = 3;    
+    
+    if(secondPlayerInput == "X")
+        secondPlayerInputNumerical = 1;
+    else if(secondPlayerInput == "Y")
+        secondPlayerInputNumerical = 2;
+    else
+        secondPlayerInputNumerical = 3;
+
+    // Determine whether the strategy results in a win/loss/draw
+    if(firstPlayerInputNumerical == secondPlayerInputNumerical) {
+        //Draw
+        firstPlayerScore += 3;
+        secondPlayerScore += 3;
+    }
+    else {
+        if(firstPlayerInputNumerical == 1) {
+            if(secondPlayerInputNumerical == 2)
+                secondPlayerScore += 6;
+            else
+                firstPlayerScore += 6;
+        }
+        else if(firstPlayerInputNumerical == 2) {
+            if(secondPlayerInputNumerical == 1)
+                firstPlayerScore += 6;
+            else
+                secondPlayerScore += 6;
+        }
+        else {
+            if(secondPlayerInputNumerical == 1)
+                secondPlayerScore += 6;
+            else
+                firstPlayerScore += 6;
+        }
+
+    }
+    // Add choosen shape to score
+    firstPlayerScore += firstPlayerInputNumerical;
+    secondPlayerScore += secondPlayerInputNumerical;
+}
+
+fun playRoundCrooked(firstPlayerInput, desiredOutcome) {
+    if(firstPlayerInput != "A" && firstPlayerInput != "B" && firstPlayerInput != "C") {
+        println("Can not determine strategy of the first player");
+        println("Input was " + firstPlayerInput);
+        exit(65);
+    }
+    if(desiredOutcome != "X" && desiredOutcome != "Y" && desiredOutcome != "Z") {
+        println("Can not determine strategy of the second player");
+        println("Input was " + secondPlayerInput);
+        exit(65);
+    }
+    if(firstPlayerInput == "A")
+        firstPlayerInputNumerical = 1;
+    else if(firstPlayerInput == "B")
+        firstPlayerInputNumerical = 2;
+    else
+        firstPlayerInputNumerical = 3;
+    
+     // Determine own move
+    if(desiredOutcome == "Y") {
+        //Draw
+        firstPlayerScore += 3;
+        secondPlayerScore += 3;
+        secondPlayerInputNumerical = firstPlayerInputNumerical;
+    }
+    else {
+        if(desiredOutcome == "X") {
+            firstPlayerScore += 6;
+            if(firstPlayerInputNumerical == 1)
+                secondPlayerInputNumerical = 3;
+            else if(firstPlayerInputNumerical == 2)
+                secondPlayerInputNumerical = 1;
+            else
+                secondPlayerInputNumerical = 2;
+        }
+        else {
+           secondPlayerScore += 6;
+           if(firstPlayerInputNumerical == 1)
+                secondPlayerInputNumerical = 2;
+            else if(firstPlayerInputNumerical == 2)
+                secondPlayerInputNumerical = 3;
+            else
+                secondPlayerInputNumerical = 1;
+        }
+
+    }
+
+    // Add choosen shape to score
+    firstPlayerScore += firstPlayerInputNumerical;
+    secondPlayerScore += secondPlayerInputNumerical;
+
+}
+
+// Upvalues of the "skipWhiteSpaces" closure
+var i = 0;
+var fileContent;
+var fileContentLength;
+
+fun skipWhiteSpaces() {
+    for(;;)
+    {
+        if(i == fileContentLength)
+            return;
+        if(fileContent[i] == "\n")
+            i+= 1;
+        else if(fileContent[i] == " ")
+            i+= 1;
+        else if(fileContent[i] == "\t")
+            i+= 1;
+        else if(fileContent[i] == "\r")
+            i+= 1;
+        else
+            return;
+        
+    }
+}
+
+println("Enter the name of the first player:");
+var firstPlayerName = read_line();
+println("Enter the name of the second player:");
+var secondPlayerName = read_line();
+println("Enter the part of the exercise (1 or 2):");
+var exerciseNumber = read_line();
+println("Enter the path of the file:");
+var filePath = read_line();
+fileContent = read_file(filePath);
+fileContentLength = strlen(fileContent);
+
+fun play(){
+    for (; i < fileContentLength;)
+    {
+        skipWhiteSpaces();
+        var firstPlayerInput = fileContent[i];
+        i += 1;
+        skipWhiteSpaces();
+        var secondPlayerInput = fileContent[i];
+        i += 1;
+        playRound(firstPlayerInput, secondPlayerInput);
+        playCrooked(firstPlayerInput, secondPlayerInput);
+        skipWhiteSpaces();
+    }
+}
+
+fun playCrooked() {
+    for (; i < fileContentLength;)
+    {
+        skipWhiteSpaces();
+        var firstPlayerInput = fileContent[i];
+        i += 1;
+        skipWhiteSpaces();
+        var desiredOutcome = fileContent[i];
+        i += 1;
+        playRoundCrooked(firstPlayerInput, desiredOutcome);
+        skipWhiteSpaces();
+    }
+}
+
+if(exerciseNumber == "1")
+    play();
+else if(exerciseNumber == "2")
+    playCrooked();
+else {
+    println("Choose a suppurted exercise (1 or 2)");
+    exit(65);
+}
+
+// Print score and winner
+if(firstPlayerScore == secondPlayerScore)
+    println("Draw");
+else if(firstPlayerScore > secondPlayerScore)
+    println(firstPlayerName + " has won!");
+else
+    println(secondPlayerName + " has won!");
+
+print("The score is ");
+print(firstPlayerScore);
+print(" : ");
+println(secondPlayerScore);

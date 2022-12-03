@@ -13,10 +13,10 @@
     (type *)object_allocate_object(sizeof(type), objectType)
 
 /// Offset basic for the fowler-noll-vo hash-fuction
-#define FNV_OFFSET_BASIS 14695981039346656037
+#define FNV_OFFSET_BASIS 14695981039346656037U
 
 /// Prime of the hashing function
-#define FNV_PRIME 591798841
+#define FNV_PRIME 591798841U
 
 /// Makro used by the hashing function
 #define _PADr_KAZE(x, n) ( ((x) << (n))>>(n) )
@@ -111,7 +111,7 @@ object_closure_t * object_new_closure(object_function_t *function)
 
 object_function_t * object_new_function()
 {
-    object_function_t *function = ALLOCATE_OBJECT(object_function_t, OBJECT_FUNCTION);
+    object_function_t * function = ALLOCATE_OBJECT(object_function_t, OBJECT_FUNCTION);
     function->arity = 0u;
     function->upvalueCount = 0u;
     function->name = NULL;
@@ -121,7 +121,7 @@ object_function_t * object_new_function()
 
 object_instance_t * object_new_instance(object_class_t * celloxClass)
 {
-    object_instance_t *instance = ALLOCATE_OBJECT(object_instance_t, OBJECT_INSTANCE);
+    object_instance_t * instance = ALLOCATE_OBJECT(object_instance_t, OBJECT_INSTANCE);
     instance->celloxClass = celloxClass;
     hash_table_init(&instance->fields);
     return instance;
