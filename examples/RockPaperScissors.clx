@@ -57,8 +57,7 @@ fun playRound(firstPlayerInput, secondPlayerInput) {
         secondPlayerScore += 3;
     }
     else {
-        if(firstPlayerInputNumerical == 1)
-        {
+        if(firstPlayerInputNumerical == 1) {
             if(secondPlayerInputNumerical == 2)
                 secondPlayerScore += 6;
             else
@@ -70,8 +69,7 @@ fun playRound(firstPlayerInput, secondPlayerInput) {
             else
                 secondPlayerScore += 6;
         }
-        else
-        {
+        else {
             if(secondPlayerInputNumerical == 1)
                 secondPlayerScore += 6;
             else
@@ -89,8 +87,7 @@ var i = 0;
 var fileContent;
 var fileContentLength;
 
-fun skipWhiteSpaces()
-{
+fun skipWhiteSpaces() {
     for(;;)
     {
         if(i == fileContentLength)
@@ -100,6 +97,8 @@ fun skipWhiteSpaces()
         else if(fileContent[i] == " ")
             i+= 1;
         else if(fileContent[i] == "\t")
+            i+= 1;
+        else if(fileContent[i] == "\r")
             i+= 1;
         else
             return;
