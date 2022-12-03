@@ -212,11 +212,9 @@ value_t native_functions_exit(uint32_t argCount, value_t const * args)
 value_t native_functions_on_linux(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_LINUX, argCount);
-    #ifdef _WIN32
-    return FALSE_VAL;
-    #elif linux
+    #ifdef linux
     return TRUE_VAL;
-    #elif __APPLE__
+    #else
     return FALSE_VAL;
     #endif
 }
@@ -224,12 +222,10 @@ value_t native_functions_on_linux(uint32_t argCount, value_t const * args)
 value_t native_functions_on_macOS(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_LINUX, argCount);
-    #ifdef _WIN32
-    return FALSE_VAL;
-    #elif linux
-    return FALSE_VAL;
-    #elif __APPLE__
+    #ifdef __APPLE__
     return TRUE_VAL;
+    #else
+    return FALSE_VAL;
     #endif
 }
 
@@ -278,7 +274,7 @@ value_t native_functions_read_file(uint32_t argCount, value_t const * args)
     // Seek end of the file
     fseek(file, 0L, SEEK_END);
     // Store filesize
-    uint32_t fileSize = ftell(file);
+    size_t fileSize = ftell(file);
     // Rewind filepointer to the beginning of the file
     rewind(file);
     // Allocate memory apropriate to store the file
@@ -315,7 +311,7 @@ value_t native_functions_string_length(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_STRLEN, argCount);
     if(!IS_STRING(*args))
-        native_functions_arguments_error("strlen can only be called with a string as argument");
+        native_functions_arguments_error("strlen can only be called with a string as argument but was called with %s", value_stringify_type(*args));
     return NUMBER_VAL(strlen(AS_CSTRING(*args)));
 }
 

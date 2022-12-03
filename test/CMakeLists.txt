@@ -49,9 +49,7 @@ TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
 )
 
 if(NAN_BOXING_ACTIVATED)
-add_compile_definitions(
-NAN_BOXING
-)
+  add_compile_definitions(NAN_BOXING)
 endif()
 
 # Builds cellox tests

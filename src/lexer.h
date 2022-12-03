@@ -62,7 +62,7 @@ typedef enum
   TOKEN_MODULO,
   /// %=
   TOKEN_MODULO_EQUAL,
-  /// literal nil-value/null-value/undefiened value
+  /// literal null-value&frasl;undefiened value
   TOKEN_NULL,
   /// A number literal e.g. 5.3
   TOKEN_NUMBER,

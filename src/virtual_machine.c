@@ -67,7 +67,7 @@ void virtual_machine_init()
 interpret_result_t virtual_machine_interpret(char * program, bool freeProgram)
 {
     object_function_t *function = compiler_compile(program);
-    if (function == NULL)
+    if (!function)
         return INTERPRET_COMPILE_ERROR;
     virtual_machine_push(OBJECT_VAL(function));
     object_closure_t *closure = object_new_closure(function);
@@ -191,11 +191,13 @@ static bool virtual_machine_call_value(value_t callee, int32_t argCount)
             return true;
         }
         default:
-            break;
+            virtual_machine_runtime_error("Can only call functions and classes, but call expression was performed with a %s object", 
+                                    value_stringify_type(callee));
+            return false;
         }
     }
      // Non-callable object type.
-    virtual_machine_runtime_error("Can only call functions and classes, but call expression was performed with %s", 
+    virtual_machine_runtime_error("Can only call functions and classes, but call expression was performed with a %s value", 
                                     value_stringify_type(callee));
     return false;
 }
