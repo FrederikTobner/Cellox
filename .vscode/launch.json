@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/examples/FizzBuzz.clx",
+                "${workspaceFolder}/examples/RockPaperScissors.clx",
             ],
             "stopAtEntry": false,
             "externalConsole": true,

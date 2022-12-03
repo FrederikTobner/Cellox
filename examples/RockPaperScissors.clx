@@ -82,6 +82,59 @@ fun playRound(firstPlayerInput, secondPlayerInput) {
     secondPlayerScore += secondPlayerInputNumerical;
 }
 
+fun playRoundCrooked(firstPlayerInput, desiredOutcome) {
+    if(firstPlayerInput != "A" && firstPlayerInput != "B" && firstPlayerInput != "C") {
+        println("Can not determine strategy of the first player");
+        println("Input was " + firstPlayerInput);
+        exit(65);
+    }
+    if(desiredOutcome != "X" && desiredOutcome != "Y" && desiredOutcome != "Z") {
+        println("Can not determine strategy of the second player");
+        println("Input was " + secondPlayerInput);
+        exit(65);
+    }
+    if(firstPlayerInput == "A")
+        firstPlayerInputNumerical = 1;
+    else if(firstPlayerInput == "B")
+        firstPlayerInputNumerical = 2;
+    else
+        firstPlayerInputNumerical = 3;
+    
+     // Determine own move
+    if(desiredOutcome == "Y") {
+        //Draw
+        firstPlayerScore += 3;
+        secondPlayerScore += 3;
+        secondPlayerInputNumerical = firstPlayerInputNumerical;
+    }
+    else {
+        if(desiredOutcome == "X") {
+            firstPlayerScore += 6;
+            if(firstPlayerInputNumerical == 1)
+                secondPlayerInputNumerical = 3;
+            else if(firstPlayerInputNumerical == 2)
+                secondPlayerInputNumerical = 1;
+            else
+                secondPlayerInputNumerical = 2;
+        }
+        else {
+           secondPlayerScore += 6;
+           if(firstPlayerInputNumerical == 1)
+                secondPlayerInputNumerical = 2;
+            else if(firstPlayerInputNumerical == 2)
+                secondPlayerInputNumerical = 3;
+            else
+                secondPlayerInputNumerical = 1;
+        }
+
+    }
+
+    // Add choosen shape to score
+    firstPlayerScore += firstPlayerInputNumerical;
+    secondPlayerScore += secondPlayerInputNumerical;
+
+}
+
 // Upvalues of the "skipWhiteSpaces" closure
 var i = 0;
 var fileContent;
@@ -110,22 +163,51 @@ println("Enter the name of the first player:");
 var firstPlayerName = read_line();
 println("Enter the name of the second player:");
 var secondPlayerName = read_line();
+println("Enter the part of the exercise (1 or 2):");
+var exerciseNumber = read_line();
 println("Enter the path of the file:");
 var filePath = read_line();
 fileContent = read_file(filePath);
 fileContentLength = strlen(fileContent);
 
-for (; i < fileContentLength;)
-{
-    skipWhiteSpaces();
-    var firstPlayerInput = fileContent[i];
-    i += 1;
-    skipWhiteSpaces();
-    var secondPlayerInput = fileContent[i];
-    i += 1;
-    playRound(firstPlayerInput, secondPlayerInput);
-    skipWhiteSpaces();
+fun play(){
+    for (; i < fileContentLength;)
+    {
+        skipWhiteSpaces();
+        var firstPlayerInput = fileContent[i];
+        i += 1;
+        skipWhiteSpaces();
+        var secondPlayerInput = fileContent[i];
+        i += 1;
+        playRound(firstPlayerInput, secondPlayerInput);
+        playCrooked(firstPlayerInput, secondPlayerInput);
+        skipWhiteSpaces();
+    }
 }
+
+fun playCrooked() {
+    for (; i < fileContentLength;)
+    {
+        skipWhiteSpaces();
+        var firstPlayerInput = fileContent[i];
+        i += 1;
+        skipWhiteSpaces();
+        var desiredOutcome = fileContent[i];
+        i += 1;
+        playRoundCrooked(firstPlayerInput, desiredOutcome);
+        skipWhiteSpaces();
+    }
+}
+
+if(exerciseNumber == "1")
+    play();
+else if(exerciseNumber == "2")
+    playCrooked();
+else {
+    println("Choose a suppurted exercise (1 or 2)");
+    exit(65);
+}
+
 // Print score and winner
 if(firstPlayerScore == secondPlayerScore)
     println("Draw");
