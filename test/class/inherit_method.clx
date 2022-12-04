@@ -1,13 +1,10 @@
-class A
-{
-    Greet()
-    {
+class A {
+    Greet() {
         println("hello");
     }
 }
 
-class B : A
-{
+class B : A {
     
 }
 

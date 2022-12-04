@@ -69,25 +69,3 @@ The variables defiened in a cellox program are stored in a hashtable. The variab
 A cellox program is converted into bytecode and executed by a stack based [virtual machine](https://github.com/FrederikTobner/Cellox/wiki/Virtual-Machine).
 
 The bytecode can also be stored in a [seperate file](https://github.com/FrederikTobner/Cellox/wiki/Chunk-Files) in order to be executed at a later point in time.
-
-## Dependencies
-
-Cellox is written in C, using the C99 standard and [CMake](https://cmake.org/) is used for building within the whole project.
-
-Under windows:
-
-* conio.h
-* windows.h
-
-Under linux:
-
-* curses.h
-* unistd.h
-
-## Testing
-
-The test are written in C++ using the [google-test framework](https://github.com/google/googletest) (version 1.12.1).
-
-For testing a cellox program is executed and the standard output is redirected to a string. The string is compared with the expected output after the program was executed.
-
-A small benchmarking suite to measure the performance of cellox programs is also included (only used for developing the interpreter)

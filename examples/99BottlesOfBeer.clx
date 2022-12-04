@@ -1,8 +1,18 @@
+// Simple script that plays the 99 Bottles of Beer song (https://en.wikipedia.org/wiki/99_Bottles_of_Beer)
 for (var i = 99; i > 0; i -= 1) {
     print(i);
-    print(" bottles of beer on the wall, ");
+    if(i == 1)
+        print(" bottle of beer on the wall, ");
+    else
+        print(" bottles of beer on the wall, ");
     print(i);
-    println(" bottles of beer\nTake one down and pass it around, ");
+    if(i == 1)
+        println(" bottle of beer\nTake one down and pass it around, ");
+    else
+        println(" bottles of beer\nTake one down and pass it around, ");
     print(i - 1);
-    println(" bottles of beer on the wall\n");
+    if(i == 1)
+        println(" bottle of beer on the wall\n");
+    else
+        println(" bottles of beer on the wall\n");
 }

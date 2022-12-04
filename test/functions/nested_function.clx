@@ -1,5 +1,4 @@
-fun fibonacci()
-{	
+fun fibonacci() {	
 	var x = 0;
 	var temp = 0;
 	var b = 1;

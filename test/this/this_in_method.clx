@@ -1,7 +1,10 @@
-class Foo 
-{
-  bar() { return this; }
-  baz() { return "baz"; }
+class Foo {
+  bar() { 
+    return this; 
+  }
+  baz() { 
+    return "baz"; 
+  }
 }
 
 println(Foo().bar().baz());

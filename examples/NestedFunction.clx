@@ -1,3 +1,4 @@
+// Simple fibonacci function implemented as a closure
 fun fibonacci() {
 	var x = 0;
 	var temp = 0;

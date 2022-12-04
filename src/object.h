@@ -198,6 +198,7 @@ typedef struct
 /// @param length The length of the character sequence
 /// @param removeBackSlash Boolean value that determines whether backslashes should be resolved
 /// @return The created string
+/// @note If the string contains an unknown escape sequence NULL is instead returned to indicate the error
 object_string_t * object_copy_string(char const * chars, uint32_t length, bool removeBackSlash);
 
 /// @brief Creates a new method, that is bound to a closure

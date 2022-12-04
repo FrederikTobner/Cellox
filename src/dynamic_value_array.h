@@ -5,6 +5,7 @@
 #include "value.h"
 
 /// @brief A dynamic value array
+/// @details A size of a dynamic array can varry, meaning it can shrink or grow.
 typedef struct
 {
     /// @brief The capacity of the dynamic value array

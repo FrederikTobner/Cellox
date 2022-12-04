@@ -93,8 +93,6 @@ $(function() {
 Macros</h2></td></tr>
 <tr class="memitem:a8dc045b236157ab984301d146f6cf2fe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a8dc045b236157ab984301d146f6cf2fe">MAX_READ_LINE_INPUT</a>&#160;&#160;&#160;(1024)</td></tr>
 <tr class="separator:a8dc045b236157ab984301d146f6cf2fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7030536a5c5dd8f4632840201cdac39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ac7030536a5c5dd8f4632840201cdac39">MAX_USER_NAME_LENGTH</a>&#160;&#160;&#160;(256)</td></tr>
-<tr class="separator:ac7030536a5c5dd8f4632840201cdac39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -130,7 +128,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:afb5fcba5fcb2e51db8279f3f812eb681"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits a error message regarding a faulty native function call and exits with the appropriate exit code (70 - runtime error)  <a href="native__functions_8c.html#afb5fcba5fcb2e51db8279f3f812eb681">More...</a><br /></td></tr>
 <tr class="separator:afb5fcba5fcb2e51db8279f3f812eb681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad83f36951f28723464c96497426fbb80"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ad83f36951f28723464c96497426fbb80">native_functions_assert_arrity</a> (uint8_t function, uint32_t argcount)</td></tr>
-<tr class="memdesc:ad83f36951f28723464c96497426fbb80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asserts that the native function was called with the appropriate argumentcount.  <a href="native__functions_8c.html#ad83f36951f28723464c96497426fbb80">More...</a><br /></td></tr>
+<tr class="memdesc:ad83f36951f28723464c96497426fbb80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asserts that the native function was called with the appropriate argument count.  <a href="native__functions_8c.html#ad83f36951f28723464c96497426fbb80">More...</a><br /></td></tr>
 <tr class="separator:ad83f36951f28723464c96497426fbb80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9a1bbd4f6b34898270ef2fa5b855f5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structnative__function__config__t.html">native_function_config_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#af9a1bbd4f6b34898270ef2fa5b855f5f">native_functions_get_function_configs</a> ()</td></tr>
 <tr class="memdesc:af9a1bbd4f6b34898270ef2fa5b855f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the configuration of the native functions.  <a href="native__functions_8c.html#af9a1bbd4f6b34898270ef2fa5b855f5f">More...</a><br /></td></tr>
@@ -204,20 +202,6 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define MAX_READ_LINE_INPUT&#160;&#160;&#160;(1024)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac7030536a5c5dd8f4632840201cdac39" name="ac7030536a5c5dd8f4632840201cdac39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7030536a5c5dd8f4632840201cdac39">&#9670;&#160;</a></span>MAX_USER_NAME_LENGTH</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MAX_USER_NAME_LENGTH&#160;&#160;&#160;(256)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -352,7 +336,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">format</td><td>The format of the error message </td></tr>
-    <tr><td class="paramname">...</td><td>The arguments that are printed using the format </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that are printed using the format </td></tr>
   </table>
   </dd>
 </dl>
@@ -393,7 +377,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Asserts that the native function was called with the appropriate argumentcount. </p>
+<p>Asserts that the native function was called with the appropriate argument count. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">function</td><td>The native function that was called </td></tr>
@@ -401,6 +385,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>If the native function was not called with appropriate argument count the program exits with an runtime error code </dd></dl>
 
 </div>
 </div>

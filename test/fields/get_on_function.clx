@@ -1,3 +1,5 @@
-fun foo() {}
+fun foo() {
+    
+}
 
 foo.bar;

@@ -31,7 +31,7 @@
  * The Algorithm that is used is called mark-and-sweep.
  * It consists of two phases:
  * 1. Mark phase
- * 2. Sweep phase
+ * 2. Sweep phase <br>
  * In the marking phase we start at the roots and traverse through all the objects the roots refer to.
  * In the sweeping phase all the reachable objects have been marked, and therefore we can reclaim the memory that is used by the unmarked objects.
  */

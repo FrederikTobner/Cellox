@@ -4,7 +4,7 @@
 
 TEST(Fields, Call)
 {
-    test_failing_cellox_program("fields/call.clx", "Can only call functions and classes, but call expression was performed with a numerical value\n[line 9] in script\n");
+    test_failing_cellox_program("fields/call.clx", "Can only call functions and classes, but call expression was performed with a numerical value\n[line 7] in script\n");
 }
 
 TEST(Fields, GetOnBool)
@@ -14,12 +14,12 @@ TEST(Fields, GetOnBool)
 
 TEST(Fields, GetOnClass)
 {
-    test_failing_cellox_program("fields/get_on_class.clx", "Only instances have properties but get expression but a class object was used\n[line 2] in script\n");
+    test_failing_cellox_program("fields/get_on_class.clx", "Only instances have properties but get expression but a class object was used\n[line 4] in script\n");
 }
 
 TEST(Fields, GetOnFunction)
 {
-    test_failing_cellox_program("fields/get_on_function.clx", "Only instances have properties but get expression but a closure object was used\n[line 3] in script\n");
+    test_failing_cellox_program("fields/get_on_function.clx", "Only instances have properties but get expression but a closure object was used\n[line 5] in script\n");
 }
 
 TEST(Fields, GetOnNull)
@@ -59,7 +59,7 @@ TEST(Fields, SetOnClass)
 
 TEST(Fields, SetOnFunction)
 {
-    test_failing_cellox_program("fields/set_on_function.clx", "Only instances have fields but was called with a a closure object\n[line 3] in script\n");
+    test_failing_cellox_program("fields/set_on_function.clx", "Only instances have fields but was called with a a closure object\n[line 5] in script\n");
 }
 
 TEST(Fields, SetOnNull)
@@ -84,5 +84,5 @@ TEST(Fields, SerializeProperties)
 
 TEST(Fields, UndefienedProperty)
 {
-    test_failing_cellox_program("fields/undefiened.clx", "Undefined property 'test'.\n[line 4] in script\n");
+    test_failing_cellox_program("fields/undefiened.clx", "Undefined property 'test'.\n[line 6] in script\n");
 }

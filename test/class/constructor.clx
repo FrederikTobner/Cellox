@@ -1,7 +1,5 @@
-class A
-{
-    init(field)
-    {
+class A {
+    init(field) {
         this.field = field;
     }
 }

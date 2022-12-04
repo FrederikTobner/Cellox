@@ -1,4 +1,4 @@
-// Counts the lines of a file
+// Simple script that counts the lines of a file specified by the user
 println("Enter filepath:");
 var path = read_line();
 var content = read_file(path);

@@ -2,8 +2,8 @@
 #define CELLOX_COMMON_H_
 
 /// @brief Exit codes of the cellox interpreter
-/// @details These exit codes are based on the exit codes defined in the UNIX sysexits.h header file (under linux at usr/include/sysexits.h).
-/// They can be found under 
+/// @details These exit codes are based on the exit codes defined in the UNIX sysexits.h header file.
+/// They can be found under at usr/include/sysexits.h
 typedef enum
 {
     /// Signals a Sucess

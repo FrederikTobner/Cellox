@@ -15,13 +15,19 @@ typedef struct object_string_t object_string_t;
 
 #define SIGN_BIT \
     ((uint64_t)0x8000000000000000)
+
 /// quiet not a number 🤫
 #define QNAN \
     ((uint64_t)0x7ffc000000000000)
 
-#define TAG_NIL 0x1
-#define TAG_FALSE 0x2
-#define TAG_TRUE 0x3
+/// Used to tag a null-value &frasl; undefiened value
+#define TAG_NULL (0x1)
+
+/// Used to tag a false-value
+#define TAG_FALSE (0x2)
+
+/// Used to tag a true-value
+#define TAG_TRUE (0x3)
 
 /// @brief An value type
 /// @details In Cellox a value can be either a numerical, a boolean or a undefiended value. Additionally a value can also be a cellox object
@@ -61,7 +67,7 @@ typedef uint64_t value_t;
     ((value_t)(uint64_t)(QNAN | TAG_TRUE))
 /// Makro that yields null
 #define NULL_VAL \
-    ((value_t)(uint64_t)(QNAN | TAG_NIL))
+    ((value_t)(uint64_t)(QNAN | TAG_NULL))
 /// Makro that yields the numerical value
 #define NUMBER_VAL(num) \
     numToValue(num)

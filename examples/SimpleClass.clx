@@ -1,3 +1,4 @@
+// Simple example of a class in cellox
 class Rectangle {
 	init(x, y) {
 		this.x = x;

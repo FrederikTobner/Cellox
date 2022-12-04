@@ -1,3 +1,4 @@
+// Simple script showcasing inheritance
 class Person {
     init(name) {
         this.name = name;

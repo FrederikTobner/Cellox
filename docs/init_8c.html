@@ -94,6 +94,9 @@ Macros</h2></td></tr>
 <tr class="memitem:af0f2173e3b202ddf5756531b4471dcb2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="init_8c.html#af0f2173e3b202ddf5756531b4471dcb2">MAX_LINE_LENGTH</a>&#160;&#160;&#160;(1024u)</td></tr>
 <tr class="memdesc:af0f2173e3b202ddf5756531b4471dcb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum length of a line is 1024 characters.  <a href="init_8c.html#af0f2173e3b202ddf5756531b4471dcb2">More...</a><br /></td></tr>
 <tr class="separator:af0f2173e3b202ddf5756531b4471dcb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a1ba09401bc03d6f81472f56ab2bd4d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="init_8c.html#a6a1ba09401bc03d6f81472f56ab2bd4d">PROJECT_INIT_LETTERING</a>&#160;&#160;&#160;(&quot;   _____     _ _           \n\  / ____|   | | |          \n\ | |     ___| | | _____  __\n\ | |    / _ \\ | |/ _ \\ \\/ /\n\ | |___|  __/ | | (_) &gt;  &lt; \n\  \\_____\\___|_|_|\\___/_/\\_\\\n&quot;)</td></tr>
+<tr class="memdesc:a6a1ba09401bc03d6f81472f56ab2bd4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lettering that is printed if interpreter is initialized in repl mode.  <a href="init_8c.html#a6a1ba09401bc03d6f81472f56ab2bd4d">More...</a><br /></td></tr>
+<tr class="separator:a6a1ba09401bc03d6f81472f56ab2bd4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -130,6 +133,22 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Maximum length of a line is 1024 characters. </p>
+
+</div>
+</div>
+<a id="a6a1ba09401bc03d6f81472f56ab2bd4d" name="a6a1ba09401bc03d6f81472f56ab2bd4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a1ba09401bc03d6f81472f56ab2bd4d">&#9670;&#160;</a></span>PROJECT_INIT_LETTERING</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PROJECT_INIT_LETTERING&#160;&#160;&#160;(&quot;   _____     _ _           \n\  / ____|   | | |          \n\ | |     ___| | | _____  __\n\ | |    / _ \\ | |/ _ \\ \\/ /\n\ | |___|  __/ | | (_) &gt;  &lt; \n\  \\_____\\___|_|_|\\___/_/\\_\\\n&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Lettering that is printed if interpreter is initialized in repl mode. </p>
 
 </div>
 </div>
@@ -210,7 +229,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The contents of the file or NULL if something went wrong 😕 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The contents of the file or NULL if something went wrong </dd></dl>
 
 </div>
 </div>
@@ -230,13 +249,16 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Run with repl. </p>
-<ol type="1">
-<li>Read the user input - (R)<ol type="a">
-<li>Evaluate your code - (E)</li>
-<li>Print any results - (P)</li>
-<li>Loop back to step 1 - (L) </li>
-</ol>
-</li>
+<p ><br  />
+ </p><ol>
+<li>
+Read the user input - (R) </li>
+<li>
+Evaluate your code - (E) </li>
+<li>
+Print any results - (P) </li>
+<li>
+Loop back to step 1 - (L) </li>
 </ol>
 
 </div>

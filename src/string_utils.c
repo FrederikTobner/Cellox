@@ -61,7 +61,7 @@ int string_utils_resolve_escape_sequence(char * text, uint32_t * length)
             do
             {
                 hexValue *= 16u;            
-                hexValue += *text > '9' ? *text - 'a' + 10 : *text -'0';
+                hexValue += *text > '9' ? *text - 'a' + 10 : *text - '0';
                 if(!(*(text + 1) >= '0' && *(text + 1) <= '9') && !(*(text + 1)>= 'a' && *(text + 1) <= 'f'))
                     break; // No hexadezimal number ahead
                 string_utils_behead(text, length);
@@ -125,5 +125,5 @@ static void string_utils_behead(char * text, uint32_t * length)
     for (char * cp = text; cp < upperBound; cp++)
         *cp = *(cp + 1);
     *(text + distanceToEnd) = '\0';
-    (*length)--;
+    --(*length);
 }

@@ -161,6 +161,7 @@ static void command_line_argument_parser_parse_option(char const * option, comma
 }
 
 /// @brief Shows a brief explanation how the interpreter can be used from the command line
+/// @note Also exits the program with a command-line-usage error exit code
 static inline void command_line_argument_parser_show_usage()
 {
     command_line_argument_parser_error(CELLOX_USAGE_MESSAGE);
