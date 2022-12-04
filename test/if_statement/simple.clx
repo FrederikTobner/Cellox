@@ -1,7 +1,6 @@
 if (true) println("yes");
 if (false) println("no");
 
-
 if (true) { 
     println("block"); 
 }

@@ -112,8 +112,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a43cdb54453e9612011a64902a3924835"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a43cdb54453e9612011a64902a3924835">virtual_machine_call</a> (<a class="el" href="structobject__closure__t.html">object_closure_t</a> *closure, int32_t argCount)</td></tr>
 <tr class="memdesc:a43cdb54453e9612011a64902a3924835"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a function that is bound to a closure.  <a href="virtual__machine_8c.html#a43cdb54453e9612011a64902a3924835">More...</a><br /></td></tr>
 <tr class="separator:a43cdb54453e9612011a64902a3924835"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fa0cc6d71b5f13b783e5b5fe6964740"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9fa0cc6d71b5f13b783e5b5fe6964740">virtual_machine_call_value</a> (<a class="el" href="structvalue__t.html">value_t</a>, int32_t)</td></tr>
-<tr class="separator:a9fa0cc6d71b5f13b783e5b5fe6964740"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4b1a136153e8b7480935523cf031844"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ab4b1a136153e8b7480935523cf031844">virtual_machine_call_value</a> (<a class="el" href="structvalue__t.html">value_t</a> callee, int32_t argCount)</td></tr>
+<tr class="memdesc:ab4b1a136153e8b7480935523cf031844"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles calls for anything that is not a function / closure.  <a href="virtual__machine_8c.html#ab4b1a136153e8b7480935523cf031844">More...</a><br /></td></tr>
+<tr class="separator:ab4b1a136153e8b7480935523cf031844"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4942408db3de7ea05ea9b98fde452458"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structobject__upvalue__t.html">object_upvalue_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a4942408db3de7ea05ea9b98fde452458">virtual_machine_capture_upvalue</a> (<a class="el" href="structvalue__t.html">value_t</a> *local)</td></tr>
 <tr class="memdesc:a4942408db3de7ea05ea9b98fde452458"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures an upvalue of the enclosing environment.  <a href="virtual__machine_8c.html#a4942408db3de7ea05ea9b98fde452458">More...</a><br /></td></tr>
 <tr class="separator:a4942408db3de7ea05ea9b98fde452458"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -217,12 +218,12 @@ Variables</h2></td></tr>
 <div class="line">        virtual_machine_push(valueType(a op b));                                                                \</div>
 <div class="line">    } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
 <div class="ttc" id="avalue_8c_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition:</b> value.c:45</div></div>
-<div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition:</b> value.h:126</div></div>
-<div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition:</b> value.h:136</div></div>
-<div class="ttc" id="avalue_8h_html_ac652f84a0dd6007f0ba26eefdf61d14c"><div class="ttname"><a href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a></div><div class="ttdeci">#define IS_OBJECT(value)</div><div class="ttdoc">Makro that determines whether a value is of the type object.</div><div class="ttdef"><b>Definition:</b> value.h:129</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stacj.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:331</div></div>
+<div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition:</b> value.h:132</div></div>
+<div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition:</b> value.h:142</div></div>
+<div class="ttc" id="avalue_8h_html_ac652f84a0dd6007f0ba26eefdf61d14c"><div class="ttname"><a href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a></div><div class="ttdeci">#define IS_OBJECT(value)</div><div class="ttdoc">Makro that determines whether a value is of the type object.</div><div class="ttdef"><b>Definition:</b> value.h:135</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stacj.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:338</div></div>
 <div class="ttc" id="avirtual__machine_8c_html_acecc837f6d14140d8d88151ddcee8fe4"><div class="ttname"><a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop()</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:93</div></div>
-<div class="ttc" id="avirtual__machine_8h_html_a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:69</div></div>
+<div class="ttc" id="avirtual__machine_8h_html_a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:71</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -384,11 +385,12 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if everything went well, false if something went wrong (stack overflow / wrong argument count) </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The function can fail if the function was called with a wrong amount of arguments or there are too much callframes on the callstack -&gt; stack overflow </dd></dl>
 
 </div>
 </div>
-<a id="a9fa0cc6d71b5f13b783e5b5fe6964740" name="a9fa0cc6d71b5f13b783e5b5fe6964740"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fa0cc6d71b5f13b783e5b5fe6964740">&#9670;&#160;</a></span>virtual_machine_call_value()</h2>
+<a id="ab4b1a136153e8b7480935523cf031844" name="ab4b1a136153e8b7480935523cf031844"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4b1a136153e8b7480935523cf031844">&#9670;&#160;</a></span>virtual_machine_call_value()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -420,6 +422,16 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Handles calls for anything that is not a function / closure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callee</td><td>The value that is called </td></tr>
+    <tr><td class="paramname">argCount</td><td>The amount of arguments for the value call </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if everything went well, false if not </dd></dl>
 
 </div>
 </div>
@@ -1010,10 +1022,11 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">format</td><td>The formater of the error message </td></tr>
-    <tr><td class="paramname">...</td><td>Arguments that are passed in for the formatter If no tests are executed the program exits with a exit code that indiactes an error at compile time </td></tr>
+    <tr><td class="paramname">...</td><td>Arguments that are passed in for the formatter</td></tr>
   </table>
   </dd>
 </dl>
+<p>If no tests are executed the program exits with a exit code that indiactes an error at compile time </p>
 
 </div>
 </div>

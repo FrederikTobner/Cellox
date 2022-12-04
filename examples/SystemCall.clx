@@ -1,0 +1,5 @@
+/// Simple script showcasing the native system function executing a command by the command processor
+if(on_Windows())
+    system("ipconfig");
+else 
+    system("ifconfig");

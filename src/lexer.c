@@ -7,9 +7,9 @@
 /// @details It is used to scan the tokens in a cellox source file
 typedef struct
 {
-    /// Pointer to the start of the current line where the lexical analysis is performed
+    /// Pointer to the start of the current token where the lexical analysis is performed
     char const * start;
-    /// Pointer to the current position in the current line where the lexical analysis is performed
+    /// Pointer to the current position in the current token where the lexical analysis is performed
     char const * current;
     /// Line counter - used for error reporting
     uint32_t line;

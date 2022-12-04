@@ -4,8 +4,8 @@
 #include <time.h>
 
 #ifdef _WIN32
-#include <windows.h>
 #include <conio.h>
+#include <windows.h>
 #elif __unix__
 #include <curses.h>
 #include <unistd.h>
@@ -155,7 +155,6 @@ native_function_config_t native_function_configs [] =
 };
 
 #define MAX_READ_LINE_INPUT (1024)
-#define MAX_USER_NAME_LENGTH (256)
 
 static void native_functions_arguments_error(char const * format, ...);
 static void native_functions_assert_arrity(uint8_t, uint32_t);
@@ -268,7 +267,7 @@ value_t native_functions_read_file(uint32_t argCount, value_t const * args)
         native_functions_arguments_error("read_file can only be called with a string as argument");
     char * path = AS_CSTRING(*args);
     // Open file in read-only mode
-    FILE * file = fopen(path, "r");
+    FILE * file = fopen(path, "rb");
     if (!file)
         return NULL_VAL;
     // Seek end of the file
@@ -355,9 +354,10 @@ value_t native_functions_write_to_file(uint32_t argCount, value_t const * args)
     return TRUE_VAL;
 }
 
-/// @brief Asserts that the native function was called with the appropriate argumentcount
+/// @brief Asserts that the native function was called with the appropriate argument count
 /// @param function The native function that was called
 /// @param argcount The amount of arguments that were used to call the native function
+/// @note If the native function was not called with appropriate argument count the program exits with an runtime error code
 static void native_functions_assert_arrity(uint8_t function, uint32_t argcount)
 {
     if (native_function_configs[function].arrity != argcount)
@@ -371,7 +371,7 @@ static void native_functions_assert_arrity(uint8_t function, uint32_t argcount)
 
 /// @brief Emits a error message regarding a faulty native function call and exits with the appropriate exit code (70 - runtime error) 
 /// @param format The format of the error message
-/// @param ... The arguments that are printed using the format
+/// @param args The arguments that are printed using the format
 static void native_functions_arguments_error(char const * format, ...)
 {
     va_list args;

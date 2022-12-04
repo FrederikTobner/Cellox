@@ -1,7 +1,8 @@
-println(5 + 3);
-println("Hello " + "World!");
-println(5 - 3);
-println(5 * 3);
-println(5 / 3);
-println(5 % 3); 
+// Simple script showcasing the binary operators of the language
+println(5 + 3); // 5 + 3 = 8
+println("Hello " + "World!"); // String concatination
+println(5 - 3); // 5 - 3 = 2
+println(5 * 3); // 5 * 3 = 15
+println(5 / 3); // 5 / 3 = 1 2/3
+println(5 % 3); // 5 / 3 = 1 R2 => 2
 println(5 ** 3); // 5³

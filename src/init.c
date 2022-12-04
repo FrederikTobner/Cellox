@@ -14,6 +14,14 @@
 
 /// Maximum length of a line is 1024 characters
 #define MAX_LINE_LENGTH (1024u)
+/// Lettering that is printed if interpreter is initialized in repl mode
+#define PROJECT_INIT_LETTERING \
+("   _____     _ _           \n\
+  / ____|   | | |          \n\
+ | |     ___| | | _____  __\n\
+ | |    / _ \\ | |/ _ \\ \\/ /\n\
+ | |___|  __/ | | (_) >  < \n\
+  \\_____\\___|_|_|\\___/_/\\_\\\n")
 
 static void init_io_error(char const *, ...);
 static char * init_read_file(char const *);
@@ -23,12 +31,7 @@ void init_repl()
     virtual_machine_init();
     // Used to store the next line that is read from input
     char line[MAX_LINE_LENGTH];
-    printf("   _____     _ _           \n\
-  / ____|   | | |          \n\
- | |     ___| | | _____  __\n\
- | |    / _ \\ | |/ _ \\ \\/ /\n\
- | |___|  __/ | | (_) >  < \n\
-  \\_____\\___|_|_|\\___/_/\\_\\\n");
+    printf(PROJECT_INIT_LETTERING);
   
 // The cellox_config.h.in file is not configured by cmake for the benchmarks and tests -> so we just ignore it
     printf("\t\t Version %i.%i\n", PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
@@ -117,7 +120,7 @@ static void init_io_error(char const * format, ...)
 
 /// @brief Reads a file from disk
 /// @param path The path of the file
-/// @return The contents of the file or NULL if something went wrong 😕
+/// @return The contents of the file or NULL if something went wrong
 static char * init_read_file(char const * path)
 {
     // Opens a file of a nonspecified format (b) in read mode (r)

@@ -76,16 +76,67 @@ $(function() {
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
 Introduction</h1>
-<p >Welcome to the technical documentation of the cellox interpreter. Cellox is a dynamically typed, object oriented, general purpose, high-level scripting language that offers automatic memory management to the programmer. <br  />
+<p >Welcome to the technical documentation of the cellox interpreter. <br  />
+ Cellox is a dynamically typed, object oriented, high-level scripting language. <br  />
  It is based on the book <a href="https://craftinginterpreters.com/contents.html">crafting iterpreters</a> by Robert Nystrom. </p>
 <h1><a class="anchor" id="keyconcepts_sec"></a>
 Key concepts</h1>
-<p >Programming should approachable without knowledge about things like memory allocation, representation of values in memory etc. Use a simple syntax that is approachable for beginners. The standard libary is simplistic, like the language itself. </p>
+<p >Cellox is designed with the following key concepts in mind: </p><ol>
+<li>
+Programming should approachable without knowledge about things like memory allocation, representation of values in memory etc </li>
+<li>
+Use a simple syntax that is approachable for beginners </li>
+<li>
+The standard libary is simplistic, like the language itself </li>
+</ol>
+<h1><a class="anchor" id="building_sec"></a>
+Building</h1>
+<p >To build the interpreter a C-Compiler, that supports the C99 standard and CMake (Version &gt;= 3.16) is required. <br  />
+ Additionaly cellox has the following dependecies <br  />
+ Under windows: </p><ul>
+<li>
+conio.h </li>
+<li>
+windows.h </li>
+</ul>
+<p>Under unix-based systems: </p><ul>
+<li>
+curses.h </li>
+<li>
+unistd.h </li>
+</ul>
+<h1><a class="anchor" id="testing_sec"></a>
+Testing</h1>
+<p >For building the language tests a C++-Compiler, that supports the C++14 standard and CMake (Version &gt;= 3.24) is required. <br  />
+ The test are written in C++ using the <a href="https://github.com/google/googletest">google-test framework</a> (version 1.12.1). <br  />
+ For testing a cellox program is executed and the standard output is redirected to a string. <br  />
+ The string is compared with the expected output after the program was executed. <br  />
+ A small benchmarking suite to measure the performance of cellox programs is also included (only used for developing the interpreter) </p>
+<h1><a class="anchor" id="buildoptions_sec"></a>
+Build options</h1>
+<p >Cellox features the following build options </p><ul>
+<li>
+NAN_BOXING_ACTIVATED <br  />
+ Determines whether "not a number boxing / tagging" is used - by default activated </li>
+<li>
+DEBUG_LOG_GARBAGE_COLLECTOIN <br  />
+ Determines whether the garbage collection be logged - only affects debug builds and is by default deactivated </li>
+<li>
+DEBUG_PRINT_BYTECODE <br  />
+ Determines whether the chunks are dissassembled and the bytecode is prined - only affects debug builds and is by default deactivated </li>
+<li>
+DEBUG_STRESS_GARBAGE_COLLECTOR <br  />
+ Determines whether the garbage collector shall be stressed - only affects debug builds and is by default deactivated </li>
+<li>
+DEBUG_TRACE_EXECUTION <br  />
+ Determines whether the execution shall be traced - only affects debug builds and is by default deactivated </li>
+</ul>
 <h1><a class="anchor" id="license_sec"></a>
 License</h1>
 <p >Copyright &copy; 2022 by <a href="#" onclick="location.href='mai'+'lto:'+'f.t'+'ob'+'ner'+'@g'+'mai'+'l.'+'com'; return false;">Frederik Tobner</a>. <br  />
  Permission to use, copy, modify, and distribute this software and its documentation under the terms of the GNU General Public License is hereby granted. <br  />
- No representations are made about the suitability of this software for any purpose. It is provided "as is" without express or implied warranty <br  />
+ No representations are made about the suitability of this software for any purpose. <br  />
+ It is provided "as is" without express or implied warranty. <br  />
  See the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License</a> for more details. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->

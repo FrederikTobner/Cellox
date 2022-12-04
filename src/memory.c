@@ -41,9 +41,9 @@ void memory_collect_garbage()
 void memory_free_objects()
 {
   object_t * object = virtualMachine.objects;
-  while (object != NULL)
+  while (object)
   {
-    object_t *next = object->next;
+    object_t * next = object->next;
     memory_free_object(object);
     object = next;
   }

@@ -14,7 +14,7 @@ TEST(Super, inInheritedMethod)
 
 TEST(Super, incompleteSuper)
 {
-    test_failing_cellox_program("super/incomplete_super.clx", "[line 10] Error at ';': Expect superclass method name.\n");
+    test_failing_cellox_program("super/incomplete_super.clx", "[line 7] Error at ';': Expect superclass method name.\n");
 }
 
 TEST(Super, methodDoesNotExist)

@@ -132,6 +132,7 @@ static bool virtual_machine_bind_method(object_class_t * celloxClass, object_str
 /// @param closure The closure the function belongs to
 /// @param argCount The amount of arguments that are used when the function is envoked
 /// @return true if everything went well, false if something went wrong (stack overflow / wrong argument count)
+/// @note The function can fail if the function was called with a wrong amount of arguments or there are too much callframes on the callstack -> stack overflow
 static bool virtual_machine_call(object_closure_t * closure, int32_t argCount)
 {
     if (argCount != closure->function->arity)
@@ -154,6 +155,10 @@ static bool virtual_machine_call(object_closure_t * closure, int32_t argCount)
     return true;
 }
 
+/// @brief Handles calls for anything that is not a function / closure
+/// @param callee The value that is called
+/// @param argCount The amount of arguments for the value call
+/// @return true if everything went well, false if not
 static bool virtual_machine_call_value(value_t callee, int32_t argCount)
 {
     if (IS_OBJECT(callee))
@@ -794,7 +799,7 @@ static interpret_result_t virtual_machine_run()
 /// @brief Reports an error that has occured at runtime
 /// @param format The formater of the error message
 /// @param ... Arguments that are passed in for the formatter
-/// If no tests are executed the program exits with a exit code that indiactes an error at compile time
+/// @details If no tests are executed the program exits with a exit code that indiactes an error at compile time
 static void virtual_machine_runtime_error(char const * format, ...)
 {
     va_list args;

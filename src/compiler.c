@@ -1307,8 +1307,8 @@ static void compiler_named_variable(token_t name, bool canAssign)
         compiler_emit_bytes(getOp, (uint8_t)arg);
 }
 
-/// @brief Compiles a nondirect assignment (e.g. +=/*=)
-/// @param assignmentType The type of assignment
+/// @brief Compiles a nondirect assignment (e.g. +=, -= or *=)
+/// @param assignmentType The type of assignment (+, &minus;, \*, &frasl;, % or \*\*)
 /// @param getOp The left operand (x += 5 -> x)
 /// @param setOp The left operand (x += 5 -> x)
 /// @param arg The right operand (x += 5 -> 5)

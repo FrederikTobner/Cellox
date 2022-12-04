@@ -1,6 +1,5 @@
 var a = 0;
-while (a < 3) 
-{
+while (a < 3) {
   println(a);
   a += 1;
 }

@@ -1,3 +1,4 @@
+// Shows how an object instance can be serialized
 class Foo {
     init(x, y) {
         this.x = x;

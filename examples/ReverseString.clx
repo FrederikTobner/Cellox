@@ -1,3 +1,4 @@
+// Simple proggram that reverses a string
 fun revstr(src) {
     var reversed = "";
     var length = strlen(src);

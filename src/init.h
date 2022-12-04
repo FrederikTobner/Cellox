@@ -12,10 +12,13 @@ extern "C" {
 #define CELLOX_USAGE_MESSAGE ("Usage: Cellox ((-h|--help|-v|--version) | ((-scf | --store-chunk-file) |(-rcf |--read-chunk-file)) [path]\n")
 
 /** @brief Run with repl
-* @details  1. Read the user input   -   (R)
-*           2. Evaluate your code    -   (E)
-*           3. Print any results     -   (P)
-*           4. Loop back to step 1   -   (L)
+* @details  
+* <ol>
+* <li> Read the user input   -   (R)</li>
+* <li> Evaluate your code    -   (E)</li>
+* <li> Print any results     -   (P)</li>
+* <li> Loop back to step 1   -   (L)</li>
+* </ol>
 */
 void init_repl();
 

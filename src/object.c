@@ -12,14 +12,8 @@
 #define ALLOCATE_OBJECT(type, objectType) \
     (type *)object_allocate_object(sizeof(type), objectType)
 
-/// Offset basic for the fowler-noll-vo hash-fuction
-#define FNV_OFFSET_BASIS 14695981039346656037U
-
-/// Prime of the hashing function
-#define FNV_PRIME 591798841U
-
-/// Makro used by the hashing function
-#define _PADr_KAZE(x, n) ( ((x) << (n))>>(n) )
+/// Offset basic for the fowler-noll-vo hash-fuction - 2166136261
+#define OFFSET_BASIS 0x811c9dc5u
 
 /// The object types of cellox as a string
 static char const * objectTypesStringified [] = {
@@ -33,7 +27,6 @@ static char const * objectTypesStringified [] = {
     "upvalue",
     "unknown"
 };
-
 
 static object_t * object_allocate_object(size_t, object_type_t);
 static object_string_t * object_allocate_string(char *, uint32_t, uint32_t);
@@ -254,32 +247,21 @@ static object_t * object_allocate_object(size_t size, object_type_t type)
     return object;
 }
 
-/// @brief FNV-1a hash function
+/// @brief <a href=https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash>FNV-1a</a> hash function
 /// @details Fownler-Noll-Vo is a non-cryptographic hash function, that comes in three different version FNV-0, FNV-1 and FNV-1a.
 /// There are 32-, 64-, 128-, 256-, 512-, and 1024-bit variants of the function. We use the 32-bit variant to hash all the strings in cellox.
-/// The current implementation is called fowler-noll-vo pippip yurii &minus; https://www.codeproject.com/articles/716530/fastest-hash-function-for-table-lookups-in-c 
 /// @param key The key that is hashed
 /// @param length The length of the key
 /// @return The hashvalue of the key
 static uint32_t object_hash_string(char const * key, uint32_t length)
 {
-    uint32_t hash32; 
-    uint64_t hash64 = FNV_OFFSET_BASIS;
-	size_t Cycles, NDhead;
-    if (length > 8) 
+    uint32_t hash = OFFSET_BASIS;
+    for (uint32_t i = 0; i < length; i++)
     {
-	    Cycles = ((length - 1) >> 4) + 1; 
-        NDhead = length - (Cycles << 3);
-        for(; Cycles--; key += 8) 
-        {
-		    hash64 = ( hash64 ^ (*(uint64_t *)(key)) ) * FNV_PRIME;        
-		    hash64 = ( hash64 ^ (*(uint64_t *)(key + NDhead)) ) * FNV_PRIME;        
-	    }
-    } 
-    else
-	    hash64 = ( hash64 ^ _PADr_KAZE(*(uint64_t *)(key + 0), (8-length) << 3) ) * FNV_PRIME;        
-    hash32 = (uint32_t)(hash64 ^ (hash64 >> 32)); 
-    return hash32 ^ (hash32 >> 16);
+        hash ^= (uint8_t)key[i];
+        hash *= 0x01000193u;
+    }
+    return hash;
 }
 
 /// @brief Prints a function or a script

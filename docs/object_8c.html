@@ -91,15 +91,9 @@ Macros</h2></td></tr>
 <tr class="memitem:af7aa24a51a4cea0dbe3bc0180beb7b8d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#af7aa24a51a4cea0dbe3bc0180beb7b8d">ALLOCATE_OBJECT</a>(type,  objectType)&#160;&#160;&#160;    (type *)<a class="el" href="object_8c.html#a9c9937e0de306e4630dac14ed17d7faa">object_allocate_object</a>(sizeof(type), objectType)</td></tr>
 <tr class="memdesc:af7aa24a51a4cea0dbe3bc0180beb7b8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marko for allocating a new object.  <a href="object_8c.html#af7aa24a51a4cea0dbe3bc0180beb7b8d">More...</a><br /></td></tr>
 <tr class="separator:af7aa24a51a4cea0dbe3bc0180beb7b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2026578664bf796de1faaa6d562ff17"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#ad2026578664bf796de1faaa6d562ff17">FNV_OFFSET_BASIS</a>&#160;&#160;&#160;14695981039346656037</td></tr>
-<tr class="memdesc:ad2026578664bf796de1faaa6d562ff17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset basic for the fowler-noll-vo hash-fuction.  <a href="object_8c.html#ad2026578664bf796de1faaa6d562ff17">More...</a><br /></td></tr>
-<tr class="separator:ad2026578664bf796de1faaa6d562ff17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad24caffb4ec2b57caeb823da822d3120"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#ad24caffb4ec2b57caeb823da822d3120">FNV_PRIME</a>&#160;&#160;&#160;591798841</td></tr>
-<tr class="memdesc:ad24caffb4ec2b57caeb823da822d3120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prime of the hashing function.  <a href="object_8c.html#ad24caffb4ec2b57caeb823da822d3120">More...</a><br /></td></tr>
-<tr class="separator:ad24caffb4ec2b57caeb823da822d3120"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb40257d030ca72bd87d3e9f12bf7b99"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#aeb40257d030ca72bd87d3e9f12bf7b99">_PADr_KAZE</a>(x,  n)&#160;&#160;&#160;( ((x) &lt;&lt; (n))&gt;&gt;(n) )</td></tr>
-<tr class="memdesc:aeb40257d030ca72bd87d3e9f12bf7b99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro used by the hashing function.  <a href="object_8c.html#aeb40257d030ca72bd87d3e9f12bf7b99">More...</a><br /></td></tr>
-<tr class="separator:aeb40257d030ca72bd87d3e9f12bf7b99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5742a681f358cbb9e0ffc838ab306a3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#af5742a681f358cbb9e0ffc838ab306a3">OFFSET_BASIS</a>&#160;&#160;&#160;0x811c9dc5u</td></tr>
+<tr class="memdesc:af5742a681f358cbb9e0ffc838ab306a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset basic for the fowler-noll-vo hash-fuction - 2166136261.  <a href="object_8c.html#af5742a681f358cbb9e0ffc838ab306a3">More...</a><br /></td></tr>
+<tr class="separator:af5742a681f358cbb9e0ffc838ab306a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -110,7 +104,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a706b5a95bdf79a667bdc325ef724852c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a string allocates memory to store a string.  <a href="object_8c.html#a706b5a95bdf79a667bdc325ef724852c">More...</a><br /></td></tr>
 <tr class="separator:a706b5a95bdf79a667bdc325ef724852c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0658afd37adc8484e28c028e869f2688"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a0658afd37adc8484e28c028e869f2688">object_hash_string</a> (char const *key, uint32_t length)</td></tr>
-<tr class="memdesc:a0658afd37adc8484e28c028e869f2688"><td class="mdescLeft">&#160;</td><td class="mdescRight">FNV-1a hash function.  <a href="object_8c.html#a0658afd37adc8484e28c028e869f2688">More...</a><br /></td></tr>
+<tr class="memdesc:a0658afd37adc8484e28c028e869f2688"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function  <a href="object_8c.html#a0658afd37adc8484e28c028e869f2688">More...</a><br /></td></tr>
 <tr class="separator:a0658afd37adc8484e28c028e869f2688"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55363e6fbf1c8dd56a1f62b5cfd1f005"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a55363e6fbf1c8dd56a1f62b5cfd1f005">object_print_function</a> (<a class="el" href="structobject__function__t.html">object_function_t</a> *function)</td></tr>
 <tr class="memdesc:a55363e6fbf1c8dd56a1f62b5cfd1f005"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a function or a script.  <a href="object_8c.html#a55363e6fbf1c8dd56a1f62b5cfd1f005">More...</a><br /></td></tr>
@@ -156,36 +150,6 @@ Variables</h2></td></tr>
 <tr class="separator:aa132dbcf953952aa668b7f90ef48f6cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aeb40257d030ca72bd87d3e9f12bf7b99" name="aeb40257d030ca72bd87d3e9f12bf7b99"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb40257d030ca72bd87d3e9f12bf7b99">&#9670;&#160;</a></span>_PADr_KAZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _PADr_KAZE</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">n&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;( ((x) &lt;&lt; (n))&gt;&gt;(n) )</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Makro used by the hashing function. </p>
-
-</div>
-</div>
 <a id="af7aa24a51a4cea0dbe3bc0180beb7b8d" name="af7aa24a51a4cea0dbe3bc0180beb7b8d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7aa24a51a4cea0dbe3bc0180beb7b8d">&#9670;&#160;</a></span>ALLOCATE_OBJECT</h2>
 
@@ -216,35 +180,19 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ad2026578664bf796de1faaa6d562ff17" name="ad2026578664bf796de1faaa6d562ff17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2026578664bf796de1faaa6d562ff17">&#9670;&#160;</a></span>FNV_OFFSET_BASIS</h2>
+<a id="af5742a681f358cbb9e0ffc838ab306a3" name="af5742a681f358cbb9e0ffc838ab306a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5742a681f358cbb9e0ffc838ab306a3">&#9670;&#160;</a></span>OFFSET_BASIS</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define FNV_OFFSET_BASIS&#160;&#160;&#160;14695981039346656037</td>
+          <td class="memname">#define OFFSET_BASIS&#160;&#160;&#160;0x811c9dc5u</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Offset basic for the fowler-noll-vo hash-fuction. </p>
-
-</div>
-</div>
-<a id="ad24caffb4ec2b57caeb823da822d3120" name="ad24caffb4ec2b57caeb823da822d3120"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad24caffb4ec2b57caeb823da822d3120">&#9670;&#160;</a></span>FNV_PRIME</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define FNV_PRIME&#160;&#160;&#160;591798841</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Prime of the hashing function. </p>
+<p>Offset basic for the fowler-noll-vo hash-fuction - 2166136261. </p>
 
 </div>
 </div>
@@ -390,6 +338,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The created string </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If the string contains an unknown escape sequence NULL is instead returned to indicate the error </dd></dl>
 
 </div>
 </div>
@@ -427,8 +376,8 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>FNV-1a hash function. </p>
-<p >Fownler-Noll-Vo is a non-cryptographic hash function, that comes in three different version FNV-0, FNV-1 and FNV-1a. There are 32-, 64-, 128-, 256-, 512-, and 1024-bit variants of the function. We use the 32-bit variant to hash all the strings in cellox. The current implementation is called fowler-noll-vo pippip yurii &minus; <a href="https://www.codeproject.com/articles/716530/fastest-hash-function-for-table-lookups-in-c">https://www.codeproject.com/articles/716530/fastest-hash-function-for-table-lookups-in-c</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function </p>
+<p >Fownler-Noll-Vo is a non-cryptographic hash function, that comes in three different version FNV-0, FNV-1 and FNV-1a. There are 32-, 64-, 128-, 256-, 512-, and 1024-bit variants of the function. We use the 32-bit variant to hash all the strings in cellox. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>The key that is hashed </td></tr>
     <tr><td class="paramname">length</td><td>The length of the key </td></tr>

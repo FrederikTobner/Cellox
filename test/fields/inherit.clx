@@ -1,15 +1,11 @@
-class A
-{
-    init(value)
-    {
+class A {
+    init(value) {
         this.value = value;
     }
 }
 
-class B : A
-{
-    init(value)
-    {
+class B : A {
+    init(value) {
         super.init(value);
     }
 }

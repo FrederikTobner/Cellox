@@ -1,3 +1,4 @@
+// Simple single linked list implementation
 class Node {
 	init(value, nextNode) {
 		this.value = value;

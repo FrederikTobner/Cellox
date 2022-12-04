@@ -1,3 +1,4 @@
+// Simple script showcasing the assignment operators of the language
 var x = 3; 
 println(x);
 println(x += 2); // -> x = 5

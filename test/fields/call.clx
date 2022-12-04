@@ -1,7 +1,5 @@
-class Foo 
-{
-    init(value)
-    {
+class Foo {
+    init(value) {
         this.value = value;
     }
 }

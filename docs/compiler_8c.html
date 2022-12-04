@@ -292,7 +292,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ab8a61ccefebb533b557ef1b23eadd4cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles getting and setting a variable (locals, globals and upvalues)  <a href="compiler_8c.html#ab8a61ccefebb533b557ef1b23eadd4cb">More...</a><br /></td></tr>
 <tr class="separator:ab8a61ccefebb533b557ef1b23eadd4cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab44adf7e25e023bc63b013564b052376"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#ab44adf7e25e023bc63b013564b052376">compiler_nondirect_assignment</a> (uint8_t assignmentType, uint8_t getOp, uint8_t setOp, uint8_t arg)</td></tr>
-<tr class="memdesc:ab44adf7e25e023bc63b013564b052376"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a nondirect assignment (e.g. +=/*=)  <a href="compiler_8c.html#ab44adf7e25e023bc63b013564b052376">More...</a><br /></td></tr>
+<tr class="memdesc:ab44adf7e25e023bc63b013564b052376"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a nondirect assignment (e.g. +=, -= or *=)  <a href="compiler_8c.html#ab44adf7e25e023bc63b013564b052376">More...</a><br /></td></tr>
 <tr class="separator:ab44adf7e25e023bc63b013564b052376"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25daa0e15c77997fe96a793ffc693d26"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a25daa0e15c77997fe96a793ffc693d26">compiler_number</a> (bool canAssign)</td></tr>
 <tr class="memdesc:a25daa0e15c77997fe96a793ffc693d26"><td class="mdescLeft">&#160;</td><td class="mdescRight">compiles a number literal expression  <a href="compiler_8c.html#a25daa0e15c77997fe96a793ffc693d26">More...</a><br /></td></tr>
@@ -514,7 +514,6 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Adds a new local variable to the stack. </p>
-<p >We can only have 255 local variable on the stack 😔</p>
 
 </div>
 </div>
@@ -2167,10 +2166,10 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Compiles a nondirect assignment (e.g. +=/*=) </p>
+<p>Compiles a nondirect assignment (e.g. +=, -= or *=) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">assignmentType</td><td>The type of assignment </td></tr>
+    <tr><td class="paramname">assignmentType</td><td>The type of assignment (+, &minus;, *, &frasl;, % or **) </td></tr>
     <tr><td class="paramname">getOp</td><td>The left operand (x += 5 -&gt; x) </td></tr>
     <tr><td class="paramname">setOp</td><td>The left operand (x += 5 -&gt; x) </td></tr>
     <tr><td class="paramname">arg</td><td>The right operand (x += 5 -&gt; 5) </td></tr>
@@ -2743,7 +2742,7 @@ Variables</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
