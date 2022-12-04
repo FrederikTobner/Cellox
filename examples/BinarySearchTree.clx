@@ -1,6 +1,7 @@
 /* Simple binary search tree (https://en.wikipedia.org/wiki/Binary_search_tree)
  * This implementation does not rebalance the binary search tree.
  */
+<
 class Node {
     init(value, left, right) {
         this.value = value;
@@ -14,22 +15,23 @@ class BinarySearchTree {
     }
 
     add(x) {
-        if(!this.rootNode) {
+        if (!this.rootNode) {
             this.rootNode = Node(x, null, null);
             return;
         }
         var node = this.rootNode;
         for(;;) {
-            if(node.value == x) return;
-            if(node.value > x) {
-                if(!node.left) {
+            if (node.value == x) 
+                return;
+            if (node.value > x) {
+                if (!node.left) {
                     node.left = Node(x, null, null);
                     return;
                 }
                 node = node.left;            
             }
             else {
-                if(!node.right) {
+                if (!node.right) {
                     node.right = Node(x, null, null);
                     return;
                 }
@@ -40,7 +42,7 @@ class BinarySearchTree {
 
     // Prints the values from a specific node and all the nodes below
     printFromNode(node) {
-        if(node) {
+        if (node) {
             this.printFromNode(node.left);
             println(node.value);
             this.printFromNode(node.right);
