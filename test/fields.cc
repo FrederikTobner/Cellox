@@ -79,7 +79,7 @@ TEST(Fields, SetOnString)
 
 TEST(Fields, SerializeProperties)
 {
-    test_cellox_program("fields/serialize.clx", "{text: \"test\", value: 10}\n");
+    test_cellox_program("fields/serialize.clx", "{value: 10, text: \"test\"}\n");
 }
 
 TEST(Fields, UndefienedProperty)
