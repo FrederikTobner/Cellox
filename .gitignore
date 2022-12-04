@@ -4,3 +4,5 @@
 [Ss][Ee][Tt][Tt][Ii][Nn][Gg][Ss].[Jj][Ss][Oo][Nn]
 # Ignore cellox bytecode files
 *.[Cc][Xx][Cc][Ff]
+#ignore idea folder of IntelliJ
+\.[Ii][Dd][Ee][Aa]/
