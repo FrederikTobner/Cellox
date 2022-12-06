@@ -58,6 +58,8 @@ The characters that a string contains can be accessed and altered by the index.
 
 ## IDE Integration
 
+Cellox provides plugins for vscode, vim and neovim.
+
 [![VSCcode](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=vscode-cellox&theme=dark)](https://github.com/FrederikTobner/vscode-cellox)
 [![Vim](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=cellox.vim&theme=dark)](https://github.com/FrederikTobner/cellox.vim)
 <!--[![IntelliJ](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=IntelliJ-Cellox&theme=dark)](https://github.com/FrederikTobner/IntelliJ-Cellox) -->
@@ -72,5 +74,8 @@ A cellox program is converted into bytecode and executed by a stack based [virtu
 
 The bytecode can also be stored in a [seperate file](https://github.com/FrederikTobner/Cellox/wiki/Chunk-Files) in order to be executed at a later point in time.
 
+More information about the interpreter can be found at the [technical documentation](https://frederiktobner.github.io/Cellox/).
+
 ## License
-See [License](LICENSE.md)
+
+See [License](LICENSE)

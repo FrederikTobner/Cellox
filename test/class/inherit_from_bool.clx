@@ -1,0 +1,2 @@
+var boolVal = true;
+class Foo : boolVal {}

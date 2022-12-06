@@ -1,7 +1,7 @@
 /* Simple binary search tree (https://en.wikipedia.org/wiki/Binary_search_tree)
  * This implementation does not rebalance the binary search tree.
  */
-<
+
 class Node {
     init(value, left, right) {
         this.value = value;

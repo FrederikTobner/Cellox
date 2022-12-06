@@ -1,0 +1,2 @@
+var numberVal = 123;
+class Foo : numberVal {} // expect runtime error: Superclass must be a class.
