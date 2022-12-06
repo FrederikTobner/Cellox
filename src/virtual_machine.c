@@ -594,7 +594,10 @@ static interpret_result_t virtual_machine_run()
             value_t superclass = virtual_machine_peek(1);
             if (!IS_CLASS(superclass))
             {
-                virtual_machine_runtime_error("Superclass must be a class but is a %s", value_stringify_type(superclass));
+                virtual_machine_runtime_error("Superclass must be a class but is a %s %s",
+                                                value_stringify_type(superclass),
+                                                IS_OBJECT(superclass) ? "object" : "value");
+
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_class_t *subclass = AS_CLASS(virtual_machine_peek(0));
@@ -650,9 +653,11 @@ static interpret_result_t virtual_machine_run()
             }
             else
             {
-                virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value", 
-                                                value_stringify_type(virtual_machine_peek(0)), 
-                                                value_stringify_type(virtual_machine_peek(1)));
+                virtual_machine_runtime_error("Operands must be two numbers but they are a %s %s and a %s %s", 
+                                                value_stringify_type(virtual_machine_peek(0)),
+                                                IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
+                                                value_stringify_type(virtual_machine_peek(1)),
+                                                IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;

@@ -1,0 +1,2 @@
+var nullVal = null;
+class Foo : nullVal {}

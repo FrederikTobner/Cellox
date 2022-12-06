@@ -6,5 +6,6 @@ for (var i = 1; i < 101; i += 1) {
         println("Fizz");
     else if (i % 5 == 0) 
         println("Buzz");
-    else println(i);
+    else 
+        println(i);
 }

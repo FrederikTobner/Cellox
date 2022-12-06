@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/examples/CalorieCounting.clx",
+                "${workspaceFolder}/examples/SimpleLinkedList.clx",
             ],
             "stopAtEntry": false,
             "externalConsole": true,

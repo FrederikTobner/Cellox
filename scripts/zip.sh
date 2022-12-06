@@ -4,10 +4,6 @@ echo "Configuring CMake for x64 ..."
 cmake -B ../build/linux_x64 -DCMAKE_BUILD_TYPE=Release -G Ninja  -DCMAKE_C_COMPILER=/usr/local/bin/clang ..
 echo "Building Interpreter for x64 ..."
 cmake --build ../build/linux_x64 --config Release --target Cellox
-echo "Configuring CMake for x86 ..."
-cmake -B ../build/msvc_x86 -DCMAKE_BUILD_TYPE=Release -G Ninja  -DCMAKE_C_COMPILER=/usr/local/bin/clang ..
-echo "Building Interpreter for x86 ..."
-cmake --build ../build/msvc_x86 --config Release --target Cellox
 # Zipping binaries
 echo "Zipping cellox x64 ..."
 if [ -d "../build/linux_x64/src" ] 

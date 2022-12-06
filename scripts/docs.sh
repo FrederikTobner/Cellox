@@ -1,4 +1,3 @@
-#!/bin/bash
 # Generates documentation using doxyxgen (https://www.doxygen.nl/)
 if [ -d "../src" ]
 then
