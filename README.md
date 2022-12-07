@@ -12,7 +12,7 @@ Cellox is a scripting language based on the programming language [lox](https://c
 
 Cellox is a dynamically typed, object oriented, high-level scripting language.
 
-Cellox is available under windows, linux and macOS, but has only been thoroughly tested under windows.
+It is available under windows, linux and macOS, but has only been thoroughly tested under windows.
 Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the interpreter.
 
 ## Values
@@ -26,7 +26,7 @@ In cellox [values](https://github.com/FrederikTobner/Cellox/wiki/Values) are gro
 
 ## Control structures
 
-Cellox offers the following control structures:
+The language provides the following control structures:
 
 * Conditional flow structures, with [if/else statements](https://github.com/FrederikTobner/Cellox/wiki/if-else-statements)
 * Repetitive flow structures, with [for](https://github.com/FrederikTobner/Cellox/wiki/For) and [while](https://github.com/FrederikTobner/Cellox/wiki/While) loops
@@ -58,7 +58,7 @@ The characters that a string contains can be accessed and altered by the index.
 
 ## IDE Integration
 
-Cellox provides plugins for vscode, vim and neovim.
+There are plugins for vscode, vim and neovim.
 
 [![VSCcode](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=vscode-cellox&theme=dark)](https://github.com/FrederikTobner/vscode-cellox)
 [![Vim](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=cellox.vim&theme=dark)](https://github.com/FrederikTobner/cellox.vim)
@@ -70,7 +70,7 @@ The language provides automatic memory management to the programmer using it's o
 
 The variables defiened in a cellox program are stored in a hashtable. The variable name is used as the key for the value stored in the hashtable.
 
-A cellox program is converted into bytecode and executed by a stack based [virtual machine](https://github.com/FrederikTobner/Cellox/wiki/Virtual-Machine).
+The program is converted into bytecode and executed by a stack based [virtual machine](https://github.com/FrederikTobner/Cellox/wiki/Virtual-Machine).
 
 The bytecode can also be stored in a [seperate file](https://github.com/FrederikTobner/Cellox/wiki/Chunk-Files) in order to be executed at a later point in time.
 

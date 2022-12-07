@@ -755,7 +755,7 @@ static interpret_result_t virtual_machine_run()
         {
             if (!IS_INSTANCE(virtual_machine_peek(1)))
             {
-                virtual_machine_runtime_error("Only instances have fields but was called with a a %s %s",
+                virtual_machine_runtime_error("Only instances have fields but was called with a %s %s",
                                                 value_stringify_type(virtual_machine_peek(1)),
                                                 IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
