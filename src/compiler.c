@@ -25,7 +25,7 @@ typedef struct
     bool hadError;
     /// Flag that indicates that the compiler couldn't synchronize after an errror occured
     bool panicMode;
-}parser_t;
+} parser_t;
 
 /// @brief Precedences that corresponds to a single or a group of tokens
 typedef enum
@@ -1184,6 +1184,8 @@ static void compiler_index_of(bool canAssign, uint8_t getOp, uint8_t setOp, uint
     // If an equal follows -> set index of expression
     if(compiler_match_token(TOKEN_EQUAL))
     {
+        if(!canAssign)
+            compiler_error("Invalid assignment target.");
         compiler_expression();
         compiler_emit_byte(OP_SET_INDEX_OF);
         compiler_emit_bytes(setOp, arg);
@@ -1301,7 +1303,7 @@ static void compiler_named_variable(token_t name, bool canAssign)
         compiler_nondirect_assignment(OP_MODULO, getOp, setOp, arg);
     else if (canAssign && compiler_match_token(TOKEN_STAR_STAR_EQUAL))
         compiler_nondirect_assignment(OP_EXPONENT, getOp, setOp, arg);
-    else if(canAssign && compiler_match_token(TOKEN_LEFT_BRACKET))
+    else if(compiler_match_token(TOKEN_LEFT_BRACKET))
         compiler_index_of(canAssign, getOp, setOp, arg);
     else
         compiler_emit_bytes(getOp, (uint8_t)arg);

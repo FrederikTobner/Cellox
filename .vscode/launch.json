@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/examples/SimpleLinkedList.clx",
+                "${workspaceFolder}/examples/Test.clx",
             ],
             "stopAtEntry": false,
             "externalConsole": true,
