@@ -1,7 +1,7 @@
 # Ignore build folder
 [Bb][Uu][Ii][Ll][Dd]/
-# Ignore Settings .json from vscode
-[Ss][Ee][Tt][Tt][Ii][Nn][Gg][Ss].[Jj][Ss][Oo][Nn]
+# Ignore vscode folder
+.[Vv][Ss][Cc][Oo][Dd][Ee]/
 # Ignore cellox bytecode files
 *.[Cc][Xx][Cc][Ff]
 # Ignore idea folder of IntelliJ
