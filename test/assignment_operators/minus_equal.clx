@@ -1,0 +1,5 @@
+var v = 5;
+v -= 3;
+printf("{}\n", v);
+v -= -2;
+printf("{}\n", v);

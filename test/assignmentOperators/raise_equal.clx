@@ -1,6 +1,0 @@
-var v = 3;
-v **= 3;
-println(v);
-v = 9;
-v **= 0.5;
-println(v);

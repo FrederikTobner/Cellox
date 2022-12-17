@@ -1,3 +1,11 @@
 // A dangling else binds to the right-most if.
-if (true) if (false) println("no"); else println("yes");
-if (false) if (true) println("no"); else println("yes");
+if (true) 
+    if (false) 
+        printf("{}\n", "no"); 
+    else 
+        printf("{}\n", "yes");
+if (false) 
+    if (true) 
+        printf("{}\n", "no"); 
+    else 
+        printf("{}\n", "yes");

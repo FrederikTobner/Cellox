@@ -1,1 +1,4 @@
-if (true) "ok"; else var foo;
+if (true) 
+    "ok"; 
+else 
+    var foo;

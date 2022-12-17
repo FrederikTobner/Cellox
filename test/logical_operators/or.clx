@@ -1,0 +1,6 @@
+printf("{}\n", false or false);
+printf("{}\n", false or true);
+printf("{}\n", true or true);
+printf("{}\n", false || false);
+printf("{}\n", false || true);
+printf("{}\n", true || true);

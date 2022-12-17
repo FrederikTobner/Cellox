@@ -1,6 +1,6 @@
 class A {
   say() {
-    println("A");
+    printf("A\n");
   }
 }
 
@@ -13,13 +13,13 @@ class B : A {
   }
 
   say() {
-    println("B");
+    printf("B\n");
   }
 }
 
 class C : B {
   say() {
-    println("C");
+    printf("C\n");
   }
 }
 

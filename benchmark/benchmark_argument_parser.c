@@ -12,17 +12,17 @@
 
 #define DEFAULT_EXECUTION_COUNT (10)
 
-static void benchmark_argument_parser_change_current_option_type(option_type_t, option_type_t *);
+static void benchmark_argument_parser_change_current_option_type(option_type, option_type *);
 static void benchmark_argument_parser_error(char const *, ...);
 static inline bool benchmark_argument_parser_is_option(char const *);
-static void benchmark_argument_parser_parse_argument(char const **, option_type_t, dynamic_benchmark_config_array_t *, int, bool *);
-static option_type_t benchmark_argument_parser_parse_option(char const *);
+static void benchmark_argument_parser_parse_argument(char const **, option_type, dynamic_benchmark_config_array_t *, int, bool *);
+static option_type benchmark_argument_parser_parse_option(char const *);
 static inline void benchmark_argument_parser_show_usage();
 
 void benchmark_argument_parser_parse(int argc, char const ** argv)
 {
     bool countSpecified = false;
-    option_type_t currentType = OPTION_TYPE_PATH;
+    option_type currentType = OPTION_TYPE_PATH;
     dynamic_benchmark_config_array_t config_array;
     dynamic_benchmark_config_array_init(&config_array);
     for (int i = 1; i < argc; i++)
@@ -41,7 +41,7 @@ static inline void benchmark_argument_parser_show_usage()
     benchmark_argument_parser_error("Usage: CelloxBenchmarks [path] [-c count]");
 }
 
-static void benchmark_argument_parser_change_current_option_type(option_type_t type, option_type_t * currentType)
+static void benchmark_argument_parser_change_current_option_type(option_type type, option_type * currentType)
 {
     if(type == (*currentType))
         benchmark_argument_parser_error("The option was already specified!");
@@ -60,7 +60,7 @@ static void benchmark_argument_parser_error(char const * format, ...)
     exit(EXIT_CODE_COMMAND_LINE_USAGE_ERROR);
 }
 
-static void benchmark_argument_parser_parse_argument(char const ** argv, option_type_t currentType, dynamic_benchmark_config_array_t * config_array, int index, bool * countSpecified)
+static void benchmark_argument_parser_parse_argument(char const ** argv, option_type currentType, dynamic_benchmark_config_array_t * config_array, int index, bool * countSpecified)
 {
     if(currentType == OPTION_TYPE_COUNT)
     {
@@ -91,7 +91,7 @@ static void benchmark_argument_parser_parse_argument(char const ** argv, option_
     dynamic_benchmark_config_array_write(config_array, newConfig);  
 }
 
-static option_type_t benchmark_argument_parser_parse_option(char const * option)
+static option_type benchmark_argument_parser_parse_option(char const * option)
 {
     if(!strcmp(option, "-c"))
         return OPTION_TYPE_COUNT;

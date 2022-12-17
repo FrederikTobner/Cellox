@@ -1,0 +1,2 @@
+var array = {1, 2, 3, 4, 5};
+printf("{}\n", array[1 .. 3]);

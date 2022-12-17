@@ -1,0 +1,1 @@
+printf("{}\n", "\a\b\f\n\t\v\r");

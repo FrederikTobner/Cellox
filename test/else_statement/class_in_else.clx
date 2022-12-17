@@ -1,1 +1,4 @@
-if (true) "ok"; else class Foo {}
+if (true) 
+    "ok"; 
+else 
+    class Foo {}

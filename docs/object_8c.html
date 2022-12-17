@@ -78,6 +78,9 @@ $(function() {
   <div class="headertitle"><div class="title">object.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>File containing implementation of functionalitity regarding cellox objects.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="memory_8h_source.html">memory.h</a>&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
@@ -103,9 +106,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a706b5a95bdf79a667bdc325ef724852c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structobject__string__t.html">object_string_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a706b5a95bdf79a667bdc325ef724852c">object_allocate_string</a> (char *chars, uint32_t length, uint32_t hash)</td></tr>
 <tr class="memdesc:a706b5a95bdf79a667bdc325ef724852c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a string allocates memory to store a string.  <a href="object_8c.html#a706b5a95bdf79a667bdc325ef724852c">More...</a><br /></td></tr>
 <tr class="separator:a706b5a95bdf79a667bdc325ef724852c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0658afd37adc8484e28c028e869f2688"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a0658afd37adc8484e28c028e869f2688">object_hash_string</a> (char const *key, uint32_t length)</td></tr>
-<tr class="memdesc:a0658afd37adc8484e28c028e869f2688"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function  <a href="object_8c.html#a0658afd37adc8484e28c028e869f2688">More...</a><br /></td></tr>
-<tr class="separator:a0658afd37adc8484e28c028e869f2688"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55363e6fbf1c8dd56a1f62b5cfd1f005"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a55363e6fbf1c8dd56a1f62b5cfd1f005">object_print_function</a> (<a class="el" href="structobject__function__t.html">object_function_t</a> *function)</td></tr>
 <tr class="memdesc:a55363e6fbf1c8dd56a1f62b5cfd1f005"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a function or a script.  <a href="object_8c.html#a55363e6fbf1c8dd56a1f62b5cfd1f005">More...</a><br /></td></tr>
 <tr class="separator:a55363e6fbf1c8dd56a1f62b5cfd1f005"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,6 +118,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aeb9aa7230633e5ce9d70afe06607ae99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__class__t.html">object_class_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#aeb9aa7230633e5ce9d70afe06607ae99">object_new_class</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name)</td></tr>
 <tr class="memdesc:aeb9aa7230633e5ce9d70afe06607ae99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new class in cellox.  <a href="object_8c.html#aeb9aa7230633e5ce9d70afe06607ae99">More...</a><br /></td></tr>
 <tr class="separator:aeb9aa7230633e5ce9d70afe06607ae99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0880cd6c3f6f204ad14ebc546546767f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__dynamic__value__array__t.html">object_dynamic_value_array_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a0880cd6c3f6f204ad14ebc546546767f">object_new_dynamic_value_array</a> ()</td></tr>
+<tr class="memdesc:a0880cd6c3f6f204ad14ebc546546767f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new dynamic value array.  <a href="object_8c.html#a0880cd6c3f6f204ad14ebc546546767f">More...</a><br /></td></tr>
+<tr class="separator:a0880cd6c3f6f204ad14ebc546546767f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c8b33521dcd7c73964625122e057be2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__closure__t.html">object_closure_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a6c8b33521dcd7c73964625122e057be2">object_new_closure</a> (<a class="el" href="structobject__function__t.html">object_function_t</a> *function)</td></tr>
 <tr class="memdesc:a6c8b33521dcd7c73964625122e057be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new Closure.  <a href="object_8c.html#a6c8b33521dcd7c73964625122e057be2">More...</a><br /></td></tr>
 <tr class="separator:a6c8b33521dcd7c73964625122e057be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,6 +142,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a520a8e4a061b39c3bf328fa5ce1513f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__string__t.html">object_string_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a520a8e4a061b39c3bf328fa5ce1513f7">object_take_string</a> (char *chars, uint32_t length)</td></tr>
 <tr class="memdesc:a520a8e4a061b39c3bf328fa5ce1513f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a string or returns a string from the hashtable of the virtualMachine if it already exists.  <a href="object_8c.html#a520a8e4a061b39c3bf328fa5ce1513f7">More...</a><br /></td></tr>
 <tr class="separator:a520a8e4a061b39c3bf328fa5ce1513f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dd9dd78f1cd8af583448e06219c5eb2"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a5dd9dd78f1cd8af583448e06219c5eb2">object_hash_string</a> (char const *key, uint32_t length)</td></tr>
+<tr class="memdesc:a5dd9dd78f1cd8af583448e06219c5eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function  <a href="object_8c.html#a5dd9dd78f1cd8af583448e06219c5eb2">More...</a><br /></td></tr>
+<tr class="separator:a5dd9dd78f1cd8af583448e06219c5eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a0bd8a458ac170ad1c907ec1ab864d3fd">object_stringify_type</a> (<a class="el" href="structobject__t.html">object_t</a> *object)</td></tr>
 <tr class="memdesc:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the textual representation of a cellox type.  <a href="object_8c.html#a0bd8a458ac170ad1c907ec1ab864d3fd">More...</a><br /></td></tr>
 <tr class="separator:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,7 +155,9 @@ Variables</h2></td></tr>
 <tr class="memdesc:aa132dbcf953952aa668b7f90ef48f6cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object types of cellox as a string.  <a href="object_8c.html#aa132dbcf953952aa668b7f90ef48f6cf">More...</a><br /></td></tr>
 <tr class="separator:aa132dbcf953952aa668b7f90ef48f6cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >File containing implementation of functionalitity regarding cellox objects. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="af7aa24a51a4cea0dbe3bc0180beb7b8d" name="af7aa24a51a4cea0dbe3bc0180beb7b8d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7aa24a51a4cea0dbe3bc0180beb7b8d">&#9670;&#160;</a></span>ALLOCATE_OBJECT</h2>
 
@@ -342,17 +350,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a0658afd37adc8484e28c028e869f2688" name="a0658afd37adc8484e28c028e869f2688"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0658afd37adc8484e28c028e869f2688">&#9670;&#160;</a></span>object_hash_string()</h2>
+<a id="a5dd9dd78f1cd8af583448e06219c5eb2" name="a5dd9dd78f1cd8af583448e06219c5eb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dd9dd78f1cd8af583448e06219c5eb2">&#9670;&#160;</a></span>object_hash_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static uint32_t object_hash_string </td>
+          <td class="memname">uint32_t object_hash_string </td>
           <td>(</td>
           <td class="paramtype">char const *&#160;</td>
           <td class="paramname"><em>key</em>, </td>
@@ -369,11 +374,6 @@ Variables</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function </p>
@@ -480,6 +480,26 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a0880cd6c3f6f204ad14ebc546546767f" name="a0880cd6c3f6f204ad14ebc546546767f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0880cd6c3f6f204ad14ebc546546767f">&#9670;&#160;</a></span>object_new_dynamic_value_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__dynamic__value__array__t.html">object_dynamic_value_array_t</a> * object_new_dynamic_value_array </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a new dynamic value array. </p>
+<dl class="section return"><dt>Returns</dt><dd>The created array </dd></dl>
+
+</div>
+</div>
 <a id="abcd78aa6f069060b1323d728382dc21b" name="abcd78aa6f069060b1323d728382dc21b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abcd78aa6f069060b1323d728382dc21b">&#9670;&#160;</a></span>object_new_function()</h2>
 
@@ -578,10 +598,6 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The upvalue that was created </dd></dl>
-<p >Allocating the memory used by the upvalue</p>
-<p >We zero out the closed field of the upvalue when we create it</p>
-<p >Adress of the slot where the closed over variables live (enclosing environment)</p>
-<p >When we allocate a new upvalue, it is not attached to any list</p>
 
 </div>
 </div>
@@ -734,8 +750,8 @@ Variables</h2></td></tr>
 <div class="line">    <span class="stringliteral">&quot;method&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;class&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;closure&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;array&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;function&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;object instance&quot;</span></div>
 <div class="line">    <span class="stringliteral">&quot;native function&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;string&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;upvalue&quot;</span>,</div>

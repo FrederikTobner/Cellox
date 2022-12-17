@@ -16,8 +16,9 @@ FetchContent_Declare(
 
 # testfiles
 set(TESTSOURCES
-assignment_operator.cc
-binary_operator.cc
+array.cc
+assignment_operators.cc
+binary_operators.cc
 class.cc
 comments.cc
 else_statement.cc
@@ -32,7 +33,10 @@ literal_expressions.cc
 logical_operators.cc
 method.cc
 native_functions.cc
-returnkeyword.cc
+range_operator.cc
+return_keyword.cc
+slice.cc
+strings.cc
 super.cc
 test_cellox.cc
 test_cellox.hh

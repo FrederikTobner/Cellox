@@ -1,2 +1,2 @@
 for (var c = 0; c < 4;) 
-    println(c += 1);
+    printf("{}\n", c += 1);

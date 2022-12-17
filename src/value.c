@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file value.c
+ * @brief File containing implementation of functionalitity of cellox values.
+ */
+
 #include "value.h"
 
 #include <stdio.h>
@@ -70,6 +90,17 @@ bool value_values_equal(value_t a, value_t b)
 #ifdef NAN_BOXING
   if (IS_NUMBER(a) && IS_NUMBER(b))
     return AS_NUMBER(a) == AS_NUMBER(b);
+  else if(IS_ARRAY(a) && IS_ARRAY(b))
+  {
+    object_dynamic_value_array_t * firstArray = AS_ARRAY(a);
+    object_dynamic_value_array_t * secondArray = AS_ARRAY(b);
+    if(firstArray->array.count != secondArray->array.count)
+      return false;
+    for (size_t i = 0; i < firstArray->array.count; i++)
+      if(!value_values_equal(firstArray->array.values[i], secondArray->array.values[i]))
+        return false;
+    return true;    
+  }
   return a == b;
 #else
   if (a.type != b.type)
@@ -83,6 +114,17 @@ bool value_values_equal(value_t a, value_t b)
   case VAL_NUMBER:
     return AS_NUMBER(a) == AS_NUMBER(b);
   case VAL_OBJ:
+    if(IS_ARRAY(a) && IS_ARRAY(b))
+    {
+      object_dynamic_value_array_t * firstArray = AS_ARRAY(a);
+      object_dynamic_value_array_t * secondArray = AS_ARRAY(b);
+      if(firstArray->array.count != secondArray->array.count)
+        return false;
+      for (size_t i = 0; i < firstArray->array.count; i++)
+        if(!value_values_equal(firstArray->array.values[i], secondArray->array.values[i]))
+          return false;
+      return true;
+    }
     return AS_OBJECT(a) == AS_OBJECT(b);
   default:
     return false; // Unreachable.

@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file value.h
+ * @brief Header file containing the declarations of functionality of cellox values.
+ */
+
 #ifndef CELLOX_VALUE_H_
 #define CELLOX_VALUE_H_
 
@@ -107,13 +127,13 @@ typedef enum
     VAL_NUMBER,
     /// A cellox object
     VAL_OBJ
-} ValueType;
+} value_type;
 
 /// @brief An value type
 /// @details In Cellox a value can be either a numerical, a boolean or a undefiended value. Additionally a value can also be a cellox object
 typedef struct
 {
-    ValueType type;
+    value_type type;
     union
     {
         bool boolean;
@@ -162,7 +182,7 @@ typedef struct
 /// Makro that creates a boolean value that is false
 #define FALSE_VAL (BOOL_VAL(false))
 
-#endif
+#endif // No NAN_BOXING defined
 
 /// @brief prints a value
 /// @param value The vallue that is printed

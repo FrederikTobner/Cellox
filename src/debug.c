@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file debug.c
+ * @brief File containing implementation of functions that are used to debug the interpreter.
+ */
+
 #include "debug.h"
 
 #include <stdio.h>
@@ -17,17 +37,17 @@ static int32_t debug_simple_instruction(char const *, int32_t);
 void debug_disassemble_chunk(chunk_t * chunk, char const * name, uint32_t arity)
 {
   debug_print_chunk_metadata(chunk, name, arity);
-  for (int32_t offset = 0; offset < chunk->count;)
+  for (int32_t offset = 0; offset < chunk->byteCodeCount;)
     offset = debug_disassemble_instruction(chunk, offset);
 }
 
 int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
 {
   printf("%04X ", offset);
-  if (offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1])
+  if (offset > 0 && chunk_determine_line_by_index(chunk, offset) == chunk_determine_line_by_index(chunk, offset - 1))
     printf("   | ");
   else
-    printf("%4d ", chunk->lines[offset]);
+    printf("%4d ", chunk_determine_line_by_index(chunk, offset));
   // Instruction specific behaviour
   uint8_t instruction = chunk->code[offset];
   // Switch statement could be converted to a computed goto https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables for efficiency
@@ -64,6 +84,8 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
     return debug_constant_instruction("DEFINE_GLOBAL", chunk, offset);
   case OP_DIVIDE:
     return debug_simple_instruction("DIVIDE", offset);
+  case OP_ARRAY_LITERAL:
+    return debug_byte_instruction("DYNAMIC_ARRAY_LITERAL", chunk, offset);
   case OP_EQUAL:
     return debug_simple_instruction("EQUAL", offset);
   case OP_EXPONENT:
@@ -73,11 +95,13 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
   case OP_GET_GLOBAL:
     return debug_constant_instruction("GET_GLOBAL", chunk, offset);
   case OP_GET_INDEX_OF:
-    return debug_simple_instruction("GET INDEX OF", offset);
+    return debug_simple_instruction("GET_INDEX_OF", offset);
   case OP_GET_LOCAL:
     return debug_byte_instruction("GET_LOCAL", chunk, offset);
   case OP_GET_PROPERTY:
     return debug_constant_instruction("GET_PROPERTY", chunk, offset);
+  case OP_GET_SLICE_OF:
+    return debug_simple_instruction("GET_RANGE_OF", offset);
   case OP_GET_SUPER:
     return debug_constant_instruction("GET_SUPER", chunk, offset);
   case OP_GET_UPVALUE:
@@ -189,7 +213,7 @@ static void debug_print_chunk_metadata(chunk_t * chunk, char const * name, uint3
 {
   uint32_t stringCount, numberCount, functionCount, classCount;
   stringCount = numberCount = functionCount = classCount = 0u;
-  printf("function <%s> (%i bytes of bytecode at 0x%p)\n", name, chunk->count, chunk->code);
+  printf("function <%s> (%i bytes of bytecode at 0x%p)\n", name, chunk->byteCodeCount, chunk->code);
   for (size_t i = 0; i < chunk->constants.count; i++)
   {
     if (IS_OBJECT(chunk->constants.values[i]))
@@ -208,17 +232,17 @@ static void debug_print_chunk_metadata(chunk_t * chunk, char const * name, uint3
       numberCount++;
     }
   }
-  for (uint32_t j = 0; j < chunk->count; j++)
+  for (uint32_t j = 0; j < chunk->byteCodeCount; j++)
   {
     switch (chunk->code[j])
     {
     case OP_CONSTANT:
-      if(j + 1 == chunk->count)
+      if(j + 1 == chunk->byteCodeCount)
         break;;
       if(IS_STRING(chunk->constants.values[chunk->code[j + 1]]))
         stringCount++;
     case OP_CLASS:
-      if(j + 1 == chunk->count)
+      if(j + 1 == chunk->byteCodeCount)
         break;
       if(IS_STRING(chunk->constants.values[chunk->code[j + 1]]))
         classCount++;

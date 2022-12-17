@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <"https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public  *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file compiler.c
+ * @brief File that contains the implementation of the compiler
+ */
+
 #include "compiler.h"
 
 #include <stdarg.h>
@@ -52,7 +72,7 @@ typedef enum
     PREC_CALL,
     /// Primary precedence (unused)
     PREC_PRIMARY
-} precedence_t;
+} precedence;
 
 /// @brief A parse function
 /// @details This provides a common pattern for all parsing function
@@ -66,7 +86,7 @@ typedef struct
     /// @brief The infix rule of the parsing rule
     parse_function_t infix;
     /// @brief The precedence of a token
-    precedence_t precedence;
+    precedence precedence;
 } parse_rule_t;
 
 /// @brief A local variable structure
@@ -101,7 +121,7 @@ typedef enum
     TYPE_METHOD,
     /// A cellox script
     TYPE_SCRIPT
-} function_type_t;
+} function_type;
 
 /// @brief The cellox compiler
 typedef struct compiler_t
@@ -112,7 +132,7 @@ typedef struct compiler_t
     /// @brief The main function
     object_function_t * function;
     /// @brief The type of the function that is currently executed
-    function_type_t type;
+    function_type type;
     /// @brief The locals that were declared in the current scope
     local_t locals[UINT8_COUNT];
     // @brief The amount of local values that where declared in the current scope
@@ -150,16 +170,19 @@ static void compiler_and(bool);
 static uint8_t compiler_argument_list();
 static void compiler_begin_scope();
 static void compiler_binary(bool);
+static void compiler_binary_number(bool);
 static void compiler_block();
 static void compiler_call(bool);
-static bool compiler_check(tokentype_t);
+static bool compiler_check(tokentype);
 static void compiler_class_declaration();
-static void compiler_consume(tokentype_t, char const *);
-static chunk_t *compiler_current_chunk();
+static void compiler_consume(tokentype, char const *);
+static chunk_t * compiler_current_chunk();
 static void compiler_declaration();
 static void compiler_declare_variable();
 static void compiler_define_variable(uint8_t);
 static void compiler_dot(bool);
+static void compiler_dynamic_array(bool);
+static uint8_t compiler_dynamic_array_argument_list();
 static void compiler_emit_byte(uint8_t);
 static void compiler_emit_bytes(uint8_t, uint8_t);
 static void compiler_emit_constant(value_t);
@@ -174,25 +197,26 @@ static void compiler_error_at_current(char const *, ...);
 static void compiler_expression();
 static void compiler_expression_statement();
 static void compiler_for_statement();
-static void compiler_function(function_type_t);
+static void compiler_function(function_type);
 static void compiler_function_declaration();
-static parse_rule_t * compiler_get_rule(tokentype_t);
+static parse_rule_t * compiler_get_rule(tokentype);
 static void compiler_grouping(bool);
+static void compiler_hex_number(bool);
 static uint8_t compiler_identifier_constant(token_t *);
 static bool compiler_identifiers_equal(token_t *, token_t *);
 static void compiler_if_statement();
-static void compiler_init(compiler_t *, function_type_t);
-static void compiler_index_of(bool, uint8_t, uint8_t, uint32_t);
+static void compiler_init(compiler_t *, function_type);
+static void compiler_index_of(bool, uint8_t, uint32_t);
 static void compiler_literal(bool);
 static void compiler_mark_initialized();
 static uint8_t compiler_make_constant(value_t);
-static bool compiler_match_token(tokentype_t);
+static bool compiler_match_token(tokentype);
 static void compiler_method();
 static void compiler_named_variable(token_t, bool);
 static void compiler_nondirect_assignment(uint8_t, uint8_t, uint8_t, uint8_t);
 static void compiler_number(bool);
 static void compiler_or(bool);
-static void compiler_parse_precedence(precedence_t);
+static void compiler_parse_precedence(precedence);
 static uint8_t compiler_parse_variable(char const *);
 static void compiler_patch_jump(int32_t);
 static int32_t compiler_resolve_local(compiler_t *, token_t *);
@@ -229,6 +253,12 @@ static parse_rule_t rules[] =
         .prefix = NULL, 
         .infix = compiler_binary, 
         .precedence = PREC_EQUALITY
+    },
+    [TOKEN_BINARY_NUMBER] =
+    {
+        .prefix = compiler_binary_number, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
     },
     [TOKEN_CLASS] =
     {
@@ -308,6 +338,12 @@ static parse_rule_t rules[] =
         .infix = compiler_binary, 
         .precedence = PREC_COMPARISON
     },
+    [TOKEN_HEX_NUMBER] =
+    {
+        .prefix = compiler_hex_number, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
     [TOKEN_IDENTIFIER] =
     {
         .prefix = compiler_variable, 
@@ -322,7 +358,7 @@ static parse_rule_t rules[] =
     },
     [TOKEN_LEFT_BRACE] =
     {
-        .prefix = NULL, 
+        .prefix = compiler_dynamic_array, 
         .infix = NULL, 
         .precedence = PREC_NONE
     },
@@ -405,6 +441,12 @@ static parse_rule_t rules[] =
         .precedence = PREC_OR
     },
     [TOKEN_PRINT] =
+    {
+        .prefix = NULL, 
+        .infix = NULL, 
+        .precedence = PREC_NONE
+    },
+    [TOKEN_RANGE] =
     {
         .prefix = NULL, 
         .infix = NULL, 
@@ -608,9 +650,13 @@ static uint8_t compiler_argument_list()
     {
         do
         {
+            if (argCount == 255) 
+            {
+                // Skip ','
+                compiler_advance();
+                compiler_error("Can't have more than 255 arguments in a function call.");
+            }
             compiler_expression();
-            if (argCount == 255)
-                compiler_error("Can't have more than 254 arguments.");
             argCount++;
         } while (compiler_match_token(TOKEN_COMMA));
     }
@@ -629,9 +675,9 @@ static void compiler_begin_scope()
 /// @param canAssign Unused for binary expressions
 static void compiler_binary(bool canAssign)
 {
-    tokentype_t operatorType = parser.previous.type;
+    tokentype operatorType = parser.previous.type;
     parse_rule_t * rule = compiler_get_rule(operatorType);
-    compiler_parse_precedence((precedence_t)(rule->precedence + 1));
+    compiler_parse_precedence((precedence)(rule->precedence + 1));
 
     switch (operatorType)
     {
@@ -676,6 +722,14 @@ static void compiler_binary(bool canAssign)
     }
 }
 
+/// @brief Compiles a hexadezimal number expression
+/// @param canAssign  Unused for hexadezimal number expressions
+static void compiler_binary_number(bool canAssign)
+{
+    double value = strtol(parser.previous.start + 2, NULL, 2);
+    compiler_emit_constant(NUMBER_VAL(value));
+}
+
 /// @brief Compiles a block statement to bytecode instructions
 static void compiler_block()
 {
@@ -698,7 +752,7 @@ static void compiler_call(bool canAssign)
 /// @param type The type that the token is matched against
 /// @return True if the next token matches the type, false if not
 /// @details We do not advance if the token is of the specified type
-static bool compiler_check(tokentype_t type)
+static bool compiler_check(tokentype type)
 {
     return parser.current.type == type;
 }
@@ -747,7 +801,7 @@ static void compiler_class_declaration()
 /// @param type The expected type of the token
 /// @param message The error message that is displayed, if the compiler is not of the specified type
 /// @details The program will exit with an exit code that indicates an error at compile time
-static void compiler_consume(tokentype_t type, char const * message)
+static void compiler_consume(tokentype type, char const * message)
 {
     if (parser.current.type == type)
     {
@@ -842,6 +896,36 @@ static void compiler_dot(bool canAssign)
     }
 }
 
+/// @brief 
+static void compiler_dynamic_array(bool canAssign) 
+{
+    uint8_t argCount = compiler_dynamic_array_argument_list();
+    compiler_emit_bytes(OP_ARRAY_LITERAL, argCount);
+}
+
+/// @brief Compiles a List of argument of a call expression to bytecode instructions
+/// @return The amount of arguments that were parsed
+static uint8_t compiler_dynamic_array_argument_list()
+{
+    uint8_t argCount = 0;
+    if (!compiler_check(TOKEN_RIGHT_BRACE))
+    {
+        do
+        {            
+            if (argCount == 255) 
+            {
+                // Skip ','
+                compiler_advance();
+                compiler_error("Can't have more than 255 arguments in a array literal expression.");
+            }
+            compiler_expression();
+            argCount++;
+        } while (compiler_match_token(TOKEN_COMMA));
+    }
+    compiler_consume(TOKEN_RIGHT_BRACE, "Expect '}' after arguments.");
+    return argCount;
+}
+
 /// @brief Emits a single byte
 /// @param byte The byte that is emitted
 static void compiler_emit_byte(uint8_t byte)
@@ -874,14 +958,14 @@ static int32_t compiler_emit_jump(uint8_t instruction)
     compiler_emit_byte(instruction);
     compiler_emit_byte(0xff);
     compiler_emit_byte(0xff);
-    return compiler_current_chunk()->count - 2;
+    return compiler_current_chunk()->byteCodeCount - 2;
 }
 
 /// Emits the bytecode instructions for creating a loop
 static void compiler_emit_loop(int32_t loopStart)
 {
     compiler_emit_byte(OP_LOOP);
-    int32_t offset = compiler_current_chunk()->count - loopStart + 2;
+    int32_t offset = compiler_current_chunk()->byteCodeCount - loopStart + 2;
     if (offset > (int32_t)UINT16_MAX)
         compiler_error("Loop body too large."); // There can only be 65535 lines betweem a jump instruction because we use a short
     compiler_emit_byte((offset >> 8) & 0xff);
@@ -999,7 +1083,7 @@ static void compiler_for_statement()
     else if(!compiler_match_token(TOKEN_SEMICOLON))
         compiler_expression_statement();
 
-    int32_t loopStart = compiler_current_chunk()->count;
+    int32_t loopStart = compiler_current_chunk()->byteCodeCount;
     int32_t exitJump = -1;
 
     // Conditional clause
@@ -1016,7 +1100,7 @@ static void compiler_for_statement()
     if (!compiler_match_token(TOKEN_RIGHT_PAREN))
     {
         int32_t bodyJump = compiler_emit_jump(OP_JUMP);
-        int32_t incrementStart = compiler_current_chunk()->count;
+        int32_t incrementStart = compiler_current_chunk()->byteCodeCount;
         compiler_expression();
         compiler_emit_byte(OP_POP);
         compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after for clauses.");
@@ -1039,7 +1123,7 @@ static void compiler_for_statement()
 
 /// @brief Compiles a function declaration statement to bytecode instructions
 /// @param type The type of the function that is compiled
-static void compiler_function(function_type_t type)
+static void compiler_function(function_type type)
 {
     compiler_t compiler;
     compiler_init(&compiler, type);
@@ -1086,7 +1170,7 @@ static void compiler_function_declaration()
 /// @brief Gets the parsing rule for a specific token type
 /// @param type The type of the token
 /// @return The parsing rule for the token type
-static parse_rule_t *compiler_get_rule(tokentype_t type)
+static parse_rule_t *compiler_get_rule(tokentype type)
 {
     return &rules[type];
 }
@@ -1097,6 +1181,14 @@ static void compiler_grouping(bool canAssign)
 {
     compiler_expression();
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after expression.");
+}
+
+/// @brief Compiles a hexadezimal number expression
+/// @param canAssign  Unused for hexadezimal number expressions
+static void compiler_hex_number(bool canAssign)
+{
+    double value = strtol(parser.previous.start + 2, NULL, 16);
+    compiler_emit_constant(NUMBER_VAL(value));
 }
 
 /// @brief Used to create a string object from an identifier token
@@ -1141,7 +1233,7 @@ static void compiler_if_statement()
 /// @brief Initializes the compiler
 /// @param compiler The compiler that is initialized
 /// @param type The current type of function that is compiled (script for top level code / fuction for a function / init for a initializer / and method for a method)
-static void compiler_init(compiler_t * compiler, function_type_t type)
+static void compiler_init(compiler_t * compiler, function_type type)
 {
     compiler->enclosing = current;
     compiler->function = NULL;
@@ -1170,12 +1262,22 @@ static void compiler_init(compiler_t * compiler, function_type_t type)
 /// @brief Compiles a index of expression
 /// @param canAssign Unsused for index of expressions
 /// @param getOp Indicates whether the index of gets a value
-/// @param setOp Indicates whether the index of sets a value
 /// @param arg The index of the constant
-static void compiler_index_of(bool canAssign, uint8_t getOp, uint8_t setOp, uint32_t arg)
+static void compiler_index_of(bool canAssign, uint8_t getOp, uint32_t arg)
 {
     compiler_emit_bytes(getOp, (uint8_t)arg);
     compiler_expression();
+    if(compiler_match_token(TOKEN_RANGE))
+    {
+        compiler_expression();        
+        if(!compiler_match_token(TOKEN_RIGHT_BRACKET))
+        {
+            compiler_error("expected closing bracket ]");
+            return;
+        }
+        compiler_emit_byte(OP_GET_SLICE_OF);  
+        return;
+    }
     if(!compiler_match_token(TOKEN_RIGHT_BRACKET))
     {
         compiler_error("expected closing bracket ]");
@@ -1188,7 +1290,6 @@ static void compiler_index_of(bool canAssign, uint8_t getOp, uint8_t setOp, uint
             compiler_error("Invalid assignment target.");
         compiler_expression();
         compiler_emit_byte(OP_SET_INDEX_OF);
-        compiler_emit_bytes(setOp, arg);
     }
     else
     {           
@@ -1243,7 +1344,7 @@ static uint8_t compiler_make_constant(value_t value)
 /// @brief Determines whether the next Token is from the specified TokenTypes and advances a position further, if that is the case
 /// @param type The specified tokentype
 /// @return true if the next token was from the given type
-static bool compiler_match_token(tokentype_t type)
+static bool compiler_match_token(tokentype type)
 {
     if (!compiler_check(type))
         return false;
@@ -1256,7 +1357,7 @@ static void compiler_method()
 {
     compiler_consume(TOKEN_IDENTIFIER, "Expect method name.");
     uint8_t constant = compiler_identifier_constant(&parser.previous);
-    function_type_t type = TYPE_METHOD;
+    function_type type = TYPE_METHOD;
     if (parser.previous.length == 4 && !memcmp(parser.previous.start, "init", 4))
         type = TYPE_INITIALIZER; // The initializer method, also called constructor in other languages, of a class.
     compiler_function(type);
@@ -1304,7 +1405,7 @@ static void compiler_named_variable(token_t name, bool canAssign)
     else if (canAssign && compiler_match_token(TOKEN_STAR_STAR_EQUAL))
         compiler_nondirect_assignment(OP_EXPONENT, getOp, setOp, arg);
     else if(compiler_match_token(TOKEN_LEFT_BRACKET))
-        compiler_index_of(canAssign, getOp, setOp, arg);
+        compiler_index_of(canAssign, getOp, arg);
     else
         compiler_emit_bytes(getOp, (uint8_t)arg);
 }
@@ -1346,7 +1447,7 @@ static void compiler_or(bool canAssign)
 
 /// @brief Parses the precedence of a statement to determine which function to call next, to compile the sourcecode
 /// @param precedence The parsing precedence of the last compiled expression
-static void compiler_parse_precedence(precedence_t precedence)
+static void compiler_parse_precedence(precedence precedence)
 {
     compiler_advance();
     parse_function_t prefixRule = compiler_get_rule(parser.previous.type)->prefix;
@@ -1387,7 +1488,7 @@ static uint8_t compiler_parse_variable(char const * errorMessage)
 static void compiler_patch_jump(int32_t offset)
 {
     // -2 to adjust for the bytecode for the jump offset itself.
-    int32_t jump = compiler_current_chunk()->count - offset - 2;
+    int32_t jump = compiler_current_chunk()->byteCodeCount - offset - 2;
     if (jump > (int32_t)UINT16_MAX)
         compiler_error("Too much code to jump over."); // More than 65,535 bytes of code
     // Jump offset (16-bit value) is split into two bytes
@@ -1572,7 +1673,7 @@ static void compiler_this(bool canAssign)
 /// @param canAssign Unused for unary expression
 static void compiler_unary(bool canAssign)
 {
-    tokentype_t operatorType = parser.previous.type;
+    tokentype operatorType = parser.previous.type;
     // Compile the operand.
     compiler_parse_precedence(PREC_UNARY);
     // Emit the operator instruction.
@@ -1593,8 +1694,13 @@ static void compiler_unary(bool canAssign)
 static void compiler_var_declaration()
 {
     uint8_t global = compiler_parse_variable("Expect variable name.");
-    if (compiler_match_token(TOKEN_EQUAL))
-        compiler_expression(); // Variable was initialzed
+    if (compiler_match_token(TOKEN_EQUAL)) {
+        // Variable was initialzed
+        if(!compiler_match_token(TOKEN_LEFT_BRACE))
+            compiler_expression(); 
+        else 
+            compiler_dynamic_array(false);
+    }
     else
         compiler_emit_byte(OP_NULL); // Variable was not initialzed -> therefore is null
     compiler_consume(TOKEN_SEMICOLON, "Expect ';' after variable declaration.");
@@ -1617,7 +1723,7 @@ static inline void compiler_variable(bool canAssign)
 /// end:
 static void compiler_while_statement()
 {
-    int32_t loopStart = compiler_current_chunk()->count;
+    int32_t loopStart = compiler_current_chunk()->byteCodeCount;
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
     // Compiles condition
     compiler_expression();

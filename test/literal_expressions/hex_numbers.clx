@@ -1,0 +1,3 @@
+printf("{}\n", 0xAF);
+printf("{}\n", 0xaf);
+printf("{}\n", 0x11);

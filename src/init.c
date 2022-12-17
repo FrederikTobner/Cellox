@@ -1,3 +1,24 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file init.c
+ * @brief File containing implementation of the behavoir that is used to initialize the interpreter
+ * @details The interpreter can be initialized to run from a file or as repl.
+ */
+
 #include "init.h"
 
 #include <stdarg.h>
@@ -63,7 +84,7 @@ void init_run_from_file(char const * path, bool compile)
     if(!source)
         return;
     #endif
-    interpret_result_t result;
+    interpret_result result;
     if(compile)
     {
         object_function_t * function = compiler_compile(source);        
@@ -93,7 +114,11 @@ void init_show_help()
 {
     #ifndef BENCHMARKS_RUNNING
     #ifndef CELLOX_TESTS_RUNNING
-    printf("%s Help\n%s\n", PROJECT_NAME, CELLOX_USAGE_MESSAGE);
+    printf("%s Help\n%s\n\n", PROJECT_NAME, CELLOX_USAGE_MESSAGE);
+    printf("Options\n");
+    printf("  -c, --compile\t\tConverts the specified file to bytecode and stores the result as a seperate file\n");
+    printf("  -h, --help\t\tDisplay this help and exit\n");
+    printf("  -v, --version\t\tShows the version of the installed interpreter and exit\n\n");
     #endif
     #endif
 }

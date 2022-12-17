@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file object.c
+ * @brief File containing implementation of functionalitity regarding cellox objects.
+ */
+
 #include "memory.h"
 
 #include <stdio.h>
@@ -20,17 +40,16 @@ static char const * objectTypesStringified [] = {
     "method",
     "class",
     "closure",
+    "array",
     "function",
-    "object instance"
     "native function",
     "string",
     "upvalue",
     "unknown"
 };
 
-static object_t * object_allocate_object(size_t, object_type_t);
+static object_t * object_allocate_object(size_t, object_type);
 static object_string_t * object_allocate_string(char *, uint32_t, uint32_t);
-static uint32_t object_hash_string(char const *, uint32_t);
 static void object_print_function(object_function_t *);
 
 object_string_t * object_copy_string(char const * chars, uint32_t length, bool removeBackSlash)
@@ -82,12 +101,19 @@ object_bound_method_t * object_new_bound_method(value_t receiver, object_closure
     return bound;
 }
 
-object_class_t * object_new_class(object_string_t *name)
+object_class_t * object_new_class(object_string_t * name)
 {
     object_class_t * celloxClass = ALLOCATE_OBJECT(object_class_t, OBJECT_CLASS);
     celloxClass->name = name;
     hash_table_init(&celloxClass->methods);
     return celloxClass;
+}
+
+object_dynamic_value_array_t * object_new_dynamic_value_array()
+{
+    object_dynamic_value_array_t * array = ALLOCATE_OBJECT(object_dynamic_value_array_t, OBJECT_ARRAY);
+    dynamic_value_array_init(&array->array);
+    return array;
 }
 
 object_closure_t * object_new_closure(object_function_t *function)
@@ -129,13 +155,13 @@ object_native_t * object_new_native(native_function_t function)
 
 object_upvalue_t * object_new_upvalue(value_t *slot)
 {
-    /// Allocating the memory used by the upvalue
+    // Allocating the memory used by the upvalue
     object_upvalue_t * upvalue = ALLOCATE_OBJECT(object_upvalue_t, OBJECT_UPVALUE);
-    /// We zero out the closed field of the upvalue when we create it
+    // We zero out the closed field of the upvalue when we create it
     upvalue->closed = NULL_VAL;
-    /// Adress of the slot where the closed over variables live (enclosing environment)
+    // Adress of the slot where the closed over variables live (enclosing environment)
     upvalue->location = slot;
-    /// When we allocate a new upvalue, it is not attached to any list
+    // When we allocate a new upvalue, it is not attached to any list
     upvalue->next = NULL;
     return upvalue;
 }
@@ -144,6 +170,19 @@ void object_print(value_t value)
 {
     switch (OBJECT_TYPE(value))
     {
+    case OBJECT_ARRAY:
+    {
+        object_dynamic_value_array_t * array = AS_ARRAY(value);
+        putc('{', stdout);
+        for (size_t i = 0; i < array->array.count; i++)
+        {
+            value_print(array->array.values[i]);
+            if(i != array->array.count - 1)
+                printf(", ");
+        }
+        putc('}', stdout);
+        break;
+    }
     case OBJECT_BOUND_METHOD:
         object_print_function(AS_BOUND_METHOD(value)->method->function);
         break;
@@ -230,7 +269,7 @@ static object_string_t * object_allocate_string(char * chars, uint32_t length, u
 /// @param size The size of the object that is allocated
 /// @param type The type of the allocated object
 /// @return The allocated object
-static object_t * object_allocate_object(size_t size, object_type_t type)
+static object_t * object_allocate_object(size_t size, object_type type)
 {
     // Allocates the memory used by the Object
     object_t * object = (object_t *)memory_reallocate(NULL, 0, size);
@@ -247,13 +286,7 @@ static object_t * object_allocate_object(size_t size, object_type_t type)
     return object;
 }
 
-/// @brief <a href=https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash>FNV-1a</a> hash function
-/// @details Fownler-Noll-Vo is a non-cryptographic hash function, that comes in three different version FNV-0, FNV-1 and FNV-1a.
-/// There are 32-, 64-, 128-, 256-, 512-, and 1024-bit variants of the function. We use the 32-bit variant to hash all the strings in cellox.
-/// @param key The key that is hashed
-/// @param length The length of the key
-/// @return The hashvalue of the key
-static uint32_t object_hash_string(char const * key, uint32_t length)
+uint32_t object_hash_string(char const * key, uint32_t length)
 {
     uint32_t hash = OFFSET_BASIS;
     for (uint32_t i = 0; i < length; i++)
@@ -288,17 +321,19 @@ char const * object_stringify_type(object_t * object)
         return objectTypesStringified[1];
     case OBJECT_CLOSURE:
         return objectTypesStringified[2];
-    case OBJECT_FUNCTION:
+    case OBJECT_ARRAY:
         return objectTypesStringified[3];
+    case OBJECT_FUNCTION:
+        return objectTypesStringified[4];
     case OBJECT_INSTANCE:
         return ((object_instance_t *) object)->celloxClass->name->chars;;
     case OBJECT_NATIVE:
-        return objectTypesStringified[4];
-    case OBJECT_STRING:
         return objectTypesStringified[5];
-    case OBJECT_UPVALUE:
+    case OBJECT_STRING:
         return objectTypesStringified[6];
+    case OBJECT_UPVALUE:
+        return objectTypesStringified[7];
     default:
-        return objectTypesStringified[7];;
+        return objectTypesStringified[8];;
     }
 }

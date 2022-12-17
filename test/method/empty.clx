@@ -2,4 +2,4 @@ class Foo {
   bar() {}
 }
 
-println(Foo().bar());
+printf("{}\n", Foo().bar());

@@ -1,6 +1,5 @@
 {
-    "configurations": 
-    [
+    "configurations": [
         {
             "name": "MinGW64",
             "includePath": [

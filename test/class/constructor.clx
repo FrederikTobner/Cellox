@@ -5,4 +5,4 @@ class A {
 }
 
 var a = A("a field");
-println(a.field);
+printf("{}\n", a.field);

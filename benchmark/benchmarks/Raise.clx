@@ -2,4 +2,4 @@ var start = clock();
 var t = 5;
 for(var i = 0; i < 1000000; i += 1) 
     t **= 2;
-print(clock() - start);
+printf("{}", clock() - start);

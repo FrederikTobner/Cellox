@@ -44,7 +44,7 @@ class BinarySearchTree {
     printFromNode(node) {
         if (node) {
             this.printFromNode(node.left);
-            println(node.value);
+            printf("{}\n", node.value);
             this.printFromNode(node.right);
         }
     }

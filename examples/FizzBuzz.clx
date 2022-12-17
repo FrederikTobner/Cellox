@@ -1,11 +1,11 @@
 // Simple Fizz-Buzz programm (https://en.wikipedia.org/wiki/Fizz_buzz)
 for (var i = 1; i < 101; i += 1) {
     if (i % 15 == 0) 
-        println("FizzBuzz");
+        printf("FizzBuzz\n");
     else if (i % 3 == 0) 
-        println("Fizz");
+        printf("Fizz\n");
     else if (i % 5 == 0) 
-        println("Buzz");
+        printf("Buzz\n");
     else 
-        println(i);
+        printf("{}\n", i);
 }

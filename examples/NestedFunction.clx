@@ -13,4 +13,5 @@ fun fibonacci() {
 }
 
 var fibo = fibonacci();
-for (var j = 0; j < 10; j += 1) println(fibo());
+for (var j = 0; j < 10; j += 1) 
+	printf("{}\n", fibo());

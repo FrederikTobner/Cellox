@@ -78,6 +78,9 @@ $(function() {
   <div class="headertitle"><div class="title">virtual_machine.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Header file containing of definitions of the virtual machine.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="virtual__machine_8h_source.html">virtual_machine.h</a>&quot;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
@@ -106,6 +109,8 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a179a18a91c750c4d983f64816a608419"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a179a18a91c750c4d983f64816a608419">virtual_machine_array_literal</a> ()</td></tr>
+<tr class="separator:a179a18a91c750c4d983f64816a608419"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a434c488c4200b5dc16454f333ca0f3f8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a434c488c4200b5dc16454f333ca0f3f8">virtual_machine_bind_method</a> (<a class="el" href="structobject__class__t.html">object_class_t</a> *celloxClass, <a class="el" href="structobject__string__t.html">object_string_t</a> *name)</td></tr>
 <tr class="memdesc:a434c488c4200b5dc16454f333ca0f3f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds a method to a cellox class.  <a href="virtual__machine_8c.html#a434c488c4200b5dc16454f333ca0f3f8">More...</a><br /></td></tr>
 <tr class="separator:a434c488c4200b5dc16454f333ca0f3f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,6 +126,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a5cc90276196d7a7ebafd0d6798b7e495"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a5cc90276196d7a7ebafd0d6798b7e495">virtual_machine_close_upvalues</a> (<a class="el" href="structvalue__t.html">value_t</a> *last)</td></tr>
 <tr class="memdesc:a5cc90276196d7a7ebafd0d6798b7e495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function takes a slot of the stack as a parameter.  <a href="virtual__machine_8c.html#a5cc90276196d7a7ebafd0d6798b7e495">More...</a><br /></td></tr>
 <tr class="separator:a5cc90276196d7a7ebafd0d6798b7e495"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0df6296ec879c9949af79df0ea691c7e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a0df6296ec879c9949af79df0ea691c7e">virtual_machine_concatenate_arrays</a> ()</td></tr>
+<tr class="memdesc:a0df6296ec879c9949af79df0ea691c7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates the two upper values (cellox arrays) on the stack.  <a href="virtual__machine_8c.html#a0df6296ec879c9949af79df0ea691c7e">More...</a><br /></td></tr>
+<tr class="separator:a0df6296ec879c9949af79df0ea691c7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa5e270446497f40e305762d37ab8442"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aaa5e270446497f40e305762d37ab8442">virtual_machine_concatenate_strings</a> ()</td></tr>
 <tr class="memdesc:aaa5e270446497f40e305762d37ab8442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates the two upper values (cellox strings) on the stack.  <a href="virtual__machine_8c.html#aaa5e270446497f40e305762d37ab8442">More...</a><br /></td></tr>
 <tr class="separator:aaa5e270446497f40e305762d37ab8442"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,6 +141,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a9bd783bbaccb66ec6ae88e2e66675608"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9bd783bbaccb66ec6ae88e2e66675608">virtual_machine_define_natives</a> ()</td></tr>
 <tr class="memdesc:a9bd783bbaccb66ec6ae88e2e66675608"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the native functions of the virtual machine.  <a href="virtual__machine_8c.html#a9bd783bbaccb66ec6ae88e2e66675608">More...</a><br /></td></tr>
 <tr class="separator:a9bd783bbaccb66ec6ae88e2e66675608"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af45bc76aeddd8fff3c0f73f4b9eb0ce7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#af45bc76aeddd8fff3c0f73f4b9eb0ce7">virtual_machine_get_index_of</a> ()</td></tr>
+<tr class="memdesc:af45bc76aeddd8fff3c0f73f4b9eb0ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets an item in an array or a string specified by a numerical index.  <a href="virtual__machine_8c.html#af45bc76aeddd8fff3c0f73f4b9eb0ce7">More...</a><br /></td></tr>
+<tr class="separator:af45bc76aeddd8fff3c0f73f4b9eb0ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2d4804c40b1f82951edc0f563c4ba49"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ad2d4804c40b1f82951edc0f563c4ba49">virtual_machine_get_sclice_of</a> ()</td></tr>
+<tr class="separator:ad2d4804c40b1f82951edc0f563c4ba49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a691b78b954ba9ce4d6169b27cbe2c056"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a691b78b954ba9ce4d6169b27cbe2c056">virtual_machine_invoke</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name, int32_t argCount)</td></tr>
 <tr class="memdesc:a691b78b954ba9ce4d6169b27cbe2c056"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a method bound to a cellox class instance.  <a href="virtual__machine_8c.html#a691b78b954ba9ce4d6169b27cbe2c056">More...</a><br /></td></tr>
 <tr class="separator:a691b78b954ba9ce4d6169b27cbe2c056"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -142,8 +155,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a39f4d8e7a3c437cf51506b6ecc992ffe">virtual_machine_is_falsey</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if a value is falsey (either null or false)  <a href="virtual__machine_8c.html#a39f4d8e7a3c437cf51506b6ecc992ffe">More...</a><br /></td></tr>
 <tr class="separator:a39f4d8e7a3c437cf51506b6ecc992ffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae02306599dc3ed28e1969c5cd7ee4252"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ae02306599dc3ed28e1969c5cd7ee4252">virtual_machine_modulo</a> ()</td></tr>
+<tr class="memdesc:ae02306599dc3ed28e1969c5cd7ee4252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a modulo operation.  <a href="virtual__machine_8c.html#ae02306599dc3ed28e1969c5cd7ee4252">More...</a><br /></td></tr>
+<tr class="separator:ae02306599dc3ed28e1969c5cd7ee4252"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0ec70aec5b3b580191b56a0b91cbd36"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a> (int32_t distance)</td></tr>
-<tr class="memdesc:aa0ec70aec5b3b580191b56a0b91cbd36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the value at the specified distance on the stacj.  <a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">More...</a><br /></td></tr>
+<tr class="memdesc:aa0ec70aec5b3b580191b56a0b91cbd36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the value at the specified distance on the stack.  <a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">More...</a><br /></td></tr>
 <tr class="separator:aa0ec70aec5b3b580191b56a0b91cbd36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a673f48ed0fbff646a88662ec10b95dfa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a673f48ed0fbff646a88662ec10b95dfa">virtual_machine_reset_stack</a> ()</td></tr>
 <tr class="memdesc:a673f48ed0fbff646a88662ec10b95dfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the stack of the vm.  <a href="virtual__machine_8c.html#a673f48ed0fbff646a88662ec10b95dfa">More...</a><br /></td></tr>
@@ -154,6 +170,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a2b4425b182a0ef48af9d3886b02a7dfa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a2b4425b182a0ef48af9d3886b02a7dfa">virtual_machine_runtime_error</a> (char const *format,...)</td></tr>
 <tr class="memdesc:a2b4425b182a0ef48af9d3886b02a7dfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports an error that has occured at runtime.  <a href="virtual__machine_8c.html#a2b4425b182a0ef48af9d3886b02a7dfa">More...</a><br /></td></tr>
 <tr class="separator:a2b4425b182a0ef48af9d3886b02a7dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8760888df7392884f5bd9bd4cc861c91"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a8760888df7392884f5bd9bd4cc861c91">virtual_machine_set_index_of</a> ()</td></tr>
+<tr class="memdesc:a8760888df7392884f5bd9bd4cc861c91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a set index of operation.  <a href="virtual__machine_8c.html#a8760888df7392884f5bd9bd4cc861c91">More...</a><br /></td></tr>
+<tr class="separator:a8760888df7392884f5bd9bd4cc861c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee9d0770df4d74e69a9d335c177a0e01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aee9d0770df4d74e69a9d335c177a0e01">virtual_machine_free</a> ()</td></tr>
 <tr class="memdesc:aee9d0770df4d74e69a9d335c177a0e01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the memory used by the virtual machine.  <a href="virtual__machine_8c.html#aee9d0770df4d74e69a9d335c177a0e01">More...</a><br /></td></tr>
 <tr class="separator:aee9d0770df4d74e69a9d335c177a0e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,6 +188,12 @@ Functions</h2></td></tr>
 <tr class="memitem:acecc837f6d14140d8d88151ddcee8fe4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a> ()</td></tr>
 <tr class="memdesc:acecc837f6d14140d8d88151ddcee8fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pops a value from the stack.  <a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">More...</a><br /></td></tr>
 <tr class="separator:acecc837f6d14140d8d88151ddcee8fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74446d91d6ed9d03a1cb40744483ae33"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a74446d91d6ed9d03a1cb40744483ae33">virtual_machine_array_literal</a> (int32_t argCount)</td></tr>
+<tr class="memdesc:a74446d91d6ed9d03a1cb40744483ae33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an array based on an array literal expression.  <a href="virtual__machine_8c.html#a74446d91d6ed9d03a1cb40744483ae33">More...</a><br /></td></tr>
+<tr class="separator:a74446d91d6ed9d03a1cb40744483ae33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4951fe17f1603b3425a7934ec8bf3ac"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#af4951fe17f1603b3425a7934ec8bf3ac">virtual_machine_get_slice_of</a> ()</td></tr>
+<tr class="memdesc:af4951fe17f1603b3425a7934ec8bf3ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a slice from an array.  <a href="virtual__machine_8c.html#af4951fe17f1603b3425a7934ec8bf3ac">More...</a><br /></td></tr>
+<tr class="separator:af4951fe17f1603b3425a7934ec8bf3ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -176,7 +201,10 @@ Variables</h2></td></tr>
 <tr class="memdesc:aef13dc0b5804875832a5b69c00bdcddf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global VirtualMachine variable.  <a href="virtual__machine_8c.html#aef13dc0b5804875832a5b69c00bdcddf">More...</a><br /></td></tr>
 <tr class="separator:aef13dc0b5804875832a5b69c00bdcddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Header file containing of definitions of the virtual machine. </p>
+<p >The virtual machine is stackbased. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ae5be576e7ec901a1fc7e209e4f2b3b68" name="ae5be576e7ec901a1fc7e209e4f2b3b68"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae5be576e7ec901a1fc7e209e4f2b3b68">&#9670;&#160;</a></span>BINARY_OP</h2>
 
@@ -217,13 +245,13 @@ Variables</h2></td></tr>
 <div class="line">        <span class="keywordtype">double</span> a = <a class="code hl_define" href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a>(<a class="code hl_function" href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a>());                                                            \</div>
 <div class="line">        virtual_machine_push(valueType(a op b));                                                                \</div>
 <div class="line">    } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
-<div class="ttc" id="avalue_8c_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition:</b> value.c:45</div></div>
-<div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition:</b> value.h:132</div></div>
-<div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition:</b> value.h:142</div></div>
-<div class="ttc" id="avalue_8h_html_ac652f84a0dd6007f0ba26eefdf61d14c"><div class="ttname"><a href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a></div><div class="ttdeci">#define IS_OBJECT(value)</div><div class="ttdoc">Makro that determines whether a value is of the type object.</div><div class="ttdef"><b>Definition:</b> value.h:135</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stacj.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:338</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_acecc837f6d14140d8d88151ddcee8fe4"><div class="ttname"><a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop()</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:93</div></div>
-<div class="ttc" id="avirtual__machine_8h_html_a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:71</div></div>
+<div class="ttc" id="avalue_8c_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition:</b> value.c:65</div></div>
+<div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition:</b> value.h:152</div></div>
+<div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition:</b> value.h:162</div></div>
+<div class="ttc" id="avalue_8h_html_ac652f84a0dd6007f0ba26eefdf61d14c"><div class="ttname"><a href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a></div><div class="ttdeci">#define IS_OBJECT(value)</div><div class="ttdoc">Makro that determines whether a value is of the type object.</div><div class="ttdef"><b>Definition:</b> value.h:155</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:536</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_acecc837f6d14140d8d88151ddcee8fe4"><div class="ttname"><a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop()</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:120</div></div>
+<div class="ttc" id="avirtual__machine_8h_html_a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:92</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -296,6 +324,65 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a179a18a91c750c4d983f64816a608419" name="a179a18a91c750c4d983f64816a608419"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a179a18a91c750c4d983f64816a608419">&#9670;&#160;</a></span>virtual_machine_array_literal() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void virtual_machine_array_literal </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a74446d91d6ed9d03a1cb40744483ae33" name="a74446d91d6ed9d03a1cb40744483ae33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74446d91d6ed9d03a1cb40744483ae33">&#9670;&#160;</a></span>virtual_machine_array_literal() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void virtual_machine_array_literal </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>argCount</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an array based on an array literal expression. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The size of the array </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a434c488c4200b5dc16454f333ca0f3f8" name="a434c488c4200b5dc16454f333ca0f3f8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a434c488c4200b5dc16454f333ca0f3f8">&#9670;&#160;</a></span>virtual_machine_bind_method()</h2>
 
@@ -499,6 +586,33 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a0df6296ec879c9949af79df0ea691c7e" name="a0df6296ec879c9949af79df0ea691c7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0df6296ec879c9949af79df0ea691c7e">&#9670;&#160;</a></span>virtual_machine_concatenate_arrays()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void virtual_machine_concatenate_arrays </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Concatenates the two upper values (cellox arrays) on the stack. </p>
+
+</div>
+</div>
 <a id="aaa5e270446497f40e305762d37ab8442" name="aaa5e270446497f40e305762d37ab8442"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaa5e270446497f40e305762d37ab8442">&#9670;&#160;</a></span>virtual_machine_concatenate_strings()</h2>
 
@@ -649,6 +763,89 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Deallocates the memory used by the virtual machine. </p>
+
+</div>
+</div>
+<a id="af45bc76aeddd8fff3c0f73f4b9eb0ce7" name="af45bc76aeddd8fff3c0f73f4b9eb0ce7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af45bc76aeddd8fff3c0f73f4b9eb0ce7">&#9670;&#160;</a></span>virtual_machine_get_index_of()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool virtual_machine_get_index_of </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets an item in an array or a string specified by a numerical index. </p>
+<dl class="section return"><dt>Returns</dt><dd>A boolean value that indicates whether the execution has led to a runtime error <br  />
+ </dd></dl>
+
+</div>
+</div>
+<a id="ad2d4804c40b1f82951edc0f563c4ba49" name="ad2d4804c40b1f82951edc0f563c4ba49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2d4804c40b1f82951edc0f563c4ba49">&#9670;&#160;</a></span>virtual_machine_get_sclice_of()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool virtual_machine_get_sclice_of </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af4951fe17f1603b3425a7934ec8bf3ac" name="af4951fe17f1603b3425a7934ec8bf3ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4951fe17f1603b3425a7934ec8bf3ac">&#9670;&#160;</a></span>virtual_machine_get_slice_of()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool virtual_machine_get_slice_of </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a slice from an array. </p>
+<dl class="section return"><dt>Returns</dt><dd>A boolean value that indicates whether the execution has led to a runtime error</dd></dl>
+<p>Slices are subarrays of a soucearray </p>
 
 </div>
 </div>
@@ -827,7 +1024,7 @@ Variables</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -840,6 +1037,35 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the value is null or false, otherwise false </dd></dl>
+
+</div>
+</div>
+<a id="ae02306599dc3ed28e1969c5cd7ee4252" name="ae02306599dc3ed28e1969c5cd7ee4252"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae02306599dc3ed28e1969c5cd7ee4252">&#9670;&#160;</a></span>virtual_machine_modulo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool virtual_machine_modulo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Executes a modulo operation. </p>
+<dl class="section return"><dt>Returns</dt><dd>A boolean value that indicates whether the execution has led to a runtime error <br  />
+ </dd></dl>
 
 </div>
 </div>
@@ -867,7 +1093,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the value at the specified distance on the stacj. </p>
+<p>Gets the value at the specified distance on the stack. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">distance</td><td>The distance to the value </td></tr>
@@ -1027,6 +1253,34 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <p>If no tests are executed the program exits with a exit code that indiactes an error at compile time </p>
+
+</div>
+</div>
+<a id="a8760888df7392884f5bd9bd4cc861c91" name="a8760888df7392884f5bd9bd4cc861c91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8760888df7392884f5bd9bd4cc861c91">&#9670;&#160;</a></span>virtual_machine_set_index_of()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool virtual_machine_set_index_of </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Executes a set index of operation. </p>
+<dl class="section return"><dt>Returns</dt><dd>A boolean value that indicates whether the execution has led to a runtime error </dd></dl>
 
 </div>
 </div>

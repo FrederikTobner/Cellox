@@ -1,8 +1,30 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file memory.h
+ * @brief Header file containing the declarations of functionality used for memory management.
+ */
+
 #ifndef CELLOX_MEMORY_H_
 #define CELLOX_MEMORY_H_
 
 #include "common.h"
 #include "object.h"
+
+#define ARRAY_GROWTH_FACTOR (1.5)
 
 /// Makro that allocates the memory needed for a given type multiplied by the count
 #define ALLOCATE(type, count) \
@@ -14,7 +36,7 @@
 
 /// Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)
 #define GROW_CAPACITY(capacity) \
-    ((capacity) < 8u ? 8u : (capacity) + 2u)
+    ((capacity) < 8u ? 8u : (capacity) * ARRAY_GROWTH_FACTOR)
 
 /// Makro that increases the size of a dynamic Array
 #define GROW_ARRAY(type, pointer, oldCount, newCount) \

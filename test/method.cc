@@ -31,13 +31,3 @@ TEST(Methods, Simple)
 {
     test_cellox_program("method/simple.clx", "arg\n");
 }
-
-TEST(Methods, TooManyArguments)
-{
-    test_failing_cellox_program("method/to_many_arguments.clx", "[line 259] Error at 'a': Can't have more than 254 arguments.\n");
-}
-
-TEST(Methods, TooManyParameters)
-{
-    test_failing_cellox_program("method/to_many_parameters.clx", "[line 259] Error at 'param256': Can't have more than 255 parameters.\n");
-}

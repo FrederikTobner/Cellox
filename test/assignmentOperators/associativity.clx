@@ -1,9 +1,0 @@
-var a = "foo";
-var b = "bar";
-var c = "baz";
-
-// Assignment is right-associative.
-a = b = c;
-println(a);
-println(b);
-println(c);

@@ -40,7 +40,7 @@ if(WIN32)
     CHECK_INCLUDE_FILE("conio.h" CONIO_AVAILABLE)
     CHECK_INCLUDE_FILE("windows.h" WINDOWS_AVAILABLE)
     if(NOT ${CONIO_AVAILABLE})
-        message(FATAL_ERROR "curses.h is required to build the interpreter under windows. Please install it and try again after that")
+        message(FATAL_ERROR "conio.h is required to build the interpreter under windows. Please install it and try again after that")
     endif() # conio.h not available
     if(NOT ${WINDOWS_AVAILABLE})
         message(FATAL_ERROR "windows.h is required to build the interpreter under windows. Please install it and try again after that")

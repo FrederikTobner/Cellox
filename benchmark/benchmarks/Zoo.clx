@@ -27,4 +27,4 @@ while (sum < 10000000) {
             + zoo.mouse();
 }
 
-print(clock() - start);
+printf("{}", clock() - start);

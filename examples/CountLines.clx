@@ -1,11 +1,9 @@
 // Simple script that counts the lines of a file specified by the user
 println("Enter filepath:");
-var path = read_line();
-var content = read_file(path);
+var content = read_file(read_line());
 var contentlength = strlen(content);
 var lineCount = 1;
 for (var i = 0; i < contentlength; i += 1)
     if (content[i] == "\n") 
         lineCount += 1;
-print(lineCount);
-println(" Lines counted");
+printf("{} Lines counted\n", lineCount);

@@ -1,8 +1,11 @@
-if (true) println("yes");
-if (false) println("no");
+if (true) 
+    printf("{}\n", "yes");
+if (false) 
+    printf("{}\n", "no");
 
 if (true) { 
-    println("block"); 
+    printf("{}\n", "block"); 
 }
 var a = false;
-if (a = true) println(a);
+if (a = true) 
+    printf("{}\n", a);

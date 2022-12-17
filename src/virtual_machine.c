@@ -1,3 +1,24 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file virtual_machine.c
+ * @brief Header file containing of definitions of the virtual machine.
+ * @details The virtual machine is stackbased.
+ */
+
 #include "virtual_machine.h"
 
 #include <math.h>
@@ -5,6 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "common.h"
 #include "compiler.h"
@@ -16,22 +38,28 @@
 /// Global VirtualMachine variable
 virtual_machine_t virtualMachine;
 
+static void virtual_machine_array_literal();
 static bool virtual_machine_bind_method(object_class_t *, object_string_t *);
 static bool virtual_machine_call(object_closure_t *, int32_t);
 static bool virtual_machine_call_value(value_t, int32_t);
 static object_upvalue_t * virtual_machine_capture_upvalue(value_t *);
 static void virtual_machine_close_upvalues(value_t *);
+static void virtual_machine_concatenate_arrays();
 static void virtual_machine_concatenate_strings();
 static void virtual_machine_define_method(object_string_t *);
 static void virtual_machine_define_native(char const *, native_function_t);
 static void virtual_machine_define_natives();
+static bool virtual_machine_get_index_of();
+static bool virtual_machine_get_sclice_of();
 static bool virtual_machine_invoke(object_string_t *, int32_t);
 static bool virtual_machine_invoke_from_class(object_class_t *, object_string_t *, int32_t);
-static bool virtual_machine_is_falsey(value_t);
+static inline bool virtual_machine_is_falsey(value_t);
+static bool virtual_machine_modulo();
 static value_t virtual_machine_peek(int32_t);
 static void virtual_machine_reset_stack();
-static interpret_result_t virtual_machine_run();
+static interpret_result virtual_machine_run();
 static void virtual_machine_runtime_error(char const *, ...);
+static bool virtual_machine_set_index_of();
 
 void virtual_machine_free()
 {
@@ -62,9 +90,11 @@ void virtual_machine_init()
     virtualMachine.initString = object_copy_string("init", 4u, false);
     // defines the native functions supported by the virtual machine
     virtual_machine_define_natives();
+    // Sets seed value of the random number generator based on the time the vm was initialized
+    srand(time(0));
 }
 
-interpret_result_t virtual_machine_interpret(char * program, bool freeProgram)
+interpret_result virtual_machine_interpret(char * program, bool freeProgram)
 {
     object_function_t *function = compiler_compile(program);
     if (!function)
@@ -98,16 +128,18 @@ value_t virtual_machine_pop()
     return *virtualMachine.stackTop;
 }
 
-/// @brief Defines the native functions of the virtual machine
-/// @details These are functions that are implemented in C
-static void virtual_machine_define_natives()
+/// @brief Creates an array based on an array literal expression
+/// @param argCount The size of the array
+static void virtual_machine_array_literal(int32_t argCount)
 {
-    // Pointer to the first configuration
-    native_function_config_t * configs = native_functions_get_function_configs();
-    // Upper bound (pointer to the end of the memory segment where the native functions are stored)
-    native_function_config_t * upperBound = configs + native_functions_get_function_count();
-    for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound; nativeFunctionPointer++)
-        virtual_machine_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
+    object_dynamic_value_array_t * dynamicArray = object_new_dynamic_value_array();
+    value_t val;
+    // The elements are reversed on the stack so we iterate backwards 🔙
+    for (int32_t i = argCount - 1; i >= 0; i--)
+        dynamic_value_array_write(&dynamicArray->array, virtual_machine_peek(i));
+    for (int32_t j = 0; j < argCount; j++)
+        virtual_machine_pop();
+    virtual_machine_push(OBJECT_VAL(dynamicArray));
 }
 
 /// @brief Binds a method to a cellox class
@@ -133,15 +165,15 @@ static bool virtual_machine_bind_method(object_class_t * celloxClass, object_str
 /// @param argCount The amount of arguments that are used when the function is envoked
 /// @return true if everything went well, false if something went wrong (stack overflow / wrong argument count)
 /// @note The function can fail if the function was called with a wrong amount of arguments or there are too much callframes on the callstack -> stack overflow
-static bool virtual_machine_call(object_closure_t * closure, int32_t argCount)
+static bool virtual_machine_call(object_closure_t * closure, int32_t argCount) 
 {
-    if (argCount != closure->function->arity)
+    if (argCount != closure->function->arity) 
     {
         virtual_machine_runtime_error("Expected %d arguments but got %d.", closure->function->arity, argCount);
         return false;
     }
 
-    if (virtualMachine.frameCount == FRAMES_MAX)
+    if (virtualMachine.frameCount == FRAMES_MAX) 
     {
         // The callstack is 64 calls deep 🤯
         virtual_machine_runtime_error("Stack overflow.");
@@ -161,24 +193,24 @@ static bool virtual_machine_call(object_closure_t * closure, int32_t argCount)
 /// @return true if everything went well, false if not
 static bool virtual_machine_call_value(value_t callee, int32_t argCount)
 {
-    if (IS_OBJECT(callee))
+    if (IS_OBJECT(callee)) 
     {
-        switch (OBJECT_TYPE(callee))
+        switch (OBJECT_TYPE(callee)) 
         {
-        case OBJECT_BOUND_METHOD:
+        case OBJECT_BOUND_METHOD: 
         {
             object_bound_method_t * bound = AS_BOUND_METHOD(callee);
             virtualMachine.stackTop[-argCount - 1] = bound->receiver;
             return virtual_machine_call(bound->method, argCount);
         }
-        case OBJECT_CLASS:
+        case OBJECT_CLASS: 
         {
             object_class_t * celloxClass = AS_CLASS(callee);
             virtualMachine.stackTop[-argCount - 1] = OBJECT_VAL(object_new_instance(celloxClass));
             value_t initializer;
             if (hash_table_get(&celloxClass->methods, virtualMachine.initString, &initializer))
                 return virtual_machine_call(AS_CLOSURE(initializer), argCount);
-            else if (argCount != 0)
+            else if (argCount != 0) 
             {
                 virtual_machine_runtime_error("Expected 0 arguments but got %d.", argCount);
                 return false;
@@ -187,7 +219,7 @@ static bool virtual_machine_call_value(value_t callee, int32_t argCount)
         }
         case OBJECT_CLOSURE:
             return virtual_machine_call(AS_CLOSURE(callee), argCount);
-        case OBJECT_NATIVE:
+        case OBJECT_NATIVE: 
         {
             native_function_t native = AS_NATIVE(callee);
             value_t result = native(argCount, virtualMachine.stackTop - argCount);
@@ -214,7 +246,7 @@ static object_upvalue_t * virtual_machine_capture_upvalue(value_t * local)
 {
     object_upvalue_t * prevUpvalue = NULL;
     object_upvalue_t * upvalue = virtualMachine.openUpvalues;
-    while (upvalue && upvalue->location > local)
+    while (upvalue && upvalue->location > local) 
     {
         prevUpvalue = upvalue;
         upvalue = upvalue->next;
@@ -235,9 +267,9 @@ static object_upvalue_t * virtual_machine_capture_upvalue(value_t * local)
  * @details Then it closes all upvalues it can find in that slot and the slots above that slot in the stack.
  * A upvalue is closed by copying the objects value into the closed field in te ObjectValue.
  */
-static void virtual_machine_close_upvalues(value_t * last)
+static void virtual_machine_close_upvalues(value_t * last) 
 {
-    while (virtualMachine.openUpvalues && virtualMachine.openUpvalues->location >= last)
+    while (virtualMachine.openUpvalues && virtualMachine.openUpvalues->location >= last) 
     {
         object_upvalue_t * upvalue = virtualMachine.openUpvalues;
         upvalue->closed = * upvalue->location;
@@ -246,13 +278,37 @@ static void virtual_machine_close_upvalues(value_t * last)
     }
 }
 
+/// @brief Concatenates the two upper values (cellox arrays) on the stack
+static void virtual_machine_concatenate_arrays()
+{
+    object_dynamic_value_array_t * newArray = object_new_dynamic_value_array();
+    for (uint32_t i = 0; i < AS_ARRAY(virtual_machine_peek(1))->array.count; i++)
+    {
+        dynamic_value_array_write(&newArray->array, AS_ARRAY(virtual_machine_peek(1))->array.values[i]);
+    }
+    
+    if(IS_ARRAY(virtual_machine_peek(0))) 
+    {
+        object_dynamic_value_array_t * array = AS_ARRAY(virtual_machine_peek(0));
+        // Adding the same array twice results in an infinite loop
+        uint32_t upperBound = array->array.count;
+        for (uint32_t i = 0; i < upperBound; i++)
+            dynamic_value_array_write(&newArray->array, array->array.values[i]);                    
+    }                
+    else
+        dynamic_value_array_write(&newArray->array, virtual_machine_peek(0));
+    virtual_machine_pop();
+    virtual_machine_pop();
+    virtual_machine_push(OBJECT_VAL(newArray));
+}
+
 /// @brief Concatenates the two upper values (cellox strings) on the stack
-static void virtual_machine_concatenate_strings()
+static void virtual_machine_concatenate_strings() 
 {
     object_string_t * b = AS_STRING(virtual_machine_peek(0));
     object_string_t * a = AS_STRING(virtual_machine_peek(1));
     uint32_t length = a->length + b->length;
-    char *chars = ALLOCATE(char, length + 1u);
+    char * chars = ALLOCATE(char, length + 1u);
     memcpy(chars, a->chars, a->length);
     memcpy(chars + a->length, b->chars, b->length);
     chars[length] = '\0';
@@ -264,7 +320,7 @@ static void virtual_machine_concatenate_strings()
 
 /// @brief Defines a new Method in the hashTable of the cellox class instance
 /// @param name The name of the method
-static void virtual_machine_define_method(object_string_t * name)
+static void virtual_machine_define_method(object_string_t * name) 
 {
     value_t method = virtual_machine_peek(0);
     object_class_t *celloxClass = AS_CLASS(virtual_machine_peek(1));
@@ -275,7 +331,7 @@ static void virtual_machine_define_method(object_string_t * name)
 /// @brief Defines a native function for the virtual machine
 /// @param name The name of the native function
 /// @param function The function that is defined
-static void virtual_machine_define_native(char const * name, native_function_t function)
+static void virtual_machine_define_native(char const * name, native_function_t function) 
 {
     virtual_machine_push(OBJECT_VAL(object_copy_string(name, (int32_t)strlen(name), false)));
     virtual_machine_push(OBJECT_VAL(object_new_native(function)));
@@ -284,14 +340,138 @@ static void virtual_machine_define_native(char const * name, native_function_t f
     virtual_machine_pop();
 }
 
+/// @brief Defines the native functions of the virtual machine
+/// @details These are functions that are implemented in C
+static void virtual_machine_define_natives()
+{
+    // Pointer to the first configuration
+    native_function_config_t * configs = native_functions_get_function_configs();
+    // Upper bound (pointer to the end of the memory segment where the native functions are stored)
+    native_function_config_t * upperBound = configs + native_functions_get_function_count();
+    for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound; nativeFunctionPointer++)
+        virtual_machine_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
+}
+
+/// @brief Gets an item in an array or a string specified by a numerical index
+/// @return A boolean value that indicates whether the execution has led to a runtime error 
+static bool virtual_machine_get_index_of()
+{
+    if (IS_NUMBER(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1)))
+    {
+        int num = AS_NUMBER(virtual_machine_pop());
+        object_string_t * str = AS_STRING(virtual_machine_pop());
+        if (num >= str->length || num < 0)
+        {
+            virtual_machine_runtime_error("accessed string out of bounds (at index %i)", num);
+            return false;
+        }
+        char *chars = ALLOCATE(char, 2u);
+        chars[0] = str->chars[num];
+        chars[1] = '\0';
+        object_string_t *result = object_take_string(chars, 1u);
+        virtual_machine_push(OBJECT_VAL(result));
+    }
+    else if(IS_NUMBER(virtual_machine_peek(0)) && IS_ARRAY(virtual_machine_peek(1)))
+    {
+        int num = AS_NUMBER(virtual_machine_pop());
+        object_dynamic_value_array_t * array = AS_ARRAY(virtual_machine_pop());
+        if (num >= array->array.count || num < 0)
+        {
+            virtual_machine_runtime_error("accessed array out of bounds (at index %i)", num);
+            return false;
+        }
+        virtual_machine_push(array->array.values[num]);
+    }
+    else
+    {
+        virtual_machine_runtime_error("Operands must a numerical value and a string object but are a %s %s and a %s %s", 
+                                        value_stringify_type(virtual_machine_peek(0)),
+                                        IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", 
+                                        value_stringify_type(virtual_machine_peek(1)),
+                                        IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    return true;
+}
+
+/// @brief Creates a slice from an array
+/// @return A boolean value that indicates whether the execution has led to a runtime error
+/// @details Slices are subarrays of a soucearray
+static bool virtual_machine_get_slice_of() 
+{
+    if(!IS_NUMBER(virtual_machine_peek(0)))
+    {
+        virtual_machine_runtime_error("A range can only be created with a number as first argument but was created with a %s %s", 
+                                        value_stringify_type(virtual_machine_peek(0)),
+                                        IS_OBJECT(virtual_machine_peek(2)) ? "object" : "value");
+        return false;
+    }
+    if(!IS_NUMBER(virtual_machine_peek(1))) 
+    {
+        virtual_machine_runtime_error("A range can only be created with a number as second argument but was created with a %s %s", 
+                                        value_stringify_type(virtual_machine_peek(1)),
+                                        IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    if(!IS_ARRAY(virtual_machine_peek(2)) && !IS_STRING(virtual_machine_peek(2))) 
+    {
+        virtual_machine_runtime_error("A slice can only be created from an array but was tried to create with a %s %s", 
+                                        value_stringify_type(virtual_machine_peek(2)),
+                                        IS_OBJECT(virtual_machine_peek(2)) ? "object" : "value");
+        return false;
+    }
+    
+    int upperBound = AS_NUMBER(virtual_machine_pop());
+    int i = AS_NUMBER(virtual_machine_pop());
+    if(i >= upperBound) 
+    {
+        virtual_machine_runtime_error("Upper bound must be bigger than lower bound, but upper bound is %d and lower bound is %d", upperBound, i);
+        return false;
+    }
+    if(i < 0) 
+    {
+        virtual_machine_runtime_error("LowerBound can not be negative, but is %d", i);
+        return false;
+    }
+    if(IS_ARRAY(virtual_machine_peek(0)))
+    {
+        object_dynamic_value_array_t * sourceArray = AS_ARRAY(virtual_machine_pop());
+        if(upperBound >= sourceArray->array.count) 
+        {
+            virtual_machine_runtime_error("Upperbound can not be higher or equal to the size of the array, but upperbound is %d and size %d", upperBound, sourceArray->array.count);
+            return false;
+        }
+        object_dynamic_value_array_t * resultArray = object_new_dynamic_value_array();
+        for (; i < upperBound; i++)
+            dynamic_value_array_write(&resultArray->array, sourceArray->array.values[i]);
+        virtual_machine_push(OBJECT_VAL(resultArray));
+    }
+    else 
+    {
+        object_string_t * sourceString = AS_STRING(virtual_machine_pop());
+        if (upperBound >= sourceString->length) 
+        {
+            virtual_machine_runtime_error("Upperbound can not be higher or equal to the length of the string but upperbound is %d and size %d", upperBound, sourceString->length); 
+            return false;
+        }  
+        char * chars = ALLOCATE(char, upperBound - i + 1);
+        for (; i < upperBound; i++)
+            chars[i] = sourceString->chars[i];
+        chars[i] = '\0';
+        object_string_t * resultSting = object_take_string(chars, upperBound - i + 1);
+        virtual_machine_push(OBJECT_VAL(resultSting));
+    }
+    return true;
+}
+
 /// @brief Invokes a method bound to a cellox class instance
 /// @param name The name of the method that is envoked
 /// @param argCount The amount of arguments that are used when calling the method
 /// @return true if everything went well, false if something went wrong (not a cellox instance / undefiened method / stack overflow / wrong argument count)
-static bool virtual_machine_invoke(object_string_t * name, int32_t argCount)
+static bool virtual_machine_invoke(object_string_t * name, int32_t argCount) 
 {
     value_t receiver = virtual_machine_peek(argCount);
-    if (!IS_INSTANCE(receiver))
+    if (!IS_INSTANCE(receiver)) 
     {
         virtual_machine_runtime_error("Only instances have methods but a %s %s was invoked",
                                         value_stringify_type(receiver),
@@ -300,7 +480,7 @@ static bool virtual_machine_invoke(object_string_t * name, int32_t argCount)
     }
     object_instance_t *instance = AS_INSTANCE(receiver);
     value_t value;
-    if (hash_table_get(&instance->fields, name, &value))
+    if (hash_table_get(&instance->fields, name, &value)) 
     {
         virtualMachine.stackTop[-argCount - 1] = value;
         return virtual_machine_call_value(value, argCount);
@@ -313,11 +493,10 @@ static bool virtual_machine_invoke(object_string_t * name, int32_t argCount)
 /// @param name Thee name of the method that is envoked
 /// @param argCount The amount of arguments that are used when envoking the function
 /// @return true if everything went well, false if something went wrong (undefiened method / stack overflow / wrong argument count)
-static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, object_string_t * name, int32_t argCount)
+static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, object_string_t * name, int32_t argCount) 
 {
     value_t method;
-    if (!hash_table_get(&celloxClass->methods, name, &method))
-    {
+    if (!hash_table_get(&celloxClass->methods, name, &method)) {
         virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
         return false;
     }
@@ -327,21 +506,43 @@ static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, obje
 /// @brief  Determines if a value is falsey (either null or false)
 /// @param value The value that is evalued
 /// @return true if the value is null or false, otherwise false
-static bool virtual_machine_is_falsey(value_t value)
+static inline bool virtual_machine_is_falsey(value_t value) 
 {
     return IS_NULL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
 
-/// @brief Gets the value at the specified distance on the stacj
+/// @brief Executes a modulo operation
+/// @return A boolean value that indicates whether the execution has led to a runtime error 
+static bool virtual_machine_modulo()
+{
+    if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)))
+    {
+        int b = AS_NUMBER(virtual_machine_pop());
+        int a = AS_NUMBER(virtual_machine_pop());
+        virtual_machine_push(NUMBER_VAL(a % b));
+    }
+    else
+    {
+        virtual_machine_runtime_error("Operands must be two numbers but they are a %s %s and a %s %s", 
+                                        value_stringify_type(virtual_machine_peek(0)),
+                                        IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
+                                        value_stringify_type(virtual_machine_peek(1)),
+                                        IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    return true;
+}
+
+/// @brief Gets the value at the specified distance on the stack
 /// @param distance The distance to the value
 /// @return The value at the specified distance
-static value_t virtual_machine_peek(int32_t distance)
+static value_t virtual_machine_peek(int32_t distance) 
 {
     return virtualMachine.stackTop[-1 - distance];
 }
 
 /// @brief Resets the stack of the vm
-static void virtual_machine_reset_stack()
+static void virtual_machine_reset_stack() 
 {
     virtualMachine.stackTop = virtualMachine.stack;
     virtualMachine.frameCount = 0u;
@@ -350,7 +551,7 @@ static void virtual_machine_reset_stack()
 
 /// @brief Runs a lox program that was converted to bytecode instructions
 /// @return OK if the program was executed sucessfull or a runtime error code if a runtime error occured
-static interpret_result_t virtual_machine_run()
+static interpret_result virtual_machine_run() 
 {
 #ifdef DEBUG_TRACE_EXECUTION
     printf("== execution ==\n");
@@ -418,15 +619,22 @@ static interpret_result_t virtual_machine_run()
                 virtual_machine_concatenate_strings();
             else if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)))
                 BINARY_OP(NUMBER_VAL, +);
+            else if(IS_ARRAY(virtual_machine_peek(1)))   
+                virtual_machine_concatenate_arrays();
             else
             {
-                virtual_machine_runtime_error("Operands must be two numbers or two strings but they are a %s value and a %s value", 
+                virtual_machine_runtime_error("Operands must be two numbers, two strings, an array and a value or an array and an array, but they are a %s value and a %s value", 
                                                 value_stringify_type(virtual_machine_peek(0)), 
                                                 value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
         }
+        case OP_ARRAY_LITERAL:
+        {
+            virtual_machine_array_literal(READ_BYTE());
+            break;
+        }  
         case OP_CALL:
         {
             int32_t argCount = READ_BYTE();
@@ -488,7 +696,9 @@ static interpret_result_t virtual_machine_run()
             }
             else
             {
-                virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));
+                virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value", 
+                                                value_stringify_type(virtual_machine_peek(0)), 
+                                                value_stringify_type(virtual_machine_peek(1)));
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
@@ -510,30 +720,8 @@ static interpret_result_t virtual_machine_run()
         }
         case OP_GET_INDEX_OF:
         {
-            if (IS_NUMBER(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1)))
-            {
-                int num = AS_NUMBER(virtual_machine_pop());
-                object_string_t * str = AS_STRING(virtual_machine_pop());
-                if (num >= str->length || num < 0)
-                {
-                    virtual_machine_runtime_error("accessed string out of bounds (at index %i)", num);
-                    return INTERPRET_RUNTIME_ERROR;
-                }
-                char *chars = ALLOCATE(char, 2u);
-                chars[0] = str->chars[num];
-                chars[1] = '\0';
-                object_string_t *result = object_take_string(chars, 1u);
-                virtual_machine_push(OBJECT_VAL(result));
-            }
-            else
-            {
-                virtual_machine_runtime_error("Operands must a numerical value and a string object but are a %s %s and a %s %s", 
-                                                value_stringify_type(virtual_machine_peek(0)),
-                                                IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", 
-                                                value_stringify_type(virtual_machine_peek(1)),
-                                                IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
-                return INTERPRET_RUNTIME_ERROR;
-            }
+            if(!virtual_machine_get_index_of())
+                return INTERPRET_RUNTIME_ERROR; 
             break;
         }
         case OP_GET_LOCAL:
@@ -568,6 +756,12 @@ static interpret_result_t virtual_machine_run()
             break;
             virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
             return INTERPRET_RUNTIME_ERROR;
+        }
+        case OP_GET_SLICE_OF:
+        {
+            if(!virtual_machine_get_slice_of())
+                return INTERPRET_RUNTIME_ERROR;
+            break;
         }
         case OP_GET_SUPER:
         {
@@ -645,21 +839,8 @@ static interpret_result_t virtual_machine_run()
             break;
         case OP_MODULO:
         {
-            if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)))
-            {
-                int b = AS_NUMBER(virtual_machine_pop());
-                int a = AS_NUMBER(virtual_machine_pop());
-                virtual_machine_push(NUMBER_VAL(a % b));
-            }
-            else
-            {
-                virtual_machine_runtime_error("Operands must be two numbers but they are a %s %s and a %s %s", 
-                                                value_stringify_type(virtual_machine_peek(0)),
-                                                IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
-                                                value_stringify_type(virtual_machine_peek(1)),
-                                                IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+            if (!virtual_machine_modulo())
                 return INTERPRET_RUNTIME_ERROR;
-            }
             break;
         }
         case OP_MULTIPLY:
@@ -712,36 +893,8 @@ static interpret_result_t virtual_machine_run()
         }
         case OP_SET_INDEX_OF:
         {
-            if (IS_STRING(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1)) && IS_STRING(virtual_machine_peek(2)))
-            {
-                object_string_t * character = AS_STRING(virtual_machine_pop());
-                int num = AS_NUMBER(virtual_machine_pop());
-                object_string_t * str = AS_STRING(virtual_machine_pop());
-                if (num >= str->length || num < 0 || character->length != 1)
-                {
-                    virtual_machine_runtime_error("accessed string out of bounds at index %d", num);
-                    return INTERPRET_RUNTIME_ERROR;
-                }
-                // We need to allocate a new character sequnce so no other objects are affected
-                char * newCharacterSequence = malloc(str->length + 1);
-                memcpy(newCharacterSequence, str->chars, str->length); 
-                newCharacterSequence[num] = character->chars[0];
-                newCharacterSequence[str->length] = '\0';
-                object_string_t * newString = object_take_string(newCharacterSequence, str->length);
-                virtual_machine_push(OBJECT_VAL(newString));
-            }
-            else
-            {
-                /* Set index of wasn't used on a variable where the operator 
-                 * can be used or not with a numerical value that specifies the index.
-                 */
-                virtual_machine_runtime_error("Can only be called with a sting a number and string but was called with a %s %s and a %s %s", 
-                                                value_stringify_type(virtual_machine_peek(0)),
-                                                IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", 
-                                                value_stringify_type(virtual_machine_peek(1)),
-                                                IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+            if (!virtual_machine_set_index_of()) 
                 return INTERPRET_RUNTIME_ERROR;
-            }
             break;
         }
         case OP_SET_LOCAL:
@@ -817,11 +970,40 @@ static void virtual_machine_runtime_error(char const * format, ...)
         call_frame_t * frame = &virtualMachine.callStack[i];
         object_function_t *function = frame->closure->function;
         size_t instruction = frame->ip - function->chunk.code - 1;
-        fprintf(stderr, "[line %d] in ", function->chunk.lines[instruction]);
+        fprintf(stderr, "[line %d] in ", chunk_determine_line_by_index(&function->chunk, instruction));
         if (!function->name)
             fprintf(stderr, "script\n");
         else
             fprintf(stderr, "%s()\n", function->name->chars);
     }
     virtual_machine_reset_stack();
+}
+
+/// @brief Executes a set index of operation
+/// @return A boolean value that indicates whether the execution has led to a runtime error
+static bool virtual_machine_set_index_of()
+{
+    if (IS_ARRAY(virtual_machine_peek(2)) && IS_NUMBER(virtual_machine_peek(1)))
+    {
+        value_t val = virtual_machine_pop();
+        int num = AS_NUMBER(virtual_machine_pop());
+        object_dynamic_value_array_t * array = AS_ARRAY(virtual_machine_pop());                
+        if (num >= array->array.count || num < 0) 
+        {
+            virtual_machine_runtime_error("accessed array out of bounds at index %d", num);
+            return false;
+        }
+        array->array.values[num] = val;
+        virtual_machine_push(OBJECT_VAL(array));
+    }
+    else
+    {
+        virtual_machine_runtime_error("Can only be called with an used with an arry and a number but was used with a %s %s and a %s %s", 
+                                        value_stringify_type(virtual_machine_peek(0)),
+                                        IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", 
+                                        value_stringify_type(virtual_machine_peek(1)),
+                                        IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    return true;
 }

@@ -1,2 +1,0 @@
-var c = 0;
-while (c < 3) println(c = c + 1);

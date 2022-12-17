@@ -1,6 +1,0 @@
-var t = "celiop";
-println(t);
-t[3] = "l";
-println(t);
-t[5] = "x";
-println(t);

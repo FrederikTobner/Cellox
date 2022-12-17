@@ -1,3 +1,24 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file lexer.c
+ * @brief File containing implementation of the lexer.
+ * @details A lexer, also called scanner, coverts a sequence of characters into a sequence of tokens, in a process called lexical analysis.
+ */
+
 #include "lexer.h"
 
 #include <stdio.h>
@@ -18,18 +39,18 @@ typedef struct
 /// Global Lexer variable
 lexer_t lexer;
 
-static char lexer_advance();
-static tokentype_t lexer_check_keyword(uint32_t , uint32_t , char const *, tokentype_t);
+static inline char lexer_advance();
+static tokentype lexer_check_keyword(uint32_t , uint32_t , char const *, tokentype);
 static token_t lexer_error_token(char const *);
 static token_t lexer_identifier();
-static tokentype_t lexer_identifier_type();
-static bool lexer_is_alpha(char);
-static bool lexer_is_digit(char);
-static bool lexer_is_at_end();
-static token_t lexer_make_token(tokentype_t);
+static tokentype lexer_identifier_type();
+static inline bool lexer_is_alpha(char);
+static inline bool lexer_is_digit(char);
+static inline bool lexer_is_at_end();
+static token_t lexer_make_token(tokentype);
 static bool lexer_match(char);
 static token_t lexer_number();
-static char lexer_peek();
+static inline char lexer_peek();
 static char lexer_peek_next();
 static void lexer_skip_whitespace();
 static token_t string();
@@ -72,7 +93,7 @@ token_t scan_token()
     case ',':
         return lexer_make_token(TOKEN_COMMA);
     case '.':
-        return lexer_make_token(TOKEN_DOT);
+        return lexer_make_token(lexer_match('.') ? TOKEN_RANGE : TOKEN_DOT);
     case '-':
         return lexer_make_token(lexer_match('=') ? TOKEN_MINUS_EQUAL : TOKEN_MINUS);
     case '+':
@@ -139,13 +160,13 @@ token_t scan_token()
 }
 
 /// Advances a position further in the sourceCode and returns the prevoius Token
-static char lexer_advance()
+static inline char lexer_advance()
 {
     return *lexer.current++;
 }
 
 /// Checks for a reserved keyword or returns a identifier token if the word is not a reserved keyword
-static tokentype_t lexer_check_keyword(uint32_t start, uint32_t length, char const * rest, tokentype_t type)
+static tokentype lexer_check_keyword(uint32_t start, uint32_t length, char const * rest, tokentype type)
 {
     if (lexer.current - lexer.start == start + length && !memcmp(lexer.start + start, rest, length))
         return type;
@@ -172,7 +193,7 @@ static token_t lexer_identifier()
 }
 
 /// Creates a new identifier token or a reserved keyword
-static tokentype_t lexer_identifier_type()
+static tokentype lexer_identifier_type()
 {
     switch (lexer.start[0])
     {
@@ -228,7 +249,7 @@ static tokentype_t lexer_identifier_type()
 
 /// @brief Checks if the char c is from the alphabet or an underscore.
 /// @details These are the valid characters for identifiers.
-static bool lexer_is_alpha(char c)
+static inline bool lexer_is_alpha(char c)
 {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
@@ -236,14 +257,14 @@ static bool lexer_is_alpha(char c)
 /// @brief checks if a character is a digit (0-9)
 /// @param c The character that is checked
 /// @return True if the character is a digit, false if not
-static bool lexer_is_digit(char c)
+static inline bool lexer_is_digit(char c)
 {
     return c >= '0' && c <= '9';
 }
 
 /// @brief Determines wheather we reached the end in the sourcecode
 /// @return True if we reached the end, false if not
-static bool lexer_is_at_end()
+static inline bool lexer_is_at_end()
 {
     return *lexer.current == '\0';
 }
@@ -251,7 +272,7 @@ static bool lexer_is_at_end()
 /// @brief Creates a new Token of a given type
 /// @param type The type of the type that is generated
 /// @return The Token that was created
-static token_t lexer_make_token(tokentype_t type)
+static token_t lexer_make_token(tokentype type)
 {
     token_t token;
     token.type = type;
@@ -275,6 +296,41 @@ static bool lexer_match(char expected)
 /// Creates a new number literal token
 static token_t lexer_number()
 {
+    if(lexer_peek() == '0')
+        lexer_advance();
+    if(lexer_peek() == 'x' || lexer_peek() == 'X')
+    {
+        // Hexadezimal number
+        lexer_advance();
+        char c = lexer_peek();
+        size_t length = 0;
+        while (lexer_is_digit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')) 
+        {
+            lexer_advance();
+            c = lexer_peek();
+            length++;
+        }
+        if(length > 8)
+            return lexer_error_token("Hexadezimal number literals have a maximum length of 8 digits");
+        return lexer_make_token(TOKEN_HEX_NUMBER);
+    }
+    else if(lexer_peek() == 'b' || lexer_peek() == 'B')
+    {
+        // Binary number
+        lexer_advance();
+        char c = lexer_peek();
+        size_t length = 0;
+        while (lexer_peek() == '0' || lexer_peek() == '1') 
+        {
+            lexer_advance();
+            c = lexer_peek();
+            length++;
+        }
+        if(length > 32)
+            return lexer_error_token("Hexadezimal number literals have a maximum length of 32 digits");
+        return lexer_make_token(TOKEN_BINARY_NUMBER);
+    }
+
     while (lexer_is_digit(lexer_peek()))
         lexer_advance();
 
@@ -290,7 +346,7 @@ static token_t lexer_number()
 }
 
 /// Returns the char at the current position
-static char lexer_peek()
+static inline char lexer_peek()
 {
     return *lexer.current;
 }

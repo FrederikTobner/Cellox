@@ -4,4 +4,4 @@ fun fib(n) {
   return fib(n - 1) + fib(n - 2);
 }
 
-println(fib(8));
+printf("{}\n", fib(8));

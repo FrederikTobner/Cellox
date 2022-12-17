@@ -1,6 +1,6 @@
 class Foo {
   bar(arg) {
-    println(arg);
+    printf("{}\n", arg);
   }
 }
 

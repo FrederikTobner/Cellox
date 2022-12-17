@@ -1,3 +1,24 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file virtual_machine.h
+ * @brief Header file containing of declarations of the virtual machine.
+ * @details The virtual machine is stackbased.
+ */
+
 #ifndef CELLOX_VIRTUAL_MACHINE_H_
 #define CELLOX_VIRTUAL_MACHINE_H_
 
@@ -69,7 +90,7 @@ typedef enum
     INTERPRET_COMPILE_ERROR,
     /// Error that occured at runtime
     INTERPRET_RUNTIME_ERROR,
-} interpret_result_t;
+} interpret_result;
 
 extern virtual_machine_t virtualMachine;
 
@@ -83,7 +104,7 @@ void virtual_machine_init();
 /// @param program The source that is interpreted
 /// @param freeProgram Boolean value that determines whether the sourcecode is freed by the virtual machine
 /// @return A interpret result that indicates whether the program execution sucessful
-interpret_result_t virtual_machine_interpret(char * program, bool freeProgram);
+interpret_result virtual_machine_interpret(char * program, bool freeProgram);
 
 /// @brief Pushes a new Value on the stack
 /// @param value The value that is pushed on the stack

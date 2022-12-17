@@ -4,7 +4,7 @@
 
 TEST(Else, ClassInElse)
 {
-    test_failing_cellox_program("else_statement/class_in_else.clx", "[line 1] Error at 'class': Expect expression.\n");
+    test_failing_cellox_program("else_statement/class_in_else.clx", "[line 4] Error at 'class': Expect expression.\n");
 }
 
 TEST(Else, Dangling)
@@ -14,7 +14,7 @@ TEST(Else, Dangling)
 
 TEST(Else, FunctionInElse)
 {
-    test_failing_cellox_program("else_statement/function_in_else.clx", "[line 1] Error at 'fun': Expect expression.\n");
+    test_failing_cellox_program("else_statement/function_in_else.clx", "[line 4] Error at 'fun': Expect expression.\n");
 }
 
 TEST(Else, Simple)
@@ -24,5 +24,5 @@ TEST(Else, Simple)
 
 TEST(Else, VariableInElse)
 {
-    test_failing_cellox_program("else_statement/variable_in_else.clx", "[line 1] Error at 'var': Expect expression.\n");
+    test_failing_cellox_program("else_statement/variable_in_else.clx", "[line 4] Error at 'var': Expect expression.\n");
 }

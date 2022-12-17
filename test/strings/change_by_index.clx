@@ -1,0 +1,6 @@
+var t = "celiop";
+printf("{}\n", t);
+t = string_replace_at(t, 3, "l");
+printf("{}\n", t);
+t = string_replace_at(t, 5, "x");
+printf("{}\n", t);

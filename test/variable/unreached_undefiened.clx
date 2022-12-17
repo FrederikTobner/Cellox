@@ -1,5 +1,5 @@
 if (false) {
-  println(notDefined);
+  printf("{}\n", notDefined);
 }
 
-println("ok");
+printf("{}\n", "ok");
