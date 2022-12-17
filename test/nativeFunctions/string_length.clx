@@ -1,3 +1,0 @@
-println(strlen(""));
-println(strlen("Cellox"));
-println(strlen("Hello World"));

@@ -1,2 +1,2 @@
 // Unicode characters are allowed in comments 🥳🎈🎊🤡
-println("ok");
+printf("{}\n", "ok");

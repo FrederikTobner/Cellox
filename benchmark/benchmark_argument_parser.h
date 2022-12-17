@@ -5,7 +5,7 @@ typedef enum
 {
     OPTION_TYPE_PATH,
     OPTION_TYPE_COUNT
-}option_type_t;
+} option_type;
 
 void benchmark_argument_parser_parse(int argc, char const ** argv);
 

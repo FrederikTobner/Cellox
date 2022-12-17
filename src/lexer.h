@@ -1,3 +1,24 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file lexer.h
+ * @brief Header file containing of declarations regarding the lexer.
+ * @details A lexer, also called scanner, coverts a sequence of characters into a sequence of tokens.
+ */
+
 #ifndef CELLOX_LEXER_H_
 #define CELLOX_LEXER_H_
 
@@ -12,6 +33,8 @@ typedef enum
   TOKEN_BANG,
   /// !=
   TOKEN_BANG_EQUAL,
+  /// A number literal specified in binary
+  TOKEN_BINARY_NUMBER,
   /// class
   TOKEN_CLASS,
   /// ,
@@ -40,6 +63,8 @@ typedef enum
   TOKEN_GREATER,
   /// >=
   TOKEN_GREATER_EQUAL,
+  /// A number literal specified in hex
+  TOKEN_HEX_NUMBER,
   /// An identifier e.g. for the variable named x
   TOKEN_IDENTIFIER,
   /// if
@@ -72,6 +97,8 @@ typedef enum
   TOKEN_PRINT,
   /// println
   TOKEN_PRINT_LINE,
+  /// &sdot;&sdot;
+  TOKEN_RANGE,
   /// return
   TOKEN_RETURN,
   /// }
@@ -110,13 +137,13 @@ typedef enum
   TOKEN_VAR,
   /// while
   TOKEN_WHILE,
-} tokentype_t;
+} tokentype;
 
 /// @brief A token of the cellox programming language
 typedef struct
 {
   /// The type of the token
-  tokentype_t type;
+  tokentype type;
   /// Pointer to the start of the character sequence
   char const * start;
   /// Length of the character sequence

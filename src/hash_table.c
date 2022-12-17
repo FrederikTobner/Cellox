@@ -1,3 +1,22 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file hash_table.c
+ * @brief File containing the hashtable implementation used internally by the interpreter
+ */
 #include "hash_table.h"
 
 #include <stdlib.h>
@@ -5,6 +24,11 @@
 
 #include "memory.h"
 #include "object.h"
+
+#define HASH_TABLE_GROWTH_FACTOR (2u)
+
+#define GROW_HASHTABLE_CAPACITY(capacity) \
+    ((capacity) < 8u ? 8u : (capacity) * HASH_TABLE_GROWTH_FACTOR)
 
 /// @brief The max load factor of the hashtable
 /// @details If the max load factor multiplied with the capacity is reached we grow the hashtable
@@ -64,7 +88,7 @@ object_string_t * hash_table_find_string(hash_table_t * table, char const * char
     if (!table->count)
         return NULL;
 
-    uint32_t index = hash % table->capacity;
+    uint32_t index = hash & (table->capacity - 1);
     for (;;)
     {
         hash_table_entry_t * entry = &table->entries[index];
@@ -77,7 +101,7 @@ object_string_t * hash_table_find_string(hash_table_t * table, char const * char
         else if (entry->key->length == length && entry->key->hash == hash && !memcmp(entry->key->chars, chars, length))
             return entry->key;  /// We found the string
         // We look in the next bucket but eventually we also have to wrap around the array when we reach the end
-        index = (index + 1) % table->capacity;
+        index = (index + 1) & (table->capacity - 1);
     }
 }
 
@@ -109,7 +133,7 @@ bool hash_table_set(hash_table_t * table, object_string_t * key, value_t value)
 {
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
-        uint32_t capacity = GROW_CAPACITY(table->capacity);
+        uint32_t capacity = GROW_HASHTABLE_CAPACITY(table->capacity);
         hash_table_adjust_capacity(table, capacity);
     }
     hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
@@ -158,11 +182,11 @@ static void hash_table_adjust_capacity(hash_table_t * table, int32_t capacity)
 /// @return Returns the entry or NULL if the value has already been deleted
 static hash_table_entry_t * hash_table_find_entry(hash_table_entry_t * entries, int32_t capacity, object_string_t * key)
 {
-    uint32_t index = key->hash % capacity;
+    uint32_t index = key->hash & (capacity - 1);
     hash_table_entry_t *tombstone = NULL;
     for (;;)
     {
-        hash_table_entry_t *entry = &entries[index];
+        hash_table_entry_t * entry = &entries[index];
         if (!entry->key)
         {
             if (IS_NULL(entry->value))
@@ -182,6 +206,6 @@ static hash_table_entry_t * hash_table_find_entry(hash_table_entry_t * entries, 
         }
         else if (entry->key == key)
             return entry; // We found the key 🔑
-        index = (index + 1) % capacity;
+        index = (index + 1) & (capacity - 1);
     }
 }

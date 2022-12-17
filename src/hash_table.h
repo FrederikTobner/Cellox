@@ -1,5 +1,25 @@
-#ifndef CELLOX_TABLE_H_
-#define CELLOX_TABLE_H_
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file hash_table.h
+ * @brief Header file for the hashtable implementation used internally by the interpreter
+ */
+
+#ifndef CELLOX_HASH_TABLE_H_
+#define CELLOX_HASH_TABLE_H_
 
 #include "common.h"
 #include "value.h"

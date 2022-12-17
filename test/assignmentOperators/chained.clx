@@ -1,7 +1,0 @@
-// Assignment on RHS of variable.
-var a = "foo";
-var b = "bar";
-var c = b = a = "baz";
-println(a);
-println(b);
-println(c);

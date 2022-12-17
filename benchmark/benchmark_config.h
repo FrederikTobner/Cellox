@@ -22,6 +22,6 @@ typedef enum
     BENCHMARK_PROPERTIES,
     BENCHMARK_STRING_EQUALITY,
     BENCHMARK_ZOO
-}benchmark_t;
+} benchmark;
 
 #endif

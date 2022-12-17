@@ -1,3 +1,24 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file chunk.h
+ * @brief Header file containing the declarations of functionality regarding cellox chunks.
+ */
+
+
 #ifndef CELLOX_CHUNK_H_
 #define CELLOX_CHUNK_H_
 
@@ -6,10 +27,12 @@
 #include "value.h"
 
 /// @brief opcodes of the bytecode instruction set
-typedef enum
+enum opcode
 {
     /// Pops the two most upper values from the stack, adds them and pushes the result onto the stack
     OP_ADD,
+    /// Defines the arguments of the array literal declaration
+    OP_ARRAY_LITERAL,
     /// Defines the arguments for the next function invocation
     OP_CALL,
     /// Defines a new class
@@ -38,6 +61,8 @@ typedef enum
     OP_GET_LOCAL,
     /// Gets the value of the property of a Cellox object and stores it on the stack
     OP_GET_PROPERTY,
+    /// Gets the two most upper values from the stack and uses them to narrow down a certain range that is used to create a slice from an array or a string
+    OP_GET_SLICE_OF,
     /// Gets the parent class of a value and stores it on the stack
     OP_GET_SUPER,
     /// Gets the value of the upvalue and stores it on the stack
@@ -88,7 +113,13 @@ typedef enum
     OP_SUPER_INVOKE,
     /// Pushes the boolean value true on the stack
     OP_TRUE,
-} opcode_t;
+};
+
+typedef struct 
+{
+  uint32_t lineNumber;
+  uint32_t lastOpCodeIndexInLine;
+} line_info_t;
 
 /// @brief A dynamic array structure of bytecode instructions and constants
 /// @details instructions are idealized instructions for an abstract/virtual computer. 
@@ -96,13 +127,17 @@ typedef enum
 typedef struct
 {
     /// Amount of bytecode instructions in the chunk
-    uint32_t count;
-    /// Capacity of the chunk
-    uint32_t capacity;
+    uint32_t byteCodeCount;
+    /// Capacity of bytecode instructions of the chunk
+    uint32_t byteCodeCapacity;
+    /// Amount of line info in the chunk
+    uint32_t lineInfoCount;
+    /// Capacity for line info of the chunk
+    uint32_t lineInfoCapacity;
     /// Operand Codes
     uint8_t * code;
     /// Stores line information to the corresponding lox program
-    uint32_t * lines;
+    line_info_t * lineInfos;
     /// Constants stored in the chunk
     dynamic_value_array_t constants;
 } chunk_t;
@@ -112,6 +147,9 @@ typedef struct
 /// @param value The value that is added
 /// @return The index of the added constant
 int32_t chunk_add_constant(chunk_t * chunk, value_t value);
+
+
+uint32_t chunk_determine_line_by_index(chunk_t * chunk, uint32_t opCodeIndex);
 
 /// @brief Deallocates the memory used by the chunk
 /// @param chunk The chunk that is freed

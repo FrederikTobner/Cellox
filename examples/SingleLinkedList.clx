@@ -29,7 +29,7 @@ class SingleLinkedList {
 	printList() {
 		var current = this.head;
 		while(current) {	
-			println(current.value);		
+			printf("{}\n", current.value);		
 			current = current.nextNode;
 		}
 	}

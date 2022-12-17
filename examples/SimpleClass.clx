@@ -9,4 +9,4 @@ class Rectangle {
 	}
 }
 
-println(Rectangle(1, 2).area());
+printf("{}\n", Rectangle(1, 2).area());

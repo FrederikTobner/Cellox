@@ -1,6 +1,6 @@
 class A {
     Greet() {
-        println("hello");
+        printf("{}\n", "hello");
     }
 }
 

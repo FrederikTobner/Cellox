@@ -72,7 +72,7 @@ void benchmark_runner_execute_all_predefiened()
         benchmark_runner_execute_benchmark(*(benchmarks + i), false);    
 }
 
-void benchmark_runner_execute_predefiened(benchmark_t benchmark)
+void benchmark_runner_execute_predefiened(benchmark benchmark)
 {
     printf("%10s | %10s | %10s | %8s\n",  "average", "min", "max", "name" );
     benchmark_runner_execute_benchmark(*(benchmarks + benchmark), false);    

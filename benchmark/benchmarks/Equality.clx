@@ -10,4 +10,4 @@ while (i < 1000000) {
   "str" == "str"; "str" == "stru"; "str" == 1; "str" == null; "str" == true;
 }
 
-print(clock() - start);
+printf("{}", clock() - start);

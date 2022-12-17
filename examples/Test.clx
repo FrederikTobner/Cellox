@@ -1,3 +1,0 @@
-var str = "YES\n";
-if (str[0] == "Y" && str[1] == "E")
-    print(str);

@@ -16,7 +16,7 @@ class Student : Person {
     }
     Greet() {
         super.Greet();
-        println("I study " + this.courseOfStudy + " at the " + this.university + "."); 
+        printf("{}\n", "I study " + this.courseOfStudy + " at the " + this.university + "."); 
     }
 }
 

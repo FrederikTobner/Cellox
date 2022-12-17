@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public  *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file command_line_argument_parser.c
+ * @brief File containing the implementation of the command line argument parser.
+ */
+
 #include "command_line_argument_parser.h"
 
 #include <stdarg.h>
@@ -14,15 +34,14 @@ typedef enum
 {
     /// No option specified (yet)
     OPTION_NO_OPTION,
+    /// --compile / -c
+    OPTION_TYPE_COMPILE,
     /// --help / -h
     OPTION_TYPE_HELP,
     /// --version / -v
-    OPTION_TYPE_VERSION,
-    /// --store / -s
-    OPTION_TYPE_STORE_CHUNK_FILE,
-    /// --run-chunk-file / -rcf
-    OPTION_TYPE_RUN_CHUNK_FILE
-}command_line_option_type_t;
+    OPTION_TYPE_VERSION
+
+}command_line_option_type;
 
 /// @brief Models a command line option configuration
 typedef struct
@@ -35,7 +54,7 @@ typedef struct
     char const * longRepresentation;
     /// Boolean value that determines whether the option is exclusionary (can not be combined with other options)
     bool exclusionaryOption;
-}command_line_option_type_config_t;
+} command_line_option_type_config_t;
 
 
 /// @brief Option configurations for all the possible options
@@ -44,6 +63,12 @@ static command_line_option_type_config_t optionConfigs [] =
     [OPTION_NO_OPTION] = 
     {
         .exclusionaryOption = false
+    },
+    [OPTION_TYPE_COMPILE] = 
+    {
+        .shortRepresentation = "-c", 
+        .longRepresentation = "--compile",
+        .exclusionaryOption = true
     },
     [OPTION_TYPE_HELP] = 
     {
@@ -56,29 +81,17 @@ static command_line_option_type_config_t optionConfigs [] =
         .shortRepresentation = "-v", 
         .longRepresentation = "--version",
         .exclusionaryOption = true
-    },
-    [OPTION_TYPE_RUN_CHUNK_FILE] = 
-    {
-        .shortRepresentation = "-rcf", 
-        .longRepresentation = "--run-chunk-file",
-        .exclusionaryOption = true
-    },
-    [OPTION_TYPE_STORE_CHUNK_FILE] = 
-    {
-        .shortRepresentation = "-scf", 
-        .longRepresentation = "--store-chunk-file",
-        .exclusionaryOption = true
     }
 };
 
 static void command_line_argument_parser_error(char const *, ...);
 static inline bool command_line_argument_parser_is_option(char const *);
-static void command_line_argument_parser_parse_option(char const *, command_line_option_type_t *);
+static void command_line_argument_parser_parse_option(char const *, command_line_option_type *);
 static inline void command_line_argument_parser_show_usage();
 
 void command_line_argument_parser_parse(int argc, char const ** argv)
 {
-    command_line_option_type_t currentOption = OPTION_NO_OPTION;
+    command_line_option_type currentOption = OPTION_NO_OPTION;
     for (int i = 1; i < argc; i++)
     {
         if(command_line_argument_parser_is_option(argv[i]))
@@ -94,7 +107,7 @@ void command_line_argument_parser_parse(int argc, char const ** argv)
                 case OPTION_NO_OPTION:
                     init_run_from_file(argv[i], false);
                     return;
-                case OPTION_TYPE_STORE_CHUNK_FILE:
+                case OPTION_TYPE_COMPILE:
                     init_run_from_file(argv[i], true);
                     return;
                 default:
@@ -142,12 +155,13 @@ static inline bool command_line_argument_parser_is_option(char const * argument)
 /// @brief Parses the next option in the arguments
 /// @param option The option that is parsed (character sequence)
 /// @param currentOption The option that was previously specified
-static void command_line_argument_parser_parse_option(char const * option, command_line_option_type_t * currentOption)
+static void command_line_argument_parser_parse_option(char const * option, command_line_option_type * currentOption)
 {
     /// Old options is a singular option
     if(optionConfigs[*currentOption].exclusionaryOption)
         command_line_argument_parser_error("Multiple options specified");
-    for (size_t i = 1; i < sizeof(optionConfigs) / sizeof(command_line_option_type_config_t); i++)
+    size_t upperBound = sizeof(optionConfigs) / sizeof(command_line_option_type_config_t);
+    for (size_t i = 1; i < upperBound; i++)
     {
         if(!strcmp(optionConfigs[i].shortRepresentation, option) || !strcmp(optionConfigs[i].longRepresentation, option))
         {

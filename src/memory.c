@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file memory.c
+ * @brief File containing implementation of functionality used for memory management.
+ */
+
 #include "memory.h"
 
 #include <stdlib.h>
@@ -75,6 +95,7 @@ void memory_mark_object(object_t * object)
   virtualMachine.grayStack[virtualMachine.grayCount++] = object;
 }
 
+
 void memory_mark_value(value_t value)
 {
   if (IS_OBJECT(value))
@@ -119,6 +140,13 @@ static void memory_blacken_object(object_t * object)
 #endif
   switch (object->type)
   {
+  case OBJECT_ARRAY:
+  {
+    object_dynamic_value_array_t * array = (object_dynamic_value_array_t *)object;
+    // If a function is reachable all of the constants stored in the chunk are reachable, too.
+    memory_mark_array(&array->array);
+    break;
+  }
   case OBJECT_BOUND_METHOD:
   {
     object_bound_method_t * bound = (object_bound_method_t *)object;
@@ -177,10 +205,17 @@ static void memory_blacken_object(object_t * object)
 static void memory_free_object(object_t * object)
 {
 #ifdef DEBUG_LOG_GC
-  printf("freed object %p of the type %d\n", (void *)object, object->type);
+  printf("freed object %p of the type %s\n", (void *)object, object_stringify_type(object));
 #endif
   switch (object->type)
   {
+  case OBJECT_ARRAY:
+  {
+    object_dynamic_value_array_t * array = (object_dynamic_value_array_t *)object;
+    dynamic_value_array_free(&array->array);
+    FREE(object_dynamic_value_array_t, object);
+    break;
+  }
   case OBJECT_BOUND_METHOD:
     FREE(object_bound_method_t, object);
     break;

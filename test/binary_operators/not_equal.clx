@@ -1,0 +1,6 @@
+printf("{}\n", 1 != null);
+printf("{}\n", 3 != 5);
+printf("{}\n", "test" != "tes");
+printf("{}\n", null != null);
+printf("{}\n", 5 != 5);
+printf("{}\n", "test" != "test");

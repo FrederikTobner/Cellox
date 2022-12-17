@@ -4,12 +4,12 @@
 
 TEST(If, ClassInThen)
 {
-    test_failing_cellox_program("if_statement/class_in_then.clx", "[line 1] Error at 'class': Expect expression.\n");
+    test_failing_cellox_program("if_statement/class_in_then.clx", "[line 2] Error at 'class': Expect expression.\n");
 }
 
 TEST(If, FunctionInThen)
 {
-    test_failing_cellox_program("if_statement/function_in_then.clx", "[line 1] Error at 'fun': Expect expression.\n");
+    test_failing_cellox_program("if_statement/function_in_then.clx", "[line 2] Error at 'fun': Expect expression.\n");
 }
 
 TEST(If, Simple)
@@ -19,5 +19,5 @@ TEST(If, Simple)
 
 TEST(If, VariableInThen)
 {
-    test_failing_cellox_program("if_statement/variable_in_then.clx", "[line 1] Error at 'var': Expect expression.\n");
+    test_failing_cellox_program("if_statement/variable_in_then.clx", "[line 2] Error at 'var': Expect expression.\n");
 }

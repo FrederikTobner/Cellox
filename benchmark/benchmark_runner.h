@@ -8,7 +8,7 @@
 
 void benchmark_runner_execute_all_predefiened();
 
-void benchmark_runner_execute_predefiened(benchmark_t benchmark);
+void benchmark_runner_execute_predefiened(benchmark benchmark);
 
 void benchmark_runner_execute_custom_benchmarks(dynamic_benchmark_config_array_t * config_array);
 

@@ -78,6 +78,9 @@ $(function() {
   <div class="headertitle"><div class="title">chunk.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Header file containing the definitions of functionality regarding cellox chunks.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="dynamic__value__array_8h_source.html">dynamic_value_array.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="value_8h_source.html">value.h</a>&quot;</code><br />
@@ -94,53 +97,56 @@ Data Structures</h2></td></tr>
 Enumerations</h2></td></tr>
 <tr class="memitem:a8d0559dcae6e251ff5663e79d5581c7d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7d">opcode_t</a> { <br />
 &#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da96186829480e5b34b1373288e956b1c8">OP_ADD</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da0abc47146e9c316c9e311025c99917f8">OP_ARRAY_LITERAL</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da098bbeea13096667b102f7fd90cbe38f">OP_CALL</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da1f99e671caee687d352cce89c95e04c9">OP_CLASS</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da407a76cd8c503b0f4dc14603687a77a2">OP_CLOSURE</a>
 , <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daab701cd5894cd00f45b81e0065e25d79">OP_CLOSE_UPVALUE</a>
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da407a76cd8c503b0f4dc14603687a77a2">OP_CLOSURE</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daab701cd5894cd00f45b81e0065e25d79">OP_CLOSE_UPVALUE</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da0aae8bd3e44dcbe18dcd011ea16f7d3c">OP_CONSTANT</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da2919243a288096a3dd8fb013f9b4ff05">OP_DEFINE_GLOBAL</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da78a61af8bcdaef135491c842df4c2b83">OP_DIVIDE</a>
 , <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da383e0c5476b2ddc1839af951b393ca17">OP_EQUAL</a>
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da78a61af8bcdaef135491c842df4c2b83">OP_DIVIDE</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da383e0c5476b2ddc1839af951b393ca17">OP_EQUAL</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da4eb1c5aa5391d745eca56a71181a2966">OP_EXPONENT</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da6d68e13058c7fd0d7f66513aeca24c88">OP_FALSE</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da2e1ceb865f6c84b05e9c0b98f15ea1b8">OP_GET_GLOBAL</a>
 , <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da60c1812c3aad5bc262a31036d34e6c66">OP_GET_INDEX_OF</a>
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da2e1ceb865f6c84b05e9c0b98f15ea1b8">OP_GET_GLOBAL</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da60c1812c3aad5bc262a31036d34e6c66">OP_GET_INDEX_OF</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dad7949d038b7cd346c45278c5ecf3fa86">OP_GET_LOCAL</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dafd1a9342eba7164a9549c635949a18d7">OP_GET_PROPERTY</a>
+, <br />
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da895091414bc549a99414404a96544221">OP_GET_SLICE_OF</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dacbbf1db59026b95817284ae5c3d1586c">OP_GET_SUPER</a>
-, <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da05667ae6375d7ab4ce3ed171f76d7776">OP_GET_UPVALUE</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da05667ae6375d7ab4ce3ed171f76d7776">OP_GET_UPVALUE</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daddbb0006f28cdbbe905d2a40690c59cd">OP_GREATER</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dafc440549c9c1b7a63a564d339fd6eb8e">OP_INHERIT</a>
+, <br />
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dafc440549c9c1b7a63a564d339fd6eb8e">OP_INHERIT</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da43bdd4f0b1bf4e57bee0c40c292c2312">OP_INVOKE</a>
-, <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da702651101fc28a886970546cf992ce3b">OP_JUMP</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da702651101fc28a886970546cf992ce3b">OP_JUMP</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daf97119eebf5cbaefa78293c01b9ae76e">OP_JUMP_IF_FALSE</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daf2a253a4d4cc984967d002ea5e1f801a">OP_LESS</a>
+, <br />
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daf2a253a4d4cc984967d002ea5e1f801a">OP_LESS</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da8b29b51eae86559d774d145a4b4748e4">OP_LOOP</a>
-, <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da9370372bd57f3cf1a8509288035a6476">OP_METHOD</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da9370372bd57f3cf1a8509288035a6476">OP_METHOD</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da35d87fc4e6e56fc4e31c1f6477caff74">OP_MODULO</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da53859d69b6be506aaa34bcde305e3508">OP_MULTIPLY</a>
+, <br />
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da53859d69b6be506aaa34bcde305e3508">OP_MULTIPLY</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da24efa62543d37080a32e43b653c343dc">OP_NEGATE</a>
-, <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da36a6b73cc4823f54891a013e2cc760d1">OP_NOT</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da36a6b73cc4823f54891a013e2cc760d1">OP_NOT</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da3a429eddbb7f929a66970a68efc450a0">OP_NULL</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dafb3c2d934da3bfb01e4fd56338324e21">OP_POP</a>
+, <br />
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dafb3c2d934da3bfb01e4fd56338324e21">OP_POP</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dad436c18b194473f5ec64c28b774e41b3">OP_RETURN</a>
-, <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da1878b0c98afd38ba282c15ff90368700">OP_SET_GLOBAL</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da1878b0c98afd38ba282c15ff90368700">OP_SET_GLOBAL</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dae1a8aba4d1bbda836d2ec37e81642645">OP_SET_INDEX_OF</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da7fded28a708b5128f74d1ee932c1e2cd">OP_SET_LOCAL</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daa81d7d906822e3e4f40bbaa2fb576415">OP_SET_PROPERTY</a>
 , <br />
-&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da72308153bbaabc78a9bffd5beba94357">OP_SET_UPVALUE</a>
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da7fded28a708b5128f74d1ee932c1e2cd">OP_SET_LOCAL</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7daa81d7d906822e3e4f40bbaa2fb576415">OP_SET_PROPERTY</a>
+, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da72308153bbaabc78a9bffd5beba94357">OP_SET_UPVALUE</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7dadedf7e5a9b5ff1438fc168f1ceb9acc2">OP_SUBTRACT</a>
-, <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da1c724ef5985b6f80949ac0fc32353a2e">OP_SUPER_INVOKE</a>
+, <br />
+&#160;&#160;<a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da1c724ef5985b6f80949ac0fc32353a2e">OP_SUPER_INVOKE</a>
 , <a class="el" href="chunk_8h.html#a8d0559dcae6e251ff5663e79d5581c7da804f1324daff5d2d04639a57ce6b8ec3">OP_TRUE</a>
 <br />
  }</td></tr>
@@ -162,7 +168,9 @@ Functions</h2></td></tr>
 <tr class="memdesc:ac03d441a37f451f581cccf8395eed8c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a single bytecode instruction to a chunk.  <a href="chunk_8h.html#ac03d441a37f451f581cccf8395eed8c4">More...</a><br /></td></tr>
 <tr class="separator:ac03d441a37f451f581cccf8395eed8c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Header file containing the definitions of functionality regarding cellox chunks. </p>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a8d0559dcae6e251ff5663e79d5581c7d" name="a8d0559dcae6e251ff5663e79d5581c7d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8d0559dcae6e251ff5663e79d5581c7d">&#9670;&#160;</a></span>opcode_t</h2>
 
@@ -178,6 +186,8 @@ Functions</h2></td></tr>
 <p>opcodes of the bytecode instruction set </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7da96186829480e5b34b1373288e956b1c8" name="a8d0559dcae6e251ff5663e79d5581c7da96186829480e5b34b1373288e956b1c8"></a>OP_ADD&#160;</td><td class="fielddoc"><p >Pops the two most upper values from the stack, adds them and pushes the result onto the stack. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7da0abc47146e9c316c9e311025c99917f8" name="a8d0559dcae6e251ff5663e79d5581c7da0abc47146e9c316c9e311025c99917f8"></a>OP_ARRAY_LITERAL&#160;</td><td class="fielddoc"><p >Defines the arguments of the array literal declaration. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7da098bbeea13096667b102f7fd90cbe38f" name="a8d0559dcae6e251ff5663e79d5581c7da098bbeea13096667b102f7fd90cbe38f"></a>OP_CALL&#160;</td><td class="fielddoc"><p >Defines the arguments for the next function invocation. </p>
 </td></tr>
@@ -206,6 +216,8 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7dad7949d038b7cd346c45278c5ecf3fa86" name="a8d0559dcae6e251ff5663e79d5581c7dad7949d038b7cd346c45278c5ecf3fa86"></a>OP_GET_LOCAL&#160;</td><td class="fielddoc"><p >Gets the value of a local variable and stores it on the stack. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7dafd1a9342eba7164a9549c635949a18d7" name="a8d0559dcae6e251ff5663e79d5581c7dafd1a9342eba7164a9549c635949a18d7"></a>OP_GET_PROPERTY&#160;</td><td class="fielddoc"><p >Gets the value of the property of a Cellox object and stores it on the stack. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7da895091414bc549a99414404a96544221" name="a8d0559dcae6e251ff5663e79d5581c7da895091414bc549a99414404a96544221"></a>OP_GET_SLICE_OF&#160;</td><td class="fielddoc"><p >Gets the two most upper values from the stack and uses them to narrow down a certain range that is used to create a slice from an array or a string. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8d0559dcae6e251ff5663e79d5581c7dacbbf1db59026b95817284ae5c3d1586c" name="a8d0559dcae6e251ff5663e79d5581c7dacbbf1db59026b95817284ae5c3d1586c"></a>OP_GET_SUPER&#160;</td><td class="fielddoc"><p >Gets the parent class of a value and stores it on the stack. </p>
 </td></tr>

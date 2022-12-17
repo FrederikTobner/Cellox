@@ -1,1 +1,4 @@
-if (true) "ok"; else fun foo() {}
+if (true) 
+    "ok"; 
+else 
+    fun foo() {}

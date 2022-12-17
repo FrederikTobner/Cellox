@@ -46,7 +46,7 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     set(CPACK_BUILD_SOURCE_DIRS "${PROJECT_BINARY_DIR}/src")
     set(CPACK_PACKAGE_VENDOR ${PROJECT_VENDOR})
     
-    # Sets properties for the package created using cpack and NSIS
+    # Sets properties for NSIS (nullsoft scriptable install system - https://sourceforge.net/projects/nsis/)
     set(CPACK_NSIS_MUI_ICON "${PROJECT_DIRECTORY}/icons/file_type_cellox.ico")
     set(CPACK_NSIS_MODIFY_PATH "ON")
     set(CPACK_NSIS_URL_INFO_ABOUT ${PROJECT_PAGE})

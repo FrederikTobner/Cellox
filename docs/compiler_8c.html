@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">compiler.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>File that contains the implementation of the compiler.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="compiler_8h_source.html">compiler.h</a>&quot;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
@@ -204,6 +207,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a30a28ab576db0e850f8d78ad4e30a98b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a30a28ab576db0e850f8d78ad4e30a98b">compiler_dot</a> (bool canAssign)</td></tr>
 <tr class="memdesc:a30a28ab576db0e850f8d78ad4e30a98b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a dot statement.  <a href="compiler_8c.html#a30a28ab576db0e850f8d78ad4e30a98b">More...</a><br /></td></tr>
 <tr class="separator:a30a28ab576db0e850f8d78ad4e30a98b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5360dbc8d484ec51c636b23c7f9b016d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a5360dbc8d484ec51c636b23c7f9b016d">compiler_dynamic_array</a> (bool canAssign)</td></tr>
+<tr class="separator:a5360dbc8d484ec51c636b23c7f9b016d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0637701f8c2d6fad20cd5a05ff843d1b"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a0637701f8c2d6fad20cd5a05ff843d1b">compiler_dynamic_array_argument_list</a> ()</td></tr>
+<tr class="memdesc:a0637701f8c2d6fad20cd5a05ff843d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a List of argument of a call expression to bytecode instructions.  <a href="compiler_8c.html#a0637701f8c2d6fad20cd5a05ff843d1b">More...</a><br /></td></tr>
+<tr class="separator:a0637701f8c2d6fad20cd5a05ff843d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a954e41f88b4e48c4db80e83fccab68bc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a954e41f88b4e48c4db80e83fccab68bc">compiler_emit_byte</a> (uint8_t byte)</td></tr>
 <tr class="memdesc:a954e41f88b4e48c4db80e83fccab68bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits a single byte.  <a href="compiler_8c.html#a954e41f88b4e48c4db80e83fccab68bc">More...</a><br /></td></tr>
 <tr class="separator:a954e41f88b4e48c4db80e83fccab68bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -258,6 +266,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad8df7e7ff3a39f37372c5810c82128e0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#ad8df7e7ff3a39f37372c5810c82128e0">compiler_grouping</a> (bool canAssign)</td></tr>
 <tr class="memdesc:ad8df7e7ff3a39f37372c5810c82128e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">compiles a grouping expression '(expression)'  <a href="compiler_8c.html#ad8df7e7ff3a39f37372c5810c82128e0">More...</a><br /></td></tr>
 <tr class="separator:ad8df7e7ff3a39f37372c5810c82128e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a7855ccd203ea38b2cf4e28f0f6670c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a2a7855ccd203ea38b2cf4e28f0f6670c">compiler_hex_number</a> (bool canAssign)</td></tr>
+<tr class="memdesc:a2a7855ccd203ea38b2cf4e28f0f6670c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a hexadezimal number expression.  <a href="compiler_8c.html#a2a7855ccd203ea38b2cf4e28f0f6670c">More...</a><br /></td></tr>
+<tr class="separator:a2a7855ccd203ea38b2cf4e28f0f6670c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae366d283ec4d5df34baa215474fe68e7"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#ae366d283ec4d5df34baa215474fe68e7">compiler_identifier_constant</a> (<a class="el" href="structtoken__t.html">token_t</a> *name)</td></tr>
 <tr class="memdesc:ae366d283ec4d5df34baa215474fe68e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to create a string object from an identifier token.  <a href="compiler_8c.html#ae366d283ec4d5df34baa215474fe68e7">More...</a><br /></td></tr>
 <tr class="separator:ae366d283ec4d5df34baa215474fe68e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -270,9 +281,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a24cb20209796ced8fca29b72759553a4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a24cb20209796ced8fca29b72759553a4">compiler_init</a> (<a class="el" href="structcompiler__t.html">compiler_t</a> *compiler, <a class="el" href="compiler_8c.html#a8a219b42b1180414a012100af75c31c8">function_type_t</a> type)</td></tr>
 <tr class="memdesc:a24cb20209796ced8fca29b72759553a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the compiler.  <a href="compiler_8c.html#a24cb20209796ced8fca29b72759553a4">More...</a><br /></td></tr>
 <tr class="separator:a24cb20209796ced8fca29b72759553a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5eb7d61af7b025b487bbb71bdfd7700"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#aa5eb7d61af7b025b487bbb71bdfd7700">compiler_index_of</a> (bool canAssign, uint8_t getOp, uint8_t setOp, uint32_t arg)</td></tr>
-<tr class="memdesc:aa5eb7d61af7b025b487bbb71bdfd7700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a index of expression.  <a href="compiler_8c.html#aa5eb7d61af7b025b487bbb71bdfd7700">More...</a><br /></td></tr>
-<tr class="separator:aa5eb7d61af7b025b487bbb71bdfd7700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07d15ac257faa634143db22a015ccfc8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a07d15ac257faa634143db22a015ccfc8">compiler_index_of</a> (bool canAssign, uint8_t getOp, uint32_t arg)</td></tr>
+<tr class="memdesc:a07d15ac257faa634143db22a015ccfc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a index of expression.  <a href="compiler_8c.html#a07d15ac257faa634143db22a015ccfc8">More...</a><br /></td></tr>
+<tr class="separator:a07d15ac257faa634143db22a015ccfc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3245ccd1368d72429e79c00d3408c553"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a3245ccd1368d72429e79c00d3408c553">compiler_literal</a> (bool canAssign)</td></tr>
 <tr class="memdesc:a3245ccd1368d72429e79c00d3408c553"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a boolean literal expression.  <a href="compiler_8c.html#a3245ccd1368d72429e79c00d3408c553">More...</a><br /></td></tr>
 <tr class="separator:a3245ccd1368d72429e79c00d3408c553"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -370,7 +381,9 @@ Variables</h2></td></tr>
 <tr class="memdesc:acb4ba6712e29462bb042a9e6f4a5ec44"><td class="mdescLeft">&#160;</td><td class="mdescRight">ParseRules for the tokens of cellox.  <a href="compiler_8c.html#acb4ba6712e29462bb042a9e6f4a5ec44">More...</a><br /></td></tr>
 <tr class="separator:acb4ba6712e29462bb042a9e6f4a5ec44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >File that contains the implementation of the compiler. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
 <a id="a1afd025f00b0f572631c2b94db4c9cbf" name="a1afd025f00b0f572631c2b94db4c9cbf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1afd025f00b0f572631c2b94db4c9cbf">&#9670;&#160;</a></span>class_compiler_t</h2>
 
@@ -1073,6 +1086,60 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a5360dbc8d484ec51c636b23c7f9b016d" name="a5360dbc8d484ec51c636b23c7f9b016d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5360dbc8d484ec51c636b23c7f9b016d">&#9670;&#160;</a></span>compiler_dynamic_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void compiler_dynamic_array </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>canAssign</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0637701f8c2d6fad20cd5a05ff843d1b" name="a0637701f8c2d6fad20cd5a05ff843d1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0637701f8c2d6fad20cd5a05ff843d1b">&#9670;&#160;</a></span>compiler_dynamic_array_argument_list()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint8_t compiler_dynamic_array_argument_list </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compiles a List of argument of a call expression to bytecode instructions. </p>
+<dl class="section return"><dt>Returns</dt><dd>The amount of arguments that were parsed </dd></dl>
+
+</div>
+</div>
 <a id="a954e41f88b4e48c4db80e83fccab68bc" name="a954e41f88b4e48c4db80e83fccab68bc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a954e41f88b4e48c4db80e83fccab68bc">&#9670;&#160;</a></span>compiler_emit_byte()</h2>
 
@@ -1683,6 +1750,40 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a2a7855ccd203ea38b2cf4e28f0f6670c" name="a2a7855ccd203ea38b2cf4e28f0f6670c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a7855ccd203ea38b2cf4e28f0f6670c">&#9670;&#160;</a></span>compiler_hex_number()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void compiler_hex_number </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>canAssign</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compiles a hexadezimal number expression. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">canAssign</td><td>Unused for hexadezimal number expressions </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ae366d283ec4d5df34baa215474fe68e7" name="ae366d283ec4d5df34baa215474fe68e7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae366d283ec4d5df34baa215474fe68e7">&#9670;&#160;</a></span>compiler_identifier_constant()</h2>
 
@@ -1791,8 +1892,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aa5eb7d61af7b025b487bbb71bdfd7700" name="aa5eb7d61af7b025b487bbb71bdfd7700"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5eb7d61af7b025b487bbb71bdfd7700">&#9670;&#160;</a></span>compiler_index_of()</h2>
+<a id="a07d15ac257faa634143db22a015ccfc8" name="a07d15ac257faa634143db22a015ccfc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07d15ac257faa634143db22a015ccfc8">&#9670;&#160;</a></span>compiler_index_of()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1811,12 +1912,6 @@ Variables</h2></td></tr>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>getOp</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>setOp</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1842,7 +1937,6 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">canAssign</td><td>Unsused for index of expressions </td></tr>
     <tr><td class="paramname">getOp</td><td>Indicates whether the index of gets a value </td></tr>
-    <tr><td class="paramname">setOp</td><td>Indicates whether the index of sets a value </td></tr>
     <tr><td class="paramname">arg</td><td>The index of the constant </td></tr>
   </table>
   </dd>

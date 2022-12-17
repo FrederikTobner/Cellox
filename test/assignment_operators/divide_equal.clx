@@ -1,0 +1,5 @@
+var v = 9;
+v /= 3;
+printf("{}\n", v);
+v /= -2;
+printf("{}\n", v);

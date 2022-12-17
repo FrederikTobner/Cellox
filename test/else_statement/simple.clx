@@ -1,5 +1,14 @@
-if (true) println("yes"); else println("no");
-if (false) println("no"); else println("yes");
+if (true) 
+    printf("{}\n", "yes"); 
+else 
+    printf("{}\n", "no");
+if (false) 
+    printf("{}\n", "no"); 
+else 
+    printf("{}\n", "yes");
 
-if (false) null;
-else { println("block"); }
+if (false) 
+    null;
+else { 
+    printf("{}\n", "block"); 
+}

@@ -1,0 +1,4 @@
+class Foo {}
+var v = Foo();
+printf("{}\n", class_of(v));
+printf("{}\n", class_of(v) == Foo);

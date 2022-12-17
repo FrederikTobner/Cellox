@@ -2,4 +2,4 @@ class Foo {
     
 }
 
-println(Foo());
+printf("{}\n", Foo());

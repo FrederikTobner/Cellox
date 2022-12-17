@@ -1,3 +1,24 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file common.h
+ * @brief Common header file of the interpreter
+ * @details Contains commnly used includes and exit codes
+ */
+
 #ifndef CELLOX_COMMON_H_
 #define CELLOX_COMMON_H_
 
@@ -29,7 +50,7 @@ typedef enum
 // Typedefs for exact-width-integer types from the C99 standard
 #include <stdint.h>
 
-/// Number of values in a dynamic array (used for upvalues and locals)
+/// Number of values in a dynamic array of upvalues or locals
 #define UINT8_COUNT (256)
 
 #endif // CELLOX_COMMON_H_

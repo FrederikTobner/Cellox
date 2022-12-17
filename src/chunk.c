@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file chunk.c
+ * @brief File containing the implementation of functionality regarding cellox chunks.
+ */
+
 #include "chunk.h"
 
 #include <stdlib.h>
@@ -5,7 +25,8 @@
 #include "memory.h"
 #include "virtual_machine.h"
 
-static bool chunk_is_full(chunk_t * chunk);
+static inline bool chunk_byte_code_is_full(chunk_t * chunk);
+static inline bool chunk_line_info_is_full(chunk_t * chunk);
 
 int32_t chunk_add_constant(chunk_t * chunk, value_t value)
 {
@@ -17,51 +38,84 @@ int32_t chunk_add_constant(chunk_t * chunk, value_t value)
 
 void chunk_free(chunk_t * chunk)
 {
-  FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
-  FREE_ARRAY(uint32_t, chunk->lines, chunk->capacity);
+  FREE_ARRAY(uint8_t, chunk->code, chunk->byteCodeCapacity);
+  FREE_ARRAY(line_info_t, chunk->lineInfos, chunk->lineInfoCapacity);
   dynamic_value_array_free(&chunk->constants);
   chunk_init(chunk);
 }
 
 void chunk_init(chunk_t * chunk)
 {
-  chunk->count = chunk->capacity = 0;
+  chunk->byteCodeCount = chunk->byteCodeCapacity = chunk->lineInfoCount = chunk->lineInfoCapacity = 0;
   chunk->code = NULL;
-  chunk->lines = NULL;
+  chunk->lineInfos = NULL;
   dynamic_value_array_init(&chunk->constants);
 }
 
 void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)
 {
-  if (chunk_is_full(chunk))
+  if (chunk_byte_code_is_full(chunk))
   {
     // Stores the oldcapacity of the chunk so we know how much memory we have to allocate
-    uint32_t oldCapacity = chunk->capacity;
+    uint32_t oldCapacity = chunk->byteCodeCapacity;
     // Increases capacity
-    chunk->capacity = GROW_CAPACITY(oldCapacity);
+    chunk->byteCodeCapacity = GROW_CAPACITY(oldCapacity);
     // Allocates bytecode array
-    uint8_t * grownChunk = GROW_ARRAY(uint8_t, chunk->code, oldCapacity, chunk->capacity);
+    uint8_t * grownChunk = GROW_ARRAY(uint8_t, chunk->code, oldCapacity, chunk->byteCodeCapacity);
     if(!grownChunk)
         exit(EXIT_CODE_SYSTEM_ERROR);    
     chunk->code = grownChunk;
-    // Allocates line array
-    chunk->lines = GROW_ARRAY(uint32_t, chunk->lines, oldCapacity, chunk->capacity);
-    if(!chunk->lines)
-      exit(EXIT_CODE_SYSTEM_ERROR);
   }
   // Writes the bytecode instruction to the chunk
-  chunk->code[chunk->count] = byte;
+  chunk->code[chunk->byteCodeCount] = byte;
+
 /* 
  * Adds line info from the sourceCode in case a runtime error occurs, 
- * so we can show the line in case of an error and increases the counter of the chunk 
-*/
-  chunk->lines[chunk->count++] = line;  
+ * so we can show the line in case of an error
+ */
+  if(chunk->lineInfoCount == 0 || chunk->lineInfos[chunk->lineInfoCount - 1].lineNumber != line) 
+  {
+      // Initialize line info
+    if(chunk_line_info_is_full(chunk))
+    {
+      uint32_t oldCapacity = chunk->lineInfoCapacity;
+      chunk->lineInfoCapacity = GROW_CAPACITY(oldCapacity);
+      chunk->lineInfos = GROW_ARRAY(line_info_t, chunk->lineInfos, oldCapacity, chunk->lineInfoCapacity);
+      if(!chunk->lineInfos)
+        exit(EXIT_CODE_SYSTEM_ERROR);
+    }
+    chunk->lineInfos[chunk->lineInfoCount].lastOpCodeIndexInLine = chunk->byteCodeCount;
+    chunk->lineInfos[chunk->lineInfoCount].lineNumber = line;
+    chunk->lineInfoCount++;    
+  }
+  else 
+  {
+    chunk->lineInfos[chunk->lineInfoCount - 1].lastOpCodeIndexInLine = chunk->byteCodeCount;
+  }
+  chunk->byteCodeCount++;  
+}
+
+uint32_t chunk_determine_line_by_index(chunk_t * chunk, uint32_t opCodeIndex)
+{
+  line_info_t * upperBound = chunk->lineInfos + chunk->lineInfoCount;
+  for (line_info_t * lip = chunk->lineInfos; lip < upperBound; lip++)
+    if(lip->lastOpCodeIndexInLine >= opCodeIndex)
+      return lip->lineNumber;
+  exit(EXIT_CODE_COMPILATION_ERROR);  // Should be unreachable
 }
 
 /// @brief Determines whether a chunk is completely filled with bytecode instructions
 /// @param chunk The chunk that is checked if it is already filled
 /// @return True if the chunk is full, false if not
-static bool chunk_is_full(chunk_t * chunk)
+static inline bool chunk_byte_code_is_full(chunk_t * chunk)
 {
-    return chunk->capacity < chunk->count + 1;
+    return chunk->byteCodeCapacity < chunk->byteCodeCount + 1;
+}
+
+/// @brief Determines whether a chunk is completely filled with bytecode instructions
+/// @param chunk The chunk that is checked if it is already filled
+/// @return True if the chunk is full, false if not
+static inline bool chunk_line_info_is_full(chunk_t * chunk)
+{
+    return chunk->lineInfoCapacity < chunk->lineInfoCount + 1;
 }

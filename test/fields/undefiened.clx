@@ -3,4 +3,4 @@ class Foo {
 }
 
 var v = Foo();
-print(v.test);
+printf("{}", v.test);

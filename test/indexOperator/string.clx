@@ -1,2 +1,0 @@
-var t = "test";
-for (var i = 0; i < 4; i += 1) println(t[i]);

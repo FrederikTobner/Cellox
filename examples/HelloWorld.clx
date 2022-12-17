@@ -1,2 +1,2 @@
 // Simple Hello-World programm
-println("Hello World!");
+printf("Hello World!\n");

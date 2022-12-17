@@ -1,26 +1,26 @@
 fun f0() {return 0;}
-println(f0());
+printf("{}\n", f0());
 
 fun f1(a) {return a;}
-println(f1(1));
+printf("{}\n", f1(1));
 
 fun f2(a, b) {return a + b;}
-println(f2(1, 2));
+printf("{}\n", f2(1, 2));
 
 fun f3(a, b, c) { return a + b + c; }
-println(f3(1, 2, 3));
+printf("{}\n", f3(1, 2, 3));
 
 fun f4(a, b, c, d) { return a + b + c + d; }
-println(f4(1, 2, 3, 4));
+printf("{}\n", f4(1, 2, 3, 4));
 
 fun f5(a, b, c, d, e) { return a + b + c + d + e; }
-println(f5(1, 2, 3, 4, 5));
+printf("{}\n", f5(1, 2, 3, 4, 5));
 
 fun f6(a, b, c, d, e, f) { return a + b + c + d + e + f; }
-println(f6(1, 2, 3, 4, 5, 6));
+printf("{}\n", f6(1, 2, 3, 4, 5, 6));
 
 fun f7(a, b, c, d, e, f, g) { return a + b + c + d + e + f + g; }
-println(f7(1, 2, 3, 4, 5, 6, 7));
+printf("{}\n", f7(1, 2, 3, 4, 5, 6, 7));
 
 fun f8(a, b, c, d, e, f, g, h) { return a + b + c + d + e + f + g + h; }
-println(f8(1, 2, 3, 4, 5, 6, 7, 8));
+printf("{}\n", f8(1, 2, 3, 4, 5, 6, 7, 8));

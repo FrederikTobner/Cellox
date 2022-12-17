@@ -13,4 +13,4 @@ class Bar {
     }
 }
 
-println(Bar(12.5, Foo(25, "Test")));
+printf("{}\n", Bar(12.5, Foo(25, "Test")));

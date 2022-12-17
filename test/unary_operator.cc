@@ -4,10 +4,10 @@
 
 TEST(UnaryOperator, Negate)
 {
-    test_cellox_program("unaryOperators/negate.clx", "-5\n10\n");
+    test_cellox_program("unary_operators/negate.clx", "-5\n10\n");
 }
 
 TEST(UnaryOperator, Not)
 {
-    test_cellox_program("unaryOperators/not.clx", "false\ntrue\n");
+    test_cellox_program("unary_operators/not.clx", "false\ntrue\n");
 }

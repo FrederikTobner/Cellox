@@ -77,6 +77,9 @@ $(function() {
   <div class="headertitle"><div class="title">memory.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Header file containing the definitions of functionality used for memory management.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="object_8h_source.html">object.h</a>&quot;</code><br />
 </div>
@@ -84,13 +87,15 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:abe104ef64af521de16baf648eeb86e8d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#abe104ef64af521de16baf648eeb86e8d">ARRAY_GROWTH_FACTOR</a>&#160;&#160;&#160;(1.5)</td></tr>
+<tr class="separator:abe104ef64af521de16baf648eeb86e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">ALLOCATE</a>(type,  count)&#160;&#160;&#160;    ((type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(NULL, 0, sizeof(type) * (count)))</td></tr>
 <tr class="memdesc:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that allocates the memory needed for a given type multiplied by the count.  <a href="memory_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">More...</a><br /></td></tr>
 <tr class="separator:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15985952db75d2608fdc0e24dd06e775"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a15985952db75d2608fdc0e24dd06e775">FREE</a>(type,  pointer)&#160;&#160;&#160;    (<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type), 0))</td></tr>
 <tr class="memdesc:a15985952db75d2608fdc0e24dd06e775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that frees the memory used by a given type at the position specified by the pointer.  <a href="memory_8h.html#a15985952db75d2608fdc0e24dd06e775">More...</a><br /></td></tr>
 <tr class="separator:a15985952db75d2608fdc0e24dd06e775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3f26420257fbc4c78eece0f473860c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#ad3f26420257fbc4c78eece0f473860c2">GROW_CAPACITY</a>(capacity)&#160;&#160;&#160;    ((capacity) &lt; 8u ? 8u : (capacity) + 2u)</td></tr>
+<tr class="memitem:ad3f26420257fbc4c78eece0f473860c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#ad3f26420257fbc4c78eece0f473860c2">GROW_CAPACITY</a>(capacity)&#160;&#160;&#160;    ((capacity) &lt; 8u ? 8u : (capacity) * <a class="el" href="memory_8h.html#abe104ef64af521de16baf648eeb86e8d">ARRAY_GROWTH_FACTOR</a>)</td></tr>
 <tr class="memdesc:ad3f26420257fbc4c78eece0f473860c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)  <a href="memory_8h.html#ad3f26420257fbc4c78eece0f473860c2">More...</a><br /></td></tr>
 <tr class="separator:ad3f26420257fbc4c78eece0f473860c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a535c54c8dcb6e740b47e09ee33c07f8f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a535c54c8dcb6e740b47e09ee33c07f8f">GROW_ARRAY</a>(type,  pointer,  oldCount,  newCount)&#160;&#160;&#160;    ((type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))</td></tr>
@@ -118,7 +123,9 @@ Functions</h2></td></tr>
 <tr class="memdesc:a2907a474f57bcc68a7af23d9474ff3a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reallocates a block in memory.  <a href="memory_8h.html#a2907a474f57bcc68a7af23d9474ff3a0">More...</a><br /></td></tr>
 <tr class="separator:a2907a474f57bcc68a7af23d9474ff3a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Header file containing the definitions of functionality used for memory management. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a9b802bbc56b822e67bf1523c9d87ee3f" name="a9b802bbc56b822e67bf1523c9d87ee3f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9b802bbc56b822e67bf1523c9d87ee3f">&#9670;&#160;</a></span>ALLOCATE</h2>
 
@@ -146,6 +153,20 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Makro that allocates the memory needed for a given type multiplied by the count. </p>
+
+</div>
+</div>
+<a id="abe104ef64af521de16baf648eeb86e8d" name="abe104ef64af521de16baf648eeb86e8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe104ef64af521de16baf648eeb86e8d">&#9670;&#160;</a></span>ARRAY_GROWTH_FACTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARRAY_GROWTH_FACTOR&#160;&#160;&#160;(1.5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -268,7 +289,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">capacity</td><td>)</td>
-          <td>&#160;&#160;&#160;    ((capacity) &lt; 8u ? 8u : (capacity) + 2u)</td>
+          <td>&#160;&#160;&#160;    ((capacity) &lt; 8u ? 8u : (capacity) * <a class="el" href="memory_8h.html#abe104ef64af521de16baf648eeb86e8d">ARRAY_GROWTH_FACTOR</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">

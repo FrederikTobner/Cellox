@@ -76,6 +76,9 @@ $(function() {
   <div class="headertitle"><div class="title">string_utils.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Header file containing the definitions of functionality regarding character sequences.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 </div>
 <p><a href="string__utils_8h_source.html">Go to the source code of this file.</a></p>
@@ -88,8 +91,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a1f0688092d57609f45dbd33fb9670383"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#a1f0688092d57609f45dbd33fb9670383">string_utils_resolve_escape_sequence</a> (char *text, uint32_t *length)</td></tr>
 <tr class="memdesc:a1f0688092d57609f45dbd33fb9670383"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves all the escape sequences specified in a string literal.  <a href="string__utils_8h.html#a1f0688092d57609f45dbd33fb9670383">More...</a><br /></td></tr>
 <tr class="separator:a1f0688092d57609f45dbd33fb9670383"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adba8b35cc3ad9e0b22041dd601bf3f88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#adba8b35cc3ad9e0b22041dd601bf3f88">string_utils_trim</a> (char *text, uint32_t *length)</td></tr>
+<tr class="memdesc:adba8b35cc3ad9e0b22041dd601bf3f88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all leading and trailing white-space characters from a character sequence.  <a href="string__utils_8h.html#adba8b35cc3ad9e0b22041dd601bf3f88">More...</a><br /></td></tr>
+<tr class="separator:adba8b35cc3ad9e0b22041dd601bf3f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Header file containing the definitions of functionality regarding character sequences. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="ad51887e1d189f5bb5c32079ba21472dd" name="ad51887e1d189f5bb5c32079ba21472dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad51887e1d189f5bb5c32079ba21472dd">&#9670;&#160;</a></span>string_utils_contains_character_restricted()</h2>
 
@@ -171,6 +179,43 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if all escape sequences where resoved successful, -1 if a unknown escape sequence was found in the character sequence </dd></dl>
+
+</div>
+</div>
+<a id="adba8b35cc3ad9e0b22041dd601bf3f88" name="adba8b35cc3ad9e0b22041dd601bf3f88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adba8b35cc3ad9e0b22041dd601bf3f88">&#9670;&#160;</a></span>string_utils_trim()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void string_utils_trim </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes all leading and trailing white-space characters from a character sequence. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The character sequence, where the white-space characters are removed </td></tr>
+    <tr><td class="paramname">length</td><td>Pointer to the length of the character sequence </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -1,18 +1,36 @@
 # Cellox
 
-[![Build](https://github.com/FrederikTobner/Cellox/actions/workflows/build_interpreter.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build_interpreter.yml)
+[![Build Interpreter](https://github.com/FrederikTobner/Cellox/actions/workflows/build_interpreter.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build_interpreter.yml)
+[![Build Tools](https://github.com/FrederikTobner/Cellox/actions/workflows/build_tools.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build_tools.yml)
 [![Test](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
 [![Analyze](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml)
 
 Interpreter based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) for the programming language cellox.
 
-Cellox is a scripting language based on the programming language [lox](https://craftinginterpreters.com/the-lox-language.html) from Robert Nystrom.
+Cellox is a programming language based on [lox](https://craftinginterpreters.com/the-lox-language.html) from Robert Nystrom.
+
+## Table of Contents
+
+* [Overview](#overview)
+* [Values](#values)
+* [Control structures](#control-structures)
+* [Operators](#operators)
+* [Objects](#objects)
+* [Functions](#functions)
+* [Classes](#classes)
+* [Strings](#strings)
+* [Arrays](#arrays)
+* [Slices](#slices)
+* [IDE Integration](#ide-integration)
+* [How it works](#how-it-works)
+* [License](#license)
 
 ## Overview
 
 Cellox is a dynamically typed, object oriented, high-level scripting language.
 
 It is available under windows, linux and macOS, but has only been thoroughly tested under windows.
+
 Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the interpreter.
 
 ## Values
@@ -49,12 +67,24 @@ Cellox also offers some [native functions](https://github.com/FrederikTobner/Cel
 ## Classes
 
 Cellox is a objectoriented language that features inheritance and methods that are bound to a [class](https://github.com/FrederikTobner/Cellox/wiki/Classes) instance.
+Classes can also extend the functionality of an already existing class by using inheritance.
 
 ## Strings
 
 A string in cellox is a special type of object.
 Strings can contain escape sequences that will be resolved at compile time.
-The characters that a string contains can be accessed and altered by the index.
+The characters that a string contains can be accessed by the index.
+
+## Arrays
+
+Arrays have a variable-size, meaning they can shrink and grow.
+There is no tradional array, with a fixed capacity that is specified at allocation.
+
+## Slices
+
+A slice is a subset of an already existing array or string.
+Slices are created by using the range operator.
+The values stored in slice can be altered without affecting the original array.
 
 ## IDE Integration
 
@@ -62,7 +92,6 @@ There are plugins for vscode, vim and neovim.
 
 [![VSCcode](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=vscode-cellox&theme=dark)](https://github.com/FrederikTobner/vscode-cellox)
 [![Vim](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=cellox.vim&theme=dark)](https://github.com/FrederikTobner/cellox.vim)
-<!--[![IntelliJ](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=IntelliJ-Cellox&theme=dark)](https://github.com/FrederikTobner/IntelliJ-Cellox) -->
 
 ## How it works
 
@@ -78,4 +107,4 @@ More information about the interpreter can be found at the [technical documentat
 
 ## License
 
-See [License](LICENSE)
+This project is licensed under the [GNU General Public License](LICENSE)

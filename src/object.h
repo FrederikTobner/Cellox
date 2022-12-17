@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file object.h
+ * @brief Header file containing the declarations of functionality regarding cellox objects.
+ */
+
 #ifndef CELLOX_OBJECT_H_
 #define CELLOX_OBJECT_H_
 
@@ -11,6 +31,9 @@
 #define OBJECT_TYPE(value) \
     (AS_OBJECT(value)->type)
 
+/// Makro that determines if the object has the object type array
+#define IS_ARRAY(value) \
+    object_is_type(value, OBJECT_ARRAY)
 ///  Makro that determines if the object has the object type bound-method
 #define IS_BOUND_METHOD(value) \
     object_is_type(value, OBJECT_BOUND_METHOD)
@@ -33,6 +56,9 @@
 #define IS_STRING(value) \
     object_is_type(value, OBJECT_STRING)
 
+/// Makro that gets the value of an object as a dynamic value array
+#define AS_ARRAY(value) \
+    ((object_dynamic_value_array_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a bound method
 #define AS_BOUND_METHOD(value) \
     ((object_bound_method_t *)AS_OBJECT(value))
@@ -45,6 +71,9 @@
 /// Makro that gets the value of an object as a closure
 #define AS_CLOSURE(value) \
     ((object_closure_t *)AS_OBJECT(value))
+/// Makro that gets the value of an object as a cstring
+#define AS_CSTRING(value) \
+    (((object_string_t *)AS_OBJECT(value))->chars)
 /// Makro that gets the value of an object as a function
 #define AS_FUNCTION(value) \
     ((object_function_t *)AS_OBJECT(value))
@@ -54,13 +83,12 @@
 /// Makro that gets the value of an object as a string
 #define AS_STRING(value) \
     ((object_string_t *)AS_OBJECT(value))
-/// Makro that gets the value of an object as a cstring
-#define AS_CSTRING(value) \
-    (((object_string_t *)AS_OBJECT(value))->chars)
 
 /// @brief Different type of objects
 typedef enum
 {
+    /// A dynamic array
+    OBJECT_ARRAY,
     /// A method the is bound to an object
     OBJECT_BOUND_METHOD,
     /// A instance of a cellox class
@@ -77,13 +105,13 @@ typedef enum
     OBJECT_STRING,
     /// An upvalue
     OBJECT_UPVALUE,
-} object_type_t;
+} object_type;
 
 /// @brief A cellox object
 struct object_t
 {
     /// The type of the object
-    object_type_t type;
+    object_type type;
     /// Determines whether the object has already been marked by the grabage collector
     bool isMarked;
     /// pointer to the next object in the linear sequence of objects stored on the heap
@@ -193,6 +221,15 @@ typedef struct
     object_closure_t * method;
 } object_bound_method_t;
 
+/// @brief A dynamic array
+typedef struct
+{
+    /// data that defines all types of objects
+    object_t obj;
+    /// The underlying array
+    dynamic_value_array_t array;
+} object_dynamic_value_array_t;
+
 /// @brief Copys the value of a string in the hashtable of the virtualMachine
 /// @param chars Pointer to the character sequence / string
 /// @param length The length of the character sequence
@@ -200,6 +237,14 @@ typedef struct
 /// @return The created string
 /// @note If the string contains an unknown escape sequence NULL is instead returned to indicate the error
 object_string_t * object_copy_string(char const * chars, uint32_t length, bool removeBackSlash);
+
+/// @brief <a href=https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash>FNV-1a</a> hash function
+/// @details Fownler-Noll-Vo is a non-cryptographic hash function, that comes in three different version FNV-0, FNV-1 and FNV-1a.
+/// There are 32-, 64-, 128-, 256-, 512-, and 1024-bit variants of the function. We use the 32-bit variant to hash all the strings in cellox.
+/// @param key The key that is hashed
+/// @param length The length of the key
+/// @return The hashvalue of the key
+uint32_t object_hash_string(char const * key, uint32_t length);
 
 /// @brief Creates a new method, that is bound to a closure
 /// @param receiver The closure the method is bound to
@@ -216,6 +261,10 @@ object_class_t * object_new_class(object_string_t * name);
 /// @param function The function that is used to create the upvalue
 /// @return The created closure
 object_closure_t * object_new_closure(object_function_t * function);
+
+/// @brief Creates a new dynamic value array
+/// @return The created array
+object_dynamic_value_array_t * object_new_dynamic_value_array();
 
 /// @brief Creates a new cellox function
 /// @return The new function that was created
@@ -255,7 +304,7 @@ char const * object_stringify_type(object_t * object);
 /// @param value The value that is checked
 /// @param type The type that is used for checking the value
 /// @return true is the value is of the given type, false if not
-static inline bool object_is_type(value_t value, object_type_t type)
+static inline bool object_is_type(value_t value, object_type type)
 {
     return IS_OBJECT(value) && AS_OBJECT(value)->type == type;
 }

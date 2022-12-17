@@ -1,1 +1,2 @@
-if (true) var foo;
+if (true) 
+    var foo;

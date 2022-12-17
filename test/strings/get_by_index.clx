@@ -1,0 +1,3 @@
+var t = "test";
+for (var i = 0; i < 4; i += 1) 
+    printf("{}\n", t[i]);

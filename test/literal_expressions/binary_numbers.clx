@@ -1,0 +1,3 @@
+// Binary
+printf("{}\n", 0b1111);
+printf("{}\n", 0b100000000);

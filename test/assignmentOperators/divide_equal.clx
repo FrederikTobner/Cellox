@@ -1,5 +1,0 @@
-var v = 9;
-v /= 3;
-println(v);
-v /= -2;
-println(v);

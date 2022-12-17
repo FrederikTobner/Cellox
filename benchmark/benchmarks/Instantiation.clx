@@ -40,4 +40,4 @@ while (i < 500000) {
   i += 1;
 }
 
-print(clock() - start);
+printf("{}", clock() - start);

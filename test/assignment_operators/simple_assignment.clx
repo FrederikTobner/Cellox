@@ -1,0 +1,8 @@
+var v = 5;
+printf("{}\n", v);
+v = "test";
+printf("{}\n", v);
+v = true;
+printf("{}\n", v);
+v = null;
+printf("{}\n", v);

@@ -2,7 +2,7 @@
 line
 comment
 */
-println("ok");
+printf("ok\n");
 /* multi
 line
 comment

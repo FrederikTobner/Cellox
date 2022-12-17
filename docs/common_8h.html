@@ -77,6 +77,9 @@ $(function() {
   <div class="headertitle"><div class="title">common.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Common header file of the interpreter.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
@@ -86,7 +89,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a2c580133a436e5d548aadde685fdbb52"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a2c580133a436e5d548aadde685fdbb52">UINT8_COUNT</a>&#160;&#160;&#160;(256)</td></tr>
-<tr class="memdesc:a2c580133a436e5d548aadde685fdbb52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of values in a dynamic array (used for upvalues and locals)  <a href="common_8h.html#a2c580133a436e5d548aadde685fdbb52">More...</a><br /></td></tr>
+<tr class="memdesc:a2c580133a436e5d548aadde685fdbb52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of values in a dynamic array of upvalues or locals.  <a href="common_8h.html#a2c580133a436e5d548aadde685fdbb52">More...</a><br /></td></tr>
 <tr class="separator:a2c580133a436e5d548aadde685fdbb52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
@@ -104,7 +107,10 @@ Enumerations</h2></td></tr>
 <tr class="memdesc:a5893df40b4196688e82d1afad68acdce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exit codes of the cellox interpreter.  <a href="common_8h.html#a5893df40b4196688e82d1afad68acdce">More...</a><br /></td></tr>
 <tr class="separator:a5893df40b4196688e82d1afad68acdce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Common header file of the interpreter. </p>
+<p >Contains commnly used includes and exit codes </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a2c580133a436e5d548aadde685fdbb52" name="a2c580133a436e5d548aadde685fdbb52"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c580133a436e5d548aadde685fdbb52">&#9670;&#160;</a></span>UINT8_COUNT</h2>
 
@@ -117,7 +123,7 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Number of values in a dynamic array (used for upvalues and locals) </p>
+<p>Number of values in a dynamic array of upvalues or locals. </p>
 
 </div>
 </div>

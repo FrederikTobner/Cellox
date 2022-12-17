@@ -11,4 +11,4 @@ class B : A {
 }
 
 var a = B("test");
-println(a.value);
+printf("{}\n", a.value);

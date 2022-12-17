@@ -7,4 +7,4 @@ fun fibo(n) {
 var start = clock();
 fibo(30);
 var end = clock();
-print(end - start);
+printf("{}", end - start);

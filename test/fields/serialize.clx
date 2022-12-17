@@ -5,4 +5,4 @@ class Foo {
     }
 }
 
-println(Foo(10, "test"));
+printf("{}\n", Foo(10, "test"));
