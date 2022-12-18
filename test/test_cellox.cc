@@ -4,10 +4,6 @@
 
 #include "init.h"
 
-/// @brief Test a cellox program
-/// @param programPath The path of the program that is tested
-/// @param expectedOutput The expected output of the program
-/// @param producesError Determines wheather the rpogram leads to a runtime/compiler error
 static void test_program(std::string const & programPath, std::string const & expectedOutput, bool producesError);
 
 void test_cellox_program(std::string const & programPath, std::string const & expectedOutput)
@@ -20,6 +16,21 @@ void test_failing_cellox_program(std::string const & programPath, std::string co
     test_program(programPath, expectedOutput, true);
 }
 
+void test_compiled_cellox_program(std::string const & programPath, std::string const & expectedOutput)
+{
+    std::string filePath = TEST_PROGRAM_BASE_PATH;
+    filePath.append(programPath);
+    init_run_from_file(filePath.c_str(), true);
+    // We need to alter the path because we want to check whether the compiled version works
+    std::string alteredPath = programPath;
+    alteredPath.replace(alteredPath.end() - 3, alteredPath.end(), "cxcf");
+    test_program(alteredPath, expectedOutput, false);
+}
+
+/// @brief Test a cellox program
+/// @param programPath The path of the program that is tested
+/// @param expectedOutput The expected output of the program
+/// @param producesError Determines wheather the rpogram leads to a runtime/compiler error
 static void test_program(std::string const & programPath, std::string const & expectedOutput, bool producesError)
 {
     // Create absolute filepath

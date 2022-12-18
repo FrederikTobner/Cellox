@@ -2,32 +2,32 @@
 
 #include "test_cellox.hh"
 
-TEST(AssgnmentOperator, Associativity)
+TEST(AssignmentOperator, Associativity)
 {
     test_cellox_program("assignment_operators/associativity.clx", "baz\nbaz\nbaz\n");
 }
 
-TEST(AssgnmentOperator, Chained)
+TEST(AssignmentOperator, Chained)
 {
     test_cellox_program("assignment_operators/chained.clx", "baz\nbaz\nbaz\n");
 }
 
-TEST(AssgnmentOperator, DivideEqual)
+TEST(AssignmentOperator, DivideEqual)
 {
     test_cellox_program("assignment_operators/divide_equal.clx", "3\n-1.5\n");
 }
 
-TEST(AssgnmentOperator, MinusEqual)
+TEST(AssignmentOperator, MinusEqual)
 {
     test_cellox_program("assignment_operators/minus_equal.clx", "2\n4\n");
 }
 
-TEST(AssgnmentOperator, ModuloEqual)
+TEST(AssignmentOperator, ModuloEqual)
 {
     test_cellox_program("assignment_operators/modulo_equal.clx", "2\n0\n");
 }
 
-TEST(AssgnmentOperator, PlusEqual)
+TEST(AssignmentOperator, PlusEqual)
 {
     test_cellox_program("assignment_operators/plus_equal.clx", "8\n6\nhello world\n");
 }

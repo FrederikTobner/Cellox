@@ -99,17 +99,13 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a5b62a9513f62b835eef57c7a625c3fef"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fef">command_line_option_type_t</a> { <br />
-&#160;&#160;<a class="el" href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fefa74b95e8f4bbb70a900fdd13941f60c9d">OPTION_NO_OPTION</a>
-, <a class="el" href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fefadeea8eaaa1e765293d390eeef605274c">OPTION_TYPE_HELP</a>
-, <a class="el" href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fefae66dae77a71f03e9d93bcc407e5a95f5">OPTION_TYPE_VERSION</a>
-, <a class="el" href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fefa36d057dad2a4b3d4e1b75f45ea3ca508">OPTION_TYPE_STORE_CHUNK_FILE</a>
-, <br />
-&#160;&#160;<a class="el" href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fefa71737d1855fc17ab118b3deb14fb2cc3">OPTION_TYPE_RUN_CHUNK_FILE</a>
-<br />
+<tr class="memitem:ae1f66b8383a2324f319fab80c65c6d86"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a> { <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d">OPTION_NO_OPTION</a>
+, <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c">OPTION_TYPE_COMPILE</a>
+, <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c">OPTION_TYPE_HELP</a>
+, <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5">OPTION_TYPE_VERSION</a>
  }</td></tr>
-<tr class="memdesc:a5b62a9513f62b835eef57c7a625c3fef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command line options of the cellox interpreter.  <a href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fef">More...</a><br /></td></tr>
-<tr class="separator:a5b62a9513f62b835eef57c7a625c3fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ae1f66b8383a2324f319fab80c65c6d86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command line options of the cellox interpreter.  <a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">More...</a><br /></td></tr>
+<tr class="separator:ae1f66b8383a2324f319fab80c65c6d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -119,9 +115,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa421ad3ddca439b7e2d202a775f089b1"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#aa421ad3ddca439b7e2d202a775f089b1">command_line_argument_parser_is_option</a> (char const *argument)</td></tr>
 <tr class="memdesc:aa421ad3ddca439b7e2d202a775f089b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the argument is an option.  <a href="command__line__argument__parser_8c.html#aa421ad3ddca439b7e2d202a775f089b1">More...</a><br /></td></tr>
 <tr class="separator:aa421ad3ddca439b7e2d202a775f089b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80501f23a13236e8b88d3f49aad59543"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a80501f23a13236e8b88d3f49aad59543">command_line_argument_parser_parse_option</a> (char const *option, <a class="el" href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fef">command_line_option_type_t</a> *currentOption)</td></tr>
-<tr class="memdesc:a80501f23a13236e8b88d3f49aad59543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the next option in the arguments.  <a href="command__line__argument__parser_8c.html#a80501f23a13236e8b88d3f49aad59543">More...</a><br /></td></tr>
-<tr class="separator:a80501f23a13236e8b88d3f49aad59543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d7e96a1f1389d5d08a81090eab8d090"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a7d7e96a1f1389d5d08a81090eab8d090">command_line_argument_parser_parse_option</a> (char const *option, <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a> *currentOption)</td></tr>
+<tr class="memdesc:a7d7e96a1f1389d5d08a81090eab8d090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the next option in the arguments.  <a href="command__line__argument__parser_8c.html#a7d7e96a1f1389d5d08a81090eab8d090">More...</a><br /></td></tr>
+<tr class="separator:a7d7e96a1f1389d5d08a81090eab8d090"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a836a34fa26534cf7baa5f4eee64eecf4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a836a34fa26534cf7baa5f4eee64eecf4">command_line_argument_parser_show_usage</a> ()</td></tr>
 <tr class="memdesc:a836a34fa26534cf7baa5f4eee64eecf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shows a brief explanation how the interpreter can be used from the command line.  <a href="command__line__argument__parser_8c.html#a836a34fa26534cf7baa5f4eee64eecf4">More...</a><br /></td></tr>
 <tr class="separator:a836a34fa26534cf7baa5f4eee64eecf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,29 +134,27 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >File containing the implementation of the command line argument parser. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a5b62a9513f62b835eef57c7a625c3fef" name="a5b62a9513f62b835eef57c7a625c3fef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b62a9513f62b835eef57c7a625c3fef">&#9670;&#160;</a></span>command_line_option_type_t</h2>
+<a id="ae1f66b8383a2324f319fab80c65c6d86" name="ae1f66b8383a2324f319fab80c65c6d86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1f66b8383a2324f319fab80c65c6d86">&#9670;&#160;</a></span>command_line_option_type</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fef">command_line_option_type_t</a></td>
+          <td class="memname">enum <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Command line options of the cellox interpreter. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5b62a9513f62b835eef57c7a625c3fefa74b95e8f4bbb70a900fdd13941f60c9d" name="a5b62a9513f62b835eef57c7a625c3fefa74b95e8f4bbb70a900fdd13941f60c9d"></a>OPTION_NO_OPTION&#160;</td><td class="fielddoc"><p >No option specified (yet) </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d" name="ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d"></a>OPTION_NO_OPTION&#160;</td><td class="fielddoc"><p >No option specified (yet) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5b62a9513f62b835eef57c7a625c3fefadeea8eaaa1e765293d390eeef605274c" name="a5b62a9513f62b835eef57c7a625c3fefadeea8eaaa1e765293d390eeef605274c"></a>OPTION_TYPE_HELP&#160;</td><td class="fielddoc"><p >&ndash;help / -h </p>
+<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c" name="ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c"></a>OPTION_TYPE_COMPILE&#160;</td><td class="fielddoc"><p >&ndash;compile / -c </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5b62a9513f62b835eef57c7a625c3fefae66dae77a71f03e9d93bcc407e5a95f5" name="a5b62a9513f62b835eef57c7a625c3fefae66dae77a71f03e9d93bcc407e5a95f5"></a>OPTION_TYPE_VERSION&#160;</td><td class="fielddoc"><p >&ndash;version / -v </p>
+<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c" name="ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c"></a>OPTION_TYPE_HELP&#160;</td><td class="fielddoc"><p >&ndash;help / -h </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5b62a9513f62b835eef57c7a625c3fefa36d057dad2a4b3d4e1b75f45ea3ca508" name="a5b62a9513f62b835eef57c7a625c3fefa36d057dad2a4b3d4e1b75f45ea3ca508"></a>OPTION_TYPE_STORE_CHUNK_FILE&#160;</td><td class="fielddoc"><p >&ndash;store / -s </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a5b62a9513f62b835eef57c7a625c3fefa71737d1855fc17ab118b3deb14fb2cc3" name="a5b62a9513f62b835eef57c7a625c3fefa71737d1855fc17ab118b3deb14fb2cc3"></a>OPTION_TYPE_RUN_CHUNK_FILE&#160;</td><td class="fielddoc"><p >&ndash;run-chunk-file / -rcf </p>
+<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5" name="ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5"></a>OPTION_TYPE_VERSION&#160;</td><td class="fielddoc"><p >&ndash;version / -v </p>
 </td></tr>
 </table>
 
@@ -285,8 +279,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a80501f23a13236e8b88d3f49aad59543" name="a80501f23a13236e8b88d3f49aad59543"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80501f23a13236e8b88d3f49aad59543">&#9670;&#160;</a></span>command_line_argument_parser_parse_option()</h2>
+<a id="a7d7e96a1f1389d5d08a81090eab8d090" name="a7d7e96a1f1389d5d08a81090eab8d090"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d7e96a1f1389d5d08a81090eab8d090">&#9670;&#160;</a></span>command_line_argument_parser_parse_option()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -303,7 +297,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="command__line__argument__parser_8c.html#a5b62a9513f62b835eef57c7a625c3fef">command_line_option_type_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a> *&#160;</td>
           <td class="paramname"><em>currentOption</em>&#160;</td>
         </tr>
         <tr>
@@ -379,7 +373,36 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">= </div>
+<div class="line">{</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d">OPTION_NO_OPTION</a>] = </div>
+<div class="line">    {</div>
+<div class="line">        .exclusionaryOption = <span class="keyword">false</span></div>
+<div class="line">    },</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c">OPTION_TYPE_COMPILE</a>] = </div>
+<div class="line">    {</div>
+<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-c&quot;</span>, </div>
+<div class="line">        .longRepresentation = <span class="stringliteral">&quot;--compile&quot;</span>,</div>
+<div class="line">        .exclusionaryOption = <span class="keyword">true</span></div>
+<div class="line">    },</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c">OPTION_TYPE_HELP</a>] = </div>
+<div class="line">    {</div>
+<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-h&quot;</span>, </div>
+<div class="line">        .longRepresentation = <span class="stringliteral">&quot;--help&quot;</span>,</div>
+<div class="line">        .exclusionaryOption = <span class="keyword">true</span></div>
+<div class="line">    },</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5">OPTION_TYPE_VERSION</a>] = </div>
+<div class="line">    {</div>
+<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-v&quot;</span>, </div>
+<div class="line">        .longRepresentation = <span class="stringliteral">&quot;--version&quot;</span>,</div>
+<div class="line">        .exclusionaryOption = <span class="keyword">true</span></div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="ttc" id="acommand__line__argument__parser_8c_html_ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d"><div class="ttname"><a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d">OPTION_NO_OPTION</a></div><div class="ttdeci">@ OPTION_NO_OPTION</div><div class="ttdoc">No option specified (yet)</div><div class="ttdef"><b>Definition:</b> command_line_argument_parser.c:36</div></div>
+<div class="ttc" id="acommand__line__argument__parser_8c_html_ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c"><div class="ttname"><a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c">OPTION_TYPE_COMPILE</a></div><div class="ttdeci">@ OPTION_TYPE_COMPILE</div><div class="ttdoc">–compile / -c</div><div class="ttdef"><b>Definition:</b> command_line_argument_parser.c:38</div></div>
+<div class="ttc" id="acommand__line__argument__parser_8c_html_ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c"><div class="ttname"><a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c">OPTION_TYPE_HELP</a></div><div class="ttdeci">@ OPTION_TYPE_HELP</div><div class="ttdoc">–help / -h</div><div class="ttdef"><b>Definition:</b> command_line_argument_parser.c:40</div></div>
+<div class="ttc" id="acommand__line__argument__parser_8c_html_ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5"><div class="ttname"><a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5">OPTION_TYPE_VERSION</a></div><div class="ttdeci">@ OPTION_TYPE_VERSION</div><div class="ttdoc">–version / -v</div><div class="ttdef"><b>Definition:</b> command_line_argument_parser.c:42</div></div>
+</div><!-- fragment -->
 <p>Option configurations for all the possible options. </p>
 
 </div>

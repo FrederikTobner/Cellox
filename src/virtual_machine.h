@@ -106,6 +106,8 @@ void virtual_machine_init();
 /// @return A interpret result that indicates whether the program execution sucessful
 interpret_result virtual_machine_interpret(char * program, bool freeProgram);
 
+interpret_result virtual_machine_run_chunk(chunk_t chunk);
+
 /// @brief Pushes a new Value on the stack
 /// @param value The value that is pushed on the stack
 void virtual_machine_push(value_t value);

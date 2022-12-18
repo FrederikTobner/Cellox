@@ -87,6 +87,7 @@ $(function() {
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;time.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="compiler_8h_source.html">compiler.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="debug_8h_source.html">debug.h</a>&quot;</code><br />
@@ -164,9 +165,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a673f48ed0fbff646a88662ec10b95dfa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a673f48ed0fbff646a88662ec10b95dfa">virtual_machine_reset_stack</a> ()</td></tr>
 <tr class="memdesc:a673f48ed0fbff646a88662ec10b95dfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the stack of the vm.  <a href="virtual__machine_8c.html#a673f48ed0fbff646a88662ec10b95dfa">More...</a><br /></td></tr>
 <tr class="separator:a673f48ed0fbff646a88662ec10b95dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a64db27da79cc0d1ad1dfb90ef6060f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">interpret_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a7a64db27da79cc0d1ad1dfb90ef6060f">virtual_machine_run</a> ()</td></tr>
-<tr class="memdesc:a7a64db27da79cc0d1ad1dfb90ef6060f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs a lox program that was converted to bytecode instructions.  <a href="virtual__machine_8c.html#a7a64db27da79cc0d1ad1dfb90ef6060f">More...</a><br /></td></tr>
-<tr class="separator:a7a64db27da79cc0d1ad1dfb90ef6060f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac14f07c5c0037a46b14bb74e5efa7102"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ac14f07c5c0037a46b14bb74e5efa7102">virtual_machine_run</a> ()</td></tr>
+<tr class="memdesc:ac14f07c5c0037a46b14bb74e5efa7102"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs a lox program that was converted to bytecode instructions.  <a href="virtual__machine_8c.html#ac14f07c5c0037a46b14bb74e5efa7102">More...</a><br /></td></tr>
+<tr class="separator:ac14f07c5c0037a46b14bb74e5efa7102"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b4425b182a0ef48af9d3886b02a7dfa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a2b4425b182a0ef48af9d3886b02a7dfa">virtual_machine_runtime_error</a> (char const *format,...)</td></tr>
 <tr class="memdesc:a2b4425b182a0ef48af9d3886b02a7dfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports an error that has occured at runtime.  <a href="virtual__machine_8c.html#a2b4425b182a0ef48af9d3886b02a7dfa">More...</a><br /></td></tr>
 <tr class="separator:a2b4425b182a0ef48af9d3886b02a7dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,9 +180,11 @@ Functions</h2></td></tr>
 <tr class="memitem:ab9bab8441eb3cd3f3051255a7c7df026"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ab9bab8441eb3cd3f3051255a7c7df026">virtual_machine_init</a> ()</td></tr>
 <tr class="memdesc:ab9bab8441eb3cd3f3051255a7c7df026"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the virtual machine.  <a href="virtual__machine_8c.html#ab9bab8441eb3cd3f3051255a7c7df026">More...</a><br /></td></tr>
 <tr class="separator:ab9bab8441eb3cd3f3051255a7c7df026"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b45ab7445e0d28102bce2bee9b705bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">interpret_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a3b45ab7445e0d28102bce2bee9b705bd">virtual_machine_interpret</a> (char *program, bool freeProgram)</td></tr>
-<tr class="memdesc:a3b45ab7445e0d28102bce2bee9b705bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interprets a lox program.  <a href="virtual__machine_8c.html#a3b45ab7445e0d28102bce2bee9b705bd">More...</a><br /></td></tr>
-<tr class="separator:a3b45ab7445e0d28102bce2bee9b705bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a414c9e9d5e0a8ffb2121a540715e9056"><td class="memItemLeft" align="right" valign="top"><a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a414c9e9d5e0a8ffb2121a540715e9056">virtual_machine_interpret</a> (char *program, bool freeProgram)</td></tr>
+<tr class="memdesc:a414c9e9d5e0a8ffb2121a540715e9056"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interprets a lox program.  <a href="virtual__machine_8c.html#a414c9e9d5e0a8ffb2121a540715e9056">More...</a><br /></td></tr>
+<tr class="separator:a414c9e9d5e0a8ffb2121a540715e9056"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a0aaa73c6923c3227015846d1384374"><td class="memItemLeft" align="right" valign="top"><a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a8a0aaa73c6923c3227015846d1384374">virtual_machine_run_chunk</a> (<a class="el" href="structchunk__t.html">chunk_t</a> chunk)</td></tr>
+<tr class="separator:a8a0aaa73c6923c3227015846d1384374"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae87423d28b469680e69b4af6a4cc651"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aae87423d28b469680e69b4af6a4cc651">virtual_machine_push</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:aae87423d28b469680e69b4af6a4cc651"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a new Value on the stack.  <a href="virtual__machine_8c.html#aae87423d28b469680e69b4af6a4cc651">More...</a><br /></td></tr>
 <tr class="separator:aae87423d28b469680e69b4af6a4cc651"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -239,7 +242,7 @@ Variables</h2></td></tr>
 <div class="line">                                            <a class="code hl_define" href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a>(<a class="code hl_function" href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a>(0)) ? <span class="stringliteral">&quot;object&quot;</span> : <span class="stringliteral">&quot;value&quot;</span>,            \</div>
 <div class="line">                                            <a class="code hl_function" href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a>(<a class="code hl_function" href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a>(1)),                      \</div>
 <div class="line">                                            <a class="code hl_define" href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a>(<a class="code hl_function" href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a>(1)) ? <span class="stringliteral">&quot;object&quot;</span> : <span class="stringliteral">&quot;value&quot;</span>);           \</div>
-<div class="line">            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a>;                                                                     \</div>
+<div class="line">            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a>;                                                                     \</div>
 <div class="line">        }                                                                                                       \</div>
 <div class="line">        <span class="keywordtype">double</span> b = <a class="code hl_define" href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a>(<a class="code hl_function" href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a>());                                                            \</div>
 <div class="line">        <span class="keywordtype">double</span> a = <a class="code hl_define" href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a>(<a class="code hl_function" href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a>());                                                            \</div>
@@ -249,9 +252,9 @@ Variables</h2></td></tr>
 <div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition:</b> value.h:152</div></div>
 <div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition:</b> value.h:162</div></div>
 <div class="ttc" id="avalue_8h_html_ac652f84a0dd6007f0ba26eefdf61d14c"><div class="ttname"><a href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a></div><div class="ttdeci">#define IS_OBJECT(value)</div><div class="ttdoc">Makro that determines whether a value is of the type object.</div><div class="ttdef"><b>Definition:</b> value.h:155</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:536</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_acecc837f6d14140d8d88151ddcee8fe4"><div class="ttname"><a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop()</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:120</div></div>
-<div class="ttc" id="avirtual__machine_8h_html_a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:92</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:553</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_acecc837f6d14140d8d88151ddcee8fe4"><div class="ttname"><a href="virtual__machine_8c.html#acecc837f6d14140d8d88151ddcee8fe4">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop()</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition:</b> virtual_machine.c:137</div></div>
+<div class="ttc" id="avirtual__machine_8h_html_a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition:</b> virtual_machine.h:92</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -868,14 +871,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a3b45ab7445e0d28102bce2bee9b705bd" name="a3b45ab7445e0d28102bce2bee9b705bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b45ab7445e0d28102bce2bee9b705bd">&#9670;&#160;</a></span>virtual_machine_interpret()</h2>
+<a id="a414c9e9d5e0a8ffb2121a540715e9056" name="a414c9e9d5e0a8ffb2121a540715e9056"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a414c9e9d5e0a8ffb2121a540715e9056">&#9670;&#160;</a></span>virtual_machine_interpret()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">interpret_result_t</a> virtual_machine_interpret </td>
+          <td class="memname"><a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a> virtual_machine_interpret </td>
           <td>(</td>
           <td class="paramtype">char *&#160;</td>
           <td class="paramname"><em>program</em>, </td>
@@ -1177,8 +1180,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a7a64db27da79cc0d1ad1dfb90ef6060f" name="a7a64db27da79cc0d1ad1dfb90ef6060f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a64db27da79cc0d1ad1dfb90ef6060f">&#9670;&#160;</a></span>virtual_machine_run()</h2>
+<a id="ac14f07c5c0037a46b14bb74e5efa7102" name="ac14f07c5c0037a46b14bb74e5efa7102"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac14f07c5c0037a46b14bb74e5efa7102">&#9670;&#160;</a></span>virtual_machine_run()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1187,7 +1190,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">interpret_result_t</a> virtual_machine_run </td>
+          <td class="memname">static <a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a> virtual_machine_run </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1205,8 +1208,26 @@ Variables</h2></td></tr>
 <p >Reads the next instruction from the current frame on top of the callstack</p>
 <p >Reads a single short (unsigned 16-bit integer value from the current frame on top of the callstack</p>
 <p >Reads a constant from the closure of the current frame on the callstack</p>
-<p >Makro readsa string in the chunk, at stores it as a constant</p>
+<p >Makro reads string in the chunk</p>
 <p >Macro for creating a binary operator, based on a operator in C We have to embed the marco into a do while, which isn't followed by a semicolon, so all the statements in it get executed if they are after an if 🤮</p>
+
+</div>
+</div>
+<a id="a8a0aaa73c6923c3227015846d1384374" name="a8a0aaa73c6923c3227015846d1384374"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a0aaa73c6923c3227015846d1384374">&#9670;&#160;</a></span>virtual_machine_run_chunk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a> virtual_machine_run_chunk </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a>&#160;</td>
+          <td class="paramname"><em>chunk</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

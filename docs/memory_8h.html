@@ -78,7 +78,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Header file containing the definitions of functionality used for memory management.  
+<p>Header file containing the declarations of functionality used for memory management.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="object_8h_source.html">object.h</a>&quot;</code><br />
@@ -88,6 +88,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:abe104ef64af521de16baf648eeb86e8d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#abe104ef64af521de16baf648eeb86e8d">ARRAY_GROWTH_FACTOR</a>&#160;&#160;&#160;(1.5)</td></tr>
+<tr class="memdesc:abe104ef64af521de16baf648eeb86e8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Growth factor of a dynamic value array.  <a href="memory_8h.html#abe104ef64af521de16baf648eeb86e8d">More...</a><br /></td></tr>
 <tr class="separator:abe104ef64af521de16baf648eeb86e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">ALLOCATE</a>(type,  count)&#160;&#160;&#160;    ((type *)<a class="el" href="memory_8c.html#a2907a474f57bcc68a7af23d9474ff3a0">memory_reallocate</a>(NULL, 0, sizeof(type) * (count)))</td></tr>
 <tr class="memdesc:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that allocates the memory needed for a given type multiplied by the count.  <a href="memory_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">More...</a><br /></td></tr>
@@ -124,7 +125,7 @@ Functions</h2></td></tr>
 <tr class="separator:a2907a474f57bcc68a7af23d9474ff3a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Header file containing the definitions of functionality used for memory management. </p>
+<div class="textblock"><p >Header file containing the declarations of functionality used for memory management. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a9b802bbc56b822e67bf1523c9d87ee3f" name="a9b802bbc56b822e67bf1523c9d87ee3f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9b802bbc56b822e67bf1523c9d87ee3f">&#9670;&#160;</a></span>ALLOCATE</h2>
@@ -167,6 +168,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Growth factor of a dynamic value array. </p>
 
 </div>
 </div>

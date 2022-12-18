@@ -10,5 +10,6 @@ IF NOT EXIST ..\build\test (
 )
 cd ..\build\test
 ECHO Executing tests
+:: Executing tests single threaded because we redirect the standard output to a string and can't therefor execute the tests in parallel
 ctest -j 1 -C Debug
 cd ..\..\scripts

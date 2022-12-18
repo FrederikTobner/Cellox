@@ -84,18 +84,24 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a86988a65e0d3ece7990c032c159786d6"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a86988a65e0d3ece7990c032c159786d6">count</a></td></tr>
-<tr class="memdesc:a86988a65e0d3ece7990c032c159786d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amount of bytecode instructions in the chunk.  <a href="structchunk__t.html#a86988a65e0d3ece7990c032c159786d6">More...</a><br /></td></tr>
-<tr class="separator:a86988a65e0d3ece7990c032c159786d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a391c992c66c3e5540265a85ec2b9216a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a391c992c66c3e5540265a85ec2b9216a">capacity</a></td></tr>
-<tr class="memdesc:a391c992c66c3e5540265a85ec2b9216a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capacity of the chunk.  <a href="structchunk__t.html#a391c992c66c3e5540265a85ec2b9216a">More...</a><br /></td></tr>
-<tr class="separator:a391c992c66c3e5540265a85ec2b9216a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63abe2ff53f9c2c0893231a1578ae5cc"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a63abe2ff53f9c2c0893231a1578ae5cc">byteCodeCount</a></td></tr>
+<tr class="memdesc:a63abe2ff53f9c2c0893231a1578ae5cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amount of bytecode instructions in the chunk.  <a href="structchunk__t.html#a63abe2ff53f9c2c0893231a1578ae5cc">More...</a><br /></td></tr>
+<tr class="separator:a63abe2ff53f9c2c0893231a1578ae5cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7278a37b0ef0ca46b5b510ec047db2e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#aa7278a37b0ef0ca46b5b510ec047db2e">byteCodeCapacity</a></td></tr>
+<tr class="memdesc:aa7278a37b0ef0ca46b5b510ec047db2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capacity of bytecode instructions of the chunk.  <a href="structchunk__t.html#aa7278a37b0ef0ca46b5b510ec047db2e">More...</a><br /></td></tr>
+<tr class="separator:aa7278a37b0ef0ca46b5b510ec047db2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6ba5f364e07cd8d890dabb82239a257"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#ad6ba5f364e07cd8d890dabb82239a257">lineInfoCount</a></td></tr>
+<tr class="memdesc:ad6ba5f364e07cd8d890dabb82239a257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amount of line info in the chunk.  <a href="structchunk__t.html#ad6ba5f364e07cd8d890dabb82239a257">More...</a><br /></td></tr>
+<tr class="separator:ad6ba5f364e07cd8d890dabb82239a257"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a926f7c6a1fa3ae4226e1d710a787e994"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a926f7c6a1fa3ae4226e1d710a787e994">lineInfoCapacity</a></td></tr>
+<tr class="memdesc:a926f7c6a1fa3ae4226e1d710a787e994"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capacity for line info of the chunk.  <a href="structchunk__t.html#a926f7c6a1fa3ae4226e1d710a787e994">More...</a><br /></td></tr>
+<tr class="separator:a926f7c6a1fa3ae4226e1d710a787e994"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4dfe3469a02cc47dab46ad45643a71c8"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a4dfe3469a02cc47dab46ad45643a71c8">code</a></td></tr>
 <tr class="memdesc:a4dfe3469a02cc47dab46ad45643a71c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operand Codes.  <a href="structchunk__t.html#a4dfe3469a02cc47dab46ad45643a71c8">More...</a><br /></td></tr>
 <tr class="separator:a4dfe3469a02cc47dab46ad45643a71c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f91da7598aa48a4dd34e3d7d3a9d471"><td class="memItemLeft" align="right" valign="top">uint32_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a7f91da7598aa48a4dd34e3d7d3a9d471">lines</a></td></tr>
-<tr class="memdesc:a7f91da7598aa48a4dd34e3d7d3a9d471"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores line information to the corresponding lox program.  <a href="structchunk__t.html#a7f91da7598aa48a4dd34e3d7d3a9d471">More...</a><br /></td></tr>
-<tr class="separator:a7f91da7598aa48a4dd34e3d7d3a9d471"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c79e69b2a629e63e449d740f248efa1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structline__info__t.html">line_info_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a7c79e69b2a629e63e449d740f248efa1">lineInfos</a></td></tr>
+<tr class="memdesc:a7c79e69b2a629e63e449d740f248efa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores line information for the bytecode instructions stored in the chunk.  <a href="structchunk__t.html#a7c79e69b2a629e63e449d740f248efa1">More...</a><br /></td></tr>
+<tr class="separator:a7c79e69b2a629e63e449d740f248efa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3832a2175b6ac6696aaa31c925f8cb24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdynamic__value__array__t.html">dynamic_value_array_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a3832a2175b6ac6696aaa31c925f8cb24">constants</a></td></tr>
 <tr class="memdesc:a3832a2175b6ac6696aaa31c925f8cb24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constants stored in the chunk.  <a href="structchunk__t.html#a3832a2175b6ac6696aaa31c925f8cb24">More...</a><br /></td></tr>
 <tr class="separator:a3832a2175b6ac6696aaa31c925f8cb24"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -104,19 +110,35 @@ Data Fields</h2></td></tr>
 <div class="textblock"><p >A dynamic array structure of bytecode instructions and constants. </p>
 <p >instructions are idealized instructions for an abstract/virtual computer. The constants in the program are defined at the beginning of the chunk. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a391c992c66c3e5540265a85ec2b9216a" name="a391c992c66c3e5540265a85ec2b9216a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a391c992c66c3e5540265a85ec2b9216a">&#9670;&#160;</a></span>capacity</h2>
+<a id="aa7278a37b0ef0ca46b5b510ec047db2e" name="aa7278a37b0ef0ca46b5b510ec047db2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7278a37b0ef0ca46b5b510ec047db2e">&#9670;&#160;</a></span>byteCodeCapacity</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t capacity</td>
+          <td class="memname">uint32_t byteCodeCapacity</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Capacity of the chunk. </p>
+<p>Capacity of bytecode instructions of the chunk. </p>
+
+</div>
+</div>
+<a id="a63abe2ff53f9c2c0893231a1578ae5cc" name="a63abe2ff53f9c2c0893231a1578ae5cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63abe2ff53f9c2c0893231a1578ae5cc">&#9670;&#160;</a></span>byteCodeCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t byteCodeCount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Amount of bytecode instructions in the chunk. </p>
 
 </div>
 </div>
@@ -152,35 +174,51 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a id="a86988a65e0d3ece7990c032c159786d6" name="a86988a65e0d3ece7990c032c159786d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a86988a65e0d3ece7990c032c159786d6">&#9670;&#160;</a></span>count</h2>
+<a id="a926f7c6a1fa3ae4226e1d710a787e994" name="a926f7c6a1fa3ae4226e1d710a787e994"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a926f7c6a1fa3ae4226e1d710a787e994">&#9670;&#160;</a></span>lineInfoCapacity</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t count</td>
+          <td class="memname">uint32_t lineInfoCapacity</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Amount of bytecode instructions in the chunk. </p>
+<p>Capacity for line info of the chunk. </p>
 
 </div>
 </div>
-<a id="a7f91da7598aa48a4dd34e3d7d3a9d471" name="a7f91da7598aa48a4dd34e3d7d3a9d471"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f91da7598aa48a4dd34e3d7d3a9d471">&#9670;&#160;</a></span>lines</h2>
+<a id="ad6ba5f364e07cd8d890dabb82239a257" name="ad6ba5f364e07cd8d890dabb82239a257"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6ba5f364e07cd8d890dabb82239a257">&#9670;&#160;</a></span>lineInfoCount</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t* lines</td>
+          <td class="memname">uint32_t lineInfoCount</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Stores line information to the corresponding lox program. </p>
+<p>Amount of line info in the chunk. </p>
+
+</div>
+</div>
+<a id="a7c79e69b2a629e63e449d740f248efa1" name="a7c79e69b2a629e63e449d740f248efa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c79e69b2a629e63e449d740f248efa1">&#9670;&#160;</a></span>lineInfos</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structline__info__t.html">line_info_t</a>* lineInfos</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stores line information for the bytecode instructions stored in the chunk. </p>
 
 </div>
 </div>

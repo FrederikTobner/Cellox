@@ -78,25 +78,49 @@ void init_repl()
 
 void init_run_from_file(char const * path, bool compile)
 {
-    virtual_machine_init();
-    char * source = init_read_file(path);
-    #ifdef CELLOX_TESTS_RUNNING
-    if(!source)
-        return;
-    #endif
+    size_t pathLength = strlen(path);
     interpret_result result;
-    if(compile)
+    if(pathLength > 4 && 
+        path[pathLength - 4] == '.' && 
+        path[pathLength - 3] == 'c' && 
+        path[pathLength - 2] == 'l' && 
+        path[pathLength - 1] == 'x')
     {
-        object_function_t * function = compiler_compile(source);        
-        if (!function)
-            result = INTERPRET_COMPILE_ERROR;
-        if(chunk_file_store(function->chunk, path, 0))
-            result = INTERPRET_COMPILE_ERROR;
+        char * source = init_read_file(path);
+        if(!source)
+            return;
+        virtual_machine_init();
+        if(compile)
+        {
+            object_function_t * function = compiler_compile(source);        
+            if (!function)
+                result = INTERPRET_COMPILE_ERROR;
+            if(chunk_file_store(function->chunk, path, 0))
+                result = INTERPRET_COMPILE_ERROR;
+            else
+                result = INTERPRET_OK;
+        }
         else
-            result = INTERPRET_OK;
+            result = virtual_machine_interpret(source, true);
+    }
+    else if(pathLength > 5 &&
+            path[pathLength - 5] == '.' && 
+            path[pathLength - 4] == 'c' && 
+            path[pathLength - 3] == 'x' && 
+            path[pathLength - 2] == 'c' && 
+            path[pathLength - 1] == 'f')
+    {
+        if(compile)
+            init_io_error("Can not compile a chunk file");
+        virtual_machine_init();
+        result = virtual_machine_run_chunk(*chunk_file_load(path));
     }
     else
-        result = virtual_machine_interpret(source, true);
+    {
+        init_io_error("File type not supported");
+        return;
+    }
+
     #ifndef CELLOX_TESTS_RUNNING
     if(result != INTERPRET_OK)
         virtual_machine_free();
@@ -108,19 +132,16 @@ void init_run_from_file(char const * path, bool compile)
         exit(EXIT_CODE_RUNTIME_ERROR);
     #endif
     virtual_machine_free();
+
 }
 
 void init_show_help()
 {
-    #ifndef BENCHMARKS_RUNNING
-    #ifndef CELLOX_TESTS_RUNNING
     printf("%s Help\n%s\n\n", PROJECT_NAME, CELLOX_USAGE_MESSAGE);
     printf("Options\n");
     printf("  -c, --compile\t\tConverts the specified file to bytecode and stores the result as a seperate file\n");
     printf("  -h, --help\t\tDisplay this help and exit\n");
     printf("  -v, --version\t\tShows the version of the installed interpreter and exit\n\n");
-    #endif
-    #endif
 }
 
 void init_show_version()
@@ -145,7 +166,7 @@ static void init_io_error(char const * format, ...)
 
 /// @brief Reads a file from disk
 /// @param path The path of the file
-/// @return The contents of the file or NULL if something went wrong
+/// @return The contents of the file or NULL if something went wrong an there are tests executed, so we dont want to exit
 static char * init_read_file(char const * path)
 {
     // Opens a file of a nonspecified format (b) in read mode (r)

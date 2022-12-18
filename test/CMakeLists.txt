@@ -21,6 +21,7 @@ assignment_operators.cc
 binary_operators.cc
 class.cc
 comments.cc
+compile.cc
 else_statement.cc
 escape_sequences.cc
 fields.cc

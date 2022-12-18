@@ -24,6 +24,7 @@
 #include "common.h"
 #include "object.h"
 
+/// Growth factor of a dynamic value array
 #define ARRAY_GROWTH_FACTOR (1.5)
 
 /// Makro that allocates the memory needed for a given type multiplied by the count

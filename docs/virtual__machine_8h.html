@@ -81,7 +81,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Header file containing of definitions of the virtual machine.  
+<p>Header file containing of declarations of the virtual machine.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="object_8h_source.html">object.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hash__table_8h_source.html">hash_table.h</a>&quot;</code><br />
@@ -108,12 +108,12 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a05585f5f00a8f80a3dcf905288dfbbe4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">interpret_result_t</a> { <a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a21efe79feb312c3a5aab7a6c3f867839">INTERPRET_OK</a>
-, <a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4aae99c979231ba7e46438a670d60eaa1f">INTERPRET_COMPILE_ERROR</a>
-, <a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a>
+<tr class="memitem:a74b4b43a9a6716e1863755ec63cde243"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a> { <a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243a21efe79feb312c3a5aab7a6c3f867839">INTERPRET_OK</a>
+, <a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243aae99c979231ba7e46438a670d60eaa1f">INTERPRET_COMPILE_ERROR</a>
+, <a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a>
  }</td></tr>
-<tr class="memdesc:a05585f5f00a8f80a3dcf905288dfbbe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of the interpretation (sucessfull, error during compilation or at runtime)  <a href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">More...</a><br /></td></tr>
-<tr class="separator:a05585f5f00a8f80a3dcf905288dfbbe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a74b4b43a9a6716e1863755ec63cde243"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of the interpretation (sucessfull, error during compilation or at runtime)  <a href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">More...</a><br /></td></tr>
+<tr class="separator:a74b4b43a9a6716e1863755ec63cde243"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -123,9 +123,11 @@ Functions</h2></td></tr>
 <tr class="memitem:ab9bab8441eb3cd3f3051255a7c7df026"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#ab9bab8441eb3cd3f3051255a7c7df026">virtual_machine_init</a> ()</td></tr>
 <tr class="memdesc:ab9bab8441eb3cd3f3051255a7c7df026"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the virtual machine.  <a href="virtual__machine_8h.html#ab9bab8441eb3cd3f3051255a7c7df026">More...</a><br /></td></tr>
 <tr class="separator:ab9bab8441eb3cd3f3051255a7c7df026"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b45ab7445e0d28102bce2bee9b705bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">interpret_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#a3b45ab7445e0d28102bce2bee9b705bd">virtual_machine_interpret</a> (char *program, bool freeProgram)</td></tr>
-<tr class="memdesc:a3b45ab7445e0d28102bce2bee9b705bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interprets a lox program.  <a href="virtual__machine_8h.html#a3b45ab7445e0d28102bce2bee9b705bd">More...</a><br /></td></tr>
-<tr class="separator:a3b45ab7445e0d28102bce2bee9b705bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a414c9e9d5e0a8ffb2121a540715e9056"><td class="memItemLeft" align="right" valign="top"><a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#a414c9e9d5e0a8ffb2121a540715e9056">virtual_machine_interpret</a> (char *program, bool freeProgram)</td></tr>
+<tr class="memdesc:a414c9e9d5e0a8ffb2121a540715e9056"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interprets a lox program.  <a href="virtual__machine_8h.html#a414c9e9d5e0a8ffb2121a540715e9056">More...</a><br /></td></tr>
+<tr class="separator:a414c9e9d5e0a8ffb2121a540715e9056"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a0aaa73c6923c3227015846d1384374"><td class="memItemLeft" align="right" valign="top"><a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#a8a0aaa73c6923c3227015846d1384374">virtual_machine_run_chunk</a> (<a class="el" href="structchunk__t.html">chunk_t</a> chunk)</td></tr>
+<tr class="separator:a8a0aaa73c6923c3227015846d1384374"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae87423d28b469680e69b4af6a4cc651"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#aae87423d28b469680e69b4af6a4cc651">virtual_machine_push</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:aae87423d28b469680e69b4af6a4cc651"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a new Value on the stack.  <a href="virtual__machine_8h.html#aae87423d28b469680e69b4af6a4cc651">More...</a><br /></td></tr>
 <tr class="separator:aae87423d28b469680e69b4af6a4cc651"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,7 +142,7 @@ Variables</h2></td></tr>
 <tr class="separator:aef13dc0b5804875832a5b69c00bdcddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Header file containing of definitions of the virtual machine. </p>
+<div class="textblock"><p >Header file containing of declarations of the virtual machine. </p>
 <p >The virtual machine is stackbased. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a48b601641bf3e2604770f9ee5ed0abed" name="a48b601641bf3e2604770f9ee5ed0abed"></a>
@@ -178,25 +180,25 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a05585f5f00a8f80a3dcf905288dfbbe4" name="a05585f5f00a8f80a3dcf905288dfbbe4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05585f5f00a8f80a3dcf905288dfbbe4">&#9670;&#160;</a></span>interpret_result_t</h2>
+<a id="a74b4b43a9a6716e1863755ec63cde243" name="a74b4b43a9a6716e1863755ec63cde243"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74b4b43a9a6716e1863755ec63cde243">&#9670;&#160;</a></span>interpret_result</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">interpret_result_t</a></td>
+          <td class="memname">enum <a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Result of the interpretation (sucessfull, error during compilation or at runtime) </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a05585f5f00a8f80a3dcf905288dfbbe4a21efe79feb312c3a5aab7a6c3f867839" name="a05585f5f00a8f80a3dcf905288dfbbe4a21efe79feb312c3a5aab7a6c3f867839"></a>INTERPRET_OK&#160;</td><td class="fielddoc"><p >No error occured. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a74b4b43a9a6716e1863755ec63cde243a21efe79feb312c3a5aab7a6c3f867839" name="a74b4b43a9a6716e1863755ec63cde243a21efe79feb312c3a5aab7a6c3f867839"></a>INTERPRET_OK&#160;</td><td class="fielddoc"><p >No error occured. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a05585f5f00a8f80a3dcf905288dfbbe4aae99c979231ba7e46438a670d60eaa1f" name="a05585f5f00a8f80a3dcf905288dfbbe4aae99c979231ba7e46438a670d60eaa1f"></a>INTERPRET_COMPILE_ERROR&#160;</td><td class="fielddoc"><p >Error that occured during the compilation process. </p>
+<tr><td class="fieldname"><a id="a74b4b43a9a6716e1863755ec63cde243aae99c979231ba7e46438a670d60eaa1f" name="a74b4b43a9a6716e1863755ec63cde243aae99c979231ba7e46438a670d60eaa1f"></a>INTERPRET_COMPILE_ERROR&#160;</td><td class="fielddoc"><p >Error that occured during the compilation process. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c" name="a05585f5f00a8f80a3dcf905288dfbbe4a972582a24d30295c98b476fc924f2a0c"></a>INTERPRET_RUNTIME_ERROR&#160;</td><td class="fielddoc"><p >Error that occured at runtime. </p>
+<tr><td class="fieldname"><a id="a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c" name="a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c"></a>INTERPRET_RUNTIME_ERROR&#160;</td><td class="fielddoc"><p >Error that occured at runtime. </p>
 </td></tr>
 </table>
 
@@ -241,14 +243,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a3b45ab7445e0d28102bce2bee9b705bd" name="a3b45ab7445e0d28102bce2bee9b705bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b45ab7445e0d28102bce2bee9b705bd">&#9670;&#160;</a></span>virtual_machine_interpret()</h2>
+<a id="a414c9e9d5e0a8ffb2121a540715e9056" name="a414c9e9d5e0a8ffb2121a540715e9056"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a414c9e9d5e0a8ffb2121a540715e9056">&#9670;&#160;</a></span>virtual_machine_interpret()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="virtual__machine_8h.html#a05585f5f00a8f80a3dcf905288dfbbe4">interpret_result_t</a> virtual_machine_interpret </td>
+          <td class="memname"><a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a> virtual_machine_interpret </td>
           <td>(</td>
           <td class="paramtype">char *&#160;</td>
           <td class="paramname"><em>program</em>, </td>
@@ -322,6 +324,24 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a8a0aaa73c6923c3227015846d1384374" name="a8a0aaa73c6923c3227015846d1384374"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a0aaa73c6923c3227015846d1384374">&#9670;&#160;</a></span>virtual_machine_run_chunk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a> virtual_machine_run_chunk </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a>&#160;</td>
+          <td class="paramname"><em>chunk</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

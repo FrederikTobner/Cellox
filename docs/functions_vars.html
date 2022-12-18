@@ -83,13 +83,15 @@ $(function() {
 
 <h3><a id="index_b" name="index_b"></a>- b -</h3><ul>
 <li>boolean&#160;:&#160;<a class="el" href="structvalue__t.html#a857e4e5a2613b7cf584dbf12dae00525">value_t</a></li>
+<li>byteCodeCapacity&#160;:&#160;<a class="el" href="structchunk__t.html#aa7278a37b0ef0ca46b5b510ec047db2e">chunk_t</a></li>
+<li>byteCodeCount&#160;:&#160;<a class="el" href="structchunk__t.html#a63abe2ff53f9c2c0893231a1578ae5cc">chunk_t</a></li>
 <li>bytesAllocated&#160;:&#160;<a class="el" href="structvirtual__machine__t.html#a5bd94379629c7441a4aa654ba383b9f6">virtual_machine_t</a></li>
 </ul>
 
 
 <h3><a id="index_c" name="index_c"></a>- c -</h3><ul>
 <li>callStack&#160;:&#160;<a class="el" href="structvirtual__machine__t.html#a7124f8f417af8f0231f4162f7e92e789">virtual_machine_t</a></li>
-<li>capacity&#160;:&#160;<a class="el" href="structchunk__t.html#a391c992c66c3e5540265a85ec2b9216a">chunk_t</a>, <a class="el" href="structdynamic__value__array__t.html#a391c992c66c3e5540265a85ec2b9216a">dynamic_value_array_t</a>, <a class="el" href="structhash__table__t.html#a391c992c66c3e5540265a85ec2b9216a">hash_table_t</a></li>
+<li>capacity&#160;:&#160;<a class="el" href="structdynamic__value__array__t.html#a391c992c66c3e5540265a85ec2b9216a">dynamic_value_array_t</a>, <a class="el" href="structhash__table__t.html#a391c992c66c3e5540265a85ec2b9216a">hash_table_t</a></li>
 <li>celloxClass&#160;:&#160;<a class="el" href="structobject__instance__t.html#ac868cb4f2f1f5f1f46c8f6ee9378aba6">object_instance_t</a></li>
 <li>chars&#160;:&#160;<a class="el" href="structobject__string__t.html#a6a1c4b6f29e7d5da81b0786bc5c8b8fc">object_string_t</a></li>
 <li>chunk&#160;:&#160;<a class="el" href="structobject__function__t.html#aea093bbf5e736187413f92fb24e6f69e">object_function_t</a></li>
@@ -97,7 +99,7 @@ $(function() {
 <li>closure&#160;:&#160;<a class="el" href="structcall__frame__t.html#a171aa496e67b0ae15dc49138771e726f">call_frame_t</a></li>
 <li>code&#160;:&#160;<a class="el" href="structchunk__t.html#a4dfe3469a02cc47dab46ad45643a71c8">chunk_t</a></li>
 <li>constants&#160;:&#160;<a class="el" href="structchunk__t.html#a3832a2175b6ac6696aaa31c925f8cb24">chunk_t</a></li>
-<li>count&#160;:&#160;<a class="el" href="structchunk__t.html#a86988a65e0d3ece7990c032c159786d6">chunk_t</a>, <a class="el" href="structdynamic__value__array__t.html#a86988a65e0d3ece7990c032c159786d6">dynamic_value_array_t</a>, <a class="el" href="structhash__table__t.html#a86988a65e0d3ece7990c032c159786d6">hash_table_t</a></li>
+<li>count&#160;:&#160;<a class="el" href="structdynamic__value__array__t.html#a86988a65e0d3ece7990c032c159786d6">dynamic_value_array_t</a>, <a class="el" href="structhash__table__t.html#a86988a65e0d3ece7990c032c159786d6">hash_table_t</a></li>
 <li>current&#160;:&#160;<a class="el" href="structlexer__t.html#a5bed065f1f0fbd1e07b996a2de6bd1a7">lexer_t</a>, <a class="el" href="structparser__t.html#a5f41758f712817bb899ec2c7dddaf8a2">parser_t</a></li>
 </ul>
 
@@ -154,9 +156,13 @@ $(function() {
 
 
 <h3><a id="index_l" name="index_l"></a>- l -</h3><ul>
+<li>lastOpCodeIndexInLine&#160;:&#160;<a class="el" href="structline__info__t.html#a8f7300d90b80fbe127646f6497c66798">line_info_t</a></li>
 <li>length&#160;:&#160;<a class="el" href="structobject__string__t.html#aebb70c2aab3407a9f05334c47131a43b">object_string_t</a>, <a class="el" href="structtoken__t.html#aebb70c2aab3407a9f05334c47131a43b">token_t</a></li>
 <li>line&#160;:&#160;<a class="el" href="structlexer__t.html#a311196674133e618759342d6be698474">lexer_t</a>, <a class="el" href="structtoken__t.html#a311196674133e618759342d6be698474">token_t</a></li>
-<li>lines&#160;:&#160;<a class="el" href="structchunk__t.html#a7f91da7598aa48a4dd34e3d7d3a9d471">chunk_t</a></li>
+<li>lineInfoCapacity&#160;:&#160;<a class="el" href="structchunk__t.html#a926f7c6a1fa3ae4226e1d710a787e994">chunk_t</a></li>
+<li>lineInfoCount&#160;:&#160;<a class="el" href="structchunk__t.html#ad6ba5f364e07cd8d890dabb82239a257">chunk_t</a></li>
+<li>lineInfos&#160;:&#160;<a class="el" href="structchunk__t.html#a7c79e69b2a629e63e449d740f248efa1">chunk_t</a></li>
+<li>lineNumber&#160;:&#160;<a class="el" href="structline__info__t.html#a987293a1c8fcaf937487ecbe613f0c52">line_info_t</a></li>
 <li>localCount&#160;:&#160;<a class="el" href="structcompiler__t.html#a9e31cbcd5f82d66b5f8f62c0c92e5f1d">compiler_t</a></li>
 <li>locals&#160;:&#160;<a class="el" href="structcompiler__t.html#a54b34c8c06bbf18f65407a0f855a0cde">compiler_t</a></li>
 <li>location&#160;:&#160;<a class="el" href="structobject__upvalue__t.html#ab39a36623c8d492162307a8c4935aaa7">object_upvalue_t</a></li>
@@ -187,7 +193,7 @@ $(function() {
 
 <h3><a id="index_p" name="index_p"></a>- p -</h3><ul>
 <li>panicMode&#160;:&#160;<a class="el" href="structparser__t.html#a73f915537724bd961727c111c46cebd4">parser_t</a></li>
-<li>precedence&#160;:&#160;<a class="el" href="structparse__rule__t.html#a4a9446609190910050c2a2f6936163c8">parse_rule_t</a></li>
+<li>precedence&#160;:&#160;<a class="el" href="structparse__rule__t.html#a2609811c1c06d7dff04e53363f1eb59e">parse_rule_t</a></li>
 <li>prefix&#160;:&#160;<a class="el" href="structparse__rule__t.html#a68ed40dc8ec0c4b3f403716e978e380b">parse_rule_t</a></li>
 <li>previous&#160;:&#160;<a class="el" href="structparser__t.html#afb03a4993da355287d7be9e0834b7206">parser_t</a></li>
 <li>program&#160;:&#160;<a class="el" href="structvirtual__machine__t.html#a24bffa4be3efba394b2090a77170e3d1">virtual_machine_t</a></li>
@@ -211,7 +217,7 @@ $(function() {
 
 
 <h3><a id="index_t" name="index_t"></a>- t -</h3><ul>
-<li>type&#160;:&#160;<a class="el" href="structcompiler__t.html#a88dde9b6b4f4cd569f15eef9a6876b85">compiler_t</a>, <a class="el" href="structobject__t.html#aa7bdef107a9f7afa4087f8f5aa1f61fa">object_t</a>, <a class="el" href="structtoken__t.html#abdd68296a8dd061f7c32642f61c3c81f">token_t</a>, <a class="el" href="structvalue__t.html#a916393eb4f9fcc06a8cdfe791dfb1ed8">value_t</a></li>
+<li>type&#160;:&#160;<a class="el" href="structcompiler__t.html#a045a85a62e26d4fb62250b7cdcdf8966">compiler_t</a>, <a class="el" href="structobject__t.html#ab030e33dd218540cbd626c9745dbc1cb">object_t</a>, <a class="el" href="structtoken__t.html#ad8476705b739134cdeabb8d1e2218a45">token_t</a>, <a class="el" href="structvalue__t.html#a148d7e48cc64e6d014585a575baba015">value_t</a></li>
 </ul>
 
 

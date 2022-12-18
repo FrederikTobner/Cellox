@@ -71,18 +71,18 @@ Classes can also extend the functionality of an already existing class by using 
 
 ## Strings
 
-A string in cellox is a special type of object.
+A [string](https://github.com/FrederikTobner/Cellox/wiki/Strings) in cellox is a special type of object.
 Strings can contain escape sequences that will be resolved at compile time.
 The characters that a string contains can be accessed by the index.
 
 ## Arrays
 
-Arrays have a variable-size, meaning they can shrink and grow.
+[Arrays](https://github.com/FrederikTobner/Cellox/wiki/Arrays) have a variable-size, meaning they can shrink and grow.
 There is no tradional array, with a fixed capacity that is specified at allocation.
 
 ## Slices
 
-A slice is a subset of an already existing array or string.
+A [slice](https://github.com/FrederikTobner/Cellox/wiki/Slices) is a subset of an already existing array or string.
 Slices are created by using the range operator.
 The values stored in slice can be altered without affecting the original array.
 

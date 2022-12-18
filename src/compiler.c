@@ -115,7 +115,7 @@ typedef enum
     /// Marks a normal function
     TYPE_FUNCTION,
     /// @brief Marks an initializer function
-    /// @details In other programming languages this often called a contstuctor
+    /// @details In other programming languages this often called a contstructor
     TYPE_INITIALIZER,
     /// A method that is bound to a class
     TYPE_METHOD,
@@ -170,13 +170,13 @@ static void compiler_and(bool);
 static uint8_t compiler_argument_list();
 static void compiler_begin_scope();
 static void compiler_binary(bool);
-static void compiler_binary_number(bool);
+static inline void compiler_binary_number(bool);
 static void compiler_block();
-static void compiler_call(bool);
-static bool compiler_check(tokentype);
+static inline void compiler_call(bool);
+static inline bool compiler_check(tokentype);
 static void compiler_class_declaration();
 static void compiler_consume(tokentype, char const *);
-static chunk_t * compiler_current_chunk();
+static inline chunk_t * compiler_current_chunk();
 static void compiler_declaration();
 static void compiler_declare_variable();
 static void compiler_define_variable(uint8_t);
@@ -189,9 +189,9 @@ static void compiler_emit_constant(value_t);
 static int32_t compiler_emit_jump(uint8_t);
 static void compiler_emit_loop(int32_t);
 static void compiler_emit_return();
-static object_function_t *compiler_end();
+static object_function_t * compiler_end();
 static void compiler_end_scope();
-static void compiler_error(char const *, ...);
+static inline void compiler_error(char const *, ...);
 static void compiler_error_at(token_t *, char const *, ...);
 static void compiler_error_at_current(char const *, ...);
 static void compiler_expression();
@@ -199,9 +199,9 @@ static void compiler_expression_statement();
 static void compiler_for_statement();
 static void compiler_function(function_type);
 static void compiler_function_declaration();
-static parse_rule_t * compiler_get_rule(tokentype);
+static inline parse_rule_t * compiler_get_rule(tokentype);
 static void compiler_grouping(bool);
-static void compiler_hex_number(bool);
+static inline void compiler_hex_number(bool);
 static uint8_t compiler_identifier_constant(token_t *);
 static bool compiler_identifiers_equal(token_t *, token_t *);
 static void compiler_if_statement();
@@ -214,7 +214,7 @@ static bool compiler_match_token(tokentype);
 static void compiler_method();
 static void compiler_named_variable(token_t, bool);
 static void compiler_nondirect_assignment(uint8_t, uint8_t, uint8_t, uint8_t);
-static void compiler_number(bool);
+static inline void compiler_number(bool);
 static void compiler_or(bool);
 static void compiler_parse_precedence(precedence);
 static uint8_t compiler_parse_variable(char const *);
@@ -722,9 +722,9 @@ static void compiler_binary(bool canAssign)
     }
 }
 
-/// @brief Compiles a hexadezimal number expression
-/// @param canAssign  Unused for hexadezimal number expressions
-static void compiler_binary_number(bool canAssign)
+/// @brief Compiles a binary number literal expression
+/// @param canAssign  Unused for binary number literal expressions
+static inline void compiler_binary_number(bool canAssign)
 {
     double value = strtol(parser.previous.start + 2, NULL, 2);
     compiler_emit_constant(NUMBER_VAL(value));
@@ -742,7 +742,7 @@ static void compiler_block()
 /// @param canAssign Unused for call expressions
 /// @details For that purpose all the arguments when calling the function are compiled and a CALL instruction is emited 
 /// followed by the amount of arguments, that where used when the function was called
-static void compiler_call(bool canAssign)
+static inline void compiler_call(bool canAssign)
 {
     uint8_t argCount = compiler_argument_list();
     compiler_emit_bytes(OP_CALL, argCount);
@@ -752,7 +752,7 @@ static void compiler_call(bool canAssign)
 /// @param type The type that the token is matched against
 /// @return True if the next token matches the type, false if not
 /// @details We do not advance if the token is of the specified type
-static bool compiler_check(tokentype type)
+static inline bool compiler_check(tokentype type)
 {
     return parser.current.type == type;
 }
@@ -813,7 +813,7 @@ static void compiler_consume(tokentype type, char const * message)
 
 /// @brief Gets the token that is currently compiled
 /// @details Gets a pointer the the token in the chunk that is currently compiled
-static chunk_t * compiler_current_chunk()
+static inline chunk_t * compiler_current_chunk()
 {
     return &current->function->chunk;
 }
@@ -1016,7 +1016,7 @@ static void compiler_end_scope()
 
 /// @brief Reports an error at the previous position
 /// @param message The error message that is displayed
-static void compiler_error(char const * format, ...)
+static inline void compiler_error(char const * format, ...)
 {
     va_list args;
     va_start(args, format);
@@ -1170,7 +1170,7 @@ static void compiler_function_declaration()
 /// @brief Gets the parsing rule for a specific token type
 /// @param type The type of the token
 /// @return The parsing rule for the token type
-static parse_rule_t *compiler_get_rule(tokentype type)
+static inline parse_rule_t * compiler_get_rule(tokentype type)
 {
     return &rules[type];
 }
@@ -1185,7 +1185,7 @@ static void compiler_grouping(bool canAssign)
 
 /// @brief Compiles a hexadezimal number expression
 /// @param canAssign  Unused for hexadezimal number expressions
-static void compiler_hex_number(bool canAssign)
+static inline void compiler_hex_number(bool canAssign)
 {
     double value = strtol(parser.previous.start + 2, NULL, 16);
     compiler_emit_constant(NUMBER_VAL(value));
@@ -1425,7 +1425,7 @@ static void compiler_nondirect_assignment(uint8_t assignmentType, uint8_t getOp,
 
 /// @brief compiles a number literal expression
 /// @param canAssign Unused for number literal expressions
-static void compiler_number(bool canAssign)
+static inline void compiler_number(bool canAssign)
 {
     double value = strtod(parser.previous.start, NULL);
     compiler_emit_constant(NUMBER_VAL(value));

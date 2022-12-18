@@ -109,6 +109,20 @@ interpret_result virtual_machine_interpret(char * program, bool freeProgram)
     return virtual_machine_run();
 }
 
+interpret_result virtual_machine_run_chunk(chunk_t chunk)
+{
+    object_function_t *function = object_new_function();
+    function->chunk = chunk;
+    if (!function)
+        return INTERPRET_COMPILE_ERROR;
+    virtual_machine_push(OBJECT_VAL(function));
+    object_closure_t *closure = object_new_closure(function);
+    virtual_machine_pop();
+    virtual_machine_push(OBJECT_VAL(closure));
+    virtual_machine_call(closure, 0u);
+    return virtual_machine_run();
+}
+
 void virtual_machine_push(value_t value)
 {
     // There are 16384 values on the stack 🤯
@@ -569,7 +583,7 @@ static interpret_result virtual_machine_run()
 #define READ_CONSTANT() \
     (frame->closure->function->chunk.constants.values[READ_BYTE()])
 
-/// Makro readsa string in the chunk, at stores it as a constant
+/// Makro reads string in the chunk
 #define READ_STRING() AS_STRING(READ_CONSTANT())
 
 /**

@@ -89,8 +89,10 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a13252ea664170e23fa827b7e7571203c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hash__table_8c.html#a13252ea664170e23fa827b7e7571203c">HASH_TABLE_GROWTH_FACTOR</a>&#160;&#160;&#160;(2u)</td></tr>
+<tr class="memdesc:a13252ea664170e23fa827b7e7571203c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Growth factor of a hashtable.  <a href="hash__table_8c.html#a13252ea664170e23fa827b7e7571203c">More...</a><br /></td></tr>
 <tr class="separator:a13252ea664170e23fa827b7e7571203c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a592f8b7b00784641f6873d3e2aecf9f6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hash__table_8c.html#a592f8b7b00784641f6873d3e2aecf9f6">GROW_HASHTABLE_CAPACITY</a>(capacity)&#160;&#160;&#160;    ((capacity) &lt; 8u ? 8u : (capacity) * <a class="el" href="hash__table_8c.html#a13252ea664170e23fa827b7e7571203c">HASH_TABLE_GROWTH_FACTOR</a>)</td></tr>
+<tr class="memdesc:a592f8b7b00784641f6873d3e2aecf9f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the new size if a hashtable is grown.  <a href="hash__table_8c.html#a592f8b7b00784641f6873d3e2aecf9f6">More...</a><br /></td></tr>
 <tr class="separator:a592f8b7b00784641f6873d3e2aecf9f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6357f56edb0f10d74092689b680be3b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hash__table_8c.html#ab6357f56edb0f10d74092689b680be3b">TABLE_MAX_LOAD</a>&#160;&#160;&#160;0.75</td></tr>
 <tr class="memdesc:ab6357f56edb0f10d74092689b680be3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The max load factor of the hashtable.  <a href="hash__table_8c.html#ab6357f56edb0f10d74092689b680be3b">More...</a><br /></td></tr>
@@ -126,7 +128,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:aa64fd956b633bc1fc9329237c25c4603"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the Value to the specified key, if an entry corresponding to the given key is present.  <a href="hash__table_8c.html#aa64fd956b633bc1fc9329237c25c4603">More...</a><br /></td></tr>
 <tr class="separator:aa64fd956b633bc1fc9329237c25c4603"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5e849a3405a1802808f4e4208b73435"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hash__table_8c.html#ab5e849a3405a1802808f4e4208b73435">hash_table_remove_white</a> (<a class="el" href="structhash__table__t.html">hash_table_t</a> *table)</td></tr>
-<tr class="memdesc:ab5e849a3405a1802808f4e4208b73435"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the strings that are not referenced anymore from the table.  <a href="hash__table_8c.html#ab5e849a3405a1802808f4e4208b73435">More...</a><br /></td></tr>
+<tr class="memdesc:ab5e849a3405a1802808f4e4208b73435"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the values that are not referenced anymore from the table.  <a href="hash__table_8c.html#ab5e849a3405a1802808f4e4208b73435">More...</a><br /></td></tr>
 <tr class="separator:ab5e849a3405a1802808f4e4208b73435"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f983068a64c93aacbf2d78ba5d0364c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hash__table_8c.html#a5f983068a64c93aacbf2d78ba5d0364c">hash_table_set</a> (<a class="el" href="structhash__table__t.html">hash_table_t</a> *table, <a class="el" href="structobject__string__t.html">object_string_t</a> *key, <a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:a5f983068a64c93aacbf2d78ba5d0364c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the value corresponding to the key or creates a new entry if no entry corespronding to the key has been found.  <a href="hash__table_8c.html#a5f983068a64c93aacbf2d78ba5d0364c">More...</a><br /></td></tr>
@@ -151,6 +153,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Determines the new size if a hashtable is grown. </p>
+
 </div>
 </div>
 <a id="a13252ea664170e23fa827b7e7571203c" name="a13252ea664170e23fa827b7e7571203c"></a>
@@ -164,6 +168,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Growth factor of a hashtable. </p>
 
 </div>
 </div>
@@ -552,7 +558,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Removes the strings that are not referenced anymore from the table. </p>
+<p>Removes the values that are not referenced anymore from the table. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">table</td><td>The table where all the values marked as white (not reachable) are removed </td></tr>
