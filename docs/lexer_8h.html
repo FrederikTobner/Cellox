@@ -79,7 +79,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Header file containing of definitions of the lexer.  
+<p>Header file containing of declarations regarding the lexer.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 </div>
@@ -93,78 +93,79 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a1cd5a977fc0e004b56371bd3d7555bad"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bad">tokentype_t</a> { <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada7203710f75ffd67d36a92024eca9b4ab">TOKEN_AND</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada48b74bd21671b5a4a713dd8ddf57c917">TOKEN_BANG</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada0aeb9876a0943fd2d317b76bf85390d7">TOKEN_BANG_EQUAL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada710fd04fc31582717222d447b5985a1f">TOKEN_CLASS</a>
+<tr class="memitem:a262d1aca355a0381cce24f93101b6b69"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69">tokentype</a> { <br />
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a7203710f75ffd67d36a92024eca9b4ab">TOKEN_AND</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a48b74bd21671b5a4a713dd8ddf57c917">TOKEN_BANG</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a0aeb9876a0943fd2d317b76bf85390d7">TOKEN_BANG_EQUAL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a2abd8eb9e1ea2e87dd28289e08793edf">TOKEN_BINARY_NUMBER</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada8d265e17914bc733c8b9a880dd097a9e">TOKEN_COMMA</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badab565ebfaaa53dcee6ddda201e270733e">TOKEN_DOT</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada6b9d843b8b8eef6e728b7db789deb39c">TOKEN_DOUBLEDOT</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badaf1444e318c1d452a3c6dbb924a7e932a">TOKEN_ELSE</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a710fd04fc31582717222d447b5985a1f">TOKEN_CLASS</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a8d265e17914bc733c8b9a880dd097a9e">TOKEN_COMMA</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ab565ebfaaa53dcee6ddda201e270733e">TOKEN_DOT</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a6b9d843b8b8eef6e728b7db789deb39c">TOKEN_DOUBLEDOT</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badaa130df27256cd45f5781fc74deeb50dc">TOKEN_EOF</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada3c83b3f347ded187c65076c9172392c3">TOKEN_EQUAL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada032a850df3c86813b0101759a048a9e0">TOKEN_EQUAL_EQUAL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badabbfc577192f2423b39a5f693e260b615">TOKEN_ERROR</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69af1444e318c1d452a3c6dbb924a7e932a">TOKEN_ELSE</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69aa130df27256cd45f5781fc74deeb50dc">TOKEN_EOF</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a3c83b3f347ded187c65076c9172392c3">TOKEN_EQUAL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a032a850df3c86813b0101759a048a9e0">TOKEN_EQUAL_EQUAL</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada6aaf2e9d817fd7cd807c6fc2f6f6fe5c">TOKEN_FALSE</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badaaca94097ec53cbcf93cdc0a493251040">TOKEN_FOR</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badabc053e7f95bf8a2e05cdb5b16d475bc2">TOKEN_FUN</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada26294e5319f682b3754d00e5eb852d58">TOKEN_GREATER</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69abbfc577192f2423b39a5f693e260b615">TOKEN_ERROR</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a6aaf2e9d817fd7cd807c6fc2f6f6fe5c">TOKEN_FALSE</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69aaca94097ec53cbcf93cdc0a493251040">TOKEN_FOR</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69abc053e7f95bf8a2e05cdb5b16d475bc2">TOKEN_FUN</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada1b6033f79dc23f23aaf67708bd792991">TOKEN_GREATER_EQUAL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada752154edcc88e1709a9baa70418ae96e">TOKEN_HEX_NUMBER</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada77b8cd6178f08686df07925a2cbac353">TOKEN_IDENTIFIER</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada6d39f93a351e0b853977018d48c47ca2">TOKEN_IF</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a26294e5319f682b3754d00e5eb852d58">TOKEN_GREATER</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a1b6033f79dc23f23aaf67708bd792991">TOKEN_GREATER_EQUAL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a752154edcc88e1709a9baa70418ae96e">TOKEN_HEX_NUMBER</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a77b8cd6178f08686df07925a2cbac353">TOKEN_IDENTIFIER</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badabb75564bfe995225a6d177446540c352">TOKEN_LEFT_BRACE</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badab958e67632477fb20b223edfef5a4a3f">TOKEN_LEFT_PAREN</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada60e4bab14680522185007fe87240e707">TOKEN_LEFT_BRACKET</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badaf3b6b55f0763013561f302e1a467754f">TOKEN_LESS</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a6d39f93a351e0b853977018d48c47ca2">TOKEN_IF</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69abb75564bfe995225a6d177446540c352">TOKEN_LEFT_BRACE</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ab958e67632477fb20b223edfef5a4a3f">TOKEN_LEFT_PAREN</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a60e4bab14680522185007fe87240e707">TOKEN_LEFT_BRACKET</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada9618ea497ab02a326b67f03606d8f90f">TOKEN_LESS_EQUAL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada160171b541dcf45a3bd712598963ea39">TOKEN_MINUS</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada5a56bf2c0ad8599964e30a286fc50de7">TOKEN_MINUS_EQUAL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badada183bacc88b154ef2ee8e7dad5a6be9">TOKEN_MODULO</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69af3b6b55f0763013561f302e1a467754f">TOKEN_LESS</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a9618ea497ab02a326b67f03606d8f90f">TOKEN_LESS_EQUAL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a160171b541dcf45a3bd712598963ea39">TOKEN_MINUS</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a5a56bf2c0ad8599964e30a286fc50de7">TOKEN_MINUS_EQUAL</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badafc12a0187355c9d03ff23bcc01503644">TOKEN_MODULO_EQUAL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badae4def7ca080dbd4f6bcaac5a6889a37a">TOKEN_NULL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badab2af03662d780038284bc9c09e11c452">TOKEN_NUMBER</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badaf82eae34ce15da4d9e334b9a2e3b5675">TOKEN_OR</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ada183bacc88b154ef2ee8e7dad5a6be9">TOKEN_MODULO</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69afc12a0187355c9d03ff23bcc01503644">TOKEN_MODULO_EQUAL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ae4def7ca080dbd4f6bcaac5a6889a37a">TOKEN_NULL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ab2af03662d780038284bc9c09e11c452">TOKEN_NUMBER</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada0c553e5a5155f551dccc327cf9dff336">TOKEN_PRINT</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badad3f218ba45e80c422323f152b5dff32e">TOKEN_PRINT_LINE</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badab673d0e71af877b501ef8eebea28fe4d">TOKEN_RANGE</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badae52dd0b54e9522dc1dce5f6294f26b08">TOKEN_RETURN</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69af82eae34ce15da4d9e334b9a2e3b5675">TOKEN_OR</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a0c553e5a5155f551dccc327cf9dff336">TOKEN_PRINT</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ad3f218ba45e80c422323f152b5dff32e">TOKEN_PRINT_LINE</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ab673d0e71af877b501ef8eebea28fe4d">TOKEN_RANGE</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada1c897c05771e2ebb01729d415d99308c">TOKEN_RIGHT_BRACE</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada7db8f1fe352e6cf1ed6b880432b585d5">TOKEN_RIGHT_PAREN</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badaa42fbee15a56484e7cc6daaaa552107a">TOKEN_RIGHT_BRACKET</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada7f0601b40fea37f0d4598b0a61f828f2">TOKEN_PLUS</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ae52dd0b54e9522dc1dce5f6294f26b08">TOKEN_RETURN</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a1c897c05771e2ebb01729d415d99308c">TOKEN_RIGHT_BRACE</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a7db8f1fe352e6cf1ed6b880432b585d5">TOKEN_RIGHT_PAREN</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69aa42fbee15a56484e7cc6daaaa552107a">TOKEN_RIGHT_BRACKET</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badae8a0200b6ba089d53be8b34211e570af">TOKEN_PLUS_EQUAL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badac8c74b281e178c87923363a90f6ff371">TOKEN_SEMICOLON</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada7bb488da02f984b2c055687da13856e2">TOKEN_SLASH</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada9024dac9d23a60b42f13c15b111b48a6">TOKEN_SLASH_EQUAL</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a7f0601b40fea37f0d4598b0a61f828f2">TOKEN_PLUS</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ae8a0200b6ba089d53be8b34211e570af">TOKEN_PLUS_EQUAL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ac8c74b281e178c87923363a90f6ff371">TOKEN_SEMICOLON</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a7bb488da02f984b2c055687da13856e2">TOKEN_SLASH</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada1109083cbeff0c33b619eb9b3177940a">TOKEN_STAR</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada54e7926247cc71bc768e0c70df4da585">TOKEN_STAR_EQUAL</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada80a6157cca414af7b2a5665aefd519c4">TOKEN_STAR_STAR</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada5b174a5e720c92efbff7c89142e280c9">TOKEN_STAR_STAR_EQUAL</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a9024dac9d23a60b42f13c15b111b48a6">TOKEN_SLASH_EQUAL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a1109083cbeff0c33b619eb9b3177940a">TOKEN_STAR</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a54e7926247cc71bc768e0c70df4da585">TOKEN_STAR_EQUAL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a80a6157cca414af7b2a5665aefd519c4">TOKEN_STAR_STAR</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badafcaa8f23ed1d21aa5779451ed3c243ef">TOKEN_STRING</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada1217e03cafd8282f9f0cf7709f6b04b1">TOKEN_SUPER</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badaf902561d021c19798c960f45d013575b">TOKEN_THIS</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada2dd89e6192a4d3a7aee35c99a5f88075">TOKEN_TRUE</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a5b174a5e720c92efbff7c89142e280c9">TOKEN_STAR_STAR_EQUAL</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69afcaa8f23ed1d21aa5779451ed3c243ef">TOKEN_STRING</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a1217e03cafd8282f9f0cf7709f6b04b1">TOKEN_SUPER</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69af902561d021c19798c960f45d013575b">TOKEN_THIS</a>
 , <br />
-&#160;&#160;<a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bada7a01d5885def4a924f815ab4afdb477b">TOKEN_VAR</a>
-, <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555badacc13b68e6911dd0080248030ecb95cd6">TOKEN_WHILE</a>
+&#160;&#160;<a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a2dd89e6192a4d3a7aee35c99a5f88075">TOKEN_TRUE</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a7a01d5885def4a924f815ab4afdb477b">TOKEN_VAR</a>
+, <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69acc13b68e6911dd0080248030ecb95cd6">TOKEN_WHILE</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a1cd5a977fc0e004b56371bd3d7555bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tokens of the language.  <a href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bad">More...</a><br /></td></tr>
-<tr class="separator:a1cd5a977fc0e004b56371bd3d7555bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a262d1aca355a0381cce24f93101b6b69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tokens of the language.  <a href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69">More...</a><br /></td></tr>
+<tr class="separator:a262d1aca355a0381cce24f93101b6b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -176,130 +177,132 @@ Functions</h2></td></tr>
 <tr class="separator:aa38edac360e037fd6afc6ea5dcc5f22c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Header file containing of definitions of the lexer. </p>
+<div class="textblock"><p >Header file containing of declarations regarding the lexer. </p>
 <p >A lexer, also called scanner, coverts a sequence of characters into a sequence of tokens. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a1cd5a977fc0e004b56371bd3d7555bad" name="a1cd5a977fc0e004b56371bd3d7555bad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cd5a977fc0e004b56371bd3d7555bad">&#9670;&#160;</a></span>tokentype_t</h2>
+<a id="a262d1aca355a0381cce24f93101b6b69" name="a262d1aca355a0381cce24f93101b6b69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a262d1aca355a0381cce24f93101b6b69">&#9670;&#160;</a></span>tokentype</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="lexer_8h.html#a1cd5a977fc0e004b56371bd3d7555bad">tokentype_t</a></td>
+          <td class="memname">enum <a class="el" href="lexer_8h.html#a262d1aca355a0381cce24f93101b6b69">tokentype</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Tokens of the language. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada7203710f75ffd67d36a92024eca9b4ab" name="a1cd5a977fc0e004b56371bd3d7555bada7203710f75ffd67d36a92024eca9b4ab"></a>TOKEN_AND&#160;</td><td class="fielddoc"><p >and / &amp;amp; </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a7203710f75ffd67d36a92024eca9b4ab" name="a262d1aca355a0381cce24f93101b6b69a7203710f75ffd67d36a92024eca9b4ab"></a>TOKEN_AND&#160;</td><td class="fielddoc"><p >and / &amp;amp; </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada48b74bd21671b5a4a713dd8ddf57c917" name="a1cd5a977fc0e004b56371bd3d7555bada48b74bd21671b5a4a713dd8ddf57c917"></a>TOKEN_BANG&#160;</td><td class="fielddoc"><p >! </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a48b74bd21671b5a4a713dd8ddf57c917" name="a262d1aca355a0381cce24f93101b6b69a48b74bd21671b5a4a713dd8ddf57c917"></a>TOKEN_BANG&#160;</td><td class="fielddoc"><p >! </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada0aeb9876a0943fd2d317b76bf85390d7" name="a1cd5a977fc0e004b56371bd3d7555bada0aeb9876a0943fd2d317b76bf85390d7"></a>TOKEN_BANG_EQUAL&#160;</td><td class="fielddoc"><p >!= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a0aeb9876a0943fd2d317b76bf85390d7" name="a262d1aca355a0381cce24f93101b6b69a0aeb9876a0943fd2d317b76bf85390d7"></a>TOKEN_BANG_EQUAL&#160;</td><td class="fielddoc"><p >!= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada710fd04fc31582717222d447b5985a1f" name="a1cd5a977fc0e004b56371bd3d7555bada710fd04fc31582717222d447b5985a1f"></a>TOKEN_CLASS&#160;</td><td class="fielddoc"><p >class </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a2abd8eb9e1ea2e87dd28289e08793edf" name="a262d1aca355a0381cce24f93101b6b69a2abd8eb9e1ea2e87dd28289e08793edf"></a>TOKEN_BINARY_NUMBER&#160;</td><td class="fielddoc"><p >A number literal specified in binary. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada8d265e17914bc733c8b9a880dd097a9e" name="a1cd5a977fc0e004b56371bd3d7555bada8d265e17914bc733c8b9a880dd097a9e"></a>TOKEN_COMMA&#160;</td><td class="fielddoc"><p >, </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a710fd04fc31582717222d447b5985a1f" name="a262d1aca355a0381cce24f93101b6b69a710fd04fc31582717222d447b5985a1f"></a>TOKEN_CLASS&#160;</td><td class="fielddoc"><p >class </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badab565ebfaaa53dcee6ddda201e270733e" name="a1cd5a977fc0e004b56371bd3d7555badab565ebfaaa53dcee6ddda201e270733e"></a>TOKEN_DOT&#160;</td><td class="fielddoc"><p >&sdot; </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a8d265e17914bc733c8b9a880dd097a9e" name="a262d1aca355a0381cce24f93101b6b69a8d265e17914bc733c8b9a880dd097a9e"></a>TOKEN_COMMA&#160;</td><td class="fielddoc"><p >, </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada6b9d843b8b8eef6e728b7db789deb39c" name="a1cd5a977fc0e004b56371bd3d7555bada6b9d843b8b8eef6e728b7db789deb39c"></a>TOKEN_DOUBLEDOT&#160;</td><td class="fielddoc"><p >: (Used for inheritance) </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ab565ebfaaa53dcee6ddda201e270733e" name="a262d1aca355a0381cce24f93101b6b69ab565ebfaaa53dcee6ddda201e270733e"></a>TOKEN_DOT&#160;</td><td class="fielddoc"><p >&sdot; </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badaf1444e318c1d452a3c6dbb924a7e932a" name="a1cd5a977fc0e004b56371bd3d7555badaf1444e318c1d452a3c6dbb924a7e932a"></a>TOKEN_ELSE&#160;</td><td class="fielddoc"><p >else </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a6b9d843b8b8eef6e728b7db789deb39c" name="a262d1aca355a0381cce24f93101b6b69a6b9d843b8b8eef6e728b7db789deb39c"></a>TOKEN_DOUBLEDOT&#160;</td><td class="fielddoc"><p >: (Used for inheritance) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badaa130df27256cd45f5781fc74deeb50dc" name="a1cd5a977fc0e004b56371bd3d7555badaa130df27256cd45f5781fc74deeb50dc"></a>TOKEN_EOF&#160;</td><td class="fielddoc"><p >Used to mark the end of the file. </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69af1444e318c1d452a3c6dbb924a7e932a" name="a262d1aca355a0381cce24f93101b6b69af1444e318c1d452a3c6dbb924a7e932a"></a>TOKEN_ELSE&#160;</td><td class="fielddoc"><p >else </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada3c83b3f347ded187c65076c9172392c3" name="a1cd5a977fc0e004b56371bd3d7555bada3c83b3f347ded187c65076c9172392c3"></a>TOKEN_EQUAL&#160;</td><td class="fielddoc"><p >= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69aa130df27256cd45f5781fc74deeb50dc" name="a262d1aca355a0381cce24f93101b6b69aa130df27256cd45f5781fc74deeb50dc"></a>TOKEN_EOF&#160;</td><td class="fielddoc"><p >Used to mark the end of the file. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada032a850df3c86813b0101759a048a9e0" name="a1cd5a977fc0e004b56371bd3d7555bada032a850df3c86813b0101759a048a9e0"></a>TOKEN_EQUAL_EQUAL&#160;</td><td class="fielddoc"><p >== </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a3c83b3f347ded187c65076c9172392c3" name="a262d1aca355a0381cce24f93101b6b69a3c83b3f347ded187c65076c9172392c3"></a>TOKEN_EQUAL&#160;</td><td class="fielddoc"><p >= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badabbfc577192f2423b39a5f693e260b615" name="a1cd5a977fc0e004b56371bd3d7555badabbfc577192f2423b39a5f693e260b615"></a>TOKEN_ERROR&#160;</td><td class="fielddoc"><p >Used to mark an error in the parsing process. </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a032a850df3c86813b0101759a048a9e0" name="a262d1aca355a0381cce24f93101b6b69a032a850df3c86813b0101759a048a9e0"></a>TOKEN_EQUAL_EQUAL&#160;</td><td class="fielddoc"><p >== </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada6aaf2e9d817fd7cd807c6fc2f6f6fe5c" name="a1cd5a977fc0e004b56371bd3d7555bada6aaf2e9d817fd7cd807c6fc2f6f6fe5c"></a>TOKEN_FALSE&#160;</td><td class="fielddoc"><p >Boolean literal false. </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69abbfc577192f2423b39a5f693e260b615" name="a262d1aca355a0381cce24f93101b6b69abbfc577192f2423b39a5f693e260b615"></a>TOKEN_ERROR&#160;</td><td class="fielddoc"><p >Used to mark an error in the parsing process. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badaaca94097ec53cbcf93cdc0a493251040" name="a1cd5a977fc0e004b56371bd3d7555badaaca94097ec53cbcf93cdc0a493251040"></a>TOKEN_FOR&#160;</td><td class="fielddoc"><p >for </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a6aaf2e9d817fd7cd807c6fc2f6f6fe5c" name="a262d1aca355a0381cce24f93101b6b69a6aaf2e9d817fd7cd807c6fc2f6f6fe5c"></a>TOKEN_FALSE&#160;</td><td class="fielddoc"><p >Boolean literal false. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badabc053e7f95bf8a2e05cdb5b16d475bc2" name="a1cd5a977fc0e004b56371bd3d7555badabc053e7f95bf8a2e05cdb5b16d475bc2"></a>TOKEN_FUN&#160;</td><td class="fielddoc"><p >fun </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69aaca94097ec53cbcf93cdc0a493251040" name="a262d1aca355a0381cce24f93101b6b69aaca94097ec53cbcf93cdc0a493251040"></a>TOKEN_FOR&#160;</td><td class="fielddoc"><p >for </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada26294e5319f682b3754d00e5eb852d58" name="a1cd5a977fc0e004b56371bd3d7555bada26294e5319f682b3754d00e5eb852d58"></a>TOKEN_GREATER&#160;</td><td class="fielddoc"><p >&gt; </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69abc053e7f95bf8a2e05cdb5b16d475bc2" name="a262d1aca355a0381cce24f93101b6b69abc053e7f95bf8a2e05cdb5b16d475bc2"></a>TOKEN_FUN&#160;</td><td class="fielddoc"><p >fun </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada1b6033f79dc23f23aaf67708bd792991" name="a1cd5a977fc0e004b56371bd3d7555bada1b6033f79dc23f23aaf67708bd792991"></a>TOKEN_GREATER_EQUAL&#160;</td><td class="fielddoc"><p >&gt;= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a26294e5319f682b3754d00e5eb852d58" name="a262d1aca355a0381cce24f93101b6b69a26294e5319f682b3754d00e5eb852d58"></a>TOKEN_GREATER&#160;</td><td class="fielddoc"><p >&gt; </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada752154edcc88e1709a9baa70418ae96e" name="a1cd5a977fc0e004b56371bd3d7555bada752154edcc88e1709a9baa70418ae96e"></a>TOKEN_HEX_NUMBER&#160;</td><td class="fielddoc"><p >Hex number. </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a1b6033f79dc23f23aaf67708bd792991" name="a262d1aca355a0381cce24f93101b6b69a1b6033f79dc23f23aaf67708bd792991"></a>TOKEN_GREATER_EQUAL&#160;</td><td class="fielddoc"><p >&gt;= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada77b8cd6178f08686df07925a2cbac353" name="a1cd5a977fc0e004b56371bd3d7555bada77b8cd6178f08686df07925a2cbac353"></a>TOKEN_IDENTIFIER&#160;</td><td class="fielddoc"><p >An identifier e.g. for the variable named x. </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a752154edcc88e1709a9baa70418ae96e" name="a262d1aca355a0381cce24f93101b6b69a752154edcc88e1709a9baa70418ae96e"></a>TOKEN_HEX_NUMBER&#160;</td><td class="fielddoc"><p >A number literal specified in hex. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada6d39f93a351e0b853977018d48c47ca2" name="a1cd5a977fc0e004b56371bd3d7555bada6d39f93a351e0b853977018d48c47ca2"></a>TOKEN_IF&#160;</td><td class="fielddoc"><p >if </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a77b8cd6178f08686df07925a2cbac353" name="a262d1aca355a0381cce24f93101b6b69a77b8cd6178f08686df07925a2cbac353"></a>TOKEN_IDENTIFIER&#160;</td><td class="fielddoc"><p >An identifier e.g. for the variable named x. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badabb75564bfe995225a6d177446540c352" name="a1cd5a977fc0e004b56371bd3d7555badabb75564bfe995225a6d177446540c352"></a>TOKEN_LEFT_BRACE&#160;</td><td class="fielddoc"><p >{ </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a6d39f93a351e0b853977018d48c47ca2" name="a262d1aca355a0381cce24f93101b6b69a6d39f93a351e0b853977018d48c47ca2"></a>TOKEN_IF&#160;</td><td class="fielddoc"><p >if </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badab958e67632477fb20b223edfef5a4a3f" name="a1cd5a977fc0e004b56371bd3d7555badab958e67632477fb20b223edfef5a4a3f"></a>TOKEN_LEFT_PAREN&#160;</td><td class="fielddoc"><p >( </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69abb75564bfe995225a6d177446540c352" name="a262d1aca355a0381cce24f93101b6b69abb75564bfe995225a6d177446540c352"></a>TOKEN_LEFT_BRACE&#160;</td><td class="fielddoc"><p >{ </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada60e4bab14680522185007fe87240e707" name="a1cd5a977fc0e004b56371bd3d7555bada60e4bab14680522185007fe87240e707"></a>TOKEN_LEFT_BRACKET&#160;</td><td class="fielddoc"><p >[ </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ab958e67632477fb20b223edfef5a4a3f" name="a262d1aca355a0381cce24f93101b6b69ab958e67632477fb20b223edfef5a4a3f"></a>TOKEN_LEFT_PAREN&#160;</td><td class="fielddoc"><p >( </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badaf3b6b55f0763013561f302e1a467754f" name="a1cd5a977fc0e004b56371bd3d7555badaf3b6b55f0763013561f302e1a467754f"></a>TOKEN_LESS&#160;</td><td class="fielddoc"><p >&lt; </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a60e4bab14680522185007fe87240e707" name="a262d1aca355a0381cce24f93101b6b69a60e4bab14680522185007fe87240e707"></a>TOKEN_LEFT_BRACKET&#160;</td><td class="fielddoc"><p >[ </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada9618ea497ab02a326b67f03606d8f90f" name="a1cd5a977fc0e004b56371bd3d7555bada9618ea497ab02a326b67f03606d8f90f"></a>TOKEN_LESS_EQUAL&#160;</td><td class="fielddoc"><p >&lt;= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69af3b6b55f0763013561f302e1a467754f" name="a262d1aca355a0381cce24f93101b6b69af3b6b55f0763013561f302e1a467754f"></a>TOKEN_LESS&#160;</td><td class="fielddoc"><p >&lt; </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada160171b541dcf45a3bd712598963ea39" name="a1cd5a977fc0e004b56371bd3d7555bada160171b541dcf45a3bd712598963ea39"></a>TOKEN_MINUS&#160;</td><td class="fielddoc"><p >&minus; </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a9618ea497ab02a326b67f03606d8f90f" name="a262d1aca355a0381cce24f93101b6b69a9618ea497ab02a326b67f03606d8f90f"></a>TOKEN_LESS_EQUAL&#160;</td><td class="fielddoc"><p >&lt;= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada5a56bf2c0ad8599964e30a286fc50de7" name="a1cd5a977fc0e004b56371bd3d7555bada5a56bf2c0ad8599964e30a286fc50de7"></a>TOKEN_MINUS_EQUAL&#160;</td><td class="fielddoc"><p >-= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a160171b541dcf45a3bd712598963ea39" name="a262d1aca355a0381cce24f93101b6b69a160171b541dcf45a3bd712598963ea39"></a>TOKEN_MINUS&#160;</td><td class="fielddoc"><p >&minus; </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badada183bacc88b154ef2ee8e7dad5a6be9" name="a1cd5a977fc0e004b56371bd3d7555badada183bacc88b154ef2ee8e7dad5a6be9"></a>TOKEN_MODULO&#160;</td><td class="fielddoc"><p >% </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a5a56bf2c0ad8599964e30a286fc50de7" name="a262d1aca355a0381cce24f93101b6b69a5a56bf2c0ad8599964e30a286fc50de7"></a>TOKEN_MINUS_EQUAL&#160;</td><td class="fielddoc"><p >-= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badafc12a0187355c9d03ff23bcc01503644" name="a1cd5a977fc0e004b56371bd3d7555badafc12a0187355c9d03ff23bcc01503644"></a>TOKEN_MODULO_EQUAL&#160;</td><td class="fielddoc"><p >%= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ada183bacc88b154ef2ee8e7dad5a6be9" name="a262d1aca355a0381cce24f93101b6b69ada183bacc88b154ef2ee8e7dad5a6be9"></a>TOKEN_MODULO&#160;</td><td class="fielddoc"><p >% </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badae4def7ca080dbd4f6bcaac5a6889a37a" name="a1cd5a977fc0e004b56371bd3d7555badae4def7ca080dbd4f6bcaac5a6889a37a"></a>TOKEN_NULL&#160;</td><td class="fielddoc"><p >literal null-value&frasl;undefiened value </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69afc12a0187355c9d03ff23bcc01503644" name="a262d1aca355a0381cce24f93101b6b69afc12a0187355c9d03ff23bcc01503644"></a>TOKEN_MODULO_EQUAL&#160;</td><td class="fielddoc"><p >%= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badab2af03662d780038284bc9c09e11c452" name="a1cd5a977fc0e004b56371bd3d7555badab2af03662d780038284bc9c09e11c452"></a>TOKEN_NUMBER&#160;</td><td class="fielddoc"><p >A number literal e.g. 5.3. </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ae4def7ca080dbd4f6bcaac5a6889a37a" name="a262d1aca355a0381cce24f93101b6b69ae4def7ca080dbd4f6bcaac5a6889a37a"></a>TOKEN_NULL&#160;</td><td class="fielddoc"><p >literal null-value&frasl;undefiened value </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badaf82eae34ce15da4d9e334b9a2e3b5675" name="a1cd5a977fc0e004b56371bd3d7555badaf82eae34ce15da4d9e334b9a2e3b5675"></a>TOKEN_OR&#160;</td><td class="fielddoc"><p >or </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ab2af03662d780038284bc9c09e11c452" name="a262d1aca355a0381cce24f93101b6b69ab2af03662d780038284bc9c09e11c452"></a>TOKEN_NUMBER&#160;</td><td class="fielddoc"><p >A number literal e.g. 5.3. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada0c553e5a5155f551dccc327cf9dff336" name="a1cd5a977fc0e004b56371bd3d7555bada0c553e5a5155f551dccc327cf9dff336"></a>TOKEN_PRINT&#160;</td><td class="fielddoc"><p >print </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69af82eae34ce15da4d9e334b9a2e3b5675" name="a262d1aca355a0381cce24f93101b6b69af82eae34ce15da4d9e334b9a2e3b5675"></a>TOKEN_OR&#160;</td><td class="fielddoc"><p >or </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badad3f218ba45e80c422323f152b5dff32e" name="a1cd5a977fc0e004b56371bd3d7555badad3f218ba45e80c422323f152b5dff32e"></a>TOKEN_PRINT_LINE&#160;</td><td class="fielddoc"><p >println </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a0c553e5a5155f551dccc327cf9dff336" name="a262d1aca355a0381cce24f93101b6b69a0c553e5a5155f551dccc327cf9dff336"></a>TOKEN_PRINT&#160;</td><td class="fielddoc"><p >print </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badab673d0e71af877b501ef8eebea28fe4d" name="a1cd5a977fc0e004b56371bd3d7555badab673d0e71af877b501ef8eebea28fe4d"></a>TOKEN_RANGE&#160;</td><td class="fielddoc"><p >&sdot;&sdot; </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ad3f218ba45e80c422323f152b5dff32e" name="a262d1aca355a0381cce24f93101b6b69ad3f218ba45e80c422323f152b5dff32e"></a>TOKEN_PRINT_LINE&#160;</td><td class="fielddoc"><p >println </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badae52dd0b54e9522dc1dce5f6294f26b08" name="a1cd5a977fc0e004b56371bd3d7555badae52dd0b54e9522dc1dce5f6294f26b08"></a>TOKEN_RETURN&#160;</td><td class="fielddoc"><p >return </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ab673d0e71af877b501ef8eebea28fe4d" name="a262d1aca355a0381cce24f93101b6b69ab673d0e71af877b501ef8eebea28fe4d"></a>TOKEN_RANGE&#160;</td><td class="fielddoc"><p >&sdot;&sdot; </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada1c897c05771e2ebb01729d415d99308c" name="a1cd5a977fc0e004b56371bd3d7555bada1c897c05771e2ebb01729d415d99308c"></a>TOKEN_RIGHT_BRACE&#160;</td><td class="fielddoc"><p >} </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ae52dd0b54e9522dc1dce5f6294f26b08" name="a262d1aca355a0381cce24f93101b6b69ae52dd0b54e9522dc1dce5f6294f26b08"></a>TOKEN_RETURN&#160;</td><td class="fielddoc"><p >return </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada7db8f1fe352e6cf1ed6b880432b585d5" name="a1cd5a977fc0e004b56371bd3d7555bada7db8f1fe352e6cf1ed6b880432b585d5"></a>TOKEN_RIGHT_PAREN&#160;</td><td class="fielddoc"><p >) </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a1c897c05771e2ebb01729d415d99308c" name="a262d1aca355a0381cce24f93101b6b69a1c897c05771e2ebb01729d415d99308c"></a>TOKEN_RIGHT_BRACE&#160;</td><td class="fielddoc"><p >} </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badaa42fbee15a56484e7cc6daaaa552107a" name="a1cd5a977fc0e004b56371bd3d7555badaa42fbee15a56484e7cc6daaaa552107a"></a>TOKEN_RIGHT_BRACKET&#160;</td><td class="fielddoc"><p >] </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a7db8f1fe352e6cf1ed6b880432b585d5" name="a262d1aca355a0381cce24f93101b6b69a7db8f1fe352e6cf1ed6b880432b585d5"></a>TOKEN_RIGHT_PAREN&#160;</td><td class="fielddoc"><p >) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada7f0601b40fea37f0d4598b0a61f828f2" name="a1cd5a977fc0e004b56371bd3d7555bada7f0601b40fea37f0d4598b0a61f828f2"></a>TOKEN_PLUS&#160;</td><td class="fielddoc"><p >+ </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69aa42fbee15a56484e7cc6daaaa552107a" name="a262d1aca355a0381cce24f93101b6b69aa42fbee15a56484e7cc6daaaa552107a"></a>TOKEN_RIGHT_BRACKET&#160;</td><td class="fielddoc"><p >] </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badae8a0200b6ba089d53be8b34211e570af" name="a1cd5a977fc0e004b56371bd3d7555badae8a0200b6ba089d53be8b34211e570af"></a>TOKEN_PLUS_EQUAL&#160;</td><td class="fielddoc"><p >+= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a7f0601b40fea37f0d4598b0a61f828f2" name="a262d1aca355a0381cce24f93101b6b69a7f0601b40fea37f0d4598b0a61f828f2"></a>TOKEN_PLUS&#160;</td><td class="fielddoc"><p >+ </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badac8c74b281e178c87923363a90f6ff371" name="a1cd5a977fc0e004b56371bd3d7555badac8c74b281e178c87923363a90f6ff371"></a>TOKEN_SEMICOLON&#160;</td><td class="fielddoc"><p >; </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ae8a0200b6ba089d53be8b34211e570af" name="a262d1aca355a0381cce24f93101b6b69ae8a0200b6ba089d53be8b34211e570af"></a>TOKEN_PLUS_EQUAL&#160;</td><td class="fielddoc"><p >+= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada7bb488da02f984b2c055687da13856e2" name="a1cd5a977fc0e004b56371bd3d7555bada7bb488da02f984b2c055687da13856e2"></a>TOKEN_SLASH&#160;</td><td class="fielddoc"><p >&frasl; </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69ac8c74b281e178c87923363a90f6ff371" name="a262d1aca355a0381cce24f93101b6b69ac8c74b281e178c87923363a90f6ff371"></a>TOKEN_SEMICOLON&#160;</td><td class="fielddoc"><p >; </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada9024dac9d23a60b42f13c15b111b48a6" name="a1cd5a977fc0e004b56371bd3d7555bada9024dac9d23a60b42f13c15b111b48a6"></a>TOKEN_SLASH_EQUAL&#160;</td><td class="fielddoc"><p >/= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a7bb488da02f984b2c055687da13856e2" name="a262d1aca355a0381cce24f93101b6b69a7bb488da02f984b2c055687da13856e2"></a>TOKEN_SLASH&#160;</td><td class="fielddoc"><p >&frasl; </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada1109083cbeff0c33b619eb9b3177940a" name="a1cd5a977fc0e004b56371bd3d7555bada1109083cbeff0c33b619eb9b3177940a"></a>TOKEN_STAR&#160;</td><td class="fielddoc"><p >*; </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a9024dac9d23a60b42f13c15b111b48a6" name="a262d1aca355a0381cce24f93101b6b69a9024dac9d23a60b42f13c15b111b48a6"></a>TOKEN_SLASH_EQUAL&#160;</td><td class="fielddoc"><p >/= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada54e7926247cc71bc768e0c70df4da585" name="a1cd5a977fc0e004b56371bd3d7555bada54e7926247cc71bc768e0c70df4da585"></a>TOKEN_STAR_EQUAL&#160;</td><td class="fielddoc"><p >*= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a1109083cbeff0c33b619eb9b3177940a" name="a262d1aca355a0381cce24f93101b6b69a1109083cbeff0c33b619eb9b3177940a"></a>TOKEN_STAR&#160;</td><td class="fielddoc"><p >*; </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada80a6157cca414af7b2a5665aefd519c4" name="a1cd5a977fc0e004b56371bd3d7555bada80a6157cca414af7b2a5665aefd519c4"></a>TOKEN_STAR_STAR&#160;</td><td class="fielddoc"><p >** </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a54e7926247cc71bc768e0c70df4da585" name="a262d1aca355a0381cce24f93101b6b69a54e7926247cc71bc768e0c70df4da585"></a>TOKEN_STAR_EQUAL&#160;</td><td class="fielddoc"><p >*= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada5b174a5e720c92efbff7c89142e280c9" name="a1cd5a977fc0e004b56371bd3d7555bada5b174a5e720c92efbff7c89142e280c9"></a>TOKEN_STAR_STAR_EQUAL&#160;</td><td class="fielddoc"><p >**= </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a80a6157cca414af7b2a5665aefd519c4" name="a262d1aca355a0381cce24f93101b6b69a80a6157cca414af7b2a5665aefd519c4"></a>TOKEN_STAR_STAR&#160;</td><td class="fielddoc"><p >** </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badafcaa8f23ed1d21aa5779451ed3c243ef" name="a1cd5a977fc0e004b56371bd3d7555badafcaa8f23ed1d21aa5779451ed3c243ef"></a>TOKEN_STRING&#160;</td><td class="fielddoc"><p >A string literal e.g. "Hello World!". </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a5b174a5e720c92efbff7c89142e280c9" name="a262d1aca355a0381cce24f93101b6b69a5b174a5e720c92efbff7c89142e280c9"></a>TOKEN_STAR_STAR_EQUAL&#160;</td><td class="fielddoc"><p >**= </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada1217e03cafd8282f9f0cf7709f6b04b1" name="a1cd5a977fc0e004b56371bd3d7555bada1217e03cafd8282f9f0cf7709f6b04b1"></a>TOKEN_SUPER&#160;</td><td class="fielddoc"><p >super </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69afcaa8f23ed1d21aa5779451ed3c243ef" name="a262d1aca355a0381cce24f93101b6b69afcaa8f23ed1d21aa5779451ed3c243ef"></a>TOKEN_STRING&#160;</td><td class="fielddoc"><p >A string literal e.g. "Hello World!". </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badaf902561d021c19798c960f45d013575b" name="a1cd5a977fc0e004b56371bd3d7555badaf902561d021c19798c960f45d013575b"></a>TOKEN_THIS&#160;</td><td class="fielddoc"><p >this </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a1217e03cafd8282f9f0cf7709f6b04b1" name="a262d1aca355a0381cce24f93101b6b69a1217e03cafd8282f9f0cf7709f6b04b1"></a>TOKEN_SUPER&#160;</td><td class="fielddoc"><p >super </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada2dd89e6192a4d3a7aee35c99a5f88075" name="a1cd5a977fc0e004b56371bd3d7555bada2dd89e6192a4d3a7aee35c99a5f88075"></a>TOKEN_TRUE&#160;</td><td class="fielddoc"><p >Boolean literal true. </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69af902561d021c19798c960f45d013575b" name="a262d1aca355a0381cce24f93101b6b69af902561d021c19798c960f45d013575b"></a>TOKEN_THIS&#160;</td><td class="fielddoc"><p >this </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555bada7a01d5885def4a924f815ab4afdb477b" name="a1cd5a977fc0e004b56371bd3d7555bada7a01d5885def4a924f815ab4afdb477b"></a>TOKEN_VAR&#160;</td><td class="fielddoc"><p >var </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a2dd89e6192a4d3a7aee35c99a5f88075" name="a262d1aca355a0381cce24f93101b6b69a2dd89e6192a4d3a7aee35c99a5f88075"></a>TOKEN_TRUE&#160;</td><td class="fielddoc"><p >Boolean literal true. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1cd5a977fc0e004b56371bd3d7555badacc13b68e6911dd0080248030ecb95cd6" name="a1cd5a977fc0e004b56371bd3d7555badacc13b68e6911dd0080248030ecb95cd6"></a>TOKEN_WHILE&#160;</td><td class="fielddoc"><p >while </p>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69a7a01d5885def4a924f815ab4afdb477b" name="a262d1aca355a0381cce24f93101b6b69a7a01d5885def4a924f815ab4afdb477b"></a>TOKEN_VAR&#160;</td><td class="fielddoc"><p >var </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a262d1aca355a0381cce24f93101b6b69acc13b68e6911dd0080248030ecb95cd6" name="a262d1aca355a0381cce24f93101b6b69acc13b68e6911dd0080248030ecb95cd6"></a>TOKEN_WHILE&#160;</td><td class="fielddoc"><p >while </p>
 </td></tr>
 </table>
 

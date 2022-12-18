@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: object_t Struct Reference</title>
+<title>Cellox: line_info_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -73,80 +73,62 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">object_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">line_info_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>A cellox object.  
- <a href="structobject__t.html#details">More...</a></p>
+<p>Line info of a chunk.  
+ <a href="structline__info__t.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="object_8h_source.html">object.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="chunk_8h_source.html">chunk.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:ab030e33dd218540cbd626c9745dbc1cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623">object_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__t.html#ab030e33dd218540cbd626c9745dbc1cb">type</a></td></tr>
-<tr class="memdesc:ab030e33dd218540cbd626c9745dbc1cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the object.  <a href="structobject__t.html#ab030e33dd218540cbd626c9745dbc1cb">More...</a><br /></td></tr>
-<tr class="separator:ab030e33dd218540cbd626c9745dbc1cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3e7c1f778a6b539cc816c9fe04d8675"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__t.html#ae3e7c1f778a6b539cc816c9fe04d8675">isMarked</a></td></tr>
-<tr class="memdesc:ae3e7c1f778a6b539cc816c9fe04d8675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the object has already been marked by the grabage collector.  <a href="structobject__t.html#ae3e7c1f778a6b539cc816c9fe04d8675">More...</a><br /></td></tr>
-<tr class="separator:ae3e7c1f778a6b539cc816c9fe04d8675"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a589f47acb8eb60cf599a7fda16587a"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structobject__t.html">object_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__t.html#a9a589f47acb8eb60cf599a7fda16587a">next</a></td></tr>
-<tr class="memdesc:a9a589f47acb8eb60cf599a7fda16587a"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to the next object in the linear sequence of objects stored on the heap  <a href="structobject__t.html#a9a589f47acb8eb60cf599a7fda16587a">More...</a><br /></td></tr>
-<tr class="separator:a9a589f47acb8eb60cf599a7fda16587a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a987293a1c8fcaf937487ecbe613f0c52"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structline__info__t.html#a987293a1c8fcaf937487ecbe613f0c52">lineNumber</a></td></tr>
+<tr class="memdesc:a987293a1c8fcaf937487ecbe613f0c52"><td class="mdescLeft">&#160;</td><td class="mdescRight">The line number in the source code.  <a href="structline__info__t.html#a987293a1c8fcaf937487ecbe613f0c52">More...</a><br /></td></tr>
+<tr class="separator:a987293a1c8fcaf937487ecbe613f0c52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f7300d90b80fbe127646f6497c66798"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structline__info__t.html#a8f7300d90b80fbe127646f6497c66798">lastOpCodeIndexInLine</a></td></tr>
+<tr class="memdesc:a8f7300d90b80fbe127646f6497c66798"><td class="mdescLeft">&#160;</td><td class="mdescRight">The index of the last bytecode instruction corresponding to the line number.  <a href="structline__info__t.html#a8f7300d90b80fbe127646f6497c66798">More...</a><br /></td></tr>
+<tr class="separator:a8f7300d90b80fbe127646f6497c66798"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >A cellox object. </p>
+<div class="textblock"><p >Line info of a chunk. </p>
+<p >Stores the index of the last instruction in a line and the line number </p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="ae3e7c1f778a6b539cc816c9fe04d8675" name="ae3e7c1f778a6b539cc816c9fe04d8675"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3e7c1f778a6b539cc816c9fe04d8675">&#9670;&#160;</a></span>isMarked</h2>
+<a id="a8f7300d90b80fbe127646f6497c66798" name="a8f7300d90b80fbe127646f6497c66798"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f7300d90b80fbe127646f6497c66798">&#9670;&#160;</a></span>lastOpCodeIndexInLine</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool isMarked</td>
+          <td class="memname">uint32_t lastOpCodeIndexInLine</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Determines whether the object has already been marked by the grabage collector. </p>
+<p>The index of the last bytecode instruction corresponding to the line number. </p>
 
 </div>
 </div>
-<a id="a9a589f47acb8eb60cf599a7fda16587a" name="a9a589f47acb8eb60cf599a7fda16587a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a589f47acb8eb60cf599a7fda16587a">&#9670;&#160;</a></span>next</h2>
+<a id="a987293a1c8fcaf937487ecbe613f0c52" name="a987293a1c8fcaf937487ecbe613f0c52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a987293a1c8fcaf937487ecbe613f0c52">&#9670;&#160;</a></span>lineNumber</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structobject__t.html">object_t</a>* next</td>
+          <td class="memname">uint32_t lineNumber</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>pointer to the next object in the linear sequence of objects stored on the heap </p>
-
-</div>
-</div>
-<a id="ab030e33dd218540cbd626c9745dbc1cb" name="ab030e33dd218540cbd626c9745dbc1cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab030e33dd218540cbd626c9745dbc1cb">&#9670;&#160;</a></span>type</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623">object_type</a> type</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The type of the object. </p>
+<p>The line number in the source code. </p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="object_8h_source.html">object.h</a></li>
+<li><a class="el" href="chunk_8h_source.html">chunk.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
