@@ -25,8 +25,10 @@
 #include "memory.h"
 #include "object.h"
 
+/// Growth factor of a hashtable 
 #define HASH_TABLE_GROWTH_FACTOR (2u)
 
+/// Determines the new size if a hashtable is grown
 #define GROW_HASHTABLE_CAPACITY(capacity) \
     ((capacity) < 8u ? 8u : (capacity) * HASH_TABLE_GROWTH_FACTOR)
 

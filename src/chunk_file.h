@@ -49,6 +49,7 @@ COMPILE_FLAG_ALL                    =       0b11111111u
  * Each chunk is stored in three different segments:
  * <ol>
  * <li>----constants-----</li>
+ * <li>----lineInfo------</li>
  * <li>----inner chunks--</li>
  * <li>----bytecode------</li>
  * </ol>

@@ -84,7 +84,7 @@ object_string_t * hash_table_find_string(hash_table_t * table, char const * char
 /// @return true if an entry coresponding to the given key has been found
 bool hash_table_get(hash_table_t * table, object_string_t * key, value_t * value);
 
-/// @brief Removes the strings that are not referenced anymore from the table
+/// @brief Removes the values that are not referenced anymore from the table
 /// @param table The table where all the values marked as white (not reachable) are removed
 void hash_table_remove_white(hash_table_t * table);
 

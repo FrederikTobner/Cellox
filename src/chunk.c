@@ -36,6 +36,15 @@ int32_t chunk_add_constant(chunk_t * chunk, value_t value)
   return chunk->constants.count - 1;
 }
 
+uint32_t chunk_determine_line_by_index(chunk_t * chunk, uint32_t opCodeIndex)
+{
+  line_info_t * upperBound = chunk->lineInfos + chunk->lineInfoCount;
+  for (line_info_t * lip = chunk->lineInfos; lip < upperBound; lip++)
+    if(lip->lastOpCodeIndexInLine >= opCodeIndex)
+      return lip->lineNumber;
+  exit(EXIT_CODE_COMPILATION_ERROR);  // Should be unreachable
+}
+
 void chunk_free(chunk_t * chunk)
 {
   FREE_ARRAY(uint8_t, chunk->code, chunk->byteCodeCapacity);
@@ -93,15 +102,6 @@ void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)
     chunk->lineInfos[chunk->lineInfoCount - 1].lastOpCodeIndexInLine = chunk->byteCodeCount;
   }
   chunk->byteCodeCount++;  
-}
-
-uint32_t chunk_determine_line_by_index(chunk_t * chunk, uint32_t opCodeIndex)
-{
-  line_info_t * upperBound = chunk->lineInfos + chunk->lineInfoCount;
-  for (line_info_t * lip = chunk->lineInfos; lip < upperBound; lip++)
-    if(lip->lastOpCodeIndexInLine >= opCodeIndex)
-      return lip->lineNumber;
-  exit(EXIT_CODE_COMPILATION_ERROR);  // Should be unreachable
 }
 
 /// @brief Determines whether a chunk is completely filled with bytecode instructions

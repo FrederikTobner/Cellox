@@ -30,7 +30,7 @@
 enum opcode
 {
     /// Pops the two most upper values from the stack, adds them and pushes the result onto the stack
-    OP_ADD,
+    OP_ADD = 1,
     /// Defines the arguments of the array literal declaration
     OP_ARRAY_LITERAL,
     /// Defines the arguments for the next function invocation
@@ -115,9 +115,13 @@ enum opcode
     OP_TRUE,
 };
 
+/// @brief Line info of a chunk
+/// @details Stores the index of the last instruction in a line and the line number
 typedef struct 
 {
+  /// The line number in the source code
   uint32_t lineNumber;
+  /// The index of the last bytecode instruction corresponding to the line number
   uint32_t lastOpCodeIndexInLine;
 } line_info_t;
 
@@ -136,7 +140,7 @@ typedef struct
     uint32_t lineInfoCapacity;
     /// Operand Codes
     uint8_t * code;
-    /// Stores line information to the corresponding lox program
+    /// Stores line information for the bytecode instructions stored in the chunk
     line_info_t * lineInfos;
     /// Constants stored in the chunk
     dynamic_value_array_t constants;
@@ -148,7 +152,10 @@ typedef struct
 /// @return The index of the added constant
 int32_t chunk_add_constant(chunk_t * chunk, value_t value);
 
-
+/// @brief Determines the corresponding line number for a bytecode instruction by the index of the instruction in the chunk
+/// @param chunk The chunk where the bytecode instruction is stored
+/// @param opCodeIndex The index of the bytecode instruction 
+/// @return The line number as an unnsigned 32-bit integer value 
 uint32_t chunk_determine_line_by_index(chunk_t * chunk, uint32_t opCodeIndex);
 
 /// @brief Deallocates the memory used by the chunk
