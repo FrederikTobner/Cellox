@@ -301,11 +301,11 @@ static void chunk_file_append_u64(uint64_t number, FILE * filePointer)
     fputc(number  & 0x00000000000000ff, filePointer);
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
+/// @brief Parses a chunk in a chunk file
+/// @param fileContent  Pointer to the pointer where the contents of the file are stored
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
 static void chunk_file_parse_chunk(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     if(*bytesReadPointer != fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_CONSTANTS)
@@ -334,11 +334,11 @@ static void chunk_file_parse_chunk(char const ** fileContent, chunk_t * result, 
     }
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
+/// @brief Parses the bytecode segment of a chunk in a chunk file
+/// @param fileContent Pointer to the pointer where the contents of the file are stored
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
 static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     uint32_t codeCount = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
@@ -353,11 +353,11 @@ static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, s
         result->code[i] = *(*fileContent)++;
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
+/// @brief Parses a single constant in a constant segment
+/// @param fileContent Pointer to the pointer where the contents of the file are stored
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
 static void chunk_file_parse_constant(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     if(*bytesReadPointer > fileSize)
@@ -386,11 +386,11 @@ static void chunk_file_parse_constant(char const ** fileContent, chunk_t * resul
     }   
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
+/// @brief Parses the constants segment of a chunk in a chunk file
+/// @param fileContent Pointer to the pointer where the contents of the file are stored
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
 static void chunk_file_parse_constants(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     uint32_t constantCounter = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
@@ -399,22 +399,22 @@ static void chunk_file_parse_constants(char const ** fileContent, chunk_t * resu
         chunk_file_parse_constant(fileContent, result, bytesReadPointer, fileSize);    
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
+/// @brief Parses a cellox chunk file
+/// @param fileContent Pointer to the contents of the file
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
 static void chunk_file_parse_file(char const * fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     chunk_file_parse_metadata(&fileContent, result, bytesReadPointer, fileSize);
     chunk_file_parse_chunk(&fileContent, result, bytesReadPointer, fileSize);
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
+/// @brief Parses the inner segment of a chunk in a chunk file
+/// @param fileContent Pointer to the pointer where the contents of the file are stored
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
 static void chunk_file_parse_inner(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     uint32_t innerCounter = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
@@ -433,11 +433,11 @@ static void chunk_file_parse_inner(char const ** fileContent, chunk_t * result, 
     
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
+/// @brief Parses the line info of a chunk
+/// @param fileContent Pointer to the pointer where the contents of the file are stored
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
 static void chunk_file_parse_line_info(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     uint32_t lineInfoCount = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
@@ -455,11 +455,11 @@ static void chunk_file_parse_line_info(char const ** fileContent, chunk_t * resu
     }
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
+/// @brief Parses the metadata of a chunk file
+/// @param fileContent Pointer to the pointer where the contents of the file are stored
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
 static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     for (; (*bytesReadPointer) < 3; (*bytesReadPointer)++, (*fileContent)++)
@@ -470,12 +470,12 @@ static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * resul
     }    
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
-/// @return 
+/// @brief Parses a single unsigned 32-bit integer value
+/// @param fileContent Pointer to the pointer where the contents of the file are stored
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
+/// @return The number that was parsed
 static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     if((*bytesReadPointer) > (fileSize - 4))
@@ -489,12 +489,12 @@ static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result
     return number;
 }
 
-/// @brief 
-/// @param fileContent 
-/// @param result 
-/// @param bytesReadPointer 
-/// @param fileSize 
-/// @return 
+/// @brief Parses a single unsigned 64-bit integer value
+/// @param fileContent Pointer to the pointer where the contents of the file are stored
+/// @param result The resulting chunk of the parsing process
+/// @param bytesReadPointer Pointer to the bytes read counter
+/// @param fileSize The size of the file in bytes
+/// @return The number that was parsed
 static uint64_t chunk_file_parse_u64(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     if((*bytesReadPointer) > (fileSize - 8));

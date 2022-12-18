@@ -78,8 +78,8 @@ void init_repl()
 
 void init_run_from_file(char const * path, bool compile)
 {
-    virtual_machine_init();
     size_t pathLength = strlen(path);
+    interpret_result result;
     if(pathLength > 4 && 
         path[pathLength - 4] == '.' && 
         path[pathLength - 3] == 'c' && 
@@ -89,7 +89,7 @@ void init_run_from_file(char const * path, bool compile)
         char * source = init_read_file(path);
         if(!source)
             return;
-        interpret_result result;
+        virtual_machine_init();
         if(compile)
         {
             object_function_t * function = compiler_compile(source);        
@@ -102,17 +102,6 @@ void init_run_from_file(char const * path, bool compile)
         }
         else
             result = virtual_machine_interpret(source, true);
-        #ifndef CELLOX_TESTS_RUNNING
-        if(result != INTERPRET_OK)
-            virtual_machine_free();
-        // Error during the compilation process
-        if (result == INTERPRET_COMPILE_ERROR)
-            exit(EXIT_CODE_COMPILATION_ERROR);
-        // Error at runtime
-        if (result == INTERPRET_RUNTIME_ERROR)
-            exit(EXIT_CODE_RUNTIME_ERROR);
-        #endif
-        virtual_machine_free();
     }
     else if(pathLength > 5 &&
             path[pathLength - 5] == '.' && 
@@ -123,22 +112,27 @@ void init_run_from_file(char const * path, bool compile)
     {
         if(compile)
             init_io_error("Can not compile a chunk file");
-        interpret_result result = virtual_machine_run_chunk(*chunk_file_load(path));
-        #ifndef CELLOX_TESTS_RUNNING
-        if(result != INTERPRET_OK)
-            virtual_machine_free();
-        // Error during the compilation process
-        if (result == INTERPRET_COMPILE_ERROR)
-            exit(EXIT_CODE_COMPILATION_ERROR);
-        // Error at runtime
-        if (result == INTERPRET_RUNTIME_ERROR)
-            exit(EXIT_CODE_RUNTIME_ERROR);
-        #endif
-        virtual_machine_free();
+        virtual_machine_init();
+        result = virtual_machine_run_chunk(*chunk_file_load(path));
     }
     else
+    {
         init_io_error("File type not supported");
-    
+        return;
+    }
+
+    #ifndef CELLOX_TESTS_RUNNING
+    if(result != INTERPRET_OK)
+        virtual_machine_free();
+    // Error during the compilation process
+    if (result == INTERPRET_COMPILE_ERROR)
+        exit(EXIT_CODE_COMPILATION_ERROR);
+    // Error at runtime
+    if (result == INTERPRET_RUNTIME_ERROR)
+        exit(EXIT_CODE_RUNTIME_ERROR);
+    #endif
+    virtual_machine_free();
+
 }
 
 void init_show_help()

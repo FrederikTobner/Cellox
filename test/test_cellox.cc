@@ -21,9 +21,10 @@ void test_compiled_cellox_program(std::string const & programPath, std::string c
     std::string filePath = TEST_PROGRAM_BASE_PATH;
     filePath.append(programPath);
     init_run_from_file(filePath.c_str(), true);
+    // We need to alter the path because we want to check whether the compiled version works
     std::string alteredPath = programPath;
     alteredPath.replace(alteredPath.end() - 3, alteredPath.end(), "cxcf");
-    test_program(programPath, expectedOutput, false);
+    test_program(alteredPath, expectedOutput, false);
 }
 
 /// @brief Test a cellox program
