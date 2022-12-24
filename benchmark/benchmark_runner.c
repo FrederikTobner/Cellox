@@ -1,14 +1,27 @@
 #include "benchmark_runner.h"
 
+#include <dirent.h>
+#include <errno.h>
 #include <float.h>
 #include <stdbool.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
+#ifdef WIN32
+    #include <fileapi.h>
+#endif
+
+#ifdef __unix__    
+    #include <sys/stat.h>
+#endif
 
 #include "../src/init.h"
 
-/// @brief Benchmarks that are included in the benchmarking suite
+#include "common.h"
+
+/// @brief Benchmarks that are included in the benchmarking suiteby default
 static benchmark_config_t benchmarks[] = 
 {
     [BENCHMARK_EQUALITY] =
@@ -47,10 +60,10 @@ static benchmark_config_t benchmarks[] =
         .benchmarkFilePath = "Properties.clx",
         .executionCount = 3
     },
-    [BENCHMARK_STRING_EQUALITY] =
+    [BENCHMARK_RAISE] =
     {
-        .benchmarkName = "String Equality",
-        .benchmarkFilePath = "StringEquality.clx",
+        .benchmarkName = "Raise",
+        .benchmarkFilePath = "Raise.clx",
         .executionCount = 3
     },
     [BENCHMARK_ZOO] =
@@ -61,31 +74,125 @@ static benchmark_config_t benchmarks[] =
     }
 };
 
-
-static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, bool custom);
+static FILE * benchmark_runner_create_results_file_pointer();
+static void benchamrk_runner_ensure_results_directory_exists();
+static void benchmark_runner_execute_benchmark(benchmark_config_t, bool, FILE *);
 
 void benchmark_runner_execute_all_predefiened()
 {
-    printf("%10s | %10s | %10s | %8s\n",  "average", "min", "max", "name" );
+    FILE * filePointer = benchmark_runner_create_results_file_pointer();
+    printf("%10s | %10s | %10s | %8s\n",  "average", "min", "max", "name");
+    fprintf(filePointer, "%10s | %10s | %10s | %8s\n",  "average", "min", "max", "name");
     size_t benchmarkCount = sizeof(benchmarks) / sizeof(*benchmarks);
     for (size_t i = 0; i < benchmarkCount; i++)
-        benchmark_runner_execute_benchmark(*(benchmarks + i), false);    
+        benchmark_runner_execute_benchmark(*(benchmarks + i), false, filePointer);
+    fclose(filePointer);
 }
 
 void benchmark_runner_execute_predefiened(benchmark benchmark)
 {
-    printf("%10s | %10s | %10s | %8s\n",  "average", "min", "max", "name" );
-    benchmark_runner_execute_benchmark(*(benchmarks + benchmark), false);    
+    FILE * filePointer = benchmark_runner_create_results_file_pointer();
+    printf("%10s | %10s | %10s | %8s\n",  "average", "min", "max", "name");
+    fprintf(filePointer, "%10s | %10s | %10s | %8s\n",  "average", "min", "max", "name");
+    benchmark_runner_execute_benchmark(*(benchmarks + benchmark), false, filePointer);
+    fclose(filePointer);
 }
 
 void benchmark_runner_execute_custom_benchmarks(dynamic_benchmark_config_array_t * config_array)
 {
-    printf("%10s | %10s | %10s | %8s\n-----------|------------|------------|-----------\n",  "average", "min", "max", "name" );
+    FILE * filePointer = benchmark_runner_create_results_file_pointer();
+    printf("%10s | %10s | %10s | %8s\n-----------|------------|------------|-----------\n",  "average", "min", "max", "name");
+    fprintf(filePointer, "%10s | %10s | %10s | %8s\n-----------|------------|------------|-----------\n",  "average", "min", "max", "name");
     for (size_t i = 0; i < config_array->count; i++)
-        benchmark_runner_execute_benchmark(config_array->configs[i], true);    
+        benchmark_runner_execute_benchmark(config_array->configs[i], true, filePointer);
+    fclose(filePointer);
 }
 
-static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, bool custom)
+static FILE * benchmark_runner_create_results_file_pointer()
+{
+    FILE * filePointer;
+    time_t current_time = time(NULL);
+    char * fileName = ctime(&current_time);
+    if (!fileName)
+    {
+        printf("Unable to convert time to a character sequence.\n");
+        exit(EXIT_CODE_SYSTEM_ERROR);
+    }
+    size_t fileNameSize = strlen(fileName);
+    for (size_t i = 0; i < fileNameSize; i++)
+    {
+        if (fileName[i] == ' ')
+            fileName[i] = '_';
+        else if (fileName[i] == ':')
+            fileName[i] = '-';
+    }
+    fileName = realloc(fileName, fileNameSize + 5);
+    if (!fileName)
+    {
+        fprintf(stderr, "Unable to allocate memory for the filename.\n");
+        exit(EXIT_CODE_SYSTEM_ERROR);
+    }
+    fileName[fileNameSize + 4] = '\0';
+    fileName[fileNameSize + 3] = 'm';
+    fileName[fileNameSize + 2] = 'b';
+    fileName[fileNameSize + 1] = 'x';
+    fileName[fileNameSize] = 'c';
+    fileName[fileNameSize - 1] = '.';
+    char * fullFileNamePath;
+    if((fullFileNamePath = malloc(strlen(fileName)+strlen(RESULTS_BASE_PATH) + 2)) != NULL)
+    {
+        fullFileNamePath[0] = '\0';   // ensures the memory is an empty string
+        strcat(fullFileNamePath, RESULTS_BASE_PATH);
+        strcat(fullFileNamePath, "/");
+        strcat(fullFileNamePath, fileName);
+    } 
+    else 
+    {
+        fprintf(stderr, "Could not allocate memory needed for full file name path!\n");
+        exit(EXIT_CODE_SYSTEM_ERROR);
+    }
+    benchamrk_runner_ensure_results_directory_exists();
+    filePointer = fopen(fullFileNamePath, "w");
+    if (!filePointer)
+    {
+        fprintf(stderr, "Unable to create file.\n");
+        exit(EXIT_CODE_SYSTEM_ERROR);
+    }
+    return filePointer;
+}
+
+static void benchamrk_runner_ensure_results_directory_exists()
+{
+    DIR * resultsDirectory = opendir(RESULTS_BASE_PATH);
+    if (resultsDirectory) 
+        closedir(resultsDirectory);
+    else if (ENOENT == errno) 
+    {
+        // If the directory does not exists we need to create it
+        #ifdef WIN32
+            CreateDirectory (RESULTS_BASE_PATH, NULL);
+        #endif
+        #ifdef __unix__
+            mkdir(RESULTS_BASE_PATH, 0700);
+        #endif
+        resultsDirectory = opendir(RESULTS_BASE_PATH);
+        if(resultsDirectory)
+            closedir(resultsDirectory);
+        else
+        {
+            fprintf(stderr, "Can not create results directory!\n");
+            exit(EXIT_CODE_SYSTEM_ERROR);
+        }
+
+    } 
+    else 
+    {
+        fprintf(stderr, "Can not access results directory!\n");
+        exit(EXIT_CODE_SYSTEM_ERROR);
+    }
+}
+
+static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, bool custom, FILE * filePointer)
 {
     double combined_execution_duration = 0.0;
     double min_execution_duration = DBL_MAX;
@@ -132,6 +239,11 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
     // Reset stdout redirection
     freopen("CON", "w", stdout);
     printf("%9gs | %9gs | %9gs | %s\n", 
+            combined_execution_duration / benchmark.executionCount,
+            min_execution_duration,
+            max_execution_duration,
+            benchmark.benchmarkName);
+    fprintf(filePointer, "%9gs | %9gs | %9gs | %s\n", 
             combined_execution_duration / benchmark.executionCount,
             min_execution_duration,
             max_execution_duration,

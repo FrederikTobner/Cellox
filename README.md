@@ -62,11 +62,12 @@ This means that you can for example get the reference to a function and assign i
 ## Functions
 
 A [Function](https://github.com/FrederikTobner/Cellox/wiki/Functions) in Cellox is a group of statements, that together perform a task.
+Some functions in Cellox also access the enclosing environment of the function to for example change the value stored in variable in the enclosing environment. These functions are called closures and the values that are accessible for the functions are called upvalues.
 Cellox also offers some [native functions](https://github.com/FrederikTobner/Cellox/wiki/Native-Functions) that are implemented in C.
 
 ## Classes
 
-Cellox is a objectoriented language that features inheritance and methods that are bound to a [class](https://github.com/FrederikTobner/Cellox/wiki/Classes) instance.
+Cellox is a objectoriented language, that features inheritance and methods that are bound to a [class](https://github.com/FrederikTobner/Cellox/wiki/Classes) instance.
 Classes can also extend the functionality of an already existing class by using inheritance.
 
 ## Strings

@@ -4,5 +4,7 @@
 .[Vv][Ss][Cc][Oo][Dd][Ee]/
 # Ignore cellox bytecode files
 *.[Cc][Xx][Cc][Ff]
+# Ignore cellox benchmark result files
+*.[Cc][Xx][Bb][Mm]
 # Ignore idea folder of IntelliJ
 \.[Ii][Dd][Ee][Aa]/

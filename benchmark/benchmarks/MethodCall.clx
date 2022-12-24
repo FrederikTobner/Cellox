@@ -47,8 +47,6 @@ for (var i = 0; i < n; i += 1) {
   val = toggle.activate().value();
 }
 
-print toggle.value();
-
 val = true;
 var ntoggle = NthToggle(val, 3);
 
