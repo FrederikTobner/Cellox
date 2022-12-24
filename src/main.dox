@@ -15,35 +15,28 @@
 * To build the interpreter a C-Compiler, that supports the C99 standard and CMake (Version >= 3.16) is required. <br>
 * Additionaly cellox has the following dependecies <br>
 * Under windows:
-* <ul>
-* <li>conio.h</li>
-* <li>windows.h</li>
-* </ul>
+* * conio.h
+* * windows.h
+*
 * Under unix-based systems:
-* <ul>
-* <li>curses.h</li>
-* <li>unistd.h</li>
-* </ul>
+* * curses.h
+* * unistd.h
 * \section testing_sec Testing
-* For building the language tests a C++-Compiler, that supports the C++14 standard and CMake (Version >= 3.24) is required. <br>
+* For building the language tests a C++-Compiler, that supports the C++14 standard and <a href="https://cmake.org/">CMake</a> (Version >= 3.24) is required. <br>
 * The test are written in C++ using the <a href=https://github.com/google/googletest>google-test framework</a> (version 1.12.1). <br>
 * For testing a cellox program is executed and the standard output is redirected to a string. <br>
 * The string is compared with the expected output after the program was executed. <br>
 * A small benchmarking suite to measure the performance of cellox programs is also included (only used for developing the interpreter)
 * \section buildoptions_sec Build options
-* Cellox features the following build options
-* <ul>
-* <li>NAN_BOXING_ACTIVATED</li> <br>
-* Determines whether "not a number boxing / tagging" is used - by default activated
-* <li>DEBUG_LOG_GARBAGE_COLLECTOIN</li> <br>
-* Determines whether the garbage collection be logged - only affects debug builds and is by default deactivated
-* <li>DEBUG_PRINT_BYTECODE</li> <br>
-* Determines whether the chunks are dissassembled and the bytecode is prined - only affects debug builds and is by default deactivated
-* <li>DEBUG_STRESS_GARBAGE_COLLECTOR</li> <br>
-* Determines whether the garbage collector shall be stressed - only affects debug builds and is by default deactivated
-* <li>DEBUG_TRACE_EXECUTION</li> <br>
-* Determines whether the execution shall be traced - only affects debug builds and is by default deactivated
-* </ul>
+* There are a couple of options which can be enable with <a href="https://cmake.org/">CMake</a>:
+* | Option                         | Description                                                                 | Default |
+* |--------------------------------|:----------------------------------------------------------------------------| --------|
+* | NAN_BOXING_ACTIVATED           | Determines whether "not a number boxing / tagging" is used                  | ON      |
+* | DEBUG_LOG_GARBAGE_COLLECTOIN   | Determines whether the garbage collection be logged                         | OFF     |
+* | DEBUG_PRINT_BYTECODE           | Determines whether the chunks are dissassembled and the bytecode is printed | OFF     |
+* | DEBUG_STRESS_GARBAGE_COLLECTOR | Determines whether the garbage collector shall be stressed                  | OFF     |
+* | DEBUG_TRACE_EXECUTION          | Determines whether the execution shall be traced                            | OFF     |
+* The options prefixed with 'DEBUG' do only affect the build if a 'debug' is the selected build type.
 * \section license_sec License
 * Copyright &copy; 2022 by <a href="mailto:f.tobner@gmail.com">Frederik Tobner</a>. <br>
 * Permission to use, copy, modify, and distribute this software and its documentation under the terms of the GNU General Public License is hereby granted. <br>

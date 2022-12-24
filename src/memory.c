@@ -119,7 +119,7 @@ void * memory_reallocate(void * pointer, size_t oldSize, size_t newSize)
     return NULL;
   }
 
-  void *result = realloc(pointer, newSize);
+  void * result = realloc(pointer, newSize);
   if (!result)
   {
     fprintf(stderr, "Failed too allocate memory");

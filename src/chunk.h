@@ -30,7 +30,7 @@
 enum opcode
 {
     /// Pops the two most upper values from the stack, adds them and pushes the result onto the stack
-    OP_ADD = 1,
+    OP_ADD,
     /// Defines the arguments of the array literal declaration
     OP_ARRAY_LITERAL,
     /// Defines the arguments for the next function invocation

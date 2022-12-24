@@ -370,11 +370,10 @@ static void lexer_skip_whitespace()
         case ' ':
         case '\r':
         case '\t':
-            // Whitespaces tabstops and carriage returns are ignored
+            // Whitespaces, tabstops, and carriage returns are ignored
             lexer_advance();
             break;
         case '\n':
-            // Linecounter will increase on a linefeed
             lexer.line++;
             lexer_advance();
             break;

@@ -16,10 +16,6 @@ if(UNIX)
     target_link_libraries(${PROJECT_NAME} m)
 endif()
 
-if(NAN_BOXING_ACTIVATED)
-    add_compile_definitions(NAN_BOXING)
-endif()
-
 if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     if(DEBUG_PRINT_BYTECODE)
         add_compile_definitions(DEBUG_PRINT_CODE)
@@ -33,6 +29,7 @@ if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     if(DEBUG_LOG_GARBAGE_COLLECTOIN)
         add_compile_definitions(DEBUG_LOG_GC)
     endif()
+    add_compile_definitions(BUILD_DEBUG)
 endif()
 
 # for including the cellox_config.h file

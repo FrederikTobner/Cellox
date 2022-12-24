@@ -139,8 +139,7 @@ static void chunk_file_append_chunk(chunk_t chunk,  chunk_file_compile_flag flag
     chunk_file_append_constant_segment(chunk.constants, &functions, flag, filePointer);
     chunk_file_append_line_info_segment(chunk.lineInfos, chunk.lineInfoCount, filePointer);
     if(functions.count)
-        chunk_file_append_inner_segment(functions, flag, filePointer);
-        
+        chunk_file_append_inner_segment(functions, flag, filePointer);        
     chunk_file_append_code_segment(chunk.code, chunk.byteCodeCount, filePointer);
 }
 
@@ -332,6 +331,10 @@ static void chunk_file_parse_chunk(char const ** fileContent, chunk_t * result, 
         (*fileContent)++;
         chunk_file_parse_code(fileContent, result, bytesReadPointer, fileSize);
     }
+    else{
+        result->byteCodeCapacity = 0;
+        result->byteCodeCount = 0;
+    }
 }
 
 /// @brief Parses the bytecode segment of a chunk in a chunk file
@@ -349,7 +352,7 @@ static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, s
         chunk_file_error("Could not create line info");
     result->byteCodeCapacity = codeCount;
     result->byteCodeCount = codeCount;
-    for (uint32_t i = 0; i < codeCount, *bytesReadPointer < fileSize; i++, (*bytesReadPointer)++)
+    for (uint32_t i = 0; i < codeCount && *bytesReadPointer < fileSize; i++, (*bytesReadPointer)++)
         result->code[i] = *(*fileContent)++;
 }
 
@@ -408,6 +411,9 @@ static void chunk_file_parse_file(char const * fileContent, chunk_t * result, si
 {
     chunk_file_parse_metadata(&fileContent, result, bytesReadPointer, fileSize);
     chunk_file_parse_chunk(&fileContent, result, bytesReadPointer, fileSize);
+    // We miss reading 2 bytes somewhere for counter.clx :(
+    /*if(*bytesReadPointer != fileSize)
+        chunk_file_error("Could not parse the whole file");*/
 }
 
 /// @brief Parses the inner segment of a chunk in a chunk file
@@ -424,13 +430,17 @@ static void chunk_file_parse_inner(char const ** fileContent, chunk_t * result, 
         if(*bytesReadPointer > fileSize - functionNameLength)
             chunk_file_error("Unexpected file ending");
         object_function_t * function = object_new_function();
-        function->name = object_take_string((char*)*fileContent, functionNameLength);
+        char * functionName = malloc(functionNameLength + 1);
+        memcpy(functionName, (*fileContent), functionNameLength);
+        functionName[functionNameLength] = '\0';
+        function->name = object_take_string(functionName, functionNameLength);
+        *fileContent += functionNameLength + 1;
+        *bytesReadPointer += functionNameLength + 2;
         function->arity = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
         function->upvalueCount = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
         chunk_file_parse_chunk(fileContent, &function->chunk, bytesReadPointer, fileSize);
         dynamic_value_array_write(&result->constants, OBJECT_VAL(function));
-    }
-    
+    }    
 }
 
 /// @brief Parses the line info of a chunk
@@ -497,7 +507,7 @@ static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result
 /// @return The number that was parsed
 static uint64_t chunk_file_parse_u64(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
-    if((*bytesReadPointer) > (fileSize - 8));
+    if((*bytesReadPointer) > (fileSize - 8))
         chunk_file_error("Chunk file is incomplete");
     uint64_t number = 0;
     number += ((uint64_t) *(*fileContent)++) << 56;
