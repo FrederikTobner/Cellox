@@ -26,11 +26,11 @@
 * The test are written in C++ using the <a href=https://github.com/google/googletest>google-test framework</a> (version 1.12.1). <br>
 * For testing a cellox program is executed and the standard output is redirected to a string. <br>
 * The string is compared with the expected output after the program was executed. <br>
-* A small benchmarking suite to measure the performance of cellox programs is also included (only used for developing the interpreter)
+* A small benchmarking tool to measure the performance of cellox programs is also included (only used for developing the interpreter)
 * \section buildoptions_sec Build options
 * There are a couple of options which can be enable with <a href="https://cmake.org/">CMake</a>:
 * | Option                         | Description                                                                 | Default |
-* |--------------------------------|:----------------------------------------------------------------------------| --------|
+* |--------------------------------|-----------------------------------------------------------------------------| --------|
 * | NAN_BOXING_ACTIVATED           | Determines whether "not a number boxing / tagging" is used                  | ON      |
 * | DEBUG_LOG_GARBAGE_COLLECTOIN   | Determines whether the garbage collection be logged                         | OFF     |
 * | DEBUG_PRINT_BYTECODE           | Determines whether the chunks are dissassembled and the bytecode is printed | OFF     |

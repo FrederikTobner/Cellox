@@ -100,7 +100,7 @@ interpret_result virtual_machine_interpret(char * program, bool freeProgram)
     if (!function)
         return INTERPRET_COMPILE_ERROR;
     virtual_machine_push(OBJECT_VAL(function));
-    object_closure_t *closure = object_new_closure(function);
+    object_closure_t * closure = object_new_closure(function);
     virtual_machine_pop();
     virtual_machine_push(OBJECT_VAL(closure));
     virtual_machine_call(closure, 0u);
@@ -381,7 +381,7 @@ static bool virtual_machine_get_index_of()
             virtual_machine_runtime_error("accessed string out of bounds (at index %i)", num);
             return false;
         }
-        char *chars = ALLOCATE(char, 2u);
+        char * chars = ALLOCATE(char, 2u);
         chars[0] = str->chars[num];
         chars[1] = '\0';
         object_string_t *result = object_take_string(chars, 1u);
@@ -454,7 +454,8 @@ static bool virtual_machine_get_slice_of()
         object_dynamic_value_array_t * sourceArray = AS_ARRAY(virtual_machine_pop());
         if(upperBound >= sourceArray->array.count) 
         {
-            virtual_machine_runtime_error("Upperbound can not be higher or equal to the size of the array, but upperbound is %d and size %d", upperBound, sourceArray->array.count);
+            virtual_machine_runtime_error("Upperbound can not be higher or equal to the size of the array, but upperbound is %d and size %d", 
+                                            upperBound, sourceArray->array.count);
             return false;
         }
         object_dynamic_value_array_t * resultArray = object_new_dynamic_value_array();
@@ -467,7 +468,8 @@ static bool virtual_machine_get_slice_of()
         object_string_t * sourceString = AS_STRING(virtual_machine_pop());
         if (upperBound >= sourceString->length) 
         {
-            virtual_machine_runtime_error("Upperbound can not be higher or equal to the length of the string but upperbound is %d and size %d", upperBound, sourceString->length); 
+            virtual_machine_runtime_error("Upperbound can not be higher or equal to the length of the string but upperbound is %d and size %d", 
+                                            upperBound, sourceString->length); 
             return false;
         }  
         char * chars = ALLOCATE(char, upperBound - i + 1);
@@ -664,8 +666,9 @@ static interpret_result virtual_machine_run()
             &&label_true
         };
 
-        /// Makro that dipatches thenext bytecode instuction
-        #define DISPATCH() goto *dispatch_table[READ_BYTE()]
+        /// Makro that dipatches the next bytecode instuction
+        #define DISPATCH() \
+        goto *dispatch_table[READ_BYTE()]
 
         DISPATCH();
     #endif // Not debug and clang or gcc

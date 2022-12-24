@@ -19,6 +19,7 @@ add_compile_definitions(
 BENCHMARKS_RUNNING
 # Directory of the cellox benchmarks
 BENCHMARK_BASE_PATH="${PROJECT_SOURCE_DIR}/benchmark/benchmarks/"
+RESULTS_BASE_PATH="${PROJECT_SOURCE_DIR}/benchmark/results"
 )
 
 if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
