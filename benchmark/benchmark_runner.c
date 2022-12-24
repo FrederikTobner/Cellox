@@ -1,6 +1,5 @@
 #include "benchmark_runner.h"
 
-#include <dirent.h>
 #include <errno.h>
 #include <float.h>
 #include <stdbool.h>
@@ -10,10 +9,12 @@
 #include <time.h>
 
 #ifdef WIN32
+    #include <windows.h>
     #include <fileapi.h>
 #endif
 
-#ifdef __unix__    
+#ifdef __unix__
+    #include <dirent.h> 
     #include <sys/stat.h>
 #endif
 
@@ -158,23 +159,39 @@ static FILE * benchmark_runner_create_results_file_pointer()
         fprintf(stderr, "Unable to create file.\n");
         exit(EXIT_CODE_SYSTEM_ERROR);
     }
+    free(fileName);
+    free(fullFileNamePath);
     return filePointer;
 }
 
 static void benchamrk_runner_ensure_results_directory_exists()
 {
+    #ifdef WIN32
+        DWORD dwAttribute = GetFileAttributes(RESULTS_BASE_PATH);
+        if(dwAttribute == INVALID_FILE_ATTRIBUTES)
+        {
+            CreateDirectory(RESULTS_BASE_PATH, NULL);
+            dwAttribute = GetFileAttributes(RESULTS_BASE_PATH);
+            if(dwAttribute == INVALID_FILE_ATTRIBUTES)
+            {
+                fprintf(stderr, "Can not create results directory!\n");
+                exit(EXIT_CODE_SYSTEM_ERROR);
+            }
+        }
+        else if(!(dwAttribute & FILE_ATTRIBUTE_DIRECTORY))
+        {
+            fprintf(stderr, "Results is not a directory");
+            exit(EXIT_CODE_SYSTEM_ERROR);
+        }
+    #endif
+    #ifdef __unix__
     DIR * resultsDirectory = opendir(RESULTS_BASE_PATH);
     if (resultsDirectory) 
         closedir(resultsDirectory);
     else if (ENOENT == errno) 
     {
         // If the directory does not exists we need to create it
-        #ifdef WIN32
-            CreateDirectory (RESULTS_BASE_PATH, NULL);
-        #endif
-        #ifdef __unix__
-            mkdir(RESULTS_BASE_PATH, 0700);
-        #endif
+        mkdir(RESULTS_BASE_PATH, 0700);
         resultsDirectory = opendir(RESULTS_BASE_PATH);
         if(resultsDirectory)
             closedir(resultsDirectory);
@@ -190,6 +207,7 @@ static void benchamrk_runner_ensure_results_directory_exists()
         fprintf(stderr, "Can not access results directory!\n");
         exit(EXIT_CODE_SYSTEM_ERROR);
     }
+    #endif
 }
 
 static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, bool custom, FILE * filePointer)
@@ -249,5 +267,6 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
             max_execution_duration,
             benchmark.benchmarkName);
     if(!custom)
+        free(filePath);
     free(measured_time);
 }

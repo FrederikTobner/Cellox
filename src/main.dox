@@ -30,7 +30,7 @@
 * \section buildoptions_sec Build options
 * There are a couple of options which can be enable with <a href="https://cmake.org/">CMake</a>:
 * | Option                         | Description                                                                 | Default |
-* |--------------------------------|:----------------------------------------------------------------------------| --------|
+* |--------------------------------|-----------------------------------------------------------------------------| --------|
 * | NAN_BOXING_ACTIVATED           | Determines whether "not a number boxing / tagging" is used                  | ON      |
 * | DEBUG_LOG_GARBAGE_COLLECTOIN   | Determines whether the garbage collection be logged                         | OFF     |
 * | DEBUG_PRINT_BYTECODE           | Determines whether the chunks are dissassembled and the bytecode is printed | OFF     |
