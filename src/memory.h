@@ -35,6 +35,10 @@
 #define FREE(type, pointer) \
     (memory_reallocate(pointer, sizeof(type), 0))
 
+/// Makro that dealocates an existing dynamic array
+#define FREE_ARRAY(type, pointer, oldCount) \
+    (memory_reallocate(pointer, sizeof(type) * (oldCount), 0))
+
 /// Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)
 #define GROW_CAPACITY(capacity) \
     ((capacity) < 8u ? 8u : (capacity) * ARRAY_GROWTH_FACTOR)
@@ -43,9 +47,6 @@
 #define GROW_ARRAY(type, pointer, oldCount, newCount) \
     ((type *)memory_reallocate(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))
 
-/// Makro that dealocates an existing dynamic array
-#define FREE_ARRAY(type, pointer, oldCount) \
-    (memory_reallocate(pointer, sizeof(type) * (oldCount), 0))
 
 /** @brief Starts the garbage collection process.
  * @details The garbage collector of cellox is a precise GC.

@@ -2,7 +2,8 @@
 if [ -d "../src" ]
 then
     echo "Generating Documentation ..."
-    doxygen ../src/Doxyfile
+    cd ../src
+    doxygen
     echo "Moving generated content out of the html folder ..."
     if [ -d "../docs" ]
     then

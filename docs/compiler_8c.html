@@ -342,7 +342,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a21b9f7c42b4461526314d152937e4fea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a super expression.  <a href="compiler_8c.html#a21b9f7c42b4461526314d152937e4fea">More...</a><br /></td></tr>
 <tr class="separator:a21b9f7c42b4461526314d152937e4fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f07d3d555b79b723aa00aa8629863fd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#a1f07d3d555b79b723aa00aa8629863fd">compiler_synchronize</a> ()</td></tr>
-<tr class="memdesc:a1f07d3d555b79b723aa00aa8629863fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronizes the compiler after an error has occured (jumps to the next statement that can be executed)  <a href="compiler_8c.html#a1f07d3d555b79b723aa00aa8629863fd">More...</a><br /></td></tr>
+<tr class="memdesc:a1f07d3d555b79b723aa00aa8629863fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronizes the compiler after an error has occured (jumps to the next statement that can be parsed.  <a href="compiler_8c.html#a1f07d3d555b79b723aa00aa8629863fd">More...</a><br /></td></tr>
 <tr class="separator:a1f07d3d555b79b723aa00aa8629863fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf5a3b25b504da2ccd3c5d7b9a4b4890"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structtoken__t.html">token_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8c.html#aaf5a3b25b504da2ccd3c5d7b9a4b4890">compiler_synthetic_token</a> (char const *text)</td></tr>
 <tr class="memdesc:aaf5a3b25b504da2ccd3c5d7b9a4b4890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a token out of a stream of characters.  <a href="compiler_8c.html#aaf5a3b25b504da2ccd3c5d7b9a4b4890">More...</a><br /></td></tr>
@@ -2519,7 +2519,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">compiler</td><td>The compiler where the local variable is resolved </td></tr>
-    <tr><td class="paramname">name</td><td>The name of tthe local variable </td></tr>
+    <tr><td class="paramname">name</td><td>The name of the local variable </td></tr>
   </table>
   </dd>
 </dl>
@@ -2720,7 +2720,8 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Synchronizes the compiler after an error has occured (jumps to the next statement that can be executed) </p>
+<p>Synchronizes the compiler after an error has occured (jumps to the next statement that can be parsed. </p>
+<p >This is done to report all the errors in the source code and not only the first that was encountered </p>
 
 </div>
 </div>

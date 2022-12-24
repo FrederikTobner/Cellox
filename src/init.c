@@ -51,11 +51,8 @@ void init_repl()
 {
     virtual_machine_init();
     // Used to store the next line that is read from input
-    char line[MAX_LINE_LENGTH];
-    printf(PROJECT_INIT_LETTERING);
-  
-// The cellox_config.h.in file is not configured by cmake for the benchmarks and tests -> so we just ignore it
-    printf("\t\t Version %i.%i\n", PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
+    char line[MAX_LINE_LENGTH];  
+    printf("%s\t\t Version %i.%i\n", PROJECT_INIT_LETTERING, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
     for (;;)
     {
         // Prints command prompt

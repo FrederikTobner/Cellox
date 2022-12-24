@@ -1006,6 +1006,8 @@ static void compiler_end_scope()
     // We walk backward through the local array looking for the upvalues in the variables
     while (current->localCount > 0 && current->locals[current->localCount - 1].depth > current->scopeDepth)
     {
+        // If a local value in the scope that we are leaving is captured (is a upvalue)
+        // we need to close the upvalue (apply changes in the scope we are leaving to the outer scope)
         if (current->locals[current->localCount - 1].isCaptured)
             compiler_emit_byte(OP_CLOSE_UPVALUE);
         else
@@ -1031,6 +1033,7 @@ static void compiler_error_at(token_t * token, char const * format, ...)
     if (parser.panicMode)
         return;
     parser.panicMode = true;
+    // We print out the line of the token that has lead to the compile error
     fprintf(stderr, "[line %d] Error", token->line);
     if (token->type == TOKEN_EOF)
         fprintf(stderr, " at end: ");
@@ -1038,6 +1041,7 @@ static void compiler_error_at(token_t * token, char const * format, ...)
         fprintf(stderr, " at '%.*s': ", token->length, token->start);
     va_list args;
     va_start(args, format);
+    // We print out the error message by using the specified format and arguments when calling the function 'compiler_error_at'
     vfprintf(stderr, format, args);
     va_end(args);
     fputc('\n', stderr);
@@ -1086,7 +1090,7 @@ static void compiler_for_statement()
     int32_t loopStart = compiler_current_chunk()->byteCodeCount;
     int32_t exitJump = -1;
 
-    // Conditional clause
+    // Compiling the conditional clause
     if (!compiler_match_token(TOKEN_SEMICOLON))
     {
         compiler_expression();
@@ -1096,7 +1100,7 @@ static void compiler_for_statement()
         compiler_emit_byte(OP_POP); // Condition.
     }
 
-    // Increment clause
+    // Compiling the increment clause
     if (!compiler_match_token(TOKEN_RIGHT_PAREN))
     {
         int32_t bodyJump = compiler_emit_jump(OP_JUMP);
@@ -1498,13 +1502,13 @@ static void compiler_patch_jump(int32_t offset)
 
 /// @brief Resolves a local variable name
 /// @param compiler The compiler where the local variable is resolved
-/// @param name The name of tthe local variable
+/// @param name The name of the local variable
 /// @return The index of the local variable
 static int32_t compiler_resolve_local(compiler_t * compiler, token_t * name)
 {
     for (int32_t i = compiler->localCount - 1; i >= 0; i--)
     {
-        local_t *local = &compiler->locals[i];
+        local_t * local = &compiler->locals[i];
         if (compiler_identifiers_equal(name, &local->name))
         {
             if (local->depth == -1)
@@ -1533,7 +1537,7 @@ static int32_t compiler_resolve_upvalue(compiler_t * compiler, token_t * name)
     int32_t upvalue = compiler_resolve_upvalue(compiler->enclosing, name);
     if (upvalue != -1)
         return compiler_add_upvalue(compiler, (uint8_t)upvalue, false);
-    // upvalue_t couldn't be found
+    // not found
     return -1;
 }
 
@@ -1541,7 +1545,7 @@ static int32_t compiler_resolve_upvalue(compiler_t * compiler, token_t * name)
 static void compiler_return_statement()
 {
     if (current->type == TYPE_SCRIPT)
-        compiler_error(" You can't use return from top-level code.");
+        compiler_error("You can't use return from top-level code.");
     if (compiler_match_token(TOKEN_SEMICOLON))
         compiler_emit_return();
     else
@@ -1583,6 +1587,9 @@ static void compiler_statement()
 /// If the string contains an unknowns escape sequence we show a compile error
 static void compiler_string(bool canAssign)
 {
+    // We resolve all the escape sequences in the string, if there are any.
+    // string will be null if the string literal contains an unknown escape sequnce
+    // TODO: Print the escape sequence that has led to the error (not only the whole string literal)
     object_string_t * string = object_copy_string(parser.previous.start + 1, parser.previous.length - 2, true);
     if(!string)
     {
@@ -1619,7 +1626,8 @@ static void compiler_super(bool canAssign)
     }
 }
 
-/// @brief Synchronizes the compiler after an error has occured (jumps to the next statement that can be executed)
+/// @brief Synchronizes the compiler after an error has occured (jumps to the next statement that can be parsed
+/// @details This is done to report all the errors in the source code and not only the first that was encountered
 static void compiler_synchronize()
 {
     parser.panicMode = false;
@@ -1686,7 +1694,7 @@ static void compiler_unary(bool canAssign)
         compiler_emit_byte(OP_NEGATE);
         break;
     default:
-        return; // Unreachable.
+        return;
     }
 }
 

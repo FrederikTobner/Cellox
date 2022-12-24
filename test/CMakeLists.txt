@@ -16,35 +16,35 @@ FetchContent_Declare(
 
 # testfiles
 set(TESTSOURCES
-array.cc
-assignment_operators.cc
-binary_operators.cc
-class.cc
-comments.cc
-compile.cc
-else_statement.cc
-escape_sequences.cc
-fields.cc
-for_loops.cc
-functions.cc
-if_statement.cc
-index_operator.cc
-limits.cc
-literal_expressions.cc
-logical_operators.cc
-method.cc
-native_functions.cc
-range_operator.cc
-return_keyword.cc
-slice.cc
-strings.cc
-super.cc
-test_cellox.cc
-test_cellox.hh
-this.cc
-unary_operator.cc
-variable.cc
-while_loops.cc
+"array.cc"
+"assignment_operators.cc"
+"binary_operators.cc"
+"class.cc"
+"comments.cc"
+"compile.cc"
+"else_statement.cc"
+"escape_sequences.cc"
+"fields.cc"
+"for_loops.cc"
+"functions.cc"
+"if_statement.cc"
+"index_operator.cc"
+"limits.cc"
+"literal_expressions.cc"
+"logical_operators.cc"
+"method.cc"
+"native_functions.cc"
+"range_operator.cc"
+"return.cc"
+"slice.cc"
+"strings.cc"
+"super.cc"
+"test_cellox.cc"
+"test_cellox.hh"
+"this.cc"
+"unary_operator.cc"
+"variable.cc"
+"while_loops.cc"
 )
 
 add_compile_definitions(
@@ -53,10 +53,6 @@ CELLOX_TESTS_RUNNING
 # Directory of the cellox integration tests
 TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
 )
-
-if(NAN_BOXING_ACTIVATED)
-  add_compile_definitions(NAN_BOXING)
-endif()
 
 # Builds cellox tests
 add_executable(${INTERPRETER_TESTS} ${TESTSOURCES} ${CELLOXSOURCES} ${CELLOXHEADERS})

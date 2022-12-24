@@ -94,23 +94,11 @@ value_t native_functions_on_macOS(uint32_t argCount, value_t const * args);
 /// @return true if the program is executed on a windows system and false if not
 value_t native_functions_on_windows(uint32_t argCount, value_t const * args);
 
-/// @brief Prints the value that is passed as a argument
-/// @param argCount The amount of arguments that were used when print was called
-/// @param args The aguments that print was called with
-/// @return NULL
-value_t native_functions_print(uint32_t argCount, value_t const * args);
-
 /// @brief Prints the value that is passed as a argument formated
 /// @param argCount The amount of arguments that were used when print was called
 /// @param args The aguments that print was called with
 /// @return NULL
 value_t native_functions_print_formated(uint32_t argCount, value_t const * args);
-
-/// @brief Prints the value that is passed as a argument and ads a automatic line break
-/// @param argCount The amount of arguments that were used when println was called
-/// @param args The arguments that print was called with
-/// @return NULL
-value_t native_functions_print_line(uint32_t argCount, value_t const * args);
 
 /// @brief Native random function
 /// @param argCount The amount of arguments that were used when random was called
@@ -142,7 +130,7 @@ value_t native_functions_read_line(uint32_t argCount, value_t const * args);
 /// @return The size of the value
 value_t native_functions_size_of(uint32_t argCount, value_t const * args);
 
-/// @brief 
+/// @brief Returns the hash of a string
 /// @param argCount 
 /// @param args 
 /// @return 
