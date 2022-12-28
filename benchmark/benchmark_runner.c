@@ -9,8 +9,9 @@
 #include <time.h>
 
 #ifdef WIN32
-    #include <fileapi.h>
+    // Windows.h has to be included before the fileapi
     #include <windows.h>
+    #include <fileapi.h>
 #endif
 
 #ifdef __unix__
