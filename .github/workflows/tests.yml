@@ -4,17 +4,17 @@ on:
   pull_request:
     branches: [ "master" ]
   push:
-    branches: [ "dev" ]  
-
-strategy:  
-  matrix:
-    buildtypes: [Debug, Release]      
+    branches: [ "dev" ]      
 
 jobs:
   build:
     runs-on: windows-latest
     env:
       BUILD_TYPE: ${{matrix.buildtypes}}
+
+    strategy:  
+      matrix:
+        buildtypes: [Debug, Release]  
 
     steps:
     - uses: actions/checkout@v3
