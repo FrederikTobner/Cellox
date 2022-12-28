@@ -9,15 +9,17 @@ on:
 env:
   BUILD_TYPE: ${{buildtype.types}}
 
+    strategy:
+      buildtype:
+        types: [Debug, Release] 
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
 
     strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest, macos-latest]
-            buildtype:
-                types: [Debug, Release]    
+                os: [ubuntu-latest, windows-latest, macos-latest]   
 
     steps:
     - uses: actions/checkout@v3
