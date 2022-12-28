@@ -3,9 +3,11 @@ name: Build Interpreter
 on:
   pull_request:
     branches: [ "master" ]
+  push:
+    branches: [ "dev" ]
 
 env:
-  BUILD_TYPE: Release
+  BUILD_TYPE: ${{buildtype.types}}
 
 jobs:
   build:
@@ -14,6 +16,8 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest, macos-latest]
+            buildtype:
+                types: [Debug, Release]    
 
     steps:
     - uses: actions/checkout@v3

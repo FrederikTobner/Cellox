@@ -9,8 +9,8 @@
 #include <time.h>
 
 #ifdef WIN32
-    #include <windows.h>
     #include <fileapi.h>
+    #include <windows.h>
 #endif
 
 #ifdef __unix__

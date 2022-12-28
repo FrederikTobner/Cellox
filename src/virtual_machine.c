@@ -1325,7 +1325,7 @@ static interpret_result virtual_machine_run()
                 // This tells the optimizer that reaching default is undefiened behaviour 😨
                 __assume(0);
             #endif
-                // When we debug we can take a slower but on the other hand safer approach
+                // When we debug we can take a slower, but on the other hand safer approach
                 printf("Bytecode instruction not supported by VM");
                 exit(70);
             }
@@ -1336,7 +1336,7 @@ static interpret_result virtual_machine_run()
     #undef READ_CONSTANT
     #undef READ_STRING
     #undef BINARY_OP
-    #ifdef COMPILER_GCC
+    #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
         #undef DISPATCH
     #endif
 }

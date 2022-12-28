@@ -5,7 +5,11 @@ on:
     branches: [ "master" ]
 
 env:
-  BUILD_TYPE: Debug
+  BUILD_TYPE: ${{buildtype.types}}
+
+strategy:  
+  buildtype:
+    types: [Debug, Release]      
 
 jobs:
   build:
