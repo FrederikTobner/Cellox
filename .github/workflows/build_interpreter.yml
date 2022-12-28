@@ -6,17 +6,16 @@ on:
   push:
     branches: [ "dev" ]
 
-env:
-  BUILD_TYPE: ${{matrix.buildtype}}
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    env:
+      BUILD_TYPE: ${{matrix.buildtype}}
 
     strategy:
-            matrix:
-                os: [ubuntu-latest, windows-latest, macos-latest] 
-                buildtype: [Debug, Release] 
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest] 
+        buildtype: [Debug, Release] 
 
     steps:
     - uses: actions/checkout@v3
