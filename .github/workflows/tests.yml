@@ -3,17 +3,18 @@ name: Tests
 on:
   pull_request:
     branches: [ "master" ]
-
-env:
-  BUILD_TYPE: ${{buildtype.types}}
+  push:
+    branches: [ "dev" ]  
 
 strategy:  
-  buildtype:
-    types: [Debug, Release]      
+  matrix:
+    buildtypes: [Debug, Release]      
 
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      BUILD_TYPE: ${{matrix.buildtypes}}
 
     steps:
     - uses: actions/checkout@v3
@@ -23,7 +24,6 @@ jobs:
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build Tests
-      # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: Test Interpreter
