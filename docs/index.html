@@ -9,6 +9,10 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -49,6 +53,22 @@ $(function() {
 </script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('index.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -107,22 +127,22 @@ Testing</h1>
  The test are written in C++ using the <a href="https://github.com/google/googletest">google-test framework</a> (version 1.12.1). <br  />
  For testing a cellox program is executed and the standard output is redirected to a string. <br  />
  The string is compared with the expected output after the program was executed. <br  />
- A small benchmarking suite to measure the performance of cellox programs is also included (only used for developing the interpreter) </p>
+ A small benchmarking tool to measure the performance of cellox programs is also included (only used for developing the interpreter) </p>
 <h1><a class="anchor" id="buildoptions_sec"></a>
 Build options</h1>
 <p >There are a couple of options which can be enable with <a href="https://cmake.org/">CMake</a>: </p><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Option   </th><th class="markdownTableHeadLeft">Description   </th><th class="markdownTableHeadNone">Default    </th></tr>
+<th class="markdownTableHeadNone">Option   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Default    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">NAN_BOXING_ACTIVATED   </td><td class="markdownTableBodyLeft">Determines whether "not a number boxing / tagging" is used   </td><td class="markdownTableBodyNone">ON    </td></tr>
+<td class="markdownTableBodyNone">NAN_BOXING_ACTIVATED   </td><td class="markdownTableBodyNone">Determines whether "not a number boxing / tagging" is used   </td><td class="markdownTableBodyNone">ON    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">DEBUG_LOG_GARBAGE_COLLECTOIN   </td><td class="markdownTableBodyLeft">Determines whether the garbage collection be logged   </td><td class="markdownTableBodyNone">OFF    </td></tr>
+<td class="markdownTableBodyNone">DEBUG_LOG_GARBAGE_COLLECTOIN   </td><td class="markdownTableBodyNone">Determines whether the garbage collection be logged   </td><td class="markdownTableBodyNone">OFF    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">DEBUG_PRINT_BYTECODE   </td><td class="markdownTableBodyLeft">Determines whether the chunks are dissassembled and the bytecode is printed   </td><td class="markdownTableBodyNone">OFF    </td></tr>
+<td class="markdownTableBodyNone">DEBUG_PRINT_BYTECODE   </td><td class="markdownTableBodyNone">Determines whether the chunks are dissassembled and the bytecode is printed   </td><td class="markdownTableBodyNone">OFF    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">DEBUG_STRESS_GARBAGE_COLLECTOR   </td><td class="markdownTableBodyLeft">Determines whether the garbage collector shall be stressed   </td><td class="markdownTableBodyNone">OFF    </td></tr>
+<td class="markdownTableBodyNone">DEBUG_STRESS_GARBAGE_COLLECTOR   </td><td class="markdownTableBodyNone">Determines whether the garbage collector shall be stressed   </td><td class="markdownTableBodyNone">OFF    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">DEBUG_TRACE_EXECUTION   </td><td class="markdownTableBodyLeft">Determines whether the execution shall be traced   </td><td class="markdownTableBodyNone">OFF   </td></tr>
+<td class="markdownTableBodyNone">DEBUG_TRACE_EXECUTION   </td><td class="markdownTableBodyNone">Determines whether the execution shall be traced   </td><td class="markdownTableBodyNone">OFF   </td></tr>
 </table>
 <p>The options prefixed with 'DEBUG' do only affect the build if a 'debug' is the selected build type. </p>
 <h1><a class="anchor" id="license_sec"></a>
@@ -134,9 +154,12 @@ License</h1>
  See the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License</a> for more details. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

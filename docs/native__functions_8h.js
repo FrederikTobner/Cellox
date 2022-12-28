@@ -1,0 +1,27 @@
+var native__functions_8h =
+[
+    [ "native_function_config_t", "structnative__function__config__t.html", "structnative__function__config__t" ],
+    [ "native_function_t", "native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7", null ],
+    [ "native_functions_append_to_file", "native__functions_8h.html#a964acf053097d97a86bcf8ec8989c3b7", null ],
+    [ "native_functions_array_length", "native__functions_8h.html#aa6a0b7e7afab7526fb5284fa78b9a27e", null ],
+    [ "native_functions_classof", "native__functions_8h.html#ab635486c85bef1f65c97cb53c538d11e", null ],
+    [ "native_functions_clock", "native__functions_8h.html#ae72a168223d8510317faeceb9c27a419", null ],
+    [ "native_functions_exit", "native__functions_8h.html#add9bcf00f403607af07ab3118b8d8dc8", null ],
+    [ "native_functions_get_function_configs", "native__functions_8h.html#af9a1bbd4f6b34898270ef2fa5b855f5f", null ],
+    [ "native_functions_get_function_count", "native__functions_8h.html#aaf4cfc75bddfaade6ffce9fabca9827b", null ],
+    [ "native_functions_on_linux", "native__functions_8h.html#acaca54aee3b6b870e27f946e470c80a6", null ],
+    [ "native_functions_on_macOS", "native__functions_8h.html#ab8eecc6f0bcfeca3d35a5e35ea4da040", null ],
+    [ "native_functions_on_windows", "native__functions_8h.html#a7d52e2189581ef8dffadd66e8d4b2881", null ],
+    [ "native_functions_print_formated", "native__functions_8h.html#aacd968ecf68a44ed69cf2f238ee53524", null ],
+    [ "native_functions_random", "native__functions_8h.html#a3343250917b5eef57fd042882baee909", null ],
+    [ "native_functions_read_file", "native__functions_8h.html#a3c0169cb80b6351b310c2a6d4a8579eb", null ],
+    [ "native_functions_read_key", "native__functions_8h.html#a79f399ef792765fed5c2f713cb3a7ec2", null ],
+    [ "native_functions_read_line", "native__functions_8h.html#ae8c466af41128bd597f26fa261b31860", null ],
+    [ "native_functions_size_of", "native__functions_8h.html#ac51a69f019e97e438599fb4837878555", null ],
+    [ "native_functions_string_hash", "native__functions_8h.html#a464bc52dd40fd00ebdc475b53b671929", null ],
+    [ "native_functions_string_length", "native__functions_8h.html#a03cb138dd22b99a3d16456ee8b51a1d2", null ],
+    [ "native_functions_string_replace_at", "native__functions_8h.html#a3fa61b2a23a88cc651cb88740c69e5bd", null ],
+    [ "native_functions_system", "native__functions_8h.html#ada83cf8c4c7e6b91d148c88a3e8d2ce2", null ],
+    [ "native_functions_wait", "native__functions_8h.html#a6af21c2a3a763083968fb8e8c15d7195", null ],
+    [ "native_functions_write_to_file", "native__functions_8h.html#a4fba9cf1dfdb8a896a3fadba136df1fc", null ]
+];

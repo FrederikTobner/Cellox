@@ -2,14 +2,17 @@ name: Tests
 
 on:
   pull_request:
-    branches: [ "master" ]
-
-env:
-  BUILD_TYPE: Debug
+    branches: [ "master" ]        
 
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      BUILD_TYPE: ${{matrix.buildtypes}}
+
+    strategy:  
+      matrix:
+        buildtypes: [Debug, Release]  
 
     steps:
     - uses: actions/checkout@v3
@@ -19,9 +22,8 @@ jobs:
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build Tests
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxTests
 
     - name: Test Interpreter
       working-directory: ${{github.workspace}}/build
-      run: ctest -j 1 -C ${{env.BUILD_TYPE}}      
+      run: ctest -j 1 -C ${{env.BUILD_TYPE}}

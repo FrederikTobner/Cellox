@@ -4,16 +4,16 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-  BUILD_TYPE: Release
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    env:
+      BUILD_TYPE: ${{matrix.buildtypes}}
 
     strategy:
-            matrix:
-                os: [ubuntu-latest, windows-latest, macos-latest]
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest] 
+        buildtypes: [Debug, Release] 
 
     steps:
     - uses: actions/checkout@v3

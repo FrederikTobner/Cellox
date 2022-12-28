@@ -144,7 +144,8 @@ typedef struct compiler_t
     int32_t scopeDepth;
 } compiler_t;
 
-/// @brief  Classcompiler struct definition
+/// @brief  Class compiler struct definition
+/// @details The class compiler is used to track the class we the compiler is currently processing.
 typedef struct class_compiler_t
 {
     /// The enclosing class compiler structure

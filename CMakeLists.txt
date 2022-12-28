@@ -105,11 +105,9 @@ add_subdirectory(src)
 # Builds benchmarks for the cellox interpreter
 add_subdirectory(benchmark)
 
-if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
-    # Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
-    if(MSVC)
-        enable_testing()
-        # Builds tests for the interpreter (add exclude from all if the project is packaged)
-        add_subdirectory(test)
-    endif()
+# Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
+if(MSVC)
+    enable_testing()
+    # Builds tests for the interpreter (add exclude from all if the project is packaged)
+    add_subdirectory(test)
 endif()
