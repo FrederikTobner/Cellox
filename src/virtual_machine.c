@@ -1320,14 +1320,15 @@ static interpret_result virtual_machine_run()
                 virtual_machine_push(BOOL_VAL(true));
                 break;
             default:
-            #if defined(COMPILER_MSVC) && !defined(BUILD_DEBUG)
-                // We assume this code to be unreachable.
-                // This tells the optimizer that reaching default is undefiened behaviour 😨
-                __assume(0);
-            #endif
-                // When we debug we can take a slower, but on the other hand safer approach
-                printf("Bytecode instruction not supported by VM");
-                exit(70);
+                #if defined(COMPILER_MSVC) && !defined(BUILD_DEBUG)
+                    // We assume this code to be unreachable.
+                    // This tells the optimizer that reaching default is undefiened behaviour 😨
+                    __assume(0);
+                #else
+                    // When we debug we can take a slower, but on the other hand safer approach
+                    printf("Bytecode instruction not supported by VM");
+                    exit(70);
+                #endif
             }
         #endif
     }

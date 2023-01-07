@@ -15,13 +15,14 @@ FetchContent_Declare(
 )
 
 # testfiles
-set(TESTSOURCES
+set(TEST_SOURCE_FILES
 "array.cc"
 "assignment_operators.cc"
 "binary_operators.cc"
 "class.cc"
 "comments.cc"
 "compile.cc"
+"do_while.cc"
 "else_statement.cc"
 "escape_sequences.cc"
 "fields.cc"
@@ -40,11 +41,14 @@ set(TESTSOURCES
 "strings.cc"
 "super.cc"
 "test_cellox.cc"
-"test_cellox.hh"
 "this.cc"
 "unary_operator.cc"
 "variable.cc"
-"while_loops.cc"
+"while.cc"
+)
+
+set(TEST_HEADER_FILES
+"test_cellox.hh"
 )
 
 add_compile_definitions(
@@ -55,7 +59,7 @@ TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
 )
 
 # Builds cellox tests
-add_executable(${INTERPRETER_TESTS} ${TESTSOURCES} ${CELLOXSOURCES} ${CELLOXHEADERS})
+add_executable(${INTERPRETER_TESTS} ${TEST_SOURCE_FILES} ${TEST_HEADER_FILES} ${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES})
 
 # Includes SourcePath of the compiler for shorter includes and the config file
 target_include_directories(${INTERPRETER_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)

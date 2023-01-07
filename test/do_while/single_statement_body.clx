@@ -1,0 +1,4 @@
+var c = -1;
+do
+    printf("{}\n", c = c + 1);
+while (c < 2);

@@ -1,7 +1,7 @@
 # configure cellox config to show version
 configure_file(cellox_config.h.in cellox_config.h)
 
-add_executable(${PROJECT_NAME} ${CELLOXSOURCES} ${CELLOXHEADERS} main.c)
+add_executable(${PROJECT_NAME} ${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES} main.c)
 
 # Precompiles common.h to speed up compilation of the target
 if(MSVC)

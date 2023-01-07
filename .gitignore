@@ -1,10 +1,25 @@
-# Ignore build folder
-[Bb][Uu][Ii][Ll][Dd]/
-# Ignore vscode folder
-.[Vv][Ss][Cc][Oo][Dd][Ee]/
-# Ignore cellox bytecode files
+##############################
+## cellox
+##############################
 *.[Cc][Xx][Cc][Ff]
-# Ignore cellox benchmark result files
 *.[Cc][Xx][Bb][Mm]
-# Ignore idea folder of IntelliJ
+
+##############################
+## clang
+##############################
+.[Cc][Aa][Cc][Hh][Ee]/
+
+##############################
+## cmake
+##############################
+[Bb][Uu][Ii][Ll][Dd]/
+
+##############################
+## IntelliJ
+##############################
 \.[Ii][Dd][Ee][Aa]/
+
+##############################
+## vscode
+##############################
+.[Vv][Ss][Cc][Oo][Dd][Ee]/

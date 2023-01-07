@@ -76,7 +76,7 @@ static void benchmark_argument_parser_parse_argument(char const ** argv, option_
     }
     
     // Make sure benchmark file path is a cellox file
-    #ifdef _WIN32
+    #ifdef OS_WINDOWS
     if(!strcmp(argv[index] + strlen(argv[index]) - 5, ".clx"))
         benchmark_argument_parser_error("Benchmark runner can only run custom benchmarks from a cellox file");
     #endif

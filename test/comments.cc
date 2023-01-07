@@ -7,6 +7,11 @@ TEST(Comments, MultiLine)
     test_cellox_program("comments/multi_line.clx", "ok\n");
 }
 
+TEST(Comments, Nested)
+{
+    test_cellox_program("comments/nested.clx", "ok\n");
+}
+
 TEST(Comments, SingleLine)
 {
     test_cellox_program("comments/single_line.clx", "ok\n");

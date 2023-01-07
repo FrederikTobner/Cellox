@@ -24,10 +24,10 @@
 #include <stdio.h>
 #include <time.h>
 
-#ifdef _WIN32
+#ifdef OS_WINDOWS
 #include <conio.h>
 #include <windows.h>
-#elif __unix__
+#elif OS_UNIX_LIKE
 #include <curses.h>
 #include <unistd.h>
 #endif
@@ -265,7 +265,7 @@ value_t native_functions_exit(uint32_t argCount, value_t const * args)
 value_t native_functions_on_linux(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_LINUX, argCount);
-    #ifdef linux
+    #ifdef OS_LINUX
     return TRUE_VAL;
     #else
     return FALSE_VAL;
@@ -274,8 +274,8 @@ value_t native_functions_on_linux(uint32_t argCount, value_t const * args)
 
 value_t native_functions_on_macOS(uint32_t argCount, value_t const * args)
 {
-    native_functions_assert_arrity(NATIVE_FUNCTION_ON_LINUX, argCount);
-    #ifdef __APPLE__
+    native_functions_assert_arrity(NATIVE_FUNCTION_ON_MACOS, argCount);
+    #ifdef OS_MACOS
     return TRUE_VAL;
     #else
     return FALSE_VAL;
@@ -285,7 +285,7 @@ value_t native_functions_on_macOS(uint32_t argCount, value_t const * args)
 value_t native_functions_on_windows(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_WINDOWS, argCount);
-    #ifdef _WIN32
+    #ifdef OS_WINDOWS
     return TRUE_VAL;
     #else
     return FALSE_VAL;
@@ -454,10 +454,10 @@ value_t native_functions_wait(uint32_t argCount, value_t const * args)
     native_functions_assert_arrity(NATIVE_FUNCTION_WAIT, argCount);
     if (!IS_NUMBER(*args))
         native_functions_arguments_error("wait can only be called with a number as argument");
-    #ifdef _WIN32
+    #ifdef OS_WINDOWS
     // Milliseconds -> multiply with 1000
     Sleep(AS_NUMBER(*args) * 1000);
-    #elif __unix__
+    #elif OS_UNIX_LIKE
     // Seconds
     sleep(AS_NUMBER(*args));
     #endif
