@@ -8,6 +8,7 @@ var lexer_8h =
       [ "TOKEN_BINARY_NUMBER", "lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a2abd8eb9e1ea2e87dd28289e08793edf", null ],
       [ "TOKEN_CLASS", "lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a710fd04fc31582717222d447b5985a1f", null ],
       [ "TOKEN_COMMA", "lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a8d265e17914bc733c8b9a880dd097a9e", null ],
+      [ "TOKEN_DO", "lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a9f912674774e2e27afe63e2497ad9c7f", null ],
       [ "TOKEN_DOT", "lexer_8h.html#a262d1aca355a0381cce24f93101b6b69ab565ebfaaa53dcee6ddda201e270733e", null ],
       [ "TOKEN_DOUBLEDOT", "lexer_8h.html#a262d1aca355a0381cce24f93101b6b69a6b9d843b8b8eef6e728b7db789deb39c", null ],
       [ "TOKEN_ELSE", "lexer_8h.html#a262d1aca355a0381cce24f93101b6b69af1444e318c1d452a3c6dbb924a7e932a", null ],

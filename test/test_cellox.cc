@@ -43,18 +43,18 @@ static void test_program(std::string const & programPath, std::string const & ex
         actual_output[i] = '\0';
     if(producesError)
     {
-        #ifdef _WIN32
+        #ifdef OS_WINDOWS
         freopen("NUL", "a", stderr);
-        #elif __unix__
+        #elif OS_UNIX_LIKE
         freopen("/dev/nul", "a", stderr);
         #endif
         setbuf(stderr, actual_output);
     }
     else
     {
-        #ifdef _WIN32
+        #ifdef OS_WINDOWS
         freopen("NUL", "a", stdout);
-        #elif __unix__
+        #elif OS_UNIX_LIKE
         freopen("/dev/nul", "a", stdout);
         #endif
         setbuf(stdout, actual_output);

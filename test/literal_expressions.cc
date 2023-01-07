@@ -28,9 +28,9 @@ TEST(LiteralExpressions, Numbers)
 
 TEST(LiteralExpressions, Strings)
 {
-    #ifdef _WIN32
+    #ifdef OS_WINDOWS
         test_cellox_program("literal_expressions/strings.clx", "\na\nA\n123\n!\"$%&/()=?\n1\r\n2\r\n3\n");
-    #elif linux
+    #elif OS_UNIX_LIKE
         test_cellox_program("literal_expressions/strings.clx", "\na\nA\n123\n!\"$%&/()=?\n1\n2\n3\n"); // TODO: Is that even correct under linux?
     #endif 
 }

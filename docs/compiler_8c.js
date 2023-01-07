@@ -46,6 +46,7 @@ var compiler_8c =
     [ "compiler_declaration", "compiler_8c.html#a197d3f7c5b5d4bfe04a0040896f2cc69", null ],
     [ "compiler_declare_variable", "compiler_8c.html#a8d86201abba4435a669f1ba071ddcc47", null ],
     [ "compiler_define_variable", "compiler_8c.html#a00f8904578cd776448f9f8ccab0f6798", null ],
+    [ "compiler_do_while_statement", "compiler_8c.html#a2ec1229dfb2769433cd7344d9af51cfc", null ],
     [ "compiler_dot", "compiler_8c.html#a30a28ab576db0e850f8d78ad4e30a98b", null ],
     [ "compiler_dynamic_array", "compiler_8c.html#a5360dbc8d484ec51c636b23c7f9b016d", null ],
     [ "compiler_dynamic_array_argument_list", "compiler_8c.html#a0637701f8c2d6fad20cd5a05ff843d1b", null ],

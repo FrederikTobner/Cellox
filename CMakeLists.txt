@@ -20,8 +20,9 @@ option(DEBUG_TRACE_EXECUTION "Determines whether the execution shall be traced" 
 option(DEBUG_STRESS_GARBAGE_COLLECTOR "Determines whether the garbage collector shall be stressed" OFF)
 option(DEBUG_LOG_GARBAGE_COLLECTION "Determines whether the garbage collection be logged" OFF)
 
+# Getting absolute file path of the project root and src directory
 get_filename_component(PROJECT_DIRECTORY ./ ABSOLUTE)
-get_filename_component(SOURCEPATH ./src ABSOLUTE)
+get_filename_component(SOURCEPATH ./src ABSOLUTE)     
 
 # Check dependecies under unix-like systems
 if(UNIX)
@@ -48,7 +49,7 @@ if(WIN32)
 endif() # Windows system
 
 # source files of the interpreter
-set(CELLOXSOURCES
+set(CELLOX_SOURCE_FILES
 "${SOURCEPATH}/chunk_file.c"
 "${SOURCEPATH}/chunk.c"
 "${SOURCEPATH}/command_line_argument_parser.c"
@@ -67,8 +68,8 @@ set(CELLOXSOURCES
 "${SOURCEPATH}/virtual_machine.c"
 )
 
-# headers of the interpreter
-set(CELLOXHEADERS
+# Headers of the interpreter
+set(CELLOX_HEADER_FILES
 "${SOURCEPATH}/chunk_file.h"
 "${SOURCEPATH}/chunk.h"
 "${SOURCEPATH}/command_line_argument_parser.h"
@@ -90,13 +91,32 @@ if(NAN_BOXING_ACTIVATED)
     add_compile_definitions(NAN_BOXING)
 endif()
 
+# Adding os-specific compiler definitions
+if(UNIX)
+    add_compile_definitions(OS_UNIX_LIKE)    
+    if(LINUX) 
+        add_compile_definitions(OS_LINUX)
+    elseif(APPLE) 
+        add_compile_definitions(OS_MACOS)
+    else()
+        add_compile_definitions(OS_UNKNOWN_UNIX)
+    endif()
+elseif(WIN32)
+    add_compile_definitions(OS_WINDOWS)
+else()
+    add_compile_definitions(OS_UNKNOWN)
+endif()
+  
+
 # We determine the compiler so we can do some optimization for a specific compiler
-if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+if(CMAKE_C_COMPILER_ID STREQUAL "[Gg][Nn][Uu]")
     add_compile_definitions(COMPILER_GCC)
-elseif(CMAKE_C_COMPILER_ID STREQUAL "Clang")
+elseif(CMAKE_C_COMPILER_ID STREQUAL "[Cc][Ll][Aa][Nn][Gg]")
     add_compile_definitions(COMPILER_GCC)
-elseif(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+elseif(CMAKE_C_COMPILER_ID STREQUAL "[Mm][Ss][Vv][Cc]")
     add_compile_definitions(COMPILER_MSVC)
+else()
+    add_compile_definitions(COMPILER_UNKNOWN)    
 endif()
 
 # Builds the cellox interpreter

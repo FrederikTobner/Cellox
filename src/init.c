@@ -77,6 +77,7 @@ void init_run_from_file(char const * path, bool compile)
 {
     size_t pathLength = strlen(path);
     interpret_result result;
+    // Cellox file -> we need to compile the source code to a chunk in order to execute it
     if(pathLength > 4 && 
         path[pathLength - 4] == '.' && 
         path[pathLength - 3] == 'c' && 
@@ -100,6 +101,7 @@ void init_run_from_file(char const * path, bool compile)
         else
             result = virtual_machine_interpret(source, true);
     }
+    // Cellox chunk file -> the program has already been compiled
     else if(pathLength > 5 &&
             path[pathLength - 5] == '.' && 
             path[pathLength - 4] == 'c' && 

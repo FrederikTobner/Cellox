@@ -1,0 +1,3 @@
+do
+    var foo;
+while (true) ;

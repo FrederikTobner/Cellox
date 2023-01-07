@@ -22,7 +22,7 @@
 #ifndef CELLOX_INIT_H_
 #define CELLOX_INIT_H_
 
-// Init.h is included in the test-suite that is written in c++ using the google-test framework
+// This file is included in the test-suite that is written in c++ using the google-test framework
 #ifdef __cplusplus
 extern "C" {
 #endif

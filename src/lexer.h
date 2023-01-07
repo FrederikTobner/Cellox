@@ -39,6 +39,8 @@ typedef enum
   TOKEN_CLASS,
   /// ,
   TOKEN_COMMA,
+  /// do
+  TOKEN_DO,
   /// &sdot;
   TOKEN_DOT,
   /// : (Used for inheritance)

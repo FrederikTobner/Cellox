@@ -1,0 +1,5 @@
+var a = 0;
+do {
+  printf("{}\n", a);
+  a += 1;
+} while (a < 3);

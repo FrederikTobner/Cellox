@@ -8,13 +8,13 @@
 #include <string.h>
 #include <time.h>
 
-#ifdef WIN32
+#ifdef OS_WINDOWS
     // Windows.h has to be included before the fileapi
     #include <windows.h>
     #include <fileapi.h>
 #endif
 
-#ifdef __unix__
+#ifdef OS_UNIX_LIKE
     #include <dirent.h> 
     #include <sys/stat.h>
 #endif
@@ -167,7 +167,7 @@ static FILE * benchmark_runner_create_results_file_pointer()
 
 static void benchamrk_runner_ensure_results_directory_exists()
 {
-    #ifdef WIN32
+    #ifdef OS_WINDOWS
         DWORD dwAttribute = GetFileAttributes(RESULTS_BASE_PATH);
         if(dwAttribute == INVALID_FILE_ATTRIBUTES)
         {
@@ -185,7 +185,7 @@ static void benchamrk_runner_ensure_results_directory_exists()
             exit(EXIT_CODE_SYSTEM_ERROR);
         }
     #endif
-    #ifdef __unix__
+    #ifdef OS_UNIX_LIKE
     DIR * resultsDirectory = opendir(RESULTS_BASE_PATH);
     if (resultsDirectory) 
         closedir(resultsDirectory);
@@ -229,9 +229,9 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
         filePath = (char *)benchmark.benchmarkFilePath;  
 
     char * measured_time = (char *)calloc(1024, sizeof(char));
-    #ifdef _WIN32
+    #ifdef OS_WINDOWS
     freopen("NUL", "a", stdout);
-    #elif __unix__
+    #elif OS_UNIX_LIKE
     freopen("/dev/nul", "a", stdout);
     #endif
     
