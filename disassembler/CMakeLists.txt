@@ -16,7 +16,7 @@ endif()
 add_executable(${LANGUAGE_DISASSEMBLER} ${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES} ${DISASSEMBLER_SOURCE_FILES} ${DISASSEMBLER_HEADER_FILES})
 
 if(UNIX)
-    target_link_libraries(${LANGUAGE_BENCHMARKS} m)
+    target_link_libraries(${LANGUAGE_DISASSEMBLER} m)
 endif()
 
 target_include_directories(${LANGUAGE_DISASSEMBLER} PUBLIC ${PROJECT_BINARY_DIR}/src)
