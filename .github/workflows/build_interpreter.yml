@@ -6,13 +6,13 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{matrix.operatingsystems}}
     env:
       BUILD_TYPE: ${{matrix.buildtypes}}
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest] 
+        operatingsystems: [windows-latest, ubuntu-latest, macos-latest] 
         buildtypes: [Debug, Release] 
 
     steps:

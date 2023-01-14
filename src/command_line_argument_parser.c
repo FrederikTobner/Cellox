@@ -9,7 +9,7 @@
  * No representations are made about the suitability of this software for   *
  * any purpose.                                                             *
  * It is provided "as is" without express or implied warranty.              *
- * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public  *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
  * License for more details.                                                *
  ****************************************************************************/
 

@@ -78,11 +78,7 @@ void init_run_from_file(char const * path, bool compile)
     size_t pathLength = strlen(path);
     interpret_result result;
     // Cellox file -> we need to compile the source code to a chunk in order to execute it
-    if(pathLength > 4 && 
-        path[pathLength - 4] == '.' && 
-        path[pathLength - 3] == 'c' && 
-        path[pathLength - 2] == 'l' && 
-        path[pathLength - 1] == 'x')
+    if(pathLength > 4 && !strcmp(path + pathLength - 4, ".clx"))
     {
         char * source = init_read_file(path);
         if(!source)
@@ -102,12 +98,7 @@ void init_run_from_file(char const * path, bool compile)
             result = virtual_machine_interpret(source, true);
     }
     // Cellox chunk file -> the program has already been compiled
-    else if(pathLength > 5 &&
-            path[pathLength - 5] == '.' && 
-            path[pathLength - 4] == 'c' && 
-            path[pathLength - 3] == 'x' && 
-            path[pathLength - 2] == 'c' && 
-            path[pathLength - 1] == 'f')
+    else if(pathLength > 5 && !strcmp(path + pathLength - 5, ".cxcf"))
     {
         if(compile)
             init_io_error("Can not compile a chunk file");
