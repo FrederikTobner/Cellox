@@ -121,13 +121,6 @@ Building</h1>
 <li>curses.h</li>
 <li>unistd.h </li>
 </ul>
-<h1><a class="anchor" id="testing_sec"></a>
-Testing</h1>
-<p >For building the language tests a C++-Compiler, that supports the C++14 standard and <a href="https://cmake.org/">CMake</a> (Version &gt;= 3.24) is required. <br  />
- The test are written in C++ using the <a href="https://github.com/google/googletest">google-test framework</a> (version 1.12.1). <br  />
- For testing a cellox program is executed and the standard output is redirected to a string. <br  />
- The string is compared with the expected output after the program was executed. <br  />
- A small benchmarking tool to measure the performance of cellox programs is also included (only used for developing the interpreter) </p>
 <h1><a class="anchor" id="buildoptions_sec"></a>
 Build options</h1>
 <p >There are a couple of options which can be enable with <a href="https://cmake.org/">CMake</a>: </p><table class="markdownTable">
@@ -145,6 +138,16 @@ Build options</h1>
 <td class="markdownTableBodyNone">DEBUG_TRACE_EXECUTION   </td><td class="markdownTableBodyNone">Determines whether the execution shall be traced   </td><td class="markdownTableBodyNone">OFF   </td></tr>
 </table>
 <p>The options prefixed with 'DEBUG' do only affect the build if a 'debug' is the selected build type. </p>
+<h1><a class="anchor" id="testing_sec"></a>
+Testing</h1>
+<p >For building the language tests a C++-Compiler, that supports the C++14 standard and <a href="https://cmake.org/">CMake</a> (Version &gt;= 3.24) is required. <br  />
+ The test are written in C++ using the <a href="https://github.com/google/googletest">google-test framework</a> (version 1.12.1). <br  />
+ For testing a cellox program is executed and the standard output is redirected to a string. <br  />
+ The string is compared with the expected output after the program was executed. <br  />
+ </p>
+<h1><a class="anchor" id="developmenttools_sec"></a>
+Development tools</h1>
+<p >A small benchmarking tool to measure the performance of cellox programs and a disassbler for cellox chunk files is also included (only used for developing the interpreter) </p>
 <h1><a class="anchor" id="license_sec"></a>
 License</h1>
 <p >Copyright &copy; 2022 by <a href="#" onclick="location.href='mai'+'lto:'+'f.t'+'ob'+'ner'+'@g'+'mai'+'l.'+'com'; return false;">Frederik Tobner</a>. <br  />

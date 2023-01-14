@@ -70,11 +70,12 @@ var NAVTREEINDEX1 =
 "index.html":[],
 "index.html":[0],
 "index.html#building_sec":[0,2],
-"index.html#buildoptions_sec":[0,4],
+"index.html#buildoptions_sec":[0,3],
+"index.html#developmenttools_sec":[0,5],
 "index.html#intro_sec":[0,0],
 "index.html#keyconcepts_sec":[0,1],
-"index.html#license_sec":[0,5],
-"index.html#testing_sec":[0,3],
+"index.html#license_sec":[0,6],
+"index.html#testing_sec":[0,4],
 "init_8c.html":[2,0,16],
 "init_8c.html#a4fe6bab9e9b0d8d7e62771ba44ddcd46":[2,0,16,7],
 "init_8c.html#a63b778707c34ebfd382eab5c5c43bfa2":[2,0,16,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "native__functions_8c.html#ae8c466af41128bd597f26fa261b31860":[2,0,23,18],
 "native__functions_8c.html#af9a1bbd4f6b34898270ef2fa5b855f5f":[2,0,23,9],
 "native__functions_8c.html#afb5fcba5fcb2e51db8279f3f812eb681":[2,0,23,3],
-"native__functions_8h.html":[2,0,24],
-"native__functions_8h.html#a03cb138dd22b99a3d16456ee8b51a1d2":[2,0,24,19]
+"native__functions_8h.html":[2,0,24]
 };

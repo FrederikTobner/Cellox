@@ -125,6 +125,9 @@ add_subdirectory(src)
 # Builds benchmarks for the cellox interpreter
 add_subdirectory(benchmark)
 
+# Builds the disassmbler (for cellox chunk files)
+add_subdirectory(disassembler)
+
 # Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
 if(MSVC)
     enable_testing()
