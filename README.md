@@ -101,10 +101,11 @@ The values stored in slice can be altered without affecting the original array.
 
 ## IDE Integration
 
-There are plugins for vscode, vim and neovim.
+There are plugins for vscode, vim and neovim. Another alternative is to use my own text editor YATE that has built in language support.
 
-[![VSCcode](https://github-readme-stats-frederiktobner.vercel.app/api/pin/?username=FrederikTobner&repo=vscode-cellox&theme=dark)](https://github.com/FrederikTobner/vscode-cellox)
 [![Vim](https://github-readme-stats-frederiktobner.vercel.app/api/pin/?username=FrederikTobner&repo=cellox.vim&theme=dark)](https://github.com/FrederikTobner/cellox.vim)
+[![VSCcode](https://github-readme-stats-frederiktobner.vercel.app/api/pin/?username=FrederikTobner&repo=vscode-cellox&theme=dark)](https://github.com/FrederikTobner/vscode-cellox)
+[![YATE](https://github-readme-stats-frederiktobner.vercel.app/api/pin/?username=FrederikTobner&repo=YATE&theme=dark)](https://github.com/FrederikTobner/YATE)
 
 ## How it works
 
