@@ -166,6 +166,14 @@ void chunk_free(chunk_t * chunk);
 /// @param chunk The chunk that is initialized
 void chunk_init(chunk_t * chunk);
 
+/// @brief 
+/// @param chunk 
+/// @param constantIndex 
+void chunk_remove_constant(chunk_t * chunk, uint32_t constantIndex);
+
+
+void chunk_remove_bytecode(chunk_t * chunk, uint32_t startIndex, uint32_t amount);
+
 /// @brief Writes to a single bytecode instruction to a chunk
 /// @param chunk The chunk where the byte is added
 /// @param byte The value of the byte that is added to the chunk

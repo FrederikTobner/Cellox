@@ -25,8 +25,8 @@
 #include "memory_mutator.h"
 #include "virtual_machine.h"
 
-static inline bool chunk_byte_code_is_full(chunk_t * chunk);
-static inline bool chunk_line_info_is_full(chunk_t * chunk);
+static inline bool chunk_byte_code_is_full(chunk_t *);
+static inline bool chunk_line_info_is_full(chunk_t *);
 
 int32_t chunk_add_constant(chunk_t * chunk, value_t value)
 {
@@ -59,6 +59,20 @@ void chunk_init(chunk_t * chunk)
   chunk->code = NULL;
   chunk->lineInfos = NULL;
   dynamic_value_array_init(&chunk->constants);
+}
+
+void chunk_remove_constant(chunk_t * chunk, uint32_t constantIndex) 
+{
+    dynamic_value_array_remove(&chunk->constants, constantIndex);
+}
+
+void chunk_remove_bytecode(chunk_t * chunk, uint32_t startIndex, uint32_t amount) 
+{
+    if (startIndex + amount >= chunk->byteCodeCount)
+      return;
+    memcpy((chunk->code + startIndex), (chunk->code + startIndex + amount), chunk->byteCodeCount - (startIndex + amount));
+    chunk->byteCodeCount -= amount;
+    // TODO: Alter line info
 }
 
 void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)

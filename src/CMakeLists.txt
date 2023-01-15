@@ -1,6 +1,48 @@
 # configure cellox config to show version
 configure_file(cellox_config.h.in cellox_config.h)
 
+# source files of the interpreter
+set(CELLOX_SOURCE_FILES
+"${SOURCEPATH}/chunk_file.c"
+"${SOURCEPATH}/chunk_optimizer.c"
+"${SOURCEPATH}/chunk.c"
+"${SOURCEPATH}/command_line_argument_parser.c"
+"${SOURCEPATH}/compiler.c"
+"${SOURCEPATH}/dynamic_value_array.c"
+"${SOURCEPATH}/debug.c"
+"${SOURCEPATH}/garbage_collector.c"
+"${SOURCEPATH}/hash_table.c"
+"${SOURCEPATH}/initializer.c"
+"${SOURCEPATH}/lexer.c"
+"${SOURCEPATH}/memory_mutator.c"
+"${SOURCEPATH}/native_functions.c"
+"${SOURCEPATH}/object.c"
+"${SOURCEPATH}/string_utils.c"
+"${SOURCEPATH}/value.c"
+"${SOURCEPATH}/virtual_machine.c"
+)
+
+# Headers of the interpreter
+set(CELLOX_HEADER_FILES
+"${SOURCEPATH}/chunk_file.h"
+"${SOURCEPATH}/chunk_optimizer.h"
+"${SOURCEPATH}/chunk.h"
+"${SOURCEPATH}/command_line_argument_parser.h"
+"${SOURCEPATH}/compiler.h"
+"${SOURCEPATH}/dynamic_value_array.h"
+"${SOURCEPATH}/debug.h"
+"${SOURCEPATH}/garbage_collector.h"
+"${SOURCEPATH}/hash_table.h"
+"${SOURCEPATH}/initializer.h"
+"${SOURCEPATH}/lexer.h"
+"${SOURCEPATH}/memory_mutator.h"
+"${SOURCEPATH}/native_functions.h"
+"${SOURCEPATH}/object.h"
+"${SOURCEPATH}/string_utils.h"
+"${SOURCEPATH}/value.h"
+"${SOURCEPATH}/virtual_machine.h"
+)
+
 add_executable(${PROJECT_NAME} ${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES} main.c)
 
 # Precompiles common.h to speed up compilation of the target

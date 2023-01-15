@@ -37,9 +37,4 @@ bool string_utils_contains_character_restricted(char const * text, char characte
 /// @return 0 if all escape sequences where resoved successful, -1 if a unknown escape sequence was found in the character sequence
 int string_utils_resolve_escape_sequence(char * text, uint32_t * length);
 
-/// @brief Removes all leading and trailing white-space characters from a character sequence.
-/// @param text The character sequence, where the white-space characters are removed
-/// @param length Pointer to the length of the character sequence
-void string_utils_trim(char * text, uint32_t * length);
-
 #endif
