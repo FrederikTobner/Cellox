@@ -76,6 +76,12 @@ value_t native_functions_classof(uint32_t argCount, value_t const * args);
 /// @return The amount of seconds that have passed since the program execution started
 value_t native_functions_clock(uint32_t argCount, value_t const * args);
 
+/// @brief Native cosine function
+/// @param argCount The amount of arguments that were used when cosine was called
+/// @param args The arguments that cosine was called wit
+/// @return The cosine of the argument passed
+value_t native_functions_cosine(uint32_t argCount, value_t const * args);
+
 /// @brief Native Exit function
 /// @param argCount The amount of arguments that were used when exit was called
 /// @param args The arguments that exit was called with
@@ -93,6 +99,12 @@ value_t native_functions_exponential(uint32_t argCount, value_t const * args);
 /// @param args The arguments that logarithm was called with 
 /// @return The natural logartihm applied to the input
 value_t native_functions_logarithm(uint32_t argCount, value_t const * args);
+
+/// @brief Native base 10 logarithm function
+/// @param argCount The amount of arguments that were used when logarithm10 was called
+/// @param args The arguments that logarithm10 was called with
+/// @return The base 10 logarithm of the argument
+value_t native_functions_logarithm10(uint32_t argCount, value_t const * args);
 
 /// @brief Converts a numerical value to a asci character
 /// @param argCount The amount of arguments that were used when num_to_asci was called
@@ -148,6 +160,12 @@ value_t native_functions_read_key(uint32_t argCount, value_t const * args);
 /// @return The line that was read
 value_t native_functions_read_line(uint32_t argCount, value_t const * args);
 
+/// @brief Native sine function
+/// @param argCount The amount of arguments that were used when sine was called
+/// @param args The arguments that sine was called with
+/// @return The sine of the argument passed
+value_t native_functions_sine(uint32_t argCount, value_t const * args);
+
 /// @brief Determines the size of a value
 /// @param argCount The amount of arguments that were used when size_of was called
 /// @param args The arguments that size_of was called with
@@ -177,6 +195,12 @@ value_t native_functions_string_replace_at(uint32_t argCount, value_t const * ar
 /// @param args The aguments that system was called with
 /// @return NULL
 value_t native_functions_system(uint32_t argCount, value_t const * args);
+
+/// @brief Native tangent function
+/// @param argCount The amount of arguments that were used when tangent was called
+/// @param args The arguments that tangent was called with
+/// @return The tangent of the argument passed
+value_t native_functions_tangent(uint32_t argCount, value_t const * args);
 
 /// @brief Native wait function - waits for the specified amount of seconds
 /// @param argCount The amount of arguments that were used when wait was called
