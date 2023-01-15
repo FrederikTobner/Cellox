@@ -30,6 +30,7 @@ var NAVTREE =
       [ "Key concepts", "index.html#keyconcepts_sec", null ],
       [ "Building", "index.html#building_sec", null ],
       [ "Build options", "index.html#buildoptions_sec", null ],
+      [ "Optimization", "index.html#optimization_sec", null ],
       [ "Testing", "index.html#testing_sec", null ],
       [ "Development tools", "index.html#developmenttools_sec", null ],
       [ "License", "index.html#license_sec", null ]
@@ -60,9 +61,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"debug_8h.html#addc14de06cca69f6aa036f3041e62554",
-"native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6ab207fdc6c40592718c9f9220f822cf26",
-"structvirtual__machine__t.html#a99dd70f02df666165d26b084309adb1a"
+"debug_8h.html#a88a73d83f01d87198f1cc84507a3300e",
+"native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a8ca40e5bd663150bbb8ee04b0f6519e6",
+"structvirtual__machine__t.html#a7124f8f417af8f0231f4162f7e92e789"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

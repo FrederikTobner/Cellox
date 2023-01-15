@@ -1,6 +1,7 @@
 var chunk_8c =
 [
     [ "chunk_add_constant", "chunk_8c.html#a7f34ca771a7b1ad9190c5781e8f0ed35", null ],
+    [ "chunk_adjust_line_info_by_index", "chunk_8c.html#a9f14b6c92f1358e9e7ee66ae86aadf35", null ],
     [ "chunk_byte_code_is_full", "chunk_8c.html#a2551356f716416ddd5a0434b68864934", null ],
     [ "chunk_determine_line_by_index", "chunk_8c.html#a2982aedb4f20dadc192194410cb3bfa2", null ],
     [ "chunk_free", "chunk_8c.html#a601b0fd735d2013c653dff3804c3cf59", null ],

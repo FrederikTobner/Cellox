@@ -191,8 +191,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:ad328868c26cd5c98ce24b665d03ea537"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a chunk.  <a href="chunk_8h.html#ad328868c26cd5c98ce24b665d03ea537">More...</a><br /></td></tr>
 <tr class="separator:ad328868c26cd5c98ce24b665d03ea537"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a572715597d3c067b3ca53fad51e060cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#a572715597d3c067b3ca53fad51e060cc">chunk_remove_constant</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t constantIndex)</td></tr>
+<tr class="memdesc:a572715597d3c067b3ca53fad51e060cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a constant from a chunk.  <a href="chunk_8h.html#a572715597d3c067b3ca53fad51e060cc">More...</a><br /></td></tr>
 <tr class="separator:a572715597d3c067b3ca53fad51e060cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a298c6a4aea45bd621a3a765281132517"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#a298c6a4aea45bd621a3a765281132517">chunk_remove_bytecode</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t startIndex, uint32_t amount)</td></tr>
+<tr class="memdesc:a298c6a4aea45bd621a3a765281132517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a sequence of bytecode instructions from the chunk.  <a href="chunk_8h.html#a298c6a4aea45bd621a3a765281132517">More...</a><br /></td></tr>
 <tr class="separator:a298c6a4aea45bd621a3a765281132517"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac03d441a37f451f581cccf8395eed8c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#ac03d441a37f451f581cccf8395eed8c4">chunk_write</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint8_t byte, int32_t line)</td></tr>
 <tr class="memdesc:ac03d441a37f451f581cccf8395eed8c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a single bytecode instruction to a chunk.  <a href="chunk_8h.html#ac03d441a37f451f581cccf8395eed8c4">More...</a><br /></td></tr>
@@ -465,6 +467,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes a sequence of bytecode instructions from the chunk. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chunk</td><td>The chunk where the bytecode is removed </td></tr>
+    <tr><td class="paramname">startIndex</td><td>The index of the first instruction that is removed from the chunk </td></tr>
+    <tr><td class="paramname">amount</td><td>The amount of instructions that are removed from the chunk </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a572715597d3c067b3ca53fad51e060cc" name="a572715597d3c067b3ca53fad51e060cc"></a>
@@ -492,11 +504,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Removes a constant from a chunk. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">chunk</td><td></td></tr>
-    <tr><td class="paramname">constantIndex</td><td><br  />
- </td></tr>
+    <tr><td class="paramname">chunk</td><td>The chunk where the constant is removed </td></tr>
+    <tr><td class="paramname">constantIndex</td><td>The index of the constant that is removed </td></tr>
   </table>
   </dd>
 </dl>
