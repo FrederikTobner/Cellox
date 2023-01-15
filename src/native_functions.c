@@ -155,7 +155,7 @@ native_function_config_t native_function_configs [] =
         .function = native_functions_logarithm, 
         .arrity = 1
     },
-    [NATIVE_FUNCTION_LOG]              =
+    [NATIVE_FUNCTION_LOG10]              =
     {
         .functionName = "logarithm10", 
         .function = native_functions_logarithm10, 
@@ -210,7 +210,7 @@ native_function_config_t native_function_configs [] =
     },
     [NATIVE_FUNCTION_SINE]              =
     {
-        .functionName = "cosine", 
+        .functionName = "sine", 
         .function = native_functions_sine, 
         .arrity = 1
     },
@@ -246,7 +246,7 @@ native_function_config_t native_function_configs [] =
     },
     [NATIVE_FUNCTION_TANGENT]              =
     {
-        .functionName = "cosine", 
+        .functionName = "tangent", 
         .function = native_functions_tangent, 
         .arrity = 1
     },
