@@ -20,7 +20,7 @@
 
 #include <stdlib.h>
 
-#include "memory.h"
+#include "memory_mutator.h"
 
 void dynamic_value_array_free(dynamic_value_array_t * array)
 {

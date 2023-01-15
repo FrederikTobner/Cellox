@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-#include "init.h"
+#include "initializer.h"
 
 static void test_program(std::string const & programPath, std::string const & expectedOutput, bool producesError);
 
@@ -20,7 +20,7 @@ void test_compiled_cellox_program(std::string const & programPath, std::string c
 {
     std::string filePath = TEST_PROGRAM_BASE_PATH;
     filePath.append(programPath);
-    init_run_from_file(filePath.c_str(), true);
+    initializer_run_from_file(filePath.c_str(), true);
     // We need to alter the path because we want to check whether the compiled version works
     std::string alteredPath = programPath;
     alteredPath.replace(alteredPath.end() - 3, alteredPath.end(), "cxcf");
@@ -61,7 +61,7 @@ static void test_program(std::string const & programPath, std::string const & ex
     }
     
     // Execute Test 🚀
-    init_run_from_file(filePath.c_str(), false);
+    initializer_run_from_file(filePath.c_str(), false);
 
     if(producesError)
         freopen("CON", "w", stderr);

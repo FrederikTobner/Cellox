@@ -18,13 +18,13 @@
  * @brief File containing implementation of functionalitity regarding cellox objects.
  */
 
-#include "memory.h"
+#include "object.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-#include "object.h"
+#include "memory_mutator.h"
 #include "string_utils.h"
 #include "virtual_machine.h"
 
@@ -272,7 +272,7 @@ static object_string_t * object_allocate_string(char * chars, uint32_t length, u
 static object_t * object_allocate_object(size_t size, object_type type)
 {
     // Allocates the memory used by the Object
-    object_t * object = (object_t *)memory_reallocate(NULL, 0, size);
+    object_t * object = (object_t *)memory_mutator_reallocate(NULL, 0, size);
     // Sets the type of the object
     object->type = type;
     // Disables mark so it is picked up by the Garbage Collection in the next cycle

@@ -32,7 +32,7 @@
 #include <unistd.h>
 #endif
 
-#include "memory.h"
+#include "memory_mutator.h"
 #include "native_functions.h"
 #include "object.h"
 #include "string_utils.h"
@@ -43,14 +43,18 @@ typedef enum
 {
     /// Native append_to_file function
     NATIVE_FUNCTION_APPEND_TO_FILE,
-    /// Natice array_length function
+    /// Native array_length function
     NATIVE_FUNCTION_ARRAY_LENGTH,
+    /// Native asci to int function
+    NATIVE_FUNCTION_ASCI_TO_NUMERICAL,
     /// Native class_of function
     NATIVE_FUNCTION_CLASS_OF,
     /// Native clock function
     NATIVE_FUNCTION_CLOCK,
     /// Native exit function
     NATIVE_FUNCTION_EXIT,
+    /// NAtive numerical value to asci function
+    NATIVE_FUNCTION_NUMERICAL_TO_ASCI,
     /// Native on_linux function
     NATIVE_FUNCTION_ON_LINUX,
     /// Native on_macOS function
@@ -97,6 +101,12 @@ native_function_config_t native_function_configs [] =
         .function = native_functions_array_length,
         .arrity = 1
     },
+    [NATIVE_FUNCTION_ASCI_TO_NUMERICAL]   =
+    {
+        .functionName = "asci_to_num",
+        .function = native_functions_asci_to_numerical,
+        .arrity = 1
+    },
     [NATIVE_FUNCTION_CLASS_OF]          =
     {
         .functionName = "class_of", 
@@ -114,6 +124,12 @@ native_function_config_t native_function_configs [] =
         .function = native_functions_exit, 
         .arrity = 1
     },
+    [NATIVE_FUNCTION_NUMERICAL_TO_ASCI] =
+    {
+        .functionName = "num_to_asci", 
+        .function = native_functions_numerical_to_asci, 
+        .arrity = 1
+    },    
     [NATIVE_FUNCTION_ON_LINUX]          =
     {
         .functionName = "on_linux", 
@@ -238,6 +254,17 @@ value_t native_functions_array_length(uint32_t argCount, value_t const * args)
     return NUMBER_VAL(AS_ARRAY(*args)->array.count);
 }
 
+value_t native_functions_asci_to_numerical(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_ASCI_TO_NUMERICAL, argCount);
+    if(!IS_STRING(*args))
+        native_functions_arguments_error("asci_to_num can only be called with a string as argument but was called with %s", value_stringify_type(*args));
+    object_string_t * character = AS_STRING(*args);
+    if(character->length != 1)
+        native_functions_arguments_error("Can only determine the ssci value of a single character");   
+    return NUMBER_VAL(character->chars[0]);
+}
+
 value_t native_functions_classof(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_CLASS_OF, argCount);
@@ -260,6 +287,18 @@ value_t native_functions_exit(uint32_t argCount, value_t const * args)
     int exitCode = AS_NUMBER(*args);
     virtual_machine_free();
     exit(exitCode);
+}
+
+value_t native_functions_numerical_to_asci(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_ASCI_TO_NUMERICAL, argCount);
+    if(!IS_NUMBER(*args))
+        native_functions_arguments_error("asci_to_num can only be called with a string as argument but was called with %s", value_stringify_type(*args));
+    int number = AS_NUMBER(*args);
+    if(number < 0 || number > 255)
+        native_functions_arguments_error("Can not convert number %d to asci value", number);
+    char numberAsChar = (char)number;
+    return OBJECT_VAL(object_copy_string(&numberAsChar, 1, false));
 }
 
 value_t native_functions_on_linux(uint32_t argCount, value_t const * args)
@@ -289,8 +328,7 @@ value_t native_functions_on_windows(uint32_t argCount, value_t const * args)
     return TRUE_VAL;
     #else
     return FALSE_VAL;
-    #endif
-   
+    #endif   
 }
 
 value_t native_functions_print_formated(uint32_t argCount, value_t const * args)
@@ -424,13 +462,15 @@ value_t native_functions_string_replace_at(uint32_t argCount, value_t const * ar
         native_functions_arguments_error("string_replace_at can only be called with a string as third argument but was called with %s", value_stringify_type(*args));
 
     object_string_t * character = AS_STRING(*(args + 2));
-    int num = AS_NUMBER(*(args + 1));
-    object_string_t * str = AS_STRING(*args);
-    if (num >= str->length || num < 0 || character->length != 1)
+    if(character->length != 1)
     {
-        native_functions_arguments_error("accessed string out of bounds at index %d", num);
+        native_functions_arguments_error("Can only replace a single character in the string with a single character");
         return NULL_VAL;
     }
+    int num = AS_NUMBER(*(args + 1));
+    object_string_t * str = AS_STRING(*args);
+    if (num >= str->length || num < 0)
+        native_functions_arguments_error("accessed string out of bounds at index %d", num);
     // We need to allocate a new character sequnce so no other objects are affected
     char * newCharacterSequence = malloc(str->length + 1);
     memcpy(newCharacterSequence, str->chars, str->length); 

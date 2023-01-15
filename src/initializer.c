@@ -14,12 +14,12 @@
  ****************************************************************************/
 
 /**
- * @file init.c
+ * @file initializer.c
  * @brief File containing implementation of the behavoir that is used to initialize the interpreter
  * @details The interpreter can be initialized to run from a file or as repl.
  */
 
-#include "init.h"
+#include "initializer.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -44,8 +44,8 @@
  | |___|  __/ | | (_) >  < \n\
   \\_____\\___|_|_|\\___/_/\\_\\\n")
 
-static void init_io_error(char const *, ...);
-static char * init_read_file(char const *);
+static void initializer_io_error(char const *, ...);
+static char * initializer_read_file(char const *);
 
 void init_repl()
 {
@@ -73,14 +73,14 @@ void init_repl()
     }
 }
 
-void init_run_from_file(char const * path, bool compile)
+void initializer_run_from_file(char const * path, bool compile)
 {
     size_t pathLength = strlen(path);
     interpret_result result;
     // Cellox file -> we need to compile the source code to a chunk in order to execute it
     if(pathLength > 4 && !strcmp(path + pathLength - 4, ".clx"))
     {
-        char * source = init_read_file(path);
+        char * source = initializer_read_file(path);
         if(!source)
             return;
         virtual_machine_init();
@@ -101,13 +101,13 @@ void init_run_from_file(char const * path, bool compile)
     else if(pathLength > 5 && !strcmp(path + pathLength - 5, ".cxcf"))
     {
         if(compile)
-            init_io_error("Can not compile a chunk file");
+            initializer_io_error("Can not compile a chunk file");
         virtual_machine_init();
         result = virtual_machine_run_chunk(*chunk_file_load(path));
     }
     else
     {
-        init_io_error("File type not supported");
+        initializer_io_error("File type not supported");
         return;
     }
 
@@ -125,7 +125,7 @@ void init_run_from_file(char const * path, bool compile)
 
 }
 
-void init_show_help()
+void initializer_show_help()
 {
     printf("%s Help\n%s\n\n", PROJECT_NAME, CELLOX_USAGE_MESSAGE);
     printf("Options\n");
@@ -134,7 +134,7 @@ void init_show_help()
     printf("  -v, --version\t\tShows the version of the installed interpreter and exit\n\n");
 }
 
-void init_show_version()
+void initializer_show_version()
 {
     printf("%s Version %i.%i\n", PROJECT_NAME, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
 }
@@ -142,7 +142,7 @@ void init_show_version()
 /// @brief Prints a error message for io errors and exits if no tests are executed
 /// @param format The formater of the error message
 /// @param ... The arguments that are formated
-static void init_io_error(char const * format, ...)
+static void initializer_io_error(char const * format, ...)
 {
     va_list args;
     va_start(args, format);
@@ -157,13 +157,13 @@ static void init_io_error(char const * format, ...)
 /// @brief Reads a file from disk
 /// @param path The path of the file
 /// @return The contents of the file or NULL if something went wrong an there are tests executed, so we dont want to exit
-static char * init_read_file(char const * path)
+static char * initializer_read_file(char const * path)
 {
     // Opens a file of a nonspecified format (b) in read mode (r)
     FILE * file = fopen(path, "rb");
     if (!file)
     {
-        init_io_error("Could not open file \"%s\".\n", path);
+        initializer_io_error("Could not open file \"%s\".\n", path);
         return NULL;
     }
     // Seek end of the file
@@ -176,14 +176,14 @@ static char * init_read_file(char const * path)
     char * buffer = (char *)malloc(fileSize + 1);
     if (!buffer)
     {
-        init_io_error("Not enough memory to read \"%s\".\n", path);
+        initializer_io_error("Not enough memory to read \"%s\".\n", path);
         return NULL;
     }
     // Store amount of read bytes
     size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
     if (bytesRead < fileSize)
     {
-        init_io_error("Could not read file \"%s\".\n", path);
+        initializer_io_error("Could not read file \"%s\".\n", path);
         return NULL;
     }
     // We add null the end of the source-code to mark the end of the file

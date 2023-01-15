@@ -1,7 +1,5 @@
 var hash__table_8c =
 [
-    [ "GROW_HASHTABLE_CAPACITY", "hash__table_8c.html#a592f8b7b00784641f6873d3e2aecf9f6", null ],
-    [ "HASH_TABLE_GROWTH_FACTOR", "hash__table_8c.html#a13252ea664170e23fa827b7e7571203c", null ],
     [ "TABLE_MAX_LOAD", "hash__table_8c.html#ab6357f56edb0f10d74092689b680be3b", null ],
     [ "hash_table_add_all", "hash__table_8c.html#a7060bb47edc08741e849603174ed0587", null ],
     [ "hash_table_adjust_capacity", "hash__table_8c.html#a8aeb1f5fb422c78928f0bdbd6353590e", null ],

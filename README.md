@@ -103,8 +103,8 @@ The values stored in slice can be altered without affecting the original array.
 
 There are plugins for vscode, vim and neovim.
 
-[![VSCcode](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=vscode-cellox&theme=dark)](https://github.com/FrederikTobner/vscode-cellox)
-[![Vim](https://github-readme-stats.vercel.app/api/pin/?username=FrederikTobner&repo=cellox.vim&theme=dark)](https://github.com/FrederikTobner/cellox.vim)
+[![VSCcode](https://github-readme-stats-frederiktobner.vercel.app/api/pin/?username=FrederikTobner&repo=vscode-cellox&theme=dark)](https://github.com/FrederikTobner/vscode-cellox)
+[![Vim](https://github-readme-stats-frederiktobner.vercel.app/api/pin/?username=FrederikTobner&repo=cellox.vim&theme=dark)](https://github.com/FrederikTobner/cellox.vim)
 
 ## How it works
 
