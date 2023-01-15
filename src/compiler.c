@@ -30,7 +30,9 @@
 #include "debug.h"
 #endif
 #include "lexer.h"
+#include "garbage_collector.h"
 #include "memory.h"
+
 #include "virtual_machine.h"
 
 /// @brief The cellox parser
@@ -578,7 +580,7 @@ void compiler_mark_roots()
     compiler_t * compiler = current;
     while (compiler)
     {
-        memory_mark_object((object_t *)compiler->function);
+        garbage_collector_mark_object((object_t *)compiler->function);
         compiler = compiler->enclosing;
     }
 }

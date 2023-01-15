@@ -14,39 +14,14 @@
  ****************************************************************************/
 
 /**
- * @file memory.h
- * @brief Header file containing the declarations of functionality used for memory management.
+ * @file garbage_collector.h
+ * @brief Header file containing the declarations of functionality used for garbage collection.
  */
 
-#ifndef CELLOX_MEMORY_H_
-#define CELLOX_MEMORY_H_
+#ifndef CELLOX_GARBAGE_COLLECTOR_H_
+#define CELLOX_GARBAGE_COLLECTOR_H_
 
-#include "common.h"
 #include "object.h"
-
-/// Growth factor of a dynamic value array
-#define ARRAY_GROWTH_FACTOR (1.5)
-
-/// Makro that allocates the memory needed for a given type multiplied by the count
-#define ALLOCATE(type, count) \
-    ((type *)memory_reallocate(NULL, 0, sizeof(type) * (count)))
-
-/// Makro that frees the memory used by a given type at the position specified by the pointer
-#define FREE(type, pointer) \
-    (memory_reallocate(pointer, sizeof(type), 0))
-
-/// Makro that dealocates an existing dynamic array
-#define FREE_ARRAY(type, pointer, oldCount) \
-    (memory_reallocate(pointer, sizeof(type) * (oldCount), 0))
-
-/// Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)
-#define GROW_CAPACITY(capacity) \
-    ((capacity) < 8u ? 8u : (capacity) * ARRAY_GROWTH_FACTOR)
-
-/// Makro that increases the size of a dynamic Array
-#define GROW_ARRAY(type, pointer, oldCount, newCount) \
-    ((type *)memory_reallocate(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))
-
 
 /** @brief Starts the garbage collection process.
  * @details The garbage collector of cellox is a precise GC.
@@ -59,24 +34,14 @@
  * In the marking phase we start at the roots and traverse through all the objects the roots refer to.
  * In the sweeping phase all the reachable objects have been marked, and therefore we can reclaim the memory that is used by the unmarked objects.
  */
-void memory_collect_garbage();
-
-/// @brief Dealocates the memory used by the objects of the virtualMachine
-void memory_free_objects();
+void garbage_collector_collect_garbage();
 
 /// @brief Marks a cellox object
 /// @param object The object that is marked
-void memory_mark_object(object_t * object);
+void garbage_collector_mark_object(object_t * object);
 
 /// @brief Marks a cellox value
 /// @param value The value that is marked
-void memory_mark_value(value_t value);
+void garbage_collector_mark_value(value_t value);
 
-/// @brief Reallocates a block in memory
-/// @param pointer Pointer to the memory block that is reallocated
-/// @param oldSize The oldsize if the memory block
-/// @param newSize The new size of the memory block
-/// @return The reallocated memory block
-void * memory_reallocate(void * pointer, size_t oldSize, size_t newSize);
-
-#endif  
+#endif

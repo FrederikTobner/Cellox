@@ -22,15 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "memory.h"
+#include "garbage_collector.h"
+#include "memory_mutator.h"
 #include "object.h"
-
-/// Growth factor of a hashtable 
-#define HASH_TABLE_GROWTH_FACTOR (2u)
-
-/// Determines the new size if a hashtable is grown
-#define GROW_HASHTABLE_CAPACITY(capacity) \
-    ((capacity) < 8u ? 8u : (capacity) * HASH_TABLE_GROWTH_FACTOR)
 
 /// @brief The max load factor of the hashtable
 /// @details If the max load factor multiplied with the capacity is reached we grow the hashtable
@@ -56,8 +50,8 @@ void hash_table_mark(hash_table_t * table)
     for (uint32_t i = 0; i < table->capacity; i++)
     {
         hash_table_entry_t * entry = table->entries + i;
-        memory_mark_object((object_t *)entry->key);
-        memory_mark_value(entry->value);
+        garbage_collector_mark_object((object_t *)entry->key);
+        garbage_collector_mark_value(entry->value);
     }
 }
 

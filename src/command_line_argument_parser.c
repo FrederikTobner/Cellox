@@ -27,7 +27,7 @@
 #include <string.h>
 
 #include "common.h"
-#include "init.h"
+#include "initializer.h"
 
 /// @brief Command line options of the cellox interpreter
 typedef enum
@@ -105,10 +105,10 @@ void command_line_argument_parser_parse(int argc, char const ** argv)
                 switch (currentOption)
                 {
                 case OPTION_NO_OPTION:
-                    init_run_from_file(argv[i], false);
+                    initializer_run_from_file(argv[i], false);
                     return;
                 case OPTION_TYPE_COMPILE:
-                    init_run_from_file(argv[i], true);
+                    initializer_run_from_file(argv[i], true);
                     return;
                 default:
                     command_line_argument_parser_show_usage();
@@ -118,10 +118,10 @@ void command_line_argument_parser_parse(int argc, char const ** argv)
     switch (currentOption)
     {
     case OPTION_TYPE_HELP:
-        init_show_help();
+        initializer_show_help();
         break;
     case OPTION_TYPE_VERSION:
-        init_show_version();
+        initializer_show_version();
         break;
     case OPTION_NO_OPTION:
         init_repl();

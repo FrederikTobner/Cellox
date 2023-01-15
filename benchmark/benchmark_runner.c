@@ -19,7 +19,7 @@
     #include <sys/stat.h>
 #endif
 
-#include "../src/init.h"
+#include "../src/initializer.h"
 
 #include "common.h"
 
@@ -241,7 +241,7 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
         // Redirect standard output to the beginnining of the buffer
         setbuf(stdout, measured_time);            
         // Execute benchmark 🚀
-        init_run_from_file(filePath, false);
+        initializer_run_from_file(filePath, false);
         // Remove newline at the end of the buffer
         measured_time[strlen(measured_time) - 1] = '\0';
         // store result

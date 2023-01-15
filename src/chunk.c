@@ -22,7 +22,7 @@
 
 #include <stdlib.h>
 
-#include "memory.h"
+#include "memory_mutator.h"
 #include "virtual_machine.h"
 
 static inline bool chunk_byte_code_is_full(chunk_t * chunk);

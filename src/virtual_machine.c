@@ -31,7 +31,7 @@
 #include "common.h"
 #include "compiler.h"
 #include "debug.h"
-#include "memory.h"
+#include "memory_mutator.h"
 #include "native_functions.h"
 #include "value.h"
 
@@ -68,7 +68,7 @@ void virtual_machine_free()
     virtualMachine.initString = NULL;
     if(virtualMachine.program)
         free(virtualMachine.program);
-    memory_free_objects();
+    memory_mutator_free_objects();
 }
 
 void virtual_machine_init()

@@ -58,6 +58,12 @@ value_t native_functions_array_length(uint32_t argCount, value_t const * args);
 /// @return True -> Sucess, False -> Error
 value_t native_functions_append_to_file(uint32_t argCount, value_t const * args);
 
+/// @brief Converts a single character string to a numerical value
+/// @param argCount The amount of arguments that were used when asci_to_num was called
+/// @param args The arguments that asci_to_num was called with
+/// @return The string converted to a numerical value
+value_t native_functions_asci_to_numerical(uint32_t argCount, value_t const * args);
+
 /// @brief Determines the class of a cellox instance
 /// @param argCount The amount of arguments that were used when class_of was called
 /// @param args The arguments that class_of was called with
@@ -75,6 +81,12 @@ value_t native_functions_clock(uint32_t argCount, value_t const * args);
 /// @param args The arguments that exit was called with
 /// @return Nothing because the program will exit
 value_t native_functions_exit(uint32_t argCount, value_t const * args);
+
+/// @brief Converts a numerical value to a asci character
+/// @param argCount The amount of arguments that were used when num_to_asci was called
+/// @param args The arguments that num_to_asci was called with
+/// @return To numerical value converted to a single character asci string
+value_t native_functions_numerical_to_asci(uint32_t argCount, value_t const * args);
 
 /// @brief Determines whether the program is executed under linux
 /// @param argCount The amount of arguments that were used when on_linux was called
@@ -130,10 +142,10 @@ value_t native_functions_read_line(uint32_t argCount, value_t const * args);
 /// @return The size of the value
 value_t native_functions_size_of(uint32_t argCount, value_t const * args);
 
-/// @brief Returns the hash of a string
-/// @param argCount 
-/// @param args 
-/// @return 
+/// @brief Gets the hash of a string
+/// @param argCount The amount of arguments that were used when string_hash was called
+/// @param args The arguments that string_hash was called with
+/// @return The haash of the string
 value_t native_functions_string_hash(uint32_t argCount, value_t const * args);
 
 /// @brief Determines the length of a string
