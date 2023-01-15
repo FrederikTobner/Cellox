@@ -82,6 +82,18 @@ value_t native_functions_clock(uint32_t argCount, value_t const * args);
 /// @return Nothing because the program will exit
 value_t native_functions_exit(uint32_t argCount, value_t const * args);
 
+/// @brief Native exponential function
+/// @param argCount The amount of arguments that were used when exponential was called
+/// @param args The arguments that exponential was called with 
+/// @return e (2.71828) raised to the power of the given argument
+value_t native_functions_exponential(uint32_t argCount, value_t const * args);
+
+/// @brief Computes the natural logarithm of the given argument
+/// @param argCount The amount of arguments that were used when logarithm was called
+/// @param args The arguments that logarithm was called with 
+/// @return The natural logartihm applied to the input
+value_t native_functions_logarithm(uint32_t argCount, value_t const * args);
+
 /// @brief Converts a numerical value to a asci character
 /// @param argCount The amount of arguments that were used when num_to_asci was called
 /// @param args The arguments that num_to_asci was called with

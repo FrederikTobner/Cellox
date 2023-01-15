@@ -246,6 +246,7 @@ static void debug_print_chunk_metadata(chunk_t * chunk, char const * name, uint3
                 break;
             if(IS_STRING(chunk->constants.values[chunk->code[j + 1]]))
             classCount++;
+        case OP_ARRAY_LITERAL:
         case OP_DEFINE_GLOBAL:
         case OP_GET_GLOBAL:
         case OP_GET_PROPERTY:

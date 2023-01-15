@@ -53,6 +53,10 @@ typedef enum
     NATIVE_FUNCTION_CLOCK,
     /// Native exit function
     NATIVE_FUNCTION_EXIT,
+    /// Native exponential function
+    NATIVE_FUNCTION_EXPONENTIAL,
+    /// Native logarithm function
+    NATIVE_FUNCTION_LOG,
     /// NAtive numerical value to asci function
     NATIVE_FUNCTION_NUMERICAL_TO_ASCI,
     /// Native on_linux function
@@ -122,6 +126,18 @@ native_function_config_t native_function_configs [] =
     {
         .functionName = "exit", 
         .function = native_functions_exit, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_EXPONENTIAL]           =
+    {
+        .functionName = "exponential", 
+        .function = native_functions_exponential, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_LOG]              =
+    {
+        .functionName = "logarithm", 
+        .function = native_functions_logarithm, 
         .arrity = 1
     },
     [NATIVE_FUNCTION_NUMERICAL_TO_ASCI] =
@@ -287,6 +303,22 @@ value_t native_functions_exit(uint32_t argCount, value_t const * args)
     int exitCode = AS_NUMBER(*args);
     virtual_machine_free();
     exit(exitCode);
+}
+
+value_t native_functions_exponential(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_EXPONENTIAL, argCount);
+    if (!IS_NUMBER(*args))
+        native_functions_arguments_error("logarithm can only be called with a number as argument");
+    return NUMBER_VAL(log(AS_NUMBER(*args)));
+}
+
+value_t native_functions_logarithm(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_LOG, argCount);
+    if (!IS_NUMBER(*args))
+        native_functions_arguments_error("logarithm can only be called with a number as argument");
+    return NUMBER_VAL(log(AS_NUMBER(*args)));
 }
 
 value_t native_functions_numerical_to_asci(uint32_t argCount, value_t const * args)
