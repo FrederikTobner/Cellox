@@ -4,6 +4,8 @@ var files_dup =
     [ "chunk.h", "chunk_8h.html", "chunk_8h" ],
     [ "chunk_file.c", "chunk__file_8c.html", "chunk__file_8c" ],
     [ "chunk_file.h", "chunk__file_8h.html", "chunk__file_8h" ],
+    [ "chunk_optimizer.c", "chunk__optimizer_8c.html", "chunk__optimizer_8c" ],
+    [ "chunk_optimizer.h", "chunk__optimizer_8h.html", "chunk__optimizer_8h" ],
     [ "command_line_argument_parser.c", "command__line__argument__parser_8c.html", "command__line__argument__parser_8c" ],
     [ "command_line_argument_parser.h", "command__line__argument__parser_8h.html", "command__line__argument__parser_8h" ],
     [ "common.c", "common_8c.html", null ],

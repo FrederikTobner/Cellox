@@ -331,7 +331,7 @@ static void chunk_file_parse_chunk(char const ** fileContent, chunk_t * result, 
         (*fileContent)++;
         chunk_file_parse_code(fileContent, result, bytesReadPointer, fileSize);
     }
-    else{
+    else {
         result->byteCodeCapacity = 0;
         result->byteCodeCount = 0;
     }
@@ -347,12 +347,13 @@ static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, s
     uint32_t codeCount = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
     if(!codeCount)
         return;
-    result->code = malloc(sizeof(line_info_t) * codeCount);
+    uint32_t codeAbsoluteSize = fileSize - *bytesReadPointer;
+    result->code = malloc(sizeof(uint8_t) * codeAbsoluteSize);
     if(!result->code)
         chunk_file_error("Could not create line info");
     result->byteCodeCapacity = codeCount;
     result->byteCodeCount = codeCount;
-    for (uint32_t i = 0; i < codeCount && *bytesReadPointer < fileSize; i++, (*bytesReadPointer)++)
+    for (uint32_t i = 0; i < codeAbsoluteSize; i++, (*bytesReadPointer)++)
         result->code[i] = *(*fileContent)++;
 }
 

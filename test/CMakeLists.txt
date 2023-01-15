@@ -51,6 +51,44 @@ set(TEST_HEADER_FILES
 "test_cellox.hh"
 )
 
+# dependencies from the interpreter needed to build the tests
+set(TEST_DEPENDENCIES_SOURCE_FILES
+"${SOURCEPATH}/chunk_file.c"
+"${SOURCEPATH}/chunk_optimizer.c"
+"${SOURCEPATH}/chunk.c"
+"${SOURCEPATH}/compiler.c"
+"${SOURCEPATH}/dynamic_value_array.c"
+"${SOURCEPATH}/debug.c"
+"${SOURCEPATH}/garbage_collector.c"
+"${SOURCEPATH}/hash_table.c"
+"${SOURCEPATH}/initializer.c"
+"${SOURCEPATH}/lexer.c"
+"${SOURCEPATH}/memory_mutator.c"
+"${SOURCEPATH}/native_functions.c"
+"${SOURCEPATH}/object.c"
+"${SOURCEPATH}/string_utils.c"
+"${SOURCEPATH}/value.c"
+"${SOURCEPATH}/virtual_machine.c"
+)
+set(TEST_DEPENDENCIES_HEADER_FILES
+"${SOURCEPATH}/chunk_file.h"
+"${SOURCEPATH}/chunk_optimizer.h"
+"${SOURCEPATH}/chunk.h"
+"${SOURCEPATH}/compiler.h"
+"${SOURCEPATH}/dynamic_value_array.h"
+"${SOURCEPATH}/debug.h"
+"${SOURCEPATH}/garbage_collector.h"
+"${SOURCEPATH}/hash_table.h"
+"${SOURCEPATH}/initializer.h"
+"${SOURCEPATH}/lexer.h"
+"${SOURCEPATH}/memory_mutator.h"
+"${SOURCEPATH}/native_functions.h"
+"${SOURCEPATH}/object.h"
+"${SOURCEPATH}/string_utils.h"
+"${SOURCEPATH}/value.h"
+"${SOURCEPATH}/virtual_machine.h"
+)
+
 add_compile_definitions(
 # Flag that indicates that test are executed
 CELLOX_TESTS_RUNNING
@@ -59,7 +97,9 @@ TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
 )
 
 # Builds cellox tests
-add_executable(${INTERPRETER_TESTS} ${TEST_SOURCE_FILES} ${TEST_HEADER_FILES} ${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES})
+add_executable(${INTERPRETER_TESTS} 
+${TEST_DEPENDENCIES_SOURCE_FILES} ${TEST_DEPENDENCIES_HEADER_FILES} 
+${TEST_SOURCE_FILES} ${TEST_HEADER_FILES})
 
 # Includes SourcePath of the compiler for shorter includes and the config file
 target_include_directories(${INTERPRETER_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)

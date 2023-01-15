@@ -44,6 +44,9 @@ void dynamic_value_array_free(dynamic_value_array_t * array);
 /// @param array The array that is inititialized
 void dynamic_value_array_init(dynamic_value_array_t * array);
 
+
+void dynamic_value_array_remove(dynamic_value_array_t * array, size_t index);
+
 /// @brief Adds a value to the dynamic array
 /// @param array The array where the value is added
 /// @param value The value that is added to the array

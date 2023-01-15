@@ -34,6 +34,14 @@ void dynamic_value_array_init(dynamic_value_array_t * array)
     array->count = array->capacity = 0u;
 }
 
+void dynamic_value_array_remove(dynamic_value_array_t * array, size_t index)
+{
+    if(index >= array->count)
+        return;
+    memcpy(array->values + index, array->values + index + 1, array->count - (index + 1));
+    array->count--;
+}
+
 void dynamic_value_array_write(dynamic_value_array_t * array, value_t value)
 {
     if (array->capacity < array->count + 1u)

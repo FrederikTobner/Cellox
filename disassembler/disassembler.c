@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "../src/chunk_file.h"
+#include "../src/common.h"
 #include "../src/compiler.h"
 #include "../src/debug.h"
 #include "../src/virtual_machine.h"
@@ -13,7 +14,6 @@ static char * disassembler_read_file(char const * path);
 void disassembler_disassemble_file(char const * filepath)
 {
     // Determine file type
-    
     size_t pathLength = strlen(filepath);
     if(pathLength > 4 && 
         !strcmp(filepath + pathLength - 4, ".clx"))
@@ -53,7 +53,7 @@ static char * disassembler_read_file(char const * path)
     if (!file)
     {
         printf("Could not read file");
-        exit(71);
+        exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
     }
     // Seek end of the file
     fseek(file, 0L, SEEK_END);
@@ -66,14 +66,14 @@ static char * disassembler_read_file(char const * path)
     if (!buffer)
     {
         printf("Not enough memory to read \"%s\".\n", path);
-        exit(71);
+        exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
     }
     // Store amount of read bytes
     size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
     if (bytesRead < fileSize)
     {
         printf("Could not read file \"%s\".\n", path);
-        exit(71);
+        exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
     }
     // We add null the end of the source-code to mark the end of the file
     buffer[bytesRead] = '\0';

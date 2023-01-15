@@ -96,9 +96,10 @@ void virtual_machine_init()
 
 interpret_result virtual_machine_interpret(char * program, bool freeProgram)
 {
-    object_function_t *function = compiler_compile(program);
+    object_function_t * function = compiler_compile(program);
     if (!function)
         return INTERPRET_COMPILE_ERROR;
+    
     virtual_machine_push(OBJECT_VAL(function));
     object_closure_t * closure = object_new_closure(function);
     virtual_machine_pop();
