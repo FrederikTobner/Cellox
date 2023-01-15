@@ -70,7 +70,7 @@ endif()
   
 
 # We determine the compiler so we can do some optimization for a specific compiler
-if(CMAKE_C_COMPILER_ID STREQUAL "[Gg][Nn][Uu]")
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
     add_compile_definitions(COMPILER_GCC)
 elseif(CMAKE_C_COMPILER_ID STREQUAL "[Cc][Ll][Aa][Nn][Gg]")
     add_compile_definitions(COMPILER_GCC)
