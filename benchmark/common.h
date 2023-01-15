@@ -1,11 +1,7 @@
 #ifndef CELLOX_BENCHMARK_COMMON_H_
 #define CELLOX_BENCHMARK_COMMON_H_
 
-enum benchmark_exit_code
-{
-    EXIT_CODE_OK = 0,
-    EXIT_CODE_COMMAND_LINE_USAGE_ERROR = 64,
-    EXIT_CODE_SYSTEM_ERROR = 71
-};
+// Exit codes of the interpreter
+#include "../src/common.h"
 
 #endif
