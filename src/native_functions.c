@@ -19,6 +19,7 @@
  */
 
 #include <ctype.h>
+#include <math.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -51,8 +52,16 @@ typedef enum
     NATIVE_FUNCTION_CLASS_OF,
     /// Native clock function
     NATIVE_FUNCTION_CLOCK,
+    /// Native cosine function
+    NATIVE_FUNCTION_COSINE,
     /// Native exit function
     NATIVE_FUNCTION_EXIT,
+    /// Native exponential function
+    NATIVE_FUNCTION_EXPONENTIAL,
+    /// Native logarithm function
+    NATIVE_FUNCTION_LOG,
+    /// Native log 10 function
+    NATIVE_FUNCTION_LOG10,
     /// NAtive numerical value to asci function
     NATIVE_FUNCTION_NUMERICAL_TO_ASCI,
     /// Native on_linux function
@@ -71,6 +80,8 @@ typedef enum
     NATIVE_FUNCTION_READ_KEY,
     /// Native read_line function
     NATIVE_FUNCTION_READ_LINE,
+    /// Native sine function
+    NATIVE_FUNCTION_SINE,
     /// Native size_of function
     NATIVE_FUNCTION_SIZEOF,
     /// Native stringg_hash function
@@ -81,6 +92,8 @@ typedef enum
     NATIVE_FUNCTION_STRING_REPLACE_AT,
     /// Native system function
     NATIVE_FUNCTION_SYSTEM,
+    /// Native tangent function
+    NATIVE_FUNCTION_TANGENT,
     /// Native wait function
     NATIVE_FUNCTION_WAIT,
     /// Native write to file function
@@ -118,10 +131,34 @@ native_function_config_t native_function_configs [] =
         .functionName = "clock", 
         .function = native_functions_clock
     },
+    [NATIVE_FUNCTION_COSINE]              =
+    {
+        .functionName = "cosine", 
+        .function = native_functions_cosine, 
+        .arrity = 1
+    },
     [NATIVE_FUNCTION_EXIT]              =
     {
         .functionName = "exit", 
         .function = native_functions_exit, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_EXPONENTIAL]           =
+    {
+        .functionName = "exponential", 
+        .function = native_functions_exponential, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_LOG]              =
+    {
+        .functionName = "logarithm", 
+        .function = native_functions_logarithm, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_LOG10]              =
+    {
+        .functionName = "logarithm10", 
+        .function = native_functions_logarithm10, 
         .arrity = 1
     },
     [NATIVE_FUNCTION_NUMERICAL_TO_ASCI] =
@@ -171,6 +208,12 @@ native_function_config_t native_function_configs [] =
         .functionName = "read_line", 
         .function = native_functions_read_line
     },
+    [NATIVE_FUNCTION_SINE]              =
+    {
+        .functionName = "sine", 
+        .function = native_functions_sine, 
+        .arrity = 1
+    },
     [NATIVE_FUNCTION_SIZEOF]            =
     {
         .functionName = "size_of", 
@@ -199,6 +242,12 @@ native_function_config_t native_function_configs [] =
     {
         .functionName = "system", 
         .function = native_functions_system, 
+        .arrity = 1
+    },
+    [NATIVE_FUNCTION_TANGENT]              =
+    {
+        .functionName = "tangent", 
+        .function = native_functions_tangent, 
         .arrity = 1
     },
     [NATIVE_FUNCTION_WAIT]              =
@@ -279,6 +328,14 @@ value_t native_functions_clock(uint32_t argCount, value_t const * args)
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
 
+value_t native_functions_cosine(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_COSINE, argCount);
+    if (!IS_NUMBER(*args))
+        native_functions_arguments_error("logarithm10 can only be called with a number as argument");
+    return NUMBER_VAL(sin(AS_NUMBER(*args)));
+}
+
 value_t native_functions_exit(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_EXIT, argCount);
@@ -287,6 +344,30 @@ value_t native_functions_exit(uint32_t argCount, value_t const * args)
     int exitCode = AS_NUMBER(*args);
     virtual_machine_free();
     exit(exitCode);
+}
+
+value_t native_functions_exponential(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_EXPONENTIAL, argCount);
+    if (!IS_NUMBER(*args))
+        native_functions_arguments_error("logarithm can only be called with a number as argument");
+    return NUMBER_VAL(exp(AS_NUMBER(*args)));
+}
+
+value_t native_functions_logarithm(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_LOG, argCount);
+    if (!IS_NUMBER(*args))
+        native_functions_arguments_error("logarithm can only be called with a number as argument");
+    return NUMBER_VAL(log(AS_NUMBER(*args)));
+}
+
+value_t native_functions_logarithm10(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_LOG10, argCount);
+    if (!IS_NUMBER(*args))
+        native_functions_arguments_error("logarithm10 can only be called with a number as argument");
+    return NUMBER_VAL(log10(AS_NUMBER(*args)));
 }
 
 value_t native_functions_numerical_to_asci(uint32_t argCount, value_t const * args)
@@ -429,6 +510,14 @@ value_t native_functions_read_line(uint32_t argCount, value_t const * args)
     return OBJECT_VAL(object_copy_string(line, strlen(line) - 1, false));
 }
 
+value_t native_functions_sine(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_SINE, argCount);
+    if (!IS_NUMBER(*args))
+        native_functions_arguments_error("logarithm10 can only be called with a number as argument");
+    return NUMBER_VAL(sin(AS_NUMBER(*args)));
+}
+
 value_t native_functions_size_of(uint32_t argCount, value_t const * args)
 {
     native_functions_assert_arrity(NATIVE_FUNCTION_SIZEOF, argCount);    
@@ -487,6 +576,14 @@ value_t native_functions_system(uint32_t argCount, value_t const * args)
         native_functions_arguments_error("system can only be called with a string as argument");
     system(AS_CSTRING(*args));
     return NULL_VAL;
+}
+
+value_t native_functions_tangent(uint32_t argCount, value_t const * args)
+{
+    native_functions_assert_arrity(NATIVE_FUNCTION_TANGENT, argCount);
+    if (!IS_NUMBER(*args))
+        native_functions_arguments_error("logarithm10 can only be called with a number as argument");
+    return NUMBER_VAL(tan(AS_NUMBER(*args)));
 }
 
 value_t native_functions_wait(uint32_t argCount, value_t const * args)

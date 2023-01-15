@@ -345,11 +345,11 @@ static void chunk_file_parse_chunk(char const ** fileContent, chunk_t * result, 
 static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
     uint32_t codeCount = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
-    if(!codeCount)
+    if (!codeCount)
         return;
     uint32_t codeAbsoluteSize = fileSize - *bytesReadPointer;
     result->code = malloc(sizeof(uint8_t) * codeAbsoluteSize);
-    if(!result->code)
+    if (!result->code)
         chunk_file_error("Could not create line info");
     result->byteCodeCapacity = codeCount;
     result->byteCodeCount = codeCount;
@@ -364,7 +364,7 @@ static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, s
 /// @param fileSize The size of the file in bytes
 static void chunk_file_parse_constant(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
-    if(*bytesReadPointer > fileSize)
+    if (*bytesReadPointer > fileSize)
         chunk_file_error("Unexpected file ending");
     switch (*(*fileContent)++)
     {
@@ -374,7 +374,7 @@ static void chunk_file_parse_constant(char const ** fileContent, chunk_t * resul
     case CONSTANT_TYPE_STRING:
     {
         size_t stringLength = strlen(*fileContent);
-        if(*bytesReadPointer > fileSize - stringLength)
+        if (*bytesReadPointer > fileSize - stringLength)
             chunk_file_error("Unexpected file ending");
         char * stringLiteral = malloc(stringLength + 1);
         strcpy(stringLiteral, *fileContent);
@@ -428,7 +428,7 @@ static void chunk_file_parse_inner(char const ** fileContent, chunk_t * result, 
     for (size_t i = 0; i < innerCounter; i++)
     {
         size_t functionNameLength = strlen(*fileContent);
-        if(*bytesReadPointer > fileSize - functionNameLength)
+        if (*bytesReadPointer > fileSize - functionNameLength)
             chunk_file_error("Unexpected file ending");
         object_function_t * function = object_new_function();
         char * functionName = malloc(functionNameLength + 1);
@@ -455,7 +455,7 @@ static void chunk_file_parse_line_info(char const ** fileContent, chunk_t * resu
     if(!lineInfoCount)
         return;
     result->lineInfos = malloc(sizeof(line_info_t) * lineInfoCount);
-    if(!result->lineInfos)
+    if (!result->lineInfos)
         chunk_file_error("Could not create line info");
     result->lineInfoCount = lineInfoCount;
     result->lineInfoCapacity = lineInfoCount;
@@ -475,7 +475,7 @@ static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * resul
 {
     for (; (*bytesReadPointer) < 3; (*bytesReadPointer)++, (*fileContent)++)
     {
-        if((*bytesReadPointer) >= fileSize)
+        if ((*bytesReadPointer) >= fileSize)
             chunk_file_error("Chunk file is incomplete");
         // We ignore the metadata right now
     }    
@@ -489,7 +489,7 @@ static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * resul
 /// @return The number that was parsed
 static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize)
 {
-    if((*bytesReadPointer) > (fileSize - 4))
+    if ((*bytesReadPointer) > (fileSize - 4))
         chunk_file_error("Chunk file is incomplete");
     uint32_t number = 0;
     number += (*(*fileContent)++) << 24;

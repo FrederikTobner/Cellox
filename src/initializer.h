@@ -19,8 +19,8 @@
  * @details The interpreter can be initialized to run from a file or as repl.
  */
 
-#ifndef CELLOX_INIT_H_
-#define CELLOX_INIT_H_
+#ifndef CELLOX_INITIALIZER_H_
+#define CELLOX_INITIALIZER_H_
 
 // This file is included in the test-suite that is written in c++ using the google-test framework
 #ifdef __cplusplus
@@ -30,7 +30,7 @@ extern "C" {
 #include <stdbool.h>
 
 /// Message that explains the usage of the cellox interpreter
-#define CELLOX_USAGE_MESSAGE ("Usage: Cellox ((-h|--help|-v|--version) | ((-scf | --store-chunk-file) |(-rcf |--read-chunk-file)) [path]\n")
+#define CELLOX_USAGE_MESSAGE ("Usage: Cellox ((-h|--help|-v|--version) | ((-c | --compile) [path])\n")
 
 /** @brief Run with repl
 * @details  

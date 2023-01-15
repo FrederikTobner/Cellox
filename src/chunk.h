@@ -18,7 +18,6 @@
  * @brief Header file containing the declarations of functionality regarding cellox chunks.
  */
 
-
 #ifndef CELLOX_CHUNK_H_
 #define CELLOX_CHUNK_H_
 

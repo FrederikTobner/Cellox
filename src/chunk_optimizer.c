@@ -1,3 +1,23 @@
+/****************************************************************************
+ * Copyright (C) 2022 by Frederik Tobner                                    *
+ *                                                                          *
+ * This file is part of Cellox.                                             *
+ *                                                                          *
+ * Permission to use, copy, modify, and distribute this software and its    *
+ * documentation under the terms of the GNU General Public License is       *
+ * hereby granted.                                                          *
+ * No representations are made about the suitability of this software for   *
+ * any purpose.                                                             *
+ * It is provided "as is" without express or implied warranty.              *
+ * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * License for more details.                                                *
+ ****************************************************************************/
+
+/**
+ * @file chunk_optimizer.c
+ * @brief File containing the implementation of functionality regarding the optimization of cellox chunks.
+ */
+
 #include "chunk_optimizer.h"
 
 static void chunk_optimizer_fold_numerical_expression(chunk_t *, int32_t *);
@@ -9,10 +29,10 @@ void chunk_optimizer_optimize_chunk(chunk_t * chunk)
         switch (chunk->code[i])
         {
         case OP_CONSTANT:
-            if(i + 4 < chunk->byteCodeCount) {
-                if(chunk->code[i + 2] == OP_CONSTANT)
+            if (i + 4 < chunk->byteCodeCount) {
+                if (chunk->code[i + 2] == OP_CONSTANT)
                 {
-                    // Constant folding
+                    // Constant folding 🙏
                     switch (chunk->code[i + 4])
                     {
                     case OP_ADD:
@@ -21,20 +41,37 @@ void chunk_optimizer_optimize_chunk(chunk_t * chunk)
                     case OP_SUBTRACT:
                         if(IS_NUMBER(chunk->constants.values[chunk->code[i + 1]]) && IS_NUMBER(chunk->constants.values[chunk->code[i + 2]]))
                             chunk_optimizer_fold_numerical_expression(chunk, &i);                       
-                        break;                        
+                        break;                    
                     default:                        
                         break;
                     }
                 }
             }
+        case OP_ARRAY_LITERAL:
+        case OP_CLASS:
+        case OP_DEFINE_GLOBAL:        
+        case OP_GET_GLOBAL:
+        case OP_GET_PROPERTY:
+        case OP_GET_SUPER:
+        case OP_METHOD:
+        case OP_SET_GLOBAL:
+        case OP_SET_PROPERTY:
+        case OP_CALL:
+        case OP_GET_LOCAL:
+        case OP_GET_UPVALUE:
+        case OP_SET_LOCAL:
+        case OP_SET_UPVALUE:
             i++;
+            break;
+        case OP_INVOKE:
+        case OP_JUMP:
+            i += 2;
             break;
         
         default:
             break;
         }
-    }
-    
+    } 
 }
 
 /// @brief Folds a expression in a chunk
@@ -75,6 +112,6 @@ static void chunk_optimizer_fold_numerical_expression(chunk_t * chunk, int32_t *
     chunk->constants.values[chunk->code[*indexPointer + 1]] = NUMBER_VAL(fooldedConsant);
     chunk_remove_constant(chunk, chunk->code[*indexPointer + 3]);
     chunk_remove_bytecode(chunk, *indexPointer + 2, 3);                            
-    if(*indexPointer > 2 && chunk->code[*indexPointer - 2] == OP_CONSTANT)                                
+    if (*indexPointer > 2 && chunk->code[*indexPointer - 2] == OP_CONSTANT)                                
         *indexPointer -= 4; // Checking prevoius bytecode instruction again for recursive constant folding 
 }

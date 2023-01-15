@@ -128,7 +128,12 @@ Enumerations</h2></td></tr>
 , <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a38c0f4fa8e562b3c18ff364fcae4db7b">NATIVE_FUNCTION_CLASS_OF</a>
 , <br />
 &#160;&#160;<a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6ad8b27f8d731236c02912ee850fb14f6f">NATIVE_FUNCTION_CLOCK</a>
+, <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a1892b095cda6dfa6f23f61cfbc2a5b27">NATIVE_FUNCTION_COSINE</a>
 , <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a86840296c1b85d26d50a2575274da5ba">NATIVE_FUNCTION_EXIT</a>
+, <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a267186daa6f4fedac3993206750db62e">NATIVE_FUNCTION_EXPONENTIAL</a>
+, <br />
+&#160;&#160;<a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6ab5c32d871c1c7420803393075e4fdb57">NATIVE_FUNCTION_LOG</a>
+, <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a0baffb285c03f90714d5c8b559becfb4">NATIVE_FUNCTION_LOG10</a>
 , <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a68c49e8e7eb6d386206870b70632f211">NATIVE_FUNCTION_NUMERICAL_TO_ASCI</a>
 , <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a0149b1beb94bc04abe437f204cb1083f">NATIVE_FUNCTION_ON_LINUX</a>
 , <br />
@@ -140,14 +145,16 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a6a1cb946d013d40cbb812364e744320a">NATIVE_FUNCTION_READ_FILE</a>
 , <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a25fd91fbe70619441d605447f8abc870">NATIVE_FUNCTION_READ_KEY</a>
 , <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6ab32ae17b1e47112c23e558a3964c1159">NATIVE_FUNCTION_READ_LINE</a>
-, <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a13186f06112eb2a8889a3ccfb598993b">NATIVE_FUNCTION_SIZEOF</a>
+, <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a6c14f72892341e11c4d7af807c6c8072">NATIVE_FUNCTION_SINE</a>
 , <br />
-&#160;&#160;<a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a776b85bffccd83589db0cf5a66f8387c">NATIVE_FUNCTION_STRING_HASH</a>
+&#160;&#160;<a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a13186f06112eb2a8889a3ccfb598993b">NATIVE_FUNCTION_SIZEOF</a>
+, <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a776b85bffccd83589db0cf5a66f8387c">NATIVE_FUNCTION_STRING_HASH</a>
 , <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a8ca40e5bd663150bbb8ee04b0f6519e6">NATIVE_FUNCTION_STRLEN</a>
 , <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a60f3c00ab7667e09ebde2452ae759fe0">NATIVE_FUNCTION_STRING_REPLACE_AT</a>
-, <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a2bd4737e39eb4d1071c2b2bed90a1568">NATIVE_FUNCTION_SYSTEM</a>
 , <br />
-&#160;&#160;<a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a746d67984d40c6d42945a568e0dabad9">NATIVE_FUNCTION_WAIT</a>
+&#160;&#160;<a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a2bd4737e39eb4d1071c2b2bed90a1568">NATIVE_FUNCTION_SYSTEM</a>
+, <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6ad96e22054ee6aa188425da9e8add70e1">NATIVE_FUNCTION_TANGENT</a>
+, <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a746d67984d40c6d42945a568e0dabad9">NATIVE_FUNCTION_WAIT</a>
 , <a class="el" href="native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6afc79908e3f304d87d4529954098e0ed7">NATIVE_FUNCTION_WRITE_TO_FILE</a>
 <br />
  }</td></tr>
@@ -185,9 +192,21 @@ Functions</h2></td></tr>
 <tr class="memitem:ae72a168223d8510317faeceb9c27a419"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ae72a168223d8510317faeceb9c27a419">native_functions_clock</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:ae72a168223d8510317faeceb9c27a419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native clock function - used for benchmarks.  <a href="native__functions_8c.html#ae72a168223d8510317faeceb9c27a419">More...</a><br /></td></tr>
 <tr class="separator:ae72a168223d8510317faeceb9c27a419"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a803b9c8dd06870b796ce854d12ca0ac6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a803b9c8dd06870b796ce854d12ca0ac6">native_functions_cosine</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:a803b9c8dd06870b796ce854d12ca0ac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native cosine function.  <a href="native__functions_8c.html#a803b9c8dd06870b796ce854d12ca0ac6">More...</a><br /></td></tr>
+<tr class="separator:a803b9c8dd06870b796ce854d12ca0ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add9bcf00f403607af07ab3118b8d8dc8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#add9bcf00f403607af07ab3118b8d8dc8">native_functions_exit</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:add9bcf00f403607af07ab3118b8d8dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native Exit function.  <a href="native__functions_8c.html#add9bcf00f403607af07ab3118b8d8dc8">More...</a><br /></td></tr>
 <tr class="separator:add9bcf00f403607af07ab3118b8d8dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af69fe637137e9f0380f146190405621e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#af69fe637137e9f0380f146190405621e">native_functions_exponential</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:af69fe637137e9f0380f146190405621e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native exponential function.  <a href="native__functions_8c.html#af69fe637137e9f0380f146190405621e">More...</a><br /></td></tr>
+<tr class="separator:af69fe637137e9f0380f146190405621e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acef146083412f10b29aae0d12acafe1b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#acef146083412f10b29aae0d12acafe1b">native_functions_logarithm</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:acef146083412f10b29aae0d12acafe1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the natural logarithm of the given argument.  <a href="native__functions_8c.html#acef146083412f10b29aae0d12acafe1b">More...</a><br /></td></tr>
+<tr class="separator:acef146083412f10b29aae0d12acafe1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60210293a759f49f37253bade4e3f271"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a60210293a759f49f37253bade4e3f271">native_functions_logarithm10</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:a60210293a759f49f37253bade4e3f271"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native base 10 logarithm function.  <a href="native__functions_8c.html#a60210293a759f49f37253bade4e3f271">More...</a><br /></td></tr>
+<tr class="separator:a60210293a759f49f37253bade4e3f271"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fe58bff30c83bafb5e09a1837083de1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a1fe58bff30c83bafb5e09a1837083de1">native_functions_numerical_to_asci</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a1fe58bff30c83bafb5e09a1837083de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a numerical value to a asci character.  <a href="native__functions_8c.html#a1fe58bff30c83bafb5e09a1837083de1">More...</a><br /></td></tr>
 <tr class="separator:a1fe58bff30c83bafb5e09a1837083de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,6 +234,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ae8c466af41128bd597f26fa261b31860"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ae8c466af41128bd597f26fa261b31860">native_functions_read_line</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:ae8c466af41128bd597f26fa261b31860"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the next line of characters from the standard input.  <a href="native__functions_8c.html#ae8c466af41128bd597f26fa261b31860">More...</a><br /></td></tr>
 <tr class="separator:ae8c466af41128bd597f26fa261b31860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c62301749bbe5c95f3b28b43d8ebd28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a8c62301749bbe5c95f3b28b43d8ebd28">native_functions_sine</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:a8c62301749bbe5c95f3b28b43d8ebd28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native sine function.  <a href="native__functions_8c.html#a8c62301749bbe5c95f3b28b43d8ebd28">More...</a><br /></td></tr>
+<tr class="separator:a8c62301749bbe5c95f3b28b43d8ebd28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac51a69f019e97e438599fb4837878555"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ac51a69f019e97e438599fb4837878555">native_functions_size_of</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:ac51a69f019e97e438599fb4837878555"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the size of a value.  <a href="native__functions_8c.html#ac51a69f019e97e438599fb4837878555">More...</a><br /></td></tr>
 <tr class="separator:ac51a69f019e97e438599fb4837878555"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,6 +252,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ada83cf8c4c7e6b91d148c88a3e8d2ce2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ada83cf8c4c7e6b91d148c88a3e8d2ce2">native_functions_system</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:ada83cf8c4c7e6b91d148c88a3e8d2ce2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to execute a system call.  <a href="native__functions_8c.html#ada83cf8c4c7e6b91d148c88a3e8d2ce2">More...</a><br /></td></tr>
 <tr class="separator:ada83cf8c4c7e6b91d148c88a3e8d2ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb84272eb37a14dd3f4da034bd40ea87"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#aeb84272eb37a14dd3f4da034bd40ea87">native_functions_tangent</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:aeb84272eb37a14dd3f4da034bd40ea87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native tangent function.  <a href="native__functions_8c.html#aeb84272eb37a14dd3f4da034bd40ea87">More...</a><br /></td></tr>
+<tr class="separator:aeb84272eb37a14dd3f4da034bd40ea87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6af21c2a3a763083968fb8e8c15d7195"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a6af21c2a3a763083968fb8e8c15d7195">native_functions_wait</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a6af21c2a3a763083968fb8e8c15d7195"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native wait function - waits for the specified amount of seconds.  <a href="native__functions_8c.html#a6af21c2a3a763083968fb8e8c15d7195">More...</a><br /></td></tr>
 <tr class="separator:a6af21c2a3a763083968fb8e8c15d7195"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -282,7 +307,15 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6ad8b27f8d731236c02912ee850fb14f6f" name="aa698caa21f9dc3d72a4b657a694a95d6ad8b27f8d731236c02912ee850fb14f6f"></a>NATIVE_FUNCTION_CLOCK&#160;</td><td class="fielddoc"><p >Native clock function. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a1892b095cda6dfa6f23f61cfbc2a5b27" name="aa698caa21f9dc3d72a4b657a694a95d6a1892b095cda6dfa6f23f61cfbc2a5b27"></a>NATIVE_FUNCTION_COSINE&#160;</td><td class="fielddoc"><p >Native cosine function. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a86840296c1b85d26d50a2575274da5ba" name="aa698caa21f9dc3d72a4b657a694a95d6a86840296c1b85d26d50a2575274da5ba"></a>NATIVE_FUNCTION_EXIT&#160;</td><td class="fielddoc"><p >Native exit function. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a267186daa6f4fedac3993206750db62e" name="aa698caa21f9dc3d72a4b657a694a95d6a267186daa6f4fedac3993206750db62e"></a>NATIVE_FUNCTION_EXPONENTIAL&#160;</td><td class="fielddoc"><p >Native exponential function. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6ab5c32d871c1c7420803393075e4fdb57" name="aa698caa21f9dc3d72a4b657a694a95d6ab5c32d871c1c7420803393075e4fdb57"></a>NATIVE_FUNCTION_LOG&#160;</td><td class="fielddoc"><p >Native logarithm function. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a0baffb285c03f90714d5c8b559becfb4" name="aa698caa21f9dc3d72a4b657a694a95d6a0baffb285c03f90714d5c8b559becfb4"></a>NATIVE_FUNCTION_LOG10&#160;</td><td class="fielddoc"><p >Native log 10 function. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a68c49e8e7eb6d386206870b70632f211" name="aa698caa21f9dc3d72a4b657a694a95d6a68c49e8e7eb6d386206870b70632f211"></a>NATIVE_FUNCTION_NUMERICAL_TO_ASCI&#160;</td><td class="fielddoc"><p >NAtive numerical value to asci function. </p>
 </td></tr>
@@ -302,6 +335,8 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6ab32ae17b1e47112c23e558a3964c1159" name="aa698caa21f9dc3d72a4b657a694a95d6ab32ae17b1e47112c23e558a3964c1159"></a>NATIVE_FUNCTION_READ_LINE&#160;</td><td class="fielddoc"><p >Native read_line function. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a6c14f72892341e11c4d7af807c6c8072" name="aa698caa21f9dc3d72a4b657a694a95d6a6c14f72892341e11c4d7af807c6c8072"></a>NATIVE_FUNCTION_SINE&#160;</td><td class="fielddoc"><p >Native sine function. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a13186f06112eb2a8889a3ccfb598993b" name="aa698caa21f9dc3d72a4b657a694a95d6a13186f06112eb2a8889a3ccfb598993b"></a>NATIVE_FUNCTION_SIZEOF&#160;</td><td class="fielddoc"><p >Native size_of function. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a776b85bffccd83589db0cf5a66f8387c" name="aa698caa21f9dc3d72a4b657a694a95d6a776b85bffccd83589db0cf5a66f8387c"></a>NATIVE_FUNCTION_STRING_HASH&#160;</td><td class="fielddoc"><p >Native stringg_hash function. </p>
@@ -311,6 +346,8 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a60f3c00ab7667e09ebde2452ae759fe0" name="aa698caa21f9dc3d72a4b657a694a95d6a60f3c00ab7667e09ebde2452ae759fe0"></a>NATIVE_FUNCTION_STRING_REPLACE_AT&#160;</td><td class="fielddoc"><p >Native string_replace_at function. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a2bd4737e39eb4d1071c2b2bed90a1568" name="aa698caa21f9dc3d72a4b657a694a95d6a2bd4737e39eb4d1071c2b2bed90a1568"></a>NATIVE_FUNCTION_SYSTEM&#160;</td><td class="fielddoc"><p >Native system function. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6ad96e22054ee6aa188425da9e8add70e1" name="aa698caa21f9dc3d72a4b657a694a95d6ad96e22054ee6aa188425da9e8add70e1"></a>NATIVE_FUNCTION_TANGENT&#160;</td><td class="fielddoc"><p >Native tangent function. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa698caa21f9dc3d72a4b657a694a95d6a746d67984d40c6d42945a568e0dabad9" name="aa698caa21f9dc3d72a4b657a694a95d6a746d67984d40c6d42945a568e0dabad9"></a>NATIVE_FUNCTION_WAIT&#160;</td><td class="fielddoc"><p >Native wait function. </p>
 </td></tr>
@@ -602,6 +639,44 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a803b9c8dd06870b796ce854d12ca0ac6" name="a803b9c8dd06870b796ce854d12ca0ac6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a803b9c8dd06870b796ce854d12ca0ac6">&#9670;&#160;</a></span>native_functions_cosine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_cosine </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Native cosine function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when cosine was called </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that cosine was called wit </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The cosine of the argument passed </dd></dl>
+
+</div>
+</div>
 <a id="add9bcf00f403607af07ab3118b8d8dc8" name="add9bcf00f403607af07ab3118b8d8dc8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add9bcf00f403607af07ab3118b8d8dc8">&#9670;&#160;</a></span>native_functions_exit()</h2>
 
@@ -637,6 +712,44 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Nothing because the program will exit </dd></dl>
+
+</div>
+</div>
+<a id="af69fe637137e9f0380f146190405621e" name="af69fe637137e9f0380f146190405621e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af69fe637137e9f0380f146190405621e">&#9670;&#160;</a></span>native_functions_exponential()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_exponential </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Native exponential function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when exponential was called </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that exponential was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>e (2.71828) raised to the power of the given argument </dd></dl>
 
 </div>
 </div>
@@ -678,6 +791,82 @@ Variables</h2></td></tr>
 
 <p>Gets the amount of defined native functions. </p>
 <dl class="section return"><dt>Returns</dt><dd>The amount of native functions that are defiened </dd></dl>
+
+</div>
+</div>
+<a id="acef146083412f10b29aae0d12acafe1b" name="acef146083412f10b29aae0d12acafe1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acef146083412f10b29aae0d12acafe1b">&#9670;&#160;</a></span>native_functions_logarithm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_logarithm </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the natural logarithm of the given argument. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when logarithm was called </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that logarithm was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The natural logartihm applied to the input </dd></dl>
+
+</div>
+</div>
+<a id="a60210293a759f49f37253bade4e3f271" name="a60210293a759f49f37253bade4e3f271"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60210293a759f49f37253bade4e3f271">&#9670;&#160;</a></span>native_functions_logarithm10()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_logarithm10 </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Native base 10 logarithm function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when logarithm10 was called </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that logarithm10 was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The base 10 logarithm of the argument </dd></dl>
 
 </div>
 </div>
@@ -1023,6 +1212,44 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a8c62301749bbe5c95f3b28b43d8ebd28" name="a8c62301749bbe5c95f3b28b43d8ebd28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c62301749bbe5c95f3b28b43d8ebd28">&#9670;&#160;</a></span>native_functions_sine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_sine </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Native sine function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when sine was called </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that sine was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The sine of the argument passed </dd></dl>
+
+</div>
+</div>
 <a id="ac51a69f019e97e438599fb4837878555" name="ac51a69f019e97e438599fb4837878555"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac51a69f019e97e438599fb4837878555">&#9670;&#160;</a></span>native_functions_size_of()</h2>
 
@@ -1210,6 +1437,44 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
+
+</div>
+</div>
+<a id="aeb84272eb37a14dd3f4da034bd40ea87" name="aeb84272eb37a14dd3f4da034bd40ea87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb84272eb37a14dd3f4da034bd40ea87">&#9670;&#160;</a></span>native_functions_tangent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a> native_functions_tangent </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Native tangent function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argCount</td><td>The amount of arguments that were used when tangent was called </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments that tangent was called with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The tangent of the argument passed </dd></dl>
 
 </div>
 </div>
