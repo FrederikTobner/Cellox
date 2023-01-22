@@ -21,7 +21,7 @@
 #ifndef CELLOX_MEMORY_MUTATOR_H_
 #define CELLOX_MEMORY_MUTATOR_H_
 
-#include "common.h"
+#include "../common.h"
 #include "object.h"
 
 /// Growth factor of a dynamic value array

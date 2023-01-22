@@ -21,7 +21,7 @@
 #ifndef CELLOX_HASH_TABLE_H_
 #define CELLOX_HASH_TABLE_H_
 
-#include "common.h"
+#include "../common.h"
 #include "value.h"
 
 /// @brief An entry in a hashtable

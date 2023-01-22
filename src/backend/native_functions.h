@@ -21,7 +21,7 @@
 #ifndef CELLOX_NATIVE_FUNCTIONS_H_
 #define CELLOX_NATIVE_FUNCTIONS_H_
 
-#include "common.h"
+#include "../common.h"
 #include "value.h"
 
 /// Typedefinition of a native function

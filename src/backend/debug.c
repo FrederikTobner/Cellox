@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "common.h"
+#include "../common.h"
 #include "object.h"
 #include "value.h"
 
@@ -55,6 +55,8 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
     {
     case OP_ADD:
         return debug_simple_instruction("ADD", offset);
+    case OP_ARRAY_LITERAL:
+        return debug_byte_instruction("DYNAMIC_ARRAY_LITERAL", chunk, offset);
     case OP_CALL:
         return debug_byte_instruction("CALL", chunk, offset);
     case OP_CLASS:
@@ -83,8 +85,6 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
         return debug_constant_instruction("DEFINE_GLOBAL", chunk, offset);
     case OP_DIVIDE:
         return debug_simple_instruction("DIVIDE", offset);
-    case OP_ARRAY_LITERAL:
-        return debug_byte_instruction("DYNAMIC_ARRAY_LITERAL", chunk, offset);
     case OP_EQUAL:
         return debug_simple_instruction("EQUAL", offset);
     case OP_EXPONENT:
@@ -152,8 +152,15 @@ int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset)
     case OP_TRUE:
         return debug_simple_instruction("TRUE", offset);
     default:
-        printf("Unknown opcode %02X\n", instruction);
-        return offset + 1;
+            // We assume this code to be unreachable.
+            #if defined(COMPILER_MSVC) && !defined(BUILD_DEBUG)               
+                __assume(0);
+            #elif (defined(COMPILER_GCC) || defined(COMPILER_CLANG)) && !defined(BUILD_DEBUG)
+                __builtin_unreachable();   
+            #else
+                printf("Unknown opcode %02X\n", instruction);
+                return offset + 1;
+            #endif        
     }
 }
 

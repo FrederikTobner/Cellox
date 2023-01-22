@@ -23,7 +23,7 @@
 
 #include <stdbool.h>
 
-#include "chunk.h"
+#include "../frontend/chunk.h"
 
 /// @brief Compiler flags
 typedef enum 

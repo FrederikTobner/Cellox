@@ -23,7 +23,7 @@
 
 #include <string.h>
 
-#include "common.h"
+#include "../common.h"
 
 /// Defines object_t as a new type (specified in object.h)
 typedef struct object_t object_t;

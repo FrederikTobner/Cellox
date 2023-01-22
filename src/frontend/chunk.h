@@ -21,9 +21,9 @@
 #ifndef CELLOX_CHUNK_H_
 #define CELLOX_CHUNK_H_
 
-#include "common.h"
-#include "dynamic_value_array.h"
-#include "value.h"
+#include "../common.h"
+#include "../backend/dynamic_value_array.h"
+#include "../backend/value.h"
 
 /// @brief opcodes of the bytecode instruction set
 enum opcode
@@ -165,16 +165,20 @@ void chunk_free(chunk_t * chunk);
 /// @param chunk The chunk that is initialized
 void chunk_init(chunk_t * chunk);
 
-/// @brief Removes a constant from a chunk
-/// @param chunk The chunk where the constant is removed
-/// @param constantIndex The index of the constant that is removed
-void chunk_remove_constant(chunk_t * chunk, uint32_t constantIndex);
-
 /// @brief Removes a sequence of bytecode instructions from the chunk
 /// @param chunk The chunk where the bytecode is removed
 /// @param startIndex The index of the first instruction that is removed from the chunk
 /// @param amount The amount of instructions that are removed from the chunk
 void chunk_remove_bytecode(chunk_t * chunk, uint32_t startIndex, uint32_t amount);
+
+/// @brief Removes a constant from a chunk
+/// @param chunk The chunk where the constant is removed
+/// @param constantIndex The index of the constant that is removed
+void chunk_remove_constant(chunk_t * chunk, uint32_t constantIndex);
+
+void chunk_decrement_constant_indezes(chunk_t * chunk, uint32_t startIndex);
+
+void chunk_replace_constant_references(chunk_t * chunk, uint32_t oldIndex, uint32_t replacementIndex);
 
 /// @brief Writes to a single bytecode instruction to a chunk
 /// @param chunk The chunk where the byte is added

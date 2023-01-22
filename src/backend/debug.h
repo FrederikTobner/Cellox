@@ -14,18 +14,28 @@
  ****************************************************************************/
 
 /**
- * @file chunk_optimizer.h
- * @brief Header file containing the declarations of functionality regarding the optimization of cellox chunks.
+ * @file debug.h
+ * @brief File containing declarations of functions that are used to debug the interpreter.
  */
 
-#ifndef CELLOX_OPTIMIZER_H_
-#define CELLOX_OPTIMIZER_H_
+#ifndef CELLOX_DEBUG_H_
+#define CELLOX_DEBUG_H_
 
-#include "chunk.h"
+#include "../frontend/chunk.h"
 
-/// @brief Optimizes the chunk by using different compiler optimization techniques  
-/// @param chunk The chunk that is optimized
-/// @details At the moment only constant folding is used
-void chunk_optimizer_optimize_chunk(chunk_t * chunk);
+/// @brief  Dissasembles a chunk of bytecode instructions
+/// @param chunk The chunk that is dissasembled
+/// @param name The name of the chunk (based on the function)
+/// @param arity The arity of the top level funtion of the chunk
+/// @details First prints the metadata of the chunk (function, string constant, numerical constant count).
+/// Then prints all the opcodes that are stored in the chunk 
+void debug_disassemble_chunk(chunk_t * chunk, char const * name, uint32_t arity);
+
+/// @brief Dissasembles a single instruction
+/// @param chunk The chunk where a single instruction is dissasembled
+/// @param offset The offset of the instruction
+/// @return The offset of the next instruction
+/// @details Prints the opcode and the correspoonding line number
+int32_t debug_disassemble_instruction(chunk_t * chunk, int32_t offset);
 
 #endif

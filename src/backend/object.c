@@ -25,7 +25,7 @@
 #include <stdlib.h>
 
 #include "memory_mutator.h"
-#include "string_utils.h"
+#include "../string_utils.h"
 #include "virtual_machine.h"
 
 /// Marko for allocating a new object

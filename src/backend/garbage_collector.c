@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "compiler.h"
+#include "../frontend/compiler.h"
 #ifdef DEBUG_LOG_GC
 #include "debug.h"
 #endif

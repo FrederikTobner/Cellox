@@ -28,8 +28,8 @@
 #include <string.h>
 #include <time.h>
 
-#include "common.h"
-#include "compiler.h"
+#include "../common.h"
+#include "../frontend/compiler.h"
 #include "debug.h"
 #include "memory_mutator.h"
 #include "native_functions.h"

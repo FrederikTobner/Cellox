@@ -25,17 +25,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "chunk_optimizer.h"
-#include "common.h"
+#include "../middleend/chunk_optimizer.h"
+#include "../common.h"
 // The debug header file only needs to be included if the bytecode is dissasembled
 #ifdef DEBUG_PRINT_CODE
-#include "debug.h"
+#include "../debug.h"
 #endif
 #include "lexer.h"
-#include "garbage_collector.h"
-#include "memory.h"
+#include "../backend/garbage_collector.h"
+#include "../backend/memory_mutator.h"
 
-#include "virtual_machine.h"
+#include "../backend/virtual_machine.h"
 
 /// @brief The cellox parser
 /// @details The parser builds an abstract syntax tree out of the tokens that were produced by the lexer

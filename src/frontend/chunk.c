@@ -22,8 +22,8 @@
 
 #include <stdlib.h>
 
-#include "memory_mutator.h"
-#include "virtual_machine.h"
+#include "../backend/memory_mutator.h"
+#include "../backend/virtual_machine.h"
 
 static void chunk_adjust_line_info_by_index(chunk_t *, uint32_t, int32_t);
 static inline bool chunk_byte_code_is_full(chunk_t *);
@@ -62,11 +62,6 @@ void chunk_init(chunk_t * chunk)
   dynamic_value_array_init(&chunk->constants);
 }
 
-void chunk_remove_constant(chunk_t * chunk, uint32_t constantIndex) 
-{
-    dynamic_value_array_remove(&chunk->constants, constantIndex);
-}
-
 void chunk_remove_bytecode(chunk_t * chunk, uint32_t startIndex, uint32_t amount) 
 {
     if (startIndex + amount >= chunk->byteCodeCount)
@@ -74,6 +69,81 @@ void chunk_remove_bytecode(chunk_t * chunk, uint32_t startIndex, uint32_t amount
     memcpy((chunk->code + startIndex), (chunk->code + startIndex + amount), chunk->byteCodeCount - (startIndex + amount));
     chunk->byteCodeCount -= amount;
     chunk_adjust_line_info_by_index(chunk, startIndex, -(int32_t)amount);    
+}
+
+void chunk_remove_constant(chunk_t * chunk, uint32_t constantIndex) 
+{
+    dynamic_value_array_remove(&chunk->constants, constantIndex);
+}
+
+void chunk_decrement_constant_indezes(chunk_t * chunk, uint32_t startIndex)
+{
+  for (size_t i = 0; i < chunk->byteCodeCount; i++)
+  {
+    switch (chunk->code[i])
+    {
+    case OP_CONSTANT:
+      if(chunk->code[i + 1] >= startIndex)
+        chunk->code[i + 1]--;
+      case OP_ARRAY_LITERAL:
+      case OP_CLASS:
+      case OP_DEFINE_GLOBAL:        
+      case OP_GET_GLOBAL:
+      case OP_GET_PROPERTY:
+      case OP_GET_SUPER:
+      case OP_METHOD:
+      case OP_SET_GLOBAL:
+      case OP_SET_PROPERTY:
+      case OP_CALL:
+      case OP_GET_LOCAL:
+      case OP_GET_UPVALUE:
+      case OP_SET_LOCAL:
+      case OP_SET_UPVALUE:
+          i++;
+          break;
+      case OP_INVOKE:
+      case OP_JUMP:
+          i += 2;
+          break;    
+    default:
+      break;
+    }
+  }  
+}
+
+void chunk_replace_constant_references(chunk_t * chunk, uint32_t oldIndex, uint32_t replacementIndex)
+{
+  for (size_t i = 0; i < chunk->byteCodeCount; i++)
+  {
+    switch (chunk->code[i])
+    {
+    case OP_CONSTANT:
+      if(chunk->code[i + 1] == oldIndex)
+        chunk->code[i + 1] = replacementIndex;
+      case OP_ARRAY_LITERAL:
+      case OP_CLASS:
+      case OP_DEFINE_GLOBAL:        
+      case OP_GET_GLOBAL:
+      case OP_GET_PROPERTY:
+      case OP_GET_SUPER:
+      case OP_METHOD:
+      case OP_SET_GLOBAL:
+      case OP_SET_PROPERTY:
+      case OP_CALL:
+      case OP_GET_LOCAL:
+      case OP_GET_UPVALUE:
+      case OP_SET_LOCAL:
+      case OP_SET_UPVALUE:
+          i++;
+          break;
+      case OP_INVOKE:
+      case OP_JUMP:
+          i += 2;
+          break;    
+    default:
+      break;
+    }
+  }  
 }
 
 void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line)

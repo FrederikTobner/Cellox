@@ -20,6 +20,11 @@
 
 #include "chunk_optimizer.h"
 
+#define FOLD_EXPRESSION(op)         \
+chunk->constants.values[chunk->code[*indexPointer + 1]] = \
+                                NUMBER_VAL(AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 1]]) op \
+                                AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 3]]))
+
 static void chunk_optimizer_fold_numerical_expression(chunk_t *, int32_t *);
 
 void chunk_optimizer_optimize_chunk(chunk_t * chunk)
@@ -70,8 +75,8 @@ void chunk_optimizer_optimize_chunk(chunk_t * chunk)
         
         default:
             break;
-        }
-    } 
+        }          
+    }
 }
 
 /// @brief Folds a expression in a chunk
@@ -80,24 +85,21 @@ void chunk_optimizer_optimize_chunk(chunk_t * chunk)
 static void chunk_optimizer_fold_numerical_expression(chunk_t * chunk, int32_t * indexPointer)
 {
     // Removes OP_ADD, OP_CONSTANT and the constant index and replaced the first constant at the index with the result of evaluating the expression
-    double fooldedConsant;
+    double fooldedConsant;   
+
     switch (chunk->code[*indexPointer + 4])
-    {
+    {   
         case OP_ADD:
-            fooldedConsant = AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 1]]) + 
-                                AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 3]]);
+            FOLD_EXPRESSION(+);
             break;
         case OP_DIVIDE:
-            fooldedConsant = AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 1]]) / 
-                                AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 3]]);
+            FOLD_EXPRESSION(/);
             break;
         case OP_MULTIPLY:
-            fooldedConsant = AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 1]]) * 
-                                AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 3]]);
+            FOLD_EXPRESSION(*);
             break;
         case OP_SUBTRACT:
-            fooldedConsant = AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 1]]) - 
-                                AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 3]]);
+            FOLD_EXPRESSION(-);
             break;
         default:
             // We assume this code to be unreachable.
@@ -109,8 +111,7 @@ static void chunk_optimizer_fold_numerical_expression(chunk_t * chunk, int32_t *
                 break;
             #endif
     }
-    chunk->constants.values[chunk->code[*indexPointer + 1]] = NUMBER_VAL(fooldedConsant);
-    chunk_remove_constant(chunk, chunk->code[*indexPointer + 3]);
+    // Removing OP_CONSTANT and OP_ADD / OP_DIVIDE / OP_MULTIPLY / OP_SUBTRACT from the chunk
     chunk_remove_bytecode(chunk, *indexPointer + 2, 3);                            
     if (*indexPointer > 2 && chunk->code[*indexPointer - 2] == OP_CONSTANT)                                
         *indexPointer -= 4; // Checking prevoius bytecode instruction again for recursive constant folding 
