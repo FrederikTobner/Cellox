@@ -21,8 +21,8 @@
 #ifndef CELLOX_DYNAMIC_VALUE_ARRAY_H_
 #define CELLOX_DYNAMIC_VALUE_ARRAY_H_
 
-#include "../common.h"
-#include "value.h"
+#include "../../common.h"
+#include "../value.h"
 
 /// @brief A dynamic value array
 /// @details A size of a dynamic array can varry, meaning it can shrink or grow.

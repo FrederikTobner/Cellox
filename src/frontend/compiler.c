@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../middleend/chunk_optimizer.h"
+#include "../middle-end/chunk_optimizer.h"
 #include "../common.h"
 // The debug header file only needs to be included if the bytecode is dissasembled
 #ifdef DEBUG_PRINT_CODE
@@ -1025,7 +1025,7 @@ static object_function_t * compiler_end()
     object_function_t * function = current->function;
 #ifdef DEBUG_PRINT_CODE
     if (!parser.hadError)
-        debug_disassemble_chunk(compiler_current_chunk(), function->name != NULL ? function->name->chars : "main", function->arity);
+        chunk_disassembler_disassemble_chunk(compiler_current_chunk(), function->name != NULL ? function->name->chars : "main", function->arity);
 #endif
     current = current->enclosing;
     chunk_optimizer_optimize_chunk(&function->chunk);

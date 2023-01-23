@@ -28,7 +28,7 @@
 #include "debug.h"
 #endif
 #include "memory_mutator.h"
-#include "object.h"
+#include "../language-models/object.h"
 #include "virtual_machine.h"
 
 #define GC_HEAP_GROWTH_FACTOR (2)
@@ -48,7 +48,7 @@ void garbage_collector_collect_garbage()
   garbage_collector_mark_roots();
   garbage_collector_trace_references();
   // We have to remove the strings with a another method, because they have their own hashtable
-  hash_table_remove_white(&virtualMachine.strings);
+  value_hash_table_remove_white(&virtualMachine.strings);
   // reclaim the garbage
   garbage_collector_sweep();
   // Adjusts the threshold when the next garbage collection will occur
@@ -122,7 +122,7 @@ static void garbage_collector_blacken_object(object_t * object)
     object_class_t * celloxClass = (object_class_t *)object;
     garbage_collector_mark_object((object_t *)celloxClass->name);
     // If a class is reachable, all the methods are reachable, too.
-    hash_table_mark(&celloxClass->methods);
+    value_hash_table_mark(&celloxClass->methods);
     break;
   }
   case OBJECT_CLOSURE:
@@ -148,7 +148,7 @@ static void garbage_collector_blacken_object(object_t * object)
     object_instance_t * instance = (object_instance_t *)object;
     garbage_collector_mark_object((object_t *)instance->celloxClass);
     // If the instace is reachable all of it's fields are reachable, too.
-    hash_table_mark(&instance->fields);
+    value_hash_table_mark(&instance->fields);
     break;
   }
   case OBJECT_UPVALUE:
@@ -183,7 +183,7 @@ static void garbage_collector_mark_roots()
   for (object_upvalue_t * upvalue = virtualMachine.openUpvalues; upvalue; upvalue = upvalue->next)
     garbage_collector_mark_object((object_t *)upvalue);
   // all the global variables
-  hash_table_mark(&virtualMachine.globals);
+  value_hash_table_mark(&virtualMachine.globals);
   // and all the compiler roots allocated on the heap
   compiler_mark_roots();
   garbage_collector_mark_object((object_t *)virtualMachine.initString);

@@ -5,7 +5,7 @@
 [![Test](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
 [![Analyze](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml)
 
-Interpreter based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) for the programming language cellox.
+Compiler based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) for the programming language cellox.
 
 Cellox is a programming language based on [lox](https://craftinginterpreters.com/the-lox-language.html) from Robert Nystrom.
 

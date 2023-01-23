@@ -21,10 +21,10 @@
 #ifndef CELLOX_OBJECT_H_
 #define CELLOX_OBJECT_H_
 
-#include "../frontend/chunk.h"
+#include "../byte-code/chunk.h"
 #include "../common.h"
-#include "hash_table.h"
-#include "native_functions.h"
+#include "./data-structures/value_hash_table.h"
+#include "../backend/native_functions.h"
 #include "value.h"
 
 /// Makro that determines the type of an object
@@ -196,7 +196,7 @@ typedef struct
     /// The name of the class
     object_string_t * name;
     /// The methods that are defined in the class body
-    hash_table_t methods;
+    value_hash_table_t methods;
 } object_class_t;
 
 /// @brief A cellox class instance
@@ -207,7 +207,7 @@ typedef struct
     /// The class of the object instance
     object_class_t * celloxClass;
     /// The fields of the instance
-    hash_table_t fields;
+    value_hash_table_t fields;
 } object_instance_t;
 
 /// @brief A bound method

@@ -17,60 +17,60 @@
  * @file hash_table.c
  * @brief File containing the hashtable implementation used internally by the interpreter
  */
-#include "hash_table.h"
+#include "value_hash_table.h"
 
 #include <stdlib.h>
 #include <string.h>
 
-#include "garbage_collector.h"
-#include "memory_mutator.h"
-#include "object.h"
+#include "../../backend/garbage_collector.h"
+#include "../../backend/memory_mutator.h"
+#include "../object.h"
 
 /// @brief The max load factor of the hashtable
 /// @details If the max load factor multiplied with the capacity is reached we grow the hashtable
 #define TABLE_MAX_LOAD 0.75
 
-static void hash_table_adjust_capacity(hash_table_t *, int32_t);
-static hash_table_entry_t * hash_table_find_entry(hash_table_entry_t *, int32_t, object_string_t *);
+static void hash_table_adjust_capacity(value_hash_table_t *, int32_t);
+static value_hash_table_entry_t * hash_table_find_entry(value_hash_table_entry_t *, int32_t, object_string_t *);
 
-void hash_table_free(hash_table_t * table)
+void value_hash_table_free(value_hash_table_t * table)
 {
-    FREE_ARRAY(hash_table_entry_t, table->entries, table->capacity);
-    hash_table_init(table);
+    FREE_ARRAY(value_hash_table_entry_t, table->entries, table->capacity);
+    value_hash_table_init(table);
 }
 
-void hash_table_init(hash_table_t * table)
+void value_hash_table_init(value_hash_table_t * table)
 {
     table->count = table->capacity = 0;
     table->entries = NULL;
 }
 
-void hash_table_mark(hash_table_t * table)
+void value_hash_table_mark(value_hash_table_t * table)
 {
     for (uint32_t i = 0; i < table->capacity; i++)
     {
-        hash_table_entry_t * entry = table->entries + i;
+        value_hash_table_entry_t * entry = table->entries + i;
         garbage_collector_mark_object((object_t *)entry->key);
         garbage_collector_mark_value(entry->value);
     }
 }
 
-void hash_table_add_all(hash_table_t * from, hash_table_t * to)
+void value_hash_table_add_all(value_hash_table_t * from, value_hash_table_t * to)
 {
     for (uint32_t i = 0; i < from->capacity; i++)
     {
-        hash_table_entry_t * entry = from->entries + i;
+        value_hash_table_entry_t * entry = from->entries + i;
         if (entry->key)
-            hash_table_set(to, entry->key, entry->value);
+            value_hash_table_set(to, entry->key, entry->value);
     }
 }
 
-bool hash_table_delete(hash_table_t * table, object_string_t * key)
+bool value_hash_table_delete(value_hash_table_t * table, object_string_t * key)
 {
     if (!table->count)
         return false;
     // Find the entry.
-    hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
+    value_hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
     if (!entry->key)
         return false;
     // Replace the entry with a tombstone
@@ -79,7 +79,7 @@ bool hash_table_delete(hash_table_t * table, object_string_t * key)
     return true;
 }
 
-object_string_t * hash_table_find_string(hash_table_t * table, char const * chars, uint32_t length, uint32_t hash)
+object_string_t * value_hash_table_find_string(value_hash_table_t * table, char const * chars, uint32_t length, uint32_t hash)
 {
     if (!table->count)
         return NULL;
@@ -87,7 +87,7 @@ object_string_t * hash_table_find_string(hash_table_t * table, char const * char
     uint32_t index = hash & (table->capacity - 1);
     for (;;)
     {
-        hash_table_entry_t * entry = &table->entries[index];
+        value_hash_table_entry_t * entry = &table->entries[index];
         if (!entry->key)
         {
             // Stop if we find an empty non-tombstone entry.
@@ -101,12 +101,12 @@ object_string_t * hash_table_find_string(hash_table_t * table, char const * char
     }
 }
 
-bool hash_table_get(hash_table_t * table, object_string_t * key, value_t * value)
+bool value_hash_table_get(value_hash_table_t * table, object_string_t * key, value_t * value)
 {
     if (!table->count)
         return false;
 
-    hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
+    value_hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
     // The entry we found does not correspond to the key
     if (!entry->key)
         return false;
@@ -115,24 +115,24 @@ bool hash_table_get(hash_table_t * table, object_string_t * key, value_t * value
     return true;
 }
 
-void hash_table_remove_white(hash_table_t * table)
+void value_hash_table_remove_white(value_hash_table_t * table)
 {
     for (uint32_t i = 0; i < table->capacity; i++)
     {
-        hash_table_entry_t * entry = &table->entries[i];
+        value_hash_table_entry_t * entry = &table->entries[i];
         if (entry->key && !entry->key->obj.isMarked)
-            hash_table_delete(table, entry->key);
+            value_hash_table_delete(table, entry->key);
     }
 }
 
-bool hash_table_set(hash_table_t * table, object_string_t * key, value_t value)
+bool value_hash_table_set(value_hash_table_t * table, object_string_t * key, value_t value)
 {
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
         uint32_t capacity = GROW_HASHTABLE_CAPACITY(table->capacity);
         hash_table_adjust_capacity(table, capacity);
     }
-    hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
+    value_hash_table_entry_t * entry = hash_table_find_entry(table->entries, table->capacity, key);
     bool isNewKey = !entry->key;
     if (isNewKey && IS_NULL(entry->value))
         table->count++;
@@ -147,9 +147,9 @@ bool hash_table_set(hash_table_t * table, object_string_t * key, value_t value)
 /// @details  We grow the hashtable when it becomes 75% is filled, 
 /// so we can wrap around the entries when we look for a key,
 /// without risking an infinite loop when the hashtable is full.
-static void hash_table_adjust_capacity(hash_table_t * table, int32_t capacity)
+static void hash_table_adjust_capacity(value_hash_table_t * table, int32_t capacity)
 {
-    hash_table_entry_t * entries = ALLOCATE(hash_table_entry_t, capacity);
+    value_hash_table_entry_t * entries = ALLOCATE(value_hash_table_entry_t, capacity);
     for (uint32_t i = 0; i < capacity; i++)
     {
         entries[i].key = NULL;
@@ -158,15 +158,15 @@ static void hash_table_adjust_capacity(hash_table_t * table, int32_t capacity)
     table->count = 0;
     for (uint32_t i = 0; i < table->capacity; i++)
     {
-        hash_table_entry_t * entry = table->entries + i;
+        value_hash_table_entry_t * entry = table->entries + i;
         if (!entry->key)
             continue;
-        hash_table_entry_t * dest = hash_table_find_entry(entries, capacity, entry->key);
+        value_hash_table_entry_t * dest = hash_table_find_entry(entries, capacity, entry->key);
         dest->key = entry->key;
         dest->value = entry->value;
         table->count++;
     }
-    FREE_ARRAY(hash_table_entry_t, table->entries, table->capacity);
+    FREE_ARRAY(value_hash_table_entry_t, table->entries, table->capacity);
     table->entries = entries;
     table->capacity = capacity;
 }
@@ -176,13 +176,13 @@ static void hash_table_adjust_capacity(hash_table_t * table, int32_t capacity)
 /// @param capacity The capacity of the hashtable
 /// @param key The key of the hashtable that is looked up
 /// @return Returns the entry or NULL if the value has already been deleted
-static hash_table_entry_t * hash_table_find_entry(hash_table_entry_t * entries, int32_t capacity, object_string_t * key)
+static value_hash_table_entry_t * hash_table_find_entry(value_hash_table_entry_t * entries, int32_t capacity, object_string_t * key)
 {
     uint32_t index = key->hash & (capacity - 1);
-    hash_table_entry_t *tombstone = NULL;
+    value_hash_table_entry_t *tombstone = NULL;
     for (;;)
     {
-        hash_table_entry_t * entry = &entries[index];
+        value_hash_table_entry_t * entry = &entries[index];
         if (!entry->key)
         {
             if (IS_NULL(entry->value))

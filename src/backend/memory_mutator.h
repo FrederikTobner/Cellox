@@ -22,7 +22,7 @@
 #define CELLOX_MEMORY_MUTATOR_H_
 
 #include "../common.h"
-#include "object.h"
+#include "../language-models/object.h"
 
 /// Growth factor of a dynamic value array
 #define ARRAY_GROWTH_FACTOR (1.5)

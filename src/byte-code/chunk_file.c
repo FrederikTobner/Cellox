@@ -26,7 +26,7 @@
 
 #include "cellox_config.h"
 
-#include "object.h"
+#include "../language-models/object.h"
 
 
 /// @brief Chunk segment prefixes

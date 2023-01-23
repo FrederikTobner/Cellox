@@ -89,7 +89,7 @@ void memory_mutator_free_object(object_t * object)
   {
     object_class_t * celloxClass = (object_class_t *)object;
     // If a class is unreachable, all the methods are unreachable, too.
-    hash_table_free(&celloxClass->methods);
+    value_hash_table_free(&celloxClass->methods);
     FREE(object_class_t, object);
     break;
   }
@@ -113,7 +113,7 @@ void memory_mutator_free_object(object_t * object)
   {
     object_instance_t * instance = (object_instance_t *)object;
     // If a instance is unreachable we also need to free all the memory used by the fields
-    hash_table_free(&instance->fields);
+    value_hash_table_free(&instance->fields);
     FREE(object_instance_t, object);
     break;
   }

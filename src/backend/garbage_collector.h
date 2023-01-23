@@ -21,7 +21,7 @@
 #ifndef CELLOX_GARBAGE_COLLECTOR_H_
 #define CELLOX_GARBAGE_COLLECTOR_H_
 
-#include "object.h"
+#include "../language-models/object.h"
 
 /** @brief Starts the garbage collection process.
  * @details The garbage collector of cellox is a precise GC.

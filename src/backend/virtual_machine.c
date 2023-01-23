@@ -30,10 +30,10 @@
 
 #include "../common.h"
 #include "../frontend/compiler.h"
-#include "debug.h"
+#include "../byte-code/chunk_disassembler.h"
 #include "memory_mutator.h"
 #include "native_functions.h"
-#include "value.h"
+#include "../language-models/value.h"
 
 /// Global VirtualMachine variable
 virtual_machine_t virtualMachine;
@@ -63,8 +63,8 @@ static bool virtual_machine_set_index_of();
 
 void virtual_machine_free()
 {
-    hash_table_free(&virtualMachine.globals);
-    hash_table_free(&virtualMachine.strings);
+    value_hash_table_free(&virtualMachine.globals);
+    value_hash_table_free(&virtualMachine.strings);
     virtualMachine.initString = NULL;
     if(virtualMachine.program)
         free(virtualMachine.program);
@@ -82,9 +82,9 @@ void virtual_machine_init()
     virtualMachine.grayCount = virtualMachine.grayCapacity = 0u;
     virtualMachine.grayStack = NULL;
     // Initializes the hashtable that contains the global variables
-    hash_table_init(&virtualMachine.globals);
+    value_hash_table_init(&virtualMachine.globals);
     // Initializes the hashtable that contains the strings
-    hash_table_init(&virtualMachine.strings);
+    value_hash_table_init(&virtualMachine.strings);
     //virtualMachine.stackTop = virtualMachine.stack;
     virtualMachine.initString = NULL;
     virtualMachine.initString = object_copy_string("init", 4u, false);
@@ -166,7 +166,7 @@ static void virtual_machine_array_literal(int32_t argCount)
 static bool virtual_machine_bind_method(object_class_t * celloxClass, object_string_t * name)
 {
     value_t method;
-    if (!hash_table_get(&celloxClass->methods, name, &method))
+    if (!value_hash_table_get(&celloxClass->methods, name, &method))
     {
         virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
         return false;
@@ -225,7 +225,7 @@ static bool virtual_machine_call_value(value_t callee, int32_t argCount)
             object_class_t * celloxClass = AS_CLASS(callee);
             virtualMachine.stackTop[-argCount - 1] = OBJECT_VAL(object_new_instance(celloxClass));
             value_t initializer;
-            if (hash_table_get(&celloxClass->methods, virtualMachine.initString, &initializer))
+            if (value_hash_table_get(&celloxClass->methods, virtualMachine.initString, &initializer))
                 return virtual_machine_call(AS_CLOSURE(initializer), argCount);
             else if (argCount != 0) 
             {
@@ -341,7 +341,7 @@ static void virtual_machine_define_method(object_string_t * name)
 {
     value_t method = virtual_machine_peek(0);
     object_class_t *celloxClass = AS_CLASS(virtual_machine_peek(1));
-    hash_table_set(&celloxClass->methods, name, method);
+    value_hash_table_set(&celloxClass->methods, name, method);
     virtual_machine_pop();
 }
 
@@ -352,7 +352,7 @@ static void virtual_machine_define_native(char const * name, native_function_t f
 {
     virtual_machine_push(OBJECT_VAL(object_copy_string(name, (int32_t)strlen(name), false)));
     virtual_machine_push(OBJECT_VAL(object_new_native(function)));
-    hash_table_set(&virtualMachine.globals, AS_STRING(virtualMachine.stack[0]), virtualMachine.stack[1]);
+    value_hash_table_set(&virtualMachine.globals, AS_STRING(virtualMachine.stack[0]), virtualMachine.stack[1]);
     virtual_machine_pop();
     virtual_machine_pop();
 }
@@ -499,7 +499,7 @@ static bool virtual_machine_invoke(object_string_t * name, int32_t argCount)
     }
     object_instance_t *instance = AS_INSTANCE(receiver);
     value_t value;
-    if (hash_table_get(&instance->fields, name, &value)) 
+    if (value_hash_table_get(&instance->fields, name, &value)) 
     {
         virtualMachine.stackTop[-argCount - 1] = value;
         return virtual_machine_call_value(value, argCount);
@@ -515,7 +515,7 @@ static bool virtual_machine_invoke(object_string_t * name, int32_t argCount)
 static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, object_string_t * name, int32_t argCount) 
 {
     value_t method;
-    if (!hash_table_get(&celloxClass->methods, name, &method)) {
+    if (!value_hash_table_get(&celloxClass->methods, name, &method)) {
         virtual_machine_runtime_error("Undefined property '%s'.", name->chars);
         return false;
     }
@@ -686,7 +686,7 @@ static interpret_result virtual_machine_run()
                 printf(" ]");
             }
             printf("\n");
-            debug_disassemble_instruction(&frame->closure->function->chunk, (int32_t)(frame->ip - frame->closure->function->chunk.code));
+            chunk_disassembler_disassemble_instruction(&frame->closure->function->chunk, (int32_t)(frame->ip - frame->closure->function->chunk.code));
         #endif
  
         #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
@@ -745,7 +745,7 @@ static interpret_result virtual_machine_run()
             label_define_global:
             {
                 object_string_t * name = READ_STRING();
-                hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
+                value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
                 virtual_machine_pop();
                 DISPATCH();
             }
@@ -781,7 +781,7 @@ static interpret_result virtual_machine_run()
             {
                 object_string_t * name = READ_STRING();
                 value_t value;
-                if (!hash_table_get(&virtualMachine.globals, name, &value))
+                if (!value_hash_table_get(&virtualMachine.globals, name, &value))
                 {
                     virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
                     return INTERPRET_RUNTIME_ERROR;
@@ -808,7 +808,7 @@ static interpret_result virtual_machine_run()
                 object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(0));
                 object_string_t * name = READ_STRING();
                 value_t value;
-                if (hash_table_get(&instance->fields, name, &value))
+                if (value_hash_table_get(&instance->fields, name, &value))
                 {
                     virtual_machine_pop(); // Instance.
                     virtual_machine_push(value);
@@ -857,7 +857,7 @@ static interpret_result virtual_machine_run()
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 object_class_t * subclass = AS_CLASS(virtual_machine_peek(0));
-                hash_table_add_all(&AS_CLASS(superclassvalue)->methods, &subclass->methods);
+                value_hash_table_add_all(&AS_CLASS(superclassvalue)->methods, &subclass->methods);
                 virtual_machine_pop(); // Subclass.
                 DISPATCH();
             }
@@ -936,9 +936,9 @@ static interpret_result virtual_machine_run()
             label_set_global:
             {
                 object_string_t * name = READ_STRING();
-                if (hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0)))
+                if (value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0)))
                 {
-                    hash_table_delete(&virtualMachine.globals, name);
+                    value_hash_table_delete(&virtualMachine.globals, name);
                     virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
                     return INTERPRET_RUNTIME_ERROR;
                 }
@@ -962,7 +962,7 @@ static interpret_result virtual_machine_run()
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 // We look up the field in the 'fields' hashtable of the cellox object instance
-                hash_table_set(&AS_INSTANCE(virtual_machine_peek(1))->fields, READ_STRING(), virtual_machine_peek(0));
+                value_hash_table_set(&AS_INSTANCE(virtual_machine_peek(1))->fields, READ_STRING(), virtual_machine_peek(0));
                 // The value that is assigned to the property
                 value_t value = virtual_machine_pop();
                 virtual_machine_pop();
@@ -1052,7 +1052,7 @@ static interpret_result virtual_machine_run()
             case OP_DEFINE_GLOBAL:
             {
                 object_string_t * name = READ_STRING();
-                hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
+                value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
                 virtual_machine_pop();
                 break;
             }
@@ -1090,7 +1090,7 @@ static interpret_result virtual_machine_run()
             {
                 object_string_t * name = READ_STRING();
                 value_t value;
-                if (!hash_table_get(&virtualMachine.globals, name, &value))
+                if (!value_hash_table_get(&virtualMachine.globals, name, &value))
                 {
                     virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
                     return INTERPRET_RUNTIME_ERROR;
@@ -1123,7 +1123,7 @@ static interpret_result virtual_machine_run()
                 object_string_t * name = READ_STRING();
 
                 value_t value;
-                if (hash_table_get(&instance->fields, name, &value))
+                if (value_hash_table_get(&instance->fields, name, &value))
                 {
                     virtual_machine_pop(); // Instance.
                     virtual_machine_push(value);
@@ -1173,7 +1173,7 @@ static interpret_result virtual_machine_run()
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 object_class_t *subclass = AS_CLASS(virtual_machine_peek(0));
-                hash_table_add_all(&AS_CLASS(superclass)->methods, &subclass->methods);
+                value_hash_table_add_all(&AS_CLASS(superclass)->methods, &subclass->methods);
                 virtual_machine_pop(); // Subclass.
                 break;
             }
@@ -1261,9 +1261,9 @@ static interpret_result virtual_machine_run()
             case OP_SET_GLOBAL:
             {
                 object_string_t * name = READ_STRING();
-                if (hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0)))
+                if (value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0)))
                 {
-                    hash_table_delete(&virtualMachine.globals, name);
+                    value_hash_table_delete(&virtualMachine.globals, name);
                     virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
                     return INTERPRET_RUNTIME_ERROR;
                 }
@@ -1292,7 +1292,7 @@ static interpret_result virtual_machine_run()
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(1));
-                hash_table_set(&instance->fields, READ_STRING(), virtual_machine_peek(0));
+                value_hash_table_set(&instance->fields, READ_STRING(), virtual_machine_peek(0));
                 value_t value = virtual_machine_pop();
                 virtual_machine_pop();
                 virtual_machine_push(value);

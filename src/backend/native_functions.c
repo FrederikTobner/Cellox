@@ -35,9 +35,9 @@
 
 #include "memory_mutator.h"
 #include "native_functions.h"
-#include "object.h"
+#include "../language-models/object.h"
 #include "../string_utils.h"
-#include "value.h"
+#include "../language-models/value.h"
 #include "virtual_machine.h"
 
 typedef enum

@@ -20,9 +20,9 @@
 
 #include "chunk_optimizer.h"
 
-#define FOLD_EXPRESSION(op)         \
-chunk->constants.values[chunk->code[*indexPointer + 1]] = \
-                                NUMBER_VAL(AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 1]]) op \
+#define FOLD_EXPRESSION(op)                                                                                         \
+chunk->constants.values[chunk->code[*indexPointer + 1]] =                                                           \
+                                NUMBER_VAL(AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 1]]) op    \
                                 AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 3]]))
 
 static void chunk_optimizer_fold_numerical_expression(chunk_t *, int32_t *);
@@ -85,7 +85,7 @@ void chunk_optimizer_optimize_chunk(chunk_t * chunk)
 static void chunk_optimizer_fold_numerical_expression(chunk_t * chunk, int32_t * indexPointer)
 {
     // Removes OP_ADD, OP_CONSTANT and the constant index and replaced the first constant at the index with the result of evaluating the expression
-    double fooldedConsant;   
+    double foldedConstantValue;   
 
     switch (chunk->code[*indexPointer + 4])
     {   

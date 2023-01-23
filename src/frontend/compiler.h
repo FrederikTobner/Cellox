@@ -22,7 +22,7 @@
 #define CELLOX_COMPILER_H_
 
 #include "../frontend/lexer.h"
-#include "../backend/object.h"
+#include "../language-models/object.h"
 
 /// @brief Compiles a cellox program.
 /// @param code The cellox program that is compiled

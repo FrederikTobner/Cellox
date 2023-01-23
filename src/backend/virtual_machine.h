@@ -22,8 +22,8 @@
 #ifndef CELLOX_VIRTUAL_MACHINE_H_
 #define CELLOX_VIRTUAL_MACHINE_H_
 
-#include "object.h"
-#include "hash_table.h"
+#include "../language-models/object.h"
+#include "../language-models/data-structures/value_hash_table.h"
 
 /// @brief Maximum amount of frames the virtual machine can hold 
 /// @details The maxiimum depth of the callstack
@@ -62,9 +62,9 @@ typedef struct
     /// Pointer to the top of the stack
     value_t * stackTop;
     /// Hashtable that contains the global variables
-    hash_table_t globals;
+    value_hash_table_t globals;
     /// Hashtable that contains the strings
-    hash_table_t strings;
+    value_hash_table_t strings;
     /// String "init" used to look up the initializer of a class - reused for every init call
     object_string_t * initString;
     /// Upvalues of the closures of all the functions on the callstack
@@ -115,6 +115,5 @@ void virtual_machine_push(value_t value);
 /// @brief Pops a value from the stack
 /// @return The value that was popped from the stack
 value_t virtual_machine_pop();
-
 
 #endif

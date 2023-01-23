@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../src/backend/chunk_file.h"
+#include "../src/byte-code/chunk_file.h"
 #include "../src/common.h"
 #include "../src/frontend/compiler.h"
-#include "../src/backend/debug.h"
+#include "../src/byte-code/chunk_disassembler.h"
 #include "../src/backend/virtual_machine.h"
 
 static char * disassembler_read_file(char const * path);
@@ -20,7 +20,7 @@ void disassembler_disassemble_file(char const * filepath)
     {
         virtual_machine_init();
         object_function_t * main = compiler_compile(disassembler_read_file(filepath));
-        debug_disassemble_chunk(&main->chunk, "main", main->arity);
+        chunk_disassembler_disassemble_chunk(&main->chunk, "main", main->arity);
         virtual_machine_free();
     }
     else if(pathLength > 5 &&
@@ -28,7 +28,7 @@ void disassembler_disassemble_file(char const * filepath)
     {
         virtual_machine_init();
         chunk_t * chunk = chunk_file_load(filepath);
-        debug_disassemble_chunk(chunk, "main", 0);
+        chunk_disassembler_disassemble_chunk(chunk, "main", 0);
         virtual_machine_free();
         chunk_free(chunk);
     }
