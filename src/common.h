@@ -39,7 +39,7 @@ typedef enum
     EXIT_CODE_SYSTEM_ERROR = 71,
     /// Signals an error regarding the input or the output
     EXIT_CODE_INPUT_OUTPUT_ERROR = 74
-}interpreter_exit_code_t;
+} interpreter_exit_code_t;
 
 // Bool from the C99 standard
 #include <stdbool.h>

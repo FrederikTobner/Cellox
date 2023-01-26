@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: chunk_optimizer.c File Reference</title>
+<title>Cellox: middle-end/chunk_optimizer.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,6 +92,7 @@ $(document).ready(function(){initNavTree('chunk__optimizer_8c.html',''); initRes
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">chunk_optimizer.c File Reference</div></div>
 </div><!--header-->
@@ -101,6 +102,11 @@ $(document).ready(function(){initNavTree('chunk__optimizer_8c.html',''); initRes
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="chunk__optimizer_8h_source.html">chunk_optimizer.h</a>&quot;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a4b2440237001251c0d13a95908dc87c5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk__optimizer_8c.html#a4b2440237001251c0d13a95908dc87c5">FOLD_EXPRESSION</a>(op)</td></tr>
+<tr class="separator:a4b2440237001251c0d13a95908dc87c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a2422d137c1a6104bcbca66174e265cc2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk__optimizer_8c.html#a2422d137c1a6104bcbca66174e265cc2">chunk_optimizer_fold_numerical_expression</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, int32_t *indexPointer)</td></tr>
@@ -113,7 +119,30 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >File containing the implementation of functionality regarding the optimization of cellox chunks. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a4b2440237001251c0d13a95908dc87c5" name="a4b2440237001251c0d13a95908dc87c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b2440237001251c0d13a95908dc87c5">&#9670;&#160;</a></span>FOLD_EXPRESSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FOLD_EXPRESSION</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">op</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">chunk-&gt;constants.values[chunk-&gt;code[*indexPointer + 1]] =                                                           \</div>
+<div class="line">                                NUMBER_VAL(<a class="code hl_define" href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a>(chunk-&gt;constants.values[chunk-&gt;code[*indexPointer + 1]]) op    \</div>
+<div class="line">                                <a class="code hl_define" href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a>(chunk-&gt;constants.values[chunk-&gt;code[*indexPointer + 3]]))</div>
+<div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition:</b> value.h:162</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="a2422d137c1a6104bcbca66174e265cc2" name="a2422d137c1a6104bcbca66174e265cc2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2422d137c1a6104bcbca66174e265cc2">&#9670;&#160;</a></span>chunk_optimizer_fold_numerical_expression()</h2>
 
@@ -192,7 +221,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="chunk__optimizer_8c.html">chunk_optimizer.c</a></li>
+    <li class="navelem"><a class="el" href="dir_2d992bd3547b48b84eead0051a274712.html">middle-end</a></li><li class="navelem"><a class="el" href="chunk__optimizer_8c.html">chunk_optimizer.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
   </ul>
 </div>

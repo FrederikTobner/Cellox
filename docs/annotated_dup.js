@@ -6,8 +6,6 @@ var annotated_dup =
     [ "command_line_option_type_config_t", "structcommand__line__option__type__config__t.html", "structcommand__line__option__type__config__t" ],
     [ "compiler_t", "structcompiler__t.html", "structcompiler__t" ],
     [ "dynamic_value_array_t", "structdynamic__value__array__t.html", "structdynamic__value__array__t" ],
-    [ "hash_table_entry_t", "structhash__table__entry__t.html", "structhash__table__entry__t" ],
-    [ "hash_table_t", "structhash__table__t.html", "structhash__table__t" ],
     [ "lexer_t", "structlexer__t.html", "structlexer__t" ],
     [ "line_info_t", "structline__info__t.html", "structline__info__t" ],
     [ "local_t", "structlocal__t.html", "structlocal__t" ],
@@ -26,6 +24,8 @@ var annotated_dup =
     [ "parser_t", "structparser__t.html", "structparser__t" ],
     [ "token_t", "structtoken__t.html", "structtoken__t" ],
     [ "upvalue_t", "structupvalue__t.html", "structupvalue__t" ],
+    [ "value_hash_table_entry_t", "structvalue__hash__table__entry__t.html", "structvalue__hash__table__entry__t" ],
+    [ "value_hash_table_t", "structvalue__hash__table__t.html", "structvalue__hash__table__t" ],
     [ "value_t", "structvalue__t.html", "structvalue__t" ],
     [ "virtual_machine_t", "structvirtual__machine__t.html", "structvirtual__machine__t" ]
 ];
