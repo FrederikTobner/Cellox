@@ -18,8 +18,8 @@
  * @brief Header file containing the declarations of functionality regarding the optimization of cellox chunks.
  */
 
-#ifndef CELLOX_OPTIMIZER_H_
-#define CELLOX_OPTIMIZER_H_
+#ifndef CELLOX_CHUNK_OPTIMIZER_H_
+#define CELLOX_CHUNK_OPTIMIZER_H_
 
 #include "../byte-code/chunk.h"
 

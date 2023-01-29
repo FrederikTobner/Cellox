@@ -14,7 +14,7 @@
  ****************************************************************************/
 
 /**
- * @file hash_table.c
+ * @file value_hash_table.c
  * @brief File containing the hashtable implementation used internally by the interpreter
  */
 #include "value_hash_table.h"

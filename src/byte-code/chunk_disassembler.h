@@ -14,12 +14,12 @@
  ****************************************************************************/
 
 /**
- * @file debug.h
+ * @file chunk_disassembler.h
  * @brief File containing declarations of functions that are used to debug the interpreter.
  */
 
-#ifndef CELLOX_DEBUG_H_
-#define CELLOX_DEBUG_H_
+#ifndef CELLOX_CHUNK_DISASSEMBLER_H_
+#define CELLOX_CHUNK_DISASSEMBLER_H_
 
 #include "../byte-code/chunk.h"
 

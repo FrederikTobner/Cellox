@@ -14,7 +14,7 @@
  ****************************************************************************/
 
 /**
- * @file debug.c
+ * @file chunk_disassembler.c
  * @brief File containing implementation of functions that are used to debug the interpreter.
  */
 
