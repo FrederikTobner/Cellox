@@ -81,7 +81,7 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     # Sets properties for the package created using cpack
     set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
     set(CPACK_PACKAGE_VERSION "${Cellox_VERSION_MAJOR}.${Cellox_VERSION_MINOR}.${Cellox_VERSION_PATCH}")
-    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_NAME} Interpreter")
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_NAME} Compiler")
     set(CPACK_BUILD_SOURCE_DIRS "${PROJECT_BINARY_DIR}/src")
     set(CPACK_PACKAGE_VENDOR ${PROJECT_VENDOR})
     

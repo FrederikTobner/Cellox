@@ -32,8 +32,6 @@
 #define ALLOCATE_OBJECT(type, objectType) \
     (type *)object_allocate_object(sizeof(type), objectType)
 
-/// Offset basic for the fowler-noll-vo hash-fuction - 2166136261
-#define OFFSET_BASIS 0x811c9dc5u
 
 /// The object types of cellox as a string
 static char const * objectTypesStringified [] = {
@@ -60,7 +58,7 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
 
     if (!string_utils_contains_character_restricted(chars, '\\', length))
     {
-        hash = object_hash_string(chars, length);
+        hash = string_utils_hash_string(chars, length);
         interned = value_hash_table_find_string(&virtualMachine.strings, chars, length, hash);
         if (interned)
             return interned;
@@ -81,7 +79,7 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
                 return NULL;
         }
         // We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
-        hash = object_hash_string(heapChars, length);
+        hash = string_utils_hash_string(heapChars, length);
         interned = value_hash_table_find_string(&virtualMachine.strings, heapChars, length, hash);
         if (interned)
         {
@@ -237,7 +235,7 @@ void object_print(value_t value)
 
 object_string_t * object_take_string(char * chars, uint32_t length)
 {
-    uint32_t hash = object_hash_string(chars, length);
+    uint32_t hash = string_utils_hash_string(chars, length);
     object_string_t * interned = value_hash_table_find_string(&virtualMachine.strings, chars, length, hash);
     if (interned)
     {
@@ -284,17 +282,6 @@ static object_t * object_allocate_object(size_t size, object_type type)
     printf("%p allocated %zu bytes for %d\n", (void *)object, size, type);
 #endif
     return object;
-}
-
-uint32_t object_hash_string(char const * key, uint32_t length)
-{
-    uint32_t hash = OFFSET_BASIS;
-    for (uint32_t i = 0; i < length; i++)
-    {
-        hash ^= (uint8_t)key[i];
-        hash *= 0x01000193u;
-    }
-    return hash;
 }
 
 /// @brief Prints a function or a script

@@ -24,6 +24,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/// Offset basic for the fowler-noll-vo hash-fuction - 2166136261
+#define OFFSET_BASIS 0x811c9dc5u
+
 static void string_utils_behead(char *, uint32_t *);
 
 bool string_utils_contains_character_restricted(char const * text, char character, uint32_t length)
@@ -146,4 +149,15 @@ static void string_utils_behead(char * text, uint32_t * length)
         *cp = *(cp + 1);
     *(text + distanceToEnd) = '\0';
     --(*length);
+}
+
+uint32_t string_utils_hash_string(char const * key, uint32_t length)
+{
+    uint32_t hash = OFFSET_BASIS;
+    for (uint32_t i = 0; i < length; i++)
+    {
+        hash ^= (uint8_t)key[i];
+        hash *= 0x01000193u;
+    }
+    return hash;
 }

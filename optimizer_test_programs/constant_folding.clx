@@ -1,1 +1,10 @@
 printf("{}", 1 + 5 * 2);
+/* 
+ * OP_CONSTANT (pushes 1 on the stack)
+ * OP_CONSTANT (pushes 5 on the stack)
+ * OP_CONSTANT (pushes 2 on the stack)
+ * OP_MULTIPLY (2 and 5 -> pushes 10 on the stack)
+ * OP_CONSTANT (1 and 10 -> argument for printf is 11)
+ * Is transformed to
+ * OP_CONSTANT (pushes 11 on the stack -> argument for printf is 11)
+*/

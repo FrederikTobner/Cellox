@@ -231,9 +231,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ad21f1c8076194e7f5ae23452f94f6899"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__string__t.html">object_string_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ad21f1c8076194e7f5ae23452f94f6899">object_copy_string</a> (char const *chars, uint32_t length, bool removeBackSlash)</td></tr>
 <tr class="memdesc:ad21f1c8076194e7f5ae23452f94f6899"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copys the value of a string in the hashtable of the virtualMachine.  <a href="object_8h.html#ad21f1c8076194e7f5ae23452f94f6899">More...</a><br /></td></tr>
 <tr class="separator:ad21f1c8076194e7f5ae23452f94f6899"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5dd9dd78f1cd8af583448e06219c5eb2"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a5dd9dd78f1cd8af583448e06219c5eb2">object_hash_string</a> (char const *key, uint32_t length)</td></tr>
-<tr class="memdesc:a5dd9dd78f1cd8af583448e06219c5eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function  <a href="object_8h.html#a5dd9dd78f1cd8af583448e06219c5eb2">More...</a><br /></td></tr>
-<tr class="separator:a5dd9dd78f1cd8af583448e06219c5eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab34e588eb8d3978ee87b45c654c9e27"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__bound__method__t.html">object_bound_method_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aab34e588eb8d3978ee87b45c654c9e27">object_new_bound_method</a> (<a class="el" href="structvalue__t.html">value_t</a> receiver, <a class="el" href="structobject__closure__t.html">object_closure_t</a> *method)</td></tr>
 <tr class="memdesc:aab34e588eb8d3978ee87b45c654c9e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new method, that is bound to a closure.  <a href="object_8h.html#aab34e588eb8d3978ee87b45c654c9e27">More...</a><br /></td></tr>
 <tr class="separator:aab34e588eb8d3978ee87b45c654c9e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -732,44 +729,6 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The created string </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>If the string contains an unknown escape sequence NULL is instead returned to indicate the error </dd></dl>
-
-</div>
-</div>
-<a id="a5dd9dd78f1cd8af583448e06219c5eb2" name="a5dd9dd78f1cd8af583448e06219c5eb2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5dd9dd78f1cd8af583448e06219c5eb2">&#9670;&#160;</a></span>object_hash_string()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t object_hash_string </td>
-          <td>(</td>
-          <td class="paramtype">char const *&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>length</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function </p>
-<p >Fownler-Noll-Vo is a non-cryptographic hash function, that comes in three different version FNV-0, FNV-1 and FNV-1a. There are 32-, 64-, 128-, 256-, 512-, and 1024-bit variants of the function. We use the 32-bit variant to hash all the strings in cellox. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">key</td><td>The key that is hashed </td></tr>
-    <tr><td class="paramname">length</td><td>The length of the key </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The hashvalue of the key </dd></dl>
 
 </div>
 </div>

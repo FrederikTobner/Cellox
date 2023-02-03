@@ -238,14 +238,6 @@ typedef struct
 /// @note If the string contains an unknown escape sequence NULL is instead returned to indicate the error
 object_string_t * object_copy_string(char const * chars, uint32_t length, bool removeBackSlash);
 
-/// @brief <a href=https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash>FNV-1a</a> hash function
-/// @details Fownler-Noll-Vo is a non-cryptographic hash function, that comes in three different version FNV-0, FNV-1 and FNV-1a.
-/// There are 32-, 64-, 128-, 256-, 512-, and 1024-bit variants of the function. We use the 32-bit variant to hash all the strings in cellox.
-/// @param key The key that is hashed
-/// @param length The length of the key
-/// @return The hashvalue of the key
-uint32_t object_hash_string(char const * key, uint32_t length);
-
 /// @brief Creates a new method, that is bound to a closure
 /// @param receiver The closure the method is bound to
 /// @param method The method that is bound to the closure

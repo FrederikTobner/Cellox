@@ -41,7 +41,6 @@ var object_8h =
       [ "OBJECT_UPVALUE", "object_8h.html#af54461b7c3322b2256322f7b545bd623ab7f432e95d9d1a0cacff032490834220", null ]
     ] ],
     [ "object_copy_string", "object_8h.html#ad21f1c8076194e7f5ae23452f94f6899", null ],
-    [ "object_hash_string", "object_8h.html#a5dd9dd78f1cd8af583448e06219c5eb2", null ],
     [ "object_is_type", "object_8h.html#a757116825d0287d762d16ff76846575b", null ],
     [ "object_new_bound_method", "object_8h.html#aab34e588eb8d3978ee87b45c654c9e27", null ],
     [ "object_new_class", "object_8h.html#aeb9aa7230633e5ce9d70afe06607ae99", null ],

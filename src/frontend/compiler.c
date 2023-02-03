@@ -25,17 +25,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../middle-end/chunk_optimizer.h"
 #include "../common.h"
 // The debug header file only needs to be included if the bytecode is dissasembled
 #ifdef DEBUG_PRINT_CODE
-#include "../debug.h"
+#include "../bytecode/chunk_disassembler.h"
 #endif
 #include "lexer.h"
 #include "../backend/garbage_collector.h"
 #include "../backend/memory_mutator.h"
-
 #include "../backend/virtual_machine.h"
+#include "../middle-end/chunk_optimizer.h"
 
 /// @brief The cellox parser
 /// @details The parser builds an abstract syntax tree out of the tokens that were produced by the lexer
@@ -191,7 +190,7 @@ static void compiler_dynamic_array(bool);
 static uint8_t compiler_dynamic_array_argument_list();
 static void compiler_emit_byte(uint8_t);
 static void compiler_emit_bytes(uint8_t, uint8_t);
-static void compiler_emit_constant(value_t);
+static inline void compiler_emit_constant(value_t);
 static int32_t compiler_emit_jump(uint8_t);
 static void compiler_emit_loop(int32_t);
 static void compiler_emit_return();
@@ -981,7 +980,7 @@ static void compiler_emit_bytes(uint8_t byte1, uint8_t byte2)
 /// @brief Creates a constant bytecode instruction
 /// @param value The value of the constant
 /// This can either be a numerical value or a cellox object
-static void compiler_emit_constant(value_t value)
+static inline void compiler_emit_constant(value_t value)
 {
     compiler_emit_bytes(OP_CONSTANT, compiler_make_constant(value));
 }

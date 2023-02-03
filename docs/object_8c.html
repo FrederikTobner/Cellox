@@ -114,9 +114,6 @@ Macros</h2></td></tr>
 <tr class="memitem:af7aa24a51a4cea0dbe3bc0180beb7b8d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#af7aa24a51a4cea0dbe3bc0180beb7b8d">ALLOCATE_OBJECT</a>(type,  objectType)&#160;&#160;&#160;    (type *)<a class="el" href="object_8c.html#ad00f6f9e4548cc5f2e0f5c5f5617ac41">object_allocate_object</a>(sizeof(type), objectType)</td></tr>
 <tr class="memdesc:af7aa24a51a4cea0dbe3bc0180beb7b8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marko for allocating a new object.  <a href="object_8c.html#af7aa24a51a4cea0dbe3bc0180beb7b8d">More...</a><br /></td></tr>
 <tr class="separator:af7aa24a51a4cea0dbe3bc0180beb7b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5742a681f358cbb9e0ffc838ab306a3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#af5742a681f358cbb9e0ffc838ab306a3">OFFSET_BASIS</a>&#160;&#160;&#160;0x811c9dc5u</td></tr>
-<tr class="memdesc:af5742a681f358cbb9e0ffc838ab306a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset basic for the fowler-noll-vo hash-fuction - 2166136261.  <a href="object_8c.html#af5742a681f358cbb9e0ffc838ab306a3">More...</a><br /></td></tr>
-<tr class="separator:af5742a681f358cbb9e0ffc838ab306a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -162,9 +159,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a520a8e4a061b39c3bf328fa5ce1513f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__string__t.html">object_string_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a520a8e4a061b39c3bf328fa5ce1513f7">object_take_string</a> (char *chars, uint32_t length)</td></tr>
 <tr class="memdesc:a520a8e4a061b39c3bf328fa5ce1513f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a string or returns a string from the hashtable of the virtualMachine if it already exists.  <a href="object_8c.html#a520a8e4a061b39c3bf328fa5ce1513f7">More...</a><br /></td></tr>
 <tr class="separator:a520a8e4a061b39c3bf328fa5ce1513f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5dd9dd78f1cd8af583448e06219c5eb2"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a5dd9dd78f1cd8af583448e06219c5eb2">object_hash_string</a> (char const *key, uint32_t length)</td></tr>
-<tr class="memdesc:a5dd9dd78f1cd8af583448e06219c5eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function  <a href="object_8c.html#a5dd9dd78f1cd8af583448e06219c5eb2">More...</a><br /></td></tr>
-<tr class="separator:a5dd9dd78f1cd8af583448e06219c5eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8c.html#a0bd8a458ac170ad1c907ec1ab864d3fd">object_stringify_type</a> (<a class="el" href="structobject__t.html">object_t</a> *object)</td></tr>
 <tr class="memdesc:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the textual representation of a cellox type.  <a href="object_8c.html#a0bd8a458ac170ad1c907ec1ab864d3fd">More...</a><br /></td></tr>
 <tr class="separator:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,22 +199,6 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Marko for allocating a new object. </p>
-
-</div>
-</div>
-<a id="af5742a681f358cbb9e0ffc838ab306a3" name="af5742a681f358cbb9e0ffc838ab306a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5742a681f358cbb9e0ffc838ab306a3">&#9670;&#160;</a></span>OFFSET_BASIS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define OFFSET_BASIS&#160;&#160;&#160;0x811c9dc5u</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Offset basic for the fowler-noll-vo hash-fuction - 2166136261. </p>
 
 </div>
 </div>
@@ -367,44 +345,6 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The created string </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>If the string contains an unknown escape sequence NULL is instead returned to indicate the error </dd></dl>
-
-</div>
-</div>
-<a id="a5dd9dd78f1cd8af583448e06219c5eb2" name="a5dd9dd78f1cd8af583448e06219c5eb2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5dd9dd78f1cd8af583448e06219c5eb2">&#9670;&#160;</a></span>object_hash_string()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t object_hash_string </td>
-          <td>(</td>
-          <td class="paramtype">char const *&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>length</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function </p>
-<p >Fownler-Noll-Vo is a non-cryptographic hash function, that comes in three different version FNV-0, FNV-1 and FNV-1a. There are 32-, 64-, 128-, 256-, 512-, and 1024-bit variants of the function. We use the 32-bit variant to hash all the strings in cellox. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">key</td><td>The key that is hashed </td></tr>
-    <tr><td class="paramname">length</td><td>The length of the key </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The hashvalue of the key </dd></dl>
 
 </div>
 </div>

@@ -25,7 +25,7 @@
 
 #include "../frontend/compiler.h"
 #ifdef DEBUG_LOG_GC
-#include "debug.h"
+#include "chunk_disassembler.h"
 #endif
 #include "memory_mutator.h"
 #include "../language-models/object.h"
