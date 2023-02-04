@@ -1,4 +1,4 @@
-# Creates zipped executable of the Interpreter for x64
+# Creates zipped executable of the Compiler for x64
 # Configuring CMake
 echo "Configuring CMake for x64 ..."
 cmake -B ../build/linux_x64 -DCMAKE_BUILD_TYPE=Release -G Ninja  -DCMAKE_C_COMPILER=/usr/local/bin/clang ..

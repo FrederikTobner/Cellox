@@ -11,7 +11,7 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
@@ -36,7 +36,7 @@ jobs:
        echo "Configuring CMake"
        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
        echo "Building Libary"
-       cmake --build ${{github.workspace}}/build --target Cellox
+       cmake --build ${{github.workspace}}/build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2

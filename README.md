@@ -5,7 +5,7 @@
 [![Test](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
 [![Analyze](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml)
 
-Interpreter based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) for the programming language cellox.
+Compiler based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) for the programming language cellox.
 
 Cellox is a programming language based on [lox](https://craftinginterpreters.com/the-lox-language.html) from Robert Nystrom.
 
@@ -31,7 +31,7 @@ Cellox is a dynamically typed, object oriented, high-level scripting language.
 
 It is available under windows, linux and macOS, but has only been thoroughly tested under windows.
 
-Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the interpreter.
+Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the compiler.
 
 ## Values
 
@@ -117,7 +117,7 @@ The program is converted into bytecode and executed by a stack based [virtual ma
 
 The bytecode can also be stored in a [seperate file](https://github.com/FrederikTobner/Cellox/wiki/Chunk-Files) in order to be executed at a later point in time.
 
-More information about the interpreter can be found at the [technical documentation](https://frederiktobner.github.io/Cellox/).
+More information about the compiler can be found at the [technical documentation](https://frederiktobner.github.io/Cellox/).
 
 ## License
 

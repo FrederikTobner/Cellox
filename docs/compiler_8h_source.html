@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: compiler.h Source File</title>
+<title>Cellox: frontend/compiler.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -112,23 +112,23 @@ $(document).ready(function(){initNavTree('compiler_8h_source.html',''); initResi
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#ifndef CELLOX_COMPILER_H_</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define CELLOX_COMPILER_H_</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;<a class="code" href="object_8h.html">object.h</a>&quot;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><a class="code hl_struct" href="structobject__function__t.html">object_function_t</a> * <a class="code hl_function" href="compiler_8h.html#a7faf66ff17e49b9aed300608134c3314">compiler_compile</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * code);</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keywordtype">void</span> <a class="code hl_function" href="compiler_8h.html#a215f151f826af03aaa3690d865620a77">compiler_mark_roots</a>();</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="acompiler_8h_html_a215f151f826af03aaa3690d865620a77"><div class="ttname"><a href="compiler_8h.html#a215f151f826af03aaa3690d865620a77">compiler_mark_roots</a></div><div class="ttdeci">void compiler_mark_roots()</div><div class="ttdoc">Marks the compiler roots.</div><div class="ttdef"><b>Definition:</b> compiler.c:580</div></div>
-<div class="ttc" id="acompiler_8h_html_a7faf66ff17e49b9aed300608134c3314"><div class="ttname"><a href="compiler_8h.html#a7faf66ff17e49b9aed300608134c3314">compiler_compile</a></div><div class="ttdeci">object_function_t * compiler_compile(char const *code)</div><div class="ttdoc">Compiles a cellox program.</div><div class="ttdef"><b>Definition:</b> compiler.c:565</div></div>
-<div class="ttc" id="aobject_8h_html"><div class="ttname"><a href="object_8h.html">object.h</a></div><div class="ttdoc">Header file containing the declarations of functionality regarding cellox objects.</div></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;../frontend/lexer.h&quot;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;../language-models/object.h&quot;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><a class="code hl_struct" href="structobject__function__t.html">object_function_t</a> * <a class="code hl_function" href="compiler_8h.html#a7faf66ff17e49b9aed300608134c3314">compiler_compile</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * code);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keywordtype">void</span> <a class="code hl_function" href="compiler_8h.html#a215f151f826af03aaa3690d865620a77">compiler_mark_roots</a>();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="acompiler_8h_html_a215f151f826af03aaa3690d865620a77"><div class="ttname"><a href="compiler_8h.html#a215f151f826af03aaa3690d865620a77">compiler_mark_roots</a></div><div class="ttdeci">void compiler_mark_roots()</div><div class="ttdoc">Marks the compiler roots.</div><div class="ttdef"><b>Definition:</b> compiler.c:579</div></div>
+<div class="ttc" id="acompiler_8h_html_a7faf66ff17e49b9aed300608134c3314"><div class="ttname"><a href="compiler_8h.html#a7faf66ff17e49b9aed300608134c3314">compiler_compile</a></div><div class="ttdeci">object_function_t * compiler_compile(char const *code)</div><div class="ttdoc">Compiles a cellox program.</div><div class="ttdef"><b>Definition:</b> compiler.c:564</div></div>
 <div class="ttc" id="astructobject__function__t_html"><div class="ttname"><a href="structobject__function__t.html">object_function_t</a></div><div class="ttdoc">A cellox function.</div><div class="ttdef"><b>Definition:</b> object.h:123</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="compiler_8h.html">compiler.h</a></li>
+    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="compiler_8h.html">compiler.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
   </ul>
 </div>

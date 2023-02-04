@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: memory_mutator.h Source File</title>
+<title>Cellox: backend/memory_mutator.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -112,8 +112,8 @@ $(document).ready(function(){initNavTree('memory__mutator_8h_source.html',''); i
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#ifndef CELLOX_MEMORY_MUTATOR_H_</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define CELLOX_MEMORY_MUTATOR_H_</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">common.h</a>&quot;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;<a class="code" href="object_8h.html">object.h</a>&quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;../common.h&quot;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;../language-models/object.h&quot;</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="memory__mutator_8h.html#abe104ef64af521de16baf648eeb86e8d">   28</a></span><span class="preprocessor">#define ARRAY_GROWTH_FACTOR (1.5)</span></div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
@@ -144,18 +144,16 @@ $(document).ready(function(){initNavTree('memory__mutator_8h_source.html',''); i
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keywordtype">void</span> <a class="code hl_function" href="memory__mutator_8h.html#a963d8bf133e393c868ce67aa35473121">memory_mutator_free_object</a>(<a class="code hl_struct" href="structobject__t.html">object_t</a> * <span class="keywordtype">object</span>);</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#endif  </span></div>
-<div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div><div class="ttdoc">Common header file of the interpreter.</div></div>
 <div class="ttc" id="amemory__mutator_8h_html_a8b6730e35281a17330bfe5002889bd34"><div class="ttname"><a href="memory__mutator_8h.html#a8b6730e35281a17330bfe5002889bd34">memory_mutator_free_objects</a></div><div class="ttdeci">void memory_mutator_free_objects()</div><div class="ttdoc">Dealocates the memory used by the objects of the virtualMachine.</div><div class="ttdef"><b>Definition:</b> memory_mutator.c:29</div></div>
 <div class="ttc" id="amemory__mutator_8h_html_a963d8bf133e393c868ce67aa35473121"><div class="ttname"><a href="memory__mutator_8h.html#a963d8bf133e393c868ce67aa35473121">memory_mutator_free_object</a></div><div class="ttdeci">void memory_mutator_free_object(object_t *object)</div><div class="ttdoc">Dealocates the memory used by a single object.</div><div class="ttdef"><b>Definition:</b> memory_mutator.c:71</div></div>
 <div class="ttc" id="amemory__mutator_8h_html_aa79e3541e620952232834671244d73de"><div class="ttname"><a href="memory__mutator_8h.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a></div><div class="ttdeci">void * memory_mutator_reallocate(void *pointer, size_t oldSize, size_t newSize)</div><div class="ttdoc">Reallocates a block in memory.</div><div class="ttdef"><b>Definition:</b> memory_mutator.c:43</div></div>
-<div class="ttc" id="aobject_8h_html"><div class="ttname"><a href="object_8h.html">object.h</a></div><div class="ttdoc">Header file containing the declarations of functionality regarding cellox objects.</div></div>
 <div class="ttc" id="astructobject__t_html"><div class="ttname"><a href="structobject__t.html">object_t</a></div><div class="ttdoc">A cellox object.</div><div class="ttdef"><b>Definition:</b> object.h:112</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="memory__mutator_8h.html">memory_mutator.h</a></li>
+    <li class="navelem"><a class="el" href="dir_8c739bbef76d64b22d6b0911c526dd76.html">backend</a></li><li class="navelem"><a class="el" href="memory__mutator_8h.html">memory_mutator.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
   </ul>
 </div>

@@ -47,10 +47,12 @@ var chunk_8h =
       [ "OP_TRUE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea804f1324daff5d2d04639a57ce6b8ec3", null ]
     ] ],
     [ "chunk_add_constant", "chunk_8h.html#a7f34ca771a7b1ad9190c5781e8f0ed35", null ],
+    [ "chunk_decrement_constant_indezes", "chunk_8h.html#ab74755cf2cd3d38a0311fd562bc8fa41", null ],
     [ "chunk_determine_line_by_index", "chunk_8h.html#a2982aedb4f20dadc192194410cb3bfa2", null ],
     [ "chunk_free", "chunk_8h.html#a601b0fd735d2013c653dff3804c3cf59", null ],
     [ "chunk_init", "chunk_8h.html#ad328868c26cd5c98ce24b665d03ea537", null ],
     [ "chunk_remove_bytecode", "chunk_8h.html#a298c6a4aea45bd621a3a765281132517", null ],
     [ "chunk_remove_constant", "chunk_8h.html#a572715597d3c067b3ca53fad51e060cc", null ],
+    [ "chunk_replace_constant_references", "chunk_8h.html#aa7742e013bbe23c63997c0ba51381469", null ],
     [ "chunk_write", "chunk_8h.html#ac03d441a37f451f581cccf8395eed8c4", null ]
 ];

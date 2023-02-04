@@ -1,4 +1,4 @@
-:: Creates installer and zipped executable of the Interpreter for x86 and x64
+:: Creates installer and zipped executable of the Compiler for x86 and x64
 @ECHO OFF
 :: Configuring CMake and building for x86 and x64 using gcc
 ECHO Configuring CMake for x64 ...

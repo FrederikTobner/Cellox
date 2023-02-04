@@ -26,12 +26,12 @@
 #include <stdlib.h>
 
 #include "cellox_config.h"
-#include "chunk_file.h"
 #include "common.h"
-#include "compiler.h"
-#include "chunk.h"
-#include "debug.h"
-#include "virtual_machine.h"
+#include "backend/virtual_machine.h"
+#include "byte-code/chunk.h"
+#include "byte-code/chunk_disassembler.h"
+#include "byte-code/chunk_file.h"
+#include "frontend/compiler.h"
 
 /// Maximum length of a line is 1024 characters
 #define MAX_LINE_LENGTH (1024u)

@@ -1,7 +1,7 @@
 /** 
 * \mainpage Main Page
 * \section intro_sec Introduction
-* Welcome to the technical documentation of the cellox interpreter. <br>
+* Welcome to the technical documentation of the cellox compiler. <br>
 * Cellox is a dynamically typed, object oriented, high-level scripting language. <br>
 * It is based on the book <a href="https://craftinginterpreters.com/contents.html">crafting iterpreters</a> by Robert Nystrom.
 * \section keyconcepts_sec Key concepts

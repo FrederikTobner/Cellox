@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: chunk.h File Reference</title>
+<title>Cellox: byte-code/chunk.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -101,9 +101,9 @@ $(document).ready(function(){initNavTree('chunk_8h.html',''); initResizable(); }
 
 <p>Header file containing the declarations of functionality regarding cellox chunks.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="dynamic__value__array_8h_source.html">dynamic_value_array.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="value_8h_source.html">value.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">../common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="dynamic__value__array_8h_source.html">../language-models/data-structures/dynamic_value_array.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="value_8h_source.html">../language-models/value.h</a>&quot;</code><br />
 </div>
 <p><a href="chunk_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -190,12 +190,16 @@ Functions</h2></td></tr>
 <tr class="memitem:ad328868c26cd5c98ce24b665d03ea537"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#ad328868c26cd5c98ce24b665d03ea537">chunk_init</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
 <tr class="memdesc:ad328868c26cd5c98ce24b665d03ea537"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a chunk.  <a href="chunk_8h.html#ad328868c26cd5c98ce24b665d03ea537">More...</a><br /></td></tr>
 <tr class="separator:ad328868c26cd5c98ce24b665d03ea537"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a572715597d3c067b3ca53fad51e060cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#a572715597d3c067b3ca53fad51e060cc">chunk_remove_constant</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t constantIndex)</td></tr>
-<tr class="memdesc:a572715597d3c067b3ca53fad51e060cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a constant from a chunk.  <a href="chunk_8h.html#a572715597d3c067b3ca53fad51e060cc">More...</a><br /></td></tr>
-<tr class="separator:a572715597d3c067b3ca53fad51e060cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a298c6a4aea45bd621a3a765281132517"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#a298c6a4aea45bd621a3a765281132517">chunk_remove_bytecode</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t startIndex, uint32_t amount)</td></tr>
 <tr class="memdesc:a298c6a4aea45bd621a3a765281132517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a sequence of bytecode instructions from the chunk.  <a href="chunk_8h.html#a298c6a4aea45bd621a3a765281132517">More...</a><br /></td></tr>
 <tr class="separator:a298c6a4aea45bd621a3a765281132517"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a572715597d3c067b3ca53fad51e060cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#a572715597d3c067b3ca53fad51e060cc">chunk_remove_constant</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t constantIndex)</td></tr>
+<tr class="memdesc:a572715597d3c067b3ca53fad51e060cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a constant from a chunk.  <a href="chunk_8h.html#a572715597d3c067b3ca53fad51e060cc">More...</a><br /></td></tr>
+<tr class="separator:a572715597d3c067b3ca53fad51e060cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab74755cf2cd3d38a0311fd562bc8fa41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#ab74755cf2cd3d38a0311fd562bc8fa41">chunk_decrement_constant_indezes</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t startIndex)</td></tr>
+<tr class="separator:ab74755cf2cd3d38a0311fd562bc8fa41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7742e013bbe23c63997c0ba51381469"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#aa7742e013bbe23c63997c0ba51381469">chunk_replace_constant_references</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t oldIndex, uint32_t replacementIndex)</td></tr>
+<tr class="separator:aa7742e013bbe23c63997c0ba51381469"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac03d441a37f451f581cccf8395eed8c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#ac03d441a37f451f581cccf8395eed8c4">chunk_write</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint8_t byte, int32_t line)</td></tr>
 <tr class="memdesc:ac03d441a37f451f581cccf8395eed8c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a single bytecode instruction to a chunk.  <a href="chunk_8h.html#ac03d441a37f451f581cccf8395eed8c4">More...</a><br /></td></tr>
 <tr class="separator:ac03d441a37f451f581cccf8395eed8c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -341,6 +345,34 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The index of the added constant </dd></dl>
+
+</div>
+</div>
+<a id="ab74755cf2cd3d38a0311fd562bc8fa41" name="ab74755cf2cd3d38a0311fd562bc8fa41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab74755cf2cd3d38a0311fd562bc8fa41">&#9670;&#160;</a></span>chunk_decrement_constant_indezes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chunk_decrement_constant_indezes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td>
+          <td class="paramname"><em>chunk</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>startIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -516,6 +548,40 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aa7742e013bbe23c63997c0ba51381469" name="aa7742e013bbe23c63997c0ba51381469"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7742e013bbe23c63997c0ba51381469">&#9670;&#160;</a></span>chunk_replace_constant_references()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chunk_replace_constant_references </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td>
+          <td class="paramname"><em>chunk</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>oldIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>replacementIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ac03d441a37f451f581cccf8395eed8c4" name="ac03d441a37f451f581cccf8395eed8c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac03d441a37f451f581cccf8395eed8c4">&#9670;&#160;</a></span>chunk_write()</h2>
 
@@ -566,7 +632,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="chunk_8h.html">chunk.h</a></li>
+    <li class="navelem"><a class="el" href="dir_e198b91448e92c4ea6fc1d0284ac2f16.html">byte-code</a></li><li class="navelem"><a class="el" href="chunk_8h.html">chunk.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
   </ul>
 </div>

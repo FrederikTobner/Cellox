@@ -1,11 +1,9 @@
 var object_8c =
 [
     [ "ALLOCATE_OBJECT", "object_8c.html#af7aa24a51a4cea0dbe3bc0180beb7b8d", null ],
-    [ "OFFSET_BASIS", "object_8c.html#af5742a681f358cbb9e0ffc838ab306a3", null ],
     [ "object_allocate_object", "object_8c.html#ad00f6f9e4548cc5f2e0f5c5f5617ac41", null ],
     [ "object_allocate_string", "object_8c.html#a706b5a95bdf79a667bdc325ef724852c", null ],
     [ "object_copy_string", "object_8c.html#ad21f1c8076194e7f5ae23452f94f6899", null ],
-    [ "object_hash_string", "object_8c.html#a5dd9dd78f1cd8af583448e06219c5eb2", null ],
     [ "object_new_bound_method", "object_8c.html#aab34e588eb8d3978ee87b45c654c9e27", null ],
     [ "object_new_class", "object_8c.html#aeb9aa7230633e5ce9d70afe06607ae99", null ],
     [ "object_new_closure", "object_8c.html#a6c8b33521dcd7c73964625122e057be2", null ],
