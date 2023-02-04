@@ -1,6 +1,6 @@
 echo "Configuring CMake ..."
 cmake -B ../build -DCMAKE_BUILD_TYPE=Release -G Ninja -DCMAKE_C_COMPILER=/usr/local/bin/clang ..
-echo "Building Interpreter ..."
+echo "Building Compiler ..."
 cmake --build ../build --config Release --target Cellox
-echo "Installing Interpreter ..."
+echo "Installing Compiler ..."
 sudo cmake --install ../build/src --config Release
