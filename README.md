@@ -1,6 +1,6 @@
 # Cellox
 
-[![Build Interpreter](https://github.com/FrederikTobner/Cellox/actions/workflows/build_interpreter.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build_interpreter.yml)
+[![Build Interpreter](https://github.com/FrederikTobner/Cellox/actions/workflows/build_compiler.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build_compiler.yml)
 [![Build Tools](https://github.com/FrederikTobner/Cellox/actions/workflows/build_tools.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build_tools.yml)
 [![Test](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
 [![Analyze](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml)
@@ -29,9 +29,7 @@ Cellox is a programming language based on [lox](https://craftinginterpreters.com
 
 Cellox is a dynamically typed, object oriented, high-level scripting language.
 
-It is available under windows, linux and macOS, but has only been thoroughly tested under windows.
-
-Cellox is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the compiler.
+It is available under windows, linux and macOS but is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the compiler.
 
 ## Values
 

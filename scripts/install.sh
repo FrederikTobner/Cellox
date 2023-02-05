@@ -1,6 +1,4 @@
-echo "Configuring CMake ..."
-cmake -B ../build -DCMAKE_BUILD_TYPE=Release -G Ninja -DCMAKE_C_COMPILER=/usr/local/bin/clang ..
-echo "Building Compiler ..."
-cmake --build ../build --config Release --target Cellox
+# Installs Cellox on your system
+/bin/bash build_compiler.sh
 echo "Installing Compiler ..."
 sudo cmake --install ../build/src --config Release

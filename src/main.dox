@@ -23,17 +23,31 @@
 * * unistd.h
 * \section buildoptions_sec Build options
 * There are a couple of options which can be enable with <a href="https://cmake.org/">CMake</a>:
-* | Option                         | Description                                                                 | Default |
-* |--------------------------------|-----------------------------------------------------------------------------| --------|
-* | NAN_BOXING_ACTIVATED           | Determines whether "not a number boxing / tagging" is used                  | ON      |
-* | DEBUG_LOG_GARBAGE_COLLECTOIN   | Determines whether the garbage collection be logged                         | OFF     |
-* | DEBUG_PRINT_BYTECODE           | Determines whether the chunks are dissassembled and the bytecode is printed | OFF     |
-* | DEBUG_STRESS_GARBAGE_COLLECTOR | Determines whether the garbage collector shall be stressed                  | OFF     |
-* | DEBUG_TRACE_EXECUTION          | Determines whether the execution shall be traced                            | OFF     |
-* The options prefixed with 'DEBUG' do only affect the build if a 'debug' is the selected build type.
+* | Option                             | Description                                                                 | Default |
+* |------------------------------------|-----------------------------------------------------------------------------| --------|
+* | CLX_BUILD_TESTS                    | Determines whether the tests are built                                      | OFF     |
+* | CLX_BUILD_TOOLS                    | Determines whether the development tools are built                          | OFF     |
+* | CLX_DEBUG_LOG_GARBAGE_COLLECTOIN   | Determines whether the garbage collection be logged                         | OFF     |
+* | CLX_DEBUG_PRINT_BYTECODE           | Determines whether the chunks are dissassembled and the bytecode is printed | OFF     |
+* | CLX_DEBUG_STRESS_GARBAGE_COLLECTOR | Determines whether the garbage collector shall be stressed                  | OFF     |
+* | CLX_DEBUG_TRACE_EXECUTION          | Determines whether the execution shall be traced                            | OFF     |
+* | CLX_NAN_BOXING_ACTIVATED           | Determines whether "not a number boxing / tagging" is used                  | ON      |
+* The options that contain 'DEBUG' do only affect the build if a 'debug' is the selected build type.
 * \section optimization_sec Optimization
 * The Compiler currently features the following compiler optimization techniques:
 * * Constant folding
+* \section devscripts_sec Development scripts
+* The Project provides a set of scripts to ease the development of the compiler.
+* The following generators, compilers are used:
+* Under windows:
+* * [MSVC](https://learn.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170) or [GCC](https://gcc.gnu.org/) with [MinGW-w64](https://www.mingw-w64.org/)
+* * [Ninja](https://ninja-build.org/) - a small build system with a focus on speed
+*
+* Under unix-based systems:
+* * [Clang](https://clang.llvm.org/) or [GCC](https://gcc.gnu.org/)
+* * [Ninja](https://ninja-build.org/) - a small build system with a focus on speed
+*
+* The scripts can be copied into another folder at the root level that is ignored by git, and altered to fit the developers environment.
 * \section testing_sec Testing
 * For building the language tests a C++-Compiler, that supports the C++14 standard and <a href="https://cmake.org/">CMake</a> (Version >= 3.24) is required. <br>
 * The test are written in C++ using the <a href=https://github.com/google/googletest>google-test framework</a> (version 1.12.1). <br>

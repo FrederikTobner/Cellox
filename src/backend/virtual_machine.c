@@ -29,10 +29,12 @@
 #include <time.h>
 
 #include "../common.h"
-#include "../frontend/compiler.h"
-#include "../byte-code/chunk_disassembler.h"
 #include "memory_mutator.h"
 #include "native_functions.h"
+#include "../frontend/compiler.h"
+#if defined(DEBUG_TRACE_EXECUTION)
+    #include "../byte-code/chunk_disassembler.h"
+#endif
 #include "../language-models/value.h"
 
 /// Global VirtualMachine variable

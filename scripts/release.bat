@@ -1,5 +1,5 @@
 @ECHO OFF
 :: Generates documentation
-call docs.bat
+CALL docs.bat
 :: Zips packages for windows
-call zip.bat
+CALL package.bat
