@@ -54,7 +54,7 @@ if(WIN32)
     endif() # windows.h not available
 endif() # Windows system
 
-if(CELLOX_NAN_BOXING_ACTIVATED)
+if(CLX_NAN_BOXING_ACTIVATED)
     add_compile_definitions(NAN_BOXING)
 endif()
 
@@ -82,6 +82,8 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "Clang")
     add_compile_definitions(COMPILER_CLANG)
 elseif(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
     add_compile_definitions(COMPILER_MSVC)
+elseif (CMAKE_C_COMPILER_ID STREQUAL "Intel")
+    add_compile_definitions(COMPILER_INTEL)
 else()
     add_compile_definitions(COMPILER_UNKNOWN)
 endif()
@@ -99,6 +101,6 @@ endif()
 # Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
 if(MSVC AND CLX_BUILD_TESTS)
     enable_testing()
-    # Builds tests for the interpreter (add exclude from all if the project is packaged)
+    # Builds tests for the compiler
     add_subdirectory(test)
 endif()
