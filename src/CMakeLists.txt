@@ -101,16 +101,16 @@ if(UNIX)
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
-    if(CELLOX_DEBUG_PRINT_BYTECODE)
+    if(CLX_DEBUG_PRINT_BYTECODE)
         add_compile_definitions(DEBUG_PRINT_CODE)
     endif()
-    if(CELLOX_DEBUG_TRACE_EXECUTION)
+    if(CLX_DEBUG_TRACE_EXECUTION)
         add_compile_definitions(DEBUG_TRACE_EXECUTION)
     endif()
-    if(CELLOX_DEBUG_STRESS_GARBAGE_COLLECTOR)
+    if(CLX_DEBUG_STRESS_GARBAGE_COLLECTOR)
         add_compile_definitions(DEBUG_STRESS_GC)
     endif()
-    if(CELLOX_DEBUG_LOG_GARBAGE_COLLECTOIN)
+    if(CLX_DEBUG_LOG_GARBAGE_COLLECTOIN)
         add_compile_definitions(DEBUG_LOG_GC)
     endif()
     add_compile_definitions(BUILD_DEBUG)
@@ -119,8 +119,7 @@ endif()
 # for including the cellox_config.h file
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/src)
 
-if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
-    
+if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")    
 
     # Sets properties for the package created using cpack
     set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
