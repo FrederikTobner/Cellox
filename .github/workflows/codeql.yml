@@ -5,8 +5,9 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-  schedule:
-    - cron: '17 18 * * 0'
+
+env:
+  BUILD_TYPE: Release
 
 jobs:
   analyze:
@@ -29,14 +30,14 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        languages: ${{ matrix.language }}
+        languages: ${{matrix.language}}
 
     - name: Configuring CMake 
       run: |
-       echo "Configuring CMake"
+       echo "Configuring CMake ..."
        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-       echo "Building Libary"
-       cmake --build ${{github.workspace}}/build
+       echo "Building Compiler ..."
+       cmake --build ${{github.workspace}}/build --target all 
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2

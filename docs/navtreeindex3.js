@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"structvirtual__machine__t.html#a2308387c6ea247ff65b73a23469b6ad9":[1,0,27,3],
 "structvirtual__machine__t.html#a24bffa4be3efba394b2090a77170e3d1":[1,0,27,11],
 "structvirtual__machine__t.html#a36add9dbc3b4482c74504b7aa2a82ee4":[1,0,27,6],
 "structvirtual__machine__t.html#a3a01286420f23d09307571cf2cdb499e":[1,0,27,12],

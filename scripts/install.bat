@@ -1,9 +1,6 @@
 :: Installs Cellox on your system but does not add it to the path
 :: Administrator permission is needed to install Cellox
 @ECHO OFF
-ECHO Configuring CMake ...
-cmake -B ../build -DCMAKE_BUILD_TYPE=Release ..
-ECHO Building Compiler ...
-cmake --build ../build --config Release --target Cellox
+CALL build_compiler.bat Release
 ECHO Installing Compiler ...
 cmake --install ../build/src --config Release

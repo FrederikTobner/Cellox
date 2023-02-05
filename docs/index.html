@@ -127,22 +127,37 @@ Build options</h1>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Option   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Default    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">NAN_BOXING_ACTIVATED   </td><td class="markdownTableBodyNone">Determines whether "not a number boxing / tagging" is used   </td><td class="markdownTableBodyNone">ON    </td></tr>
+<td class="markdownTableBodyNone">CLX_BUILD_TESTS   </td><td class="markdownTableBodyNone">Determines whether the tests are built   </td><td class="markdownTableBodyNone">OFF    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">DEBUG_LOG_GARBAGE_COLLECTOIN   </td><td class="markdownTableBodyNone">Determines whether the garbage collection be logged   </td><td class="markdownTableBodyNone">OFF    </td></tr>
+<td class="markdownTableBodyNone">CLX_BUILD_TOOLS   </td><td class="markdownTableBodyNone">Determines whether the development tools are built   </td><td class="markdownTableBodyNone">OFF    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">DEBUG_PRINT_BYTECODE   </td><td class="markdownTableBodyNone">Determines whether the chunks are dissassembled and the bytecode is printed   </td><td class="markdownTableBodyNone">OFF    </td></tr>
+<td class="markdownTableBodyNone">CLX_DEBUG_LOG_GARBAGE_COLLECTOIN   </td><td class="markdownTableBodyNone">Determines whether the garbage collection be logged   </td><td class="markdownTableBodyNone">OFF    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">DEBUG_STRESS_GARBAGE_COLLECTOR   </td><td class="markdownTableBodyNone">Determines whether the garbage collector shall be stressed   </td><td class="markdownTableBodyNone">OFF    </td></tr>
+<td class="markdownTableBodyNone">CLX_DEBUG_PRINT_BYTECODE   </td><td class="markdownTableBodyNone">Determines whether the chunks are dissassembled and the bytecode is printed   </td><td class="markdownTableBodyNone">OFF    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">DEBUG_TRACE_EXECUTION   </td><td class="markdownTableBodyNone">Determines whether the execution shall be traced   </td><td class="markdownTableBodyNone">OFF   </td></tr>
+<td class="markdownTableBodyNone">CLX_DEBUG_STRESS_GARBAGE_COLLECTOR   </td><td class="markdownTableBodyNone">Determines whether the garbage collector shall be stressed   </td><td class="markdownTableBodyNone">OFF    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">CLX_DEBUG_TRACE_EXECUTION   </td><td class="markdownTableBodyNone">Determines whether the execution shall be traced   </td><td class="markdownTableBodyNone">OFF    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">CLX_NAN_BOXING_ACTIVATED   </td><td class="markdownTableBodyNone">Determines whether "not a number boxing / tagging" is used   </td><td class="markdownTableBodyNone">ON   </td></tr>
 </table>
-<p>The options prefixed with 'DEBUG' do only affect the build if a 'debug' is the selected build type. </p>
+<p>The options that contain 'DEBUG' do only affect the build if a 'debug' is the selected build type. </p>
 <h1><a class="anchor" id="optimization_sec"></a>
 Optimization</h1>
 <p >The Compiler currently features the following compiler optimization techniques:</p><ul>
 <li>Constant folding </li>
 </ul>
+<h1><a class="anchor" id="devscripts_sec"></a>
+Development scripts</h1>
+<p >The Project provides a set of scripts to ease the development of the compiler. The following generators, compilers are used: Under windows:</p><ul>
+<li><a href="https://learn.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170">MSVC</a> or <a href="https://gcc.gnu.org/">GCC</a> with <a href="https://www.mingw-w64.org/">MinGW-w64</a></li>
+<li><a href="https://ninja-build.org/">Ninja</a> - a small build system with a focus on speed</li>
+</ul>
+<p >Under unix-based systems:</p><ul>
+<li><a href="https://clang.llvm.org/">Clang</a> or <a href="https://gcc.gnu.org/">GCC</a></li>
+<li><a href="https://ninja-build.org/">Ninja</a> - a small build system with a focus on speed</li>
+</ul>
+<p >The scripts can be copied into another folder at the root level that is ignored by git, and altered to fit the developers environment. </p>
 <h1><a class="anchor" id="testing_sec"></a>
 Testing</h1>
 <p >For building the language tests a C++-Compiler, that supports the C++14 standard and <a href="https://cmake.org/">CMake</a> (Version &gt;= 3.24) is required. <br  />

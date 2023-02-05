@@ -19,3 +19,4 @@ IF NOT EXIST ..\docs\html (
 copy ..\docs\html ..\docs
 ECHO Removing html folder ...
 rmdir /s ..\docs\html\
+cd ..\scripts

@@ -12,16 +12,18 @@ set(PROJECT_HELP_PAGE "https://github.com/FrederikTobner/Cellox/wiki")
 set(PROJECT_VENDOR "Frederik Tobner")
 
 # Optional NAN-Boxing (Not a number boxing / Not a number tagging)
-option(NAN_BOXING_ACTIVATED "Determines whether \"not a number boxing / tagging\" is used" ON)
+option(CLX_NAN_BOXING_ACTIVATED "Determines whether \"not a number boxing / tagging\" is used" ON)
 
 # Debug options (only have an effect on debug builds)
-option(DEBUG_PRINT_BYTECODE "Determines whether the chunks are dissassembled and the bytecode is printed" OFF)
-option(DEBUG_TRACE_EXECUTION "Determines whether the execution shall be traced" OFF)
-option(DEBUG_STRESS_GARBAGE_COLLECTOR "Determines whether the garbage collector shall be stressed" OFF)
-option(DEBUG_LOG_GARBAGE_COLLECTION "Determines whether the garbage collection be logged" OFF)
+option(CLX_DEBUG_PRINT_BYTECODE "Determines whether the chunks are dissassembled and the bytecode is printed" OFF)
+option(CLX_DEBUG_TRACE_EXECUTION "Determines whether the execution shall be traced" OFF)
+option(CLX_DEBUG_STRESS_GARBAGE_COLLECTOR "Determines whether the garbage collector shall be stressed" OFF)
+option(CLX_DEBUG_LOG_GARBAGE_COLLECTION "Determines whether the garbage collection be logged" OFF)
 
-# Getting absolute file path of the project root and src directory
-get_filename_component(PROJECT_DIRECTORY ./ ABSOLUTE)
+# Build options
+option(CLX_BUILD_TESTS "Determines whether the tests shall be built" OFF)
+option(CLX_BUILD_TOOLS "Determines whether the development tools shall be built" OFF)
+
 get_filename_component(SOURCEPATH ./src ABSOLUTE)     
 
 # Check dependecies under unix-like systems
@@ -29,10 +31,12 @@ if(UNIX)
     CHECK_INCLUDE_FILE("curses.h" CURSES_AVAILABLE)
     CHECK_INCLUDE_FILE("unistd.h" UNISTD_AVAILABLE)
     if(NOT ${CURSES_AVAILABLE})
-        message(FATAL_ERROR "curses.h is required to build the interpreter under unix-like systems. Please make sure it is available to the compiler and try again after that")
+        message(FATAL_ERROR "curses.h is required to build the compiler under unix-like systems. \
+\   \   Please make sure it is available to the compiler and try again after that")
     endif() # curses.h not available
     if(NOT ${UNISTD_AVAILABLE})
-        message(FATAL_ERROR "unistd.h is required to build the interpreter under unix-like systems. Please make sure it is available to the compiler and try again after that")
+        message(FATAL_ERROR "unistd.h is required to build the compiler under unix-like systems. \
+\   \   Please make sure it is available to the compiler and try again after that")
     endif() # unistd.h not available
 endif() # Unix system
 
@@ -41,14 +45,16 @@ if(WIN32)
     CHECK_INCLUDE_FILE("conio.h" CONIO_AVAILABLE)
     CHECK_INCLUDE_FILE("windows.h" WINDOWS_AVAILABLE)
     if(NOT ${CONIO_AVAILABLE})
-        message(FATAL_ERROR "conio.h is required to build the interpreter under windows. Please make sure it is available to the compiler and try again after that")
+        message(FATAL_ERROR "conio.h is required to build the compiler under windows. \
+\   \   Please make sure it is available to the compiler and try again after that")
     endif() # conio.h not available
     if(NOT ${WINDOWS_AVAILABLE})
-        message(FATAL_ERROR "windows.h is required to build the interpreter under windows. Please make sure it is available to the compiler and try again after that")
+        message(FATAL_ERROR "windows.h is required to build the compiler under windows. \
+\   \   Please make sure it is available to the compiler and try again after that")
     endif() # windows.h not available
 endif() # Windows system
 
-if(NAN_BOXING_ACTIVATED)
+if(CLX_NAN_BOXING_ACTIVATED)
     add_compile_definitions(NAN_BOXING)
 endif()
 
@@ -72,26 +78,29 @@ endif()
 # We determine the compiler so we can do some optimization for a specific compiler
 if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
     add_compile_definitions(COMPILER_GCC)
-elseif(CMAKE_C_COMPILER_ID STREQUAL "[Cc][Ll][Aa][Nn][Gg]")
+elseif(CMAKE_C_COMPILER_ID STREQUAL "Clang")
     add_compile_definitions(COMPILER_CLANG)
-elseif(CMAKE_C_COMPILER_ID STREQUAL "[Mm][Ss][Vv][Cc]")
+elseif(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
     add_compile_definitions(COMPILER_MSVC)
+elseif (CMAKE_C_COMPILER_ID STREQUAL "Intel")
+    add_compile_definitions(COMPILER_INTEL)
 else()
-    add_compile_definitions(COMPILER_UNKNOWN)    
+    add_compile_definitions(COMPILER_UNKNOWN)
 endif()
 
 # Builds the cellox interpreter
 add_subdirectory(src)
 
-# Builds the benchmark runner tool for the cellox interpreter
-add_subdirectory(benchmark)
-
-# Builds the disassmbler tool (for cellox chunk files)
-add_subdirectory(disassembler)
+if(CLX_BUILD_TOOLS)
+    # Builds the benchmark runner tool for the cellox compiler
+    add_subdirectory(benchmark)
+    # Builds the disassmbler tool (for cellox chunk files)
+    add_subdirectory(disassembler)
+endif()
 
 # Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
-if(MSVC)
+if(MSVC AND CLX_BUILD_TESTS)
     enable_testing()
-    # Builds tests for the interpreter (add exclude from all if the project is packaged)
+    # Builds tests for the compiler
     add_subdirectory(test)
 endif()
