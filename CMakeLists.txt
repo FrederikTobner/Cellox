@@ -89,7 +89,7 @@ endif()
 # Builds the cellox interpreter
 add_subdirectory(src)
 
-if(CELLOX_BUILD_TOOLS)
+if(CLX_BUILD_TOOLS)
     # Builds the benchmark runner tool for the cellox compiler
     add_subdirectory(benchmark)
     # Builds the disassmbler tool (for cellox chunk files)
@@ -97,7 +97,7 @@ if(CELLOX_BUILD_TOOLS)
 endif()
 
 # Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
-if(MSVC AND CELLOX_BUILD_TESTS)
+if(MSVC AND CLX_BUILD_TESTS)
     enable_testing()
     # Builds tests for the interpreter (add exclude from all if the project is packaged)
     add_subdirectory(test)
