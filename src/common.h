@@ -16,7 +16,7 @@
 /**
  * @file common.h
  * @brief Common header file of the interpreter
- * @details Contains commnly used includes and exit codes
+ * @details Contains commonly used header files from the standard libary and exit codes
  */
 
 #ifndef CELLOX_COMMON_H_

@@ -1,15 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
-project(Cellox VERSION 0.1.0)
-include(CheckIncludeFile)
 
-# C99 standard is required to build the interpreter
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_STANDARD_REQUIRED True)
-
-# CPack metadata
-set(PROJECT_PAGE "https://github.com/FrederikTobner/Cellox")
-set(PROJECT_HELP_PAGE "https://github.com/FrederikTobner/Cellox/wiki")
-set(PROJECT_VENDOR "Frederik Tobner")
+project(Cellox 
+VERSION 0.1.0 
+LANGUAGES C CXX
+)
 
 # Optional NAN-Boxing (Not a number boxing / Not a number tagging)
 option(CLX_NAN_BOXING_ACTIVATED "Determines whether \"not a number boxing / tagging\" is used" ON)
@@ -24,10 +18,25 @@ option(CLX_DEBUG_LOG_GARBAGE_COLLECTION "Determines whether the garbage collecti
 option(CLX_BUILD_TESTS "Determines whether the tests shall be built" OFF)
 option(CLX_BUILD_TOOLS "Determines whether the development tools shall be built" OFF)
 
-get_filename_component(SOURCEPATH ./src ABSOLUTE)     
+include(CheckIncludeFile)
 
-# Check dependecies under unix-like systems
+# C99 standard is required to build the interpreter
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED True)
+
+get_filename_component(SOURCEPATH ${PROJECT_SOURCE_DIR}/src ABSOLUTE)     
+
 if(UNIX)
+    # Adding os-specific compiler definitions
+    add_compile_definitions(OS_UNIX_LIKE)    
+    if(LINUX) 
+        add_compile_definitions(OS_LINUX)
+    elseif(APPLE) 
+        add_compile_definitions(OS_MACOS)
+    else()
+        add_compile_definitions(OS_UNKNOWN_UNIX)
+    endif()
+    # Check dependecies under unix-like systems
     CHECK_INCLUDE_FILE("curses.h" CURSES_AVAILABLE)
     CHECK_INCLUDE_FILE("unistd.h" UNISTD_AVAILABLE)
     if(NOT ${CURSES_AVAILABLE})
@@ -38,10 +47,10 @@ if(UNIX)
         message(FATAL_ERROR "unistd.h is required to build the compiler under unix-like systems. \
 \   \   Please make sure it is available to the compiler and try again after that")
     endif() # unistd.h not available
-endif() # Unix system
-
-# Check dependecies under windows
-if(WIN32)
+elseif(WIN32)
+    # Adding os-specific compiler definitions
+    add_compile_definitions(OS_WINDOWS)
+    # Check dependecies under windows
     CHECK_INCLUDE_FILE("conio.h" CONIO_AVAILABLE)
     CHECK_INCLUDE_FILE("windows.h" WINDOWS_AVAILABLE)
     if(NOT ${CONIO_AVAILABLE})
@@ -52,28 +61,15 @@ if(WIN32)
         message(FATAL_ERROR "windows.h is required to build the compiler under windows. \
 \   \   Please make sure it is available to the compiler and try again after that")
     endif() # windows.h not available
-endif() # Windows system
+else()
+    # Adding os-specific compiler definitions
+    add_compile_definitions(OS_UNKNOWN)
+endif()
 
+# Not a number boxing affects all parts of the project
 if(CLX_NAN_BOXING_ACTIVATED)
     add_compile_definitions(NAN_BOXING)
 endif()
-
-# Adding os-specific compiler definitions
-if(UNIX)
-    add_compile_definitions(OS_UNIX_LIKE)    
-    if(LINUX) 
-        add_compile_definitions(OS_LINUX)
-    elseif(APPLE) 
-        add_compile_definitions(OS_MACOS)
-    else()
-        add_compile_definitions(OS_UNKNOWN_UNIX)
-    endif()
-elseif(WIN32)
-    add_compile_definitions(OS_WINDOWS)
-else()
-    add_compile_definitions(OS_UNKNOWN)
-endif()
-  
 
 # We determine the compiler so we can do some optimization for a specific compiler
 if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
@@ -100,6 +96,9 @@ endif()
 
 # Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
 if(MSVC AND CLX_BUILD_TESTS)
+    # C++ 14 standard is required for the google test framework
+    set(CMAKE_CXX_STANDARD 14)
+    set(CMAKE_CXX_STANDARD_REQUIRED True)    
     enable_testing()
     # Builds tests for the compiler
     add_subdirectory(test)

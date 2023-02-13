@@ -620,7 +620,7 @@ static interpret_result virtual_machine_run()
     // For GCC and Clang we use computed goto's for non-debug builds, to create a efficient dispatch table, in order to speed up the execution.🚀
     // This is for example also done by ruby or dalvik (android java VM).
     // Lua on the other hand uses a regular switch statement like we do, if there is the compiler is not gcc or clang.
-    #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
+    #if !defined(BUILD_TYPE_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
 
         // Dispatch table with the labels we jump to instead of function pointers
         void * dispatch_table [] = 
@@ -691,7 +691,7 @@ static interpret_result virtual_machine_run()
             chunk_disassembler_disassemble_instruction(&frame->closure->function->chunk, (int32_t)(frame->ip - frame->closure->function->chunk.code));
         #endif
  
-        #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
+        #if !defined(BUILD_TYPE_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
             label_add:
                 if (IS_STRING(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1)))
                     virtual_machine_concatenate_strings();
@@ -1323,7 +1323,7 @@ static interpret_result virtual_machine_run()
                 virtual_machine_push(BOOL_VAL(true));
                 break;
             default:
-                #if defined(COMPILER_MSVC) && !defined(BUILD_DEBUG)
+                #if defined(COMPILER_MSVC) && !defined(BUILD_TYPE_DEBUG)
                     // We assume this code to be unreachable.
                     // This tells the optimizer that reaching default is undefiened behaviour 😨
                     __assume(0);
@@ -1340,7 +1340,7 @@ static interpret_result virtual_machine_run()
     #undef READ_CONSTANT
     #undef READ_STRING
     #undef BINARY_OP
-    #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
+    #if !defined(BUILD_TYPE_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
         #undef DISPATCH
     #endif
 }
