@@ -25,8 +25,7 @@
 /// @brief Exit codes of the cellox interpreter
 /// @details These exit codes are based on the exit codes defined in the UNIX sysexits.h header file.
 /// They can be found under at "/usr/include/sysexits.h"
-typedef enum
-{
+typedef enum {
     /// Signals a Sucess
     EXIT_CODE_OK = 0,
     /// Signals a command line error usage

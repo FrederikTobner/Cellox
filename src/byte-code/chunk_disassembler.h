@@ -28,7 +28,7 @@
 /// @param name The name of the chunk (based on the function)
 /// @param arity The arity of the top level funtion of the chunk
 /// @details First prints the metadata of the chunk (function, string constant, numerical constant count).
-/// Then prints all the opcodes that are stored in the chunk 
+/// Then prints all the opcodes that are stored in the chunk
 void chunk_disassembler_disassemble_chunk(chunk_t * chunk, char const * name, uint32_t arity);
 
 /// @brief Dissasembles a single instruction

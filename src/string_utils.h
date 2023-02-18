@@ -31,7 +31,7 @@
 /// @details Checks for the specified character only until the specified lenth is reached.
 bool string_utils_contains_character_restricted(char const * text, char character, uint32_t length);
 
-/// @brief Resolves all the escape sequences specified in a string literal 
+/// @brief Resolves all the escape sequences specified in a string literal
 /// @param text The character sequence where all the escape sequences are resolved
 /// @param length Pointer to the lenghth of the character sequence where escape sequences are resolved
 /// @return 0 if all escape sequences where resoved successful, -1 if a unknown escape sequence was found in the character sequence

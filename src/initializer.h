@@ -33,14 +33,14 @@ extern "C" {
 #define CELLOX_USAGE_MESSAGE ("Usage: Cellox ((-h|--help|-v|--version) | ((-c | --compile) [path])\n")
 
 /** @brief Run with repl
-* @details  
-* <ol>
-* <li> Read the user input   -   (R)</li>
-* <li> Evaluate your code    -   (E)</li>
-* <li> Print any results     -   (P)</li>
-* <li> Loop back to step 1   -   (L)</li>
-* </ol>
-*/
+ * @details
+ * <ol>
+ * <li> Read the user input   -   (R)</li>
+ * <li> Evaluate your code    -   (E)</li>
+ * <li> Print any results     -   (P)</li>
+ * <li> Loop back to step 1   -   (L)</li>
+ * </ol>
+ */
 void init_repl();
 
 /// @brief Reads a lox program from a file and executes the program

@@ -22,30 +22,26 @@
 
 #include "../../backend/memory_mutator.h"
 
-void dynamic_value_array_free(dynamic_value_array_t * array)
-{
+void dynamic_value_array_free(dynamic_value_array_t * array) {
     FREE_ARRAY(value_t, array->values, array->capacity);
     dynamic_value_array_init(array);
 }
 
-void dynamic_value_array_init(dynamic_value_array_t * array)
-{
+void dynamic_value_array_init(dynamic_value_array_t * array) {
     array->values = NULL;
     array->count = array->capacity = 0u;
 }
 
-void dynamic_value_array_remove(dynamic_value_array_t * array, size_t index)
-{
-    if(index >= array->count)
+void dynamic_value_array_remove(dynamic_value_array_t * array, size_t index) {
+    if (index >= array->count) {
         return;
+    }
     memcpy(array->values + index, array->values + index + 1, array->count - (index + 1));
     array->count--;
 }
 
-void dynamic_value_array_write(dynamic_value_array_t * array, value_t value)
-{
-    if (array->capacity < array->count + 1u)
-    {
+void dynamic_value_array_write(dynamic_value_array_t * array, value_t value) {
+    if (array->capacity < array->count + 1u) {
         uint32_t oldCapacity = array->capacity;
         array->capacity = GROW_CAPACITY(oldCapacity);
         value_t * grownArray;

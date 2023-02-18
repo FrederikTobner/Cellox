@@ -28,18 +28,17 @@
 typedef value_t (*native_function_t)(uint32_t argCount, value_t const * args);
 
 /// Configuration of a native function
-typedef struct
-{
-/// The name of the native function
-char const * functionName;
-/// Pointer to the native function
-native_function_t function;
-/// The amount of arguments the native function expects
-size_t arrity;
-}native_function_config_t;
+typedef struct {
+    /// The name of the native function
+    char const * functionName;
+    /// Pointer to the native function
+    native_function_t function;
+    /// The amount of arguments the native function expects
+    size_t arrity;
+} native_function_config_t;
 
 /// @brief Gets the configuration of the native functions
-/// @return an array that contains the native function configurations 
+/// @return an array that contains the native function configurations
 native_function_config_t * native_functions_get_function_configs();
 
 /// @brief Gets the amount of defined native functions
@@ -47,13 +46,13 @@ native_function_config_t * native_functions_get_function_configs();
 size_t native_functions_get_function_count();
 
 /// @brief Determines the length of an array
-/// @param argCount The amount of arguments that were used when array_length was called 
+/// @param argCount The amount of arguments that were used when array_length was called
 /// @param args The arguments that array_length was called with
 /// @return The length of the array
 value_t native_functions_array_length(uint32_t argCount, value_t const * args);
 
 /// @brief Appends the content of a cellox string to a file
-/// @param argCount The amount of arguments that were used when append_to was called 
+/// @param argCount The amount of arguments that were used when append_to was called
 /// @param args The arguments that append_to_file was called with
 /// @return True -> Sucess, False -> Error
 value_t native_functions_append_to_file(uint32_t argCount, value_t const * args);
@@ -90,13 +89,13 @@ value_t native_functions_exit(uint32_t argCount, value_t const * args);
 
 /// @brief Native exponential function
 /// @param argCount The amount of arguments that were used when exponential was called
-/// @param args The arguments that exponential was called with 
+/// @param args The arguments that exponential was called with
 /// @return e (2.71828) raised to the power of the given argument
 value_t native_functions_exponential(uint32_t argCount, value_t const * args);
 
 /// @brief Computes the natural logarithm of the given argument
 /// @param argCount The amount of arguments that were used when logarithm was called
-/// @param args The arguments that logarithm was called with 
+/// @param args The arguments that logarithm was called with
 /// @return The natural logartihm applied to the input
 value_t native_functions_logarithm(uint32_t argCount, value_t const * args);
 
@@ -209,7 +208,7 @@ value_t native_functions_tangent(uint32_t argCount, value_t const * args);
 value_t native_functions_wait(uint32_t argCount, value_t const * args);
 
 /// @brief Writes the content of a cellox string to a file
-/// @param argCount The amount of arguments that were used when write_to_file was called 
+/// @param argCount The amount of arguments that were used when write_to_file was called
 /// @param args The arguments that write_to_file was called with
 /// @return True -> Sucess, False -> Error
 value_t native_functions_write_to_file(uint32_t argCount, value_t const * args);
