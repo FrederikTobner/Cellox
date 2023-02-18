@@ -34,25 +34,24 @@ static int32_t chunk_disassembler_jump_instruction(char const *, int32_t, chunk_
 static void chunk_disassembler_print_chunk_metadata(chunk_t *, char const *, uint32_t);
 static int32_t chunk_disassembler_simple_instruction(char const *, int32_t);
 
-void chunk_disassembler_disassemble_chunk(chunk_t * chunk, char const * name, uint32_t arity)
-{
+void chunk_disassembler_disassemble_chunk(chunk_t * chunk, char const * name, uint32_t arity) {
     chunk_disassembler_print_chunk_metadata(chunk, name, arity);
-    for (int32_t offset = 0; offset < chunk->byteCodeCount;)
+    for (int32_t offset = 0; offset < chunk->byteCodeCount;) {
         offset = chunk_disassembler_disassemble_instruction(chunk, offset);
+    }
 }
 
-int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offset)
-{
+int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offset) {
     printf("%04X ", offset);
-    if (offset > 0 && chunk_determine_line_by_index(chunk, offset) == chunk_determine_line_by_index(chunk, offset - 1))
+    if (offset > 0 && chunk_determine_line_by_index(chunk, offset) == chunk_determine_line_by_index(chunk, offset - 1)) {
         printf("   | ");
-    else
+    } else {
         printf("%4d ", chunk_determine_line_by_index(chunk, offset));
+    }
     // Instruction specific behaviour
     uint8_t instruction = chunk->code[offset];
     printf(" OP_%02X: ", instruction);
-    switch (instruction)
-    {
+    switch (instruction) {
     case OP_ADD:
         return chunk_disassembler_simple_instruction("ADD", offset);
     case OP_ARRAY_LITERAL:
@@ -62,21 +61,20 @@ int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offs
     case OP_CLASS:
         return chunk_disassembler_constant_instruction("CLASS", chunk, offset);
     case OP_CLOSURE:
-    {
-        offset++;
-        uint8_t constant = chunk->code[offset++];
-        printf("%-16s %04X ", "CLOSURE", constant);
-        value_print(chunk->constants.values[constant]);
-        printf("\n");
-        object_function_t *function = AS_FUNCTION(chunk->constants.values[constant]);
-        for (uint32_t j = 0; j < function->upvalueCount; j++)
         {
-            int32_t isLocal = chunk->code[offset++];
-            int32_t index = chunk->code[offset++];
-            printf("%04X      |                     %s %d\n", offset - 2, isLocal ? "local" : "upvalue", index);
+            offset++;
+            uint8_t constant = chunk->code[offset++];
+            printf("%-16s %04X ", "CLOSURE", constant);
+            value_print(chunk->constants.values[constant]);
+            printf("\n");
+            object_function_t * function = AS_FUNCTION(chunk->constants.values[constant]);
+            for (uint32_t j = 0; j < function->upvalueCount; j++) {
+                int32_t isLocal = chunk->code[offset++];
+                int32_t index = chunk->code[offset++];
+                printf("%04X      |                     %s %d\n", offset - 2, isLocal ? "local" : "upvalue", index);
+            }
+            return offset;
         }
-        return offset;
-    }
     case OP_CLOSE_UPVALUE:
         return chunk_disassembler_simple_instruction("CLOSE_UPVALUE", offset);
     case OP_CONSTANT:
@@ -152,15 +150,8 @@ int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offs
     case OP_TRUE:
         return chunk_disassembler_simple_instruction("TRUE", offset);
     default:
-            // We assume this code to be unreachable.
-            #if defined(COMPILER_MSVC) && !defined(BUILD_DEBUG)               
-                __assume(0);
-            #elif (defined(COMPILER_GCC) || defined(COMPILER_CLANG)) && !defined(BUILD_DEBUG)
-                __builtin_unreachable();   
-            #else
-                printf("Unknown opcode %02X\n", instruction);
-                return offset + 1;
-            #endif        
+        printf("Unknown opcode %02X\n", instruction);
+        return offset + 1;
     }
 }
 
@@ -169,8 +160,7 @@ int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offs
 /// @param chunk The chunk where the local variable is stored
 /// @param offset The offset of the local variable, used for getting the local variable
 /// @return The index of the next bytecode instruction in the chunk
-static int32_t chunk_disassembler_byte_instruction(char const * name, chunk_t * chunk, int32_t offset)
-{
+static int32_t chunk_disassembler_byte_instruction(char const * name, chunk_t * chunk, int32_t offset) {
     uint8_t slot = *(chunk->code + offset + 1);
     printf("%-16s %04X\n", name, slot);
     return offset + 2;
@@ -181,8 +171,7 @@ static int32_t chunk_disassembler_byte_instruction(char const * name, chunk_t * 
 /// @param chunk The chunk where the constant is located
 /// @param offset The offset of the constant
 /// @return The
-static int32_t chunk_disassembler_constant_instruction(char const * name, chunk_t * chunk, int32_t offset)
-{
+static int32_t chunk_disassembler_constant_instruction(char const * name, chunk_t * chunk, int32_t offset) {
     uint8_t constant = chunk->code[offset + 1];
     printf("%-16s %04X '", name, constant);
     value_print(chunk->constants.values[constant]);
@@ -192,8 +181,7 @@ static int32_t chunk_disassembler_constant_instruction(char const * name, chunk_
 
 /// @brief Dissasembles a invoke instruction
 /// @details This can either be a INVOKE or a SUPER_INVOKE Instruction
-static int chunk_disassembler_invoke_instruction(char const * name, chunk_t *chunk, int32_t offset)
-{
+static int chunk_disassembler_invoke_instruction(char const * name, chunk_t * chunk, int32_t offset) {
     uint8_t constant = *(chunk->code + offset + 1);
     uint8_t argCount = *(chunk->code + offset + 2);
     printf("%-16s (%d args) %04X '", name, argCount, constant);
@@ -203,8 +191,7 @@ static int chunk_disassembler_invoke_instruction(char const * name, chunk_t *chu
 }
 
 /// Dissasembles a jump instruction (with a 16-bit operand)
-static int32_t chunk_disassembler_jump_instruction(char const * name, int32_t sign, chunk_t * chunk, int32_t offset)
-{
+static int32_t chunk_disassembler_jump_instruction(char const * name, int32_t sign, chunk_t * chunk, int32_t offset) {
     uint16_t jump = (uint16_t)(*(chunk->code + offset + 1) << 8);
     jump |= *(chunk->code + offset + 2);
     printf("%-16s %04X -> %04X\n", name, offset, offset + 3 + sign * jump);
@@ -215,44 +202,40 @@ static int32_t chunk_disassembler_jump_instruction(char const * name, int32_t si
 /// @param chunk The chunk that is examined
 /// @param name The name of the top level function of the chunk
 /// @param arity The arity of the top level function of the chunk
-static void chunk_disassembler_print_chunk_metadata(chunk_t * chunk, char const * name, uint32_t arity)
-{
+static void chunk_disassembler_print_chunk_metadata(chunk_t * chunk, char const * name, uint32_t arity) {
     uint32_t stringCount, numberCount, functionCount, classCount;
     stringCount = numberCount = functionCount = classCount = 0u;
     printf("function <%s> (%i bytes of bytecode at 0x%p)\n", name, chunk->byteCodeCount, chunk->code);
-    for (size_t i = 0; i < chunk->constants.count; i++)
-    {
-        if (IS_OBJECT(chunk->constants.values[i]))
-        {
-            switch (OBJECT_TYPE(chunk->constants.values[i]))
-            {
+    for (size_t i = 0; i < chunk->constants.count; i++) {
+        if (IS_OBJECT(chunk->constants.values[i])) {
+            switch (OBJECT_TYPE(chunk->constants.values[i])) {
             case OBJECT_FUNCTION:
                 functionCount++;
                 break;
             default:
                 break;
             }
-        }
-        else
-        {
+        } else {
             numberCount++;
         }
     }
-    for (uint32_t j = 0; j < chunk->byteCodeCount; j++)
-    {
-        switch (chunk->code[j])
-        {
+    for (uint32_t j = 0; j < chunk->byteCodeCount; j++) {
+        switch (chunk->code[j]) {
         case OP_CONSTANT:
-            if(j + 1 == chunk->byteCodeCount)
+            if (j + 1 == chunk->byteCodeCount) {
                 break;
-            if(IS_STRING(chunk->constants.values[chunk->code[j + 1]]))
+            }
+            if (IS_STRING(chunk->constants.values[chunk->code[j + 1]])) {
                 stringCount++;
+            }
             break;
         case OP_CLASS:
-            if(j + 1 == chunk->byteCodeCount)
+            if (j + 1 == chunk->byteCodeCount) {
                 break;
-            if(IS_STRING(chunk->constants.values[chunk->code[j + 1]]))
-            classCount++;
+            }
+            if (IS_STRING(chunk->constants.values[chunk->code[j + 1]])) {
+                classCount++;
+            }
         case OP_ARRAY_LITERAL:
         case OP_DEFINE_GLOBAL:
         case OP_GET_GLOBAL:
@@ -276,19 +259,15 @@ static void chunk_disassembler_print_chunk_metadata(chunk_t * chunk, char const 
         default:
             break;
         }
-    } 
+    }
 
-    printf("%i %s, %i %s, %i %s, %i %s, %i %s\n",
-            arity, arity == 1 ? "param" : "params", 
-            stringCount, stringCount == 1 ? "string constant" : "string constants",
-            numberCount, numberCount == 1 ? "numerical constant" : "numerical constants",
-            functionCount, functionCount == 1 ? "function" : "functions",
-            classCount, classCount == 1 ? "class" : "classes");
+    printf("%i %s, %i %s, %i %s, %i %s, %i %s\n", arity, arity == 1 ? "param" : "params", stringCount,
+           stringCount == 1 ? "string constant" : "string constants", numberCount, numberCount == 1 ? "numerical constant" : "numerical constants",
+           functionCount, functionCount == 1 ? "function" : "functions", classCount, classCount == 1 ? "class" : "classes");
 }
 
 /// Dissasembles a simple instruction
-static int32_t chunk_disassembler_simple_instruction(char const * name, int32_t offset)
-{
+static int32_t chunk_disassembler_simple_instruction(char const * name, int32_t offset) {
     printf("%s\n", name);
     return offset + 1;
 }

@@ -26,8 +26,7 @@
 #include "../language-models/value.h"
 
 /// @brief opcodes of the bytecode instruction set
-enum opcode
-{
+enum opcode {
     /// Pops the two most upper values from the stack, adds them and pushes the result onto the stack
     OP_ADD,
     /// Defines the arguments of the array literal declaration
@@ -72,7 +71,8 @@ enum opcode
     OP_INHERIT,
     /// Invokes a function
     OP_INVOKE,
-    /// Jumps from the current position to another position in the code, determined by a certain offset - used at the beginning of a loop, conditional statements
+    /// Jumps from the current position to another position in the code, determined by a certain offset - used at the beginning of a loop, conditional
+    /// statements
     OP_JUMP,
     /// Jumps if the value on top of the stack is false
     OP_JUMP_IF_FALSE,
@@ -116,19 +116,17 @@ enum opcode
 
 /// @brief Line info of a chunk
 /// @details Stores the index of the last instruction in a line and the line number
-typedef struct 
-{
-  /// The line number in the source code
-  uint32_t lineNumber;
-  /// The index of the last bytecode instruction corresponding to the line number
-  uint32_t lastOpCodeIndexInLine;
+typedef struct {
+    /// The line number in the source code
+    uint32_t lineNumber;
+    /// The index of the last bytecode instruction corresponding to the line number
+    uint32_t lastOpCodeIndexInLine;
 } line_info_t;
 
 /// @brief A dynamic array structure of bytecode instructions and constants
-/// @details instructions are idealized instructions for an abstract/virtual computer. 
+/// @details instructions are idealized instructions for an abstract/virtual computer.
 /// The constants in the program are defined at the beginning of the chunk.
-typedef struct
-{
+typedef struct {
     /// Amount of bytecode instructions in the chunk
     uint32_t byteCodeCount;
     /// Capacity of bytecode instructions of the chunk
@@ -153,8 +151,8 @@ int32_t chunk_add_constant(chunk_t * chunk, value_t value);
 
 /// @brief Determines the corresponding line number for a bytecode instruction by the index of the instruction in the chunk
 /// @param chunk The chunk where the bytecode instruction is stored
-/// @param opCodeIndex The index of the bytecode instruction 
-/// @return The line number as an unnsigned 32-bit integer value 
+/// @param opCodeIndex The index of the bytecode instruction
+/// @return The line number as an unnsigned 32-bit integer value
 uint32_t chunk_determine_line_by_index(chunk_t * chunk, uint32_t opCodeIndex);
 
 /// @brief Deallocates the memory used by the chunk

@@ -21,72 +21,53 @@
 #ifndef CELLOX_OBJECT_H_
 #define CELLOX_OBJECT_H_
 
+#include "../backend/native_functions.h"
 #include "../byte-code/chunk.h"
 #include "../common.h"
 #include "./data-structures/value_hash_table.h"
-#include "../backend/native_functions.h"
 #include "value.h"
 
 /// Makro that determines the type of an object
-#define OBJECT_TYPE(value) \
-    (AS_OBJECT(value)->type)
+#define OBJECT_TYPE(value)     (AS_OBJECT(value)->type)
 
 /// Makro that determines if the object has the object type array
-#define IS_ARRAY(value) \
-    object_is_type(value, OBJECT_ARRAY)
+#define IS_ARRAY(value)        object_is_type(value, OBJECT_ARRAY)
 ///  Makro that determines if the object has the object type bound-method
-#define IS_BOUND_METHOD(value) \
-    object_is_type(value, OBJECT_BOUND_METHOD)
+#define IS_BOUND_METHOD(value) object_is_type(value, OBJECT_BOUND_METHOD)
 ///  Makro that determines if the object has the object type instance
-#define IS_INSTANCE(value) \
-    object_is_type(value, OBJECT_INSTANCE)
+#define IS_INSTANCE(value)     object_is_type(value, OBJECT_INSTANCE)
 /// Makro that determines if the object has the object type class
-#define IS_CLASS(value) \
-    object_is_type(value, OBJECT_CLASS)
+#define IS_CLASS(value)        object_is_type(value, OBJECT_CLASS)
 /// Makro that determines if the object has the object type closure
-#define IS_CLOSURE(value) \
-    object_is_type(value, OBJECT_CLOSURE)
+#define IS_CLOSURE(value)      object_is_type(value, OBJECT_CLOSURE)
 /// Makro that determines if the object has the object type function
-#define IS_FUNCTION(value) \
-    object_is_type(value, OBJECT_FUNCTION)
+#define IS_FUNCTION(value)     object_is_type(value, OBJECT_FUNCTION)
 /// Makro that determines if the object has the object type native - native function
-#define IS_NATIVE(value) \
-    object_is_type(value, OBJECT_NATIVE)
+#define IS_NATIVE(value)       object_is_type(value, OBJECT_NATIVE)
 /// Makro that determines if the object has the object type string
-#define IS_STRING(value) \
-    object_is_type(value, OBJECT_STRING)
+#define IS_STRING(value)       object_is_type(value, OBJECT_STRING)
 
 /// Makro that gets the value of an object as a dynamic value array
-#define AS_ARRAY(value) \
-    ((object_dynamic_value_array_t *)AS_OBJECT(value))
+#define AS_ARRAY(value)        ((object_dynamic_value_array_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a bound method
-#define AS_BOUND_METHOD(value) \
-    ((object_bound_method_t *)AS_OBJECT(value))
+#define AS_BOUND_METHOD(value) ((object_bound_method_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a cellox class instance
-#define AS_INSTANCE(value) \
-    ((object_instance_t *)AS_OBJECT(value))
+#define AS_INSTANCE(value)     ((object_instance_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a class
-#define AS_CLASS(value) \
-    ((object_class_t *)AS_OBJECT(value))
+#define AS_CLASS(value)        ((object_class_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a closure
-#define AS_CLOSURE(value) \
-    ((object_closure_t *)AS_OBJECT(value))
+#define AS_CLOSURE(value)      ((object_closure_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a cstring
-#define AS_CSTRING(value) \
-    (((object_string_t *)AS_OBJECT(value))->chars)
+#define AS_CSTRING(value)      (((object_string_t *)AS_OBJECT(value))->chars)
 /// Makro that gets the value of an object as a function
-#define AS_FUNCTION(value) \
-    ((object_function_t *)AS_OBJECT(value))
+#define AS_FUNCTION(value)     ((object_function_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a native function
-#define AS_NATIVE(value) \
-    (((object_native_t *)AS_OBJECT(value))->function)
+#define AS_NATIVE(value)       (((object_native_t *)AS_OBJECT(value))->function)
 /// Makro that gets the value of an object as a string
-#define AS_STRING(value) \
-    ((object_string_t *)AS_OBJECT(value))
+#define AS_STRING(value)       ((object_string_t *)AS_OBJECT(value))
 
 /// @brief Different type of objects
-typedef enum
-{
+typedef enum {
     /// A dynamic array
     OBJECT_ARRAY,
     /// A method the is bound to an object
@@ -108,8 +89,7 @@ typedef enum
 } object_type;
 
 /// @brief A cellox object
-struct object_t
-{
+struct object_t {
     /// The type of the object
     object_type type;
     /// Determines whether the object has already been marked by the grabage collector
@@ -119,8 +99,7 @@ struct object_t
 };
 
 /// @brief A cellox function
-typedef struct
-{
+typedef struct {
     /// data that defines all types of objects
     object_t obj;
     /// The number of parametters a function has
@@ -134,8 +113,7 @@ typedef struct
 } object_function_t;
 
 /// @brief A native function
-typedef struct
-{
+typedef struct {
     /// data that defines all types of objects
     object_t obj;
     /// Reference to the native implementation in c
@@ -143,8 +121,7 @@ typedef struct
 } object_native_t;
 
 /// @brief ObjectString structure definition
-struct object_string_t
-{
+struct object_string_t {
     /// data that defines all types of objects
     object_t obj;
     /// The length of the string
@@ -156,8 +133,7 @@ struct object_string_t
 };
 
 /// @brief An object up-value structure (a local variable in an enclosing function)
-typedef struct object_upvalue_t
-{
+typedef struct object_upvalue_t {
     /// data that defines all types of objects
     object_t obj;
     /// location of the upvalue in memory
@@ -176,8 +152,7 @@ typedef struct object_upvalue_t
  * Closures only exist in languages with first class functions
  * and allow the function to access the values that are captured through it's surrounding state.
  */
-typedef struct
-{
+typedef struct {
     /// data that defines all types of objects
     object_t obj;
     /// The function of the closure
@@ -189,8 +164,7 @@ typedef struct
 } object_closure_t;
 
 /// @brief A class structure - a class in cellox
-typedef struct
-{
+typedef struct {
     /// data that defines all types of objects
     object_t obj;
     /// The name of the class
@@ -200,8 +174,7 @@ typedef struct
 } object_class_t;
 
 /// @brief A cellox class instance
-typedef struct
-{
+typedef struct {
     /// data that defines all types of objects
     object_t obj;
     /// The class of the object instance
@@ -211,8 +184,7 @@ typedef struct
 } object_instance_t;
 
 /// @brief A bound method
-typedef struct
-{
+typedef struct {
     /// data that defines all types of objects
     object_t obj;
     /// The value of the object the method is bound to
@@ -222,8 +194,7 @@ typedef struct
 } object_bound_method_t;
 
 /// @brief A dynamic array
-typedef struct
-{
+typedef struct {
     /// data that defines all types of objects
     object_t obj;
     /// The underlying array
@@ -296,8 +267,7 @@ char const * object_stringify_type(object_t * object);
 /// @param value The value that is checked
 /// @param type The type that is used for checking the value
 /// @return true is the value is of the given type, false if not
-static inline bool object_is_type(value_t value, object_type type)
-{
+static inline bool object_is_type(value_t value, object_type type) {
     return IS_OBJECT(value) && AS_OBJECT(value)->type == type;
 }
 

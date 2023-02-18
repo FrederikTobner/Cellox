@@ -47,7 +47,7 @@ set(DISASSEMBLER_DEPENDENCIES_HEADER_FILES
 )
 
 if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
-    add_compile_definitions(BUILD_DEBUG)
+    add_compile_definitions(BUILD_TYPE_DEBUG)
 endif()
 
 add_executable(${LANGUAGE_DISASSEMBLER} 

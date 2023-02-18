@@ -26,8 +26,7 @@
 
 /// @brief An entry in a hashtable
 /// @details An Entry in hashtable contains a key, that is used to look up the entry in O(n)
-typedef struct
-{
+typedef struct {
     /// Key of the entry 🔑
     object_string_t * key;
     /// The value that is associated with the key
@@ -36,8 +35,7 @@ typedef struct
 
 /// @brief A hashtable
 /// @details The hashtable uses seperate chaining if a hashcollision occurs
-typedef struct
-{
+typedef struct {
     /// Number of entries in the hashtable
     uint32_t count;
     /// The capacity of the hashtable
@@ -77,7 +75,7 @@ bool value_hash_table_delete(value_hash_table_t * table, object_string_t * key);
 /// @return An object_string_t or NULL if the string hasn't been found
 object_string_t * value_hash_table_find_string(value_hash_table_t * table, char const * chars, uint32_t length, uint32_t hash);
 
-/// @brief Reads the Value to the specified key, if an entry corresponding to the given key is present 
+/// @brief Reads the Value to the specified key, if an entry corresponding to the given key is present
 /// @param table The table where the entry is looked upo
 /// @param key The key that is used for searching for the entry
 /// @param value Stores the value corresponding to the key in the passed value parameter

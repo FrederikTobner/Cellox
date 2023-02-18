@@ -16,7 +16,7 @@
 /**
  * @file common.h
  * @brief Common header file of the interpreter
- * @details Contains commnly used includes and exit codes
+ * @details Contains commonly used header files from the standard libary and exit codes
  */
 
 #ifndef CELLOX_COMMON_H_
@@ -25,8 +25,7 @@
 /// @brief Exit codes of the cellox interpreter
 /// @details These exit codes are based on the exit codes defined in the UNIX sysexits.h header file.
 /// They can be found under at "/usr/include/sysexits.h"
-typedef enum
-{
+typedef enum {
     /// Signals a Sucess
     EXIT_CODE_OK = 0,
     /// Signals a command line error usage

@@ -26,8 +26,7 @@
 
 /// @brief A dynamic value array
 /// @details A size of a dynamic array can varry, meaning it can shrink or grow.
-typedef struct
-{
+typedef struct {
     /// @brief The capacity of the dynamic value array
     uint32_t capacity;
     /// @brief The amount of values stored in the array
@@ -43,7 +42,6 @@ void dynamic_value_array_free(dynamic_value_array_t * array);
 /// @brief Initializes a dynamic array to the size zero
 /// @param array The array that is inititialized
 void dynamic_value_array_init(dynamic_value_array_t * array);
-
 
 void dynamic_value_array_remove(dynamic_value_array_t * array, size_t index);
 

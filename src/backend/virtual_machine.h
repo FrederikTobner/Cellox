@@ -22,21 +22,20 @@
 #ifndef CELLOX_VIRTUAL_MACHINE_H_
 #define CELLOX_VIRTUAL_MACHINE_H_
 
-#include "../language-models/object.h"
 #include "../language-models/data-structures/value_hash_table.h"
+#include "../language-models/object.h"
 
-/// @brief Maximum amount of frames the virtual machine can hold 
+/// @brief Maximum amount of frames the virtual machine can hold
 /// @details The maxiimum depth of the callstack
 #define FRAMES_MAX 64
 
-/// @brief Maximum amount values that can be allocated on the stack of the VirtualMachine 
+/// @brief Maximum amount values that can be allocated on the stack of the VirtualMachine
 /// @details These are currently 16384 values
-#define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
+#define STACK_MAX  (FRAMES_MAX * UINT8_COUNT)
 
 /// @brief A call frame structure
 /// @details This represents a single ongoing function call
-typedef struct
-{
+typedef struct {
     /// The closure of the callframe
     object_closure_t * closure;
     /// The instruction pointer in the callframe
@@ -47,8 +46,7 @@ typedef struct
 
 /// @brief A virtual machine
 /// @details The processbased virtual machine that is used by the cellox interpreter is a stackbased virtual machine
-typedef struct
-{
+typedef struct {
     /// Callstack of the virtual machine
     call_frame_t callStack[FRAMES_MAX];
     /// The amount of callframes the virtualMachine currently holds
@@ -82,8 +80,7 @@ typedef struct
 } virtual_machine_t;
 
 /// @brief Result of the interpretation (sucessfull, error during compilation or at runtime)
-typedef enum
-{
+typedef enum {
     /// No error occured
     INTERPRET_OK,
     /// Error that occured during the compilation process

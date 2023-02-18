@@ -20,4 +20,4 @@
 
 #include "common.h"
 
-/// File is needed for MSCV compatability
+// File is needed for MSCV compatability
