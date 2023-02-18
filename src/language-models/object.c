@@ -32,7 +32,8 @@
 #define ALLOCATE_OBJECT(type, objectType) (type *)object_allocate_object(sizeof(type), objectType)
 
 /// The object types of cellox as a string
-static char const * objectTypesStringified[] = {"method", "class", "closure", "array", "function", "native function", "string", "upvalue", "unknown"};
+static char const * objectTypesStringified[] = {"method",          "class",  "closure", "array",  "function",
+                                                "native function", "string", "upvalue", "unknown"};
 
 static object_t * object_allocate_object(size_t, object_type);
 static object_string_t * object_allocate_string(char *, uint32_t, uint32_t);

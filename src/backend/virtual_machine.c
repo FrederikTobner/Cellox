@@ -181,7 +181,8 @@ static bool virtual_machine_bind_method(object_class_t * celloxClass, object_str
 /// @param closure The closure the function belongs to
 /// @param argCount The amount of arguments that are used when the function is envoked
 /// @return true if everything went well, false if something went wrong (stack overflow / wrong argument count)
-/// @note The function can fail if the function was called with a wrong amount of arguments or there are too much callframes on the callstack -> stack overflow
+/// @note The function can fail if the function was called with a wrong amount of arguments or there are too much
+/// callframes on the callstack -> stack overflow
 static bool virtual_machine_call(object_closure_t * closure, int32_t argCount) {
     if (argCount != closure->function->arity) {
         virtual_machine_runtime_error("Expected %d arguments but got %d.", closure->function->arity, argCount);
@@ -238,13 +239,16 @@ static bool virtual_machine_call_value(value_t callee, int32_t argCount) {
                 return true;
             }
         default:
-            virtual_machine_runtime_error("Can only call functions and classes, but call expression was performed with a %s object",
-                                          value_stringify_type(callee));
+            virtual_machine_runtime_error(
+                "Can only call functions and classes, but call expression was performed with a %s object",
+                value_stringify_type(callee));
             return false;
         }
     }
     // Non-callable object type.
-    virtual_machine_runtime_error("Can only call functions and classes, but call expression was performed with a %s value", value_stringify_type(callee));
+    virtual_machine_runtime_error(
+        "Can only call functions and classes, but call expression was performed with a %s value",
+        value_stringify_type(callee));
     return false;
 }
 
@@ -349,7 +353,8 @@ static void virtual_machine_define_natives() {
     native_function_config_t * configs = native_functions_get_function_configs();
     // Upper bound (pointer to the end of the memory segment where the native functions are stored)
     native_function_config_t * upperBound = configs + native_functions_get_function_count();
-    for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound; nativeFunctionPointer++) {
+    for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound;
+         nativeFunctionPointer++) {
         virtual_machine_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
     }
 }
@@ -378,9 +383,10 @@ static bool virtual_machine_get_index_of() {
         }
         virtual_machine_push(array->array.values[num]);
     } else {
-        virtual_machine_runtime_error("Operands must a numerical value and a string object but are a %s %s and a %s %s",
-                                      value_stringify_type(virtual_machine_peek(0)), IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
-                                      value_stringify_type(virtual_machine_peek(1)), IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        virtual_machine_runtime_error(
+            "Operands must a numerical value and a string object but are a %s %s and a %s %s",
+            value_stringify_type(virtual_machine_peek(0)), IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
+            value_stringify_type(virtual_machine_peek(1)), IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
         return false;
     }
     return true;
@@ -391,25 +397,29 @@ static bool virtual_machine_get_index_of() {
 /// @details Slices are subarrays of a soucearray
 static bool virtual_machine_get_slice_of() {
     if (!IS_NUMBER(virtual_machine_peek(0))) {
-        virtual_machine_runtime_error("A range can only be created with a number as first argument but was created with a %s %s",
-                                      value_stringify_type(virtual_machine_peek(0)), IS_OBJECT(virtual_machine_peek(2)) ? "object" : "value");
+        virtual_machine_runtime_error(
+            "A range can only be created with a number as first argument but was created with a %s %s",
+            value_stringify_type(virtual_machine_peek(0)), IS_OBJECT(virtual_machine_peek(2)) ? "object" : "value");
         return false;
     }
     if (!IS_NUMBER(virtual_machine_peek(1))) {
-        virtual_machine_runtime_error("A range can only be created with a number as second argument but was created with a %s %s",
-                                      value_stringify_type(virtual_machine_peek(1)), IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        virtual_machine_runtime_error(
+            "A range can only be created with a number as second argument but was created with a %s %s",
+            value_stringify_type(virtual_machine_peek(1)), IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
         return false;
     }
     if (!IS_ARRAY(virtual_machine_peek(2)) && !IS_STRING(virtual_machine_peek(2))) {
         virtual_machine_runtime_error("A slice can only be created from an array but was tried to create with a %s %s",
-                                      value_stringify_type(virtual_machine_peek(2)), IS_OBJECT(virtual_machine_peek(2)) ? "object" : "value");
+                                      value_stringify_type(virtual_machine_peek(2)),
+                                      IS_OBJECT(virtual_machine_peek(2)) ? "object" : "value");
         return false;
     }
 
     int upperBound = AS_NUMBER(virtual_machine_pop());
     int i = AS_NUMBER(virtual_machine_pop());
     if (i >= upperBound) {
-        virtual_machine_runtime_error("Upper bound must be bigger than lower bound, but upper bound is %d and lower bound is %d", upperBound, i);
+        virtual_machine_runtime_error(
+            "Upper bound must be bigger than lower bound, but upper bound is %d and lower bound is %d", upperBound, i);
         return false;
     }
     if (i < 0) {
@@ -419,8 +429,9 @@ static bool virtual_machine_get_slice_of() {
     if (IS_ARRAY(virtual_machine_peek(0))) {
         object_dynamic_value_array_t * sourceArray = AS_ARRAY(virtual_machine_pop());
         if (upperBound >= sourceArray->array.count) {
-            virtual_machine_runtime_error("Upperbound can not be higher or equal to the size of the array, but upperbound is %d and size %d", upperBound,
-                                          sourceArray->array.count);
+            virtual_machine_runtime_error(
+                "Upperbound can not be higher or equal to the size of the array, but upperbound is %d and size %d",
+                upperBound, sourceArray->array.count);
             return false;
         }
         object_dynamic_value_array_t * resultArray = object_new_dynamic_value_array();
@@ -431,8 +442,9 @@ static bool virtual_machine_get_slice_of() {
     } else {
         object_string_t * sourceString = AS_STRING(virtual_machine_pop());
         if (upperBound >= sourceString->length) {
-            virtual_machine_runtime_error("Upperbound can not be higher or equal to the length of the string but upperbound is %d and size %d", upperBound,
-                                          sourceString->length);
+            virtual_machine_runtime_error(
+                "Upperbound can not be higher or equal to the length of the string but upperbound is %d and size %d",
+                upperBound, sourceString->length);
             return false;
         }
         char * chars = ALLOCATE(char, upperBound - i + 1);
@@ -449,12 +461,13 @@ static bool virtual_machine_get_slice_of() {
 /// @brief Invokes a method bound to a cellox class instance
 /// @param name The name of the method that is envoked
 /// @param argCount The amount of arguments that are used when calling the method
-/// @return true if everything went well, false if something went wrong (not a cellox instance / undefiened method / stack overflow / wrong argument count)
+/// @return true if everything went well, false if something went wrong (not a cellox instance / undefiened method /
+/// stack overflow / wrong argument count)
 static bool virtual_machine_invoke(object_string_t * name, int32_t argCount) {
     value_t receiver = virtual_machine_peek(argCount);
     if (!IS_INSTANCE(receiver)) {
-        virtual_machine_runtime_error("Only instances have methods but a %s %s was invoked", value_stringify_type(receiver),
-                                      IS_OBJECT(receiver) ? "object" : "value");
+        virtual_machine_runtime_error("Only instances have methods but a %s %s was invoked",
+                                      value_stringify_type(receiver), IS_OBJECT(receiver) ? "object" : "value");
         return false;
     }
     object_instance_t * instance = AS_INSTANCE(receiver);
@@ -470,7 +483,8 @@ static bool virtual_machine_invoke(object_string_t * name, int32_t argCount) {
 /// @param celloxClass The class where the method is envoked
 /// @param name Thee name of the method that is envoked
 /// @param argCount The amount of arguments that are used when envoking the function
-/// @return true if everything went well, false if something went wrong (undefiened method / stack overflow / wrong argument count)
+/// @return true if everything went well, false if something went wrong (undefiened method / stack overflow / wrong
+/// argument count)
 static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, object_string_t * name, int32_t argCount) {
     value_t method;
     if (!value_hash_table_get(&celloxClass->methods, name, &method)) {
@@ -495,9 +509,10 @@ static bool virtual_machine_modulo() {
         int a = AS_NUMBER(virtual_machine_pop());
         virtual_machine_push(NUMBER_VAL(a % b));
     } else {
-        virtual_machine_runtime_error("Operands must be two numbers but they are a %s %s and a %s %s", value_stringify_type(virtual_machine_peek(0)),
-                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", value_stringify_type(virtual_machine_peek(1)),
-                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        virtual_machine_runtime_error(
+            "Operands must be two numbers but they are a %s %s and a %s %s",
+            value_stringify_type(virtual_machine_peek(0)), IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
+            value_stringify_type(virtual_machine_peek(1)), IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
         return false;
     }
     return true;
@@ -541,35 +556,39 @@ static interpret_result virtual_machine_run() {
  * We have to embed the marco into a do while, which isn't followed by a semicolon,
  * so all the statements in it get executed if they are after an if 🤮
  */
-#define BINARY_OP(valueType, op)                                                                                                                      \
-    do {                                                                                                                                              \
-        if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {                                                             \
-            virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s", value_stringify_type(virtual_machine_peek(0)), \
-                                          IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", value_stringify_type(virtual_machine_peek(1)),     \
-                                          IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");                                                   \
-            return INTERPRET_RUNTIME_ERROR;                                                                                                           \
-        }                                                                                                                                             \
-        double b = AS_NUMBER(virtual_machine_pop());                                                                                                  \
-        double a = AS_NUMBER(virtual_machine_pop());                                                                                                  \
-        virtual_machine_push(valueType(a op b));                                                                                                      \
+#define BINARY_OP(valueType, op)                                                                       \
+    do {                                                                                               \
+        if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {              \
+            virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s", \
+                                          value_stringify_type(virtual_machine_peek(0)),               \
+                                          IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",     \
+                                          value_stringify_type(virtual_machine_peek(1)),               \
+                                          IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");    \
+            return INTERPRET_RUNTIME_ERROR;                                                            \
+        }                                                                                              \
+        double b = AS_NUMBER(virtual_machine_pop());                                                   \
+        double a = AS_NUMBER(virtual_machine_pop());                                                   \
+        virtual_machine_push(valueType(a op b));                                                       \
     } while (false)
 
     call_frame_t * frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
 
-// For GCC and Clang we use computed goto's for non-debug builds, to create a efficient dispatch table, in order to speed up the execution.🚀
-// This is for example also done by ruby or dalvik (android java VM).
-// Lua on the other hand uses a regular switch statement like we do, if there is the compiler is not gcc or clang.
+// For GCC and Clang we use computed goto's for non-debug builds, to create a efficient dispatch table, in order to
+// speed up the execution.🚀 This is for example also done by ruby or dalvik (android java VM). Lua on the other hand
+// uses a regular switch statement like we do, if there is the compiler is not gcc or clang.
 #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
 
     // Dispatch table with the labels we jump to instead of function pointers
     void * dispatch_table[] = {
-        &&label_add,         &&label_array_literal, &&label_call,        &&label_class,        &&label_closure,      &&label_close_upvalue,
-        &&label_constant,    &&label_define_global, &&label_divide,      &&label_equal,        &&label_exponent,     &&label_false,
-        &&label_get_global,  &&label_get_index_of,  &&label_get_local,   &&label_get_property, &&label_get_slice_of, &&label_get_super,
-        &&label_get_upvalue, &&label_greater,       &&label_inherit,     &&label_invoke,       &&label_jump,         &&label_jump_if_false,
-        &&label_less,        &&label_loop,          &&label_method,      &&label_modulo,       &&label_multiply,     &&label_negate,
-        &&label_not,         &&label_null,          &&label_pop,         &&label_return,       &&label_set_global,   &&label_set_index_of,
-        &&label_set_local,   &&label_set_property,  &&label_set_upvalue, &&label_subtract,     &&label_super_invoke, &&label_true};
+        &&label_add,           &&label_array_literal, &&label_call,          &&label_class,         &&label_closure,
+        &&label_close_upvalue, &&label_constant,      &&label_define_global, &&label_divide,        &&label_equal,
+        &&label_exponent,      &&label_false,         &&label_get_global,    &&label_get_index_of,  &&label_get_local,
+        &&label_get_property,  &&label_get_slice_of,  &&label_get_super,     &&label_get_upvalue,   &&label_greater,
+        &&label_inherit,       &&label_invoke,        &&label_jump,          &&label_jump_if_false, &&label_less,
+        &&label_loop,          &&label_method,        &&label_modulo,        &&label_multiply,      &&label_negate,
+        &&label_not,           &&label_null,          &&label_pop,           &&label_return,        &&label_set_global,
+        &&label_set_index_of,  &&label_set_local,     &&label_set_property,  &&label_set_upvalue,   &&label_subtract,
+        &&label_super_invoke,  &&label_true};
 
 /// Makro that dipatches the next bytecode instuction
 #define DISPATCH() goto * dispatch_table[READ_BYTE()]
@@ -587,7 +606,8 @@ static interpret_result virtual_machine_run() {
             printf(" ]");
         }
         printf("\n");
-        chunk_disassembler_disassemble_instruction(&frame->closure->function->chunk, (int32_t)(frame->ip - frame->closure->function->chunk.code));
+        chunk_disassembler_disassemble_instruction(&frame->closure->function->chunk,
+                                                   (int32_t)(frame->ip - frame->closure->function->chunk.code));
 #endif
 
 #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
@@ -599,9 +619,10 @@ static interpret_result virtual_machine_run() {
         } else if (IS_ARRAY(virtual_machine_peek(1))) {
             virtual_machine_concatenate_arrays();
         } else {
-            virtual_machine_runtime_error(
-                "Operands must be two numbers, two strings, an array and a value or an array and an array, but they are a %s value and a %s value",
-                value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));
+            virtual_machine_runtime_error("Operands must be two numbers, two strings, an array and a value or an array "
+                                          "and an array, but they are a %s value and a %s value",
+                                          value_stringify_type(virtual_machine_peek(0)),
+                                          value_stringify_type(virtual_machine_peek(1)));
             return INTERPRET_RUNTIME_ERROR;
         }
         DISPATCH();
@@ -625,7 +646,8 @@ static interpret_result virtual_machine_run() {
             for (uint32_t i = 0; i < closure->upvalueCount; i++) {
                 uint8_t isLocal = READ_BYTE();
                 uint8_t index = READ_BYTE();
-                closure->upvalues[i] = isLocal ? virtual_machine_capture_upvalue(frame->slots + index) : frame->closure->upvalues[index];
+                closure->upvalues[i] =
+                    isLocal ? virtual_machine_capture_upvalue(frame->slots + index) : frame->closure->upvalues[index];
             }
             DISPATCH();
         }
@@ -665,7 +687,8 @@ static interpret_result virtual_machine_run() {
             double a = AS_NUMBER(virtual_machine_pop());
             virtual_machine_push(NUMBER_VAL(pow(a, b)));
         } else {
-            virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value", value_stringify_type(virtual_machine_peek(0)),
+            virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value",
+                                          value_stringify_type(virtual_machine_peek(0)),
                                           value_stringify_type(virtual_machine_peek(1)));
             return INTERPRET_RUNTIME_ERROR;
         }
@@ -696,7 +719,8 @@ static interpret_result virtual_machine_run() {
         {
             if (!IS_INSTANCE(virtual_machine_peek(0))) {
                 virtual_machine_runtime_error("Only instances have properties but get expression but a %s %s was used",
-                                              value_stringify_type(virtual_machine_peek(0)), IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
+                                              value_stringify_type(virtual_machine_peek(0)),
+                                              IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(0));
@@ -723,7 +747,8 @@ static interpret_result virtual_machine_run() {
             object_class_t * superclass = AS_CLASS(virtual_machine_pop());
 
             if (!virtual_machine_bind_method(superclass, name)) {
-                virtual_machine_runtime_error("Method %s not defined in parent class %s", name->chars, superclass->name->chars);
+                virtual_machine_runtime_error("Method %s not defined in parent class %s", name->chars,
+                                              superclass->name->chars);
                 return INTERPRET_RUNTIME_ERROR;
             }
             DISPATCH();
@@ -741,7 +766,8 @@ static interpret_result virtual_machine_run() {
         {
             value_t superclassvalue = virtual_machine_peek(1);
             if (!IS_CLASS(superclassvalue)) {
-                virtual_machine_runtime_error("Superclass must be a class but is a %s %s", value_stringify_type(superclassvalue),
+                virtual_machine_runtime_error("Superclass must be a class but is a %s %s",
+                                              value_stringify_type(superclassvalue),
                                               IS_OBJECT(superclassvalue) ? "object" : "value");
 
                 return INTERPRET_RUNTIME_ERROR;
@@ -792,7 +818,8 @@ static interpret_result virtual_machine_run() {
         DISPATCH();
     label_negate:
         if (!IS_NUMBER(virtual_machine_peek(0))) {
-            virtual_machine_runtime_error("Operand must be a number but is a %s %s.", value_stringify_type(virtual_machine_peek(0)),
+            virtual_machine_runtime_error("Operand must be a number but is a %s %s.",
+                                          value_stringify_type(virtual_machine_peek(0)),
                                           IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
             return INTERPRET_RUNTIME_ERROR;
         }
@@ -837,13 +864,15 @@ static interpret_result virtual_machine_run() {
         }
         DISPATCH();
     label_set_local:
-        // We set the value at the specified slot to the value that is stored on the top of the stack of the virtual machine.
+        // We set the value at the specified slot to the value that is stored on the top of the stack of the virtual
+        // machine.
         frame->slots[READ_BYTE()] = virtual_machine_peek(0);
         DISPATCH();
     label_set_property:
         {
             if (!IS_INSTANCE(virtual_machine_peek(1))) {
-                virtual_machine_runtime_error("Only instances have fields but was called with a %s %s", value_stringify_type(virtual_machine_peek(1)),
+                virtual_machine_runtime_error("Only instances have fields but was called with a %s %s",
+                                              value_stringify_type(virtual_machine_peek(1)),
                                               IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
@@ -888,9 +917,10 @@ static interpret_result virtual_machine_run() {
                 } else if (IS_ARRAY(virtual_machine_peek(1))) {
                     virtual_machine_concatenate_arrays();
                 } else {
-                    virtual_machine_runtime_error(
-                        "Operands must be two numbers, two strings, an array and a value or an array and an array, but they are a %s value and a %s value",
-                        value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));
+                    virtual_machine_runtime_error("Operands must be two numbers, two strings, an array and a value or "
+                                                  "an array and an array, but they are a %s value and a %s value",
+                                                  value_stringify_type(virtual_machine_peek(0)),
+                                                  value_stringify_type(virtual_machine_peek(1)));
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 break;
@@ -917,7 +947,8 @@ static interpret_result virtual_machine_run() {
                 for (uint32_t i = 0; i < closure->upvalueCount; i++) {
                     uint8_t isLocal = READ_BYTE();
                     uint8_t index = READ_BYTE();
-                    closure->upvalues[i] = isLocal ? virtual_machine_capture_upvalue(frame->slots + index) : frame->closure->upvalues[index];
+                    closure->upvalues[i] = isLocal ? virtual_machine_capture_upvalue(frame->slots + index)
+                                                   : frame->closure->upvalues[index];
                 }
                 break;
             }
@@ -959,7 +990,8 @@ static interpret_result virtual_machine_run() {
                     virtual_machine_push(NUMBER_VAL(pow(a, b)));
                 } else {
                     virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value",
-                                                  value_stringify_type(virtual_machine_peek(0)), value_stringify_type(virtual_machine_peek(1)));
+                                                  value_stringify_type(virtual_machine_peek(0)),
+                                                  value_stringify_type(virtual_machine_peek(1)));
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 break;
@@ -994,8 +1026,10 @@ static interpret_result virtual_machine_run() {
         case OP_GET_PROPERTY:
             {
                 if (!IS_INSTANCE(virtual_machine_peek(0))) {
-                    virtual_machine_runtime_error("Only instances have properties but get expression but a %s %s was used",
-                                                  value_stringify_type(virtual_machine_peek(0)), IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
+                    virtual_machine_runtime_error(
+                        "Only instances have properties but get expression but a %s %s was used",
+                        value_stringify_type(virtual_machine_peek(0)),
+                        IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(0));
@@ -1042,7 +1076,8 @@ static interpret_result virtual_machine_run() {
             {
                 value_t superclass = virtual_machine_peek(1);
                 if (!IS_CLASS(superclass)) {
-                    virtual_machine_runtime_error("Superclass must be a class but is a %s %s", value_stringify_type(superclass),
+                    virtual_machine_runtime_error("Superclass must be a class but is a %s %s",
+                                                  value_stringify_type(superclass),
                                                   IS_OBJECT(superclass) ? "object" : "value");
 
                     return INTERPRET_RUNTIME_ERROR;
@@ -1102,7 +1137,8 @@ static interpret_result virtual_machine_run() {
             break;
         case OP_NEGATE:
             if (!IS_NUMBER(virtual_machine_peek(0))) {
-                virtual_machine_runtime_error("Operand must be a number but is a %s %s.", value_stringify_type(virtual_machine_peek(0)),
+                virtual_machine_runtime_error("Operand must be a number but is a %s %s.",
+                                              value_stringify_type(virtual_machine_peek(0)),
                                               IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
@@ -1150,7 +1186,8 @@ static interpret_result virtual_machine_run() {
             }
         case OP_SET_LOCAL:
             {
-                // We set the value at the specified slot to the value that is stored on the top of the stack of the virtual machine.
+                // We set the value at the specified slot to the value that is stored on the top of the stack of the
+                // virtual machine.
                 uint8_t slot = READ_BYTE();
                 frame->slots[slot] = virtual_machine_peek(0);
                 break;
@@ -1158,7 +1195,8 @@ static interpret_result virtual_machine_run() {
         case OP_SET_PROPERTY:
             {
                 if (!IS_INSTANCE(virtual_machine_peek(1))) {
-                    virtual_machine_runtime_error("Only instances have fields but was called with a %s %s", value_stringify_type(virtual_machine_peek(1)),
+                    virtual_machine_runtime_error("Only instances have fields but was called with a %s %s",
+                                                  value_stringify_type(virtual_machine_peek(1)),
                                                   IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
                     return INTERPRET_RUNTIME_ERROR;
                 }
@@ -1253,9 +1291,10 @@ static bool virtual_machine_set_index_of() {
         array->array.values[num] = val;
         virtual_machine_push(OBJECT_VAL(array));
     } else {
-        virtual_machine_runtime_error("Can only be called with an used with an arry and a number but was used with a %s %s and a %s %s",
-                                      value_stringify_type(virtual_machine_peek(0)), IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
-                                      value_stringify_type(virtual_machine_peek(1)), IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        virtual_machine_runtime_error(
+            "Can only be called with an used with an arry and a number but was used with a %s %s and a %s %s",
+            value_stringify_type(virtual_machine_peek(0)), IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
+            value_stringify_type(virtual_machine_peek(1)), IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
         return false;
     }
     return true;

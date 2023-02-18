@@ -90,7 +90,8 @@ void memory_mutator_free_object(object_t * object) {
     case OBJECT_CLOSURE:
         {
             object_closure_t * closure = (object_closure_t *)object;
-            // If a closure is unreachable we also need to free all the memory used by the upvalues that are captured by the closure
+            // If a closure is unreachable we also need to free all the memory used by the upvalues that are captured by
+            // the closure
             FREE_ARRAY(object_upvalue_t *, closure->upvalues, closure->upvalueCount);
             FREE(object_closure_t, object);
             break;

@@ -16,7 +16,8 @@
 /**
  * @file lexer.c
  * @brief File containing implementation of the lexer.
- * @details A lexer, also called scanner, coverts a sequence of characters into a sequence of tokens, in a process called lexical analysis.
+ * @details A lexer, also called scanner, coverts a sequence of characters into a sequence of tokens, in a process
+ * called lexical analysis.
  */
 
 #include "lexer.h"

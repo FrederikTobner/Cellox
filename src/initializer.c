@@ -149,7 +149,8 @@ static void initializer_io_error(char const * format, ...) {
 
 /// @brief Reads a file from disk
 /// @param path The path of the file
-/// @return The contents of the file or NULL if something went wrong an there are tests executed, so we dont want to exit
+/// @return The contents of the file or NULL if something went wrong an there are tests executed, so we dont want to
+/// exit
 static char * initializer_read_file(char const * path) {
     // Opens a file of a nonspecified format (b) in read mode (r)
     FILE * file = fopen(path, "rb");

@@ -43,11 +43,13 @@ enum opcode {
     OP_CONSTANT,
     /// Defines a global variable
     OP_DEFINE_GLOBAL,
-    /// Pops the two most upper values from the stack, divides the first with the second value and pushes the result on the stack
+    /// Pops the two most upper values from the stack, divides the first with the second value and pushes the result on
+    /// the stack
     OP_DIVIDE,
     /// Determines whether two the values on top of the are equal and  pushes the result on the stack
     OP_EQUAL,
-    /// Pops the two most upper values from the stack, raises the first with the second value and pushes the result on the stack
+    /// Pops the two most upper values from the stack, raises the first with the second value and pushes the result on
+    /// the stack
     OP_EXPONENT,
     /// Pushes the boolean value false on the stack
     OP_FALSE,
@@ -59,30 +61,35 @@ enum opcode {
     OP_GET_LOCAL,
     /// Gets the value of the property of a Cellox object and stores it on the stack
     OP_GET_PROPERTY,
-    /// Gets the two most upper values from the stack and uses them to narrow down a certain range that is used to create a slice from an array or a string
+    /// Gets the two most upper values from the stack and uses them to narrow down a certain range that is used to
+    /// create a slice from an array or a string
     OP_GET_SLICE_OF,
     /// Gets the parent class of a value and stores it on the stack
     OP_GET_SUPER,
     /// Gets the value of the upvalue and stores it on the stack
     OP_GET_UPVALUE,
-    /// Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is greater than the second number
+    /// Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is
+    /// greater than the second number
     OP_GREATER,
     /// Adds another class as the parent to a class declaration
     OP_INHERIT,
     /// Invokes a function
     OP_INVOKE,
-    /// Jumps from the current position to another position in the code, determined by a certain offset - used at the beginning of a loop, conditional
-    /// statements
+    /// Jumps from the current position to another position in the code, determined by a certain offset - used at the
+    /// beginning of a loop, conditional statements
     OP_JUMP,
     /// Jumps if the value on top of the stack is false
     OP_JUMP_IF_FALSE,
-    /// Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is less than the second number
+    /// Pops the two most upper values from the stack, and pushes the value true on the stack if the first number is
+    /// less than the second number
     OP_LESS,
-    /// Jumps from the current position to another position in the code, determined by a certain offset - used at the end of a loop
+    /// Jumps from the current position to another position in the code, determined by a certain offset - used at the
+    /// end of a loop
     OP_LOOP,
     /// Calls a Method
     OP_METHOD,
-    /// Pops the two most upper values from the stack, divides the first with the second value and pushes the remainder of the division onto the stack
+    /// Pops the two most upper values from the stack, divides the first with the second value and pushes the remainder
+    /// of the division onto the stack
     OP_MODULO,
     /// Pops the two most upper values from the stack adds them and pushes the result onto the stack
     OP_MULTIPLY,
@@ -98,7 +105,8 @@ enum opcode {
     OP_RETURN,
     /// Sets the value of a global variable
     OP_SET_GLOBAL,
-    /// Copies the value of a string and alters a single character at the specified index. Pushes the result on the stack.
+    /// Copies the value of a string and alters a single character at the specified index. Pushes the result on the
+    /// stack.
     OP_SET_INDEX_OF,
     /// Sets the value of a local variable
     OP_SET_LOCAL,
@@ -106,7 +114,8 @@ enum opcode {
     OP_SET_PROPERTY,
     /// Sets an upvalue that is captured by the current closure
     OP_SET_UPVALUE,
-    /// Pops the two most upper values from the stack, subtracts the second value from the first value and pushes the result onto the stack
+    /// Pops the two most upper values from the stack, subtracts the second value from the first value and pushes the
+    /// result onto the stack
     OP_SUBTRACT,
     /// Invokes a method of the parent class
     OP_SUPER_INVOKE,
@@ -149,7 +158,8 @@ typedef struct {
 /// @return The index of the added constant
 int32_t chunk_add_constant(chunk_t * chunk, value_t value);
 
-/// @brief Determines the corresponding line number for a bytecode instruction by the index of the instruction in the chunk
+/// @brief Determines the corresponding line number for a bytecode instruction by the index of the instruction in the
+/// chunk
 /// @param chunk The chunk where the bytecode instruction is stored
 /// @param opCodeIndex The index of the bytecode instruction
 /// @return The line number as an unnsigned 32-bit integer value

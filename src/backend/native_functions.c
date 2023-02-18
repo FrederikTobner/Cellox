@@ -100,17 +100,27 @@ typedef enum {
 } native_function;
 
 native_function_config_t native_function_configs[] = {
-    [NATIVE_FUNCTION_APPEND_TO_FILE] = {.functionName = "append_to_file", .function = native_functions_append_to_file, .arrity = 2},
-    [NATIVE_FUNCTION_ARRAY_LENGTH] = {.functionName = "array_length", .function = native_functions_array_length, .arrity = 1},
-    [NATIVE_FUNCTION_ASCI_TO_NUMERICAL] = {.functionName = "asci_to_num", .function = native_functions_asci_to_numerical, .arrity = 1},
+    [NATIVE_FUNCTION_APPEND_TO_FILE] = {.functionName = "append_to_file",
+                                        .function = native_functions_append_to_file,
+                                        .arrity = 2},
+    [NATIVE_FUNCTION_ARRAY_LENGTH] = {.functionName = "array_length",
+                                      .function = native_functions_array_length,
+                                      .arrity = 1},
+    [NATIVE_FUNCTION_ASCI_TO_NUMERICAL] = {.functionName = "asci_to_num",
+                                           .function = native_functions_asci_to_numerical,
+                                           .arrity = 1},
     [NATIVE_FUNCTION_CLASS_OF] = {.functionName = "class_of", .function = native_functions_classof, .arrity = 1},
     [NATIVE_FUNCTION_CLOCK] = {.functionName = "clock", .function = native_functions_clock},
     [NATIVE_FUNCTION_COSINE] = {.functionName = "cosine", .function = native_functions_cosine, .arrity = 1},
     [NATIVE_FUNCTION_EXIT] = {.functionName = "exit", .function = native_functions_exit, .arrity = 1},
-    [NATIVE_FUNCTION_EXPONENTIAL] = {.functionName = "exponential", .function = native_functions_exponential, .arrity = 1},
+    [NATIVE_FUNCTION_EXPONENTIAL] = {.functionName = "exponential",
+                                     .function = native_functions_exponential,
+                                     .arrity = 1},
     [NATIVE_FUNCTION_LOG] = {.functionName = "logarithm", .function = native_functions_logarithm, .arrity = 1},
     [NATIVE_FUNCTION_LOG10] = {.functionName = "logarithm10", .function = native_functions_logarithm10, .arrity = 1},
-    [NATIVE_FUNCTION_NUMERICAL_TO_ASCI] = {.functionName = "num_to_asci", .function = native_functions_numerical_to_asci, .arrity = 1},
+    [NATIVE_FUNCTION_NUMERICAL_TO_ASCI] = {.functionName = "num_to_asci",
+                                           .function = native_functions_numerical_to_asci,
+                                           .arrity = 1},
     [NATIVE_FUNCTION_ON_LINUX] = {.functionName = "on_linux", .function = native_functions_on_linux},
     [NATIVE_FUNCTION_ON_MACOS] = {.functionName = "on_macOS", .function = native_functions_on_macOS},
     [NATIVE_FUNCTION_ON_WINDOWS] = {.functionName = "on_windows", .function = native_functions_on_windows},
@@ -125,13 +135,18 @@ native_function_config_t native_function_configs[] = {
     [NATIVE_FUNCTION_READ_LINE] = {.functionName = "read_line", .function = native_functions_read_line},
     [NATIVE_FUNCTION_SINE] = {.functionName = "sine", .function = native_functions_sine, .arrity = 1},
     [NATIVE_FUNCTION_SIZEOF] = {.functionName = "size_of", .function = native_functions_size_of, .arrity = 1},
-    [NATIVE_FUNCTION_STRING_HASH] = {.functionName = "string_hash", .function = native_functions_string_hash, .arrity = 1},
+    [NATIVE_FUNCTION_STRING_HASH] = {.functionName = "string_hash",
+                                     .function = native_functions_string_hash,
+                                     .arrity = 1},
     [NATIVE_FUNCTION_STRLEN] = {.functionName = "strlen", .function = native_functions_string_length, .arrity = 1},
-    [NATIVE_FUNCTION_STRING_REPLACE_AT] = {.functionName = "string_replace_at", .function = native_functions_string_replace_at, .arrity = 3},
+    [NATIVE_FUNCTION_STRING_REPLACE_AT] = {.functionName = "string_replace_at",
+                                           .function = native_functions_string_replace_at,
+                                           .arrity = 3},
     [NATIVE_FUNCTION_SYSTEM] = {.functionName = "system", .function = native_functions_system, .arrity = 1},
     [NATIVE_FUNCTION_TANGENT] = {.functionName = "tangent", .function = native_functions_tangent, .arrity = 1},
     [NATIVE_FUNCTION_WAIT] = {.functionName = "wait", .function = native_functions_wait, .arrity = 1},
-    [NATIVE_FUNCTION_WRITE_TO_FILE] = {.functionName = "write_to_file", .function = native_functions_write_to_file, .arrity = 2}};
+    [NATIVE_FUNCTION_WRITE_TO_FILE] = {
+        .functionName = "write_to_file", .function = native_functions_write_to_file, .arrity = 2}};
 
 #define MAX_READ_LINE_INPUT (1024)
 
@@ -166,7 +181,9 @@ value_t native_functions_append_to_file(uint32_t argCount, value_t const * args)
 value_t native_functions_array_length(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_ARRAY_LENGTH, argCount);
     if (!IS_ARRAY(*args)) {
-        native_functions_arguments_error("array_length can only be called with an array as argument but was called with %s", value_stringify_type(*args));
+        native_functions_arguments_error(
+            "array_length can only be called with an array as argument but was called with %s",
+            value_stringify_type(*args));
     }
     return NUMBER_VAL(AS_ARRAY(*args)->array.count);
 }
@@ -174,7 +191,9 @@ value_t native_functions_array_length(uint32_t argCount, value_t const * args) {
 value_t native_functions_asci_to_numerical(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_ASCI_TO_NUMERICAL, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error("asci_to_num can only be called with a string as argument but was called with %s", value_stringify_type(*args));
+        native_functions_arguments_error(
+            "asci_to_num can only be called with a string as argument but was called with %s",
+            value_stringify_type(*args));
     }
     object_string_t * character = AS_STRING(*args);
     if (character->length != 1) {
@@ -241,7 +260,9 @@ value_t native_functions_logarithm10(uint32_t argCount, value_t const * args) {
 value_t native_functions_numerical_to_asci(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_ASCI_TO_NUMERICAL, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error("asci_to_num can only be called with a string as argument but was called with %s", value_stringify_type(*args));
+        native_functions_arguments_error(
+            "asci_to_num can only be called with a string as argument but was called with %s",
+            value_stringify_type(*args));
     }
     int number = AS_NUMBER(*args);
     if (number < 0 || number > 255) {
@@ -390,7 +411,8 @@ value_t native_functions_size_of(uint32_t argCount, value_t const * args) {
 value_t native_functions_string_hash(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_STRLEN, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error("strlen can only be called with a string as argument but was called with %s", value_stringify_type(*args));
+        native_functions_arguments_error("strlen can only be called with a string as argument but was called with %s",
+                                         value_stringify_type(*args));
     }
     return NUMBER_VAL(AS_STRING(*args)->hash);
 }
@@ -398,7 +420,8 @@ value_t native_functions_string_hash(uint32_t argCount, value_t const * args) {
 value_t native_functions_string_length(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_STRLEN, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error("strlen can only be called with a string as argument but was called with %s", value_stringify_type(*args));
+        native_functions_arguments_error("strlen can only be called with a string as argument but was called with %s",
+                                         value_stringify_type(*args));
     }
     return NUMBER_VAL(strlen(AS_CSTRING(*args)));
 }
@@ -406,16 +429,19 @@ value_t native_functions_string_length(uint32_t argCount, value_t const * args) 
 value_t native_functions_string_replace_at(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_STRING_REPLACE_AT, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error("string_replace_at can only be called with a string as first argument but was called with %s",
-                                         value_stringify_type(*args));
+        native_functions_arguments_error(
+            "string_replace_at can only be called with a string as first argument but was called with %s",
+            value_stringify_type(*args));
     }
     if (!IS_NUMBER(*(args + 1))) {
-        native_functions_arguments_error("string_replace_at can only be called with a number as second argument but was called with %s",
-                                         value_stringify_type(*args));
+        native_functions_arguments_error(
+            "string_replace_at can only be called with a number as second argument but was called with %s",
+            value_stringify_type(*args));
     }
     if (!IS_STRING(*(args + 2))) {
-        native_functions_arguments_error("string_replace_at can only be called with a string as third argument but was called with %s",
-                                         value_stringify_type(*args));
+        native_functions_arguments_error(
+            "string_replace_at can only be called with a string as third argument but was called with %s",
+            value_stringify_type(*args));
     }
 
     object_string_t * character = AS_STRING(*(args + 2));
@@ -489,15 +515,18 @@ value_t native_functions_write_to_file(uint32_t argCount, value_t const * args) 
 /// @brief Asserts that the native function was called with the appropriate argument count
 /// @param function The native function that was called
 /// @param argcount The amount of arguments that were used to call the native function
-/// @note If the native function was not called with appropriate argument count the program exits with an runtime error code
+/// @note If the native function was not called with appropriate argument count the program exits with an runtime error
+/// code
 static void native_functions_assert_arrity(uint8_t function, uint32_t argcount) {
     if (native_function_configs[function].arrity != argcount) {
-        native_functions_arguments_error("%s expects %zu arguments but was called with %d", native_function_configs[function].functionName,
+        native_functions_arguments_error("%s expects %zu arguments but was called with %d",
+                                         native_function_configs[function].functionName,
                                          native_function_configs[function].arrity, argcount);
     }
 }
 
-/// @brief Emits a error message regarding a faulty native function call and exits with the appropriate exit code (70 - runtime error)
+/// @brief Emits a error message regarding a faulty native function call and exits with the appropriate exit code (70 -
+/// runtime error)
 /// @param format The format of the error message
 /// @param args The arguments that are printed using the format
 static void native_functions_arguments_error(char const * format, ...) {

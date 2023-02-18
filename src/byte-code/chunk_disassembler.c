@@ -43,7 +43,8 @@ void chunk_disassembler_disassemble_chunk(chunk_t * chunk, char const * name, ui
 
 int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offset) {
     printf("%04X ", offset);
-    if (offset > 0 && chunk_determine_line_by_index(chunk, offset) == chunk_determine_line_by_index(chunk, offset - 1)) {
+    if (offset > 0 &&
+        chunk_determine_line_by_index(chunk, offset) == chunk_determine_line_by_index(chunk, offset - 1)) {
         printf("   | ");
     } else {
         printf("%4d ", chunk_determine_line_by_index(chunk, offset));
@@ -262,8 +263,9 @@ static void chunk_disassembler_print_chunk_metadata(chunk_t * chunk, char const 
     }
 
     printf("%i %s, %i %s, %i %s, %i %s, %i %s\n", arity, arity == 1 ? "param" : "params", stringCount,
-           stringCount == 1 ? "string constant" : "string constants", numberCount, numberCount == 1 ? "numerical constant" : "numerical constants",
-           functionCount, functionCount == 1 ? "function" : "functions", classCount, classCount == 1 ? "class" : "classes");
+           stringCount == 1 ? "string constant" : "string constants", numberCount,
+           numberCount == 1 ? "numerical constant" : "numerical constants", functionCount,
+           functionCount == 1 ? "function" : "functions", classCount, classCount == 1 ? "class" : "classes");
 }
 
 /// Dissasembles a simple instruction

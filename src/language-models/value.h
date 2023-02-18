@@ -48,7 +48,8 @@ typedef struct object_string_t object_string_t;
 #define TAG_TRUE  (0x3)
 
 /// @brief An value type
-/// @details In Cellox a value can be either a numerical, a boolean or a undefiended value. Additionally a value can also be a cellox object
+/// @details In Cellox a value can be either a numerical, a boolean or a undefiended value. Additionally a value can
+/// also be a cellox object
 typedef uint64_t value_t;
 
 /// Makro that determines whether a value is of the type bool
@@ -112,7 +113,8 @@ typedef enum {
 } value_type;
 
 /// @brief An value type
-/// @details In Cellox a value can be either a numerical, a boolean or a undefiended value. Additionally a value can also be a cellox object
+/// @details In Cellox a value can be either a numerical, a boolean or a undefiended value. Additionally a value can
+/// also be a cellox object
 typedef struct {
     value_type type;
     union {
