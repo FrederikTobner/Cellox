@@ -150,15 +150,8 @@ int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offs
     case OP_TRUE:
         return chunk_disassembler_simple_instruction("TRUE", offset);
     default:
-// We assume this code to be unreachable.
-#if defined(COMPILER_MSVC) && !defined(BUILD_DEBUG)
-        __assume(0);
-#elif (defined(COMPILER_GCC) || defined(COMPILER_CLANG)) && !defined(BUILD_DEBUG)
-        __builtin_unreachable();
-#else
         printf("Unknown opcode %02X\n", instruction);
         return offset + 1;
-#endif
     }
 }
 
