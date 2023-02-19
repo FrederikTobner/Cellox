@@ -127,7 +127,7 @@ static inline bool command_line_argument_parser_is_option(char const * argument)
 /// @param option The option that is parsed (character sequence)
 /// @param currentOption The option that was previously specified
 static void command_line_argument_parser_parse_option(char const * option, command_line_option_type * currentOption) {
-    /// Old options is a singular option
+    // Old option is a singular option
     if (optionConfigs[*currentOption].exclusionaryOption) {
         command_line_argument_parser_error("Multiple options specified");
     }
