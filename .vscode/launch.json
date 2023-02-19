@@ -2,7 +2,7 @@
     "version": "0.1.0",
     "configurations": [
         {
-            "name": "Debug - GCC",
+            "name": "Debug - GDB (MinGW64)",
             "type": "cppdbg",
             "request": "launch",
             "args": [
@@ -32,10 +32,29 @@
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-           "console": "externalTerminal"
+            "console": "externalTerminal"
         },
         {
-            "name": "Benchmark - GCC",
+            "name": "Debug - GDB",
+            "type": "cppdbg",
+            "request": "launch",
+            "args": [
+                "${workspaceFolder}/examples/HelloWorld.clx",
+            ],
+            "stopAtEntry": false,
+            "externalConsole": true,
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/build/src/Cellox",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ]
+        },
+        {
+            "name": "Benchmark - GDB (MinGW64)",
             "type": "cppdbg",
             "request": "launch",
             "args": [
@@ -71,10 +90,32 @@
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-           "console": "externalTerminal"
+            "console": "externalTerminal"
         },
         {
-            "name": "Disassemble - GCC",
+            "name": "Benchmark - GDB",
+            "type": "cppdbg",
+            "request": "launch",
+            "args": [
+                "${workspaceFolder}/benchmark/benchmarks/Equality.clx",
+                "${workspaceFolder}/benchmark/benchmarks/Fibonacci.clx",
+                "-c",
+                "3"
+            ],
+            "stopAtEntry": false,
+            "externalConsole": true,
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/build/benchmark/CelloxBenchmarks",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ]
+        },
+        {
+            "name": "Disassemble - GDB (MinGW64)",
             "type": "cppdbg",
             "request": "launch",
             "args": [
@@ -104,7 +145,26 @@
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-           "console": "externalTerminal"
+            "console": "externalTerminal"
+        },
+        {
+            "name": "Disassemble - GDB",
+            "type": "cppdbg",
+            "request": "launch",
+            "args": [
+                "${workspaceFolder}/optimizer_test_programs/constant_duplicate_removal.clx",
+            ],
+            "stopAtEntry": false,
+            "externalConsole": true,
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/build/disassembler/CelloxDisassembler",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ]
         }
     ]
 }
