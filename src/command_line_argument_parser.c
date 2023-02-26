@@ -39,7 +39,6 @@ typedef enum {
     OPTION_TYPE_HELP,
     /// --version / -v
     OPTION_TYPE_VERSION
-
 } command_line_option_type;
 
 /// @brief Models a command line option configuration
