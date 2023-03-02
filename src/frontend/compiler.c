@@ -351,7 +351,7 @@ static void compiler_advance() {
     parser.previous = parser.current;
 
     for (;;) {
-        parser.current = scan_token();
+        parser.current = lexer_scan_token();
         if (parser.current.type != TOKEN_ERROR) {
             break;
         }

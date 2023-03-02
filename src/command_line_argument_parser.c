@@ -96,7 +96,7 @@ void command_line_argument_parser_parse(int argc, char const ** argv) {
         initializer_show_version();
         break;
     case OPTION_NO_OPTION:
-        init_repl();
+        initializer_run_as_repl();
         break;
     default:
         command_line_argument_parser_show_usage();

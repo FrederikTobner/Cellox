@@ -47,7 +47,7 @@
 static void initializer_io_error(char const *, ...);
 static char * initializer_read_file(char const *);
 
-void init_repl() {
+void initializer_run_as_repl() {
     virtual_machine_init();
     // Used to store the next line that is read from input
     char line[MAX_LINE_LENGTH];

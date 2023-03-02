@@ -41,7 +41,7 @@ extern "C" {
  * <li> Loop back to step 1   -   (L)</li>
  * </ol>
  */
-void init_repl();
+void initializer_run_as_repl();
 
 /// @brief Reads a lox program from a file and executes the program
 /// @param path The path of the lox program

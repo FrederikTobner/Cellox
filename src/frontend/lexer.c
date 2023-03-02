@@ -53,14 +53,14 @@ static token_t lexer_number();
 static inline char lexer_peek();
 static char lexer_peek_next();
 static void lexer_skip_whitespace();
-static token_t string();
+static token_t lexer_string();
 
 void lexer_init(char const * sourcecode) {
     lexer.start = lexer.current = sourcecode;
     lexer.line = 1u;
 }
 
-token_t scan_token() {
+token_t lexer_scan_token() {
     lexer_skip_whitespace();
     lexer.start = lexer.current;
 
@@ -107,7 +107,7 @@ token_t scan_token() {
                 lexer_advance();
             }
             lexer.line++;
-            return scan_token();
+            return lexer_scan_token();
         } else if (lexer_match('*')) {
             uint32_t commentDepth = 1;
             while (commentDepth && !lexer_is_at_end()) {
@@ -124,7 +124,7 @@ token_t scan_token() {
             if (commentDepth && lexer_is_at_end()) {
                 return lexer_error_token("Unterminated comment");
             }
-            return scan_token();
+            return lexer_scan_token();
         }
         return lexer_make_token(lexer_match('=') ? TOKEN_SLASH_EQUAL : TOKEN_SLASH);
     case '*':
@@ -140,7 +140,7 @@ token_t scan_token() {
     case '=':
         return lexer_make_token(lexer_match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
     case '"':
-        return string();
+        return lexer_string();
     case ':':
         return lexer_make_token(TOKEN_DOUBLEDOT);
     case '<':
@@ -377,7 +377,7 @@ static void lexer_skip_whitespace() {
 
 /// @brief Creates a new string literal token
 /// @return The string literal token that was created
-static token_t string() {
+static token_t lexer_string() {
     while (lexer_peek() != '"' && !lexer_is_at_end()) {
         if (lexer_peek() == '\n') {
             lexer.line++;
