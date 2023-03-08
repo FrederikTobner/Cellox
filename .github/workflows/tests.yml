@@ -1,5 +1,4 @@
 name: Tests
-
 on:
   pull_request:
     branches: [ "master" ]
@@ -15,27 +14,21 @@ on:
      - '**/*.dox'
      - '**/*.svg'
      - '**/*.bmp'
-     - '**/*.ico'      
-
+     - '**/*.ico'
 jobs:
   build:
     runs-on: windows-latest
     env:
       BUILD_TYPE: ${{matrix.buildtypes}}
-
     strategy:  
       matrix:
-        buildtypes: [Debug, Release]  
-
+        buildtypes: [Debug, Release]
     steps:
     - uses: actions/checkout@v3
-
     - name: Configure CMake        
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCLX_BUILD_TESTS=ON
-
     - name: Build tests
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxTests
-
     - name: Run tests
       working-directory: ${{github.workspace}}/build
       run: ctest -j 1 -C ${{env.BUILD_TYPE}}
