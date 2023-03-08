@@ -52,7 +52,8 @@ enum constant_type_prefix {
 static void chunk_file_append_chunk(chunk_t, chunk_file_compile_flag, FILE *);
 static void chunk_file_append_code_segment(uint8_t *, uint32_t, FILE *);
 static void chunk_file_append_constant(value_t, dynamic_value_array_t *, chunk_file_compile_flag, FILE *);
-static void chunk_file_append_constant_segment(dynamic_value_array_t, dynamic_value_array_t *, chunk_file_compile_flag, FILE *);
+static void chunk_file_append_constant_segment(dynamic_value_array_t, dynamic_value_array_t *, chunk_file_compile_flag,
+                                               FILE *);
 static void chunk_file_append_function_meta_data(object_function_t, FILE *);
 static void chunk_file_append_inner_segment(dynamic_value_array_t, chunk_file_compile_flag, FILE *);
 static inline void chunk_file_append_line_info(line_info_t, FILE *);
@@ -74,7 +75,8 @@ static char * chunk_file_read_file(char const *, size_t *);
 static void chunk_file_error(char const *, ...);
 
 int chunk_file_store(chunk_t chunk, char const * programmPath, chunk_file_compile_flag flag) {
-    if (flag & COMPILE_FLAG_LINE_INFO_INCLUDED || flag & COMPILE_FLAG_ANONYMIZE_FUNCTIONS || flag & COMPILE_FLAG_OPTIMIZE) {
+    if (flag & COMPILE_FLAG_LINE_INFO_INCLUDED || flag & COMPILE_FLAG_ANONYMIZE_FUNCTIONS ||
+        flag & COMPILE_FLAG_OPTIMIZE) {
         fprintf(stderr, "Compile options not implemented yet");
         return -1;
     }
@@ -152,10 +154,12 @@ static void chunk_file_append_code_segment(uint8_t * code, uint32_t codeSize, FI
 
 /// @brief Appends a single constant to a cellox bytecode file
 /// @param value The value of the constant that is appended
-/// @param functions Pointer to an dynamic array of functions that are used to build the inner segmment of the chunk later
+/// @param functions Pointer to an dynamic array of functions that are used to build the inner segmment of the chunk
+/// later
 /// @param flags Compile flags used to compile the sourcecode to a cellox chunk file
 /// @param filePointer Pointer to the file
-static void chunk_file_append_constant(value_t value, dynamic_value_array_t * functions, chunk_file_compile_flag flag, FILE * filePointer) {
+static void chunk_file_append_constant(value_t value, dynamic_value_array_t * functions, chunk_file_compile_flag flag,
+                                       FILE * filePointer) {
     if (IS_OBJECT(value)) {
         switch (OBJECT_TYPE(value)) {
         case OBJECT_FUNCTION:
@@ -179,11 +183,12 @@ static void chunk_file_append_constant(value_t value, dynamic_value_array_t * fu
 
 /// @brief Appends the constants segment of a chunk to the file
 /// @param constants The constants that are stored in the chunk
-/// @param functions Pointer to an dynamic array of functions that are used to build the inner segmment of the chunk later
+/// @param functions Pointer to an dynamic array of functions that are used to build the inner segmment of the chunk
+/// later
 /// @param flags Compile flags used to compile the sourcecode to a cellox chunk file
 /// @param filePointer Pointer to the file
-static void chunk_file_append_constant_segment(dynamic_value_array_t constants, dynamic_value_array_t * functions, chunk_file_compile_flag flag,
-                                               FILE * filePointer) {
+static void chunk_file_append_constant_segment(dynamic_value_array_t constants, dynamic_value_array_t * functions,
+                                               chunk_file_compile_flag flag, FILE * filePointer) {
     if (!constants.count) {
         return;
     }
@@ -215,7 +220,8 @@ static void chunk_file_append_function_meta_data(object_function_t function, FIL
 /// @param functions The inner functions of the chunk
 /// @param flags Compile flags used to compile the sourcecode to a cellox chunk file
 /// @param filePointer Pointer to the file
-static void chunk_file_append_inner_segment(dynamic_value_array_t functions, chunk_file_compile_flag flag, FILE * filePointer) {
+static void chunk_file_append_inner_segment(dynamic_value_array_t functions, chunk_file_compile_flag flag,
+                                            FILE * filePointer) {
     if (!functions.count) {
         return;
     }
@@ -292,7 +298,8 @@ static void chunk_file_append_u64(uint64_t number, FILE * filePointer) {
 /// @param result The resulting chunk of the parsing process
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
-static void chunk_file_parse_chunk(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static void chunk_file_parse_chunk(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                   size_t fileSize) {
     if (*bytesReadPointer != fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_CONSTANTS) {
         (*bytesReadPointer)++;
         (*fileContent)++;
@@ -323,7 +330,8 @@ static void chunk_file_parse_chunk(char const ** fileContent, chunk_t * result, 
 /// @param result The resulting chunk of the parsing process
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
-static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                  size_t fileSize) {
     uint32_t codeCount = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
     if (!codeCount) {
         return;
@@ -345,13 +353,15 @@ static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, s
 /// @param result The resulting chunk of the parsing process
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
-static void chunk_file_parse_constant(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static void chunk_file_parse_constant(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                      size_t fileSize) {
     if (*bytesReadPointer > fileSize) {
         chunk_file_error("Unexpected file ending");
     }
     switch (*(*fileContent)++) {
     case CONSTANT_TYPE_NUMBER:
-        dynamic_value_array_write(&result->constants, NUMBER_VAL(chunk_file_parse_u64(fileContent, result, bytesReadPointer, fileSize)));
+        dynamic_value_array_write(&result->constants,
+                                  NUMBER_VAL(chunk_file_parse_u64(fileContent, result, bytesReadPointer, fileSize)));
         break;
     case CONSTANT_TYPE_STRING:
         {
@@ -378,7 +388,8 @@ static void chunk_file_parse_constant(char const ** fileContent, chunk_t * resul
 /// @param result The resulting chunk of the parsing process
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
-static void chunk_file_parse_constants(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static void chunk_file_parse_constants(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                       size_t fileSize) {
     uint32_t constantCounter = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
     dynamic_value_array_init(&result->constants);
     for (uint32_t i = 0; i < constantCounter; i++) {
@@ -391,7 +402,8 @@ static void chunk_file_parse_constants(char const ** fileContent, chunk_t * resu
 /// @param result The resulting chunk of the parsing process
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
-static void chunk_file_parse_file(char const * fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static void chunk_file_parse_file(char const * fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                  size_t fileSize) {
     chunk_file_parse_metadata(&fileContent, result, bytesReadPointer, fileSize);
     chunk_file_parse_chunk(&fileContent, result, bytesReadPointer, fileSize);
     // We miss reading 2 bytes somewhere for counter.clx :(
@@ -404,7 +416,8 @@ static void chunk_file_parse_file(char const * fileContent, chunk_t * result, si
 /// @param result The resulting chunk of the parsing process
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
-static void chunk_file_parse_inner(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static void chunk_file_parse_inner(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                   size_t fileSize) {
     uint32_t innerCounter = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
     for (size_t i = 0; i < innerCounter; i++) {
         size_t functionNameLength = strlen(*fileContent);
@@ -430,7 +443,8 @@ static void chunk_file_parse_inner(char const ** fileContent, chunk_t * result, 
 /// @param result The resulting chunk of the parsing process
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
-static void chunk_file_parse_line_info(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static void chunk_file_parse_line_info(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                       size_t fileSize) {
     uint32_t lineInfoCount = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
     if (!lineInfoCount) {
         return;
@@ -443,7 +457,8 @@ static void chunk_file_parse_line_info(char const ** fileContent, chunk_t * resu
     result->lineInfoCapacity = lineInfoCount;
     for (uint32_t i = 0; i < lineInfoCount; i++) {
         result->lineInfos[i].lineNumber = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
-        result->lineInfos[i].lastOpCodeIndexInLine = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
+        result->lineInfos[i].lastOpCodeIndexInLine =
+            chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
     }
 }
 
@@ -452,7 +467,8 @@ static void chunk_file_parse_line_info(char const ** fileContent, chunk_t * resu
 /// @param result The resulting chunk of the parsing process
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
-static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                      size_t fileSize) {
     for (; (*bytesReadPointer) < 3; (*bytesReadPointer)++, (*fileContent)++) {
         if ((*bytesReadPointer) >= fileSize) {
             chunk_file_error("Chunk file is incomplete");
@@ -467,7 +483,8 @@ static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * resul
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
 /// @return The number that was parsed
-static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                     size_t fileSize) {
     if ((*bytesReadPointer) > (fileSize - 4)) {
         chunk_file_error("Chunk file is incomplete");
     }
@@ -486,7 +503,8 @@ static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result
 /// @param bytesReadPointer Pointer to the bytes read counter
 /// @param fileSize The size of the file in bytes
 /// @return The number that was parsed
-static uint64_t chunk_file_parse_u64(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer, size_t fileSize) {
+static uint64_t chunk_file_parse_u64(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
+                                     size_t fileSize) {
     if ((*bytesReadPointer) > (fileSize - 8)) {
         chunk_file_error("Chunk file is incomplete");
     }

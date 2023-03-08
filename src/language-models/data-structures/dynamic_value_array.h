@@ -15,7 +15,7 @@
 
 /**
  * @file dynamic_value_array.h
- * @brief Header file for the dynamic value array implementation used internally by the interpreter
+ * @brief Header file for the dynamic value array implementation used internally by the compiler
  */
 
 #ifndef CELLOX_DYNAMIC_VALUE_ARRAY_H_

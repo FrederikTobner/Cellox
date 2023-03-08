@@ -15,14 +15,14 @@
 
 /**
  * @file common.h
- * @brief Common header file of the interpreter
+ * @brief Common header file of the compiler
  * @details Contains commonly used header files from the standard libary and exit codes
  */
 
 #ifndef CELLOX_COMMON_H_
 #define CELLOX_COMMON_H_
 
-/// @brief Exit codes of the cellox interpreter
+/// @brief Exit codes of the cellox compiler
 /// @details These exit codes are based on the exit codes defined in the UNIX sysexits.h header file.
 /// They can be found under at "/usr/include/sysexits.h"
 typedef enum {
@@ -38,7 +38,7 @@ typedef enum {
     EXIT_CODE_SYSTEM_ERROR = 71,
     /// Signals an error regarding the input or the output
     EXIT_CODE_INPUT_OUTPUT_ERROR = 74
-} interpreter_exit_code_t;
+} compiler_exit_code_t;
 
 // Bool from the C99 standard
 #include <stdbool.h>

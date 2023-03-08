@@ -44,8 +44,8 @@ typedef enum {
  * <li>----file metadata------</li>
  * <li>----top level chunk----</li>
  * </ol>
- * The metadata of a file starts with the compileflags stored in a single byte. It is followed by a byte indicating the major and another byte indicating the
-minor version of cellox that was used to create the chunk.
+ * The metadata of a file starts with the compileflags stored in a single byte. It is followed by a byte indicating the
+major and another byte indicating the minor version of cellox that was used to create the chunk.
  * Each chunk is stored in three different segments:
  * <ol>
  * <li>----constants-----</li>

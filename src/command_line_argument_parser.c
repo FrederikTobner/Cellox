@@ -29,7 +29,7 @@
 #include "common.h"
 #include "initializer.h"
 
-/// @brief Command line options of the cellox interpreter
+/// @brief Command line options of the cellox compiler
 typedef enum {
     /// No option specified (yet)
     OPTION_NO_OPTION,
@@ -39,7 +39,6 @@ typedef enum {
     OPTION_TYPE_HELP,
     /// --version / -v
     OPTION_TYPE_VERSION
-
 } command_line_option_type;
 
 /// @brief Models a command line option configuration
@@ -97,7 +96,7 @@ void command_line_argument_parser_parse(int argc, char const ** argv) {
         initializer_show_version();
         break;
     case OPTION_NO_OPTION:
-        init_repl();
+        initializer_run_as_repl();
         break;
     default:
         command_line_argument_parser_show_usage();
@@ -127,7 +126,7 @@ static inline bool command_line_argument_parser_is_option(char const * argument)
 /// @param option The option that is parsed (character sequence)
 /// @param currentOption The option that was previously specified
 static void command_line_argument_parser_parse_option(char const * option, command_line_option_type * currentOption) {
-    /// Old options is a singular option
+    // Old option is a singular option
     if (optionConfigs[*currentOption].exclusionaryOption) {
         command_line_argument_parser_error("Multiple options specified");
     }
@@ -144,7 +143,7 @@ static void command_line_argument_parser_parse_option(char const * option, comma
     }
 }
 
-/// @brief Shows a brief explanation how the interpreter can be used from the command line
+/// @brief Shows a brief explanation how the compiler can be used from the command line
 /// @note Also exits the program with a command-line-usage error exit code
 static inline void command_line_argument_parser_show_usage() {
     command_line_argument_parser_error(CELLOX_USAGE_MESSAGE);

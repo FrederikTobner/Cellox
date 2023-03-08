@@ -45,7 +45,7 @@ typedef struct {
 } call_frame_t;
 
 /// @brief A virtual machine
-/// @details The processbased virtual machine that is used by the cellox interpreter is a stackbased virtual machine
+/// @details The processbased virtual machine that is used by the cellox compiler is a stackbased virtual machine
 typedef struct {
     /// Callstack of the virtual machine
     call_frame_t callStack[FRAMES_MAX];

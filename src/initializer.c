@@ -15,8 +15,8 @@
 
 /**
  * @file initializer.c
- * @brief File containing implementation of the behavoir that is used to initialize the interpreter
- * @details The interpreter can be initialized to run from a file or as repl.
+ * @brief File containing implementation of the behavoir that is used to initialize the compiler
+ * @details The compiler can be initialized to run from a file or as repl.
  */
 
 #include "initializer.h"
@@ -35,7 +35,7 @@
 
 /// Maximum length of a line is 1024 characters
 #define MAX_LINE_LENGTH (1024u)
-/// Lettering that is printed if interpreter is initialized in repl mode
+/// Lettering that is printed if compiler is initialized in repl mode
 #define PROJECT_INIT_LETTERING \
     ("   _____     _ _           \n\
   / ____|   | | |          \n\
@@ -47,7 +47,7 @@
 static void initializer_io_error(char const *, ...);
 static char * initializer_read_file(char const *);
 
-void init_repl() {
+void initializer_run_as_repl() {
     virtual_machine_init();
     // Used to store the next line that is read from input
     char line[MAX_LINE_LENGTH];
@@ -126,7 +126,7 @@ void initializer_show_help() {
     printf("Options\n");
     printf("  -c, --compile\t\tConverts the specified file to bytecode and stores the result as a seperate file\n");
     printf("  -h, --help\t\tDisplay this help and exit\n");
-    printf("  -v, --version\t\tShows the version of the installed interpreter and exit\n\n");
+    printf("  -v, --version\t\tShows the version of the installed compiler and exit\n\n");
 }
 
 void initializer_show_version() {
@@ -149,7 +149,8 @@ static void initializer_io_error(char const * format, ...) {
 
 /// @brief Reads a file from disk
 /// @param path The path of the file
-/// @return The contents of the file or NULL if something went wrong an there are tests executed, so we dont want to exit
+/// @return The contents of the file or NULL if something went wrong an there are tests executed, so we dont want to
+/// exit
 static char * initializer_read_file(char const * path) {
     // Opens a file of a nonspecified format (b) in read mode (r)
     FILE * file = fopen(path, "rb");

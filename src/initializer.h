@@ -15,8 +15,8 @@
 
 /**
  * @file initializer.h
- * @brief Header file that is used to initialize the interpreter
- * @details The interpreter can be initialized to run from a file or as repl.
+ * @brief Header file that is used to initialize the compiler
+ * @details The compiler can be initialized to run from a file or as repl.
  */
 
 #ifndef CELLOX_INITIALIZER_H_
@@ -29,7 +29,7 @@ extern "C" {
 
 #include <stdbool.h>
 
-/// Message that explains the usage of the cellox interpreter
+/// Message that explains the usage of the cellox compiler
 #define CELLOX_USAGE_MESSAGE ("Usage: Cellox ((-h|--help|-v|--version) | ((-c | --compile) [path])\n")
 
 /** @brief Run with repl
@@ -41,17 +41,17 @@ extern "C" {
  * <li> Loop back to step 1   -   (L)</li>
  * </ol>
  */
-void init_repl();
+void initializer_run_as_repl();
 
 /// @brief Reads a lox program from a file and executes the program
 /// @param path The path of the lox program
 /// @param compile boolean value that determines whether the compiled program is stored as a chunk file
 void initializer_run_from_file(char const * path, bool compile);
 
-/// Shows the help of the cellox interpreter
+/// Shows the help of the cellox compiler
 void initializer_show_help();
 
-/// Shows the version of the cellox interpreter
+/// Shows the version of the cellox compiler
 void initializer_show_version();
 
 #ifdef __cplusplus

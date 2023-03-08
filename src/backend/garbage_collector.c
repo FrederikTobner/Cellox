@@ -54,8 +54,8 @@ void garbage_collector_collect_garbage() {
     virtualMachine.nextGC = virtualMachine.bytesAllocated * GC_HEAP_GROWTH_FACTOR;
 #ifdef DEBUG_LOG_GC
     printf("garbage collection process has ended\n");
-    printf("   collected %zu bytes (from %zu to %zu) next at %zu\n", before - virtualMachine.bytesAllocated, before, virtualMachine.bytesAllocated,
-           virtualMachine.nextGC);
+    printf("   collected %zu bytes (from %zu to %zu) next at %zu\n", before - virtualMachine.bytesAllocated, before,
+           virtualMachine.bytesAllocated, virtualMachine.nextGC);
 #endif
 }
 
@@ -75,7 +75,8 @@ void garbage_collector_mark_object(object_t * object) {
     object->isMarked = true;
     if (virtualMachine.grayCapacity < virtualMachine.grayCount + 1) {
         virtualMachine.grayCapacity = GROW_CAPACITY(virtualMachine.grayCapacity);
-        virtualMachine.grayStack = (object_t **)realloc(virtualMachine.grayStack, sizeof(object_t *) * virtualMachine.grayCapacity);
+        virtualMachine.grayStack =
+            (object_t **)realloc(virtualMachine.grayStack, sizeof(object_t *) * virtualMachine.grayCapacity);
     }
     if (!virtualMachine.grayStack) {
         exit(EXIT_CODE_SYSTEM_ERROR);

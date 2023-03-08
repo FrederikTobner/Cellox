@@ -24,7 +24,7 @@ include(CheckIncludeFile)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-get_filename_component(SOURCEPATH ${PROJECT_SOURCE_DIR}/src ABSOLUTE)     
+get_filename_component(SOURCEPATH ${PROJECT_SOURCE_DIR}/src ABSOLUTE)
 
 if(UNIX)
     # Adding os-specific compiler definitions

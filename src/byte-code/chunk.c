@@ -64,7 +64,8 @@ void chunk_remove_bytecode(chunk_t * chunk, uint32_t startIndex, uint32_t amount
     if (startIndex + amount >= chunk->byteCodeCount) {
         return;
     }
-    memcpy((chunk->code + startIndex), (chunk->code + startIndex + amount), chunk->byteCodeCount - (startIndex + amount));
+    memcpy((chunk->code + startIndex), (chunk->code + startIndex + amount),
+           chunk->byteCodeCount - (startIndex + amount));
     chunk->byteCodeCount -= amount;
     chunk_adjust_line_info_by_index(chunk, startIndex, -(int32_t)amount);
 }

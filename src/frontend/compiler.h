@@ -32,7 +32,8 @@
 object_function_t * compiler_compile(char const * code);
 
 /// @brief Marks the compiler roots.
-/// @details These are all the the objects that can be directly accessed by the virtualMachine and not through a reference in some other object.
+/// @details These are all the the objects that can be directly accessed by the virtualMachine and not through a
+/// reference in some other object.
 void compiler_mark_roots();
 
 #endif
