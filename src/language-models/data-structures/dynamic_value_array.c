@@ -14,7 +14,7 @@
  ****************************************************************************/
 /**
  * @file dynamic_value_array.c
- * @brief File containing the dynamic value array implementation used internally by the interpreter
+ * @brief File containing the dynamic value array implementation used internally by the compiler
  */
 #include "dynamic_value_array.h"
 

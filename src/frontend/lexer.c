@@ -61,6 +61,10 @@ void lexer_init(char const * sourcecode) {
 }
 
 token_t lexer_scan_token() {
+    #define MAKE_TOKEN_CASE(character, token) \
+        case character:\
+        return lexer_make_token(token)
+    
     lexer_skip_whitespace();
     lexer.start = lexer.current;
 
@@ -76,31 +80,17 @@ token_t lexer_scan_token() {
     }
 
     switch (c) {
-    case '(':
-        return lexer_make_token(TOKEN_LEFT_PAREN);
-    case ')':
-        return lexer_make_token(TOKEN_RIGHT_PAREN);
-    case '{':
-        return lexer_make_token(TOKEN_LEFT_BRACE);
-    case '}':
-        return lexer_make_token(TOKEN_RIGHT_BRACE);
-    case '[':
-        return lexer_make_token(TOKEN_LEFT_BRACKET);
-    case ']':
-        return lexer_make_token(TOKEN_RIGHT_BRACKET);
-    case ';':
-        return lexer_make_token(TOKEN_SEMICOLON);
-    case ',':
-        return lexer_make_token(TOKEN_COMMA);
-    case '.':
-        return lexer_make_token(lexer_match('.') ? TOKEN_RANGE : TOKEN_DOT);
-    case '-':
-        return lexer_make_token(lexer_match('=') ? TOKEN_MINUS_EQUAL : TOKEN_MINUS);
-    case '+':
-        if (lexer_match('=')) {
-            return lexer_make_token(TOKEN_PLUS_EQUAL);
-        }
-        return lexer_make_token(TOKEN_PLUS);
+        MAKE_TOKEN_CASE('(', TOKEN_LEFT_PAREN);
+        MAKE_TOKEN_CASE(')', TOKEN_RIGHT_PAREN);
+        MAKE_TOKEN_CASE('{', TOKEN_LEFT_BRACE);
+        MAKE_TOKEN_CASE('}', TOKEN_RIGHT_BRACE);
+        MAKE_TOKEN_CASE('[', TOKEN_LEFT_BRACKET);
+        MAKE_TOKEN_CASE(']', TOKEN_RIGHT_BRACKET);
+        MAKE_TOKEN_CASE(';', TOKEN_SEMICOLON);
+        MAKE_TOKEN_CASE(',', TOKEN_COMMA);
+        MAKE_TOKEN_CASE('.', lexer_match('.') ? TOKEN_RANGE : TOKEN_DOT);
+        MAKE_TOKEN_CASE('-', lexer_match('=') ? TOKEN_MINUS_EQUAL : TOKEN_MINUS);
+        MAKE_TOKEN_CASE('+', lexer_match('=') ? TOKEN_PLUS_EQUAL : TOKEN_PLUS);
     case '/':
         if (lexer_match('/')) {
             while (!lexer_match('\n')) {
@@ -135,26 +125,21 @@ token_t lexer_scan_token() {
         } else {
             return lexer_make_token(TOKEN_STAR);
         }
-    case '!':
-        return lexer_make_token(lexer_match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
-    case '=':
-        return lexer_make_token(lexer_match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
+    MAKE_TOKEN_CASE('!', lexer_match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
+    MAKE_TOKEN_CASE('=', lexer_match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
     case '"':
         return lexer_string();
-    case ':':
-        return lexer_make_token(TOKEN_DOUBLEDOT);
-    case '<':
-        return lexer_make_token(lexer_match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
-    case '>':
-        return lexer_make_token(lexer_match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
-    case '%':
-        return lexer_make_token(lexer_match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
+    MAKE_TOKEN_CASE(':', TOKEN_DOUBLEDOT);
+    MAKE_TOKEN_CASE('<', lexer_match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
+    MAKE_TOKEN_CASE('>', lexer_match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
+    MAKE_TOKEN_CASE('%', lexer_match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
     case '|':
         return lexer_match('|') ? lexer_make_token(TOKEN_OR) : lexer_error_token("There is no bitwise or in cellox");
     case '&':
         return lexer_match('&') ? lexer_make_token(TOKEN_AND) : lexer_error_token("There is no bitwise and in cellox");
     }
     return lexer_error_token("Unexpected character.");
+    #undef MAKE_TOKEN_CASE
 }
 
 /// Advances a position further in the sourceCode and returns the prevoius Token

@@ -15,7 +15,7 @@
 
 /**
  * @file native_functions.h
- * @brief Header file containing the declarations of functionality used by the native functions of the interpreter.
+ * @brief Header file containing the declarations of functionality used by the native functions of the compiler.
  */
 
 #ifndef CELLOX_NATIVE_FUNCTIONS_H_

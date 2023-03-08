@@ -15,13 +15,13 @@
 
 /**
  * @file main.c
- * @brief File containing main entry point of the interpreter.
+ * @brief File containing main entry point of the compiler.
  */
 
 #include "command_line_argument_parser.h"
 #include "common.h"
 
-/// @brief Main entry point of the cellox interpreter
+/// @brief Main entry point of the cellox compiler
 /// @param argc The amount of arguments that were specified by the user
 /// @param argv The arguments that were specified by the user
 /// @return 0 if no error occurs

@@ -15,7 +15,7 @@
 
 /**
  * @file value_hash_table.h
- * @brief Header file for the hashtable implementation used internally by the interpreter
+ * @brief Header file for the hashtable implementation used internally by the compiler
  */
 
 #ifndef CELLOX_VALUE_HASH_TABLE_H_

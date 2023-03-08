@@ -15,7 +15,7 @@
 
 /**
  * @file native_functions.c
- * @brief File containing implementation of functionality used by the native functions of the interpreter.
+ * @brief File containing implementation of functionality used by the native functions of the compiler.
  */
 
 #include <ctype.h>

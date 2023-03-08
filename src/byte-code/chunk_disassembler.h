@@ -15,7 +15,7 @@
 
 /**
  * @file chunk_disassembler.h
- * @brief File containing declarations of functions that are used to debug the interpreter.
+ * @brief File containing declarations of functions that are used to debug the compiler.
  */
 
 #ifndef CELLOX_CHUNK_DISASSEMBLER_H_

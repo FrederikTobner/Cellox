@@ -12,7 +12,7 @@
 * <li>The standard libary is simplistic, like the language itself</li>
 * </ol>
 * \section building_sec Building
-* To build the interpreter a C-Compiler, that supports the C99 standard and CMake (Version >= 3.16) is required. <br>
+* To build the compiler a C-Compiler, that supports the C99 standard and CMake (Version >= 3.16) is required. <br>
 * Additionaly cellox has the following dependecies <br>
 * Under windows:
 * * conio.h
@@ -54,7 +54,7 @@
 * For testing a cellox program is executed and the standard output is redirected to a string. <br>
 * The string is compared with the expected output after the program was executed. <br>
 * \section developmenttools_sec Development tools
-* A small benchmarking tool to measure the performance of cellox programs and a disassbler for cellox chunk files is also included (only used for developing the interpreter)
+* A small benchmarking tool to measure the performance of cellox programs and a disassbler for cellox chunk files is also included (only used for developing the compiler)
 * \section license_sec License
 * Copyright &copy; 2022 by <a href="mailto:f.tobner@gmail.com">Frederik Tobner</a>. <br>
 * Permission to use, copy, modify, and distribute this software and its documentation under the terms of the GNU General Public License is hereby granted. <br>
