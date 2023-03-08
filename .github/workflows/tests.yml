@@ -2,7 +2,20 @@ name: Tests
 
 on:
   pull_request:
-    branches: [ "master" ]        
+    branches: [ "master" ]
+    paths-ignore:
+     - '**/*.md'    # Markdown
+     - '**/*.bat'   # Scripts
+     - '**/*.sh'
+     - '**/*.clx'   # Cellox source files
+     - '**/*.html'  # Documentation
+     - '**/*.js'
+     - '**/*.png'
+     - '**/*.css'
+     - '**/*.dox'
+     - '**/*.svg'
+     - '**/*.bmp'
+     - '**/*.ico'      
 
 jobs:
   build:
