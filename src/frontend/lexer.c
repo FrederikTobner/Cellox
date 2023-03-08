@@ -175,15 +175,14 @@ static token_t lexer_identifier() {
 
 /// Creates a new identifier token or a reserved keyword
 static tokentype lexer_identifier_type() {
+    #define CASE_KEYWORD(character, start, length, rest, token) \
+        case character: \
+        return lexer_check_keyword(start, length, rest, token);
     switch (lexer.start[0]) {
-    case 'a':
-        return lexer_check_keyword(1, 2, "nd", TOKEN_AND);
-    case 'c':
-        return lexer_check_keyword(1, 4, "lass", TOKEN_CLASS);
-    case 'd':
-        return lexer_check_keyword(1, 1, "o", TOKEN_DO);
-    case 'e':
-        return lexer_check_keyword(1, 3, "lse", TOKEN_ELSE);
+    CASE_KEYWORD('a', 1, 2, "nd", TOKEN_AND);
+    CASE_KEYWORD('c', 1, 4, "lass", TOKEN_CLASS);
+    CASE_KEYWORD('d', 1, 1, "o", TOKEN_DO);
+    CASE_KEYWORD('e', 1, 3, "lse", TOKEN_ELSE);
     case 'f':
         if (lexer.current - lexer.start > 1) {
             switch (lexer.start[1]) {
@@ -196,16 +195,11 @@ static tokentype lexer_identifier_type() {
             }
         }
         break;
-    case 'i':
-        return lexer_check_keyword(1, 1, "f", TOKEN_IF);
-    case 'n':
-        return lexer_check_keyword(1, 3, "ull", TOKEN_NULL);
-    case 'o':
-        return lexer_check_keyword(1, 1, "r", TOKEN_OR);
-    case 'r':
-        return lexer_check_keyword(1, 5, "eturn", TOKEN_RETURN);
-    case 's':
-        return lexer_check_keyword(1, 4, "uper", TOKEN_SUPER);
+    CASE_KEYWORD('i', 1, 1, "f", TOKEN_IF);
+    CASE_KEYWORD('n', 1, 3, "ull", TOKEN_NULL);
+    CASE_KEYWORD('o', 1, 1, "r", TOKEN_OR);
+    CASE_KEYWORD('r', 1, 5, "eturn", TOKEN_RETURN);
+    CASE_KEYWORD('s', 1, 4, "uper", TOKEN_SUPER);
     case 't':
         if (lexer.current - lexer.start > 1) {
             switch (lexer.start[1]) {
@@ -216,12 +210,11 @@ static tokentype lexer_identifier_type() {
             }
         }
         break;
-    case 'v':
-        return lexer_check_keyword(1, 2, "ar", TOKEN_VAR);
-    case 'w':
-        return lexer_check_keyword(1, 4, "hile", TOKEN_WHILE);
+    CASE_KEYWORD('v', 1, 2, "ar", TOKEN_VAR);
+    CASE_KEYWORD('w', 1, 4, "hile", TOKEN_WHILE);
     }
     return TOKEN_IDENTIFIER;
+    #undef CASE_KEYWORD
 }
 
 /// @brief Checks if the char c is from the alphabet or an underscore.
