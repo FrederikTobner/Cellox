@@ -20,9 +20,10 @@
 
 #include "chunk_optimizer.h"
 
-#define FOLD_EXPRESSION(op)                                   \
-    chunk->constants.values[chunk->code[*indexPointer + 1]] = \
-        NUMBER_VAL(AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 1]]) op AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 3]]))
+#define FOLD_EXPRESSION(op)                                                           \
+    chunk->constants.values[chunk->code[*indexPointer + 1]] =                         \
+        NUMBER_VAL(AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 1]]) \
+                       op AS_NUMBER(chunk->constants.values[chunk->code[*indexPointer + 3]]))
 
 static void chunk_optimizer_fold_numerical_expression(chunk_t *, int32_t *);
 
@@ -38,7 +39,8 @@ void chunk_optimizer_optimize_chunk(chunk_t * chunk) {
                     case OP_DIVIDE:
                     case OP_MULTIPLY:
                     case OP_SUBTRACT:
-                        if (IS_NUMBER(chunk->constants.values[chunk->code[i + 1]]) && IS_NUMBER(chunk->constants.values[chunk->code[i + 2]])) {
+                        if (IS_NUMBER(chunk->constants.values[chunk->code[i + 1]]) &&
+                            IS_NUMBER(chunk->constants.values[chunk->code[i + 2]])) {
                             chunk_optimizer_fold_numerical_expression(chunk, &i);
                         }
                         break;
@@ -78,7 +80,8 @@ void chunk_optimizer_optimize_chunk(chunk_t * chunk) {
 /// @param chunk The chunk where the expression is folded
 /// @param indexPointer Pointer to the index of the first constant in the expression that is folded
 static void chunk_optimizer_fold_numerical_expression(chunk_t * chunk, int32_t * indexPointer) {
-    // Removes OP_ADD, OP_CONSTANT and the constant index and replaced the first constant at the index with the result of evaluating the expression
+    // Removes OP_ADD, OP_CONSTANT and the constant index and replaced the first constant at the index with the result
+    // of evaluating the expression
     double foldedConstantValue;
 
     switch (chunk->code[*indexPointer + 4]) {
