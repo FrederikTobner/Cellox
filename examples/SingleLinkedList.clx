@@ -26,6 +26,18 @@ class SingleLinkedList {
 		this.head = Node(value, this.head);
 	}
 
+	getAt(index) {
+		var current = this.head;
+		var i = 0;
+		while(current) {
+			if(i == index)
+				return current;
+			current = current.nextNode;
+			i++;
+		}
+		return null;
+	}
+
 	printList() {
 		var current = this.head;
 		while(current) {	
@@ -62,3 +74,5 @@ list.addFirst(1);
 list.printList();
 list.remove(1);
 list.printList();
+
+
