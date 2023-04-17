@@ -56,9 +56,12 @@ typedef struct {
 /// @brief Option configurations for all the possible options
 static command_line_option_type_config_t optionConfigs[] = {
     [OPTION_NO_OPTION] = {.exclusionaryOption = false},
-    [OPTION_TYPE_COMPILE] = {.shortRepresentation = "-c", .longRepresentation = "--compile", .exclusionaryOption = true},
+    [OPTION_TYPE_COMPILE] = {.shortRepresentation = "-c",
+                             .longRepresentation = "--compile",
+                             .exclusionaryOption = true},
     [OPTION_TYPE_HELP] = {.shortRepresentation = "-h", .longRepresentation = "--help", .exclusionaryOption = true},
-    [OPTION_TYPE_VERSION] = {.shortRepresentation = "-v", .longRepresentation = "--version", .exclusionaryOption = true}};
+    [OPTION_TYPE_VERSION] = {
+        .shortRepresentation = "-v", .longRepresentation = "--version", .exclusionaryOption = true}};
 
 static void command_line_argument_parser_error(char const *, ...);
 static inline bool command_line_argument_parser_is_option(char const *);
@@ -132,7 +135,8 @@ static void command_line_argument_parser_parse_option(char const * option, comma
     }
     size_t upperBound = sizeof(optionConfigs) / sizeof(command_line_option_type_config_t);
     for (size_t i = 1; i < upperBound; i++) {
-        if (!strcmp(optionConfigs[i].shortRepresentation, option) || !strcmp(optionConfigs[i].longRepresentation, option)) {
+        if (!strcmp(optionConfigs[i].shortRepresentation, option) ||
+            !strcmp(optionConfigs[i].longRepresentation, option)) {
             // New option is a singular option
             if (optionConfigs[i].exclusionaryOption && *currentOption) {
                 command_line_argument_parser_error("Multiple exclusionary options specified");

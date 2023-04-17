@@ -61,10 +61,10 @@ void lexer_init(char const * sourcecode) {
 }
 
 token_t lexer_scan_token() {
-    #define MAKE_TOKEN_CASE(character, token) \
-        case character:\
+#define MAKE_TOKEN_CASE(character, token) \
+    case character:                       \
         return lexer_make_token(token)
-    
+
     lexer_skip_whitespace();
     lexer.start = lexer.current;
 
@@ -125,21 +125,21 @@ token_t lexer_scan_token() {
         } else {
             return lexer_make_token(TOKEN_STAR);
         }
-    MAKE_TOKEN_CASE('!', lexer_match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
-    MAKE_TOKEN_CASE('=', lexer_match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
+        MAKE_TOKEN_CASE('!', lexer_match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
+        MAKE_TOKEN_CASE('=', lexer_match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
     case '"':
         return lexer_string();
-    MAKE_TOKEN_CASE(':', TOKEN_DOUBLEDOT);
-    MAKE_TOKEN_CASE('<', lexer_match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
-    MAKE_TOKEN_CASE('>', lexer_match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
-    MAKE_TOKEN_CASE('%', lexer_match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
+        MAKE_TOKEN_CASE(':', TOKEN_DOUBLEDOT);
+        MAKE_TOKEN_CASE('<', lexer_match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
+        MAKE_TOKEN_CASE('>', lexer_match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
+        MAKE_TOKEN_CASE('%', lexer_match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
     case '|':
         return lexer_match('|') ? lexer_make_token(TOKEN_OR) : lexer_error_token("There is no bitwise or in cellox");
     case '&':
         return lexer_match('&') ? lexer_make_token(TOKEN_AND) : lexer_error_token("There is no bitwise and in cellox");
     }
     return lexer_error_token("Unexpected character.");
-    #undef MAKE_TOKEN_CASE
+#undef MAKE_TOKEN_CASE
 }
 
 /// Advances a position further in the sourceCode and returns the prevoius Token
@@ -175,14 +175,14 @@ static token_t lexer_identifier() {
 
 /// Creates a new identifier token or a reserved keyword
 static tokentype lexer_identifier_type() {
-    #define CASE_KEYWORD(character, start, length, rest, token) \
-        case character: \
+#define CASE_KEYWORD(character, start, length, rest, token) \
+    case character:                                         \
         return lexer_check_keyword(start, length, rest, token);
     switch (lexer.start[0]) {
-    CASE_KEYWORD('a', 1, 2, "nd", TOKEN_AND);
-    CASE_KEYWORD('c', 1, 4, "lass", TOKEN_CLASS);
-    CASE_KEYWORD('d', 1, 1, "o", TOKEN_DO);
-    CASE_KEYWORD('e', 1, 3, "lse", TOKEN_ELSE);
+        CASE_KEYWORD('a', 1, 2, "nd", TOKEN_AND);
+        CASE_KEYWORD('c', 1, 4, "lass", TOKEN_CLASS);
+        CASE_KEYWORD('d', 1, 1, "o", TOKEN_DO);
+        CASE_KEYWORD('e', 1, 3, "lse", TOKEN_ELSE);
     case 'f':
         if (lexer.current - lexer.start > 1) {
             switch (lexer.start[1]) {
@@ -195,11 +195,11 @@ static tokentype lexer_identifier_type() {
             }
         }
         break;
-    CASE_KEYWORD('i', 1, 1, "f", TOKEN_IF);
-    CASE_KEYWORD('n', 1, 3, "ull", TOKEN_NULL);
-    CASE_KEYWORD('o', 1, 1, "r", TOKEN_OR);
-    CASE_KEYWORD('r', 1, 5, "eturn", TOKEN_RETURN);
-    CASE_KEYWORD('s', 1, 4, "uper", TOKEN_SUPER);
+        CASE_KEYWORD('i', 1, 1, "f", TOKEN_IF);
+        CASE_KEYWORD('n', 1, 3, "ull", TOKEN_NULL);
+        CASE_KEYWORD('o', 1, 1, "r", TOKEN_OR);
+        CASE_KEYWORD('r', 1, 5, "eturn", TOKEN_RETURN);
+        CASE_KEYWORD('s', 1, 4, "uper", TOKEN_SUPER);
     case 't':
         if (lexer.current - lexer.start > 1) {
             switch (lexer.start[1]) {
@@ -210,11 +210,11 @@ static tokentype lexer_identifier_type() {
             }
         }
         break;
-    CASE_KEYWORD('v', 1, 2, "ar", TOKEN_VAR);
-    CASE_KEYWORD('w', 1, 4, "hile", TOKEN_WHILE);
+        CASE_KEYWORD('v', 1, 2, "ar", TOKEN_VAR);
+        CASE_KEYWORD('w', 1, 4, "hile", TOKEN_WHILE);
     }
     return TOKEN_IDENTIFIER;
-    #undef CASE_KEYWORD
+#undef CASE_KEYWORD
 }
 
 /// @brief Checks if the char c is from the alphabet or an underscore.

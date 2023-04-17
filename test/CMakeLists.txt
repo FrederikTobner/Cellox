@@ -88,7 +88,7 @@ set(TEST_DEPENDENCIES_HEADER_FILES
 add_compile_definitions(
 # Flag that indicates that test are executed
 CELLOX_TESTS_RUNNING
-# Directory of the cellox integration tests
+# Directory of the cellox e2e tests
 TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
 )
 

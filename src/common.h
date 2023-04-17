@@ -49,7 +49,7 @@ typedef enum {
 // Typedefs for exact-width-integer types from the C99 standard
 #include <stdint.h>
 
-/// Number of values in a dynamic array of upvalues or locals
+/// Maximum number of values in a dynamic array of upvalues or locals
 #define UINT8_COUNT (256)
 
 #endif // CELLOX_COMMON_H_

@@ -20,7 +20,7 @@ option(CLX_BUILD_TOOLS "Determines whether the development tools shall be built"
 
 include(CheckIncludeFile)
 
-# C99 standard is required to build the interpreter
+# C99 standard is required to build the compiler
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 

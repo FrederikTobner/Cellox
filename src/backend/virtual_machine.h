@@ -51,7 +51,8 @@ typedef struct {
     call_frame_t callStack[FRAMES_MAX];
     /// The amount of callframes the virtualMachine currently holds
     uint32_t frameCount;
-    /// Amount of objects in the virtual machine that are marked as gray -> objects that are already discovered but haven't been processed yet
+    /// Amount of objects in the virtual machine that are marked as gray -> objects that are already discovered but
+    /// haven't been processed yet
     uint32_t grayCount;
     /// The capacity of the dynamic array storing the objects that were marked as gray
     uint32_t grayCapacity;

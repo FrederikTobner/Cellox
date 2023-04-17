@@ -4,9 +4,6 @@ AlignConsecutiveMacros:
   AcrossEmptyLines: true
   AcrossComments: true
 AlignEscapedNewlines: Left
-AlignTrailingComments:
-  Kind: Always
-  OverEmptyLines: 2
 AllowAllArgumentsOnNextLine: true
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false

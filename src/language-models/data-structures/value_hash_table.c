@@ -75,7 +75,8 @@ bool value_hash_table_delete(value_hash_table_t * table, object_string_t * key) 
     return true;
 }
 
-object_string_t * value_hash_table_find_string(value_hash_table_t * table, char const * chars, uint32_t length, uint32_t hash) {
+object_string_t * value_hash_table_find_string(value_hash_table_t * table, char const * chars, uint32_t length,
+                                               uint32_t hash) {
     if (!table->count) {
         return NULL;
     }
@@ -88,7 +89,8 @@ object_string_t * value_hash_table_find_string(value_hash_table_t * table, char 
             if (IS_NULL(entry->value)) {
                 return NULL;
             }
-        } else if (entry->key->length == length && entry->key->hash == hash && !memcmp(entry->key->chars, chars, length)) {
+        } else if (entry->key->length == length && entry->key->hash == hash &&
+                   !memcmp(entry->key->chars, chars, length)) {
             return entry->key; /// We found the string
         }
         // We look in the next bucket but eventually we also have to wrap around the array when we reach the end
@@ -168,7 +170,8 @@ static void hash_table_adjust_capacity(value_hash_table_t * table, int32_t capac
 /// @param capacity The capacity of the hashtable
 /// @param key The key of the hashtable that is looked up
 /// @return Returns the entry or NULL if the value has already been deleted
-static value_hash_table_entry_t * hash_table_find_entry(value_hash_table_entry_t * entries, int32_t capacity, object_string_t * key) {
+static value_hash_table_entry_t * hash_table_find_entry(value_hash_table_entry_t * entries, int32_t capacity,
+                                                        object_string_t * key) {
     uint32_t index = key->hash & (capacity - 1);
     value_hash_table_entry_t * tombstone = NULL;
     for (;;) {
@@ -182,7 +185,8 @@ static value_hash_table_entry_t * hash_table_find_entry(value_hash_table_entry_t
                  * A tombstone marks the slot of a value that has already been deleted.
                  * This is done so because when we look up an entry that has been moved by a collision,
                  * the entry that has occupied the slot where the collision occured has been deleted,
-                 * so we need a value to indicate that another value prevouisly occupied the slot so we don't stop looking for the entry
+                 * so we need a value to indicate that another value prevouisly occupied the slot so we don't stop
+                 * looking for the entry
                  */
                 if (!tombstone) {
                     tombstone = entry;

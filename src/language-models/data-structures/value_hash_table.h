@@ -61,7 +61,8 @@ void value_hash_table_mark(value_hash_table_t * table);
 /// @param to The destination-table
 void value_hash_table_add_all(value_hash_table_t * from, value_hash_table_t * to);
 
-/// @brief Attempts to Deletes an entry in the hashtable and returns true if an entry coresponding to the given key has been found
+/// @brief Attempts to Deletes an entry in the hashtable and returns true if an entry coresponding to the given key has
+/// been found
 /// @param table The table where an attempt is made to delete an entry
 /// @param key The key of the value that is deleted
 /// @return A boolean value that indicates whether a value was deleted
@@ -73,7 +74,8 @@ bool value_hash_table_delete(value_hash_table_t * table, object_string_t * key);
 /// @param length The length of the string
 /// @param hash The hashvalue of the string
 /// @return An object_string_t or NULL if the string hasn't been found
-object_string_t * value_hash_table_find_string(value_hash_table_t * table, char const * chars, uint32_t length, uint32_t hash);
+object_string_t * value_hash_table_find_string(value_hash_table_t * table, char const * chars, uint32_t length,
+                                               uint32_t hash);
 
 /// @brief Reads the Value to the specified key, if an entry corresponding to the given key is present
 /// @param table The table where the entry is looked upo
@@ -86,7 +88,8 @@ bool value_hash_table_get(value_hash_table_t * table, object_string_t * key, val
 /// @param table The table where all the values marked as white (not reachable) are removed
 void value_hash_table_remove_white(value_hash_table_t * table);
 
-/// @brief Changes the value corresponding to the key or creates a new entry if no entry corespronding to the key has been found
+/// @brief Changes the value corresponding to the key or creates a new entry if no entry corespronding to the key has
+/// been found
 /// @param table The table where the entry is changed or inserted
 /// @param key The key of the entry that is changed or the  key of the new entry
 /// @param value The value the value of the entry is changed to or value of the new entry

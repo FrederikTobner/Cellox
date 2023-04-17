@@ -8,7 +8,7 @@
 * Cellox is designed with the following key concepts in mind:
 * <ol>
 * <li>Programming should approachable without knowledge about things like memory allocation, representation of values in memory etc</li>
-* <li>Use a simple syntax that is approachable for beginners</li>
+* <li>Cellox provides a simple syntax that is approachable for beginners</li>
 * <li>The standard libary is simplistic, like the language itself</li>
 * </ol>
 * \section building_sec Building
