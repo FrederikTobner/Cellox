@@ -50,4 +50,4 @@ local generator = arg[3] or (ninjaAvailable() and "Ninja" or "")
 local cmake_command = string.format("cmake -B ../build -DCMAKE_BUILD_TYPE=%s%s ..", buildType, generator and (" -G " .. generator) or "")
 -- This command is only needed on Windows
 local vcvars_command = is_windows and string.format('"%s" && ', vcvars64_path) or ""
-os.execute(vcvars_command .. cmake_command .. (string.format(" && cmake --build ../build --config %s --target %s  cmake --install ../build/src --config Release", buildType, buildTarget)))
+os.execute(vcvars_command .. cmake_command .. (string.format(" && cmake --build ../build --config %s --target %s && %s cmake --install ../build/src --config Release", buildType, buildTarget, is_windows and "" or "sudo")))
