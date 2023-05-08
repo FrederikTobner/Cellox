@@ -40,7 +40,7 @@
 * The Project provides a set of scripts to ease the development of the compiler.
 * The following generators, compilers are used:
 * Under windows:
-* * [MSVC](https://learn.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170) or [GCC](https://gcc.gnu.org/) with [MinGW-w64](https://www.mingw-w64.org/)
+* * [MSVC](https://learn.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170) or [GCC](https://gcc.gnu.org/) with [MinGW-w64](https://www.mingw-w64.org/) or [Clang](https://clang.llvm.org/)
 * * [Ninja](https://ninja-build.org/) - a small build system with a focus on speed
 *
 * Under unix-based systems:
