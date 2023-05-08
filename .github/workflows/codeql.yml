@@ -16,21 +16,7 @@ on:
      - '**/*.svg'
      - '**/*.bmp'
      - '**/*.ico'
-  pull_request:
-    branches: [ "master" ]
-    paths-ignore:
-     - '**/*.md'    # Markdown
-     - '**/*.bat'   # Scripts
-     - '**/*.sh'
-     - '**/*.clx'   # Cellox source files
-     - '**/*.html'  # Documentation
-     - '**/*.js'
-     - '**/*.png'
-     - '**/*.css'
-     - '**/*.dox'
-     - '**/*.svg'
-     - '**/*.bmp'
-     - '**/*.ico'
+     
 env:
   BUILD_TYPE: Release
 jobs:
