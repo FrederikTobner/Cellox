@@ -11,19 +11,23 @@ TEST(Super, inInheritedMethod) {
 }
 
 TEST(Super, incompleteSuper) {
-    test_failing_cellox_program("super/incomplete_super.clx", "[line 7] Error at ';': Expect superclass method name.\n");
+    test_failing_cellox_program("super/incomplete_super.clx",
+                                "[line 7] Error at ';': Expect superclass method name.\n");
 }
 
 TEST(Super, methodDoesNotExist) {
-    test_failing_cellox_program("super/method_does_not_exist.clx", "Undefined property 'doesNotExist'.\n[line 5] in foo()\n[line 9] in script\n");
+    test_failing_cellox_program("super/method_does_not_exist.clx",
+                                "Undefined property 'doesNotExist'.\n[line 5] in foo()\n[line 9] in script\n");
 }
 
 TEST(Super, noSupperClass) {
-    test_failing_cellox_program("super/no_superclass.clx", "[line 3] Error at 'super': Can't use 'super' in a class with no superclass.\n");
+    test_failing_cellox_program("super/no_superclass.clx",
+                                "[line 3] Error at 'super': Can't use 'super' in a class with no superclass.\n");
 }
 
 TEST(Super, outsideClass) {
-    test_failing_cellox_program("super/outside_class.clx", "[line 1] Error at 'super': Can't use 'super' outside of a class.\n");
+    test_failing_cellox_program("super/outside_class.clx",
+                                "[line 1] Error at 'super': Can't use 'super' outside of a class.\n");
 }
 
 TEST(Super, reassign) {

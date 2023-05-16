@@ -42,7 +42,7 @@
 #define IS_CLOSURE(value)      object_is_type(value, OBJECT_CLOSURE)
 /// Makro that determines if the object has the object type function
 #define IS_FUNCTION(value)     object_is_type(value, OBJECT_FUNCTION)
-/// Makro that determines if the object has the object type native - native function
+/// Makro that determines if the object has is a native function
 #define IS_NATIVE(value)       object_is_type(value, OBJECT_NATIVE)
 /// Makro that determines if the object has the object type string
 #define IS_STRING(value)       object_is_type(value, OBJECT_STRING)

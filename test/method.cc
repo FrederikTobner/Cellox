@@ -19,7 +19,8 @@ TEST(Methods, GetAndSet) {
 }
 
 TEST(Methods, MissingArguments) {
-    test_failing_cellox_program("method/missing_arguments.clx", "Expected 2 arguments but got 1.\n[line 5] in script\n");
+    test_failing_cellox_program("method/missing_arguments.clx",
+                                "Expected 2 arguments but got 1.\n[line 5] in script\n");
 }
 
 TEST(Methods, Simple) {

@@ -3,15 +3,18 @@
 #include <gtest/gtest.h>
 
 TEST(Variable, ClassAsIdentifier) {
-    test_failing_cellox_program("variable/class_as_identifier.clx", "[line 1] Error at 'class': Expect variable name.\n");
+    test_failing_cellox_program("variable/class_as_identifier.clx",
+                                "[line 1] Error at 'class': Expect variable name.\n");
 }
 
 TEST(Variable, ColideWithParameter) {
-    test_failing_cellox_program("variable/collide_with_parameter.clx", "[line 2] Error at 'a': Already a variable with this name in this scope.\n");
+    test_failing_cellox_program("variable/collide_with_parameter.clx",
+                                "[line 2] Error at 'a': Already a variable with this name in this scope.\n");
 }
 
 TEST(Variable, Duplicate) {
-    test_failing_cellox_program("variable/duplicate.clx", "[line 3] Error at 'foo': Already a variable with this name in this scope.\n");
+    test_failing_cellox_program("variable/duplicate.clx",
+                                "[line 3] Error at 'foo': Already a variable with this name in this scope.\n");
 }
 
 TEST(Variable, FunAsIdentifier) {

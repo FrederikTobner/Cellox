@@ -19,5 +19,6 @@ TEST(EscapeSequences, specialCharacters) {
 }
 
 TEST(EscapeSequences, unknown) {
-    test_failing_cellox_program("escape_sequences/unknown.clx", "[line 1] Error at '\"\\p\"': Unknown escape sequence in string\n");
+    test_failing_cellox_program("escape_sequences/unknown.clx",
+                                "[line 1] Error at '\"\\p\"': Unknown escape sequence in string\n");
 }

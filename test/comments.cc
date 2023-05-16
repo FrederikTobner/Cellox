@@ -19,5 +19,6 @@ TEST(Comments, UniCodeCharacters) {
 }
 
 TEST(Comments, UnterminatedComment) {
-    test_failing_cellox_program("comments/unterminated_comment.clx", "[line 2] Error at 'Unterminated comment': Unterminated comment\n");
+    test_failing_cellox_program("comments/unterminated_comment.clx",
+                                "[line 2] Error at 'Unterminated comment': Unterminated comment\n");
 }

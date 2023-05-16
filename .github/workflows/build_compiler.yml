@@ -2,19 +2,7 @@ name: Build Compiler
 on:
   pull_request:
     branches: [ "master" ]
-    paths-ignore:
-     - '**/*.md'    # Markdown
-     - '**/*.bat'   # Scripts
-     - '**/*.sh'
-     - '**/*.clx'   # Cellox source files
-     - '**/*.html'  # Documentation
-     - '**/*.js'
-     - '**/*.png'
-     - '**/*.css'
-     - '**/*.dox'
-     - '**/*.svg'
-     - '**/*.bmp'
-     - '**/*.ico'
+
 jobs:
   build:
     runs-on: ${{matrix.operatingsystems}}
@@ -26,8 +14,38 @@ jobs:
         buildtypes: [Debug, Release] 
     steps:
     - uses: actions/checkout@v3
+
+    # Windoof setup
+    - name: Setup Ninja under Windows
+      if: runner.os == 'Windows'
+      uses: ashutoshvarma/setup-ninja@master
+      with:
+        version: 1.10.2
+    - name: Setup MSVC under Windows
+      if: runner.os == 'Windows'
+      uses: ilammy/msvc-dev-cmd@v1
+    
+    # Schlinux setup
+    - name: Setup Ninja under Linux
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install \
+          cmake \
+          ninja-build \
+          ${NULL+}
+
+    # SchmockOS setup
+    - name: Setup Ninja under MacOS
+      if: runner.os == 'macOS'
+      run: |
+        brew install \
+          ninja \
+          ${NULL+}  
+
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja
+
     - name: Building Compiler
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target Cellox
       

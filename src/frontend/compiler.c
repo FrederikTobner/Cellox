@@ -979,7 +979,7 @@ static void compiler_init(compiler_t * compiler, function_type type) {
 
 /// @brief Compiles a index of expression
 /// @param canAssign Unsused for index of expressions
-/// @param getOp Indicates whether the index of gets a value
+/// @param getOp Indicates whether the index of gets a value or sets a value
 /// @param arg The index of the constant
 static void compiler_index_of(bool canAssign, uint8_t getOp, uint32_t arg) {
     compiler_emit_bytes(getOp, (uint8_t)arg);
