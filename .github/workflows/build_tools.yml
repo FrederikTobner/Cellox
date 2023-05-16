@@ -15,6 +15,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
+    # Windoof setup
+    - name: Setup Ninja under Windows
+      if: runner.os == 'Windows'
+      uses: ashutoshvarma/setup-ninja@master
+      with:
+        version: 1.10.2
+    - name: Setup MSVC under Windows
+      if: runner.os == 'Windows'
+      uses: ilammy/msvc-dev-cmd@v1
+
     # Schlinux setup
     - name: Setup Ninja under Linux
       if: runner.os == 'Linux'

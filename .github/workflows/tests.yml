@@ -13,12 +13,23 @@ jobs:
         buildtypes: [Debug, Release]
     steps:
     - uses: actions/checkout@v3
+
+    # Windoof setup
+    - name: Setup Ninja under Windows
+      if: runner.os == 'Windows'
+      uses: ashutoshvarma/setup-ninja@master
+      with:
+        version: 1.10.2
+    - name: Setup MSVC under Windows
+      if: runner.os == 'Windows'
+      uses: ilammy/msvc-dev-cmd@v1
+
     - name: Configure CMake        
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCLX_BUILD_TESTS=ON
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja -DCLX_BUILD_TESTS=ON
 
     - name: Build tests
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxTests
-      
+
     - name: Run tests
       working-directory: ${{github.workspace}}/build
       run: ctest -j 1 -C ${{env.BUILD_TYPE}}
