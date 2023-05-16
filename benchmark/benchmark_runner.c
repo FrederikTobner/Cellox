@@ -9,9 +9,9 @@
 #include <time.h>
 
 #ifdef OS_WINDOWS
+#include <windows.h>
 // Windows.h has to be included before the fileapi
 #include <fileapi.h>
-#include <windows.h>
 #endif
 
 #ifdef OS_UNIX_LIKE
