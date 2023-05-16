@@ -15,16 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    # Windoof setup
-    - name: Setup Ninja under Windows
-      if: runner.os == 'Windows'
-      uses: ashutoshvarma/setup-ninja@master
-      with:
-        version: 1.10.2
-    - name: Setup MSVC under Windows
-      if: runner.os == 'Windows'
-      uses: ilammy/msvc-dev-cmd@v1
-    
     # Schlinux setup
     - name: Setup Ninja under Linux
       if: runner.os == 'Linux'
@@ -45,7 +35,7 @@ jobs:
 
     - name: Configure CMake under windows
       if: runner.os == 'Windows'
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja -DCLX_BUILD_TOOLS=ON -A x64
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCLX_BUILD_TOOLS=ON -A x64
 
     - name: Configure CMake under unix-based systems
       if: runner.os != 'Windows'
