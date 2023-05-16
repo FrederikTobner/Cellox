@@ -44,10 +44,12 @@ jobs:
           ${NULL+}  
 
     - name: Configure CMake under windows
+      if: runner.os == 'Windows'
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja -DCLX_BUILD_TOOLS=ON -A x64
 
     - name: Configure CMake under unix-based systems
+      if: runner.os != 'Windows'
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja -DCLX_BUILD_TOOLS=ON
-      
+
     - name: Build compiler development tools
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxBenchmarks CelloxDisassembler
