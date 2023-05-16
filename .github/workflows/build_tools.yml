@@ -12,6 +12,7 @@ jobs:
             matrix:
                 os: [ubuntu-latest, windows-latest, macos-latest]
                 buildtypes: [Debug, Release]
+                architecture: [x64, x86]
     steps:
     - uses: actions/checkout@v3
     
@@ -24,6 +25,8 @@ jobs:
     - name: Setup MSVC under Windows
       if: runner.os == 'Windows'
       uses: ilammy/msvc-dev-cmd@v1
+      with:
+          arch: ${{ matrix.architecture }}
     
     # Schlinux setup
     - name: Setup Ninja under Linux
