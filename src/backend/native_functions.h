@@ -43,7 +43,7 @@ native_function_config_t * native_functions_get_function_configs();
 
 /// @brief Gets the amount of defined native functions
 /// @return The amount of native functions that are defiened
-size_t native_functions_get_function_count();
+size_t native_functions_get_function_count(void);
 
 /// @brief Determines the length of an array
 /// @param argCount The amount of arguments that were used when array_length was called

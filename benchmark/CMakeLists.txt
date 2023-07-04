@@ -1,5 +1,28 @@
 set(LANGUAGE_BENCHMARKS ${PROJECT_NAME}Benchmarks)
 
+# Checking the dependencies of the benchmark runner tool
+if(UNIX)
+    # Check dependecies under unix-like systems
+    CHECK_INCLUDE_FILE("dirent.h" DIRENT_AVAILABLE)
+    if(NOT ${DIRENT_AVAILABLE})
+        message(FATAL_ERROR "dirent.h is required to build the benchmark runner under unix-like systems. \
+\   \   Please make sure it is available to the compiler and try again after that")
+    endif() # dirent.h not available
+elseif(WIN32)
+    # Check dependecies under windows
+    CHECK_INCLUDE_FILE("fileapi.h" FILEAPI_AVAILABLE)
+    CHECK_INCLUDE_FILE("windows.h" WINDOWS_AVAILABLE)
+    if(NOT ${FILEAPI_AVAILABLE})
+        message(FATAL_ERROR "conio.h is required to build the compiler under windows. \
+\   \   Please make sure it is available to the compiler and try again after that")
+    endif() # conio.h not available
+    if(NOT ${WINDOWS_AVAILABLE})
+        message(FATAL_ERROR "windows.h is required to build the compiler under windows. \
+\   \   Please make sure it is available to the compiler and try again after that")
+    endif() # windows.h not available
+endif()
+
+# The source files of the benchmark runner tool
 set(BENCHMARK_HEADER_FILES
 "benchmark_config.h"
 "benchmark_runner.h"
@@ -8,6 +31,7 @@ set(BENCHMARK_HEADER_FILES
 "dynamic_benchmark_config_array.h"
 )
 
+# The header files of the benchmark runner tool
 set(BENCHMARK_SOURCE_FILES
 "benchmark_runner.c"
 "benchmark_argument_parser.c"
@@ -15,7 +39,7 @@ set(BENCHMARK_SOURCE_FILES
 "main.c"
 )
 
-# dependencies from the interpreter needed to build the benchmark runner tool
+# The source files from the cellox compiler needed to build the benchmark runner tool
 set(BENCHMARK_DEPENDENCIES_SOURCE_FILES
 "${SOURCEPATH}/initializer.c"
 "${SOURCEPATH}/string_utils.c"
@@ -34,6 +58,7 @@ set(BENCHMARK_DEPENDENCIES_SOURCE_FILES
 "${SOURCEPATH}/language-models/data-structures/value_hash_table.c"
 "${SOURCEPATH}/middle-end/chunk_optimizer.c"
 )
+# The header files of the cellox compiler that are needed to build the benchmark runner tool
 set(BENCHMARK_DEPENDENCIES_HEADER_FILES
 "${SOURCEPATH}/initializer.h"
 "${SOURCEPATH}/string_utils.h"
@@ -56,6 +81,7 @@ set(BENCHMARK_DEPENDENCIES_HEADER_FILES
 add_compile_definitions(
 # Directory of the cellox benchmarks
 BENCHMARK_BASE_PATH="${PROJECT_SOURCE_DIR}/benchmark/benchmarks/"
+# Directory of the cellox benchmark results
 RESULTS_BASE_PATH="${PROJECT_SOURCE_DIR}/benchmark/results"
 )
 

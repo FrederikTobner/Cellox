@@ -171,7 +171,7 @@ static void chunk_file_append_constant(value_t value, dynamic_value_array_t * fu
             fputc(0, filePointer);
             break;
         default:
-            fprintf(stderr, "Object type not spupported");
+            fprintf(stderr, "Object type not supported");
             exit(EXIT_CODE_COMPILATION_ERROR);
         }
     } else // Numbers
@@ -269,28 +269,19 @@ static void chunk_file_append_meta_data(chunk_file_compile_flag flag, FILE * fil
 /// @param count The value that is appended
 /// @param filePointer Pointer to the chunk file where the value is appended
 static void chunk_file_append_u32(uint32_t number, FILE * filePointer) {
-    uint8_t numberShifted = (number & 0xff000000u) >> 24;
-    fputc(numberShifted, filePointer);
-    numberShifted = (number & 0x00ff0000u) >> 16;
-    fputc(numberShifted, filePointer);
-    numberShifted = (number & 0x0000ff00u) >> 8;
-    fputc(numberShifted, filePointer);
-    numberShifted = number & 0x000000ffu;
-    fputc(number & 0x000000ffu, filePointer);
+    for (int i = 3; i >= 0; i--) {
+        fputc((number >> (8 * i)) & 0xff, filePointer);
+    }
 }
 
 /// @brief Appends a 64bit unsigned integer value to a chunk file
 /// @param count The value that is appended
 /// @param filePointer Pointer to the chunk file where the value is appended
 static void chunk_file_append_u64(uint64_t number, FILE * filePointer) {
-    fputc((number & 0xff00000000000000) >> 56, filePointer);
-    fputc((number & 0x00ff000000000000) >> 48, filePointer);
-    fputc((number & 0x0000ff0000000000) >> 40, filePointer);
-    fputc((number & 0x000000ff00000000) >> 32, filePointer);
-    fputc((number & 0x00000000ff000000) >> 24, filePointer);
-    fputc((number & 0x0000000000ff0000) >> 16, filePointer);
-    fputc((number & 0x000000000000ff00) >> 8, filePointer);
-    fputc(number & 0x00000000000000ff, filePointer);
+    for (int i = 7; i >= 0; i--) {
+        uint8_t byte = (number >> (8 * i)) & 0xff;
+        fputc(byte, filePointer);
+    }
 }
 
 /// @brief Parses a chunk in a chunk file
@@ -489,10 +480,9 @@ static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result
         chunk_file_error("Chunk file is incomplete");
     }
     uint32_t number = 0;
-    number += (*(*fileContent)++) << 24;
-    number += (*(*fileContent)++) << 16;
-    number += (*(*fileContent)++) << 8;
-    number += (*(*fileContent)++);
+    for (int i = 0; i < 4; i++) {
+        number |= *(*fileContent)++ << (24 - 8 * i);
+    }
     (*bytesReadPointer) += 4;
     return number;
 }
@@ -509,14 +499,9 @@ static uint64_t chunk_file_parse_u64(char const ** fileContent, chunk_t * result
         chunk_file_error("Chunk file is incomplete");
     }
     uint64_t number = 0;
-    number += ((uint64_t) * (*fileContent)++) << 56;
-    number += ((uint64_t) * (*fileContent)++) << 48;
-    number += ((uint64_t) * (*fileContent)++) << 40;
-    number += ((uint64_t) * (*fileContent)++) << 32;
-    number += ((uint64_t) * (*fileContent)++) << 24;
-    number += ((uint64_t) * (*fileContent)++) << 16;
-    number += ((uint64_t) * (*fileContent)++) << 8;
-    number += ((uint64_t) * (*fileContent)++);
+    for (int i = 0; i < 8; i++) {
+        number |= ((uint64_t) * (*fileContent)++) << (56 - 8 * i);
+    }
     (*bytesReadPointer) += 8;
     return number;
 }
@@ -560,6 +545,7 @@ static void chunk_file_error(char const * format, ...) {
     vfprintf(stderr, format, args);
     va_end(args);
     fputs("\n", stderr);
+// If we are running the tests we do not want to exit the program
 #ifndef CELLOX_TESTS_RUNNING
     exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
 #endif

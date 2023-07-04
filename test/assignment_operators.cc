@@ -39,17 +39,21 @@ TEST(AssgnmentOperator, Simple) {
 }
 
 TEST(AssgnmentOperator, ToBool) {
-    test_failing_cellox_program("assignment_operators/to_bool.clx", "[line 1] Error at '=': Invalid Token at the current position\n");
+    test_failing_cellox_program("assignment_operators/to_bool.clx",
+                                "[line 1] Error at '=': Invalid Token at the current position\n");
 }
 
 TEST(AssgnmentOperator, ToNull) {
-    test_failing_cellox_program("assignment_operators/to_null.clx", "[line 1] Error at '=': Invalid Token at the current position\n");
+    test_failing_cellox_program("assignment_operators/to_null.clx",
+                                "[line 1] Error at '=': Invalid Token at the current position\n");
 }
 
 TEST(AssgnmentOperator, ToNumber) {
-    test_failing_cellox_program("assignment_operators/to_number.clx", "[line 1] Error at '=': Invalid Token at the current position\n");
+    test_failing_cellox_program("assignment_operators/to_number.clx",
+                                "[line 1] Error at '=': Invalid Token at the current position\n");
 }
 
 TEST(AssgnmentOperator, ToString) {
-    test_failing_cellox_program("assignment_operators/to_string.clx", "[line 1] Error at '=': Invalid Token at the current position\n");
+    test_failing_cellox_program("assignment_operators/to_string.clx",
+                                "[line 1] Error at '=': Invalid Token at the current position\n");
 }

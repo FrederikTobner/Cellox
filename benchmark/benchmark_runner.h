@@ -6,7 +6,7 @@
 #include "benchmark_config.h"
 #include "dynamic_benchmark_config_array.h"
 
-void benchmark_runner_execute_all_predefiened();
+void benchmark_runner_execute_all_predefiened(void);
 
 void benchmark_runner_execute_predefiened(benchmark benchmark);
 

@@ -161,39 +161,39 @@ class_compiler_t * currentClass = NULL;
 
 static void compiler_add_local(token_t);
 static uint32_t compiler_add_upvalue(compiler_t *, uint8_t, bool);
-static void compiler_advance();
+static void compiler_advance(void);
 static void compiler_and(bool);
-static uint8_t compiler_argument_list();
-static void compiler_begin_scope();
+static uint8_t compiler_argument_list(void);
+static void compiler_begin_scope(void);
 static void compiler_binary(bool);
 static inline void compiler_binary_number(bool);
-static void compiler_block();
+static void compiler_block(void);
 static inline void compiler_call(bool);
 static inline bool compiler_check(tokentype);
 static void compiler_class_declaration();
 static void compiler_consume(tokentype, char const *);
-static inline chunk_t * compiler_current_chunk();
-static void compiler_declaration();
-static void compiler_declare_variable();
+static inline chunk_t * compiler_current_chunk(void);
+static void compiler_declaration(void);
+static void compiler_declare_variable(void);
 static void compiler_define_variable(uint8_t);
-static void compiler_do_while_statement();
+static void compiler_do_while_statement(void);
 static void compiler_dot(bool);
 static void compiler_dynamic_array(bool);
-static uint8_t compiler_dynamic_array_argument_list();
+static uint8_t compiler_dynamic_array_argument_list(void);
 static void compiler_emit_byte(uint8_t);
 static void compiler_emit_bytes(uint8_t, uint8_t);
 static inline void compiler_emit_constant(value_t);
 static int32_t compiler_emit_jump(uint8_t);
 static void compiler_emit_loop(int32_t);
-static void compiler_emit_return();
-static object_function_t * compiler_end();
-static void compiler_end_scope();
+static void compiler_emit_return(void);
+static object_function_t * compiler_end(void);
+static void compiler_end_scope(void);
 static inline void compiler_error(char const *, ...);
 static void compiler_error_at(token_t *, char const *, ...);
 static void compiler_error_at_current(char const *, ...);
 static void compiler_expression();
-static void compiler_expression_statement();
-static void compiler_for_statement();
+static void compiler_expression_statement(void);
+static void compiler_for_statement(void);
 static void compiler_function(function_type);
 static void compiler_function_declaration();
 static inline parse_rule_t * compiler_get_rule(tokentype);
@@ -205,10 +205,10 @@ static void compiler_if_statement();
 static void compiler_init(compiler_t *, function_type);
 static void compiler_index_of(bool, uint8_t, uint32_t);
 static void compiler_literal(bool);
-static void compiler_mark_initialized();
+static void compiler_mark_initialized(void);
 static uint8_t compiler_make_constant(value_t);
 static bool compiler_match_token(tokentype);
-static void compiler_method();
+static void compiler_method(void);
 static void compiler_named_variable(token_t, bool);
 static void compiler_nondirect_assignment(uint8_t, uint8_t, uint8_t, uint8_t);
 static inline void compiler_number(bool);
@@ -219,16 +219,16 @@ static void compiler_patch_jump(int32_t);
 static int32_t compiler_resolve_local(compiler_t *, token_t *);
 static int32_t compiler_resolve_upvalue(compiler_t *, token_t *);
 static void compiler_return_statement();
-static void compiler_statement();
+static void compiler_statement(void);
 static void compiler_string(bool);
 static void compiler_super(bool);
-static void compiler_synchronize();
+static void compiler_synchronize(void);
 static token_t compiler_synthetic_token(char const *);
 static void compiler_this(bool);
 static void compiler_unary(bool);
-static void compiler_var_declaration();
+static void compiler_var_declaration(void);
 static inline void compiler_variable(bool);
-static void compiler_while_statement();
+static void compiler_while_statement(void);
 
 /// ParseRules for the tokens of cellox
 static parse_rule_t rules[] = {
@@ -301,7 +301,7 @@ object_function_t * compiler_compile(char const * program) {
     return parser.hadError ? NULL : function;
 }
 
-void compiler_mark_roots() {
+void compiler_mark_roots(void) {
     compiler_t * compiler = current;
     while (compiler) {
         garbage_collector_mark_object((object_t *)compiler->function);
@@ -347,7 +347,7 @@ static uint32_t compiler_add_upvalue(compiler_t * compiler, uint8_t index, bool 
 }
 
 /// @brief Advances a poosition further in the linear sequence of tokens
-static void compiler_advance() {
+static void compiler_advance(void) {
     parser.previous = parser.current;
 
     for (;;) {
@@ -371,7 +371,7 @@ static void compiler_and(bool canAssign) {
 
 /// @brief Compiles a List of argument of a call expression to bytecode instructions
 /// @return The amount of arguments that were parsed
-static uint8_t compiler_argument_list() {
+static uint8_t compiler_argument_list(void) {
     uint8_t argCount = 0;
     if (!compiler_check(TOKEN_RIGHT_PAREN)) {
         do {
@@ -390,7 +390,7 @@ static uint8_t compiler_argument_list() {
 
 /// @brief Handles the beginning of a new Scope
 /// @details Increments the scopecounter that is used to determine whether the current scope is global &frasl; local
-static void compiler_begin_scope() {
+static void compiler_begin_scope(void) {
     current->scopeDepth++;
 }
 
@@ -451,7 +451,7 @@ static inline void compiler_binary_number(bool canAssign) {
 }
 
 /// @brief Compiles a block statement to bytecode instructions
-static void compiler_block() {
+static void compiler_block(void) {
     while (!compiler_check(TOKEN_RIGHT_BRACE) && !compiler_check(TOKEN_EOF)) {
         compiler_declaration();
     }
@@ -476,7 +476,7 @@ static inline bool compiler_check(tokentype type) {
 }
 
 /// @brief Parses a new class declaration
-static void compiler_class_declaration() {
+static void compiler_class_declaration(void) {
     // Compiles the name of the class
     compiler_consume(TOKEN_IDENTIFIER, "Expect class name.");
     token_t className = parser.previous;
@@ -530,14 +530,14 @@ static void compiler_consume(tokentype type, char const * message) {
 
 /// @brief Gets the token that is currently compiled
 /// @details Gets a pointer the the token in the chunk that is currently compiled
-static inline chunk_t * compiler_current_chunk() {
+static inline chunk_t * compiler_current_chunk(void) {
     return &current->function->chunk;
 }
 
 /// @brief Compiles a declaration stament or another statement
 /// @details A declaration statement can be a class-, function- or variable declaration.
 /// If the next statement is not a declaration it is instead compiled (precedence)
-static void compiler_declaration() {
+static void compiler_declaration(void) {
     if (compiler_match_token(TOKEN_CLASS)) {
         compiler_class_declaration();
     } else if (compiler_match_token(TOKEN_FUN)) {
@@ -555,7 +555,7 @@ static void compiler_declaration() {
 /// @brief Compiles the declaration of a variable
 /// @details Checks for local varoables, if there already has been declared a variable with that name at the current
 /// scope
-static void compiler_declare_variable() {
+static void compiler_declare_variable(void) {
     // Global scope
     if (!current->scopeDepth) {
         return;
@@ -594,7 +594,7 @@ static void compiler_define_variable(uint8_t global) {
 /// if condition is not met -> jump to end
 /// Jump to start
 /// end:
-static void compiler_do_while_statement() {
+static void compiler_do_while_statement(void) {
     int32_t loopStart = compiler_current_chunk()->byteCodeCount;
     compiler_statement();
     compiler_consume(TOKEN_WHILE, "Expect 'while' after 'do'.");
@@ -638,7 +638,7 @@ static void compiler_dynamic_array(bool canAssign) {
 
 /// @brief Compiles a List of argument of a call expression to bytecode instructions
 /// @return The amount of arguments that were parsed
-static uint8_t compiler_dynamic_array_argument_list() {
+static uint8_t compiler_dynamic_array_argument_list(void) {
     uint8_t argCount = 0;
     if (!compiler_check(TOKEN_RIGHT_BRACE)) {
         do {
@@ -700,7 +700,7 @@ static void compiler_emit_loop(int32_t loopStart) {
 }
 
 /// @brief Emits a return bytecode instruction
-static void compiler_emit_return() {
+static void compiler_emit_return(void) {
     if (current->type == TYPE_INITIALIZER) {
         compiler_emit_bytes(OP_GET_LOCAL, 0);
     } else {
@@ -710,7 +710,8 @@ static void compiler_emit_return() {
 }
 
 /// @brief Yields a newly created function object after the compilation process finished
-static object_function_t * compiler_end() {
+/// @return The newly created function object
+static object_function_t * compiler_end(void) {
     compiler_emit_return();
     object_function_t * function = current->function;
 #ifdef DEBUG_PRINT_CODE
@@ -729,7 +730,7 @@ static object_function_t * compiler_end() {
  * that where declared at the scope depth we just left, when we pop a scope.
  * If the value is captured it is an upvalue and therefore the value needs to be adjusted.
  */
-static void compiler_end_scope() {
+static void compiler_end_scope(void) {
     current->scopeDepth--;
     // We walk backward through the local array looking for the upvalues in the variables
     while (current->localCount > 0 && current->locals[current->localCount - 1].depth > current->scopeDepth) {
@@ -791,19 +792,19 @@ static void compiler_error_at_current(char const * format, ...) {
 /// and expression, equality-expressions, comparison expression, term expression, factor expression, unary expression,
 /// call expression, set index of expression, get index of expression, identifier expression, grouping expression, or
 /// literal expression
-static void compiler_expression() {
+static void compiler_expression(void) {
     compiler_parse_precedence(PREC_ASSIGNMENT);
 }
 
 /// @brief Compiles an expression-statement
-static void compiler_expression_statement() {
+static void compiler_expression_statement(void) {
     compiler_expression();
     compiler_consume(TOKEN_SEMICOLON, "Expect ';' after expression.");
     compiler_emit_byte(OP_POP);
 }
 
 /// @brief Compiles a for-statement
-static void compiler_for_statement() {
+static void compiler_for_statement(void) {
     compiler_begin_scope();
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'for'.");
 
@@ -883,7 +884,7 @@ static void compiler_function(function_type type) {
 }
 
 /// @brief Compiles a function statement and defines the function in the current environment
-static void compiler_function_declaration() {
+static void compiler_function_declaration(void) {
     uint8_t global = compiler_parse_variable("Expect function name.");
     compiler_mark_initialized();
     compiler_function(TYPE_FUNCTION);
@@ -932,7 +933,7 @@ static bool compiler_identifiers_equal(token_t * a, token_t * b) {
 }
 
 /// @brief Compiles an if-statement
-static void compiler_if_statement() {
+static void compiler_if_statement(void) {
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'if'.");
     compiler_expression();
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
@@ -979,7 +980,7 @@ static void compiler_init(compiler_t * compiler, function_type type) {
 
 /// @brief Compiles a index of expression
 /// @param canAssign Unsused for index of expressions
-/// @param getOp Indicates whether the index of gets a value
+/// @param getOp Indicates whether the index of gets a value or sets a value
 /// @param arg The index of the constant
 static void compiler_index_of(bool canAssign, uint8_t getOp, uint32_t arg) {
     compiler_emit_bytes(getOp, (uint8_t)arg);
@@ -1029,7 +1030,7 @@ static void compiler_literal(bool canAssign) {
 
 /// @brief Marks a variable that already has been declared as initialized
 /// @details This only applies to local variables
-static void compiler_mark_initialized() {
+static void compiler_mark_initialized(void) {
     if (!current->scopeDepth) {
         return;
     }
@@ -1062,7 +1063,7 @@ static bool compiler_match_token(tokentype type) {
 }
 
 /// @brief Compiles a method declaration
-static void compiler_method() {
+static void compiler_method(void) {
     compiler_consume(TOKEN_IDENTIFIER, "Expect method name.");
     uint8_t constant = compiler_identifier_constant(&parser.previous);
     function_type type = TYPE_METHOD;
@@ -1234,7 +1235,7 @@ static int32_t compiler_resolve_upvalue(compiler_t * compiler, token_t * name) {
 }
 
 /// @brief Compiles a return statement
-static void compiler_return_statement() {
+static void compiler_return_statement(void) {
     if (current->type == TYPE_SCRIPT) {
         compiler_error("You can't use return from top-level code.");
     }
@@ -1254,7 +1255,7 @@ static void compiler_return_statement() {
 ///@brief Compiles a statement
 /// @details This can be either a for, an if, a return, a while, or a block statement.
 /// If no statement was specified, the next expression is instead compiled
-static void compiler_statement() {
+static void compiler_statement(void) {
     if (compiler_match_token(TOKEN_FOR)) {
         compiler_for_statement();
     } else if (compiler_match_token(TOKEN_IF)) {
@@ -1316,7 +1317,7 @@ static void compiler_super(bool canAssign) {
 
 /// @brief Synchronizes the compiler after an error has occured (jumps to the next statement that can be parsed
 /// @details This is done to report all the errors in the source code and not only the first that was encountered
-static void compiler_synchronize() {
+static void compiler_synchronize(void) {
     parser.panicMode = false;
     while (parser.current.type != TOKEN_EOF) {
         if (parser.previous.type == TOKEN_SEMICOLON) {
@@ -1380,7 +1381,7 @@ static void compiler_unary(bool canAssign) {
 }
 
 /// @brief Compiles a variable declaration
-static void compiler_var_declaration() {
+static void compiler_var_declaration(void) {
     uint8_t global = compiler_parse_variable("Expect variable name.");
     if (compiler_match_token(TOKEN_EQUAL)) {
         // Variable was initialzed
@@ -1409,7 +1410,7 @@ static inline void compiler_variable(bool canAssign) {
 /// Instructions in the loop body
 /// Jump to start
 /// end:
-static void compiler_while_statement() {
+static void compiler_while_statement(void) {
     int32_t loopStart = compiler_current_chunk()->byteCodeCount;
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
     // Compiles condition

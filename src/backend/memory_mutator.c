@@ -26,7 +26,7 @@
 #include "garbage_collector.h"
 #include "virtual_machine.h"
 
-void memory_mutator_free_objects() {
+void memory_mutator_free_objects(void) {
     object_t * object = virtualMachine.objects;
     while (object) {
         object_t * next = object->next;

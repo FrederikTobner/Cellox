@@ -93,10 +93,10 @@ typedef enum {
 extern virtual_machine_t virtualMachine;
 
 /// Deallocates the memory used by the virtual machine
-void virtual_machine_free();
+void virtual_machine_free(void);
 
 /// Initializes the virtual machine
-void virtual_machine_init();
+void virtual_machine_init(void);
 
 /// @brief Interprets a lox program
 /// @param program The source that is interpreted
@@ -112,6 +112,6 @@ void virtual_machine_push(value_t value);
 
 /// @brief Pops a value from the stack
 /// @return The value that was popped from the stack
-value_t virtual_machine_pop();
+value_t virtual_machine_pop(void);
 
 #endif

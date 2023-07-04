@@ -35,11 +35,11 @@
 
 static void garbage_collector_blacken_object(object_t *);
 static void garbage_collector_mark_array(dynamic_value_array_t *);
-static void garbage_collector_mark_roots();
-static void garbage_collector_sweep();
-static void garbage_collector_trace_references();
+static void garbage_collector_mark_roots(void);
+static void garbage_collector_sweep(void);
+static void garbage_collector_trace_references(void);
 
-void garbage_collector_collect_garbage() {
+void garbage_collector_collect_garbage(void) {
 #ifdef DEBUG_LOG_GC
     printf("garbage collection process has begun\n");
     size_t before = virtualMachine.bytesAllocated;
@@ -171,7 +171,7 @@ static void garbage_collector_mark_array(dynamic_value_array_t * array) {
 
 /// @brief Marks the roots of the compiler
 /// @details These are the local variables and temporaries sitting in the VirtualMachine's stack
-static void garbage_collector_mark_roots() {
+static void garbage_collector_mark_roots(void) {
     // We mark all the values
     for (value_t * slot = virtualMachine.stack; slot < virtualMachine.stackTop; slot++) {
         garbage_collector_mark_value(*slot);
@@ -195,7 +195,7 @@ static void garbage_collector_mark_roots() {
  * @details If an object is unmarked, it is unlinked from the list
  * and the memory used by the object is reclaimed
  */
-static void garbage_collector_sweep() {
+static void garbage_collector_sweep(void) {
     object_t * previous = NULL;
     object_t * object = virtualMachine.objects;
     while (object) {
@@ -220,7 +220,7 @@ static void garbage_collector_sweep() {
 
 /// @brief Traces all the references to the objects of the virtual machine that are reachable
 /// All the objects that are reachable are marked as gray after the compiler roots are marked.
-static void garbage_collector_trace_references() {
+static void garbage_collector_trace_references(void) {
     while (virtualMachine.grayCount) {
         object_t * object = virtualMachine.grayStack[--virtualMachine.grayCount];
         garbage_collector_blacken_object(object);

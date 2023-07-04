@@ -42,7 +42,7 @@
 #define IS_CLOSURE(value)      object_is_type(value, OBJECT_CLOSURE)
 /// Makro that determines if the object has the object type function
 #define IS_FUNCTION(value)     object_is_type(value, OBJECT_FUNCTION)
-/// Makro that determines if the object has the object type native - native function
+/// Makro that determines if the object has is a native function
 #define IS_NATIVE(value)       object_is_type(value, OBJECT_NATIVE)
 /// Makro that determines if the object has the object type string
 #define IS_STRING(value)       object_is_type(value, OBJECT_STRING)
@@ -227,11 +227,11 @@ object_closure_t * object_new_closure(object_function_t * function);
 
 /// @brief Creates a new dynamic value array
 /// @return The created array
-object_dynamic_value_array_t * object_new_dynamic_value_array();
+object_dynamic_value_array_t * object_new_dynamic_value_array(void);
 
 /// @brief Creates a new cellox function
 /// @return The new function that was created
-object_function_t * object_new_function();
+object_function_t * object_new_function(void);
 
 /// @brief Creates a new cellox class instance
 /// @param celloxClass The class of the instance

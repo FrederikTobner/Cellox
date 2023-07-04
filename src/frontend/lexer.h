@@ -158,6 +158,6 @@ void lexer_init(char const * sourcecode);
 
 /// @brief Scans the next token in the sourcecode and saves it in a linear sequence of tokens
 /// @return The Next Token in the sourcecode
-token_t lexer_scan_token();
+token_t lexer_scan_token(void);
 
 #endif

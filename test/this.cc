@@ -11,5 +11,6 @@ TEST(This, InSuperClass) {
 }
 
 TEST(This, OutsideClass) {
-    test_failing_cellox_program("this/this_outside_class.clx", "[line 1] Error at 'this': Can't use 'this' outside of a class.\n");
+    test_failing_cellox_program("this/this_outside_class.clx",
+                                "[line 1] Error at 'this': Can't use 'this' outside of a class.\n");
 }

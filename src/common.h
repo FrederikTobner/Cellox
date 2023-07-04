@@ -26,8 +26,6 @@
 /// @details These exit codes are based on the exit codes defined in the UNIX sysexits.h header file.
 /// They can be found under at "/usr/include/sysexits.h"
 typedef enum {
-    /// Signals a Sucess
-    EXIT_CODE_OK = 0,
     /// Signals a command line error usage
     EXIT_CODE_COMMAND_LINE_USAGE_ERROR = 64,
     /// Signals an error that occured during compile time

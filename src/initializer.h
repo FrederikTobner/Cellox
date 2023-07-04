@@ -41,7 +41,7 @@ extern "C" {
  * <li> Loop back to step 1   -   (L)</li>
  * </ol>
  */
-void initializer_run_as_repl();
+void initializer_run_as_repl(void);
 
 /// @brief Reads a lox program from a file and executes the program
 /// @param path The path of the lox program
@@ -49,10 +49,10 @@ void initializer_run_as_repl();
 void initializer_run_from_file(char const * path, bool compile);
 
 /// Shows the help of the cellox compiler
-void initializer_show_help();
+void initializer_show_help(void);
 
 /// Shows the version of the cellox compiler
-void initializer_show_version();
+void initializer_show_version(void);
 
 #ifdef __cplusplus
 }

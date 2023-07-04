@@ -50,7 +50,7 @@
 #define GROW_HASHTABLE_CAPACITY(capacity) ((capacity) < 8u ? 8u : (capacity)*HASH_TABLE_GROWTH_FACTOR)
 
 /// @brief Dealocates the memory used by the objects of the virtualMachine
-void memory_mutator_free_objects();
+void memory_mutator_free_objects(void);
 
 /// @brief Reallocates a block in memory
 /// @param pointer Pointer to the memory block that is reallocated

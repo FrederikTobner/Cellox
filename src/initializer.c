@@ -47,7 +47,7 @@
 static void initializer_io_error(char const *, ...);
 static char * initializer_read_file(char const *);
 
-void initializer_run_as_repl() {
+void initializer_run_as_repl(void) {
     virtual_machine_init();
     // Used to store the next line that is read from input
     char line[MAX_LINE_LENGTH];
@@ -63,7 +63,7 @@ void initializer_run_as_repl() {
         // We close the command prompt if the last input was empty - \n
         if (strlen(line) == 1) {
             virtual_machine_free();
-            exit(EXIT_CODE_OK);
+            exit(EXIT_SUCCESS);
         }
         virtual_machine_interpret(line, false);
     }
@@ -121,7 +121,7 @@ void initializer_run_from_file(char const * path, bool compile) {
     virtual_machine_free();
 }
 
-void initializer_show_help() {
+void initializer_show_help(void) {
     printf("%s Help\n%s\n\n", PROJECT_NAME, CELLOX_USAGE_MESSAGE);
     printf("Options\n");
     printf("  -c, --compile\t\tConverts the specified file to bytecode and stores the result as a seperate file\n");
@@ -129,7 +129,7 @@ void initializer_show_help() {
     printf("  -v, --version\t\tShows the version of the installed compiler and exit\n\n");
 }
 
-void initializer_show_version() {
+void initializer_show_version(void) {
     printf("%s Version %i.%i\n", PROJECT_NAME, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
 }
 

@@ -4,16 +4,14 @@
 #include <stddef.h>
 
 /// @brief A Benchmark configuration that can be used to execute a benchmark using the benchmarkrunner
-typedef struct
-{
+typedef struct {
     char const * benchmarkName;
     char const * benchmarkFilePath;
     size_t executionCount;
-}benchmark_config_t;
+} benchmark_config_t;
 
 /// @brief Indexes of the benchmarks included in the benchmarking suite
-typedef enum
-{
+typedef enum {
     BENCHMARK_EQUALITY,
     BENCHMARK_FIBONACCI,
     BENCHMARK_INSTANTIATION,

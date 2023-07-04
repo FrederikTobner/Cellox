@@ -6,8 +6,7 @@
 #include "benchmark_config.h"
 
 //// @brief Type definition of the dynamic benchmark config array
-typedef struct
-{
+typedef struct {
     uint32_t capacity;
     uint32_t count;
     benchmark_config_t * configs;

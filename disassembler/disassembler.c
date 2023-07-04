@@ -3,55 +3,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../src/backend/virtual_machine.h"
+#include "../src/byte-code/chunk_disassembler.h"
 #include "../src/byte-code/chunk_file.h"
 #include "../src/common.h"
 #include "../src/frontend/compiler.h"
-#include "../src/byte-code/chunk_disassembler.h"
-#include "../src/backend/virtual_machine.h"
 
 static char * disassembler_read_file(char const * path);
 
-void disassembler_disassemble_file(char const * filepath)
-{
+void disassembler_disassemble_file(char const * filepath) {
     // Determine file type
     size_t pathLength = strlen(filepath);
-    if(pathLength > 4 && 
-        !strcmp(filepath + pathLength - 4, ".clx"))
-    {
+    if (pathLength > 4 && !strcmp(filepath + pathLength - 4, ".clx")) {
         virtual_machine_init();
         object_function_t * main = compiler_compile(disassembler_read_file(filepath));
         chunk_disassembler_disassemble_chunk(&main->chunk, "main", main->arity);
         virtual_machine_free();
-    }
-    else if(pathLength > 5 &&
-            !strcmp(filepath + pathLength - 5, ".cxcf"))
-    {
+    } else if (pathLength > 5 && !strcmp(filepath + pathLength - 5, ".cxcf")) {
         virtual_machine_init();
         chunk_t * chunk = chunk_file_load(filepath);
         chunk_disassembler_disassemble_chunk(chunk, "main", 0);
         virtual_machine_free();
         chunk_free(chunk);
-    }
-    else 
-    {
+    } else {
         disassembler_show_usage();
     }
 }
 
-void disassembler_show_usage()
-{
+void disassembler_show_usage() {
     printf("Usgae:\nCelloxDisassembler (<celloxfile>|<celloxchunkfile>)");
 }
 
 /// @brief Reads a file from disk
 /// @param path The path of the file
-/// @return The contents of the file or NULL if something went wrong an there are tests executed, so we dont want to exit
-static char * disassembler_read_file(char const * path)
-{
+/// @return The contents of the file or NULL if something went wrong an there are tests executed, so we dont want to
+/// exit
+static char * disassembler_read_file(char const * path) {
     // Opens a file of a nonspecified format (b) in read mode (r)
     FILE * file = fopen(path, "rb");
-    if (!file)
-    {
+    if (!file) {
         printf("Could not read file");
         exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
     }
@@ -63,15 +53,13 @@ static char * disassembler_read_file(char const * path)
     rewind(file);
     // Allocate memory apropriate to store the file
     char * buffer = (char *)malloc(fileSize + 1);
-    if (!buffer)
-    {
+    if (!buffer) {
         printf("Not enough memory to read \"%s\".\n", path);
         exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
     }
     // Store amount of read bytes
     size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
-    if (bytesRead < fileSize)
-    {
+    if (bytesRead < fileSize) {
         printf("Could not read file \"%s\".\n", path);
         exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
     }

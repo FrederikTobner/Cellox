@@ -23,5 +23,7 @@ TEST(DoWhileLoops, SingleStatementBody) {
 }
 
 TEST(DoWhileLoops, VarInBody) {
-    test_failing_cellox_program("do_while/var_in_body.clx", "[line 2] Error at 'var': Expect expression.\n[line 3] Error at ';': Expect expression.\n");
+    test_failing_cellox_program(
+        "do_while/var_in_body.clx",
+        "[line 2] Error at 'var': Expect expression.\n[line 3] Error at ';': Expect expression.\n");
 }
