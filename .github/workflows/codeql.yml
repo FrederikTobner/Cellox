@@ -27,10 +27,19 @@ jobs:
       with:
         languages: ${{matrix.language}}
 
+    - name: Setup Ninja
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install \
+          cmake \
+          ninja-build \
+          ${NULL+}
+
     - name: Configuring CMake 
       run: |
        echo "Configuring CMake ..."
-       cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCLX_BUILD_TOOLS=ON
+       cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCLX_BUILD_TOOLS=ON -G Ninja
        echo "Building Compiler ..."
        cmake --build ${{github.workspace}}/build --target all 
 
