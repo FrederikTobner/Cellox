@@ -60,7 +60,7 @@ void lexer_init(char const * sourcecode) {
     lexer.line = 1u;
 }
 
-token_t lexer_scan_token() {
+token_t lexer_scan_token(void) {
 #define MAKE_TOKEN_CASE(character, token) \
     case character:                       \
         return lexer_make_token(token)
@@ -143,7 +143,7 @@ token_t lexer_scan_token() {
 }
 
 /// Advances a position further in the sourceCode and returns the prevoius Token
-static inline char lexer_advance() {
+static inline char lexer_advance(void) {
     return *lexer.current++;
 }
 
@@ -155,7 +155,9 @@ static tokentype lexer_check_keyword(uint32_t start, uint32_t length, char const
     return TOKEN_IDENTIFIER;
 }
 
-/// Creates an error Token with a message
+/// @brief Creates an error Token with a message
+/// @param message The message that is used to create the error token
+/// @return The error token that was created
 static token_t lexer_error_token(char const * message) {
     token_t token;
     token.type = TOKEN_ERROR;
@@ -165,8 +167,9 @@ static token_t lexer_error_token(char const * message) {
     return token;
 }
 
-/// Creates a new identifier token
-static token_t lexer_identifier() {
+/// @brief Creates a new identifier token
+/// @return The created identifier token
+static token_t lexer_identifier(void) {
     while (lexer_is_alpha(lexer_peek()) || lexer_is_digit(lexer_peek())) {
         lexer_advance();
     }
@@ -174,7 +177,7 @@ static token_t lexer_identifier() {
 }
 
 /// Creates a new identifier token or a reserved keyword
-static tokentype lexer_identifier_type() {
+static tokentype lexer_identifier_type(void) {
 #define CASE_KEYWORD(character, start, length, rest, token) \
     case character:                                         \
         return lexer_check_keyword(start, length, rest, token);
@@ -232,7 +235,7 @@ static inline bool lexer_is_digit(char c) {
 
 /// @brief Determines wheather we reached the end in the sourcecode
 /// @return True if we reached the end, false if not
-static inline bool lexer_is_at_end() {
+static inline bool lexer_is_at_end(void) {
     return *lexer.current == '\0';
 }
 
@@ -261,7 +264,7 @@ static bool lexer_match(char expected) {
 }
 
 /// Creates a new number literal token
-static token_t lexer_number() {
+static token_t lexer_number(void) {
     if (lexer_peek() == '0') {
         lexer_advance();
     }
@@ -311,12 +314,12 @@ static token_t lexer_number() {
 }
 
 /// Returns the char at the current position
-static inline char lexer_peek() {
+static inline char lexer_peek(void) {
     return *lexer.current;
 }
 
 /// Returns the char one position ahead of the current Position
-static char lexer_peek_next() {
+static char lexer_peek_next(void) {
     if (lexer_is_at_end()) {
         return '\0';
     }
@@ -324,7 +327,7 @@ static char lexer_peek_next() {
 }
 
 /// Skips whitespaces, linebreaks, carriage returns comments an tabstobs
-static void lexer_skip_whitespace() {
+static void lexer_skip_whitespace(void) {
     for (;;) {
         char c = lexer_peek();
         switch (c) {
@@ -355,7 +358,7 @@ static void lexer_skip_whitespace() {
 
 /// @brief Creates a new string literal token
 /// @return The string literal token that was created
-static token_t lexer_string() {
+static token_t lexer_string(void) {
     while (lexer_peek() != '"' && !lexer_is_at_end()) {
         if (lexer_peek() == '\n') {
             lexer.line++;

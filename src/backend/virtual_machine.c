@@ -46,24 +46,24 @@ static bool virtual_machine_call(object_closure_t *, int32_t);
 static bool virtual_machine_call_value(value_t, int32_t);
 static object_upvalue_t * virtual_machine_capture_upvalue(value_t *);
 static void virtual_machine_close_upvalues(value_t *);
-static void virtual_machine_concatenate_arrays();
-static void virtual_machine_concatenate_strings();
+static void virtual_machine_concatenate_arrays(void);
+static void virtual_machine_concatenate_strings(void);
 static void virtual_machine_define_method(object_string_t *);
 static void virtual_machine_define_native(char const *, native_function_t);
-static void virtual_machine_define_natives();
-static bool virtual_machine_get_index_of();
-static bool virtual_machine_get_sclice_of();
+static void virtual_machine_define_natives(void);
+static bool virtual_machine_get_index_of(void);
+static bool virtual_machine_get_sclice_of(void);
 static bool virtual_machine_invoke(object_string_t *, int32_t);
 static bool virtual_machine_invoke_from_class(object_class_t *, object_string_t *, int32_t);
 static inline bool virtual_machine_is_falsey(value_t);
-static bool virtual_machine_modulo();
+static bool virtual_machine_modulo(void);
 static inline value_t virtual_machine_peek(int32_t);
-static inline void virtual_machine_reset_stack();
-static interpret_result virtual_machine_run();
+static inline void virtual_machine_reset_stack(void);
+static interpret_result virtual_machine_run(void);
 static void virtual_machine_runtime_error(char const *, ...);
-static bool virtual_machine_set_index_of();
+static bool virtual_machine_set_index_of(void);
 
-void virtual_machine_free() {
+void virtual_machine_free(void) {
     value_hash_table_free(&virtualMachine.globals);
     value_hash_table_free(&virtualMachine.strings);
     virtualMachine.initString = NULL;
@@ -73,7 +73,7 @@ void virtual_machine_free() {
     memory_mutator_free_objects();
 }
 
-void virtual_machine_init() {
+void virtual_machine_init(void) {
     virtual_machine_reset_stack();
     virtualMachine.program = NULL;
     virtualMachine.objects = NULL;
@@ -139,7 +139,7 @@ void virtual_machine_push(value_t value) {
     virtualMachine.stackTop++;
 }
 
-value_t virtual_machine_pop() {
+value_t virtual_machine_pop(void) {
     // The stacktop points at the next empty slot -> we first decrement it
     virtualMachine.stackTop--;
     // Then we return the vakue stored at the stacktop
@@ -290,7 +290,7 @@ static void virtual_machine_close_upvalues(value_t * last) {
 }
 
 /// @brief Concatenates the two upper values (cellox arrays) on the stack
-static void virtual_machine_concatenate_arrays() {
+static void virtual_machine_concatenate_arrays(void) {
     object_dynamic_value_array_t * newArray = object_new_dynamic_value_array();
     for (uint32_t i = 0; i < AS_ARRAY(virtual_machine_peek(1))->array.count; i++) {
         dynamic_value_array_write(&newArray->array, AS_ARRAY(virtual_machine_peek(1))->array.values[i]);
@@ -312,7 +312,7 @@ static void virtual_machine_concatenate_arrays() {
 }
 
 /// @brief Concatenates the two upper values (cellox strings) on the stack
-static void virtual_machine_concatenate_strings() {
+static void virtual_machine_concatenate_strings(void) {
     object_string_t * b = AS_STRING(virtual_machine_peek(0));
     object_string_t * a = AS_STRING(virtual_machine_peek(1));
     uint32_t length = a->length + b->length;
@@ -348,7 +348,7 @@ static void virtual_machine_define_native(char const * name, native_function_t f
 
 /// @brief Defines the native functions of the virtual machine
 /// @details These are functions that are implemented in C
-static void virtual_machine_define_natives() {
+static void virtual_machine_define_natives(void) {
     // Pointer to the first configuration
     native_function_config_t * configs = native_functions_get_function_configs();
     // Upper bound (pointer to the end of the memory segment where the native functions are stored)
@@ -361,7 +361,7 @@ static void virtual_machine_define_natives() {
 
 /// @brief Gets an item in an array or a string specified by a numerical index
 /// @return A boolean value that indicates whether the execution has led to a runtime error
-static bool virtual_machine_get_index_of() {
+static bool virtual_machine_get_index_of(void) {
     if (IS_NUMBER(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1))) {
         int num = AS_NUMBER(virtual_machine_pop());
         object_string_t * str = AS_STRING(virtual_machine_pop());
@@ -395,7 +395,7 @@ static bool virtual_machine_get_index_of() {
 /// @brief Creates a slice from an array
 /// @return A boolean value that indicates whether the execution has led to a runtime error
 /// @details Slices are subarrays of a soucearray
-static bool virtual_machine_get_slice_of() {
+static bool virtual_machine_get_slice_of(void) {
     if (!IS_NUMBER(virtual_machine_peek(0))) {
         virtual_machine_runtime_error(
             "A range can only be created with a number as first argument but was created with a %s %s",
@@ -528,13 +528,13 @@ static inline value_t virtual_machine_peek(int32_t distance) {
 /// @brief Resets the stack of the vm
 /// @details This means that all values will be removed
 /// The upvalues and framecount is also reset.
-static inline void virtual_machine_reset_stack() {
+static inline void virtual_machine_reset_stack(void) {
     virtualMachine.stackTop = virtualMachine.stack;
     virtualMachine.frameCount = 0u;
     virtualMachine.openUpvalues = NULL;
 }
 
-static interpret_result virtual_machine_run() {
+static interpret_result virtual_machine_run(void) {
 #ifdef DEBUG_TRACE_EXECUTION
     printf("== execution ==\n");
 #endif
@@ -1279,7 +1279,7 @@ static void virtual_machine_runtime_error(char const * format, ...) {
 
 /// @brief Executes a set index of operation
 /// @return A boolean value that indicates whether the execution has led to a runtime error
-static bool virtual_machine_set_index_of() {
+static bool virtual_machine_set_index_of(void) {
     if (IS_ARRAY(virtual_machine_peek(2)) && IS_NUMBER(virtual_machine_peek(1))) {
         value_t val = virtual_machine_pop();
         int num = AS_NUMBER(virtual_machine_pop());

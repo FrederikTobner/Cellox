@@ -35,7 +35,7 @@
  * In the sweeping phase all the reachable objects have been marked, and therefore we can reclaim the memory that is
  * used by the unmarked objects.
  */
-void garbage_collector_collect_garbage();
+void garbage_collector_collect_garbage(void);
 
 /// @brief Marks a cellox object
 /// @param object The object that is marked

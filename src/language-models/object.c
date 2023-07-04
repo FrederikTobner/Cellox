@@ -91,7 +91,7 @@ object_class_t * object_new_class(object_string_t * name) {
     return celloxClass;
 }
 
-object_dynamic_value_array_t * object_new_dynamic_value_array() {
+object_dynamic_value_array_t * object_new_dynamic_value_array(void) {
     object_dynamic_value_array_t * array = ALLOCATE_OBJECT(object_dynamic_value_array_t, OBJECT_ARRAY);
     dynamic_value_array_init(&array->array);
     return array;
@@ -109,7 +109,7 @@ object_closure_t * object_new_closure(object_function_t * function) {
     return closure;
 }
 
-object_function_t * object_new_function() {
+object_function_t * object_new_function(void) {
     object_function_t * function = ALLOCATE_OBJECT(object_function_t, OBJECT_FUNCTION);
     function->arity = 0u;
     function->upvalueCount = 0u;

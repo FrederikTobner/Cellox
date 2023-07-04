@@ -15,8 +15,8 @@ option(CLX_DEBUG_STRESS_GARBAGE_COLLECTOR "Determines whether the garbage collec
 option(CLX_DEBUG_LOG_GARBAGE_COLLECTION "Determines whether the garbage collection be logged" OFF)
 
 # Build options
-option(CLX_BUILD_TESTS "Determines whether the tests shall be built" OFF)
-option(CLX_BUILD_TOOLS "Determines whether the development tools shall be built" OFF)
+option(CLX_BUILD_TESTS "Determines whether the tests shall be built" ON)
+option(CLX_BUILD_TOOLS "Determines whether the development tools shall be built" ON)
 
 include(CheckIncludeFile)
 
@@ -26,8 +26,8 @@ set(CMAKE_C_STANDARD_REQUIRED True)
 
 get_filename_component(SOURCEPATH ${PROJECT_SOURCE_DIR}/src ABSOLUTE)
 
+# Adding os-specific compiler definitions
 if(UNIX)
-    # Adding os-specific compiler definitions
     add_compile_definitions(OS_UNIX_LIKE)    
     if(LINUX) 
         add_compile_definitions(OS_LINUX)
@@ -36,33 +36,9 @@ if(UNIX)
     else()
         add_compile_definitions(OS_UNKNOWN_UNIX)
     endif()
-    # Check dependecies under unix-like systems
-    CHECK_INCLUDE_FILE("curses.h" CURSES_AVAILABLE)
-    CHECK_INCLUDE_FILE("unistd.h" UNISTD_AVAILABLE)
-    if(NOT ${CURSES_AVAILABLE})
-        message(FATAL_ERROR "curses.h is required to build the compiler under unix-like systems. \
-\   \   Please make sure it is available to the compiler and try again after that")
-    endif() # curses.h not available
-    if(NOT ${UNISTD_AVAILABLE})
-        message(FATAL_ERROR "unistd.h is required to build the compiler under unix-like systems. \
-\   \   Please make sure it is available to the compiler and try again after that")
-    endif() # unistd.h not available
 elseif(WIN32)
-    # Adding os-specific compiler definitions
     add_compile_definitions(OS_WINDOWS)
-    # Check dependecies under windows
-    CHECK_INCLUDE_FILE("conio.h" CONIO_AVAILABLE)
-    CHECK_INCLUDE_FILE("windows.h" WINDOWS_AVAILABLE)
-    if(NOT ${CONIO_AVAILABLE})
-        message(FATAL_ERROR "conio.h is required to build the compiler under windows. \
-\   \   Please make sure it is available to the compiler and try again after that")
-    endif() # conio.h not available
-    if(NOT ${WINDOWS_AVAILABLE})
-        message(FATAL_ERROR "windows.h is required to build the compiler under windows. \
-\   \   Please make sure it is available to the compiler and try again after that")
-    endif() # windows.h not available
 else()
-    # Adding os-specific compiler definitions
     add_compile_definitions(OS_UNKNOWN)
 endif()
 

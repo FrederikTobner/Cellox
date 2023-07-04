@@ -40,11 +40,11 @@ static benchmark_config_t benchmarks[] = {
     [BENCHMARK_RAISE] = {.benchmarkName = "Raise", .benchmarkFilePath = "Raise.clx", .executionCount = 3},
     [BENCHMARK_ZOO] = {.benchmarkName = "Zoo", .benchmarkFilePath = "Zoo.clx", .executionCount = 3}};
 
-static FILE * benchmark_runner_create_results_file_pointer();
-static void benchamrk_runner_ensure_results_directory_exists();
+static FILE * benchmark_runner_create_results_file_pointer(void);
+static void benchamrk_runner_ensure_results_directory_exists(void);
 static void benchmark_runner_execute_benchmark(benchmark_config_t, bool, FILE *);
 
-void benchmark_runner_execute_all_predefiened() {
+void benchmark_runner_execute_all_predefiened(void) {
     FILE * filePointer = benchmark_runner_create_results_file_pointer();
     printf("%10s | %10s | %10s | %8s\n", "average", "min", "max", "name");
     fprintf(filePointer, "%10s | %10s | %10s | %8s\n", "average", "min", "max", "name");
@@ -75,7 +75,7 @@ void benchmark_runner_execute_custom_benchmarks(dynamic_benchmark_config_array_t
     fclose(filePointer);
 }
 
-static FILE * benchmark_runner_create_results_file_pointer() {
+static FILE * benchmark_runner_create_results_file_pointer(void) {
     FILE * filePointer;
     time_t current_time = time(NULL);
     char * fileName = ctime(&current_time);
@@ -123,7 +123,7 @@ static FILE * benchmark_runner_create_results_file_pointer() {
     return filePointer;
 }
 
-static void benchamrk_runner_ensure_results_directory_exists() {
+static void benchamrk_runner_ensure_results_directory_exists(void) {
 #ifdef OS_WINDOWS
     DWORD dwAttribute = GetFileAttributes(RESULTS_BASE_PATH);
     if (dwAttribute == INVALID_FILE_ATTRIBUTES) {

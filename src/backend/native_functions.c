@@ -154,11 +154,11 @@ static void native_functions_arguments_error(char const * format, ...);
 static void native_functions_assert_arrity(uint8_t, uint32_t);
 static size_t native_functions_value_size(value_t value);
 
-native_function_config_t * native_functions_get_function_configs() {
+native_function_config_t * native_functions_get_function_configs(void) {
     return native_function_configs;
 }
 
-size_t native_functions_get_function_count() {
+size_t native_functions_get_function_count(void) {
     return sizeof(native_function_configs) / sizeof(*native_function_configs);
 }
 

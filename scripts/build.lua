@@ -3,7 +3,7 @@
 -- Find vcvars64.bat
 local function find_vcvars64_bat()
   local search_paths = { os.getenv("ProgramFiles(x86)"), os.getenv("ProgramFiles") }
-  local versions = {"2015", "2017", "2019", "2022" }
+  local versions = {"2022" , "2019", "2017", "2015"}
   local editions = { "Community", "Enterprise", "Professional" }
   for _, path in ipairs(search_paths) do
       for _, version in ipairs(versions) do
@@ -23,8 +23,8 @@ local is_windows = package.config:sub(1,1) == '\\'
 
 -- Run vcvars64.bat if we are on Windows
 if is_windows then  
-  vcvars64_path = find_vcvars64_bat()
-  if vcvars64_path then
+  vcvars_path = find_vcvars64_bat()
+  if vcvars_path then
       print("Found vcvars64.bat at " .. vcvars64_path)
   else
       print("Could not find vcvars64.bat")
@@ -49,6 +49,6 @@ local generator = arg[3] or (ninjaAvailable() and "Ninja" or "")
 -- We should make the compiler that is used for building the project configurable as well, for now we just use the default
 local cmake_command = string.format("cmake -B ../build -DCMAKE_BUILD_TYPE=%s%s ..", buildType, generator and (" -G " .. generator) or "")
 -- This command is only needed on Windows
-local vcvars_command = is_windows and string.format('"%s" && ', vcvars64_path) or ""
+local vcvars_command = is_windows and string.format('"%s" && ', vcvars_path) or ""
 os.execute(vcvars_command .. cmake_command .. (string.format(" && cmake --build ../build --config %s --target %s", buildType, buildTarget) or ""))
 

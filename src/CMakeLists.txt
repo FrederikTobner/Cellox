@@ -1,6 +1,39 @@
 # configure cellox config to show version
 configure_file(cellox_config.h.in cellox_config.h)
 
+if(UNIX)   
+    if(LINUX) 
+        add_compile_definitions(OS_LINUX)
+    elseif(APPLE) 
+        add_compile_definitions(OS_MACOS)
+    else()
+        add_compile_definitions(OS_UNKNOWN_UNIX)
+    endif()
+    # Check dependecies under unix-like systems
+    CHECK_INCLUDE_FILE("curses.h" CURSES_AVAILABLE)
+    CHECK_INCLUDE_FILE("unistd.h" UNISTD_AVAILABLE)
+    if(NOT ${CURSES_AVAILABLE})
+        message(FATAL_ERROR "curses.h is required to build the compiler under unix-like systems. \
+\   \   Please make sure it is available to the compiler and try again after that")
+    endif() # curses.h not available
+    if(NOT ${UNISTD_AVAILABLE})
+        message(FATAL_ERROR "unistd.h is required to build the compiler under unix-like systems. \
+\   \   Please make sure it is available to the compiler and try again after that")
+    endif() # unistd.h not available
+elseif(WIN32)
+    # Check dependecies under windows
+    CHECK_INCLUDE_FILE("conio.h" CONIO_AVAILABLE)
+    CHECK_INCLUDE_FILE("windows.h" WINDOWS_AVAILABLE)
+    if(NOT ${CONIO_AVAILABLE})
+        message(FATAL_ERROR "conio.h is required to build the compiler under windows. \
+\   \   Please make sure it is available to the compiler and try again after that")
+    endif() # conio.h not available
+    if(NOT ${WINDOWS_AVAILABLE})
+        message(FATAL_ERROR "windows.h is required to build the compiler under windows. \
+\   \   Please make sure it is available to the compiler and try again after that")
+    endif() # windows.h not available
+endif()
+
 if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     # source files of the compiler if the build-type is debug
     set(CELLOX_SOURCE_FILES

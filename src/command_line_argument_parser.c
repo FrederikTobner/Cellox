@@ -66,7 +66,7 @@ static command_line_option_type_config_t optionConfigs[] = {
 static void command_line_argument_parser_error(char const *, ...);
 static inline bool command_line_argument_parser_is_option(char const *);
 static void command_line_argument_parser_parse_option(char const *, command_line_option_type *);
-static inline void command_line_argument_parser_show_usage();
+static inline void command_line_argument_parser_show_usage(void);
 
 void command_line_argument_parser_parse(int argc, char const ** argv) {
     command_line_option_type currentOption = OPTION_NO_OPTION;
@@ -149,6 +149,6 @@ static void command_line_argument_parser_parse_option(char const * option, comma
 
 /// @brief Shows a brief explanation how the compiler can be used from the command line
 /// @note Also exits the program with a command-line-usage error exit code
-static inline void command_line_argument_parser_show_usage() {
+static inline void command_line_argument_parser_show_usage(void) {
     command_line_argument_parser_error(CELLOX_USAGE_MESSAGE);
 }

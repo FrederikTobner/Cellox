@@ -18,7 +18,7 @@ static inline bool benchmark_argument_parser_is_option(char const *);
 static void benchmark_argument_parser_parse_argument(char const **, option_type, dynamic_benchmark_config_array_t *,
                                                      int, bool *);
 static option_type benchmark_argument_parser_parse_option(char const *);
-static inline void benchmark_argument_parser_show_usage();
+static inline void benchmark_argument_parser_show_usage(void);
 
 void benchmark_argument_parser_parse(int argc, char const ** argv) {
     bool countSpecified = false;
@@ -37,7 +37,7 @@ void benchmark_argument_parser_parse(int argc, char const ** argv) {
     dynamic_benchmark_config_array_free(&config_array);
 }
 
-static inline void benchmark_argument_parser_show_usage() {
+static inline void benchmark_argument_parser_show_usage(void) {
     benchmark_argument_parser_error("Usage: CelloxBenchmarks [path] [-c count]");
 }
 

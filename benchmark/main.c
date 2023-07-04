@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "benchmark_argument_parser.h"
 #include "benchmark_runner.h"
 #include "common.h"
@@ -13,5 +15,5 @@ int main(int argc, char const ** argv) {
     } else {
         benchmark_argument_parser_parse(argc, argv);
     }
-    return EXIT_CODE_OK;
+    return EXIT_SUCCESS;
 }

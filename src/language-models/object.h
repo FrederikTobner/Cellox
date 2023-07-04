@@ -227,11 +227,11 @@ object_closure_t * object_new_closure(object_function_t * function);
 
 /// @brief Creates a new dynamic value array
 /// @return The created array
-object_dynamic_value_array_t * object_new_dynamic_value_array();
+object_dynamic_value_array_t * object_new_dynamic_value_array(void);
 
 /// @brief Creates a new cellox function
 /// @return The new function that was created
-object_function_t * object_new_function();
+object_function_t * object_new_function(void);
 
 /// @brief Creates a new cellox class instance
 /// @param celloxClass The class of the instance
