@@ -34,34 +34,20 @@ static void test_program(std::string const & programPath, std::string const & ex
     filePath.append(programPath);
 
     // Redirect output
-    char actual_output[1024];
-    for (size_t i = 0; i < 1024; i++) {
-        actual_output[i] = '\0';
-    }
+    std::string actual_output;
     if (producesError) {
-#ifdef OS_WINDOWS
-        freopen("NUL", "a", stderr);
-#elif OS_UNIX_LIKE
-        freopen("/dev/nul", "a", stderr);
-#endif
-        setbuf(stderr, actual_output);
+    testing::internal::CaptureStderr();
     } else {
-#ifdef OS_WINDOWS
-        freopen("NUL", "a", stdout);
-#elif OS_UNIX_LIKE
-        freopen("/dev/nul", "a", stdout);
-#endif
-        setbuf(stdout, actual_output);
+    testing::internal::CaptureStdout();
     }
-
     // Execute Test 🚀
     initializer_run_from_file(filePath.c_str(), false);
 
     if (producesError) {
-        freopen("CON", "w", stderr);
+        actual_output = testing::internal::GetCapturedStderr();
     } else {
-        freopen("CON", "w", stdout);
+        actual_output = testing::internal::GetCapturedStdout();
     }
 
-    ASSERT_STREQ(expectedOutput.c_str(), actual_output);
+    ASSERT_EQ(expectedOutput, actual_output);
 }

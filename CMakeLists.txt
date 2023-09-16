@@ -71,7 +71,7 @@ if(CLX_BUILD_TOOLS)
 endif()
 
 # Please use msvc for testing (building googletest fails using gcc) and specify one as the number of parallel test jobs ("-j 1") when you execute the tests.
-if(MSVC AND CLX_BUILD_TESTS)
+if(CLX_BUILD_TESTS)
     # C++ 14 standard is required for the google test framework
     set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_STANDARD_REQUIRED True)    

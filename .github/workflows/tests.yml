@@ -5,11 +5,12 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ${{matrix.operatingsystems}}
     env:
       BUILD_TYPE: ${{matrix.buildtypes}}
     strategy:  
       matrix:
+        operatingsystems: [windows-latest, ubuntu-latest, macos-latest] 
         buildtypes: [Debug, Release]
     steps:
     - uses: actions/checkout@v3
@@ -20,6 +21,7 @@ jobs:
         version: 1.10.2
 
     - name: Setup MSVC under Windows
+      if: runner.os == 'Windows'
       uses: ilammy/msvc-dev-cmd@v1
 
     - name: Configure CMake        
@@ -30,4 +32,4 @@ jobs:
 
     - name: Run tests
       working-directory: ${{github.workspace}}/build
-      run: ctest -j 1 -C ${{env.BUILD_TYPE}}
+      run: ctest -C ${{env.BUILD_TYPE}}

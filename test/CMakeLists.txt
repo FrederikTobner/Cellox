@@ -109,7 +109,7 @@ FetchContent_MakeAvailable(googletest)
 #Links googletest libary and cellox tests
 target_link_libraries(${INTERPRETER_TESTS} GTest::gtest_main)
 
-# Includes google test framework
-include(googletest)
+# Includes google test framework specific macros
+include(GoogleTest)
 # Automatic discovering of tests
 gtest_discover_tests(${INTERPRETER_TESTS})
