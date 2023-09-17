@@ -1,14 +1,10 @@
 # configure cellox config to show version
 configure_file(cellox_config.h.in cellox_config.h)
 
-if(UNIX)   
-    if(LINUX) 
-        add_compile_definitions(OS_LINUX)
-    elseif(APPLE) 
-        add_compile_definitions(OS_MACOS)
-    else()
-        add_compile_definitions(OS_UNKNOWN_UNIX)
-    endif()
+cellox_add_compiler_compile_definitions()
+cellox_add_os_compile_definitions()
+
+if(UNIX)
     # Check dependecies under unix-like systems
     CHECK_INCLUDE_FILE("curses.h" CURSES_AVAILABLE)
     CHECK_INCLUDE_FILE("unistd.h" UNISTD_AVAILABLE)
@@ -35,47 +31,6 @@ elseif(WIN32)
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
-    # source files of the compiler if the build-type is debug
-    set(CELLOX_SOURCE_FILES
-    "${SOURCEPATH}/command_line_argument_parser.c"
-    "${SOURCEPATH}/initializer.c"
-    "${SOURCEPATH}/string_utils.c"
-    "${SOURCEPATH}/backend/garbage_collector.c"
-    "${SOURCEPATH}/backend/memory_mutator.c"
-    "${SOURCEPATH}/backend/native_functions.c"
-    "${SOURCEPATH}/backend/virtual_machine.c"
-    "${SOURCEPATH}/byte-code/chunk.c"
-    "${SOURCEPATH}/byte-code/chunk_disassembler.c"
-    "${SOURCEPATH}/byte-code/chunk_file.c"
-    "${SOURCEPATH}/frontend/compiler.c"
-    "${SOURCEPATH}/frontend/lexer.c"
-    "${SOURCEPATH}/language-models/object.c"
-    "${SOURCEPATH}/language-models/value.c"
-    "${SOURCEPATH}/language-models/data-structures/dynamic_value_array.c"
-    "${SOURCEPATH}/language-models/data-structures/value_hash_table.c"
-    "${SOURCEPATH}/middle-end/chunk_optimizer.c"
-    )
-
-    # Headers of the  compiler if the build-type is debug
-    set(CELLOX_HEADER_FILES
-    "${SOURCEPATH}/command_line_argument_parser.h"
-    "${SOURCEPATH}/initializer.h"
-    "${SOURCEPATH}/string_utils.h"
-    "${SOURCEPATH}/backend/garbage_collector.h"
-    "${SOURCEPATH}/backend/memory_mutator.h"
-    "${SOURCEPATH}/backend/native_functions.h"
-    "${SOURCEPATH}/backend/virtual_machine.h"
-    "${SOURCEPATH}/byte-code/chunk.h"
-    "${SOURCEPATH}/byte-code/chunk_file.h"
-    "${SOURCEPATH}/byte-code/chunk_disassembler.h"
-    "${SOURCEPATH}/frontend/compiler.h"
-    "${SOURCEPATH}/frontend/lexer.h"
-    "${SOURCEPATH}/middle-end/chunk_optimizer.h"
-    "${SOURCEPATH}/language-models/object.h"
-    "${SOURCEPATH}/language-models/value.h"
-    "${SOURCEPATH}/language-models/data-structures/dynamic_value_array.h"
-    "${SOURCEPATH}/language-models/data-structures/value_hash_table.h"
-    )
     # Debug options
     if(CLX_DEBUG_PRINT_BYTECODE)
         add_compile_definitions(DEBUG_PRINT_CODE)
@@ -91,46 +46,6 @@ if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     endif()
     add_compile_definitions(BUILD_TYPE_DEBUG)
 else()
-    # source files of the compiler if the build-type is not debug
-    set(CELLOX_SOURCE_FILES
-    "${SOURCEPATH}/command_line_argument_parser.c"
-    "${SOURCEPATH}/initializer.c"
-    "${SOURCEPATH}/string_utils.c"
-    "${SOURCEPATH}/backend/garbage_collector.c"
-    "${SOURCEPATH}/backend/memory_mutator.c"
-    "${SOURCEPATH}/backend/native_functions.c"
-    "${SOURCEPATH}/backend/virtual_machine.c"
-    "${SOURCEPATH}/byte-code/chunk.c"
-    "${SOURCEPATH}/byte-code/chunk_file.c"
-    "${SOURCEPATH}/frontend/compiler.c"
-    "${SOURCEPATH}/frontend/lexer.c"
-    "${SOURCEPATH}/language-models/object.c"
-    "${SOURCEPATH}/language-models/value.c"
-    "${SOURCEPATH}/language-models/data-structures/dynamic_value_array.c"
-    "${SOURCEPATH}/language-models/data-structures/value_hash_table.c"
-    "${SOURCEPATH}/middle-end/chunk_optimizer.c"
-    )
-    
-    # Headers of the compiler if the build-type is not debug
-    set(CELLOX_HEADER_FILES
-    "${SOURCEPATH}/command_line_argument_parser.h"
-    "${SOURCEPATH}/initializer.h"
-    "${SOURCEPATH}/string_utils.h"
-    "${SOURCEPATH}/backend/garbage_collector.h"
-    "${SOURCEPATH}/backend/memory_mutator.h"
-    "${SOURCEPATH}/backend/native_functions.h"
-    "${SOURCEPATH}/backend/virtual_machine.h"
-    "${SOURCEPATH}/byte-code/chunk.h"
-    "${SOURCEPATH}/byte-code/chunk_file.h"
-    "${SOURCEPATH}/frontend/compiler.h"
-    "${SOURCEPATH}/frontend/lexer.h"
-    "${SOURCEPATH}/middle-end/chunk_optimizer.h"
-    "${SOURCEPATH}/language-models/object.h"
-    "${SOURCEPATH}/language-models/value.h"
-    "${SOURCEPATH}/language-models/data-structures/dynamic_value_array.h"
-    "${SOURCEPATH}/language-models/data-structures/value_hash_table.h"
-    )
-
     # CPACK - section
 
     # CPack metadata
@@ -157,7 +72,7 @@ else()
     # Setting the project vendor
     set(CPACK_PACKAGE_VENDOR ${PROJECT_VENDOR})
     # Setting the project version
-    set(CPACK_PACKAGE_VERSION "${Cellox_VERSION_MAJOR}.${Cellox_VERSION_MINOR}.${Cellox_VERSION_PATCH}")
+    set(CPACK_PACKAGE_VERSION "${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}.${${PROJECT_NAME}_VERSION_PATCH}")
     # Add license as resouce
     set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
 
@@ -177,13 +92,13 @@ else()
     # Setting the package name of the nsis package
     set(CPACK_NSIS_PACKAGE_NAME ${PROJECT_NAME})
     # About URL provided in the installer
-    set(CPACK_NSIS_URL_INFO_ABOUT ${PROJECT_PAGE})    
+    set(CPACK_NSIS_URL_INFO_ABOUT ${PROJECT_PAGE})
 
     # Includes the CPack module 
     include(CPack)
 endif()
 
-add_executable(${PROJECT_NAME} ${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES} main.c)
+add_executable(${PROJECT_NAME} ${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES})
 
 # Precompiles common.h to speed up compilation of the target
 if(MSVC)
@@ -201,7 +116,7 @@ endif()
 # for including the cellox_config.h file
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/src)
 
-if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
+if(NOT CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     # Configure install destination of the compiler
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 endif()

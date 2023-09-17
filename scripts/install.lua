@@ -32,7 +32,7 @@ if is_windows then
     end
 end
 
-function ninjaAvailable()
+function isNinjaAvailable()
     local handle = io.popen("ninja --version")
     local result = handle:read("*a")
     handle:close()
@@ -44,7 +44,7 @@ local buildType = arg[1] or "Release"
 -- The default build target is all
 local buildTarget = arg[2] or "all"
 -- The default generator is Ninja if it is available - otherwise we let cmake decide
-local generator = arg[3] or (ninjaAvailable() and "Ninja" or "")
+local generator = arg[3] or (isNinjaAvailable() and "Ninja" or "")
 
 -- We should make the compiler that is used for building the project configurable as well, for now we just use the default
 local cmake_command = string.format("cmake -B ../build -DCMAKE_BUILD_TYPE=%s%s ..", buildType, generator and (" -G " .. generator) or "")
