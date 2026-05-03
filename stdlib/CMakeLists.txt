@@ -1,9 +1,11 @@
 set(CELLOX_STDLIB_FILES
     array.clx
+    collections.clx
     io.clx
     math.clx
     os.clx
     string.clx
+    view.clx
 )
 
 # When installing, place the stdlib next to the binary so the runtime can find it.

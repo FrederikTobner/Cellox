@@ -166,3 +166,51 @@ TEST(StdlibIntegration, OsNameViaModuleLoader) {
     EXPECT_EQ("windows\n", output);
 #endif
 }
+
+// ── collections.clx: stack factory ──────────────────────────────────────────
+
+TEST(StdlibIntegration, CollectionsStackViaModuleLoader) {
+    std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
+    stdlibPath += "../stdlib/collections.clx";
+
+    std::string entryPath = stdlib_make_temp_path();
+    std::string entrySource =
+        "import { stack } from \"" + stdlibPath + "\";\n"
+        "var s = stack();\n"
+        "s.push(1).push(2);\n"
+        "printf(\"{}\\n\", s.pop());\n"
+        "printf(\"{}\\n\", s.pop());\n";
+    ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
+
+    char * stitched = module_loader_load_program(entryPath.c_str());
+    std::remove(entryPath.c_str());
+    ASSERT_NE(nullptr, stitched);
+
+    std::string output = stdlib_run_source(stitched);
+    EXPECT_EQ("2\n1\n", output);
+}
+
+// ── view.clx: map/filter/reduce pipeline ────────────────────────────────────
+
+TEST(StdlibIntegration, ViewPipelineViaModuleLoader) {
+    std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
+    stdlibPath += "../stdlib/view.clx";
+
+    std::string entryPath = stdlib_make_temp_path();
+    std::string entrySource =
+        "import { array_view } from \"" + stdlibPath + "\";\n"
+        "fun is_even(x) { return x % 2 == 0; }\n"
+        "fun square(x) { return x * x; }\n"
+        "fun sum(acc, x) { return acc + x; }\n"
+        "var v = array_view({1, 2, 3, 4}).filter(is_even).map(square);\n"
+        "printf(\"{}\\n\", v.to_array());\n"
+        "printf(\"{}\\n\", v.reduce(sum, 0));\n";
+    ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
+
+    char * stitched = module_loader_load_program(entryPath.c_str());
+    std::remove(entryPath.c_str());
+    ASSERT_NE(nullptr, stitched);
+
+    std::string output = stdlib_run_source(stitched);
+    EXPECT_EQ("{4, 16}\n20\n", output);
+}

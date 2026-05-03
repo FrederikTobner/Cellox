@@ -1,0 +1,96 @@
+// stdlib/view.clx
+// Stream/view-like operations for arrays via method chaining.
+
+class ArrayView {
+    init(data) {
+        this.data = data;
+    }
+
+    size() {
+        return array_length(this.data);
+    }
+
+    map(fn) {
+        var out = {};
+        var i = 0;
+        var data = this.data;
+        var n = array_length(data);
+        while (i < n) {
+            out = out + fn(data[i]);
+            i = i + 1;
+        }
+        return ArrayView(out);
+    }
+
+    filter(predicate) {
+        var out = {};
+        var i = 0;
+        var data = this.data;
+        var n = array_length(data);
+        while (i < n) {
+            var value = data[i];
+            if (predicate(value)) {
+                out = out + value;
+            }
+            i = i + 1;
+        }
+        return ArrayView(out);
+    }
+
+    reduce(fn, initial) {
+        var acc = initial;
+        var i = 0;
+        var data = this.data;
+        var n = array_length(data);
+        while (i < n) {
+            acc = fn(acc, data[i]);
+            i = i + 1;
+        }
+        return acc;
+    }
+
+    take(count) {
+        if (count < 0) count = 0;
+        var data = this.data;
+        var n = array_length(data);
+        if (count > n) count = n;
+        if (count == 0) return ArrayView({});
+        if (count == n) return ArrayView(data);
+        return ArrayView(data[0 .. count]);
+    }
+
+    drop(count) {
+        if (count < 0) count = 0;
+        var data = this.data;
+        var n = array_length(data);
+        if (count > n) count = n;
+        if (count == 0) return ArrayView(data);
+        if (count == n) return ArrayView({});
+        var out = {};
+        var i = count;
+        while (i < n) {
+            out = out + data[i];
+            i = i + 1;
+        }
+        return ArrayView(out);
+    }
+
+    for_each(fn) {
+        var i = 0;
+        var data = this.data;
+        var n = array_length(data);
+        while (i < n) {
+            fn(data[i]);
+            i = i + 1;
+        }
+        return this;
+    }
+
+    to_array() {
+        return this.data;
+    }
+}
+
+export fun array_view(data) {
+    return ArrayView(data);
+}

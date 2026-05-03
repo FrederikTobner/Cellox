@@ -97,3 +97,35 @@ TEST(StdlibOs, Name) {
 TEST(StdlibOs, Benchmark) {
     test_cellox_program("stdlib/os_benchmark.clx", "true\n");
 }
+
+// ── collections.clx ─────────────────────────────────────────────────────────
+
+TEST(StdlibCollections, Stack) {
+    test_cellox_program("stdlib/collections_stack.clx", "3\n3\n2\n{1, 2}\n");
+}
+
+TEST(StdlibCollections, Queue) {
+    test_cellox_program("stdlib/collections_queue.clx", "a\na\nb\n1\n{c}\n");
+}
+
+TEST(StdlibCollections, LinkedList) {
+    test_cellox_program("stdlib/collections_linked_list.clx", "5\n20\n5\n2\n{10, 20}\n");
+}
+
+TEST(StdlibCollections, SetLike) {
+    test_cellox_program("stdlib/collections_set_like.clx", "true\n3\nfalse\n{1, 3}\n");
+}
+
+// ── view.clx ────────────────────────────────────────────────────────────────
+
+TEST(StdlibView, Pipeline) {
+    test_cellox_program("stdlib/view_pipeline.clx", "{4, 16, 36}\n56\n");
+}
+
+TEST(StdlibView, TakeDrop) {
+    test_cellox_program("stdlib/view_take_drop.clx", "{10, 20, 30}\n{30, 40, 50}\n");
+}
+
+TEST(StdlibView, ForEach) {
+    test_cellox_program("stdlib/view_for_each.clx", "10\n");
+}

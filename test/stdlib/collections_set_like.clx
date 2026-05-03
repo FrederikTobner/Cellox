@@ -1,0 +1,9 @@
+import { set_like } from "../../stdlib/collections.clx";
+
+var s = set_like();
+s.add(1).add(2).add(2).add(3);
+printf("{}\n", s.has(2));
+printf("{}\n", s.size());
+s.remove(2);
+printf("{}\n", s.has(2));
+printf("{}\n", s.to_array());
