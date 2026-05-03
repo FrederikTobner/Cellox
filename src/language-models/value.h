@@ -84,7 +84,7 @@ typedef uint64_t value_t;
 /// @brief Converts a double to a value_t using type punning
 /// @param number The value that is converted (a double)
 /// @return A value_t
-static inline value_t numToValue(double number) {
+CLX_CONST CLX_ALWAYS_INLINE value_t numToValue(double number) {
     value_t value;
     memcpy(&value, &number, sizeof(double));
     return value;
@@ -92,7 +92,7 @@ static inline value_t numToValue(double number) {
 /// @brief Converts a value_t to a double using type punning
 /// @param value The value that is converted (value_t)
 /// @return A double
-static inline double valueToNum(value_t value) {
+CLX_CONST CLX_ALWAYS_INLINE double valueToNum(value_t value) {
     double num;
     memcpy(&num, &value, sizeof(value_t));
     return num;
@@ -163,7 +163,7 @@ void value_print(value_t value);
 /// @param a The first value
 /// @param b The second value
 /// @return A boolean value that indicates whether the first and the second value are equal
-bool value_values_equal(value_t a, value_t b);
+CLX_HOT bool value_values_equal(value_t a, value_t b);
 
 /// @brief Gets the name of the type of a value_t
 /// @param value The value where the type is determined

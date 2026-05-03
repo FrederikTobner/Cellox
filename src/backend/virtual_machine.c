@@ -63,12 +63,12 @@ static bool virtual_machine_get_index_of(void);
 static bool virtual_machine_get_sclice_of(void);
 static bool virtual_machine_invoke(object_string_t *, int32_t);
 static bool virtual_machine_invoke_from_class(object_class_t *, object_string_t *, int32_t);
-static inline bool virtual_machine_is_falsey(value_t);
+CLX_PURE CLX_ALWAYS_INLINE bool virtual_machine_is_falsey(value_t);
 static bool virtual_machine_modulo(void);
-static inline value_t virtual_machine_peek(int32_t);
-static inline void virtual_machine_reset_stack(void);
-static interpret_result virtual_machine_run(void);
-static void virtual_machine_runtime_error(char const *, ...);
+CLX_ALWAYS_INLINE value_t virtual_machine_peek(int32_t);
+CLX_ALWAYS_INLINE void virtual_machine_reset_stack(void);
+CLX_HOT static interpret_result virtual_machine_run(void);
+CLX_COLD CLX_PRINTF_FORMAT(1, 2) static void virtual_machine_runtime_error(char const *, ...);
 static bool virtual_machine_set_index_of(void);
 
 void virtual_machine_free(void) {
@@ -581,7 +581,7 @@ static bool virtual_machine_invoke_from_class(object_class_t * celloxClass, obje
 /// @brief  Determines if a value is falsey (either null or false)
 /// @param value The value that is evalued
 /// @return true if the value is null or false, otherwise false
-static inline bool virtual_machine_is_falsey(value_t value) {
+CLX_PURE CLX_ALWAYS_INLINE bool virtual_machine_is_falsey(value_t value) {
     return IS_NULL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
 
@@ -605,14 +605,14 @@ static bool virtual_machine_modulo() {
 /// @brief Gets the value at the specified distance on the stack
 /// @param distance The distance to the value
 /// @return The value at the specified distance
-static inline value_t virtual_machine_peek(int32_t distance) {
+CLX_ALWAYS_INLINE value_t virtual_machine_peek(int32_t distance) {
     return virtualMachine.stackTop[-1 - distance];
 }
 
 /// @brief Resets the stack of the vm
 /// @details This means that all values will be removed
 /// The upvalues and framecount is also reset.
-static inline void virtual_machine_reset_stack(void) {
+CLX_ALWAYS_INLINE void virtual_machine_reset_stack(void) {
     virtualMachine.stackTop = virtualMachine.stack;
     virtualMachine.frameCount = 0u;
     virtualMachine.openUpvalues = NULL;
@@ -1532,15 +1532,7 @@ static interpret_result virtual_machine_run(void) {
                 break;
             }
         default:
-#if defined(COMPILER_MSVC) && !defined(BUILD_DEBUG)
-            // We assume this code to be unreachable.
-            // This tells the optimizer that reaching default is undefiened behaviour 😨
-            __assume(0);
-#else
-            // When we debug we can take a slower, but on the other hand safer approach
-            printf("Bytecode instruction not supported by VM");
-            exit(70);
-#endif
+            CLX_UNREACHABLE();
         }
 #endif
     }

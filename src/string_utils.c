@@ -161,3 +161,61 @@ uint32_t string_utils_hash_string(char const * key, uint32_t length) {
     }
     return hash;
 }
+
+char * string_utils_strdup(char const * text) {
+    size_t length = strlen(text);
+    char * copy = malloc(length + 1);
+    if (!copy) {
+        return NULL;
+    }
+    memcpy(copy, text, length + 1);
+    return copy;
+}
+
+char * string_utils_substr(char const * text, size_t length) {
+    char * copy = malloc(length + 1);
+    if (!copy) {
+        return NULL;
+    }
+    memcpy(copy, text, length);
+    copy[length] = '\0';
+    return copy;
+}
+
+char * string_utils_read_file(char const * path, size_t * outSize, string_utils_read_file_error_t * outError) {
+    FILE * file = fopen(path, "rb");
+    if (!file) {
+        if (outError) {
+            *outError = STRING_UTILS_READ_FILE_OPEN_FAILED;
+        }
+        return NULL;
+    }
+    fseek(file, 0L, SEEK_END);
+    size_t fileSize = (size_t)ftell(file);
+    rewind(file);
+    char * buffer = malloc(fileSize + 1);
+    if (!buffer) {
+        fclose(file);
+        if (outError) {
+            *outError = STRING_UTILS_READ_FILE_ALLOC_FAILED;
+        }
+        return NULL;
+    }
+    size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
+    fclose(file);
+    if (bytesRead < fileSize) {
+        free(buffer);
+        if (outError) {
+            *outError = STRING_UTILS_READ_FILE_READ_FAILED;
+        }
+        return NULL;
+    }
+    buffer[fileSize] = '\0';
+    if (outSize) {
+        *outSize = fileSize;
+    }
+    if (outError) {
+        *outError = STRING_UTILS_READ_FILE_OK;
+    }
+    return buffer;
+}

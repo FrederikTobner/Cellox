@@ -46,6 +46,36 @@ int string_utils_resolve_escape_sequence(char * text, uint32_t * length);
 /// @param key The key that is hashed
 /// @param length The length of the key
 /// @return The hashvalue of the key
-uint32_t string_utils_hash_string(char const * key, uint32_t length);
+CLX_PURE uint32_t string_utils_hash_string(char const * key, uint32_t length);
+
+/// @brief Error codes for string_utils_read_file
+typedef enum {
+    /// File was read successfully
+    STRING_UTILS_READ_FILE_OK = 0,
+    /// fopen failed (file not found or permission denied)
+    STRING_UTILS_READ_FILE_OPEN_FAILED,
+    /// malloc failed
+    STRING_UTILS_READ_FILE_ALLOC_FAILED,
+    /// fread returned fewer bytes than expected
+    STRING_UTILS_READ_FILE_READ_FAILED,
+} string_utils_read_file_error_t;
+
+/// @brief Reads an entire file into a heap-allocated, NUL-terminated buffer
+/// @param path Path to the file to read
+/// @param outSize If non-NULL, receives the number of bytes read (not counting the NUL terminator)
+/// @param outError If non-NULL, receives the error code on failure (STRING_UTILS_READ_FILE_OK on success)
+/// @return A malloc'd buffer that the caller must free, or NULL on any failure
+char * string_utils_read_file(char const * path, size_t * outSize, string_utils_read_file_error_t * outError);
+
+/// @brief Duplicates a NUL-terminated string into a new heap allocation
+/// @param text The string to duplicate
+/// @return A malloc'd copy that the caller must free, or NULL on allocation failure
+char * string_utils_strdup(char const * text);
+
+/// @brief Copies the first `length` characters of `text` into a new NUL-terminated heap buffer
+/// @param text The source character sequence
+/// @param length Number of characters to copy (not counting the NUL terminator)
+/// @return A malloc'd, NUL-terminated buffer the caller must free, or NULL on failure
+char * string_utils_substr(char const * text, size_t length);
 
 #endif

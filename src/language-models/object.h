@@ -350,7 +350,7 @@ void object_set_gc_guard_hooks(void (*push_fn)(value_t), value_t (*pop_fn)(void)
 /// @param value The value that is checked
 /// @param type The type that is used for checking the value
 /// @return true is the value is of the given type, false if not
-static inline bool object_is_type(value_t value, object_type type) {
+CLX_PURE CLX_ALWAYS_INLINE bool object_is_type(value_t value, object_type type) {
     return IS_OBJECT(value) && AS_OBJECT(value)->type == type;
 }
 

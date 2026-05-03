@@ -88,15 +88,16 @@ add_subdirectory(byte-code)         # → clx_bytecode
 add_subdirectory(middle-end)        # → clx_middleend
 add_subdirectory(frontend)          # → clx_lex, clx_frontend
 add_subdirectory(backend)           # → clx_runtime
+add_subdirectory(module-loading)    # → clx_module_loading
 
 cellox_add_library(clx_app
     SOURCES
         command_line_argument_parser.c
         initializer.c
-        module_loader.c
     DEPENDENCIES
         clx_runtime
         clx_frontend
+        clx_module_loading
 )
 
 # ── Interface alias — downstream tools link this one target ──────────────────
