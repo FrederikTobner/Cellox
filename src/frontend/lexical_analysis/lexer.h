@@ -44,6 +44,8 @@ typedef enum {
     TOKEN_CONTINUE,
     /// do
     TOKEN_DO,
+    /// error declaration keyword
+    TOKEN_ERROR_DECL,
     /// &sdot;
     TOKEN_DOT,
     /// : (Used for inheritance)
@@ -62,6 +64,8 @@ typedef enum {
     TOKEN_FALSE,
     /// for
     TOKEN_FOR,
+    /// catch keyword
+    TOKEN_CATCH,
     /// fun
     TOKEN_FUN,
     /// &gt;
@@ -106,6 +110,8 @@ typedef enum {
     TOKEN_RANGE,
     /// return
     TOKEN_RETURN,
+    /// try keyword
+    TOKEN_TRY,
     /// }
     TOKEN_RIGHT_BRACE,
     /// )
@@ -136,10 +142,18 @@ typedef enum {
     TOKEN_SUPER,
     /// this
     TOKEN_THIS,
+    /// must keyword
+    TOKEN_MUST,
+    /// |
+    TOKEN_PIPE,
     /// Boolean literal true
     TOKEN_TRUE,
     /// var
     TOKEN_VAR,
+    /// iferror keyword
+    TOKEN_IFERROR,
+    /// throw keyword
+    TOKEN_THROW,
     /// while
     TOKEN_WHILE,
 } tokentype;

@@ -1,0 +1,10 @@
+// must on a non-result (plain value) passes through unchanged
+fun identity(x) {
+    return x;
+}
+
+var a = must identity(42);
+printf("{}\n", a);
+
+var b = must identity("hello");
+printf("{}\n", b);

@@ -40,17 +40,20 @@ static void compiler_continue_statement(void);
 static void compiler_declaration(void);
 static void compiler_define_variable(uint8_t global);
 static void compiler_do_while_statement(void);
+static void compiler_error_declaration(void);
 static void compiler_emit_loop_cleanup_pops(void);
 static void compiler_expression_statement(void);
 static void compiler_for_statement(void);
 static void compiler_function(function_type type);
 static void compiler_function_declaration(void);
 static void compiler_if_statement(void);
+static void compiler_iferror_statement(void);
 static void compiler_method(void);
 static uint8_t compiler_parse_variable(char const * errorMessage);
 static void compiler_return_statement(void);
 static void compiler_statement(void);
 static void compiler_synchronize(void);
+static void compiler_throw_statement(void);
 static void compiler_var_declaration(void);
 static void compiler_while_statement(void);
 
@@ -125,6 +128,8 @@ static void compiler_class_declaration(void) {
 static void compiler_declaration(void) {
     if (compiler_match_token(TOKEN_CLASS)) {
         compiler_class_declaration();
+    } else if (compiler_match_token(TOKEN_ERROR_DECL)) {
+        compiler_error_declaration();
     } else if (compiler_match_token(TOKEN_FUN)) {
         compiler_function_declaration();
     } else if (compiler_match_token(TOKEN_VAR)) {
@@ -250,6 +255,33 @@ void compiler_end_scope(void) {
         }
         CURRENT->localCount--;
     }
+}
+
+static void compiler_error_declaration(void) {
+    uint8_t global = compiler_parse_variable("Expect error set name.");
+    token_t errorSetNameToken = PARSER.previous;
+    object_string_t * errorSetName =
+        object_copy_string(errorSetNameToken.start, errorSetNameToken.length, false);
+    object_error_set_t * errorSet = object_new_error_set(errorSetName);
+
+    compiler_emit_constant(OBJECT_VAL(errorSet));
+    compiler_define_variable(global);
+
+    compiler_consume(TOKEN_LEFT_BRACE, "Expect '{' before error set body.");
+    if (!compiler_check(TOKEN_RIGHT_BRACE)) {
+        do {
+            if (compiler_check(TOKEN_RIGHT_BRACE)) {
+                break;
+            }
+            compiler_consume(TOKEN_IDENTIFIER, "Expect error variant name.");
+            token_t variantNameToken = PARSER.previous;
+            object_string_t * variantName =
+                object_copy_string(variantNameToken.start, variantNameToken.length, false);
+            object_error_value_t * errorValue = object_new_error_value(errorSet, variantName);
+            value_hash_table_set(&errorSet->variants, variantName, OBJECT_VAL(errorValue));
+        } while (compiler_match_token(TOKEN_COMMA));
+    }
+    compiler_consume(TOKEN_RIGHT_BRACE, "Expect '}' after error set body.");
 }
 
 static void compiler_expression_statement(void) {
@@ -424,6 +456,10 @@ static void compiler_statement(void) {
         compiler_while_statement();
     } else if (compiler_match_token(TOKEN_DO)) {
         compiler_do_while_statement();
+    } else if (compiler_match_token(TOKEN_IFERROR)) {
+        compiler_iferror_statement();
+    } else if (compiler_match_token(TOKEN_THROW)) {
+        compiler_throw_statement();
     } else if (compiler_match_token(TOKEN_LEFT_BRACE)) {
         compiler_begin_scope();
         compiler_block();
@@ -431,6 +467,56 @@ static void compiler_statement(void) {
     } else {
         compiler_expression_statement();
     }
+}
+
+static void compiler_throw_statement(void) {
+    if (CURRENT->type == TYPE_SCRIPT) {
+        compiler_error("You can't use throw from top-level code.");
+    }
+    expression_parser_parse_expression();
+    compiler_consume(TOKEN_SEMICOLON, "Expect ';' after throw value.");
+    compiler_emit_byte(OP_RESULT_WRAP_ERR);
+    compiler_emit_byte(OP_RETURN);
+}
+
+static void compiler_iferror_statement(void) {
+    // iferror <expr> |err| { ... } else |val| { ... }
+    expression_parser_parse_expression(); // push result value
+    compiler_emit_byte(OP_RESULT_IS_ERROR); // peek result, push bool
+    int32_t elseBranch = compiler_emit_jump(OP_JUMP_IF_FALSE);
+
+    // error branch
+    compiler_emit_byte(OP_POP); // pop true
+    compiler_emit_byte(OP_RESULT_UNWRAP_ERROR); // pop result, push error payload
+    compiler_consume(TOKEN_PIPE, "Expect '|' before error variable name.");
+    compiler_consume(TOKEN_IDENTIFIER, "Expect error variable name.");
+    token_t errName = PARSER.previous;
+    compiler_consume(TOKEN_PIPE, "Expect '|' after error variable name.");
+    compiler_consume(TOKEN_LEFT_BRACE, "Expect '{' before iferror error body.");
+    compiler_begin_scope();
+    compiler_add_local(errName);
+    compiler_mark_initialized();
+    compiler_block();
+    compiler_end_scope();
+    int32_t endJump = compiler_emit_jump(OP_JUMP);
+
+    // success (else) branch
+    compiler_patch_jump(elseBranch);
+    compiler_emit_byte(OP_POP); // pop false
+    compiler_emit_byte(OP_RESULT_UNWRAP); // pop result, push success payload
+    compiler_consume(TOKEN_ELSE, "Expect 'else' after iferror error body.");
+    compiler_consume(TOKEN_PIPE, "Expect '|' before success variable name.");
+    compiler_consume(TOKEN_IDENTIFIER, "Expect success variable name.");
+    token_t valName = PARSER.previous;
+    compiler_consume(TOKEN_PIPE, "Expect '|' after success variable name.");
+    compiler_consume(TOKEN_LEFT_BRACE, "Expect '{' before iferror success body.");
+    compiler_begin_scope();
+    compiler_add_local(valName);
+    compiler_mark_initialized();
+    compiler_block();
+    compiler_end_scope();
+
+    compiler_patch_jump(endJump);
 }
 
 static void compiler_synchronize(void) {
@@ -444,8 +530,11 @@ static void compiler_synchronize(void) {
         case TOKEN_CLASS:
         case TOKEN_FUN:
         case TOKEN_VAR:
+        case TOKEN_ERROR_DECL:
         case TOKEN_FOR:
         case TOKEN_IF:
+        case TOKEN_IFERROR:
+        case TOKEN_THROW:
         case TOKEN_WHILE:
         case TOKEN_RETURN:
         case TOKEN_BREAK:

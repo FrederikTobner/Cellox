@@ -152,7 +152,10 @@ native_function_config_t native_function_configs[] = {
 
 static void native_functions_arguments_error(char const * format, ...);
 static void native_functions_assert_arrity(uint8_t, uint32_t);
+static value_t native_functions_io_error_result(char const * variantName);
 static size_t native_functions_value_size(value_t value);
+
+static object_error_set_t * nativeIoErrorSet = NULL;
 
 native_function_config_t * native_functions_get_function_configs(void) {
     return native_function_configs;
@@ -162,18 +165,28 @@ size_t native_functions_get_function_count(void) {
     return sizeof(native_function_configs) / sizeof(*native_function_configs);
 }
 
+void native_functions_set_io_error_set(value_t ioErrorSet) {
+    if (!IS_ERROR_SET(ioErrorSet)) {
+        return;
+    }
+    nativeIoErrorSet = AS_ERROR_SET(ioErrorSet);
+}
+
 value_t native_functions_append_to_file(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_APPEND_TO_FILE, argCount);
     if (!IS_STRING(*args) || !IS_STRING(*(args + 1))) {
-        native_functions_arguments_error("append_to_file can only be called with a string as argument");
+        return native_functions_io_error_result("InvalidArgument");
     }
     FILE * file;
     // Opens the file in append mode
     file = fopen(AS_CSTRING(*(args)), "a");
     if (!file) {
-        return FALSE_VAL;
+        return native_functions_io_error_result("OpenFailed");
     }
-    fprintf(file, "%s", AS_CSTRING(*(args + 1)));
+    if (fprintf(file, "%s", AS_CSTRING(*(args + 1))) < 0) {
+        fclose(file);
+        return native_functions_io_error_result("WriteFailed");
+    }
     fclose(file);
     return TRUE_VAL;
 }
@@ -351,13 +364,13 @@ value_t native_functions_random(uint32_t argCount, value_t const * args) {
 value_t native_functions_read_file(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_READ_FILE, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error("read_file can only be called with a string as argument");
+        return native_functions_io_error_result("InvalidArgument");
     }
     char * path = AS_CSTRING(*args);
     // Open file in read-only mode
     FILE * file = fopen(path, "rb");
     if (!file) {
-        return NULL_VAL;
+        return native_functions_io_error_result("OpenFailed");
     }
     // Seek end of the file
     fseek(file, 0L, SEEK_END);
@@ -368,12 +381,15 @@ value_t native_functions_read_file(uint32_t argCount, value_t const * args) {
     // Allocate memory apropriate to store the file
     char * buffer = (char *)malloc(fileSize);
     if (!buffer) {
-        return NULL_VAL;
+        fclose(file);
+        return native_functions_io_error_result("AllocFailed");
     }
     // Store amount of read bytes
     size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
     if (bytesRead < fileSize) {
-        return NULL_VAL;
+        free(buffer);
+        fclose(file);
+        return native_functions_io_error_result("ReadFailed");
     }
     fclose(file);
     // Create cellox string from content stored in the character buffer
@@ -498,15 +514,18 @@ value_t native_functions_wait(uint32_t argCount, value_t const * args) {
 value_t native_functions_write_to_file(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_WRITE_TO_FILE, argCount);
     if (!IS_STRING(*args) || !IS_STRING(*(args + 1))) {
-        native_functions_arguments_error("read_file can only be called with a string as argument");
+        return native_functions_io_error_result("InvalidArgument");
     }
     FILE * file;
     // Open file in write mode
     file = fopen(AS_CSTRING(*(args)), "w");
     if (!file) {
-        return FALSE_VAL; // File could not be openend -> false indicates a failure
+        return native_functions_io_error_result("OpenFailed");
     }
-    fprintf(file, "%s", AS_CSTRING(*(args + 1)));
+    if (fprintf(file, "%s", AS_CSTRING(*(args + 1))) < 0) {
+        fclose(file);
+        return native_functions_io_error_result("WriteFailed");
+    }
     fclose(file);
     // True indicates a successfull exection
     return TRUE_VAL;
@@ -523,6 +542,20 @@ static void native_functions_assert_arrity(uint8_t function, uint32_t argcount) 
                                          native_function_configs[function].functionName,
                                          native_function_configs[function].arrity, argcount);
     }
+}
+
+/// @brief Creates a standardized stdlib I/O error result object
+/// @param variantName Name of an IoError variant
+/// @return error(IoError.<variantName>)
+static value_t native_functions_io_error_result(char const * variantName) {
+    if (!nativeIoErrorSet) {
+        // Fallback for safety in case VM wiring is skipped.
+        object_string_t * setName = object_copy_string("IoError", 7, false);
+        nativeIoErrorSet = object_new_error_set(setName);
+    }
+    object_string_t * variant = object_copy_string(variantName, (uint32_t)strlen(variantName), false);
+    object_error_value_t * err = object_new_error_value(nativeIoErrorSet, variant);
+    return OBJECT_VAL(object_new_result_error(OBJECT_VAL(err)));
 }
 
 /// @brief Emits a error message regarding a faulty native function call and exits with the appropriate exit code (70 -

@@ -1,0 +1,10 @@
+error MathError { DivByZero }
+
+fun safeDivide(a, b) {
+    if (b == 0) {
+        throw MathError.DivByZero;
+    }
+    return a / b;
+}
+
+must safeDivide(1, 0);

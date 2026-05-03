@@ -33,6 +33,12 @@
 #define IS_ARRAY(value)        object_is_type(value, OBJECT_ARRAY)
 ///  Makro that determines if the object has the object type bound-method
 #define IS_BOUND_METHOD(value) object_is_type(value, OBJECT_BOUND_METHOD)
+/// Makro that determines if the object has the object type error set
+#define IS_ERROR_SET(value)     object_is_type(value, OBJECT_ERROR_SET)
+/// Makro that determines if the object has the object type error value
+#define IS_ERROR_VALUE(value)   object_is_type(value, OBJECT_ERROR_VALUE)
+/// Makro that determines if the object has the object type result wrapper
+#define IS_RESULT(value)        object_is_type(value, OBJECT_RESULT)
 ///  Makro that determines if the object has the object type instance
 #define IS_INSTANCE(value)     object_is_type(value, OBJECT_INSTANCE)
 /// Makro that determines if the object has the object type class
@@ -50,6 +56,12 @@
 #define AS_ARRAY(value)        ((object_dynamic_value_array_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a bound method
 #define AS_BOUND_METHOD(value) ((object_bound_method_t *)AS_OBJECT(value))
+/// Makro that gets the value of an object as an error set
+#define AS_ERROR_SET(value)    ((object_error_set_t *)AS_OBJECT(value))
+/// Makro that gets the value of an object as an error value
+#define AS_ERROR_VALUE(value)  ((object_error_value_t *)AS_OBJECT(value))
+/// Makro that gets the value of an object as a result wrapper
+#define AS_RESULT(value)       ((object_result_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a cellox class instance
 #define AS_INSTANCE(value)     ((object_instance_t *)AS_OBJECT(value))
 /// Makro that gets the value of an object as a class
@@ -71,6 +83,12 @@ typedef enum {
     OBJECT_ARRAY,
     /// A method the is bound to an object
     OBJECT_BOUND_METHOD,
+    /// An error set declaration
+    OBJECT_ERROR_SET,
+    /// A specific error value
+    OBJECT_ERROR_VALUE,
+    /// A result wrapper holding either success or error
+    OBJECT_RESULT,
     /// A instance of a cellox class
     OBJECT_INSTANCE,
     /// A class in cellox
@@ -192,6 +210,36 @@ typedef struct {
     object_closure_t * method;
 } object_bound_method_t;
 
+/// @brief A named error set
+typedef struct {
+    /// data that defines all types of objects
+    object_t obj;
+    /// The name of the error set
+    object_string_t * name;
+    /// The declared error variants stored as fields on the set
+    value_hash_table_t variants;
+} object_error_set_t;
+
+/// @brief A concrete error value belonging to an error set
+typedef struct {
+    /// data that defines all types of objects
+    object_t obj;
+    /// The error set this value belongs to
+    object_error_set_t * errorSet;
+    /// The name of the concrete variant
+    object_string_t * name;
+} object_error_value_t;
+
+/// @brief A fallible result wrapper
+typedef struct {
+    /// data that defines all types of objects
+    object_t obj;
+    /// Indicates whether payload stores an error or success value
+    bool isError;
+    /// The wrapped payload
+    value_t payload;
+} object_result_t;
+
 /// @brief A dynamic array
 typedef struct {
     /// data that defines all types of objects
@@ -218,6 +266,28 @@ object_bound_method_t * object_new_bound_method(value_t receiver, object_closure
 /// @param name The name of the class
 /// @return The created class
 object_class_t * object_new_class(object_string_t * name);
+
+/// @brief Creates a new named error set
+/// @param name The name of the error set
+/// @return The created error set
+object_error_set_t * object_new_error_set(object_string_t * name);
+
+/// @brief Creates a new concrete error value
+/// @param errorSet The set the value belongs to
+/// @param name The concrete error name
+/// @return The created error value
+object_error_value_t * object_new_error_value(object_error_set_t * errorSet, object_string_t * name);
+
+/// @brief Creates a new result wrapper
+/// @param payload The wrapped payload
+/// @param isError Indicates whether payload is an error
+/// @return The created result wrapper
+object_result_t * object_new_result(value_t payload, bool isError);
+
+/// @brief Convenience macro: wrap a success value in a result
+#define object_new_result_ok(val)    object_new_result((val), false)
+/// @brief Convenience macro: wrap an error value in a result
+#define object_new_result_error(val) object_new_result((val), true)
 
 /// @brief Creates a new Closure
 /// @param function The function that is used to create the upvalue

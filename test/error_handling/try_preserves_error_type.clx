@@ -1,0 +1,22 @@
+error PipeError { Broken }
+
+fun step1() {
+    throw PipeError.Broken;
+}
+
+// try propagates the error type intact; catch receives it as an error result
+// and returns its fallback; verify the error set identity via iferror on result of step1 directly
+fun step1Direct() {
+    throw PipeError.Broken;
+}
+
+fun wrapper() {
+    var v = try step1Direct();
+    return v;
+}
+
+iferror wrapper() |err| {
+    printf("{}\n", err == PipeError.Broken);
+} else |val| {
+    printf("unexpected success\n");
+}

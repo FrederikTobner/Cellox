@@ -56,6 +56,7 @@ static void virtual_machine_concatenate_arrays(void);
 static void virtual_machine_concatenate_strings(void);
 static void virtual_machine_define_method(object_string_t *);
 static void virtual_machine_define_native(char const *, native_function_t);
+static object_error_set_t * virtual_machine_define_error_set(char const *, char const * const *, size_t);
 static void virtual_machine_define_natives(void);
 static bool virtual_machine_get_index_of(void);
 static bool virtual_machine_get_sclice_of(void);
@@ -363,9 +364,39 @@ static void virtual_machine_define_native(char const * name, native_function_t f
     virtual_machine_pop();
 }
 
+/// @brief Defines an error set object as global and returns it
+/// @param setName Name of the error set
+/// @param variants Null-terminated names of variants
+/// @param variantCount Number of entries in variants
+/// @return The created error set object
+static object_error_set_t * virtual_machine_define_error_set(char const * setName, char const * const * variants,
+                                                             size_t variantCount) {
+    object_string_t * setNameObj = object_copy_string(setName, (uint32_t)strlen(setName), false);
+    object_error_set_t * errorSet = object_new_error_set(setNameObj);
+
+    // Keep the set rooted while allocating variant values.
+    virtual_machine_push(OBJECT_VAL(errorSet));
+    for (size_t i = 0; i < variantCount; i++) {
+        object_string_t * variantName = object_copy_string(variants[i], (uint32_t)strlen(variants[i]), false);
+        object_error_value_t * errorValue = object_new_error_value(errorSet, variantName);
+        value_hash_table_set(&errorSet->variants, variantName, OBJECT_VAL(errorValue));
+    }
+    value_hash_table_set(&virtualMachine.globals, setNameObj, OBJECT_VAL(errorSet));
+    virtual_machine_pop();
+    return errorSet;
+}
+
 /// @brief Defines the native functions of the virtual machine
 /// @details These are functions that are implemented in C
 static void virtual_machine_define_natives(void) {
+    static char const * const ioErrorVariants[] = {
+        "InvalidArgument", "OpenFailed", "AllocFailed", "ReadFailed", "WriteFailed",
+    };
+    object_error_set_t * ioErrorSet =
+        virtual_machine_define_error_set("IoError", ioErrorVariants,
+                                         sizeof(ioErrorVariants) / sizeof(*ioErrorVariants));
+    native_functions_set_io_error_set(OBJECT_VAL(ioErrorSet));
+
     // Pointer to the first configuration
     native_function_config_t * configs = native_functions_get_function_configs();
     // Upper bound (pointer to the end of the memory segment where the native functions are stored)
@@ -607,7 +638,9 @@ static interpret_result virtual_machine_run(void) {
         &&label_loop,          &&label_method,        &&label_modulo,        &&label_multiply,      &&label_negate,
         &&label_not,           &&label_null,          &&label_pop,           &&label_return,        &&label_set_global,
         &&label_set_index_of,  &&label_set_local,     &&label_set_property,  &&label_set_upvalue,   &&label_subtract,
-        &&label_super_invoke,  &&label_true};
+        &&label_super_invoke,  &&label_true,          &&label_result_is_error, &&label_result_unwrap,
+        &&label_result_unwrap_error, &&label_result_wrap_ok, &&label_result_wrap_err, &&label_must,
+        &&label_try_propagate};
 
 /// Makro that dipatches the next bytecode instuction
 #define DISPATCH() goto * dispatch_table[READ_BYTE()]
@@ -736,13 +769,26 @@ static interpret_result virtual_machine_run(void) {
         DISPATCH();
     label_get_property:
         {
-            if (!IS_INSTANCE(virtual_machine_peek(0))) {
+            value_t recv = virtual_machine_peek(0);
+            if (IS_ERROR_SET(recv)) {
+                object_string_t * name = READ_STRING();
+                value_t value;
+                object_error_set_t * errorSet = AS_ERROR_SET(recv);
+                if (!value_hash_table_get(&errorSet->variants, name, &value)) {
+                    virtual_machine_runtime_error("Undefined error '%s.%s'.", errorSet->name->chars, name->chars);
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                virtual_machine_pop();
+                virtual_machine_push(value);
+                DISPATCH();
+            }
+            if (!IS_INSTANCE(recv)) {
                 virtual_machine_runtime_error("Only instances have properties but get expression but a %s %s was used",
-                                              value_stringify_type(virtual_machine_peek(0)),
-                                              IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
+                                              value_stringify_type(recv),
+                                              IS_OBJECT(recv) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
-            object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(0));
+            object_instance_t * instance = AS_INSTANCE(recv);
             object_string_t * name = READ_STRING();
             value_t value;
             if (value_hash_table_get(&instance->fields, name, &value)) {
@@ -923,6 +969,101 @@ static interpret_result virtual_machine_run(void) {
     label_true:
         virtual_machine_push(BOOL_VAL(true));
         DISPATCH();
+    label_result_is_error:
+        {
+            value_t top = virtual_machine_peek(0);
+            virtual_machine_push(BOOL_VAL(IS_RESULT(top) && AS_RESULT(top)->isError));
+            DISPATCH();
+        }
+    label_result_unwrap:
+        {
+            value_t top = virtual_machine_pop();
+            if (!IS_RESULT(top)) {
+                virtual_machine_push(top);
+                DISPATCH();
+            }
+            object_result_t * res = AS_RESULT(top);
+            if (res->isError) {
+                virtual_machine_runtime_error("Unwrapped an error result: %s",
+                                              object_stringify_type((object_t *)AS_ERROR_VALUE(res->payload)));
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            virtual_machine_push(res->payload);
+            DISPATCH();
+        }
+    label_result_unwrap_error:
+        {
+            value_t top = virtual_machine_pop();
+            if (!IS_RESULT(top)) {
+                virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a non-result value");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            object_result_t * res = AS_RESULT(top);
+            if (!res->isError) {
+                virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a success result");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            virtual_machine_push(res->payload);
+            DISPATCH();
+        }
+    label_result_wrap_ok:
+        {
+            value_t val = virtual_machine_pop();
+            virtual_machine_push(OBJECT_VAL(object_new_result_ok(val)));
+            DISPATCH();
+        }
+    label_result_wrap_err:
+        {
+            value_t val = virtual_machine_pop();
+            virtual_machine_push(OBJECT_VAL(object_new_result_error(val)));
+            DISPATCH();
+        }
+    label_must:
+        {
+            value_t top = virtual_machine_pop();
+            if (!IS_RESULT(top)) {
+                virtual_machine_push(top);
+                DISPATCH();
+            }
+            object_result_t * res = AS_RESULT(top);
+            if (res->isError) {
+                if (IS_ERROR_VALUE(res->payload)) {
+                    object_error_value_t * ev = AS_ERROR_VALUE(res->payload);
+                    virtual_machine_runtime_error("must: unhandled error %s.%s",
+                                                  ev->errorSet->name->chars, ev->name->chars);
+                } else {
+                    virtual_machine_runtime_error("must: unhandled error result");
+                }
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            virtual_machine_push(res->payload);
+            DISPATCH();
+        }
+    label_try_propagate:
+        {
+            value_t top = virtual_machine_pop();
+            if (!IS_RESULT(top)) {
+                virtual_machine_push(top);
+                DISPATCH();
+            }
+            object_result_t * res = AS_RESULT(top);
+            if (!res->isError) {
+                virtual_machine_push(res->payload);
+                DISPATCH();
+            }
+            /* Propagate: return the error result from the current function */
+            virtual_machine_close_upvalues(frame->slots);
+            virtualMachine.frameCount--;
+            if (!virtualMachine.frameCount) {
+                /* top-level try — return the error result as the final interpreter result */
+                virtual_machine_pop();
+                return INTERPRET_OK;
+            }
+            virtualMachine.stackTop = frame->slots;
+            virtual_machine_push(top); /* push error result as return value */
+            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+            DISPATCH();
+        }
 // For MSVC and other C-compilers we use a switch statement instead
 #else
         uint8_t instruction;
@@ -1044,15 +1185,29 @@ static interpret_result virtual_machine_run(void) {
             }
         case OP_GET_PROPERTY:
             {
-                if (!IS_INSTANCE(virtual_machine_peek(0))) {
+                object_string_t * name = READ_STRING();
+                value_t receiver = virtual_machine_peek(0);
+
+                if (IS_ERROR_SET(receiver)) {
+                    value_t value;
+                    object_error_set_t * errorSet = AS_ERROR_SET(receiver);
+                    if (!value_hash_table_get(&errorSet->variants, name, &value)) {
+                        virtual_machine_runtime_error("Undefined error '%s.%s'.", errorSet->name->chars,
+                                                      name->chars);
+                        return INTERPRET_RUNTIME_ERROR;
+                    }
+                    virtual_machine_pop();
+                    virtual_machine_push(value);
+                    break;
+                }
+
+                if (!IS_INSTANCE(receiver)) {
                     virtual_machine_runtime_error(
                         "Only instances have properties but get expression but a %s %s was used",
-                        value_stringify_type(virtual_machine_peek(0)),
-                        IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
+                        value_stringify_type(receiver), IS_OBJECT(receiver) ? "object" : "value");
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(0));
-                object_string_t * name = READ_STRING();
+                object_instance_t * instance = AS_INSTANCE(receiver);
 
                 value_t value;
                 if (value_hash_table_get(&instance->fields, name, &value)) {
@@ -1249,6 +1404,99 @@ static interpret_result virtual_machine_run(void) {
         case OP_TRUE:
             virtual_machine_push(BOOL_VAL(true));
             break;
+        case OP_RESULT_IS_ERROR:
+            {
+                value_t top = virtual_machine_peek(0);
+                virtual_machine_push(BOOL_VAL(IS_RESULT(top) && AS_RESULT(top)->isError));
+                break;
+            }
+        case OP_RESULT_UNWRAP:
+            {
+                value_t top = virtual_machine_pop();
+                if (!IS_RESULT(top)) {
+                    virtual_machine_push(top);
+                    break;
+                }
+                object_result_t * res = AS_RESULT(top);
+                if (res->isError) {
+                    virtual_machine_runtime_error("Unwrapped an error result: %s",
+                                                  object_stringify_type((object_t *)AS_ERROR_VALUE(res->payload)));
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                virtual_machine_push(res->payload);
+                break;
+            }
+        case OP_RESULT_UNWRAP_ERROR:
+            {
+                value_t top = virtual_machine_pop();
+                if (!IS_RESULT(top)) {
+                    virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a non-result value");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                object_result_t * res = AS_RESULT(top);
+                if (!res->isError) {
+                    virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a success result");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                virtual_machine_push(res->payload);
+                break;
+            }
+        case OP_RESULT_WRAP_OK:
+            {
+                value_t val = virtual_machine_pop();
+                virtual_machine_push(OBJECT_VAL(object_new_result_ok(val)));
+                break;
+            }
+        case OP_RESULT_WRAP_ERR:
+            {
+                value_t val = virtual_machine_pop();
+                virtual_machine_push(OBJECT_VAL(object_new_result_error(val)));
+                break;
+            }
+        case OP_MUST:
+            {
+                value_t top = virtual_machine_pop();
+                if (!IS_RESULT(top)) {
+                    virtual_machine_push(top);
+                    break;
+                }
+                object_result_t * res = AS_RESULT(top);
+                if (res->isError) {
+                    if (IS_ERROR_VALUE(res->payload)) {
+                        object_error_value_t * ev = AS_ERROR_VALUE(res->payload);
+                        virtual_machine_runtime_error("must: unhandled error %s.%s",
+                                                      ev->errorSet->name->chars, ev->name->chars);
+                    } else {
+                        virtual_machine_runtime_error("must: unhandled error result");
+                    }
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                virtual_machine_push(res->payload);
+                break;
+            }
+        case OP_TRY_PROPAGATE:
+            {
+                value_t top = virtual_machine_pop();
+                if (!IS_RESULT(top)) {
+                    virtual_machine_push(top);
+                    break;
+                }
+                object_result_t * res = AS_RESULT(top);
+                if (!res->isError) {
+                    virtual_machine_push(res->payload);
+                    break;
+                }
+                virtual_machine_close_upvalues(frame->slots);
+                virtualMachine.frameCount--;
+                if (!virtualMachine.frameCount) {
+                    virtual_machine_pop();
+                    return INTERPRET_OK;
+                }
+                virtualMachine.stackTop = frame->slots;
+                virtual_machine_push(top);
+                frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+                break;
+            }
         default:
 #if defined(COMPILER_MSVC) && !defined(BUILD_DEBUG)
             // We assume this code to be unreachable.

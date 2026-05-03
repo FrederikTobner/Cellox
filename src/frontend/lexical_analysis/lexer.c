@@ -134,7 +134,7 @@ token_t lexer_scan_token(void) {
         MAKE_TOKEN_CASE('>', lexer_match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
         MAKE_TOKEN_CASE('%', lexer_match('=') ? TOKEN_MODULO_EQUAL : TOKEN_MODULO);
     case '|':
-        return lexer_match('|') ? lexer_make_token(TOKEN_OR) : lexer_error_token("There is no bitwise or in cellox");
+        return lexer_match('|') ? lexer_make_token(TOKEN_OR) : lexer_make_token(TOKEN_PIPE);
     case '&':
         return lexer_match('&') ? lexer_make_token(TOKEN_AND) : lexer_error_token("There is no bitwise and in cellox");
     }
@@ -188,6 +188,8 @@ static tokentype lexer_identifier_type(void) {
     case 'c':
         if (lexer.current - lexer.start > 1) {
             switch (lexer.start[1]) {
+            case 'a':
+                return lexer_check_keyword(2, 3, "tch", TOKEN_CATCH);
             case 'l':
                 return lexer_check_keyword(2, 3, "ass", TOKEN_CLASS);
             case 'o':
@@ -196,7 +198,16 @@ static tokentype lexer_identifier_type(void) {
         }
         break;
         CASE_KEYWORD('d', 1, 1, "o", TOKEN_DO);
-        CASE_KEYWORD('e', 1, 3, "lse", TOKEN_ELSE);
+    case 'e':
+        if (lexer.current - lexer.start > 1) {
+            switch (lexer.start[1]) {
+            case 'l':
+                return lexer_check_keyword(2, 2, "se", TOKEN_ELSE);
+            case 'r':
+                return lexer_check_keyword(2, 3, "ror", TOKEN_ERROR_DECL);
+            }
+        }
+        break;
     case 'f':
         if (lexer.current - lexer.start > 1) {
             switch (lexer.start[1]) {
@@ -209,8 +220,18 @@ static tokentype lexer_identifier_type(void) {
             }
         }
         break;
-        CASE_KEYWORD('i', 1, 1, "f", TOKEN_IF);
-        CASE_KEYWORD('n', 1, 3, "ull", TOKEN_NULL);
+    case 'i':
+        if (lexer.current - lexer.start > 1 && lexer.start[1] == 'f') {
+            if (lexer.current - lexer.start > 2 && lexer.start[2] == 'e') {
+                return lexer_check_keyword(3, 4, "rror", TOKEN_IFERROR);
+            }
+            return lexer_check_keyword(1, 1, "f", TOKEN_IF);
+        }
+        break;
+    case 'm':
+        return lexer_check_keyword(1, 3, "ust", TOKEN_MUST);
+    case 'n':
+        return lexer_check_keyword(1, 3, "ull", TOKEN_NULL);
         CASE_KEYWORD('o', 1, 1, "r", TOKEN_OR);
         CASE_KEYWORD('r', 1, 5, "eturn", TOKEN_RETURN);
         CASE_KEYWORD('s', 1, 4, "uper", TOKEN_SUPER);
@@ -218,8 +239,14 @@ static tokentype lexer_identifier_type(void) {
         if (lexer.current - lexer.start > 1) {
             switch (lexer.start[1]) {
             case 'h':
+                if (lexer.current - lexer.start > 2 && lexer.start[2] == 'r') {
+                    return lexer_check_keyword(2, 3, "row", TOKEN_THROW);
+                }
                 return lexer_check_keyword(2, 2, "is", TOKEN_THIS);
             case 'r':
+                if (lexer.current - lexer.start > 2 && lexer.start[2] == 'y') {
+                    return lexer_check_keyword(3, 0, "", TOKEN_TRY);
+                }
                 return lexer_check_keyword(2, 2, "ue", TOKEN_TRUE);
             }
         }

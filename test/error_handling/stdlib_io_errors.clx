@@ -1,0 +1,15 @@
+// Missing file: catch recovers from IoError.OpenFailed
+var missing = read_file("/definitely/not/found/cellox_missing_file.txt") catch "missing";
+printf("{}\n", missing);
+
+// Invalid argument: catch recovers from IoError.InvalidArgument
+var badarg = read_file(42) catch "badarg";
+printf("{}\n", badarg);
+
+// iferror exposes exact error variant
+iferror read_file("/definitely/not/found/cellox_missing_file.txt") |err| {
+    printf("{}\n", err == IoError.OpenFailed);
+    printf("{}\n", err == IoError.InvalidArgument);
+} else |content| {
+    printf("unexpected: {}\n", content);
+}

@@ -1,0 +1,11 @@
+// iferror on a plain (non-result) value: OP_RESULT_IS_ERROR returns false,
+// so it takes the else (success) branch and OP_RESULT_UNWRAP passes value through
+fun plainValue() {
+    return "data";
+}
+
+iferror plainValue() |err| {
+    printf("error: {}\n", err);
+} else |val| {
+    printf("ok: {}\n", val);
+}

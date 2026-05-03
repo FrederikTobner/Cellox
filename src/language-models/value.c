@@ -101,6 +101,15 @@ bool value_values_equal(value_t a, value_t b) {
             }
         }
         return true;
+    } else if (IS_ERROR_VALUE(a) && IS_ERROR_VALUE(b)) {
+        object_error_value_t * firstError = AS_ERROR_VALUE(a);
+        object_error_value_t * secondError = AS_ERROR_VALUE(b);
+        return firstError->errorSet == secondError->errorSet && firstError->name == secondError->name;
+    } else if (IS_RESULT(a) && IS_RESULT(b)) {
+        object_result_t * firstResult = AS_RESULT(a);
+        object_result_t * secondResult = AS_RESULT(b);
+        return firstResult->isError == secondResult->isError &&
+               value_values_equal(firstResult->payload, secondResult->payload);
     }
     return a == b;
 #else
@@ -127,6 +136,15 @@ bool value_values_equal(value_t a, value_t b) {
                 }
             }
             return true;
+        } else if (IS_ERROR_VALUE(a) && IS_ERROR_VALUE(b)) {
+            object_error_value_t * firstError = AS_ERROR_VALUE(a);
+            object_error_value_t * secondError = AS_ERROR_VALUE(b);
+            return firstError->errorSet == secondError->errorSet && firstError->name == secondError->name;
+        } else if (IS_RESULT(a) && IS_RESULT(b)) {
+            object_result_t * firstResult = AS_RESULT(a);
+            object_result_t * secondResult = AS_RESULT(b);
+            return firstResult->isError == secondResult->isError &&
+                   value_values_equal(firstResult->payload, secondResult->payload);
         }
         return AS_OBJECT(a) == AS_OBJECT(b);
     default:

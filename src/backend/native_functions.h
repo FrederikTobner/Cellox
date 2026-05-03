@@ -42,6 +42,10 @@ native_function_config_t * native_functions_get_function_configs();
 /// @return The amount of native functions that are defiened
 size_t native_functions_get_function_count(void);
 
+/// @brief Registers the VM-global IoError set for native stdlib error returns
+/// @param ioErrorSet A value that must hold an error set object
+void native_functions_set_io_error_set(value_t ioErrorSet);
+
 /// @brief Determines the length of an array
 /// @param argCount The amount of arguments that were used when array_length was called
 /// @param args The arguments that array_length was called with

@@ -1,0 +1,27 @@
+error MathError { DivByZero }
+
+fun safeDivide(a, b) {
+    if (b == 0) {
+        throw MathError.DivByZero;
+    }
+    return a / b;
+}
+
+// try on success: unwraps and propagates value
+fun computeSuccess() {
+    var result = try safeDivide(10, 2);
+    return result;
+}
+
+// try on error: propagates error up to caller
+fun computeError() {
+    var result = try safeDivide(10, 0);
+    // This line should not be reached
+    return result;
+}
+
+var v1 = computeSuccess();
+printf("{}\n", v1);
+
+var v2 = computeError() catch "propagated";
+printf("{}\n", v2);

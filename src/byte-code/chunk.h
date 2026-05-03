@@ -126,6 +126,20 @@ enum opcode {
     OP_SUPER_INVOKE,
     /// Pushes the boolean value true on the stack
     OP_TRUE,
+    /// Peeks at TOS (must be a result object), pushes true if it wraps an error, false if it wraps success
+    OP_RESULT_IS_ERROR,
+    /// Pops a result object from the stack and pushes its success payload (runtime error if it is an error result)
+    OP_RESULT_UNWRAP,
+    /// Pops a result object from the stack and pushes its error payload (runtime error if it is a success result)
+    OP_RESULT_UNWRAP_ERROR,
+    /// Pops a value from the stack and pushes a success-result wrapping it
+    OP_RESULT_WRAP_OK,
+    /// Pops an error value from the stack and pushes an error-result wrapping it
+    OP_RESULT_WRAP_ERR,
+    /// Pops a result: if error result, terminates the VM with a runtime error; else pushes success payload
+    OP_MUST,
+    /// Pops a result: if error result, returns it from the current function; else pushes success payload
+    OP_TRY_PROPAGATE,
 };
 
 /// @brief Line info of a chunk

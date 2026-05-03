@@ -1,0 +1,28 @@
+error IoError { NotFound }
+
+fun readFile(path) {
+    if (path == "") {
+        throw IoError.NotFound;
+    }
+    return path;
+}
+
+fun processFile(path) {
+    // try propagates the error to caller
+    var content = try readFile(path);
+    return content;
+}
+
+fun run(path) {
+    // try propagates the error one more level up
+    var result = try processFile(path);
+    return result;
+}
+
+// success path: two levels of try unwrap cleanly
+var v1 = run("data.txt") catch "missing";
+printf("{}\n", v1);
+
+// error path: two levels of try propagation, caught here
+var v2 = run("") catch "missing";
+printf("{}\n", v2);

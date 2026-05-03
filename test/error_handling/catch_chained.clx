@@ -1,0 +1,19 @@
+error NetError { Timeout, Refused }
+
+fun connect(host) {
+    if (host == "bad") {
+        throw NetError.Timeout;
+    }
+    if (host == "denied") {
+        throw NetError.Refused;
+    }
+    return host;
+}
+
+// chained catch: first catch produces a fallback result, second catch guards that
+var r = connect("bad") catch connect("denied") catch "default";
+printf("{}\n", r);
+
+// first succeeds so second catch never fires
+var r2 = connect("ok") catch "fallback";
+printf("{}\n", r2);

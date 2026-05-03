@@ -150,6 +150,20 @@ int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offs
         return chunk_disassembler_invoke_instruction("SUPER_INVOKE", chunk, offset);
     case OP_TRUE:
         return chunk_disassembler_simple_instruction("TRUE", offset);
+    case OP_RESULT_IS_ERROR:
+        return chunk_disassembler_simple_instruction("RESULT_IS_ERROR", offset);
+    case OP_RESULT_UNWRAP:
+        return chunk_disassembler_simple_instruction("RESULT_UNWRAP", offset);
+    case OP_RESULT_UNWRAP_ERROR:
+        return chunk_disassembler_simple_instruction("RESULT_UNWRAP_ERROR", offset);
+    case OP_RESULT_WRAP_OK:
+        return chunk_disassembler_simple_instruction("RESULT_WRAP_OK", offset);
+    case OP_RESULT_WRAP_ERR:
+        return chunk_disassembler_simple_instruction("RESULT_WRAP_ERR", offset);
+    case OP_MUST:
+        return chunk_disassembler_simple_instruction("MUST", offset);
+    case OP_TRY_PROPAGATE:
+        return chunk_disassembler_simple_instruction("TRY_PROPAGATE", offset);
     default:
         printf("Unknown opcode %02X\n", instruction);
         return offset + 1;

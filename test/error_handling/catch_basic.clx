@@ -1,0 +1,16 @@
+error MathError { DivByZero }
+
+fun safeDivide(a, b) {
+    if (b == 0) {
+        throw MathError.DivByZero;
+    }
+    return a / b;
+}
+
+// catch on success - returns the plain value
+var r1 = safeDivide(10, 2) catch -1;
+printf("{}\n", r1);
+
+// catch on error - returns the fallback
+var r2 = safeDivide(10, 0) catch -1;
+printf("{}\n", r2);
