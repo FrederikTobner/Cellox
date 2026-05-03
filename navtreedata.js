@@ -25,17 +25,7 @@
 var NAVTREE =
 [
   [ "Cellox", "index.html", [
-    [ "Main Page", "index.html", [
-      [ "Introduction", "index.html#intro_sec", null ],
-      [ "Key concepts", "index.html#keyconcepts_sec", null ],
-      [ "Building", "index.html#building_sec", null ],
-      [ "Build options", "index.html#buildoptions_sec", null ],
-      [ "Optimization", "index.html#optimization_sec", null ],
-      [ "Development scripts", "index.html#devscripts_sec", null ],
-      [ "Testing", "index.html#testing_sec", null ],
-      [ "Development tools", "index.html#developmenttools_sec", null ],
-      [ "License", "index.html#license_sec", null ]
-    ] ],
+    [ "Main Page", "index.html", "index" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -62,9 +52,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"compiler_8c.html#af3384165fec30e244b31bca11ad10e53",
-"native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6ab207fdc6c40592718c9f9220f822cf26",
-"structvirtual__machine__t.html#a03801ce0604151b1f3c89abcbc68cba7"
+"compiler_8c.html#ae62f497273922189b26feae4a1d62b83",
+"native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a8ca40e5bd663150bbb8ee04b0f6519e6",
+"structvalue__t.html#aeb9bb8c0f3985f08718a59915334cfe6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

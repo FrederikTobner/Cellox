@@ -10,7 +10,7 @@ var native__functions_8h =
     [ "native_functions_cosine", "native__functions_8h.html#a803b9c8dd06870b796ce854d12ca0ac6", null ],
     [ "native_functions_exit", "native__functions_8h.html#add9bcf00f403607af07ab3118b8d8dc8", null ],
     [ "native_functions_exponential", "native__functions_8h.html#af69fe637137e9f0380f146190405621e", null ],
-    [ "native_functions_get_function_configs", "native__functions_8h.html#a22c025e997c5f02f96a573ed6532fb69", null ],
+    [ "native_functions_get_function_configs", "native__functions_8h.html#af9a1bbd4f6b34898270ef2fa5b855f5f", null ],
     [ "native_functions_get_function_count", "native__functions_8h.html#aa6f8138ff42280fa5c516db353335811", null ],
     [ "native_functions_logarithm", "native__functions_8h.html#acef146083412f10b29aae0d12acafe1b", null ],
     [ "native_functions_logarithm10", "native__functions_8h.html#a60210293a759f49f37253bade4e3f271", null ],

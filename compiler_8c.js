@@ -40,7 +40,7 @@ var compiler_8c =
     [ "compiler_call", "compiler_8c.html#ae1bafeef572c207f65ef0865ff425cdc", null ],
     [ "compiler_check", "compiler_8c.html#ac5d3560cdd640a35df4037ece1dcb19f", null ],
     [ "compiler_class_declaration", "compiler_8c.html#a6b76059db69d4dc735723c343bae9b83", null ],
-    [ "compiler_compile", "compiler_8c.html#a14522908cde3586537fd9bd7c7a468a2", null ],
+    [ "compiler_compile", "compiler_8c.html#ad0cbc8a88815c4fd234e8ea7cf21fc05", null ],
     [ "compiler_consume", "compiler_8c.html#ad019ab573c670df7e5cd16b310cd795a", null ],
     [ "compiler_current_chunk", "compiler_8c.html#a7b520011f8e40cae794479247ae070d3", null ],
     [ "compiler_declaration", "compiler_8c.html#a539f8dd712cb9d944b77241ceec6dac7", null ],

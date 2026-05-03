@@ -8,7 +8,8 @@ var chunk__file_8c =
     ] ],
     [ "constant_type_prefix", "chunk__file_8c.html#a73c3ceb79ad0430aef3c0ec53023b802", [
       [ "CONSTANT_TYPE_NUMBER", "chunk__file_8c.html#a73c3ceb79ad0430aef3c0ec53023b802aadbf2487de8692580d5b31a1ba37bd7e", null ],
-      [ "CONSTANT_TYPE_STRING", "chunk__file_8c.html#a73c3ceb79ad0430aef3c0ec53023b802a6d40fb72b3af133c304139ac64be5997", null ]
+      [ "CONSTANT_TYPE_STRING", "chunk__file_8c.html#a73c3ceb79ad0430aef3c0ec53023b802a6d40fb72b3af133c304139ac64be5997", null ],
+      [ "CONSTANT_TYPE_FUNCTION", "chunk__file_8c.html#a73c3ceb79ad0430aef3c0ec53023b802a02ed6a01bf15491ece9e37e76d0a9a26", null ]
     ] ],
     [ "chunk_file_append_chunk", "chunk__file_8c.html#a6176762212817bc28291eb5f2a3a0b9a", null ],
     [ "chunk_file_append_code_segment", "chunk__file_8c.html#adbe28bad359e1251c15fca33435efe41", null ],
@@ -22,7 +23,7 @@ var chunk__file_8c =
     [ "chunk_file_append_u32", "chunk__file_8c.html#a761fafcd84f9fb9d731f3f723a544da6", null ],
     [ "chunk_file_append_u64", "chunk__file_8c.html#a9af97bffc4cb25807066c3c55e937205", null ],
     [ "chunk_file_error", "chunk__file_8c.html#a3516cfa16f6aa8a31a2b77634f08bb3f", null ],
-    [ "chunk_file_load", "chunk__file_8c.html#a86910d23e0055fd3ea5d38c4ad60c28a", null ],
+    [ "chunk_file_load", "chunk__file_8c.html#ac234e7fbbaa56c743db29f209d17184a", null ],
     [ "chunk_file_parse_chunk", "chunk__file_8c.html#aff7a34781b8190f854a410c4c7c0de77", null ],
     [ "chunk_file_parse_code", "chunk__file_8c.html#a5e341c37228f099cd65a1206441f2cc9", null ],
     [ "chunk_file_parse_constant", "chunk__file_8c.html#ad74aab001f712f5d0e50c036e9c7808a", null ],
@@ -34,5 +35,6 @@ var chunk__file_8c =
     [ "chunk_file_parse_u32", "chunk__file_8c.html#aa6088023b0ac19ae94fea4371ce0f817", null ],
     [ "chunk_file_parse_u64", "chunk__file_8c.html#a32db057b9c76c7cd6bf67d7316f13a04", null ],
     [ "chunk_file_read_file", "chunk__file_8c.html#ad11877354f986b980ab7ef55b29ace97", null ],
-    [ "chunk_file_store", "chunk__file_8c.html#a62fef56f330e08b3ecd323faf367c289", null ]
+    [ "chunk_file_store", "chunk__file_8c.html#a62fef56f330e08b3ecd323faf367c289", null ],
+    [ "chunkFileHadError", "chunk__file_8c.html#af5315b9c76154da3ac656fd318289726", null ]
 ];

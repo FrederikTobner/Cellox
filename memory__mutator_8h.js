@@ -10,5 +10,5 @@ var memory__mutator_8h =
     [ "HASH_TABLE_GROWTH_FACTOR", "memory__mutator_8h.html#a13252ea664170e23fa827b7e7571203c", null ],
     [ "memory_mutator_free_object", "memory__mutator_8h.html#a963d8bf133e393c868ce67aa35473121", null ],
     [ "memory_mutator_free_objects", "memory__mutator_8h.html#a02e88185136cc7c4bd2ab04f2913715d", null ],
-    [ "memory_mutator_reallocate", "memory__mutator_8h.html#a57e2eefa9296d11c2e96e5ea1120e921", null ]
+    [ "memory_mutator_reallocate", "memory__mutator_8h.html#aa79e3541e620952232834671244d73de", null ]
 ];

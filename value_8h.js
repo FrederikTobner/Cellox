@@ -23,6 +23,6 @@ var value_8h =
       [ "VAL_OBJ", "value_8h.html#a5b7c2b5c96c13d5b5d2842e91794f6c1a01982aa56ac573db6831d13db32cafbf", null ]
     ] ],
     [ "value_print", "value_8h.html#afbcb72d28bc42542e9023a4382a088f9", null ],
-    [ "value_stringify_type", "value_8h.html#a5f386a79364fb0637b716a111184e3e9", null ],
+    [ "value_stringify_type", "value_8h.html#aa4c6abcb77005bff8a6ecdec294b036b", null ],
     [ "value_values_equal", "value_8h.html#af8e6ab5238270682bf4b20c23cd8d3b1", null ]
 ];
