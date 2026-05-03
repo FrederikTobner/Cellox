@@ -1,0 +1,4 @@
+import { arr_min, arr_max } from "../../stdlib/array.clx";
+var a = {4, 1, 7, 2, 9};
+printf("{}\n", arr_min(a));
+printf("{}\n", arr_max(a));

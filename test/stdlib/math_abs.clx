@@ -1,0 +1,4 @@
+import { abs } from "../../stdlib/math.clx";
+printf("{}\n", abs(-7));
+printf("{}\n", abs(3));
+printf("{}\n", abs(0));

@@ -1,0 +1,4 @@
+import { str_repeat } from "../../stdlib/string.clx";
+printf("{}\n", str_repeat("ab", 3));
+printf("{}\n", str_repeat("x", 1));
+printf("{}\n", str_repeat("hi", 0));

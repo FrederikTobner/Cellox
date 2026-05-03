@@ -1,0 +1,8 @@
+import { os_benchmark } from "../../stdlib/os.clx";
+// benchmark a trivial function — elapsed time must be non-negative
+fun work() {
+    var x = 0;
+    while (x < 100) { x += 1; }
+}
+var elapsed = os_benchmark(work);
+printf("{}\n", elapsed >= 0);

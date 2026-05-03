@@ -1,0 +1,4 @@
+import { str_reverse } from "../../stdlib/string.clx";
+printf("{}\n", str_reverse("hello"));
+printf("{}\n", str_reverse("ab"));
+printf("{}\n", str_reverse("a"));

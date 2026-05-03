@@ -1,0 +1,4 @@
+import { arr_index_of } from "../../stdlib/array.clx";
+var a = {10, 20, 30};
+printf("{}\n", arr_index_of(a, 20));
+printf("{}\n", arr_index_of(a, 99));

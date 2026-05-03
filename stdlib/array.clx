@@ -1,0 +1,87 @@
+// stdlib/array.clx
+// Higher-level array utilities built on native array functions.
+// Usage:
+//   import { arr_contains, arr_index_of, arr_min, arr_max, arr_sum } from "stdlib/array.clx";
+
+// True if array a contains value v.
+export fun arr_contains(a, v) {
+    var len = array_length(a);
+    var i = 0;
+    while (i < len) {
+        if (a[i] == v) return true;
+        i += 1;
+    }
+    return false;
+}
+
+// First index of value v in array a, or -1 if not found.
+export fun arr_index_of(a, v) {
+    var len = array_length(a);
+    var i = 0;
+    while (i < len) {
+        if (a[i] == v) return i;
+        i += 1;
+    }
+    return -1;
+}
+
+// Sum of all numeric elements.
+export fun arr_sum(a) {
+    var len = array_length(a);
+    var total = 0;
+    var i = 0;
+    while (i < len) {
+        total = total + a[i];
+        i += 1;
+    }
+    return total;
+}
+
+// Minimum numeric element.
+export fun arr_min(a) {
+    var len = array_length(a);
+    var m = a[0];
+    var i = 1;
+    while (i < len) {
+        if (a[i] < m) m = a[i];
+        i += 1;
+    }
+    return m;
+}
+
+// Maximum numeric element.
+export fun arr_max(a) {
+    var len = array_length(a);
+    var m = a[0];
+    var i = 1;
+    while (i < len) {
+        if (a[i] > m) m = a[i];
+        i += 1;
+    }
+    return m;
+}
+
+// Arithmetic mean of numeric elements.
+export fun arr_avg(a) {
+    var len = array_length(a);
+    if (len == 0) return 0;
+    var total = 0;
+    var i = 0;
+    while (i < len) {
+        total = total + a[i];
+        i += 1;
+    }
+    return total / len;
+}
+
+// Count occurrences of value v.
+export fun arr_count(a, v) {
+    var len = array_length(a);
+    var n = 0;
+    var i = 0;
+    while (i < len) {
+        if (a[i] == v) n += 1;
+        i += 1;
+    }
+    return n;
+}

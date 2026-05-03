@@ -1,0 +1,9 @@
+import { queue } from "../../stdlib/collections.clx";
+
+var q = queue();
+q.enqueue("a").enqueue("b").enqueue("c");
+printf("{}\n", q.front());
+printf("{}\n", q.dequeue());
+printf("{}\n", q.dequeue());
+printf("{}\n", q.size());
+printf("{}\n", q.to_array());

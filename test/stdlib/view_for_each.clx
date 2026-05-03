@@ -1,0 +1,9 @@
+import { array_view } from "../../stdlib/view.clx";
+
+var total = 0;
+fun add_to_total(x) {
+    total += x;
+}
+
+array_view({1, 2, 3, 4}).for_each(add_to_total);
+printf("{}\n", total);

@@ -1,0 +1,4 @@
+import { arr_contains } from "../../stdlib/array.clx";
+var a = {10, 20, 30};
+printf("{}\n", arr_contains(a, 20));
+printf("{}\n", arr_contains(a, 99));

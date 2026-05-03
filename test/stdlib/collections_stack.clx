@@ -1,0 +1,8 @@
+import { stack } from "../../stdlib/collections.clx";
+
+var s = stack();
+s.push(1).push(2).push(3);
+printf("{}\n", s.peek());
+printf("{}\n", s.pop());
+printf("{}\n", s.size());
+printf("{}\n", s.to_array());

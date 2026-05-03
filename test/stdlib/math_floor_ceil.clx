@@ -1,0 +1,5 @@
+import { floor, ceil } from "../../stdlib/math.clx";
+printf("{}\n", floor(3.7));
+printf("{}\n", floor(-1.2));
+printf("{}\n", ceil(3.2));
+printf("{}\n", ceil(-1.7));

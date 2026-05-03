@@ -1,0 +1,33 @@
+// stdlib/os.clx
+// Higher-level OS utilities built on native platform functions.
+// Usage:
+//   import { os_name, os_run_checked, os_benchmark } from "stdlib/os.clx";
+
+// Name of the current operating system as a string.
+export fun os_name() {
+    if (on_linux())   return "linux";
+    if (on_macOS())   return "macos";
+    if (on_windows()) return "windows";
+    return "unknown";
+}
+
+// Run a shell command and exit with code 1 if it fails.
+// Returns the result of system().
+export fun os_run_checked(cmd) {
+    var result = system(cmd);
+    if (result != 0) exit(1);
+    return result;
+}
+
+// Measure elapsed seconds for running a zero-argument function fn.
+// Returns the elapsed time in seconds.
+export fun os_benchmark(fn) {
+    var start = clock();
+    fn();
+    return clock() - start;
+}
+
+// Sleep for ms milliseconds (approximate, uses wait() which takes seconds).
+export fun sleep_ms(ms) {
+    wait(ms / 1000);
+}

@@ -1,0 +1,5 @@
+import { min, max } from "../../stdlib/math.clx";
+printf("{}\n", min(3, 8));
+printf("{}\n", min(-1, 2));
+printf("{}\n", max(3, 8));
+printf("{}\n", max(-1, 2));

@@ -1,0 +1,9 @@
+import { linked_list } from "../../stdlib/collections.clx";
+
+var list = linked_list();
+list.push_back(10).push_back(20).push_front(5);
+printf("{}\n", list.front());
+printf("{}\n", list.back());
+printf("{}\n", list.pop_front());
+printf("{}\n", list.size());
+printf("{}\n", list.to_array());

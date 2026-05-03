@@ -1,0 +1,246 @@
+// stdlib/collections.clx
+// Class-based collections built on core Cellox values and arrays.
+// Exports are factory functions because module exports currently support functions/vars.
+
+class Stack {
+    init() {
+        this.values = {};
+    }
+
+    size() {
+        return array_length(this.values);
+    }
+
+    is_empty() {
+        return this.size() == 0;
+    }
+
+    push(value) {
+        this.values = this.values + value;
+        return this;
+    }
+
+    peek() {
+        var n = this.size();
+        if (n == 0) return null;
+        var values = this.values;
+        return values[n - 1];
+    }
+
+    pop() {
+        var n = this.size();
+        if (n == 0) return null;
+        var values = this.values;
+        var last = values[n - 1];
+        if (n == 1) {
+            this.values = {};
+        } else {
+            this.values = values[0 .. n - 1];
+        }
+        return last;
+    }
+
+    clear() {
+        this.values = {};
+        return this;
+    }
+
+    to_array() {
+        return this.values;
+    }
+}
+
+class Queue {
+    init() {
+        this.values = {};
+        this.head = 0;
+    }
+
+    size() {
+        return array_length(this.values) - this.head;
+    }
+
+    is_empty() {
+        return this.size() == 0;
+    }
+
+    enqueue(value) {
+        this.values = this.values + value;
+        return this;
+    }
+
+    front() {
+        if (this.is_empty()) return null;
+        var values = this.values;
+        return values[this.head];
+    }
+
+    dequeue() {
+        if (this.is_empty()) return null;
+        var values = this.values;
+        var value = values[this.head];
+        this.head = this.head + 1;
+
+        // Compact occasionally so growth stays bounded.
+        if (this.head > 16 and this.head * 2 > array_length(this.values)) {
+            var current = this.values;
+            var compacted = {};
+            var i = this.head;
+            var n = array_length(current);
+            while (i < n) {
+                compacted = compacted + current[i];
+                i = i + 1;
+            }
+            this.values = compacted;
+            this.head = 0;
+        }
+        return value;
+    }
+
+    clear() {
+        this.values = {};
+        this.head = 0;
+        return this;
+    }
+
+    to_array() {
+        var values = this.values;
+        var out = {};
+        var i = this.head;
+        var n = array_length(values);
+        while (i < n) {
+            out = out + values[i];
+            i = i + 1;
+        }
+        return out;
+    }
+}
+
+class LinkedListNode {
+    init(value, nextNode) {
+        this.value = value;
+        this.next = nextNode;
+    }
+}
+
+class LinkedList {
+    init() {
+        this.head = null;
+        this.tail = null;
+        this.count = 0;
+    }
+
+    size() {
+        return this.count;
+    }
+
+    is_empty() {
+        return this.count == 0;
+    }
+
+    push_front(value) {
+        var node = LinkedListNode(value, this.head);
+        this.head = node;
+        if (this.tail == null) {
+            this.tail = node;
+        }
+        this.count = this.count + 1;
+        return this;
+    }
+
+    push_back(value) {
+        var node = LinkedListNode(value, null);
+        if (this.tail == null) {
+            this.head = node;
+            this.tail = node;
+        } else {
+            this.tail.next = node;
+            this.tail = node;
+        }
+        this.count = this.count + 1;
+        return this;
+    }
+
+    pop_front() {
+        if (this.head == null) return null;
+        var value = this.head.value;
+        this.head = this.head.next;
+        if (this.head == null) {
+            this.tail = null;
+        }
+        this.count = this.count - 1;
+        return value;
+    }
+
+    front() {
+        if (this.head == null) return null;
+        return this.head.value;
+    }
+
+    back() {
+        if (this.tail == null) return null;
+        return this.tail.value;
+    }
+
+    to_array() {
+        var out = {};
+        var current = this.head;
+        while (current != null) {
+            out = out + current.value;
+            current = current.next;
+        }
+        return out;
+    }
+}
+
+class SetLike {
+    init() {
+        this.values = {};
+    }
+
+    size() {
+        return array_length(this.values);
+    }
+
+    has(value) {
+        var i = 0;
+        var values = this.values;
+        var n = array_length(values);
+        while (i < n) {
+            if (values[i] == value) return true;
+            i = i + 1;
+        }
+        return false;
+    }
+
+    add(value) {
+        if (!this.has(value)) {
+            this.values = this.values + value;
+        }
+        return this;
+    }
+
+    remove(value) {
+        var out = {};
+        var i = 0;
+        var values = this.values;
+        var n = array_length(values);
+        while (i < n) {
+            if (values[i] != value) {
+                out = out + values[i];
+            }
+            i = i + 1;
+        }
+        this.values = out;
+        return this;
+    }
+
+    to_array() {
+        return this.values;
+    }
+}
+
+export fun stack() { return Stack(); }
+export fun queue() { return Queue(); }
+export fun linked_list() { return LinkedList(); }
+export fun set_like() { return SetLike(); }

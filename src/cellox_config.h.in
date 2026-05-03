@@ -7,4 +7,9 @@
 #define PROJECT_VERSION_PATCH (@Cellox_VERSION_PATCH@)
 #define PROJECT_NAME ("@PROJECT_NAME@")
 
+// Absolute path to the standard library directory.
+// At install time this points to <prefix>/lib/cellox/stdlib.
+// During development / test builds it points to the source tree's stdlib/.
+#define CELLOX_STDLIB_DIR ("@CELLOX_STDLIB_SOURCE_DIR@")
+
 #endif

@@ -1,0 +1,12 @@
+import { array_view } from "../../stdlib/view.clx";
+
+fun is_even(x) { return x % 2 == 0; }
+fun square(x) { return x * x; }
+fun sum(acc, x) { return acc + x; }
+
+var pipeline = array_view({1, 2, 3, 4, 5, 6})
+    .filter(is_even)
+    .map(square);
+
+printf("{}\n", pipeline.to_array());
+printf("{}\n", pipeline.reduce(sum, 0));
