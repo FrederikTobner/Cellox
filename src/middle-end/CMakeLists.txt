@@ -1,6 +1,12 @@
 cellox_add_library(clx_middleend
     SOURCES
         chunk_optimizer.c
+        optimization_pass.c
+        passes/dead_code_elimination.c
+        passes/constant_folding.c
+        passes/algebraic_identity.c
+        passes/branch_predication.c
+        passes/constant_pool_dedup.c
     DEPENDENCIES
         clx_bytecode
 )

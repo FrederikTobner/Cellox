@@ -41,6 +41,13 @@ static void compiler_error_at(token_t * token, char const * format, va_list args
 void compiler_error_at_current(char const * format, ...);
 
 object_function_t * compiler_compile(char const * program) {
+    // Initialize optimization module on first compile
+    static bool optimization_initialized = false;
+    if (!optimization_initialized) {
+        optimization_module_init();
+        optimization_initialized = true;
+    }
+    
     parser_t * parser = compilation_context_get_parser();
 
     lexer_init(program);

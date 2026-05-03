@@ -169,6 +169,10 @@ typedef struct {
     line_info_t * lineInfos;
     /// Constants stored in the chunk
     dynamic_value_array_t constants;
+    /// Optimization pass state: reachability bitset for dead code detection
+    uint8_t * _reachable_bitset;
+    /// Size of the reachability bitset in bytes
+    size_t _reachable_bitset_size;
 } chunk_t;
 
 /// @brief Adds a constant to the chunk

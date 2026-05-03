@@ -60,8 +60,6 @@ static std::string stdlib_run_source(char * source) {
     return output;
 }
 
-// ── math.clx: abs ────────────────────────────────────────────────────────────
-
 TEST(StdlibIntegration, MathAbsViaModuleLoader) {
     std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
     stdlibPath += "../stdlib/math.clx";
@@ -81,8 +79,6 @@ TEST(StdlibIntegration, MathAbsViaModuleLoader) {
     EXPECT_EQ("4\n6\n", output);
 }
 
-// ── string.clx: str_repeat ───────────────────────────────────────────────────
-
 TEST(StdlibIntegration, StringRepeatViaModuleLoader) {
     std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
     stdlibPath += "../stdlib/string.clx";
@@ -100,8 +96,6 @@ TEST(StdlibIntegration, StringRepeatViaModuleLoader) {
     std::string output = stdlib_run_source(stitched);
     EXPECT_EQ("hahaha\n", output);
 }
-
-// ── array.clx: arr_sum ───────────────────────────────────────────────────────
 
 TEST(StdlibIntegration, ArraySumViaModuleLoader) {
     std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
@@ -121,8 +115,6 @@ TEST(StdlibIntegration, ArraySumViaModuleLoader) {
     EXPECT_EQ("60\n", output);
 }
 
-// ── io.clx: println ──────────────────────────────────────────────────────────
-
 TEST(StdlibIntegration, IoPrintlnViaModuleLoader) {
     std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
     stdlibPath += "../stdlib/io.clx";
@@ -140,8 +132,6 @@ TEST(StdlibIntegration, IoPrintlnViaModuleLoader) {
     std::string output = stdlib_run_source(stitched);
     EXPECT_EQ("integration\n", output);
 }
-
-// ── os.clx: os_name ──────────────────────────────────────────────────────────
 
 TEST(StdlibIntegration, OsNameViaModuleLoader) {
     std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
@@ -167,8 +157,6 @@ TEST(StdlibIntegration, OsNameViaModuleLoader) {
 #endif
 }
 
-// ── collections.clx: stack factory ──────────────────────────────────────────
-
 TEST(StdlibIntegration, CollectionsStackViaModuleLoader) {
     std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
     stdlibPath += "../stdlib/collections.clx";
@@ -189,8 +177,6 @@ TEST(StdlibIntegration, CollectionsStackViaModuleLoader) {
     std::string output = stdlib_run_source(stitched);
     EXPECT_EQ("2\n1\n", output);
 }
-
-// ── view.clx: map/filter/reduce pipeline ────────────────────────────────────
 
 TEST(StdlibIntegration, ViewPipelineViaModuleLoader) {
     std::string stdlibPath = TEST_PROGRAM_BASE_PATH;

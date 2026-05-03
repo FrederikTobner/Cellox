@@ -14,18 +14,28 @@
  ****************************************************************************/
 
 /**
- * @file chunk_optimizer.h
- * @brief Header file containing the declarations of functionality regarding the optimization of cellox chunks.
+ * @file constant_pool_dedup.c
+ * @brief Constant pool deduplication optimization pass
  */
 
-#ifndef CELLOX_CHUNK_OPTIMIZER_H_
-#define CELLOX_CHUNK_OPTIMIZER_H_
+#include "../optimization_pass.h"
 
-#include "byte-code/chunk.h"
-#include "optimization_pass.h"
-/// @brief Optimizes the chunk by using different compiler optimization techniques
-/// @param chunk The chunk that is optimized
-/// @details At the moment only constant folding is used
-void chunk_optimizer_optimize_chunk(chunk_t * chunk);
-
-#endif
+/**
+ * @brief Constant pool deduplication pass (stub)
+ * Merges duplicate constants in the pool
+ */
+pass_result_t pass_constant_pool_dedup(chunk_t* chunk) {
+    pass_result_t result = {
+        .pass_name = "constant_pool_dedup",
+        .modified = false,
+        .instructions_removed = 0,
+        .constants_folded = 0,
+        .branches_eliminated = 0
+    };
+    
+    // Stub implementation - MVP
+    // Full implementation would create a hash map of constant values
+    // and remap references to deduplicated pool
+    
+    return result;
+}

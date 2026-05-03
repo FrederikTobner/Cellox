@@ -59,6 +59,7 @@ uint32_t chunk_determine_line_by_index(chunk_t * chunk, uint32_t opCodeIndex) {
 }
 
 void chunk_free(chunk_t * chunk) {
+    FREE_ARRAY(uint8_t, chunk->_reachable_bitset, chunk->_reachable_bitset_size);
     FREE_ARRAY(uint8_t, chunk->code, chunk->byteCodeCapacity);
     FREE_ARRAY(line_info_t, chunk->lineInfos, chunk->lineInfoCapacity);
     dynamic_value_array_free(&chunk->constants);
@@ -69,6 +70,8 @@ void chunk_init(chunk_t * chunk) {
     chunk->byteCodeCount = chunk->byteCodeCapacity = chunk->lineInfoCount = chunk->lineInfoCapacity = 0;
     chunk->code = NULL;
     chunk->lineInfos = NULL;
+    chunk->_reachable_bitset = NULL;
+    chunk->_reachable_bitset_size = 0;
     dynamic_value_array_init(&chunk->constants);
 }
 
