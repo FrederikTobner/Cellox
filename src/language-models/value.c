@@ -24,6 +24,8 @@
 
 #include "object.h"
 
+static bool value_compare_object_values(value_t a, value_t b);
+
 /// The value types of cellox represented sequence of characters
 static char const * valueTypesStringified[] = {
     "boolean",
@@ -85,22 +87,12 @@ char const * value_stringify_type(value_t value) {
     return object_stringify_type(AS_OBJECT(value));
 }
 
-bool value_values_equal(value_t a, value_t b) {
+CLX_HOT bool value_values_equal(value_t a, value_t b) {
 #ifdef NAN_BOXING
     if (IS_NUMBER(a) && IS_NUMBER(b)) {
         return AS_NUMBER(a) == AS_NUMBER(b);
-    } else if (IS_ARRAY(a) && IS_ARRAY(b)) {
-        object_dynamic_value_array_t * firstArray = AS_ARRAY(a);
-        object_dynamic_value_array_t * secondArray = AS_ARRAY(b);
-        if (firstArray->array.count != secondArray->array.count) {
-            return false;
-        }
-        for (size_t i = 0; i < firstArray->array.count; i++) {
-            if (!value_values_equal(firstArray->array.values[i], secondArray->array.values[i])) {
-                return false;
-            }
-        }
-        return true;
+    } else if (IS_ARRAY(a) || IS_ERROR_VALUE(a) || IS_RESULT(a)) {
+        return value_compare_object_values(a, b);
     }
     return a == b;
 #else
@@ -115,22 +107,41 @@ bool value_values_equal(value_t a, value_t b) {
     case VAL_NUMBER:
         return AS_NUMBER(a) == AS_NUMBER(b);
     case VAL_OBJ:
-        if (IS_ARRAY(a) && IS_ARRAY(b)) {
-            object_dynamic_value_array_t * firstArray = AS_ARRAY(a);
-            object_dynamic_value_array_t * secondArray = AS_ARRAY(b);
-            if (firstArray->array.count != secondArray->array.count) {
-                return false;
-            }
-            for (size_t i = 0; i < firstArray->array.count; i++) {
-                if (!value_values_equal(firstArray->array.values[i], secondArray->array.values[i])) {
-                    return false;
-                }
-            }
-            return true;
+        if (IS_ARRAY(a) || IS_ERROR_VALUE(a) || IS_RESULT(a)) {
+            return value_compare_object_values(a, b);
         }
         return AS_OBJECT(a) == AS_OBJECT(b);
     default:
-        return false; // Unreachable.
+        CLX_UNREACHABLE();
+        return false;
     }
 #endif
+}
+
+/// @brief Compares two object-typed values that need deep equality (arrays, error values, results)
+/// @return true if they are equal
+static bool value_compare_object_values(value_t a, value_t b) {
+    if (IS_ARRAY(a) && IS_ARRAY(b)) {
+        object_dynamic_value_array_t * firstArray = AS_ARRAY(a);
+        object_dynamic_value_array_t * secondArray = AS_ARRAY(b);
+        if (firstArray->array.count != secondArray->array.count) {
+            return false;
+        }
+        for (size_t i = 0; i < firstArray->array.count; i++) {
+            if (!value_values_equal(firstArray->array.values[i], secondArray->array.values[i])) {
+                return false;
+            }
+        }
+        return true;
+    } else if (IS_ERROR_VALUE(a) && IS_ERROR_VALUE(b)) {
+        object_error_value_t * firstError = AS_ERROR_VALUE(a);
+        object_error_value_t * secondError = AS_ERROR_VALUE(b);
+        return firstError->errorSet == secondError->errorSet && firstError->name == secondError->name;
+    } else if (IS_RESULT(a) && IS_RESULT(b)) {
+        object_result_t * firstResult = AS_RESULT(a);
+        object_result_t * secondResult = AS_RESULT(b);
+        return firstResult->isError == secondResult->isError &&
+               value_values_equal(firstResult->payload, secondResult->payload);
+    }
+    return false;
 }

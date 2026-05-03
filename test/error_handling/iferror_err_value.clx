@@ -1,0 +1,16 @@
+error DbError { ConnectionFailed, QueryFailed }
+
+fun query(sql) {
+    if (sql == "") {
+        throw DbError.QueryFailed;
+    }
+    return sql;
+}
+
+// The error value inside iferror carries the full qualified name
+iferror query("") |err| {
+    printf("{}\n", err == DbError.QueryFailed);
+    printf("{}\n", err == DbError.ConnectionFailed);
+} else |val| {
+    printf("should not reach\n");
+}

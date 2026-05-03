@@ -1,0 +1,19 @@
+// Wrong arity on fixed-arity native should be catchable.
+var a1 = array_length() catch "arity";
+printf("{}\n", a1);
+
+var a2 = array_length({1, 2}, 3) catch "arity";
+printf("{}\n", a2);
+
+// printf is variadic and should still work with one argument.
+printf("{}\n", printf("ok"));
+
+// But zero-argument printf should return InvalidArgument.
+var p0 = printf() catch "arity";
+printf("{}\n", p0);
+
+iferror array_length() |err| {
+    printf("{}\n", err == StdlibError.InvalidArgument);
+} else |value| {
+    printf("unexpected: {}\n", value);
+}

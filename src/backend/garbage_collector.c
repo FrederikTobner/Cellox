@@ -121,6 +121,23 @@ static void garbage_collector_blacken_object(object_t * object) {
             garbage_collector_mark_object((object_t *)bound->method);
             break;
         }
+    case OBJECT_ERROR_SET:
+        {
+            object_error_set_t * errorSet = (object_error_set_t *)object;
+            garbage_collector_mark_object((object_t *)errorSet->name);
+            value_hash_table_mark(&errorSet->variants);
+            break;
+        }
+    case OBJECT_ERROR_VALUE:
+        {
+            object_error_value_t * errorValue = (object_error_value_t *)object;
+            garbage_collector_mark_object((object_t *)errorValue->errorSet);
+            garbage_collector_mark_object((object_t *)errorValue->name);
+            break;
+        }
+    case OBJECT_RESULT:
+        garbage_collector_mark_value(((object_result_t *)object)->payload);
+        break;
     case OBJECT_CLASS:
         {
             object_class_t * celloxClass = (object_class_t *)object;

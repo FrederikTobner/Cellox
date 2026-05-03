@@ -33,7 +33,7 @@
 #include "cellox_config.h"
 #include "common.h"
 #include "frontend/compilation/compiler.h"
-#include "module_loader.h"
+#include "module-loading/module_loader.h"
 
 /// Maximum length of a line is 1024 characters
 #define MAX_LINE_LENGTH (1024u)

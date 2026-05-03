@@ -79,6 +79,19 @@ void memory_mutator_free_object(object_t * object) {
     case OBJECT_BOUND_METHOD:
         FREE(object_bound_method_t, object);
         break;
+    case OBJECT_ERROR_SET:
+        {
+            object_error_set_t * errorSet = (object_error_set_t *)object;
+            value_hash_table_free(&errorSet->variants);
+            FREE(object_error_set_t, object);
+            break;
+        }
+    case OBJECT_ERROR_VALUE:
+        FREE(object_error_value_t, object);
+        break;
+    case OBJECT_RESULT:
+        FREE(object_result_t, object);
+        break;
     case OBJECT_CLASS:
         {
             object_class_t * celloxClass = (object_class_t *)object;

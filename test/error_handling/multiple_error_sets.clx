@@ -1,0 +1,9 @@
+error SetA { Foo }
+error SetB { Foo }
+
+// Same variant name but different sets: must not be equal
+printf("{}\n", SetA.Foo == SetA.Foo);
+printf("{}\n", SetA.Foo == SetB.Foo);
+
+// identity check within each set
+printf("{}\n", SetB.Foo == SetB.Foo);

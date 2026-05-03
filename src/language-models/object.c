@@ -50,8 +50,10 @@ void object_set_gc_guard_hooks(void (*push_fn)(value_t), value_t (*pop_fn)(void)
 #define ALLOCATE_OBJECT(type, objectType) (type *)object_allocate_object(sizeof(type), objectType)
 
 /// The object types of cellox as a string
-static char const * objectTypesStringified[] = {"method",          "class",  "closure", "array",  "function",
-                                                "native function", "string", "upvalue", "unknown"};
+static char const * objectTypesStringified[] = {
+    "array",          "method",        "error set", "error",    "result",     "instance",
+    "class",          "closure",       "function",  "native function", "string", "upvalue",
+    "unknown"};
 
 static object_t * object_allocate_object(size_t, object_type);
 static object_string_t * object_allocate_string(char *, uint32_t, uint32_t);
@@ -113,6 +115,27 @@ object_class_t * object_new_class(object_string_t * name) {
     return celloxClass;
 }
 
+object_error_set_t * object_new_error_set(object_string_t * name) {
+    object_error_set_t * errorSet = ALLOCATE_OBJECT(object_error_set_t, OBJECT_ERROR_SET);
+    errorSet->name = name;
+    value_hash_table_init(&errorSet->variants);
+    return errorSet;
+}
+
+object_error_value_t * object_new_error_value(object_error_set_t * errorSet, object_string_t * name) {
+    object_error_value_t * errorValue = ALLOCATE_OBJECT(object_error_value_t, OBJECT_ERROR_VALUE);
+    errorValue->errorSet = errorSet;
+    errorValue->name = name;
+    return errorValue;
+}
+
+object_result_t * object_new_result(value_t payload, bool isError) {
+    object_result_t * result = ALLOCATE_OBJECT(object_result_t, OBJECT_RESULT);
+    result->isError = isError;
+    result->payload = payload;
+    return result;
+}
+
 object_dynamic_value_array_t * object_new_dynamic_value_array(void) {
     object_dynamic_value_array_t * array = ALLOCATE_OBJECT(object_dynamic_value_array_t, OBJECT_ARRAY);
     dynamic_value_array_init(&array->array);
@@ -147,9 +170,10 @@ object_instance_t * object_new_instance(object_class_t * celloxClass) {
     return instance;
 }
 
-object_native_t * object_new_native(native_function_t function) {
+object_native_t * object_new_native(native_function_t function, size_t arity) {
     object_native_t * native = ALLOCATE_OBJECT(object_native_t, OBJECT_NATIVE);
     native->function = function;
+    native->arity = arity;
     return native;
 }
 
@@ -183,6 +207,24 @@ void object_print(value_t value) {
     case OBJECT_BOUND_METHOD:
         object_print_function(AS_BOUND_METHOD(value)->method->function);
         break;
+    case OBJECT_ERROR_SET:
+        printf("<error set %s>", AS_ERROR_SET(value)->name->chars);
+        break;
+    case OBJECT_ERROR_VALUE:
+        printf("%s.%s", AS_ERROR_VALUE(value)->errorSet->name->chars, AS_ERROR_VALUE(value)->name->chars);
+        break;
+    case OBJECT_RESULT:
+        {
+            object_result_t * result = AS_RESULT(value);
+            if (result->isError) {
+                printf("error(");
+            } else {
+                printf("ok(");
+            }
+            value_print(result->payload);
+            putc(')', stdout);
+            break;
+        }
     case OBJECT_CLASS:
         printf("%s", AS_CLASS(value)->name->chars);
         break;
@@ -305,27 +347,31 @@ static void object_print_function(object_function_t * function) {
 
 char const * object_stringify_type(object_t * object) {
     switch (object->type) {
-    case OBJECT_BOUND_METHOD:
-        return objectTypesStringified[0];
-    case OBJECT_CLASS:
-        return objectTypesStringified[1];
-    case OBJECT_CLOSURE:
-        return objectTypesStringified[2];
     case OBJECT_ARRAY:
+        return objectTypesStringified[0];
+    case OBJECT_BOUND_METHOD:
+        return objectTypesStringified[1];
+    case OBJECT_ERROR_SET:
+        return objectTypesStringified[2];
+    case OBJECT_ERROR_VALUE:
         return objectTypesStringified[3];
-    case OBJECT_FUNCTION:
+    case OBJECT_RESULT:
         return objectTypesStringified[4];
     case OBJECT_INSTANCE:
         return ((object_instance_t *)object)->celloxClass->name->chars;
-        ;
-    case OBJECT_NATIVE:
-        return objectTypesStringified[5];
-    case OBJECT_STRING:
+    case OBJECT_CLASS:
         return objectTypesStringified[6];
-    case OBJECT_UPVALUE:
+    case OBJECT_CLOSURE:
         return objectTypesStringified[7];
-    default:
+    case OBJECT_FUNCTION:
         return objectTypesStringified[8];
-        ;
+    case OBJECT_NATIVE:
+        return objectTypesStringified[9];
+    case OBJECT_STRING:
+        return objectTypesStringified[10];
+    case OBJECT_UPVALUE:
+        return objectTypesStringified[11];
+    default:
+        return objectTypesStringified[12];
     }
 }

@@ -1,0 +1,7 @@
+// try on a plain (non-result) value passes through unchanged
+fun plainAdd(a, b) {
+    return a + b;
+}
+
+var r = try plainAdd(3, 4);
+printf("{}\n", r);

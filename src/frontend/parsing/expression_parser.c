@@ -108,6 +108,9 @@ static int32_t expression_parser_resolve_upvalue(compiler_t * compiler, token_t 
 static void expression_parser_string(bool canAssign);
 static void expression_parser_super(bool canAssign);
 static void expression_parser_this(bool canAssign);
+static void expression_parser_try(bool canAssign);
+static void expression_parser_must(bool canAssign);
+static void expression_parser_catch(bool canAssign);
 static void expression_parser_unary(bool canAssign);
 
 /// ParseRules for the tokens of cellox
@@ -121,6 +124,7 @@ static parse_rule_t rules[] = {
     [TOKEN_BREAK] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_CONTINUE] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_DO] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_ERROR_DECL] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_DOT] = {.prefix = NULL, .infix = expression_parser_dot, .precedence = PREC_CALL},
     [TOKEN_EOF] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_ELSE] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
@@ -129,6 +133,7 @@ static parse_rule_t rules[] = {
     [TOKEN_ERROR] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_FALSE] = {.prefix = expression_parser_literal, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_FOR] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_CATCH] = {.prefix = NULL, .infix = expression_parser_catch, .precedence = PREC_OR},
     [TOKEN_FUN] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_GREATER] = {.prefix = NULL, .infix = expression_parser_binary, .precedence = PREC_COMPARISON},
     [TOKEN_GREATER_EQUAL] = {.prefix = NULL, .infix = expression_parser_binary, .precedence = PREC_COMPARISON},
@@ -152,6 +157,7 @@ static parse_rule_t rules[] = {
     [TOKEN_PRINT] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_RANGE] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_RETURN] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_TRY] = {.prefix = expression_parser_try, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_RIGHT_BRACE] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_RIGHT_PAREN] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_RIGHT_BRACKET] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
@@ -164,8 +170,12 @@ static parse_rule_t rules[] = {
     [TOKEN_STRING] = {.prefix = expression_parser_string, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_SUPER] = {.prefix = expression_parser_super, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_THIS] = {.prefix = expression_parser_this, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_MUST] = {.prefix = expression_parser_must, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_TRUE] = {.prefix = expression_parser_literal, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_VAR] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_IFERROR] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_THROW] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_PIPE] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_WHILE] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE}};
 
 void expression_parser_init(expression_parser_context_t * context) {
@@ -507,6 +517,33 @@ static void expression_parser_this(bool canAssign) {
         return;
     }
     expression_parser_compile_variable(false);
+}
+
+static void expression_parser_try(bool canAssign) {
+    expression_parser_parse_precedence(PREC_UNARY);
+    expression_parser_emit_byte(OP_TRY_PROPAGATE);
+}
+
+static void expression_parser_must(bool canAssign) {
+    expression_parser_parse_precedence(PREC_UNARY);
+    expression_parser_emit_byte(OP_MUST);
+}
+
+// infix: lhs (a result value) is already on stack
+static void expression_parser_catch(bool canAssign) {
+    // Stack: [..., result]
+    expression_parser_emit_byte(OP_RESULT_IS_ERROR); // [..., result, bool]
+    int32_t successJump = expression_parser_emit_jump_offset(OP_JUMP_IF_FALSE);
+    // error path
+    expression_parser_emit_byte(OP_POP); // pop true
+    expression_parser_emit_byte(OP_POP); // pop error result
+    expression_parser_parse_precedence(PREC_OR); // evaluate fallback
+    int32_t endJump = expression_parser_emit_jump_offset(OP_JUMP);
+    // success path
+    expression_parser_patch_jump_offset(successJump);
+    expression_parser_emit_byte(OP_POP); // pop false
+    expression_parser_emit_byte(OP_RESULT_UNWRAP);
+    expression_parser_patch_jump_offset(endJump);
 }
 
 static void expression_parser_unary(bool canAssign) {

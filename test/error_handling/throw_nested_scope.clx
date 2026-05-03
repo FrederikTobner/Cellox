@@ -1,0 +1,19 @@
+error AppError { InvalidInput }
+
+fun validate(x) {
+    var i = 0;
+    while (i < 3) {
+        if (x < 0) {
+            // throw inside a nested loop + if
+            throw AppError.InvalidInput;
+        }
+        i = i + 1;
+    }
+    return x * 2;
+}
+
+var r1 = validate(5) catch -1;
+printf("{}\n", r1);
+
+var r2 = validate(-1) catch -1;
+printf("{}\n", r2);

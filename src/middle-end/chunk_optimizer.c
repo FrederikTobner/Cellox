@@ -98,14 +98,8 @@ static void chunk_optimizer_fold_numerical_expression(chunk_t * chunk, int32_t *
         FOLD_EXPRESSION(-);
         break;
     default:
-// We assume this code to be unreachable.
-#if defined(COMPILER_MSVC)
-        __assume(0);
-#elif defined(COMPILER_GCC) || defined(COMPILER_CLANG)
-        __builtin_unreachable();
-#else
+        CLX_UNREACHABLE();
         break;
-#endif
     }
     // Removing OP_CONSTANT and OP_ADD / OP_DIVIDE / OP_MULTIPLY / OP_SUBTRACT from the chunk
     chunk_remove_bytecode(chunk, *indexPointer + 2, 3);

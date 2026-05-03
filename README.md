@@ -23,6 +23,7 @@ Cellox is a programming language based on [lox](https://craftinginterpreters.com
 * [Functions](#functions)
 * [Classes](#classes)
 * [Modules](#modules)
+* [Error handling](#error-handling)
 * [Strings](#strings)
 * [Arrays](#arrays)
 * [Slices](#slices)
@@ -83,15 +84,11 @@ Classes can also extend the functionality of an already existing class by using 
 
 ## Modules
 
-Cellox supports file-based modules with relative imports.
+Cellox supports file-based [modules](https://github.com/FrederikTobner/Cellox/wiki/Modules) with relative imports, named imports, explicit exports, load-once semantics, and diagnostics for cycles or invalid imports.
 
-Current module support includes:
+## Error handling
 
-* importing another file via relative path
-* named imports (`import { symbol } from "./module.clx"`)
-* explicit exports (`export var`, `export fun`, `export class`)
-* load-once semantics per module path
-* cycle and invalid-import diagnostics
+Cellox provides explicit [error handling](https://github.com/FrederikTobner/Cellox/wiki/Error-Handling) with named error sets, propagation (`try`), recovery (`catch`), strict unwrapping (`must`), branching (`iferror`), and structured stdlib errors.
 
 ## Strings
 

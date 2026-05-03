@@ -1,0 +1,22 @@
+error FileError { NotFound, PermissionDenied }
+
+fun openFile(path) {
+    if (path == "") {
+        throw FileError.NotFound;
+    }
+    return path;
+}
+
+// iferror on error branch
+iferror openFile("") |err| {
+    printf("error: {}\n", err);
+} else |val| {
+    printf("ok: {}\n", val);
+}
+
+// iferror on success branch
+iferror openFile("readme.txt") |err| {
+    printf("error: {}\n", err);
+} else |val| {
+    printf("ok: {}\n", val);
+}

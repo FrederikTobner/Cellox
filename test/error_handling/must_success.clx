@@ -1,0 +1,12 @@
+error MathError { DivByZero }
+
+fun safeDivide(a, b) {
+    if (b == 0) {
+        throw MathError.DivByZero;
+    }
+    return a / b;
+}
+
+// must on a plain (non-result) value passes through
+var result = must safeDivide(10, 2);
+printf("{}\n", result);

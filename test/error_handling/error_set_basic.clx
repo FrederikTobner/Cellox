@@ -1,0 +1,9 @@
+error FileError {
+    NotFound,
+    PermissionDenied,
+}
+
+printf("{}\n", FileError.NotFound);
+printf("{}\n", FileError.PermissionDenied);
+printf("{}\n", FileError.NotFound == FileError.NotFound);
+printf("{}\n", FileError.NotFound == FileError.PermissionDenied);

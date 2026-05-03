@@ -1,0 +1,10 @@
+var path = "cellox_stdlib_io_test_tmp.txt";
+
+var w = write_to_file(path, "hello");
+printf("{}\n", w);
+
+var a = append_to_file(path, "!");
+printf("{}\n", a);
+
+var content = read_file(path) catch "unreachable";
+printf("{}\n", content);

@@ -74,15 +74,15 @@ bool value_hash_table_delete(value_hash_table_t * table, object_string_t * key);
 /// @param length The length of the string
 /// @param hash The hashvalue of the string
 /// @return An object_string_t or NULL if the string hasn't been found
-object_string_t * value_hash_table_find_string(value_hash_table_t * table, char const * chars, uint32_t length,
-                                               uint32_t hash);
+CLX_HOT object_string_t * value_hash_table_find_string(value_hash_table_t * table, char const * chars, uint32_t length,
+                                                       uint32_t hash);
 
 /// @brief Reads the Value to the specified key, if an entry corresponding to the given key is present
 /// @param table The table where the entry is looked upo
 /// @param key The key that is used for searching for the entry
 /// @param value Stores the value corresponding to the key in the passed value parameter
 /// @return true if an entry coresponding to the given key has been found
-bool value_hash_table_get(value_hash_table_t * table, object_string_t * key, value_t * value);
+CLX_HOT bool value_hash_table_get(value_hash_table_t * table, object_string_t * key, value_t * value);
 
 /// @brief Removes the values that are not referenced anymore from the table
 /// @param table The table where all the values marked as white (not reachable) are removed
@@ -94,6 +94,6 @@ void value_hash_table_remove_white(value_hash_table_t * table);
 /// @param key The key of the entry that is changed or the  key of the new entry
 /// @param value The value the value of the entry is changed to or value of the new entry
 /// @return true if an entry coresponding to the given key has been found
-bool value_hash_table_set(value_hash_table_t * table, object_string_t * key, value_t value);
+CLX_HOT bool value_hash_table_set(value_hash_table_t * table, object_string_t * key, value_t value);
 
 #endif
