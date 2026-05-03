@@ -19,6 +19,7 @@
 #include "dynamic_value_array.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "../../backend/memory_mutator.h"
 
@@ -37,7 +38,9 @@ void dynamic_value_array_remove(dynamic_value_array_t * array, size_t index) {
         return;
     }
     size_t movedElements = array->count - (index + 1);
-    memcpy(array->values + index, array->values + index + 1, movedElements * sizeof(value_t));
+    if (movedElements > 0) {
+        memmove(array->values + index, array->values + index + 1, movedElements * sizeof(value_t));
+    }
     array->count--;
 }
 

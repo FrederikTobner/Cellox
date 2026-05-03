@@ -306,22 +306,40 @@ static void chunk_file_parse_chunk(char const ** fileContent, chunk_t * result, 
     if (chunkFileHadError) {
         return;
     }
-    if (*bytesReadPointer != fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_CONSTANTS) {
+
+    if (*bytesReadPointer > fileSize) {
+        chunk_file_error("Chunk file is incomplete");
+        return;
+    }
+
+    if (*bytesReadPointer < fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_CONSTANTS) {
         (*bytesReadPointer)++;
         (*fileContent)++;
         chunk_file_parse_constants(fileContent, result, bytesReadPointer, fileSize);
     }
-    if (*bytesReadPointer != fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_LINE_INFO) {
+    if (chunkFileHadError) {
+        return;
+    }
+
+    if (*bytesReadPointer < fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_LINE_INFO) {
         (*bytesReadPointer)++;
         (*fileContent)++;
         chunk_file_parse_line_info(fileContent, result, bytesReadPointer, fileSize);
     }
-    if (*bytesReadPointer != fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_INNER) {
+    if (chunkFileHadError) {
+        return;
+    }
+
+    if (*bytesReadPointer < fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_INNER) {
         (*bytesReadPointer)++;
         (*fileContent)++;
         chunk_file_parse_inner(fileContent, result, bytesReadPointer, fileSize);
     }
-    if (*bytesReadPointer != fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_BYTECODE) {
+    if (chunkFileHadError) {
+        return;
+    }
+
+    if (*bytesReadPointer < fileSize && (**fileContent) == CHUNK_SEGMENT_TYPE_BYTECODE) {
         (*bytesReadPointer)++;
         (*fileContent)++;
         chunk_file_parse_code(fileContent, result, bytesReadPointer, fileSize);
@@ -345,7 +363,7 @@ static void chunk_file_parse_code(char const ** fileContent, chunk_t * result, s
     if (!codeCount) {
         return;
     }
-    if ((*bytesReadPointer) > (fileSize - codeCount)) {
+    if (*bytesReadPointer > fileSize || codeCount > fileSize - *bytesReadPointer) {
         chunk_file_error("Chunk file is incomplete");
         return;
     }
@@ -370,7 +388,7 @@ static void chunk_file_parse_constant(char const ** fileContent, chunk_t * resul
     if (chunkFileHadError) {
         return;
     }
-    if (*bytesReadPointer > fileSize) {
+    if (*bytesReadPointer >= fileSize) {
         chunk_file_error("Unexpected file ending");
         return;
     }
@@ -380,6 +398,9 @@ static void chunk_file_parse_constant(char const ** fileContent, chunk_t * resul
     case CONSTANT_TYPE_NUMBER:
         {
             uint64_t numberBits = chunk_file_parse_u64(fileContent, result, bytesReadPointer, fileSize);
+            if (chunkFileHadError) {
+                return;
+            }
             double number = 0;
             memcpy(&number, &numberBits, sizeof(double));
             dynamic_value_array_write(&result->constants, NUMBER_VAL(number));
@@ -388,7 +409,7 @@ static void chunk_file_parse_constant(char const ** fileContent, chunk_t * resul
     case CONSTANT_TYPE_STRING:
         {
             size_t stringLength = strlen(*fileContent);
-            if (*bytesReadPointer > fileSize - (stringLength + 1)) {
+            if (*bytesReadPointer > fileSize || stringLength + 1 > fileSize - *bytesReadPointer) {
                 chunk_file_error("Unexpected file ending");
                 return;
             }
@@ -407,7 +428,7 @@ static void chunk_file_parse_constant(char const ** fileContent, chunk_t * resul
     case CONSTANT_TYPE_FUNCTION:
         {
             size_t functionNameLength = strlen(*fileContent);
-            if (*bytesReadPointer > fileSize - (functionNameLength + 1)) {
+            if (*bytesReadPointer > fileSize || functionNameLength + 1 > fileSize - *bytesReadPointer) {
                 chunk_file_error("Unexpected file ending");
                 return;
             }
@@ -427,6 +448,9 @@ static void chunk_file_parse_constant(char const ** fileContent, chunk_t * resul
 
             function->arity = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
             function->upvalueCount = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
+            if (chunkFileHadError) {
+                return;
+            }
             chunk_file_parse_chunk(fileContent, &function->chunk, bytesReadPointer, fileSize);
             dynamic_value_array_write(&result->constants, OBJECT_VAL(function));
             break;
@@ -491,7 +515,7 @@ static void chunk_file_parse_inner(char const ** fileContent, chunk_t * result, 
     uint32_t innerCounter = chunk_file_parse_u32(fileContent, result, bytesReadPointer, fileSize);
     for (size_t i = 0; i < innerCounter; i++) {
         size_t functionNameLength = strlen(*fileContent);
-        if (*bytesReadPointer > fileSize - functionNameLength) {
+        if (*bytesReadPointer > fileSize || functionNameLength + 1 > fileSize - *bytesReadPointer) {
             chunk_file_error("Unexpected file ending");
             return;
         }
@@ -578,7 +602,7 @@ static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * resul
 /// @return The number that was parsed
 static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
                                      size_t fileSize) {
-    if ((*bytesReadPointer) > (fileSize - 4)) {
+    if (*bytesReadPointer > fileSize || 4 > fileSize - *bytesReadPointer) {
         chunk_file_error("Chunk file is incomplete");
         return 0;
     }
@@ -598,7 +622,7 @@ static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result
 /// @return The number that was parsed
 static uint64_t chunk_file_parse_u64(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
                                      size_t fileSize) {
-    if ((*bytesReadPointer) > (fileSize - 8)) {
+    if (*bytesReadPointer > fileSize || 8 > fileSize - *bytesReadPointer) {
         chunk_file_error("Chunk file is incomplete");
         return 0;
     }

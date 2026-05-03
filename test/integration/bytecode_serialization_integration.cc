@@ -215,7 +215,8 @@ TEST(BytecodeSerialization, RejectsTruncatedChunkFile) {
     std::string errorOutput = testing::internal::GetCapturedStderr();
 
     EXPECT_EQ(nullptr, loaded);
-    EXPECT_NE(std::string::npos, errorOutput.find("Chunk file is incomplete"));
+    EXPECT_TRUE(errorOutput.find("Chunk file is incomplete") != std::string::npos ||
+                errorOutput.find("Unexpected file ending") != std::string::npos);
 
     std::remove(chunkPath.c_str());
 }

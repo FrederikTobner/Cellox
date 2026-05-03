@@ -61,6 +61,7 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
         for (uint32_t i = 0; i < length; i++) {
             if (heapChars[i] == '\\') {
                 if (string_utils_resolve_escape_sequence(&heapChars[i], &length)) {
+                    free(heapChars);
                     return NULL;
                 }
             }
