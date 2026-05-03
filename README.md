@@ -115,16 +115,6 @@ Slices are created by using the range operator.
 
 The values stored in slice can be altered without affecting the original array.
 
-## Benchmarking
-
-The benchmark suite covers arithmetic, object/class behavior, method dispatch, and module/slice-heavy runtime paths.
-
-Notable benchmark programs include:
-
-* `ModuleImportChain.clx` for module-import execution workloads
-* `SliceOps.clx` for repeated slicing and indexed access workloads
-* existing core benchmarks like `Fibonacci.clx`, `MethodCall.clx`, and `Zoo.clx`
-
 ## IDE Integration
 
 There are plugins for vscode, vim and neovim. Another alternative is to use my own text editor YATE that has built in language support.
