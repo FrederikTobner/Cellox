@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.24)
 
-set(INTERPRETER_TESTS ${PROJECT_NAME}Tests)
+set(E2E_TESTS ${PROJECT_NAME}E2ETests)
+set(INTEGRATION_TESTS ${PROJECT_NAME}IntegrationTests)
+set(UNIT_TESTS ${PROJECT_NAME}UnitTests)
+set(FUZZ_TESTS ${PROJECT_NAME}FuzzTests)
 
 #Fetches google-test framework from the github repo
 include(FetchContent)
@@ -10,8 +13,21 @@ FetchContent_Declare(
   GIT_TAG release-1.12.1
 )
 
-file(GLOB_RECURSE TEST_SOURCE_FILES *.cc *.c *.cpp)
-file(GLOB_RECURSE TEST_HEADER_FILES *.hh *.h *.hpp)
+file(GLOB_RECURSE E2E_TEST_SOURCE_FILES e2e/*.cc e2e/*.c e2e/*.cpp)
+file(GLOB_RECURSE E2E_TEST_HEADER_FILES e2e/*.hh e2e/*.h e2e/*.hpp)
+file(GLOB_RECURSE INTEGRATION_TEST_SOURCE_FILES integration/*.cc integration/*.c integration/*.cpp)
+file(GLOB_RECURSE INTEGRATION_TEST_HEADER_FILES integration/*.hh integration/*.h integration/*.hpp)
+file(GLOB_RECURSE UNIT_TEST_SOURCE_FILES unit/*.cc unit/*.c unit/*.cpp)
+file(GLOB_RECURSE UNIT_TEST_HEADER_FILES unit/*.hh unit/*.h unit/*.hpp)
+
+set(FUZZ_TEST_SOURCE_FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/unit/property_fuzz_unit.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/integration/property_fuzz_serialization_integration.cc
+)
+
+list(REMOVE_ITEM UNIT_TEST_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/unit/property_fuzz_unit.cc)
+list(REMOVE_ITEM INTEGRATION_TEST_SOURCE_FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/integration/property_fuzz_serialization_integration.cc)
 
 add_compile_definitions(
 # Flag that indicates that test are executed
@@ -20,13 +36,27 @@ CELLOX_TESTS_RUNNING
 TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
 )
 
-# Builds cellox tests
-add_executable(${INTERPRETER_TESTS} 
-${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES} 
-${TEST_SOURCE_FILES} ${TEST_HEADER_FILES})
+add_executable(${E2E_TESTS}
+${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES}
+${E2E_TEST_SOURCE_FILES} ${E2E_TEST_HEADER_FILES})
 
-# Includes SourcePath of the compiler for shorter includes and the config file
-target_include_directories(${INTERPRETER_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)
+add_executable(${INTEGRATION_TESTS}
+${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES}
+${INTEGRATION_TEST_SOURCE_FILES} ${INTEGRATION_TEST_HEADER_FILES})
+
+add_executable(${UNIT_TESTS}
+${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES}
+${UNIT_TEST_SOURCE_FILES} ${UNIT_TEST_HEADER_FILES})
+
+add_executable(${FUZZ_TESTS}
+${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES}
+${FUZZ_TEST_SOURCE_FILES})
+
+# Includes SourcePath of the compiler for shorter includes, the config file and top-level test include paths
+target_include_directories(${E2E_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/e2e)
+target_include_directories(${INTEGRATION_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)
+target_include_directories(${UNIT_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)
+target_include_directories(${FUZZ_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -34,10 +64,16 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 #Fetches google test
 FetchContent_MakeAvailable(googletest)
 
-#Links googletest libary and cellox tests
-target_link_libraries(${INTERPRETER_TESTS} GTest::gtest_main)
+# Links googletest libraries
+target_link_libraries(${E2E_TESTS} GTest::gtest_main)
+target_link_libraries(${INTEGRATION_TESTS} GTest::gtest_main)
+target_link_libraries(${UNIT_TESTS} GTest::gtest_main)
+target_link_libraries(${FUZZ_TESTS} GTest::gtest_main)
 
 # Includes google test framework specific macros
 include(GoogleTest)
-# Automatic discovering of tests
-gtest_discover_tests(${INTERPRETER_TESTS})
+# Automatic discovery and labeling of tests
+gtest_discover_tests(${E2E_TESTS} TEST_LIST E2E_TEST_LIST PROPERTIES LABELS "e2e")
+gtest_discover_tests(${INTEGRATION_TESTS} PROPERTIES LABELS "integration")
+gtest_discover_tests(${UNIT_TESTS} PROPERTIES LABELS "unit")
+gtest_discover_tests(${FUZZ_TESTS} PROPERTIES LABELS "fuzz")

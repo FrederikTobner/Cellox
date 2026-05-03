@@ -1,0 +1,44 @@
+name: Setup CI Toolchain
+description: Installs platform-specific build tooling for CMake + Ninja workflows.
+inputs:
+  linux-packages:
+    description: Space-separated apt packages installed on Linux runners.
+    required: false
+    default: "cmake ninja-build"
+  mac-packages:
+    description: Space-separated brew packages installed on macOS runners.
+    required: false
+    default: "ninja"
+  setup-windows-ninja:
+    description: Set to false to skip Ninja setup on Windows.
+    required: false
+    default: "true"
+  setup-windows-msvc:
+    description: Set to false to skip MSVC environment setup on Windows.
+    required: false
+    default: "true"
+runs:
+  using: composite
+  steps:
+    - name: Setup Ninja under Windows
+      if: runner.os == 'Windows' && inputs.setup-windows-ninja == 'true'
+      uses: ashutoshvarma/setup-ninja@master
+      with:
+        version: 1.10.2
+
+    - name: Setup MSVC under Windows
+      if: runner.os == 'Windows' && inputs.setup-windows-msvc == 'true'
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Install packages under Linux
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install ${{ inputs.linux-packages }}
+
+    - name: Install packages under macOS
+      if: runner.os == 'macOS'
+      shell: bash
+      run: |
+        brew install ${{ inputs.mac-packages }}

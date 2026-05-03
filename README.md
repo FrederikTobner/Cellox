@@ -3,7 +3,11 @@
 [![Build Interpreter](https://github.com/FrederikTobner/Cellox/actions/workflows/build_compiler.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build_compiler.yml)
 [![Build Tools](https://github.com/FrederikTobner/Cellox/actions/workflows/build_tools.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/build_tools.yml)
 [![Test](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
+[![Coverage](https://codecov.io/gh/FrederikTobner/Cellox/graph/badge.svg)](https://codecov.io/gh/FrederikTobner/Cellox)
 [![Analyze](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml/badge.svg)](https://github.com/FrederikTobner/Cellox/actions/workflows/codeql.yml)
+[![Sanitizers](https://img.shields.io/badge/sanitizers-ASan%20%2B%20UBSan-0A7A5C)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
+[![CTest Labels](https://img.shields.io/badge/ctest-unit%20%7C%20integration%20%7C%20e2e%20%7C%20fuzz-1F6FEB)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
+[![CI Matrix](https://img.shields.io/badge/ci%20matrix-windows%20%7C%20linux%20%7C%20macOS-7A3EC8)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
 
 Compiler based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) for the programming language cellox.
 

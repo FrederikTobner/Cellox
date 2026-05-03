@@ -1,0 +1,29 @@
+name: Build CMake Targets
+description: Builds one or more CMake targets in a configured build directory.
+inputs:
+  build-dir:
+    description: Build directory path.
+    required: false
+    default: build
+  build-type:
+    description: CMake build type for multi-config generators.
+    required: false
+    default: Debug
+  targets:
+    description: Optional space-separated list of targets.
+    required: false
+    default: ""
+runs:
+  using: composite
+  steps:
+    - name: Build selected targets
+      if: inputs.targets != ''
+      shell: bash
+      run: |
+        cmake --build "${{ inputs.build-dir }}" --config "${{ inputs.build-type }}" --target ${{ inputs.targets }}
+
+    - name: Build default target
+      if: inputs.targets == ''
+      shell: bash
+      run: |
+        cmake --build "${{ inputs.build-dir }}" --config "${{ inputs.build-type }}"

@@ -21,6 +21,7 @@
 #include "chunk.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "../backend/memory_mutator.h"
 #include "../backend/virtual_machine.h"
@@ -61,13 +62,22 @@ void chunk_init(chunk_t * chunk) {
 }
 
 void chunk_remove_bytecode(chunk_t * chunk, uint32_t startIndex, uint32_t amount) {
-    if (startIndex + amount >= chunk->byteCodeCount) {
+    if (amount == 0 || startIndex >= chunk->byteCodeCount) {
         return;
     }
-    memcpy((chunk->code + startIndex), (chunk->code + startIndex + amount),
-           chunk->byteCodeCount - (startIndex + amount));
-    chunk->byteCodeCount -= amount;
-    chunk_adjust_line_info_by_index(chunk, startIndex, -(int32_t)amount);
+    uint32_t removalEnd = startIndex + amount;
+    if (removalEnd > chunk->byteCodeCount) {
+        removalEnd = chunk->byteCodeCount;
+    }
+
+    uint32_t movedBytes = chunk->byteCodeCount - removalEnd;
+    if (movedBytes > 0) {
+        memmove(chunk->code + startIndex, chunk->code + removalEnd, movedBytes);
+    }
+
+    uint32_t removedAmount = removalEnd - startIndex;
+    chunk->byteCodeCount -= removedAmount;
+    chunk_adjust_line_info_by_index(chunk, startIndex, -(int32_t)removedAmount);
 }
 
 void chunk_remove_constant(chunk_t * chunk, uint32_t constantIndex) {

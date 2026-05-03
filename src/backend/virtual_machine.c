@@ -447,12 +447,14 @@ static bool virtual_machine_get_slice_of(void) {
                 upperBound, sourceString->length);
             return false;
         }
-        char * chars = ALLOCATE(char, upperBound - i + 1);
-        for (; i < upperBound; i++) {
-            chars[i] = sourceString->chars[i];
+        int lowerBound = i;
+        int resultLength = upperBound - lowerBound;
+        char * chars = ALLOCATE(char, resultLength + 1);
+        for (int sourceIndex = lowerBound, resultIndex = 0; sourceIndex < upperBound; sourceIndex++, resultIndex++) {
+            chars[resultIndex] = sourceString->chars[sourceIndex];
         }
-        chars[i] = '\0';
-        object_string_t * resultSting = object_take_string(chars, upperBound - i + 1);
+        chars[resultLength] = '\0';
+        object_string_t * resultSting = object_take_string(chars, resultLength);
         virtual_machine_push(OBJECT_VAL(resultSting));
     }
     return true;
