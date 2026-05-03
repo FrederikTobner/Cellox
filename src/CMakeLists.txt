@@ -89,13 +89,6 @@ add_subdirectory(middle-end)        # → clx_middleend
 add_subdirectory(frontend)          # → clx_lex, clx_frontend
 add_subdirectory(backend)           # → clx_runtime
 
-# ── Application glue (clx_app) ───────────────────────────────────────────────
-set(_app_compile_defs "")
-if(CLX_BUILD_TESTS)
-    # Suppress exit() calls inside initializer.c when running tests
-    list(APPEND _app_compile_defs CELLOX_TESTS_RUNNING)
-endif()
-
 cellox_add_library(clx_app
     SOURCES
         command_line_argument_parser.c
@@ -104,8 +97,6 @@ cellox_add_library(clx_app
     DEPENDENCIES
         clx_runtime
         clx_frontend
-    COMPILE_DEFS
-        ${_app_compile_defs}
 )
 
 # ── Interface alias — downstream tools link this one target ──────────────────
