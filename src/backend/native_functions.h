@@ -24,9 +24,6 @@
 #include "common.h"
 #include "language-models/value.h"
 
-/// Typedefinition of a native function
-typedef value_t (*native_function_t)(uint32_t argCount, value_t const * args);
-
 /// Configuration of a native function
 typedef struct {
     /// The name of the native function

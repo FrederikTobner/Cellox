@@ -170,4 +170,8 @@ bool value_values_equal(value_t a, value_t b);
 /// @return A character sequence that represents the type
 char const * value_stringify_type(value_t value);
 
+/// @brief Native function signature
+/// @details A function pointer type for all native (C-implemented) functions callable from Cellox.
+typedef value_t (*native_function_t)(uint32_t argCount, value_t const * args);
+
 #endif // NAN_BOXING

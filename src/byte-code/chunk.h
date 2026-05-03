@@ -25,6 +25,11 @@
 #include "language-models/data-structures/dynamic_value_array.h"
 #include "language-models/value.h"
 
+/// @brief Registers push/pop callbacks used by chunk_add_constant for GC safety.
+/// @details The runtime calls this on VM init. Without the hooks chunk_add_constant
+/// skips GC guarding, which is safe only before the VM is running.
+void chunk_set_gc_guard_hooks(void (*push)(value_t), value_t (*pop)(void));
+
 /// @brief opcodes of the bytecode instruction set
 enum opcode {
     /// Pops the two most upper values from the stack, adds them and pushes the result onto the stack

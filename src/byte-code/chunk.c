@@ -24,16 +24,27 @@
 #include <string.h>
 
 #include "backend/memory_mutator.h"
-#include "backend/virtual_machine.h"
 
 static void chunk_adjust_line_info_by_index(chunk_t *, uint32_t, int32_t);
 static inline bool chunk_byte_code_is_full(chunk_t *);
 static inline bool chunk_line_info_is_full(chunk_t *);
 
+static void (*chunk_gc_push)(value_t) = NULL;
+static value_t (*chunk_gc_pop)(void) = NULL;
+
+void chunk_set_gc_guard_hooks(void (*push)(value_t), value_t (*pop)(void)) {
+    chunk_gc_push = push;
+    chunk_gc_pop = pop;
+}
+
 int32_t chunk_add_constant(chunk_t * chunk, value_t value) {
-    virtual_machine_push(value);
+    if (chunk_gc_push) {
+        chunk_gc_push(value);
+    }
     dynamic_value_array_write(&chunk->constants, value);
-    virtual_machine_pop();
+    if (chunk_gc_pop) {
+        chunk_gc_pop();
+    }
     return chunk->constants.count - 1;
 }
 

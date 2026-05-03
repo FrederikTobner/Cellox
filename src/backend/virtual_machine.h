@@ -114,4 +114,12 @@ void virtual_machine_push(value_t value);
 /// @return The value that was popped from the stack
 value_t virtual_machine_pop(void);
 
+/// @brief Function pointer type for compiling source code.
+typedef object_function_t * (*vm_compile_fn_t)(char const * program);
+
+/// @brief Registers the compile function used by virtual_machine_interpret.
+/// @details Call this once at startup (from the app layer) to inject the frontend
+/// compiler without creating a direct dependency from the runtime library on the frontend.
+void virtual_machine_set_compile_fn(vm_compile_fn_t fn);
+
 #endif

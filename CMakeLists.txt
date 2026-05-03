@@ -37,6 +37,7 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 include(CompileDefinitions)
+include(CelloxHelpers)
 
 cellox_add_compiler_compile_definitions()
 cellox_add_os_compile_definitions()

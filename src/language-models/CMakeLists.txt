@@ -1,0 +1,9 @@
+cellox_add_library(clx_model
+    SOURCES
+        value.c
+        object.c
+        data-structures/dynamic_value_array.c
+        data-structures/value_hash_table.c
+    DEPENDENCIES
+        clx_base
+)

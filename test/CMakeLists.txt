@@ -37,26 +37,23 @@ TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
 )
 
 add_executable(${E2E_TESTS}
-${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES}
-${E2E_TEST_SOURCE_FILES} ${E2E_TEST_HEADER_FILES})
+    ${E2E_TEST_SOURCE_FILES} ${E2E_TEST_HEADER_FILES})
 
 add_executable(${INTEGRATION_TESTS}
-${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES}
-${INTEGRATION_TEST_SOURCE_FILES} ${INTEGRATION_TEST_HEADER_FILES})
+    ${INTEGRATION_TEST_SOURCE_FILES} ${INTEGRATION_TEST_HEADER_FILES})
 
 add_executable(${UNIT_TESTS}
-${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES}
-${UNIT_TEST_SOURCE_FILES} ${UNIT_TEST_HEADER_FILES})
+    ${UNIT_TEST_SOURCE_FILES} ${UNIT_TEST_HEADER_FILES})
 
 add_executable(${FUZZ_TESTS}
-${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES}
-${FUZZ_TEST_SOURCE_FILES})
+    ${FUZZ_TEST_SOURCE_FILES})
 
-# Includes SourcePath of the compiler for shorter includes, the config file and top-level test include paths
-target_include_directories(${E2E_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/e2e)
-target_include_directories(${INTEGRATION_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)
-target_include_directories(${UNIT_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)
-target_include_directories(${FUZZ_TESTS} PUBLIC ${SOURCEPATH} ${PROJECT_BINARY_DIR}/src)
+# Includes SourcePath of the compiler for shorter includes and top-level test include paths
+# cellox_all propagates all necessary include directories transitively
+target_include_directories(${E2E_TESTS} PUBLIC ${SOURCEPATH} ${CMAKE_CURRENT_SOURCE_DIR}/e2e)
+target_include_directories(${INTEGRATION_TESTS} PUBLIC ${SOURCEPATH})
+target_include_directories(${UNIT_TESTS} PUBLIC ${SOURCEPATH})
+target_include_directories(${FUZZ_TESTS} PUBLIC ${SOURCEPATH})
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -64,11 +61,11 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 #Fetches google test
 FetchContent_MakeAvailable(googletest)
 
-# Links googletest libraries
-target_link_libraries(${E2E_TESTS} GTest::gtest_main)
-target_link_libraries(${INTEGRATION_TESTS} GTest::gtest_main)
-target_link_libraries(${UNIT_TESTS} GTest::gtest_main)
-target_link_libraries(${FUZZ_TESTS} GTest::gtest_main)
+# Links cellox libraries and googletest
+target_link_libraries(${E2E_TESTS} PRIVATE cellox_all GTest::gtest_main)
+target_link_libraries(${INTEGRATION_TESTS} PRIVATE cellox_all GTest::gtest_main)
+target_link_libraries(${UNIT_TESTS} PRIVATE cellox_all GTest::gtest_main)
+target_link_libraries(${FUZZ_TESTS} PRIVATE cellox_all GTest::gtest_main)
 
 # Includes google test framework specific macros
 include(GoogleTest)

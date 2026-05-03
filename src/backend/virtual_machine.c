@@ -29,16 +29,22 @@
 #include <time.h>
 
 #include "common.h"
-#include "frontend/compilation/compiler.h"
 #include "memory_mutator.h"
 #include "native_functions.h"
 #if defined(DEBUG_TRACE_EXECUTION)
 #include "byte-code/chunk_disassembler.h"
 #endif
 #include "language-models/value.h"
+#include "language-models/object.h"
 
 /// Global VirtualMachine variable
 virtual_machine_t virtualMachine;
+
+static vm_compile_fn_t vm_compile_fn = NULL;
+
+void virtual_machine_set_compile_fn(vm_compile_fn_t fn) {
+    vm_compile_fn = fn;
+}
 
 static void virtual_machine_array_literal(int32_t);
 static bool virtual_machine_bind_method(object_class_t *, object_string_t *);
@@ -86,6 +92,14 @@ void virtual_machine_init(void) {
     value_hash_table_init(&virtualMachine.globals);
     // Initializes the hashtable that contains the strings
     value_hash_table_init(&virtualMachine.strings);
+    // Register string table with object module so string interning works
+    object_set_vm_string_table(&virtualMachine.strings);
+    // Register VM objects list head so object allocation can track GC roots
+    object_set_vm_objects(&virtualMachine.objects);
+    // Register GC guard hooks with object and chunk modules for GC safety
+    object_set_gc_guard_hooks(virtual_machine_push, virtual_machine_pop);
+    // Register GC guard hooks with chunk module for GC safety during constant insertion
+    chunk_set_gc_guard_hooks(virtual_machine_push, virtual_machine_pop);
     // virtualMachine.stackTop = virtualMachine.stack;
     virtualMachine.initString = NULL;
     virtualMachine.initString = object_copy_string("init", 4u, false);
@@ -96,7 +110,10 @@ void virtual_machine_init(void) {
 }
 
 interpret_result virtual_machine_interpret(char * program, bool freeProgram) {
-    object_function_t * function = compiler_compile(program);
+    if (!vm_compile_fn) {
+        return INTERPRET_COMPILE_ERROR;
+    }
+    object_function_t * function = vm_compile_fn(program);
     if (!function) {
         return INTERPRET_COMPILE_ERROR;
     }
