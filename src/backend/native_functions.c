@@ -33,9 +33,9 @@
 #include <unistd.h>
 #endif
 
-#include "../language-models/object.h"
-#include "../language-models/value.h"
-#include "../string_utils.h"
+#include "language-models/object.h"
+#include "language-models/value.h"
+#include "string_utils.h"
 #include "memory_mutator.h"
 #include "native_functions.h"
 #include "virtual_machine.h"

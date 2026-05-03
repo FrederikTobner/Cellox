@@ -21,9 +21,9 @@
 #ifndef CELLOX_CHUNK_H_
 #define CELLOX_CHUNK_H_
 
-#include "../common.h"
-#include "../language-models/data-structures/dynamic_value_array.h"
-#include "../language-models/value.h"
+#include "common.h"
+#include "language-models/data-structures/dynamic_value_array.h"
+#include "language-models/value.h"
 
 /// @brief opcodes of the bytecode instruction set
 enum opcode {

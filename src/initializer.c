@@ -31,7 +31,7 @@
 #include "byte-code/chunk_file.h"
 #include "cellox_config.h"
 #include "common.h"
-#include "frontend/compiler.h"
+#include "frontend/compilation/compiler.h"
 #include "module_loader.h"
 
 /// Maximum length of a line is 1024 characters

@@ -24,9 +24,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../backend/memory_mutator.h"
-#include "../backend/virtual_machine.h"
-#include "../string_utils.h"
+#include "backend/memory_mutator.h"
+#include "backend/virtual_machine.h"
+#include "string_utils.h"
 
 /// Marko for allocating a new object
 #define ALLOCATE_OBJECT(type, objectType) (type *)object_allocate_object(sizeof(type), objectType)

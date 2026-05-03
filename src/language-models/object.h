@@ -21,9 +21,9 @@
 #ifndef CELLOX_OBJECT_H_
 #define CELLOX_OBJECT_H_
 
-#include "../backend/native_functions.h"
-#include "../byte-code/chunk.h"
-#include "../common.h"
+#include "backend/native_functions.h"
+#include "byte-code/chunk.h"
+#include "common.h"
 #include "./data-structures/value_hash_table.h"
 #include "value.h"
 

@@ -21,8 +21,8 @@
 #ifndef CELLOX_VALUE_HASH_TABLE_H_
 #define CELLOX_VALUE_HASH_TABLE_H_
 
-#include "../../common.h"
-#include "../value.h"
+#include "common.h"
+#include "language-models/value.h"
 
 /// @brief An entry in a hashtable
 /// @details An Entry in hashtable contains a key, that is used to look up the entry in O(n)

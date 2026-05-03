@@ -21,7 +21,7 @@
 #ifndef CELLOX_CHUNK_DISASSEMBLER_H_
 #define CELLOX_CHUNK_DISASSEMBLER_H_
 
-#include "../byte-code/chunk.h"
+#include "byte-code/chunk.h"
 
 /// @brief  Dissasembles a chunk of bytecode instructions
 /// @param chunk The chunk that is dissasembled

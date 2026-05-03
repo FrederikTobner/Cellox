@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-#include "../src/backend/memory_mutator.h"
+#include "backend/memory_mutator.h"
 
 void dynamic_benchmark_config_array_free(dynamic_benchmark_config_array_t * array) {
     FREE_ARRAY(benchmark_config_t, array->configs, array->capacity);

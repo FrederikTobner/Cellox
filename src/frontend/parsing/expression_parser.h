@@ -9,23 +9,33 @@
  * No representations are made about the suitability of this software for   *
  * any purpose.                                                             *
  * It is provided "as is" without express or implied warranty.              *
- * See the <https://www.gnu.org/licenses/gpl-3.0.html/>GNU General Public   *
+ * See the <"https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public  *
  * License for more details.                                                *
  ****************************************************************************/
 
 /**
- * @file chunk_optimizer.h
- * @brief Header file containing the declarations of functionality regarding the optimization of cellox chunks.
+ * @file expression_parser.h
+ * @brief Expression compiler API.
  */
 
-#ifndef CELLOX_CHUNK_OPTIMIZER_H_
-#define CELLOX_CHUNK_OPTIMIZER_H_
+#ifndef CELLOX_EXPRESSION_PARSER_H_
+#define CELLOX_EXPRESSION_PARSER_H_
 
-#include "byte-code/chunk.h"
+#include "frontend/compilation/core_types.h"
+#include "parser_state.h"
 
-/// @brief Optimizes the chunk by using different compiler optimization techniques
-/// @param chunk The chunk that is optimized
-/// @details At the moment only constant folding is used
-void chunk_optimizer_optimize_chunk(chunk_t * chunk);
+typedef struct {
+    parser_t * parser;
+    compiler_t ** currentCompiler;
+    class_compiler_t ** currentClass;
+} expression_parser_context_t;
+
+void expression_parser_init(expression_parser_context_t * context);
+void expression_parser_compile_dynamic_array(bool canAssign);
+void expression_parser_parse_expression(void);
+uint8_t expression_parser_identifier_constant(token_t * name);
+bool expression_parser_identifiers_equal(token_t * a, token_t * b);
+void expression_parser_compile_named_variable(token_t name, bool canAssign);
+void expression_parser_compile_variable(bool canAssign);
 
 #endif

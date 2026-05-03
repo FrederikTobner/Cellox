@@ -28,14 +28,14 @@
 #include <string.h>
 #include <time.h>
 
-#include "../common.h"
-#include "../frontend/compiler.h"
+#include "common.h"
+#include "frontend/compilation/compiler.h"
 #include "memory_mutator.h"
 #include "native_functions.h"
 #if defined(DEBUG_TRACE_EXECUTION)
-#include "../byte-code/chunk_disassembler.h"
+#include "byte-code/chunk_disassembler.h"
 #endif
-#include "../language-models/value.h"
+#include "language-models/value.h"
 
 /// Global VirtualMachine variable
 virtual_machine_t virtualMachine;

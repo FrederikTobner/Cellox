@@ -14,26 +14,30 @@
  ****************************************************************************/
 
 /**
- * @file compiler.h
- * @brief Header file of the compiler
+ * @file compilation_context.h
+ * @brief Accessors for shared compilation context state.
  */
 
-#ifndef CELLOX_COMPILER_H_
-#define CELLOX_COMPILER_H_
+#ifndef CELLOX_COMPILATION_CONTEXT_H_
+#define CELLOX_COMPILATION_CONTEXT_H_
 
-#include "../frontend/lexer.h"
-#include "../language-models/object.h"
+#include "core_types.h"
+#include "frontend/parsing/expression_parser.h"
+#include "frontend/parsing/parser_state.h"
 
-/// @brief Compiles a cellox program.
-/// @param code The cellox program that is compiled
-/// @return A obect_function_t that that stores all the instructions that of the cellox program
-/// @details Converts the textual representation of a cellox program in a cellox chunk.
-/// The source code is for that purposed scanned, parsed and then converted to a intermediate representation
-object_function_t * compiler_compile(char const * code);
+parser_t * compilation_context_get_parser(void);
 
-/// @brief Marks the compiler roots.
-/// @details These are all the the objects that can be directly accessed by the virtualMachine and not through a
-/// reference in some other object.
-void compiler_mark_roots(void);
+compiler_t * compilation_context_get_current_compiler(void);
+compiler_t ** compilation_context_get_current_compiler_ref(void);
+void compilation_context_set_current_compiler(compiler_t * compiler);
+
+class_compiler_t * compilation_context_get_current_class(void);
+class_compiler_t ** compilation_context_get_current_class_ref(void);
+void compilation_context_set_current_class(class_compiler_t * currentClass);
+
+loop_context_t * compilation_context_get_current_loop(void);
+void compilation_context_set_current_loop(loop_context_t * currentLoop);
+
+void compilation_context_init_expression_parser(void);
 
 #endif

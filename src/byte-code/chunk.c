@@ -23,8 +23,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../backend/memory_mutator.h"
-#include "../backend/virtual_machine.h"
+#include "backend/memory_mutator.h"
+#include "backend/virtual_machine.h"
 
 static void chunk_adjust_line_info_by_index(chunk_t *, uint32_t, int32_t);
 static inline bool chunk_byte_code_is_full(chunk_t *);

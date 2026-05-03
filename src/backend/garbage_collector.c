@@ -23,11 +23,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../frontend/compiler.h"
+#include "frontend/compilation/compiler.h"
 #ifdef DEBUG_LOG_GC
 #include "chunk_disassembler.h"
 #endif
-#include "../language-models/object.h"
+#include "language-models/object.h"
 #include "memory_mutator.h"
 #include "virtual_machine.h"
 

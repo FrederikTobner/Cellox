@@ -44,6 +44,9 @@ cellox_add_os_compile_definitions()
 file(GLOB_RECURSE CELLOX_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c)
 file(GLOB_RECURSE CELLOX_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
 
+# Allow includes from the src root (e.g. frontend/... and backend/...)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
 LIST(REMOVE_ITEM CELLOX_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/common.c )
 LIST(REMOVE_ITEM CELLOX_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/common.h)
 

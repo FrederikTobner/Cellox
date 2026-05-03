@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../src/backend/virtual_machine.h"
-#include "../src/byte-code/chunk_disassembler.h"
-#include "../src/byte-code/chunk_file.h"
-#include "../src/common.h"
-#include "../src/frontend/compiler.h"
+#include "backend/virtual_machine.h"
+#include "byte-code/chunk_disassembler.h"
+#include "byte-code/chunk_file.h"
+#include "common.h"
+#include "frontend/compilation/compiler.h"
 
 static char * disassembler_read_file(char const * path);
 

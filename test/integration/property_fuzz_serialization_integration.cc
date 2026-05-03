@@ -15,7 +15,7 @@
 extern "C" {
 #include "backend/virtual_machine.h"
 #include "byte-code/chunk_file.h"
-#include "frontend/compiler.h"
+#include "frontend/compilation/compiler.h"
 }
 
 static std::string fuzz_derive_chunk_path(std::string path) {
