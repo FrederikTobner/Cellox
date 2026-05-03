@@ -23,6 +23,11 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <inttypes.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 static optimization_pipeline_t* g_global_pipeline = NULL;
 
@@ -34,9 +39,21 @@ static optimization_pipeline_t* g_global_pipeline = NULL;
  * @brief Get current time in nanoseconds
  */
 static uint64_t get_time_ns(void) {
+#ifdef _WIN32
+    static LARGE_INTEGER frequency = {0};
+    LARGE_INTEGER counter;
+
+    if (frequency.QuadPart == 0) {
+        QueryPerformanceFrequency(&frequency);
+    }
+
+    QueryPerformanceCounter(&counter);
+    return (uint64_t)((counter.QuadPart * 1000000000ULL) / frequency.QuadPart);
+#else
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);
     return ts.tv_sec * 1000000000ULL + ts.tv_nsec;
+#endif
 }
 
 /**
@@ -267,7 +284,7 @@ void optimization_print_stats(const optimization_stats_t* stats) {
     printf("  Constants: %zu → %zu\n",
         stats->constants_before,
         stats->constants_after);
-    printf("  Time: %lu ns (%.2f µs)\n",
+    printf("  Time: %" PRIu64 " ns (%.2f us)\n",
         stats->time_ns,
         (double)stats->time_ns / 1000.0);
 }
