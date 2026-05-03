@@ -356,7 +356,7 @@ static void compiler_advance(void) {
             break;
         }
 
-        compiler_error_at_current(parser.current.start);
+        compiler_error_at_current("%s", parser.current.start);
     }
 }
 
