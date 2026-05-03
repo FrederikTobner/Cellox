@@ -8,7 +8,8 @@ var searchData=
   ['ip_5',['ip',['../structcall__frame__t.html#ae9a214ca95b98ffdff0a9a4398d2c174',1,'call_frame_t']]],
   ['iscaptured_6',['isCaptured',['../structlocal__t.html#ab919f2d4c7fab6954a8e8e685b2fef69',1,'local_t']]],
   ['isemitted_7',['isEmitted',['../structmodule__record__t.html#ad2c361f933480b871d0f190e7cc414de',1,'module_record_t']]],
-  ['isloading_8',['isLoading',['../structmodule__record__t.html#a2fc3fe108768252ee291e6002a695037',1,'module_record_t']]],
-  ['islocal_9',['isLocal',['../structupvalue__t.html#ac605c13c815eff8fc80f638813621e24',1,'upvalue_t']]],
-  ['ismarked_10',['isMarked',['../structobject__t.html#ae3e7c1f778a6b539cc816c9fe04d8675',1,'object_t']]]
+  ['iserror_8',['isError',['../structobject__result__t.html#a02ffdeaf3e76884062132ac76274ca2e',1,'object_result_t']]],
+  ['isloading_9',['isLoading',['../structmodule__record__t.html#a2fc3fe108768252ee291e6002a695037',1,'module_record_t']]],
+  ['islocal_10',['isLocal',['../structupvalue__t.html#ac605c13c815eff8fc80f638813621e24',1,'upvalue_t']]],
+  ['ismarked_11',['isMarked',['../structobject__t.html#ae3e7c1f778a6b539cc816c9fe04d8675',1,'object_t']]]
 ];

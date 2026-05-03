@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('native__functions_8c.html',''); initRe
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;ctype.h&gt;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;limits.h&gt;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
@@ -169,6 +170,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ad83f36951f28723464c96497426fbb80" id="r_ad83f36951f28723464c96497426fbb80"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#ad83f36951f28723464c96497426fbb80">native_functions_assert_arrity</a> (uint8_t function, uint32_t argcount)</td></tr>
 <tr class="memdesc:ad83f36951f28723464c96497426fbb80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asserts that the native function was called with the appropriate argument count.  <br /></td></tr>
 <tr class="separator:ad83f36951f28723464c96497426fbb80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13b6efde66bf7d6d49211c365de25a7d" id="r_a13b6efde66bf7d6d49211c365de25a7d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a13b6efde66bf7d6d49211c365de25a7d">native_functions_io_error_result</a> (char const *variantName)</td></tr>
+<tr class="memdesc:a13b6efde66bf7d6d49211c365de25a7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a standardized stdlib I/O error result object.  <br /></td></tr>
+<tr class="separator:a13b6efde66bf7d6d49211c365de25a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a957f24610e35539aa80834a46c84c" id="r_aa6a957f24610e35539aa80834a46c84c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#aa6a957f24610e35539aa80834a46c84c">native_functions_stdlib_error_result</a> (char const *variantName)</td></tr>
+<tr class="memdesc:aa6a957f24610e35539aa80834a46c84c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a standardized stdlib argument/type/domain error result object.  <br /></td></tr>
+<tr class="separator:aa6a957f24610e35539aa80834a46c84c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c97e6175488d6c654ba78d8d9bb2569" id="r_a4c97e6175488d6c654ba78d8d9bb2569"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a4c97e6175488d6c654ba78d8d9bb2569">native_functions_write_or_append</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args, char const *mode)</td></tr>
+<tr class="memdesc:a4c97e6175488d6c654ba78d8d9bb2569"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared implementation for write_to_file and append_to_file.  <br /></td></tr>
+<tr class="separator:a4c97e6175488d6c654ba78d8d9bb2569"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18b8e2c3305ed7f24f99babafaf8e8d1" id="r_a18b8e2c3305ed7f24f99babafaf8e8d1"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a18b8e2c3305ed7f24f99babafaf8e8d1">native_functions_value_size</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:a18b8e2c3305ed7f24f99babafaf8e8d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the size of a value.  <br /></td></tr>
 <tr class="separator:a18b8e2c3305ed7f24f99babafaf8e8d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,6 +188,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aa6f8138ff42280fa5c516db353335811" id="r_aa6f8138ff42280fa5c516db353335811"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#aa6f8138ff42280fa5c516db353335811">native_functions_get_function_count</a> (void)</td></tr>
 <tr class="memdesc:aa6f8138ff42280fa5c516db353335811"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the amount of defined native functions.  <br /></td></tr>
 <tr class="separator:aa6f8138ff42280fa5c516db353335811"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a907d64107c924ae6e2162caaea30533d" id="r_a907d64107c924ae6e2162caaea30533d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a907d64107c924ae6e2162caaea30533d">native_functions_set_io_error_set</a> (<a class="el" href="structvalue__t.html">value_t</a> ioErrorSet)</td></tr>
+<tr class="memdesc:a907d64107c924ae6e2162caaea30533d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the VM-global IoError set for native stdlib error returns.  <br /></td></tr>
+<tr class="separator:a907d64107c924ae6e2162caaea30533d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ea1744898987dcc01a1360417434236" id="r_a8ea1744898987dcc01a1360417434236"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a8ea1744898987dcc01a1360417434236">native_functions_set_stdlib_error_set</a> (<a class="el" href="structvalue__t.html">value_t</a> stdlibErrorSet)</td></tr>
+<tr class="memdesc:a8ea1744898987dcc01a1360417434236"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the VM-global StdlibError set for native argument/domain errors.  <br /></td></tr>
+<tr class="separator:a8ea1744898987dcc01a1360417434236"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a964acf053097d97a86bcf8ec8989c3b7" id="r_a964acf053097d97a86bcf8ec8989c3b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a964acf053097d97a86bcf8ec8989c3b7">native_functions_append_to_file</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:a964acf053097d97a86bcf8ec8989c3b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the content of a cellox string to a file.  <br /></td></tr>
 <tr class="separator:a964acf053097d97a86bcf8ec8989c3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -267,6 +283,10 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a50202211f99da983ccc19e4008ab2376" id="r_a50202211f99da983ccc19e4008ab2376"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structnative__function__config__t.html">native_function_config_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a50202211f99da983ccc19e4008ab2376">native_function_configs</a> []</td></tr>
 <tr class="separator:a50202211f99da983ccc19e4008ab2376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a181d073af98c5e1e1e0662e8207ae590" id="r_a181d073af98c5e1e1e0662e8207ae590"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structobject__error__set__t.html">object_error_set_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a181d073af98c5e1e1e0662e8207ae590">nativeIoErrorSet</a> = NULL</td></tr>
+<tr class="separator:a181d073af98c5e1e1e0662e8207ae590"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53c74f9af1915fd6b71d253c777a57c3" id="r_a53c74f9af1915fd6b71d253c777a57c3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structobject__error__set__t.html">object_error_set_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8c.html#a53c74f9af1915fd6b71d253c777a57c3">nativeStdlibErrorSet</a> = NULL</td></tr>
+<tr class="separator:a53c74f9af1915fd6b71d253c777a57c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing implementation of functionality used by the native functions of the compiler. </p>
@@ -795,6 +815,41 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a13b6efde66bf7d6d49211c365de25a7d" name="a13b6efde66bf7d6d49211c365de25a7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13b6efde66bf7d6d49211c365de25a7d">&#9670;&#160;</a></span>native_functions_io_error_result()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structvalue__t.html">value_t</a> native_functions_io_error_result </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>variantName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a standardized stdlib I/O error result object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">variantName</td><td>Name of an IoError variant </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>error(IoError.&lt;variantName&gt;) </dd></dl>
+
+</div>
+</div>
 <a id="acef146083412f10b29aae0d12acafe1b" name="acef146083412f10b29aae0d12acafe1b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acef146083412f10b29aae0d12acafe1b">&#9670;&#160;</a></span>native_functions_logarithm()</h2>
 
@@ -1213,6 +1268,58 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a907d64107c924ae6e2162caaea30533d" name="a907d64107c924ae6e2162caaea30533d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a907d64107c924ae6e2162caaea30533d">&#9670;&#160;</a></span>native_functions_set_io_error_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void native_functions_set_io_error_set </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
+          <td class="paramname"><em>ioErrorSet</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers the VM-global IoError set for native stdlib error returns. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ioErrorSet</td><td>A value that must hold an error set object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8ea1744898987dcc01a1360417434236" name="a8ea1744898987dcc01a1360417434236"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ea1744898987dcc01a1360417434236">&#9670;&#160;</a></span>native_functions_set_stdlib_error_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void native_functions_set_stdlib_error_set </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
+          <td class="paramname"><em>stdlibErrorSet</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers the VM-global StdlibError set for native argument/domain errors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stdlibErrorSet</td><td>A value that must hold an error set object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a8c62301749bbe5c95f3b28b43d8ebd28" name="a8c62301749bbe5c95f3b28b43d8ebd28"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8c62301749bbe5c95f3b28b43d8ebd28">&#9670;&#160;</a></span>native_functions_sine()</h2>
 
@@ -1286,6 +1393,41 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size of the value </dd></dl>
+
+</div>
+</div>
+<a id="aa6a957f24610e35539aa80834a46c84c" name="aa6a957f24610e35539aa80834a46c84c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6a957f24610e35539aa80834a46c84c">&#9670;&#160;</a></span>native_functions_stdlib_error_result()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structvalue__t.html">value_t</a> native_functions_stdlib_error_result </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>variantName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a standardized stdlib argument/type/domain error result object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">variantName</td><td>Name of a StdlibError variant </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>error(StdlibError.&lt;variantName&gt;) </dd></dl>
 
 </div>
 </div>
@@ -1552,6 +1694,58 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a4c97e6175488d6c654ba78d8d9bb2569" name="a4c97e6175488d6c654ba78d8d9bb2569"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c97e6175488d6c654ba78d8d9bb2569">&#9670;&#160;</a></span>native_functions_write_or_append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structvalue__t.html">value_t</a> native_functions_write_or_append </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>argCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a> const *&#160;</td>
+          <td class="paramname"><em>args</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Shared implementation for write_to_file and append_to_file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>Function arguments (args[0] = path, args[1] = content) </td></tr>
+    <tr><td class="paramname">mode</td><td>fopen mode string ("w" or "a") </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE_VAL on success, or an IoError result on failure </dd></dl>
+
+</div>
+</div>
 <a id="a4fba9cf1dfdb8a896a3fadba136df1fc" name="a4fba9cf1dfdb8a896a3fadba136df1fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4fba9cf1dfdb8a896a3fadba136df1fc">&#9670;&#160;</a></span>native_functions_write_to_file()</h2>
 
@@ -1601,6 +1795,50 @@ Variables</h2></td></tr>
           <td class="memname"><a class="el" href="structnative__function__config__t.html">native_function_config_t</a> native_function_configs[]</td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a181d073af98c5e1e1e0662e8207ae590" name="a181d073af98c5e1e1e0662e8207ae590"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a181d073af98c5e1e1e0662e8207ae590">&#9670;&#160;</a></span>nativeIoErrorSet</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__error__set__t.html">object_error_set_t</a>* nativeIoErrorSet = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a53c74f9af1915fd6b71d253c777a57c3" name="a53c74f9af1915fd6b71d253c777a57c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53c74f9af1915fd6b71d253c777a57c3">&#9670;&#160;</a></span>nativeStdlibErrorSet</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__error__set__t.html">object_error_set_t</a>* nativeStdlibErrorSet = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>

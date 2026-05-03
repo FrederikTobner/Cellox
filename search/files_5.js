@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['initializer_2ec_0',['initializer.c',['../initializer_8c.html',1,'']]],
-  ['initializer_2eh_1',['initializer.h',['../initializer_8h.html',1,'']]]
+  ['garbage_5fcollector_2ec_0',['garbage_collector.c',['../garbage__collector_8c.html',1,'']]],
+  ['garbage_5fcollector_2eh_1',['garbage_collector.h',['../garbage__collector_8h.html',1,'']]]
 ];

@@ -43,6 +43,7 @@ var native__functions_8c =
     [ "native_functions_exponential", "native__functions_8c.html#af69fe637137e9f0380f146190405621e", null ],
     [ "native_functions_get_function_configs", "native__functions_8c.html#a176e65e3b9e76226ed0af11ca9666097", null ],
     [ "native_functions_get_function_count", "native__functions_8c.html#aa6f8138ff42280fa5c516db353335811", null ],
+    [ "native_functions_io_error_result", "native__functions_8c.html#a13b6efde66bf7d6d49211c365de25a7d", null ],
     [ "native_functions_logarithm", "native__functions_8c.html#acef146083412f10b29aae0d12acafe1b", null ],
     [ "native_functions_logarithm10", "native__functions_8c.html#a60210293a759f49f37253bade4e3f271", null ],
     [ "native_functions_numerical_to_asci", "native__functions_8c.html#a1fe58bff30c83bafb5e09a1837083de1", null ],
@@ -54,8 +55,11 @@ var native__functions_8c =
     [ "native_functions_read_file", "native__functions_8c.html#a3c0169cb80b6351b310c2a6d4a8579eb", null ],
     [ "native_functions_read_key", "native__functions_8c.html#a79f399ef792765fed5c2f713cb3a7ec2", null ],
     [ "native_functions_read_line", "native__functions_8c.html#ae8c466af41128bd597f26fa261b31860", null ],
+    [ "native_functions_set_io_error_set", "native__functions_8c.html#a907d64107c924ae6e2162caaea30533d", null ],
+    [ "native_functions_set_stdlib_error_set", "native__functions_8c.html#a8ea1744898987dcc01a1360417434236", null ],
     [ "native_functions_sine", "native__functions_8c.html#a8c62301749bbe5c95f3b28b43d8ebd28", null ],
     [ "native_functions_size_of", "native__functions_8c.html#ac51a69f019e97e438599fb4837878555", null ],
+    [ "native_functions_stdlib_error_result", "native__functions_8c.html#aa6a957f24610e35539aa80834a46c84c", null ],
     [ "native_functions_string_hash", "native__functions_8c.html#a464bc52dd40fd00ebdc475b53b671929", null ],
     [ "native_functions_string_length", "native__functions_8c.html#a03cb138dd22b99a3d16456ee8b51a1d2", null ],
     [ "native_functions_string_replace_at", "native__functions_8c.html#a3fa61b2a23a88cc651cb88740c69e5bd", null ],
@@ -63,6 +67,9 @@ var native__functions_8c =
     [ "native_functions_tangent", "native__functions_8c.html#aeb84272eb37a14dd3f4da034bd40ea87", null ],
     [ "native_functions_value_size", "native__functions_8c.html#a18b8e2c3305ed7f24f99babafaf8e8d1", null ],
     [ "native_functions_wait", "native__functions_8c.html#a6af21c2a3a763083968fb8e8c15d7195", null ],
+    [ "native_functions_write_or_append", "native__functions_8c.html#a4c97e6175488d6c654ba78d8d9bb2569", null ],
     [ "native_functions_write_to_file", "native__functions_8c.html#a4fba9cf1dfdb8a896a3fadba136df1fc", null ],
-    [ "native_function_configs", "native__functions_8c.html#a50202211f99da983ccc19e4008ab2376", null ]
+    [ "native_function_configs", "native__functions_8c.html#a50202211f99da983ccc19e4008ab2376", null ],
+    [ "nativeIoErrorSet", "native__functions_8c.html#a181d073af98c5e1e1e0662e8207ae590", null ],
+    [ "nativeStdlibErrorSet", "native__functions_8c.html#a53c74f9af1915fd6b71d253c777a57c3", null ]
 ];

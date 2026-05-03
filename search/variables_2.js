@@ -1,7 +1,7 @@
 var searchData=
 [
   ['callstack_0',['callStack',['../structvirtual__machine__t.html#a7124f8f417af8f0231f4162f7e92e789',1,'virtual_machine_t']]],
-  ['canonicalpath_1',['canonicalPath',['../structmodule__record__t.html#a03c4a682cd966b63ff18633679a8d082',1,'module_record_t']]],
+  ['canonicalpath_1',['canonicalPath',['../structmodule__record__t.html#ae7a97f9d2c605b035b82266ecfe291d6',1,'module_record_t']]],
   ['capacity_2',['capacity',['../structdynamic__value__array__t.html#a391c992c66c3e5540265a85ec2b9216a',1,'dynamic_value_array_t::capacity'],['../structvalue__hash__table__t.html#a391c992c66c3e5540265a85ec2b9216a',1,'value_hash_table_t::capacity'],['../structexport__list__t.html#ad721fc6ca6a3d6ba3bc506576622aab0',1,'export_list_t::capacity'],['../structsource__buffer__t.html#ad721fc6ca6a3d6ba3bc506576622aab0',1,'source_buffer_t::capacity']]],
   ['celloxclass_3',['celloxClass',['../structobject__instance__t.html#ac868cb4f2f1f5f1f46c8f6ee9378aba6',1,'object_instance_t']]],
   ['chars_4',['chars',['../structobject__string__t.html#a6a1c4b6f29e7d5da81b0786bc5c8b8fc',1,'object_string_t::chars'],['../structsource__buffer__t.html#a6a1c4b6f29e7d5da81b0786bc5c8b8fc',1,'source_buffer_t::chars']]],

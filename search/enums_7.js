@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['value_5ftype_0',['value_type',['../value_8h.html#a5b7c2b5c96c13d5b5d2842e91794f6c1',1,'value.h']]]
+  ['tokentype_0',['tokentype',['../lexer_8h.html#a262d1aca355a0381cce24f93101b6b69',1,'lexer.h']]]
 ];

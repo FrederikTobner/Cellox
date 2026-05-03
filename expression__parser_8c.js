@@ -10,6 +10,7 @@ var expression__parser_8c =
     [ "expression_parser_binary", "expression__parser_8c.html#aeb6e34fa304b9369f4d71f7b03567fcf", null ],
     [ "expression_parser_binary_number", "expression__parser_8c.html#ae3b3f029d0e5bfa0a53a0ba80fdeaec7", null ],
     [ "expression_parser_call", "expression__parser_8c.html#ab2cb0c656ea8e1af444e3305f4730aec", null ],
+    [ "expression_parser_catch", "expression__parser_8c.html#af183cf22a4a3a8f1bfab8ccff65a09ef", null ],
     [ "expression_parser_check_token", "expression__parser_8c.html#a4f3610ac2c679390ee70346c8ebb1c01", null ],
     [ "expression_parser_compile_dynamic_array", "expression__parser_8c.html#a1b61930314bb8f511ed3f9cc8e5ba90d", null ],
     [ "expression_parser_compile_named_variable", "expression__parser_8c.html#a36da70fd7b937371e3224e874072b007", null ],
@@ -33,6 +34,7 @@ var expression__parser_8c =
     [ "expression_parser_make_constant", "expression__parser_8c.html#a85dc8d55a8fdaecaf7ac700d159624ed", null ],
     [ "expression_parser_make_synthetic_token", "expression__parser_8c.html#a5d4ec10c9e02b2b96c884adeddafc5b2", null ],
     [ "expression_parser_match_token", "expression__parser_8c.html#a4fd767e35e3aa7527828c8be2b38e78a", null ],
+    [ "expression_parser_must", "expression__parser_8c.html#af9eb34deaf1da211d4c3fec8cb0a2a77", null ],
     [ "expression_parser_nondirect_assignment", "expression__parser_8c.html#a2757addefebb0458e6fcf32145c481fd", null ],
     [ "expression_parser_number", "expression__parser_8c.html#aa91c0fa0601df8e09b9733657d6220bc", null ],
     [ "expression_parser_or", "expression__parser_8c.html#a80836663fca9ef66a7fb8a726cf3a8ec", null ],
@@ -44,6 +46,7 @@ var expression__parser_8c =
     [ "expression_parser_string", "expression__parser_8c.html#ab7a9ad279ff703e998432a4aab78810d", null ],
     [ "expression_parser_super", "expression__parser_8c.html#a323571f450197b04a8d2b54905f21ef6", null ],
     [ "expression_parser_this", "expression__parser_8c.html#aa6228a7e09467d255d2ca32b85bde48c", null ],
+    [ "expression_parser_try", "expression__parser_8c.html#a89a5bac56d663f5f34a864f2e7064cea", null ],
     [ "expression_parser_unary", "expression__parser_8c.html#a001283d647e0516ef37f35e24b1d0d08", null ],
     [ "expressionContext", "expression__parser_8c.html#ab549b6d184b161421a498a65c60a15dc", null ],
     [ "rules", "expression__parser_8c.html#acb4ba6712e29462bb042a9e6f4a5ec44", null ]

@@ -2,7 +2,7 @@ var searchData=
 [
   ['allocate_0',['ALLOCATE',['../memory__mutator_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f',1,'memory_mutator.h']]],
   ['allocate_5fobject_1',['ALLOCATE_OBJECT',['../object_8c.html#af7aa24a51a4cea0dbe3bc0180beb7b8d',1,'object.c']]],
-  ['arity_2',['arity',['../structobject__function__t.html#a643a29c72c275a49fa19817a9e9e8088',1,'object_function_t']]],
+  ['arity_2',['arity',['../structobject__function__t.html#a643a29c72c275a49fa19817a9e9e8088',1,'object_function_t::arity'],['../structobject__native__t.html#a245a9ac18e9d7530f1534edcda8a3140',1,'object_native_t::arity']]],
   ['array_3',['array',['../structobject__dynamic__value__array__t.html#a74a8fb99e8256498449f3121a55f8c98',1,'object_dynamic_value_array_t']]],
   ['array_5fgrowth_5ffactor_4',['ARRAY_GROWTH_FACTOR',['../memory__mutator_8h.html#abe104ef64af521de16baf648eeb86e8d',1,'memory_mutator.h']]],
   ['arrity_5',['arrity',['../structnative__function__config__t.html#a9d1ae9f01a12f126a6ca4f4f50d44cb3',1,'native_function_config_t']]],
@@ -13,10 +13,14 @@ var searchData=
   ['as_5fclass_10',['AS_CLASS',['../object_8h.html#a6d70cdeba1b6b92fd65470d54a187d4e',1,'object.h']]],
   ['as_5fclosure_11',['AS_CLOSURE',['../object_8h.html#aea79fcab877ee00ce2ed4ab7a7f00ac0',1,'object.h']]],
   ['as_5fcstring_12',['AS_CSTRING',['../object_8h.html#a2750bdec563d37c59808b4ebbeb33d38',1,'object.h']]],
-  ['as_5ffunction_13',['AS_FUNCTION',['../object_8h.html#a6417cfbf10ea446d23d03ec236417492',1,'object.h']]],
-  ['as_5finstance_14',['AS_INSTANCE',['../object_8h.html#affc851005bdfa3d2fe82aef0d7cd4fe6',1,'object.h']]],
-  ['as_5fnative_15',['AS_NATIVE',['../object_8h.html#a6842a3e32de24531310602c8414d15c6',1,'object.h']]],
-  ['as_5fnumber_16',['AS_NUMBER',['../value_8h.html#a5134d9dbb50a079107222dba8a6e98b7',1,'value.h']]],
-  ['as_5fobject_17',['AS_OBJECT',['../value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6',1,'value.h']]],
-  ['as_5fstring_18',['AS_STRING',['../object_8h.html#a43057a2addec6e03f7b516dbc43b3291',1,'object.h']]]
+  ['as_5ferror_5fset_13',['AS_ERROR_SET',['../object_8h.html#ab559af08e3d854fc729d98b9a09fd80c',1,'object.h']]],
+  ['as_5ferror_5fvalue_14',['AS_ERROR_VALUE',['../object_8h.html#af755922bb059594889027f00ac7abc8e',1,'object.h']]],
+  ['as_5ffunction_15',['AS_FUNCTION',['../object_8h.html#a6417cfbf10ea446d23d03ec236417492',1,'object.h']]],
+  ['as_5finstance_16',['AS_INSTANCE',['../object_8h.html#affc851005bdfa3d2fe82aef0d7cd4fe6',1,'object.h']]],
+  ['as_5fnative_17',['AS_NATIVE',['../object_8h.html#a6842a3e32de24531310602c8414d15c6',1,'object.h']]],
+  ['as_5fnumber_18',['AS_NUMBER',['../value_8h.html#a5134d9dbb50a079107222dba8a6e98b7',1,'value.h']]],
+  ['as_5fobject_19',['AS_OBJECT',['../value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6',1,'value.h']]],
+  ['as_5fresult_20',['AS_RESULT',['../object_8h.html#aceffdcbd9781dbbf700eb567a97da29c',1,'object.h']]],
+  ['as_5fstring_21',['AS_STRING',['../object_8h.html#a43057a2addec6e03f7b516dbc43b3291',1,'object.h']]],
+  ['attributes_2eh_22',['attributes.h',['../attributes_8h.html',1,'']]]
 ];

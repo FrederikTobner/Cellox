@@ -119,6 +119,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aa6f8138ff42280fa5c516db353335811" id="r_aa6f8138ff42280fa5c516db353335811"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8h.html#aa6f8138ff42280fa5c516db353335811">native_functions_get_function_count</a> (void)</td></tr>
 <tr class="memdesc:aa6f8138ff42280fa5c516db353335811"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the amount of defined native functions.  <br /></td></tr>
 <tr class="separator:aa6f8138ff42280fa5c516db353335811"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a907d64107c924ae6e2162caaea30533d" id="r_a907d64107c924ae6e2162caaea30533d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8h.html#a907d64107c924ae6e2162caaea30533d">native_functions_set_io_error_set</a> (<a class="el" href="structvalue__t.html">value_t</a> ioErrorSet)</td></tr>
+<tr class="memdesc:a907d64107c924ae6e2162caaea30533d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the VM-global IoError set for native stdlib error returns.  <br /></td></tr>
+<tr class="separator:a907d64107c924ae6e2162caaea30533d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ea1744898987dcc01a1360417434236" id="r_a8ea1744898987dcc01a1360417434236"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8h.html#a8ea1744898987dcc01a1360417434236">native_functions_set_stdlib_error_set</a> (<a class="el" href="structvalue__t.html">value_t</a> stdlibErrorSet)</td></tr>
+<tr class="memdesc:a8ea1744898987dcc01a1360417434236"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the VM-global StdlibError set for native argument/domain errors.  <br /></td></tr>
+<tr class="separator:a8ea1744898987dcc01a1360417434236"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6a0b7e7afab7526fb5284fa78b9a27e" id="r_aa6a0b7e7afab7526fb5284fa78b9a27e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="native__functions_8h.html#aa6a0b7e7afab7526fb5284fa78b9a27e">native_functions_array_length</a> (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
 <tr class="memdesc:aa6a0b7e7afab7526fb5284fa78b9a27e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the length of an array.  <br /></td></tr>
 <tr class="separator:aa6a0b7e7afab7526fb5284fa78b9a27e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -967,6 +973,58 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The line that was read </dd></dl>
+
+</div>
+</div>
+<a id="a907d64107c924ae6e2162caaea30533d" name="a907d64107c924ae6e2162caaea30533d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a907d64107c924ae6e2162caaea30533d">&#9670;&#160;</a></span>native_functions_set_io_error_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void native_functions_set_io_error_set </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
+          <td class="paramname"><em>ioErrorSet</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers the VM-global IoError set for native stdlib error returns. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ioErrorSet</td><td>A value that must hold an error set object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8ea1744898987dcc01a1360417434236" name="a8ea1744898987dcc01a1360417434236"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ea1744898987dcc01a1360417434236">&#9670;&#160;</a></span>native_functions_set_stdlib_error_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void native_functions_set_stdlib_error_set </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
+          <td class="paramname"><em>stdlibErrorSet</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers the VM-global StdlibError set for native argument/domain errors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stdlibErrorSet</td><td>A value that must hold an error set object </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

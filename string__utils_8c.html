@@ -125,6 +125,15 @@ Functions</h2></td></tr>
 <tr class="memitem:af30aaed5f81c45efe5cdee9900a22810" id="r_af30aaed5f81c45efe5cdee9900a22810"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8c.html#af30aaed5f81c45efe5cdee9900a22810">string_utils_hash_string</a> (char const *key, uint32_t length)</td></tr>
 <tr class="memdesc:af30aaed5f81c45efe5cdee9900a22810"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function  <br /></td></tr>
 <tr class="separator:af30aaed5f81c45efe5cdee9900a22810"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa32364418843f44e35e1ac38207b7ac7" id="r_aa32364418843f44e35e1ac38207b7ac7"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8c.html#aa32364418843f44e35e1ac38207b7ac7">string_utils_strdup</a> (char const *text)</td></tr>
+<tr class="memdesc:aa32364418843f44e35e1ac38207b7ac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Duplicates a NUL-terminated string into a new heap allocation.  <br /></td></tr>
+<tr class="separator:aa32364418843f44e35e1ac38207b7ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1487d6408f77993c8cbdf5001a87c901" id="r_a1487d6408f77993c8cbdf5001a87c901"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8c.html#a1487d6408f77993c8cbdf5001a87c901">string_utils_substr</a> (char const *text, size_t length)</td></tr>
+<tr class="memdesc:a1487d6408f77993c8cbdf5001a87c901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the first <code>length</code> characters of <code>text</code> into a new NUL-terminated heap buffer.  <br /></td></tr>
+<tr class="separator:a1487d6408f77993c8cbdf5001a87c901"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa73eb3c8b2f00e3e247fb33721e3f9" id="r_aafa73eb3c8b2f00e3e247fb33721e3f9"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8c.html#aafa73eb3c8b2f00e3e247fb33721e3f9">string_utils_read_file</a> (char const *path, size_t *outSize, <a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cf">string_utils_read_file_error_t</a> *outError)</td></tr>
+<tr class="memdesc:aafa73eb3c8b2f00e3e247fb33721e3f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an entire file into a heap-allocated, NUL-terminated buffer.  <br /></td></tr>
+<tr class="separator:aafa73eb3c8b2f00e3e247fb33721e3f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing implementation of functionalitity regarding character sequences. </p>
@@ -275,6 +284,51 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aafa73eb3c8b2f00e3e247fb33721e3f9" name="aafa73eb3c8b2f00e3e247fb33721e3f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafa73eb3c8b2f00e3e247fb33721e3f9">&#9670;&#160;</a></span>string_utils_read_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * string_utils_read_file </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramname"><em>outSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cf">string_utils_read_file_error_t</a> *&#160;</td>
+          <td class="paramname"><em>outError</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads an entire file into a heap-allocated, NUL-terminated buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Path to the file to read </td></tr>
+    <tr><td class="paramname">outSize</td><td>If non-NULL, receives the number of bytes read (not counting the NUL terminator) </td></tr>
+    <tr><td class="paramname">outError</td><td>If non-NULL, receives the error code on failure (STRING_UTILS_READ_FILE_OK on success) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A malloc'd buffer that the caller must free, or NULL on any failure </dd></dl>
+
+</div>
+</div>
 <a id="a1f0688092d57609f45dbd33fb9670383" name="a1f0688092d57609f45dbd33fb9670383"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1f0688092d57609f45dbd33fb9670383">&#9670;&#160;</a></span>string_utils_resolve_escape_sequence()</h2>
 
@@ -310,6 +364,71 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if all escape sequences where resoved successful, -1 if a unknown escape sequence was found in the character sequence </dd></dl>
+
+</div>
+</div>
+<a id="aa32364418843f44e35e1ac38207b7ac7" name="aa32364418843f44e35e1ac38207b7ac7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa32364418843f44e35e1ac38207b7ac7">&#9670;&#160;</a></span>string_utils_strdup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * string_utils_strdup </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Duplicates a NUL-terminated string into a new heap allocation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The string to duplicate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A malloc'd copy that the caller must free, or NULL on allocation failure </dd></dl>
+
+</div>
+</div>
+<a id="a1487d6408f77993c8cbdf5001a87c901" name="a1487d6408f77993c8cbdf5001a87c901"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1487d6408f77993c8cbdf5001a87c901">&#9670;&#160;</a></span>string_utils_substr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * string_utils_substr </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies the first <code>length</code> characters of <code>text</code> into a new NUL-terminated heap buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The source character sequence </td></tr>
+    <tr><td class="paramname">length</td><td>Number of characters to copy (not counting the NUL terminator) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A malloc'd, NUL-terminated buffer the caller must free, or NULL on failure </dd></dl>
 
 </div>
 </div>

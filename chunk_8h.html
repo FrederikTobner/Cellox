@@ -171,6 +171,15 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea1c724ef5985b6f80949ac0fc32353a2e">OP_SUPER_INVOKE</a>
 , <a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea804f1324daff5d2d04639a57ce6b8ec3">OP_TRUE</a>
+, <a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea1baf6f96c9984b78b40adf2ae62227e8">OP_RESULT_IS_ERROR</a>
+, <a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eae6832860667efa7a3f7e4a3845c1b481">OP_RESULT_UNWRAP</a>
+, <br />
+&#160;&#160;<a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eacb7fc23fe1fa428bc0f2ac20cc07ff76">OP_RESULT_UNWRAP_ERROR</a>
+, <a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eaef5a39ef801823b978dea5e01ded986a">OP_RESULT_WRAP_OK</a>
+, <a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eac5aee5f5a1b6d6a9d4316751e146be9a">OP_RESULT_WRAP_ERR</a>
+, <a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea230e186499ea594bef20cc1ea4a9dbfc">OP_MUST</a>
+, <br />
+&#160;&#160;<a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea97f143b0cf9ee2a2047d34587c51153f">OP_TRY_PROPAGATE</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a299fc707c775371e0b2b0495ccb6158e"><td class="mdescLeft">&#160;</td><td class="mdescRight">opcodes of the bytecode instruction set  <a href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158e">More...</a><br /></td></tr>
@@ -307,6 +316,20 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a299fc707c775371e0b2b0495ccb6158ea1c724ef5985b6f80949ac0fc32353a2e" name="a299fc707c775371e0b2b0495ccb6158ea1c724ef5985b6f80949ac0fc32353a2e"></a>OP_SUPER_INVOKE&#160;</td><td class="fielddoc"><p>Invokes a method of the parent class. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a299fc707c775371e0b2b0495ccb6158ea804f1324daff5d2d04639a57ce6b8ec3" name="a299fc707c775371e0b2b0495ccb6158ea804f1324daff5d2d04639a57ce6b8ec3"></a>OP_TRUE&#160;</td><td class="fielddoc"><p>Pushes the boolean value true on the stack. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a299fc707c775371e0b2b0495ccb6158ea1baf6f96c9984b78b40adf2ae62227e8" name="a299fc707c775371e0b2b0495ccb6158ea1baf6f96c9984b78b40adf2ae62227e8"></a>OP_RESULT_IS_ERROR&#160;</td><td class="fielddoc"><p>Peeks at TOS (must be a result object), pushes true if it wraps an error, false if it wraps success. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a299fc707c775371e0b2b0495ccb6158eae6832860667efa7a3f7e4a3845c1b481" name="a299fc707c775371e0b2b0495ccb6158eae6832860667efa7a3f7e4a3845c1b481"></a>OP_RESULT_UNWRAP&#160;</td><td class="fielddoc"><p>Pops a result object from the stack and pushes its success payload (runtime error if it is an error result) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a299fc707c775371e0b2b0495ccb6158eacb7fc23fe1fa428bc0f2ac20cc07ff76" name="a299fc707c775371e0b2b0495ccb6158eacb7fc23fe1fa428bc0f2ac20cc07ff76"></a>OP_RESULT_UNWRAP_ERROR&#160;</td><td class="fielddoc"><p>Pops a result object from the stack and pushes its error payload (runtime error if it is a success result) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a299fc707c775371e0b2b0495ccb6158eaef5a39ef801823b978dea5e01ded986a" name="a299fc707c775371e0b2b0495ccb6158eaef5a39ef801823b978dea5e01ded986a"></a>OP_RESULT_WRAP_OK&#160;</td><td class="fielddoc"><p>Pops a value from the stack and pushes a success-result wrapping it. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a299fc707c775371e0b2b0495ccb6158eac5aee5f5a1b6d6a9d4316751e146be9a" name="a299fc707c775371e0b2b0495ccb6158eac5aee5f5a1b6d6a9d4316751e146be9a"></a>OP_RESULT_WRAP_ERR&#160;</td><td class="fielddoc"><p>Pops an error value from the stack and pushes an error-result wrapping it. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a299fc707c775371e0b2b0495ccb6158ea230e186499ea594bef20cc1ea4a9dbfc" name="a299fc707c775371e0b2b0495ccb6158ea230e186499ea594bef20cc1ea4a9dbfc"></a>OP_MUST&#160;</td><td class="fielddoc"><p>Pops a result: if error result, terminates the VM with a runtime error; else pushes success payload. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a299fc707c775371e0b2b0495ccb6158ea97f143b0cf9ee2a2047d34587c51153f" name="a299fc707c775371e0b2b0495ccb6158ea97f143b0cf9ee2a2047d34587c51153f"></a>OP_TRY_PROPAGATE&#160;</td><td class="fielddoc"><p>Pops a result: if error result, returns it from the current function; else pushes success payload. </p>
 </td></tr>
 </table>
 

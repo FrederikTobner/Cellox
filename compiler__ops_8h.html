@@ -137,10 +137,8 @@ Functions</h2></td></tr>
 <tr class="separator:a560e3c83220bd1207b1e279e21bbfe52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a493529c04e3ced90959aaa1422151abe" id="r_a493529c04e3ced90959aaa1422151abe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler__ops_8h.html#a493529c04e3ced90959aaa1422151abe">compiler_emit_return</a> (void)</td></tr>
 <tr class="separator:a493529c04e3ced90959aaa1422151abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afaadf808718a1ebd896c2e514ed16511" id="r_afaadf808718a1ebd896c2e514ed16511"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler__ops_8h.html#afaadf808718a1ebd896c2e514ed16511">compiler_error</a> (char const *format,...)</td></tr>
-<tr class="separator:afaadf808718a1ebd896c2e514ed16511"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a265265be3cea18d54397f403b9833386" id="r_a265265be3cea18d54397f403b9833386"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler__ops_8h.html#a265265be3cea18d54397f403b9833386">compiler_error_at_current</a> (char const *format,...)</td></tr>
-<tr class="separator:a265265be3cea18d54397f403b9833386"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1eee66e65dafc0bdd3584c1dd3ebf81d" id="r_a1eee66e65dafc0bdd3584c1dd3ebf81d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler__ops_8h.html#a1eee66e65dafc0bdd3584c1dd3ebf81d">CLX_PRINTF_FORMAT</a> (1, 2) void <a class="el" href="compiler_8c.html#afaadf808718a1ebd896c2e514ed16511">compiler_error</a>(char const *format</td></tr>
+<tr class="separator:a1eee66e65dafc0bdd3584c1dd3ebf81d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a826cca8a7c309f6a4e848b304dd44e10" id="r_a826cca8a7c309f6a4e848b304dd44e10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler__ops_8h.html#a826cca8a7c309f6a4e848b304dd44e10">compiler_init</a> (<a class="el" href="structcompiler__t.html">compiler_t</a> *compiler, <a class="el" href="core__types_8h.html#a6e6333c061b2073ba9abaaf67e20164b">function_type</a> type)</td></tr>
 <tr class="separator:a826cca8a7c309f6a4e848b304dd44e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6dcff8ac7d210fba632beb99338baac" id="r_aa6dcff8ac7d210fba632beb99338baac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler__ops_8h.html#aa6dcff8ac7d210fba632beb99338baac">compiler_mark_initialized</a> (void)</td></tr>
@@ -157,6 +155,34 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Shared compiler operation declarations used by parser modules. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a1eee66e65dafc0bdd3584c1dd3ebf81d" name="a1eee66e65dafc0bdd3584c1dd3ebf81d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1eee66e65dafc0bdd3584c1dd3ebf81d">&#9670;&#160;</a></span>CLX_PRINTF_FORMAT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CLX_PRINTF_FORMAT </td>
+          <td>(</td>
+          <td class="paramtype">1&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">2&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a064050832125c8870ffd68042ad372d2" name="a064050832125c8870ffd68042ad372d2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a064050832125c8870ffd68042ad372d2">&#9670;&#160;</a></span>compiler_add_local()</h2>
 
@@ -475,62 +501,6 @@ Functions</h2></td></tr>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afaadf808718a1ebd896c2e514ed16511" name="afaadf808718a1ebd896c2e514ed16511"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afaadf808718a1ebd896c2e514ed16511">&#9670;&#160;</a></span>compiler_error()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void compiler_error </td>
-          <td>(</td>
-          <td class="paramtype">char const *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a265265be3cea18d54397f403b9833386" name="a265265be3cea18d54397f403b9833386"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a265265be3cea18d54397f403b9833386">&#9670;&#160;</a></span>compiler_error_at_current()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void compiler_error_at_current </td>
-          <td>(</td>
-          <td class="paramtype">char const *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

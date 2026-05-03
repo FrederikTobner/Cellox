@@ -44,7 +44,14 @@ var chunk_8h =
       [ "OP_SET_UPVALUE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea72308153bbaabc78a9bffd5beba94357", null ],
       [ "OP_SUBTRACT", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eadedf7e5a9b5ff1438fc168f1ceb9acc2", null ],
       [ "OP_SUPER_INVOKE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea1c724ef5985b6f80949ac0fc32353a2e", null ],
-      [ "OP_TRUE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea804f1324daff5d2d04639a57ce6b8ec3", null ]
+      [ "OP_TRUE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea804f1324daff5d2d04639a57ce6b8ec3", null ],
+      [ "OP_RESULT_IS_ERROR", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea1baf6f96c9984b78b40adf2ae62227e8", null ],
+      [ "OP_RESULT_UNWRAP", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eae6832860667efa7a3f7e4a3845c1b481", null ],
+      [ "OP_RESULT_UNWRAP_ERROR", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eacb7fc23fe1fa428bc0f2ac20cc07ff76", null ],
+      [ "OP_RESULT_WRAP_OK", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eaef5a39ef801823b978dea5e01ded986a", null ],
+      [ "OP_RESULT_WRAP_ERR", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eac5aee5f5a1b6d6a9d4316751e146be9a", null ],
+      [ "OP_MUST", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea230e186499ea594bef20cc1ea4a9dbfc", null ],
+      [ "OP_TRY_PROPAGATE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea97f143b0cf9ee2a2047d34587c51153f", null ]
     ] ],
     [ "chunk_add_constant", "chunk_8h.html#a7f34ca771a7b1ad9190c5781e8f0ed35", null ],
     [ "chunk_decrement_constant_indezes", "chunk_8h.html#ab74755cf2cd3d38a0311fd562bc8fa41", null ],

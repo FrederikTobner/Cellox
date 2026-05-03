@@ -1,5 +1,6 @@
 var compiler__ops_8h =
 [
+    [ "CLX_PRINTF_FORMAT", "compiler__ops_8h.html#a1eee66e65dafc0bdd3584c1dd3ebf81d", null ],
     [ "compiler_add_local", "compiler__ops_8h.html#a064050832125c8870ffd68042ad372d2", null ],
     [ "compiler_add_upvalue", "compiler__ops_8h.html#a06ca99ce972083da0387a15966c6870e", null ],
     [ "compiler_advance", "compiler__ops_8h.html#a40f5784e0633bf9df9a2d58fb27be8af", null ],
@@ -16,8 +17,6 @@ var compiler__ops_8h =
     [ "compiler_emit_return", "compiler__ops_8h.html#a493529c04e3ced90959aaa1422151abe", null ],
     [ "compiler_end", "compiler__ops_8h.html#a4e6c9605b1b6ac5692e3a4551cf11bff", null ],
     [ "compiler_end_scope", "compiler__ops_8h.html#aca5cb06da8045766a2b2fa1a1b9c4c62", null ],
-    [ "compiler_error", "compiler__ops_8h.html#afaadf808718a1ebd896c2e514ed16511", null ],
-    [ "compiler_error_at_current", "compiler__ops_8h.html#a265265be3cea18d54397f403b9833386", null ],
     [ "compiler_init", "compiler__ops_8h.html#a826cca8a7c309f6a4e848b304dd44e10", null ],
     [ "compiler_make_constant", "compiler__ops_8h.html#a3baf4929d81fd0c0ee4f4f2658b6c837", null ],
     [ "compiler_mark_initialized", "compiler__ops_8h.html#aa6dcff8ac7d210fba632beb99338baac", null ],

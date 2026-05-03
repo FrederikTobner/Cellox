@@ -8,7 +8,7 @@ var searchData=
   ['lineinfocount_5',['lineInfoCount',['../structchunk__t.html#ad6ba5f364e07cd8d890dabb82239a257',1,'chunk_t']]],
   ['lineinfos_6',['lineInfos',['../structchunk__t.html#a7c79e69b2a629e63e449d740f248efa1',1,'chunk_t']]],
   ['linenumber_7',['lineNumber',['../structline__info__t.html#a987293a1c8fcaf937487ecbe613f0c52',1,'line_info_t']]],
-  ['loadingstack_8',['loadingStack',['../structmodule__context__t.html#a0c630e665b08c459b065e9db284d6fea',1,'module_context_t']]],
+  ['loadingstack_8',['loadingStack',['../structmodule__context__t.html#af9cf2be0409b83e1bf9a784621282784',1,'module_context_t']]],
   ['loadingstackcapacity_9',['loadingStackCapacity',['../structmodule__context__t.html#a8e0db2b852371483b57b1e962b35053b',1,'module_context_t']]],
   ['loadingstackcount_10',['loadingStackCount',['../structmodule__context__t.html#aafefc934fa29f7cf46d3125bd2967475',1,'module_context_t']]],
   ['localcount_11',['localCount',['../structcompiler__t.html#a9e31cbcd5f82d66b5f8f62c0c92e5f1d',1,'compiler_t']]],

@@ -96,17 +96,27 @@ $(document).ready(function(){initNavTree('structimport__spec__t.html',''); initR
   <div class="headertitle"><div class="title">import_spec_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Describes a single <code>import</code> statement parsed from a source file.  
+ <a href="structimport__spec__t.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="module__parser_8h_source.html">module_parser.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a44196e6a5696d10442c29e639437196e" id="r_a44196e6a5696d10442c29e639437196e"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structimport__spec__t.html#a44196e6a5696d10442c29e639437196e">path</a></td></tr>
+<tr class="memdesc:a44196e6a5696d10442c29e639437196e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path string extracted from the import statement.  <br /></td></tr>
 <tr class="separator:a44196e6a5696d10442c29e639437196e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9b57c73f1ee1d0e677051746e373d32" id="r_aa9b57c73f1ee1d0e677051746e373d32"><td class="memItemLeft" align="right" valign="top">char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structimport__spec__t.html#aa9b57c73f1ee1d0e677051746e373d32">importedNames</a></td></tr>
+<tr class="memdesc:aa9b57c73f1ee1d0e677051746e373d32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of symbol names from a named import (<code>{ A, B } from "…"</code>).  <br /></td></tr>
 <tr class="separator:aa9b57c73f1ee1d0e677051746e373d32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31e2281149099748d470b2d9cf20f204" id="r_a31e2281149099748d470b2d9cf20f204"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structimport__spec__t.html#a31e2281149099748d470b2d9cf20f204">importedNameCount</a></td></tr>
+<tr class="memdesc:a31e2281149099748d470b2d9cf20f204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of entries in <code>importedNames</code>. Zero for bare-path imports.  <br /></td></tr>
 <tr class="separator:a31e2281149099748d470b2d9cf20f204"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Field Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Describes a single <code>import</code> statement parsed from a source file. </p>
+</div><h2 class="groupheader">Field Documentation</h2>
 <a id="a31e2281149099748d470b2d9cf20f204" name="a31e2281149099748d470b2d9cf20f204"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a31e2281149099748d470b2d9cf20f204">&#9670;&#160;</a></span>importedNameCount</h2>
 
@@ -118,6 +128,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Number of entries in <code>importedNames</code>. Zero for bare-path imports. </p>
 
 </div>
 </div>
@@ -133,6 +145,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Array of symbol names from a named import (<code>{ A, B } from "…"</code>). </p>
+
 </div>
 </div>
 <a id="a44196e6a5696d10442c29e639437196e" name="a44196e6a5696d10442c29e639437196e"></a>
@@ -147,10 +161,12 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Path string extracted from the import statement. </p>
+
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="module__loader_8c.html">module_loader.c</a></li>
+<li>module-loading/<a class="el" href="module__parser_8h_source.html">module_parser.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

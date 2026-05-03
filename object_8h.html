@@ -139,6 +139,15 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__bound__method__t.html">object_bound_method_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bound method.  <a href="structobject__bound__method__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__error__set__t.html">object_error_set_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A named error set.  <a href="structobject__error__set__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__error__value__t.html">object_error_value_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A concrete error value belonging to an error set.  <a href="structobject__error__value__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__result__t.html">object_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A fallible result wrapper.  <a href="structobject__result__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structobject__dynamic__value__array__t.html">object_dynamic_value_array_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A dynamic array.  <a href="structobject__dynamic__value__array__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,28 +157,37 @@ Macros</h2></td></tr>
 <tr class="memitem:a86b61553b0b71cb8b74bd702b0fd33cd" id="r_a86b61553b0b71cb8b74bd702b0fd33cd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a86b61553b0b71cb8b74bd702b0fd33cd">OBJECT_TYPE</a>(value)&#160;&#160;&#160;(<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value)-&gt;type)</td></tr>
 <tr class="memdesc:a86b61553b0b71cb8b74bd702b0fd33cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines the type of an object.  <br /></td></tr>
 <tr class="separator:a86b61553b0b71cb8b74bd702b0fd33cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac7d4320155d03d2a50f955098097d0a" id="r_aac7d4320155d03d2a50f955098097d0a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aac7d4320155d03d2a50f955098097d0a">IS_ARRAY</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623accd7022cd6b5e6e355c732d8802961b6">OBJECT_ARRAY</a>)</td></tr>
+<tr class="memitem:aac7d4320155d03d2a50f955098097d0a" id="r_aac7d4320155d03d2a50f955098097d0a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aac7d4320155d03d2a50f955098097d0a">IS_ARRAY</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623accd7022cd6b5e6e355c732d8802961b6">OBJECT_ARRAY</a>)</td></tr>
 <tr class="memdesc:aac7d4320155d03d2a50f955098097d0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type array.  <br /></td></tr>
 <tr class="separator:aac7d4320155d03d2a50f955098097d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecf321d652dd15e863bbf086ae029139" id="r_aecf321d652dd15e863bbf086ae029139"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aecf321d652dd15e863bbf086ae029139">IS_BOUND_METHOD</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a092cb736433fd7af303c148b2e8d3f75">OBJECT_BOUND_METHOD</a>)</td></tr>
+<tr class="memitem:aecf321d652dd15e863bbf086ae029139" id="r_aecf321d652dd15e863bbf086ae029139"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aecf321d652dd15e863bbf086ae029139">IS_BOUND_METHOD</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a092cb736433fd7af303c148b2e8d3f75">OBJECT_BOUND_METHOD</a>)</td></tr>
 <tr class="memdesc:aecf321d652dd15e863bbf086ae029139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type bound-method.  <br /></td></tr>
 <tr class="separator:aecf321d652dd15e863bbf086ae029139"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbdb36e50b25a6c0ea68ac5bc7ab3cde" id="r_adbdb36e50b25a6c0ea68ac5bc7ab3cde"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#adbdb36e50b25a6c0ea68ac5bc7ab3cde">IS_INSTANCE</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec39a1e9218a946ed2f1485ba21c7549">OBJECT_INSTANCE</a>)</td></tr>
+<tr class="memitem:a3ecfcd5cddfffb20fd3da3920370b7d3" id="r_a3ecfcd5cddfffb20fd3da3920370b7d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a3ecfcd5cddfffb20fd3da3920370b7d3">IS_ERROR_SET</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a44667af889076ab15cd85f03ea3a1515">OBJECT_ERROR_SET</a>)</td></tr>
+<tr class="memdesc:a3ecfcd5cddfffb20fd3da3920370b7d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type error set.  <br /></td></tr>
+<tr class="separator:a3ecfcd5cddfffb20fd3da3920370b7d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52784029867412b412f6aa89a52054f1" id="r_a52784029867412b412f6aa89a52054f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a52784029867412b412f6aa89a52054f1">IS_ERROR_VALUE</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ad4a766d06c56a050797d2911daa5d23e">OBJECT_ERROR_VALUE</a>)</td></tr>
+<tr class="memdesc:a52784029867412b412f6aa89a52054f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type error value.  <br /></td></tr>
+<tr class="separator:a52784029867412b412f6aa89a52054f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac898006a776d74d0149dd626cd22a27d" id="r_ac898006a776d74d0149dd626cd22a27d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ac898006a776d74d0149dd626cd22a27d">IS_RESULT</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aa3fe5a32b8bebe67e76331e9c3afcf73">OBJECT_RESULT</a>)</td></tr>
+<tr class="memdesc:ac898006a776d74d0149dd626cd22a27d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type result wrapper.  <br /></td></tr>
+<tr class="separator:ac898006a776d74d0149dd626cd22a27d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbdb36e50b25a6c0ea68ac5bc7ab3cde" id="r_adbdb36e50b25a6c0ea68ac5bc7ab3cde"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#adbdb36e50b25a6c0ea68ac5bc7ab3cde">IS_INSTANCE</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec39a1e9218a946ed2f1485ba21c7549">OBJECT_INSTANCE</a>)</td></tr>
 <tr class="memdesc:adbdb36e50b25a6c0ea68ac5bc7ab3cde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type instance.  <br /></td></tr>
 <tr class="separator:adbdb36e50b25a6c0ea68ac5bc7ab3cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a030e8ee3e8e643b87e9b8fc0eb80cc68" id="r_a030e8ee3e8e643b87e9b8fc0eb80cc68"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a030e8ee3e8e643b87e9b8fc0eb80cc68">IS_CLASS</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ad8abddf49217e1dac50748b3f94596db">OBJECT_CLASS</a>)</td></tr>
+<tr class="memitem:a030e8ee3e8e643b87e9b8fc0eb80cc68" id="r_a030e8ee3e8e643b87e9b8fc0eb80cc68"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a030e8ee3e8e643b87e9b8fc0eb80cc68">IS_CLASS</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ad8abddf49217e1dac50748b3f94596db">OBJECT_CLASS</a>)</td></tr>
 <tr class="memdesc:a030e8ee3e8e643b87e9b8fc0eb80cc68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type class.  <br /></td></tr>
 <tr class="separator:a030e8ee3e8e643b87e9b8fc0eb80cc68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5607f451a18f6167a61948b73af9d473" id="r_a5607f451a18f6167a61948b73af9d473"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a5607f451a18f6167a61948b73af9d473">IS_CLOSURE</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a2a47a62bf5a00506f8b3bd80abccc2ad">OBJECT_CLOSURE</a>)</td></tr>
+<tr class="memitem:a5607f451a18f6167a61948b73af9d473" id="r_a5607f451a18f6167a61948b73af9d473"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a5607f451a18f6167a61948b73af9d473">IS_CLOSURE</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a2a47a62bf5a00506f8b3bd80abccc2ad">OBJECT_CLOSURE</a>)</td></tr>
 <tr class="memdesc:a5607f451a18f6167a61948b73af9d473"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type closure.  <br /></td></tr>
 <tr class="separator:a5607f451a18f6167a61948b73af9d473"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad5d8d711cec7fc9d8ab5564e6c7bbda" id="r_aad5d8d711cec7fc9d8ab5564e6c7bbda"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aad5d8d711cec7fc9d8ab5564e6c7bbda">IS_FUNCTION</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623adab915f81935bf0cbeb17778b0c5198c">OBJECT_FUNCTION</a>)</td></tr>
+<tr class="memitem:aad5d8d711cec7fc9d8ab5564e6c7bbda" id="r_aad5d8d711cec7fc9d8ab5564e6c7bbda"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aad5d8d711cec7fc9d8ab5564e6c7bbda">IS_FUNCTION</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623adab915f81935bf0cbeb17778b0c5198c">OBJECT_FUNCTION</a>)</td></tr>
 <tr class="memdesc:aad5d8d711cec7fc9d8ab5564e6c7bbda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type function.  <br /></td></tr>
 <tr class="separator:aad5d8d711cec7fc9d8ab5564e6c7bbda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b93eff03a4c5d6e7963beb8061666c8" id="r_a9b93eff03a4c5d6e7963beb8061666c8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a9b93eff03a4c5d6e7963beb8061666c8">IS_NATIVE</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a0d31126a68c1079ed2d4644be31a2ce6">OBJECT_NATIVE</a>)</td></tr>
+<tr class="memitem:a9b93eff03a4c5d6e7963beb8061666c8" id="r_a9b93eff03a4c5d6e7963beb8061666c8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a9b93eff03a4c5d6e7963beb8061666c8">IS_NATIVE</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a0d31126a68c1079ed2d4644be31a2ce6">OBJECT_NATIVE</a>)</td></tr>
 <tr class="memdesc:a9b93eff03a4c5d6e7963beb8061666c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has is a native function.  <br /></td></tr>
 <tr class="separator:a9b93eff03a4c5d6e7963beb8061666c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a027b20d78a8506c7eed962db99b582ca" id="r_a027b20d78a8506c7eed962db99b582ca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a027b20d78a8506c7eed962db99b582ca">IS_STRING</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec019d37bf56b5fa723492b3e6227e20">OBJECT_STRING</a>)</td></tr>
+<tr class="memitem:a027b20d78a8506c7eed962db99b582ca" id="r_a027b20d78a8506c7eed962db99b582ca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a027b20d78a8506c7eed962db99b582ca">IS_STRING</a>(value)&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec019d37bf56b5fa723492b3e6227e20">OBJECT_STRING</a>)</td></tr>
 <tr class="memdesc:a027b20d78a8506c7eed962db99b582ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines if the object has the object type string.  <br /></td></tr>
 <tr class="separator:a027b20d78a8506c7eed962db99b582ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a487c1fb5fd6bb1bfc24b981496b70ecd" id="r_a487c1fb5fd6bb1bfc24b981496b70ecd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a487c1fb5fd6bb1bfc24b981496b70ecd">AS_ARRAY</a>(value)&#160;&#160;&#160;((<a class="el" href="structobject__dynamic__value__array__t.html">object_dynamic_value_array_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td></tr>
@@ -178,6 +196,15 @@ Macros</h2></td></tr>
 <tr class="memitem:a7acfb2bd72ffb79ddd8a3dfc245d6898" id="r_a7acfb2bd72ffb79ddd8a3dfc245d6898"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a7acfb2bd72ffb79ddd8a3dfc245d6898">AS_BOUND_METHOD</a>(value)&#160;&#160;&#160;((<a class="el" href="structobject__bound__method__t.html">object_bound_method_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td></tr>
 <tr class="memdesc:a7acfb2bd72ffb79ddd8a3dfc245d6898"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that gets the value of an object as a bound method.  <br /></td></tr>
 <tr class="separator:a7acfb2bd72ffb79ddd8a3dfc245d6898"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab559af08e3d854fc729d98b9a09fd80c" id="r_ab559af08e3d854fc729d98b9a09fd80c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ab559af08e3d854fc729d98b9a09fd80c">AS_ERROR_SET</a>(value)&#160;&#160;&#160;((<a class="el" href="structobject__error__set__t.html">object_error_set_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td></tr>
+<tr class="memdesc:ab559af08e3d854fc729d98b9a09fd80c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that gets the value of an object as an error set.  <br /></td></tr>
+<tr class="separator:ab559af08e3d854fc729d98b9a09fd80c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af755922bb059594889027f00ac7abc8e" id="r_af755922bb059594889027f00ac7abc8e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af755922bb059594889027f00ac7abc8e">AS_ERROR_VALUE</a>(value)&#160;&#160;&#160;((<a class="el" href="structobject__error__value__t.html">object_error_value_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td></tr>
+<tr class="memdesc:af755922bb059594889027f00ac7abc8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that gets the value of an object as an error value.  <br /></td></tr>
+<tr class="separator:af755922bb059594889027f00ac7abc8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceffdcbd9781dbbf700eb567a97da29c" id="r_aceffdcbd9781dbbf700eb567a97da29c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aceffdcbd9781dbbf700eb567a97da29c">AS_RESULT</a>(value)&#160;&#160;&#160;((<a class="el" href="structobject__result__t.html">object_result_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td></tr>
+<tr class="memdesc:aceffdcbd9781dbbf700eb567a97da29c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that gets the value of an object as a result wrapper.  <br /></td></tr>
+<tr class="separator:aceffdcbd9781dbbf700eb567a97da29c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affc851005bdfa3d2fe82aef0d7cd4fe6" id="r_affc851005bdfa3d2fe82aef0d7cd4fe6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#affc851005bdfa3d2fe82aef0d7cd4fe6">AS_INSTANCE</a>(value)&#160;&#160;&#160;((<a class="el" href="structobject__instance__t.html">object_instance_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td></tr>
 <tr class="memdesc:affc851005bdfa3d2fe82aef0d7cd4fe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that gets the value of an object as a cellox class instance.  <br /></td></tr>
 <tr class="separator:affc851005bdfa3d2fe82aef0d7cd4fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,6 +226,12 @@ Macros</h2></td></tr>
 <tr class="memitem:a43057a2addec6e03f7b516dbc43b3291" id="r_a43057a2addec6e03f7b516dbc43b3291"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a43057a2addec6e03f7b516dbc43b3291">AS_STRING</a>(value)&#160;&#160;&#160;((<a class="el" href="structobject__string__t.html">object_string_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td></tr>
 <tr class="memdesc:a43057a2addec6e03f7b516dbc43b3291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that gets the value of an object as a string.  <br /></td></tr>
 <tr class="separator:a43057a2addec6e03f7b516dbc43b3291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af31ddbeb9eee4b69914f2bcd98246992" id="r_af31ddbeb9eee4b69914f2bcd98246992"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af31ddbeb9eee4b69914f2bcd98246992">object_new_result_ok</a>(val)&#160;&#160;&#160;<a class="el" href="object_8c.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), false)</td></tr>
+<tr class="memdesc:af31ddbeb9eee4b69914f2bcd98246992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro: wrap a success value in a result.  <br /></td></tr>
+<tr class="separator:af31ddbeb9eee4b69914f2bcd98246992"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ff1640ae89f27c36ed79d46283aedfa" id="r_a3ff1640ae89f27c36ed79d46283aedfa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a3ff1640ae89f27c36ed79d46283aedfa">object_new_result_error</a>(val)&#160;&#160;&#160;<a class="el" href="object_8c.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), true)</td></tr>
+<tr class="memdesc:a3ff1640ae89f27c36ed79d46283aedfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro: wrap an error value in a result.  <br /></td></tr>
+<tr class="separator:a3ff1640ae89f27c36ed79d46283aedfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -211,15 +244,18 @@ Enumerations</h2></td></tr>
 <tr class="memitem:af54461b7c3322b2256322f7b545bd623" id="r_af54461b7c3322b2256322f7b545bd623"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623">object_type</a> { <br />
 &#160;&#160;<a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623accd7022cd6b5e6e355c732d8802961b6">OBJECT_ARRAY</a>
 , <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a092cb736433fd7af303c148b2e8d3f75">OBJECT_BOUND_METHOD</a>
+, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a44667af889076ab15cd85f03ea3a1515">OBJECT_ERROR_SET</a>
+, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ad4a766d06c56a050797d2911daa5d23e">OBJECT_ERROR_VALUE</a>
+, <br />
+&#160;&#160;<a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aa3fe5a32b8bebe67e76331e9c3afcf73">OBJECT_RESULT</a>
 , <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec39a1e9218a946ed2f1485ba21c7549">OBJECT_INSTANCE</a>
 , <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ad8abddf49217e1dac50748b3f94596db">OBJECT_CLASS</a>
+, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a2a47a62bf5a00506f8b3bd80abccc2ad">OBJECT_CLOSURE</a>
 , <br />
-&#160;&#160;<a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a2a47a62bf5a00506f8b3bd80abccc2ad">OBJECT_CLOSURE</a>
-, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623adab915f81935bf0cbeb17778b0c5198c">OBJECT_FUNCTION</a>
+&#160;&#160;<a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623adab915f81935bf0cbeb17778b0c5198c">OBJECT_FUNCTION</a>
 , <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a0d31126a68c1079ed2d4644be31a2ce6">OBJECT_NATIVE</a>
 , <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec019d37bf56b5fa723492b3e6227e20">OBJECT_STRING</a>
-, <br />
-&#160;&#160;<a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ab7f432e95d9d1a0cacff032490834220">OBJECT_UPVALUE</a>
+, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ab7f432e95d9d1a0cacff032490834220">OBJECT_UPVALUE</a>
 <br />
  }</td></tr>
 <tr class="memdesc:af54461b7c3322b2256322f7b545bd623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Different type of objects.  <a href="object_8h.html#af54461b7c3322b2256322f7b545bd623">More...</a><br /></td></tr>
@@ -236,6 +272,15 @@ Functions</h2></td></tr>
 <tr class="memitem:aeb9aa7230633e5ce9d70afe06607ae99" id="r_aeb9aa7230633e5ce9d70afe06607ae99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__class__t.html">object_class_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aeb9aa7230633e5ce9d70afe06607ae99">object_new_class</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name)</td></tr>
 <tr class="memdesc:aeb9aa7230633e5ce9d70afe06607ae99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new class in cellox.  <br /></td></tr>
 <tr class="separator:aeb9aa7230633e5ce9d70afe06607ae99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58eeb1ba89f74687ed7cac665fad7262" id="r_a58eeb1ba89f74687ed7cac665fad7262"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__error__set__t.html">object_error_set_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a58eeb1ba89f74687ed7cac665fad7262">object_new_error_set</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name)</td></tr>
+<tr class="memdesc:a58eeb1ba89f74687ed7cac665fad7262"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new named error set.  <br /></td></tr>
+<tr class="separator:a58eeb1ba89f74687ed7cac665fad7262"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51d16d4704dcc4030145108be23b6c5a" id="r_a51d16d4704dcc4030145108be23b6c5a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__error__value__t.html">object_error_value_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a51d16d4704dcc4030145108be23b6c5a">object_new_error_value</a> (<a class="el" href="structobject__error__set__t.html">object_error_set_t</a> *errorSet, <a class="el" href="structobject__string__t.html">object_string_t</a> *name)</td></tr>
+<tr class="memdesc:a51d16d4704dcc4030145108be23b6c5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new concrete error value.  <br /></td></tr>
+<tr class="separator:a51d16d4704dcc4030145108be23b6c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03a38b1a2fe020592250900220bffc86" id="r_a03a38b1a2fe020592250900220bffc86"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__result__t.html">object_result_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a> (<a class="el" href="structvalue__t.html">value_t</a> payload, bool isError)</td></tr>
+<tr class="memdesc:a03a38b1a2fe020592250900220bffc86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new result wrapper.  <br /></td></tr>
+<tr class="separator:a03a38b1a2fe020592250900220bffc86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c8b33521dcd7c73964625122e057be2" id="r_a6c8b33521dcd7c73964625122e057be2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__closure__t.html">object_closure_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a6c8b33521dcd7c73964625122e057be2">object_new_closure</a> (<a class="el" href="structobject__function__t.html">object_function_t</a> *function)</td></tr>
 <tr class="memdesc:a6c8b33521dcd7c73964625122e057be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new Closure.  <br /></td></tr>
 <tr class="separator:a6c8b33521dcd7c73964625122e057be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,9 +293,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a7826f0afd0b5a3c134d12ff75fefb1e5" id="r_a7826f0afd0b5a3c134d12ff75fefb1e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__instance__t.html">object_instance_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a7826f0afd0b5a3c134d12ff75fefb1e5">object_new_instance</a> (<a class="el" href="structobject__class__t.html">object_class_t</a> *celloxClass)</td></tr>
 <tr class="memdesc:a7826f0afd0b5a3c134d12ff75fefb1e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new cellox class instance.  <br /></td></tr>
 <tr class="separator:a7826f0afd0b5a3c134d12ff75fefb1e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a531e0d044d567b40189dfe2afff49444" id="r_a531e0d044d567b40189dfe2afff49444"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__native__t.html">object_native_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a531e0d044d567b40189dfe2afff49444">object_new_native</a> (<a class="el" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a> function)</td></tr>
-<tr class="memdesc:a531e0d044d567b40189dfe2afff49444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new native function object.  <br /></td></tr>
-<tr class="separator:a531e0d044d567b40189dfe2afff49444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a599b33c5da1a5b7adf7e7e4fa7068f" id="r_a0a599b33c5da1a5b7adf7e7e4fa7068f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__native__t.html">object_native_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a0a599b33c5da1a5b7adf7e7e4fa7068f">object_new_native</a> (<a class="el" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a> function, size_t arity)</td></tr>
+<tr class="memdesc:a0a599b33c5da1a5b7adf7e7e4fa7068f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new native function object.  <br /></td></tr>
+<tr class="separator:a0a599b33c5da1a5b7adf7e7e4fa7068f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520a8e4a061b39c3bf328fa5ce1513f7" id="r_a520a8e4a061b39c3bf328fa5ce1513f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__string__t.html">object_string_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a520a8e4a061b39c3bf328fa5ce1513f7">object_take_string</a> (char *chars, uint32_t length)</td></tr>
 <tr class="memdesc:a520a8e4a061b39c3bf328fa5ce1513f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a string or returns a string from the hashtable of the virtualMachine if it already exists.  <br /></td></tr>
 <tr class="separator:a520a8e4a061b39c3bf328fa5ce1513f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -272,9 +317,9 @@ Functions</h2></td></tr>
 <tr class="memitem:af38dffea97b4c7e32a488619b85a6948" id="r_af38dffea97b4c7e32a488619b85a6948"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af38dffea97b4c7e32a488619b85a6948">object_set_gc_guard_hooks</a> (void(*push_fn)(<a class="el" href="structvalue__t.html">value_t</a>), <a class="el" href="structvalue__t.html">value_t</a>(*pop_fn)(void))</td></tr>
 <tr class="memdesc:af38dffea97b4c7e32a488619b85a6948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers GC guard hooks (push/pop) so object allocation can protect new strings from GC.  <br /></td></tr>
 <tr class="separator:af38dffea97b4c7e32a488619b85a6948"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a757116825d0287d762d16ff76846575b" id="r_a757116825d0287d762d16ff76846575b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a> (<a class="el" href="structvalue__t.html">value_t</a> value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623">object_type</a> type)</td></tr>
-<tr class="memdesc:a757116825d0287d762d16ff76846575b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether a value is of a given type.  <br /></td></tr>
-<tr class="separator:a757116825d0287d762d16ff76846575b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0175bb6d4227f33af92186598af9a35" id="r_ad0175bb6d4227f33af92186598af9a35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a> (<a class="el" href="structvalue__t.html">value_t</a> value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623">object_type</a> type)</td></tr>
+<tr class="memdesc:ad0175bb6d4227f33af92186598af9a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether a value is of a given type.  <br /></td></tr>
+<tr class="separator:ad0175bb6d4227f33af92186598af9a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file containing the declarations of functionality regarding cellox objects. </p>
@@ -379,6 +424,46 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ab559af08e3d854fc729d98b9a09fd80c" name="ab559af08e3d854fc729d98b9a09fd80c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab559af08e3d854fc729d98b9a09fd80c">&#9670;&#160;</a></span>AS_ERROR_SET</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AS_ERROR_SET</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;((<a class="el" href="structobject__error__set__t.html">object_error_set_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Makro that gets the value of an object as an error set. </p>
+
+</div>
+</div>
+<a id="af755922bb059594889027f00ac7abc8e" name="af755922bb059594889027f00ac7abc8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af755922bb059594889027f00ac7abc8e">&#9670;&#160;</a></span>AS_ERROR_VALUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AS_ERROR_VALUE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;((<a class="el" href="structobject__error__value__t.html">object_error_value_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Makro that gets the value of an object as an error value. </p>
+
+</div>
+</div>
 <a id="a6417cfbf10ea446d23d03ec236417492" name="a6417cfbf10ea446d23d03ec236417492"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6417cfbf10ea446d23d03ec236417492">&#9670;&#160;</a></span>AS_FUNCTION</h2>
 
@@ -439,6 +524,26 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aceffdcbd9781dbbf700eb567a97da29c" name="aceffdcbd9781dbbf700eb567a97da29c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aceffdcbd9781dbbf700eb567a97da29c">&#9670;&#160;</a></span>AS_RESULT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AS_RESULT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;((<a class="el" href="structobject__result__t.html">object_result_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Makro that gets the value of an object as a result wrapper. </p>
+
+</div>
+</div>
 <a id="a43057a2addec6e03f7b516dbc43b3291" name="a43057a2addec6e03f7b516dbc43b3291"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a43057a2addec6e03f7b516dbc43b3291">&#9670;&#160;</a></span>AS_STRING</h2>
 
@@ -470,7 +575,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623accd7022cd6b5e6e355c732d8802961b6">OBJECT_ARRAY</a>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623accd7022cd6b5e6e355c732d8802961b6">OBJECT_ARRAY</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -490,7 +595,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a092cb736433fd7af303c148b2e8d3f75">OBJECT_BOUND_METHOD</a>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a092cb736433fd7af303c148b2e8d3f75">OBJECT_BOUND_METHOD</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -510,7 +615,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ad8abddf49217e1dac50748b3f94596db">OBJECT_CLASS</a>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ad8abddf49217e1dac50748b3f94596db">OBJECT_CLASS</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -530,12 +635,52 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a2a47a62bf5a00506f8b3bd80abccc2ad">OBJECT_CLOSURE</a>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a2a47a62bf5a00506f8b3bd80abccc2ad">OBJECT_CLOSURE</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Makro that determines if the object has the object type closure. </p>
+
+</div>
+</div>
+<a id="a3ecfcd5cddfffb20fd3da3920370b7d3" name="a3ecfcd5cddfffb20fd3da3920370b7d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ecfcd5cddfffb20fd3da3920370b7d3">&#9670;&#160;</a></span>IS_ERROR_SET</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IS_ERROR_SET</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a44667af889076ab15cd85f03ea3a1515">OBJECT_ERROR_SET</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Makro that determines if the object has the object type error set. </p>
+
+</div>
+</div>
+<a id="a52784029867412b412f6aa89a52054f1" name="a52784029867412b412f6aa89a52054f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52784029867412b412f6aa89a52054f1">&#9670;&#160;</a></span>IS_ERROR_VALUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IS_ERROR_VALUE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623ad4a766d06c56a050797d2911daa5d23e">OBJECT_ERROR_VALUE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Makro that determines if the object has the object type error value. </p>
 
 </div>
 </div>
@@ -550,7 +695,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623adab915f81935bf0cbeb17778b0c5198c">OBJECT_FUNCTION</a>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623adab915f81935bf0cbeb17778b0c5198c">OBJECT_FUNCTION</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -570,7 +715,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec39a1e9218a946ed2f1485ba21c7549">OBJECT_INSTANCE</a>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec39a1e9218a946ed2f1485ba21c7549">OBJECT_INSTANCE</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -590,12 +735,32 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a0d31126a68c1079ed2d4644be31a2ce6">OBJECT_NATIVE</a>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623a0d31126a68c1079ed2d4644be31a2ce6">OBJECT_NATIVE</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Makro that determines if the object has is a native function. </p>
+
+</div>
+</div>
+<a id="ac898006a776d74d0149dd626cd22a27d" name="ac898006a776d74d0149dd626cd22a27d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac898006a776d74d0149dd626cd22a27d">&#9670;&#160;</a></span>IS_RESULT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IS_RESULT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aa3fe5a32b8bebe67e76331e9c3afcf73">OBJECT_RESULT</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Makro that determines if the object has the object type result wrapper. </p>
 
 </div>
 </div>
@@ -610,12 +775,52 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec019d37bf56b5fa723492b3e6227e20">OBJECT_STRING</a>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a>(value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623aec019d37bf56b5fa723492b3e6227e20">OBJECT_STRING</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Makro that determines if the object has the object type string. </p>
+
+</div>
+</div>
+<a id="a3ff1640ae89f27c36ed79d46283aedfa" name="a3ff1640ae89f27c36ed79d46283aedfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ff1640ae89f27c36ed79d46283aedfa">&#9670;&#160;</a></span>object_new_result_error</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define object_new_result_error</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">val</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8c.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), true)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience macro: wrap an error value in a result. </p>
+
+</div>
+</div>
+<a id="af31ddbeb9eee4b69914f2bcd98246992" name="af31ddbeb9eee4b69914f2bcd98246992"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af31ddbeb9eee4b69914f2bcd98246992">&#9670;&#160;</a></span>object_new_result_ok</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define object_new_result_ok</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">val</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8c.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience macro: wrap a success value in a result. </p>
 
 </div>
 </div>
@@ -674,6 +879,12 @@ Functions</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af54461b7c3322b2256322f7b545bd623accd7022cd6b5e6e355c732d8802961b6" name="af54461b7c3322b2256322f7b545bd623accd7022cd6b5e6e355c732d8802961b6"></a>OBJECT_ARRAY&#160;</td><td class="fielddoc"><p>A dynamic array. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="af54461b7c3322b2256322f7b545bd623a092cb736433fd7af303c148b2e8d3f75" name="af54461b7c3322b2256322f7b545bd623a092cb736433fd7af303c148b2e8d3f75"></a>OBJECT_BOUND_METHOD&#160;</td><td class="fielddoc"><p>A method the is bound to an object. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af54461b7c3322b2256322f7b545bd623a44667af889076ab15cd85f03ea3a1515" name="af54461b7c3322b2256322f7b545bd623a44667af889076ab15cd85f03ea3a1515"></a>OBJECT_ERROR_SET&#160;</td><td class="fielddoc"><p>An error set declaration. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af54461b7c3322b2256322f7b545bd623ad4a766d06c56a050797d2911daa5d23e" name="af54461b7c3322b2256322f7b545bd623ad4a766d06c56a050797d2911daa5d23e"></a>OBJECT_ERROR_VALUE&#160;</td><td class="fielddoc"><p>A specific error value. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af54461b7c3322b2256322f7b545bd623aa3fe5a32b8bebe67e76331e9c3afcf73" name="af54461b7c3322b2256322f7b545bd623aa3fe5a32b8bebe67e76331e9c3afcf73"></a>OBJECT_RESULT&#160;</td><td class="fielddoc"><p>A result wrapper holding either success or error. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="af54461b7c3322b2256322f7b545bd623aec39a1e9218a946ed2f1485ba21c7549" name="af54461b7c3322b2256322f7b545bd623aec39a1e9218a946ed2f1485ba21c7549"></a>OBJECT_INSTANCE&#160;</td><td class="fielddoc"><p>A instance of a cellox class. </p>
 </td></tr>
@@ -740,17 +951,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a757116825d0287d762d16ff76846575b" name="a757116825d0287d762d16ff76846575b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a757116825d0287d762d16ff76846575b">&#9670;&#160;</a></span>object_is_type()</h2>
+<a id="ad0175bb6d4227f33af92186598af9a35" name="ad0175bb6d4227f33af92186598af9a35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0175bb6d4227f33af92186598af9a35">&#9670;&#160;</a></span>object_is_type()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool object_is_type </td>
+          <td class="memname"><a class="el" href="attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool object_is_type </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
           <td class="paramname"><em>value</em>, </td>
@@ -767,11 +975,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Determines whether a value is of a given type. </p>
@@ -899,6 +1102,71 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a58eeb1ba89f74687ed7cac665fad7262" name="a58eeb1ba89f74687ed7cac665fad7262"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58eeb1ba89f74687ed7cac665fad7262">&#9670;&#160;</a></span>object_new_error_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__error__set__t.html">object_error_set_t</a> * object_new_error_set </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structobject__string__t.html">object_string_t</a> *&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a new named error set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the error set </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The created error set </dd></dl>
+
+</div>
+</div>
+<a id="a51d16d4704dcc4030145108be23b6c5a" name="a51d16d4704dcc4030145108be23b6c5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51d16d4704dcc4030145108be23b6c5a">&#9670;&#160;</a></span>object_new_error_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__error__value__t.html">object_error_value_t</a> * object_new_error_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structobject__error__set__t.html">object_error_set_t</a> *&#160;</td>
+          <td class="paramname"><em>errorSet</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structobject__string__t.html">object_string_t</a> *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a new concrete error value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">errorSet</td><td>The set the value belongs to </td></tr>
+    <tr><td class="paramname">name</td><td>The concrete error name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The created error value </dd></dl>
+
+</div>
+</div>
 <a id="af02966a3fa5afbd947759b8c1a6bad7e" name="af02966a3fa5afbd947759b8c1a6bad7e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af02966a3fa5afbd947759b8c1a6bad7e">&#9670;&#160;</a></span>object_new_function()</h2>
 
@@ -947,8 +1215,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a531e0d044d567b40189dfe2afff49444" name="a531e0d044d567b40189dfe2afff49444"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a531e0d044d567b40189dfe2afff49444">&#9670;&#160;</a></span>object_new_native()</h2>
+<a id="a0a599b33c5da1a5b7adf7e7e4fa7068f" name="a0a599b33c5da1a5b7adf7e7e4fa7068f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a599b33c5da1a5b7adf7e7e4fa7068f">&#9670;&#160;</a></span>object_new_native()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -957,8 +1225,18 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="structobject__native__t.html">object_native_t</a> * object_new_native </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a>&#160;</td>
-          <td class="paramname"><em>function</em></td><td>)</td>
+          <td class="paramname"><em>function</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>arity</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -967,10 +1245,49 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">function</td><td>The native_function_t that is used to create the native function object </td></tr>
+    <tr><td class="paramname">arity</td><td>Expected arity (SIZE_MAX means variadic) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The new function that was created </dd></dl>
+
+</div>
+</div>
+<a id="a03a38b1a2fe020592250900220bffc86" name="a03a38b1a2fe020592250900220bffc86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03a38b1a2fe020592250900220bffc86">&#9670;&#160;</a></span>object_new_result()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structobject__result__t.html">object_result_t</a> * object_new_result </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
+          <td class="paramname"><em>payload</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isError</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a new result wrapper. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">payload</td><td>The wrapped payload </td></tr>
+    <tr><td class="paramname">isError</td><td>Indicates whether payload is an error </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The created result wrapper </dd></dl>
 
 </div>
 </div>

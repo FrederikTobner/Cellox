@@ -5,11 +5,14 @@ var searchData=
   ['is_5fbound_5fmethod_2',['IS_BOUND_METHOD',['../object_8h.html#aecf321d652dd15e863bbf086ae029139',1,'object.h']]],
   ['is_5fclass_3',['IS_CLASS',['../object_8h.html#a030e8ee3e8e643b87e9b8fc0eb80cc68',1,'object.h']]],
   ['is_5fclosure_4',['IS_CLOSURE',['../object_8h.html#a5607f451a18f6167a61948b73af9d473',1,'object.h']]],
-  ['is_5ffunction_5',['IS_FUNCTION',['../object_8h.html#aad5d8d711cec7fc9d8ab5564e6c7bbda',1,'object.h']]],
-  ['is_5finstance_6',['IS_INSTANCE',['../object_8h.html#adbdb36e50b25a6c0ea68ac5bc7ab3cde',1,'object.h']]],
-  ['is_5fnative_7',['IS_NATIVE',['../object_8h.html#a9b93eff03a4c5d6e7963beb8061666c8',1,'object.h']]],
-  ['is_5fnull_8',['IS_NULL',['../value_8h.html#aa2075b728effcf81473088e067d84465',1,'value.h']]],
-  ['is_5fnumber_9',['IS_NUMBER',['../value_8h.html#a0257646ec057f253c1dd2da75aad53e3',1,'value.h']]],
-  ['is_5fobject_10',['IS_OBJECT',['../value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c',1,'value.h']]],
-  ['is_5fstring_11',['IS_STRING',['../object_8h.html#a027b20d78a8506c7eed962db99b582ca',1,'object.h']]]
+  ['is_5ferror_5fset_5',['IS_ERROR_SET',['../object_8h.html#a3ecfcd5cddfffb20fd3da3920370b7d3',1,'object.h']]],
+  ['is_5ferror_5fvalue_6',['IS_ERROR_VALUE',['../object_8h.html#a52784029867412b412f6aa89a52054f1',1,'object.h']]],
+  ['is_5ffunction_7',['IS_FUNCTION',['../object_8h.html#aad5d8d711cec7fc9d8ab5564e6c7bbda',1,'object.h']]],
+  ['is_5finstance_8',['IS_INSTANCE',['../object_8h.html#adbdb36e50b25a6c0ea68ac5bc7ab3cde',1,'object.h']]],
+  ['is_5fnative_9',['IS_NATIVE',['../object_8h.html#a9b93eff03a4c5d6e7963beb8061666c8',1,'object.h']]],
+  ['is_5fnull_10',['IS_NULL',['../value_8h.html#aa2075b728effcf81473088e067d84465',1,'value.h']]],
+  ['is_5fnumber_11',['IS_NUMBER',['../value_8h.html#a0257646ec057f253c1dd2da75aad53e3',1,'value.h']]],
+  ['is_5fobject_12',['IS_OBJECT',['../value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c',1,'value.h']]],
+  ['is_5fresult_13',['IS_RESULT',['../object_8h.html#ac898006a776d74d0149dd626cd22a27d',1,'object.h']]],
+  ['is_5fstring_14',['IS_STRING',['../object_8h.html#a027b20d78a8506c7eed962db99b582ca',1,'object.h']]]
 ];

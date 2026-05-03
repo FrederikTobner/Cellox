@@ -92,6 +92,7 @@ $(document).ready(function(){initNavTree('string__utils_8h.html',''); initResiza
 
 <div class="header">
   <div class="summary">
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">string_utils.h File Reference</div></div>
 </div><!--header-->
@@ -103,6 +104,16 @@ $(document).ready(function(){initNavTree('string__utils_8h.html',''); initResiza
 </div>
 <p><a href="string__utils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a02435d946a297df41459a4f7f24192cf" id="r_a02435d946a297df41459a4f7f24192cf"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cf">string_utils_read_file_error_t</a> { <a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cfa3389b5ff3f27f1c833408d059f388296">STRING_UTILS_READ_FILE_OK</a> = 0
+, <a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cfad38cbfbebbab495aaa01de323950d43f">STRING_UTILS_READ_FILE_OPEN_FAILED</a>
+, <a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cfaaf47b7f1735db694bfd41d18e17b93c6">STRING_UTILS_READ_FILE_ALLOC_FAILED</a>
+, <a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cfa8e8b78ed4e6b7ac09f96bd52f2c585bb">STRING_UTILS_READ_FILE_READ_FAILED</a>
+ }</td></tr>
+<tr class="memdesc:a02435d946a297df41459a4f7f24192cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error codes for string_utils_read_file.  <a href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cf">More...</a><br /></td></tr>
+<tr class="separator:a02435d946a297df41459a4f7f24192cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ad51887e1d189f5bb5c32079ba21472dd" id="r_ad51887e1d189f5bb5c32079ba21472dd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#ad51887e1d189f5bb5c32079ba21472dd">string_utils_contains_character_restricted</a> (char const *text, char character, uint32_t length)</td></tr>
@@ -111,13 +122,49 @@ Functions</h2></td></tr>
 <tr class="memitem:a1f0688092d57609f45dbd33fb9670383" id="r_a1f0688092d57609f45dbd33fb9670383"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#a1f0688092d57609f45dbd33fb9670383">string_utils_resolve_escape_sequence</a> (char *text, uint32_t *length)</td></tr>
 <tr class="memdesc:a1f0688092d57609f45dbd33fb9670383"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves all the escape sequences specified in a string literal.  <br /></td></tr>
 <tr class="separator:a1f0688092d57609f45dbd33fb9670383"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af30aaed5f81c45efe5cdee9900a22810" id="r_af30aaed5f81c45efe5cdee9900a22810"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#af30aaed5f81c45efe5cdee9900a22810">string_utils_hash_string</a> (char const *key, uint32_t length)</td></tr>
-<tr class="memdesc:af30aaed5f81c45efe5cdee9900a22810"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function  <br /></td></tr>
-<tr class="separator:af30aaed5f81c45efe5cdee9900a22810"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad64480459889976208d286d10e3b7824" id="r_ad64480459889976208d286d10e3b7824"><td class="memItemLeft" align="right" valign="top"><a class="el" href="attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#ad64480459889976208d286d10e3b7824">string_utils_hash_string</a> (char const *key, uint32_t length)</td></tr>
+<tr class="memdesc:ad64480459889976208d286d10e3b7824"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash">FNV-1a</a> hash function  <br /></td></tr>
+<tr class="separator:ad64480459889976208d286d10e3b7824"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa73eb3c8b2f00e3e247fb33721e3f9" id="r_aafa73eb3c8b2f00e3e247fb33721e3f9"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#aafa73eb3c8b2f00e3e247fb33721e3f9">string_utils_read_file</a> (char const *path, size_t *outSize, <a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cf">string_utils_read_file_error_t</a> *outError)</td></tr>
+<tr class="memdesc:aafa73eb3c8b2f00e3e247fb33721e3f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an entire file into a heap-allocated, NUL-terminated buffer.  <br /></td></tr>
+<tr class="separator:aafa73eb3c8b2f00e3e247fb33721e3f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa32364418843f44e35e1ac38207b7ac7" id="r_aa32364418843f44e35e1ac38207b7ac7"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#aa32364418843f44e35e1ac38207b7ac7">string_utils_strdup</a> (char const *text)</td></tr>
+<tr class="memdesc:aa32364418843f44e35e1ac38207b7ac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Duplicates a NUL-terminated string into a new heap allocation.  <br /></td></tr>
+<tr class="separator:aa32364418843f44e35e1ac38207b7ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1487d6408f77993c8cbdf5001a87c901" id="r_a1487d6408f77993c8cbdf5001a87c901"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string__utils_8h.html#a1487d6408f77993c8cbdf5001a87c901">string_utils_substr</a> (char const *text, size_t length)</td></tr>
+<tr class="memdesc:a1487d6408f77993c8cbdf5001a87c901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the first <code>length</code> characters of <code>text</code> into a new NUL-terminated heap buffer.  <br /></td></tr>
+<tr class="separator:a1487d6408f77993c8cbdf5001a87c901"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file containing the declarations of functionality regarding character sequences. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a02435d946a297df41459a4f7f24192cf" name="a02435d946a297df41459a4f7f24192cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02435d946a297df41459a4f7f24192cf">&#9670;&#160;</a></span>string_utils_read_file_error_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cf">string_utils_read_file_error_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Error codes for string_utils_read_file. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a02435d946a297df41459a4f7f24192cfa3389b5ff3f27f1c833408d059f388296" name="a02435d946a297df41459a4f7f24192cfa3389b5ff3f27f1c833408d059f388296"></a>STRING_UTILS_READ_FILE_OK&#160;</td><td class="fielddoc"><p>File was read successfully. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a02435d946a297df41459a4f7f24192cfad38cbfbebbab495aaa01de323950d43f" name="a02435d946a297df41459a4f7f24192cfad38cbfbebbab495aaa01de323950d43f"></a>STRING_UTILS_READ_FILE_OPEN_FAILED&#160;</td><td class="fielddoc"><p>fopen failed (file not found or permission denied) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a02435d946a297df41459a4f7f24192cfaaf47b7f1735db694bfd41d18e17b93c6" name="a02435d946a297df41459a4f7f24192cfaaf47b7f1735db694bfd41d18e17b93c6"></a>STRING_UTILS_READ_FILE_ALLOC_FAILED&#160;</td><td class="fielddoc"><p>malloc failed </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a02435d946a297df41459a4f7f24192cfa8e8b78ed4e6b7ac09f96bd52f2c585bb" name="a02435d946a297df41459a4f7f24192cfa8e8b78ed4e6b7ac09f96bd52f2c585bb"></a>STRING_UTILS_READ_FILE_READ_FAILED&#160;</td><td class="fielddoc"><p>fread returned fewer bytes than expected </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="ad51887e1d189f5bb5c32079ba21472dd" name="ad51887e1d189f5bb5c32079ba21472dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad51887e1d189f5bb5c32079ba21472dd">&#9670;&#160;</a></span>string_utils_contains_character_restricted()</h2>
 
@@ -164,14 +211,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af30aaed5f81c45efe5cdee9900a22810" name="af30aaed5f81c45efe5cdee9900a22810"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af30aaed5f81c45efe5cdee9900a22810">&#9670;&#160;</a></span>string_utils_hash_string()</h2>
+<a id="ad64480459889976208d286d10e3b7824" name="ad64480459889976208d286d10e3b7824"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad64480459889976208d286d10e3b7824">&#9670;&#160;</a></span>string_utils_hash_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t string_utils_hash_string </td>
+          <td class="memname"><a class="el" href="attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> uint32_t string_utils_hash_string </td>
           <td>(</td>
           <td class="paramtype">char const *&#160;</td>
           <td class="paramname"><em>key</em>, </td>
@@ -199,6 +246,51 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The hashvalue of the key </dd></dl>
+
+</div>
+</div>
+<a id="aafa73eb3c8b2f00e3e247fb33721e3f9" name="aafa73eb3c8b2f00e3e247fb33721e3f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafa73eb3c8b2f00e3e247fb33721e3f9">&#9670;&#160;</a></span>string_utils_read_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * string_utils_read_file </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramname"><em>outSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="string__utils_8h.html#a02435d946a297df41459a4f7f24192cf">string_utils_read_file_error_t</a> *&#160;</td>
+          <td class="paramname"><em>outError</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads an entire file into a heap-allocated, NUL-terminated buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Path to the file to read </td></tr>
+    <tr><td class="paramname">outSize</td><td>If non-NULL, receives the number of bytes read (not counting the NUL terminator) </td></tr>
+    <tr><td class="paramname">outError</td><td>If non-NULL, receives the error code on failure (STRING_UTILS_READ_FILE_OK on success) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A malloc'd buffer that the caller must free, or NULL on any failure </dd></dl>
 
 </div>
 </div>
@@ -237,6 +329,71 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if all escape sequences where resoved successful, -1 if a unknown escape sequence was found in the character sequence </dd></dl>
+
+</div>
+</div>
+<a id="aa32364418843f44e35e1ac38207b7ac7" name="aa32364418843f44e35e1ac38207b7ac7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa32364418843f44e35e1ac38207b7ac7">&#9670;&#160;</a></span>string_utils_strdup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * string_utils_strdup </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Duplicates a NUL-terminated string into a new heap allocation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The string to duplicate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A malloc'd copy that the caller must free, or NULL on allocation failure </dd></dl>
+
+</div>
+</div>
+<a id="a1487d6408f77993c8cbdf5001a87c901" name="a1487d6408f77993c8cbdf5001a87c901"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1487d6408f77993c8cbdf5001a87c901">&#9670;&#160;</a></span>string_utils_substr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * string_utils_substr </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies the first <code>length</code> characters of <code>text</code> into a new NUL-terminated heap buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The source character sequence </td></tr>
+    <tr><td class="paramname">length</td><td>Number of characters to copy (not counting the NUL terminator) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A malloc'd, NUL-terminated buffer the caller must free, or NULL on failure </dd></dl>
 
 </div>
 </div>

@@ -22,6 +22,8 @@ var native__functions_8h =
     [ "native_functions_read_file", "native__functions_8h.html#a3c0169cb80b6351b310c2a6d4a8579eb", null ],
     [ "native_functions_read_key", "native__functions_8h.html#a79f399ef792765fed5c2f713cb3a7ec2", null ],
     [ "native_functions_read_line", "native__functions_8h.html#ae8c466af41128bd597f26fa261b31860", null ],
+    [ "native_functions_set_io_error_set", "native__functions_8h.html#a907d64107c924ae6e2162caaea30533d", null ],
+    [ "native_functions_set_stdlib_error_set", "native__functions_8h.html#a8ea1744898987dcc01a1360417434236", null ],
     [ "native_functions_sine", "native__functions_8h.html#a8c62301749bbe5c95f3b28b43d8ebd28", null ],
     [ "native_functions_size_of", "native__functions_8h.html#ac51a69f019e97e438599fb4837878555", null ],
     [ "native_functions_string_hash", "native__functions_8h.html#a464bc52dd40fd00ebdc475b53b671929", null ],
