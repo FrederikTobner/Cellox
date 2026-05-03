@@ -32,6 +32,7 @@
 #include "cellox_config.h"
 #include "common.h"
 #include "frontend/compiler.h"
+#include "module_loader.h"
 
 /// Maximum length of a line is 1024 characters
 #define MAX_LINE_LENGTH (1024u)
@@ -45,7 +46,6 @@
   \\_____\\___|_|_|\\___/_/\\_\\\n")
 
 static void initializer_io_error(char const *, ...);
-static char * initializer_read_file(char const *);
 
 void initializer_run_as_repl(void) {
     virtual_machine_init();
@@ -74,21 +74,21 @@ void initializer_run_from_file(char const * path, bool compile) {
     interpret_result result;
     // Cellox file -> we need to compile the source code to a chunk in order to execute it
     if (pathLength > 4 && !strcmp(path + pathLength - 4, ".clx")) {
-        char * source = initializer_read_file(path);
+        char * source = module_loader_load_program(path);
         if (!source) {
             return;
         }
         virtual_machine_init();
         if (compile) {
+            result = INTERPRET_COMPILE_ERROR;
             object_function_t * function = compiler_compile(source);
-            if (!function) {
-                result = INTERPRET_COMPILE_ERROR;
-            }
-            if (chunk_file_store(function->chunk, path, 0)) {
-                result = INTERPRET_COMPILE_ERROR;
-            } else {
+            if (function && !chunk_file_store(function->chunk, path, 0)) {
                 result = INTERPRET_OK;
             }
+            if (result != INTERPRET_OK) {
+                result = INTERPRET_COMPILE_ERROR;
+            }
+            free(source);
         } else {
             result = virtual_machine_interpret(source, true);
         }
@@ -153,37 +153,3 @@ static void initializer_io_error(char const * format, ...) {
 #endif
 }
 
-/// @brief Reads a file from disk
-/// @param path The path of the file
-/// @return The contents of the file or NULL if something went wrong an there are tests executed, so we dont want to
-/// exit
-static char * initializer_read_file(char const * path) {
-    // Opens a file of a nonspecified format (b) in read mode (r)
-    FILE * file = fopen(path, "rb");
-    if (!file) {
-        initializer_io_error("Could not open file \"%s\".\n", path);
-        return NULL;
-    }
-    // Seek end of the file
-    fseek(file, 0L, SEEK_END);
-    // Store filesize
-    size_t fileSize = ftell(file);
-    // Rewind filepointer to the beginning of the file
-    rewind(file);
-    // Allocate memory apropriate to store the file
-    char * buffer = (char *)malloc(fileSize + 1);
-    if (!buffer) {
-        initializer_io_error("Not enough memory to read \"%s\".\n", path);
-        return NULL;
-    }
-    // Store amount of read bytes
-    size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
-    if (bytesRead < fileSize) {
-        initializer_io_error("Could not read file \"%s\".\n", path);
-        return NULL;
-    }
-    // We add null the end of the source-code to mark the end of the file
-    buffer[bytesRead] = '\0';
-    fclose(file);
-    return buffer;
-}

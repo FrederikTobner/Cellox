@@ -22,9 +22,11 @@ Cellox is a programming language based on [lox](https://craftinginterpreters.com
 * [Objects](#objects)
 * [Functions](#functions)
 * [Classes](#classes)
+* [Modules](#modules)
 * [Strings](#strings)
 * [Arrays](#arrays)
 * [Slices](#slices)
+* [Benchmarking](#benchmarking)
 * [IDE Integration](#ide-integration)
 * [How it works](#how-it-works)
 * [License](#license)
@@ -79,6 +81,18 @@ Cellox is a objectoriented language, that features inheritance and methods that 
 
 Classes can also extend the functionality of an already existing class by using inheritance.
 
+## Modules
+
+Cellox supports file-based modules with relative imports.
+
+Current module support includes:
+
+* importing another file via relative path
+* named imports (`import { symbol } from "./module.clx"`)
+* explicit exports (`export var`, `export fun`, `export class`)
+* load-once semantics per module path
+* cycle and invalid-import diagnostics
+
 ## Strings
 
 A [string](https://github.com/FrederikTobner/Cellox/wiki/Strings) in cellox is a special type of object.
@@ -100,6 +114,16 @@ A [slice](https://github.com/FrederikTobner/Cellox/wiki/Slices) is a subset of a
 Slices are created by using the range operator.
 
 The values stored in slice can be altered without affecting the original array.
+
+## Benchmarking
+
+The benchmark suite covers arithmetic, object/class behavior, method dispatch, and module/slice-heavy runtime paths.
+
+Notable benchmark programs include:
+
+* `ModuleImportChain.clx` for module-import execution workloads
+* `SliceOps.clx` for repeated slicing and indexed access workloads
+* existing core benchmarks like `Fibonacci.clx`, `MethodCall.clx`, and `Zoo.clx`
 
 ## IDE Integration
 

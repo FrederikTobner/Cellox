@@ -1,0 +1,2 @@
+import { add } from "./shared_math.clx";
+printf("{}\n", add(1, 2));
