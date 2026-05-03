@@ -83,3 +83,68 @@ jobs:
         ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 \
         UBSAN_OPTIONS=print_stacktrace=1:halt_on_error=1 \
         ctest -C ${{env.BUILD_TYPE}} --output-on-failure
+
+  coverage:
+    runs-on: ubuntu-latest
+    env:
+      BUILD_TYPE: Debug
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install coverage toolchain
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install \
+          gcc \
+          g++ \
+          lcov \
+          cmake \
+          ninja-build \
+          ${NULL+}
+
+    - name: Configure CMake with coverage flags
+      run: >
+        cmake -B ${{github.workspace}}/build
+        -G Ninja
+        -DCLX_BUILD_TESTS=ON
+        -DCLX_BUILD_TOOLS=OFF
+        -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        -DCMAKE_C_COMPILER=gcc
+        -DCMAKE_CXX_COMPILER=g++
+        -DCMAKE_C_FLAGS="--coverage -O0 -g"
+        -DCMAKE_CXX_FLAGS="--coverage -O0 -g"
+        -DCMAKE_EXE_LINKER_FLAGS="--coverage"
+        -DCMAKE_SHARED_LINKER_FLAGS="--coverage"
+
+    - name: Build tests
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
+
+    - name: Run tests for coverage
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure
+
+    - name: Capture lcov report
+      run: |
+        lcov --capture --directory ${{github.workspace}}/build --output-file ${{github.workspace}}/coverage.info
+        lcov --remove ${{github.workspace}}/coverage.info \
+          '/usr/*' \
+          '*/_deps/*' \
+          '*/test/*' \
+          --output-file ${{github.workspace}}/coverage.info
+
+    - name: Upload coverage report as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: lcov-report
+        path: ${{github.workspace}}/coverage.info
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: ${{github.workspace}}/coverage.info
+        flags: coverage
+        name: cellox-lcov
+        fail_ci_if_error: true
