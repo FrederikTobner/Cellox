@@ -15,7 +15,7 @@ extern "C" {
 #include "backend/garbage_collector.h"
 #include "backend/virtual_machine.h"
 #include "frontend/compilation/compiler.h"
-#include "module_loader.h"
+#include "module-loading/module_loader.h"
 }
 
 static std::string stdlib_make_temp_path() {
