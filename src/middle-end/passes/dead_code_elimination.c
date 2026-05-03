@@ -21,6 +21,7 @@
 #include "../optimization_pass.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "language-models/object.h"
 
@@ -90,6 +91,30 @@ static int32_t jump_target(chunk_t * chunk, uint32_t offset) {
         return (int32_t)offset + 3 - (int32_t)jump;
     }
     return (int32_t)offset + 3 + (int32_t)jump;
+}
+
+static void write_u16_be(uint8_t * data, uint16_t value) {
+    data[0] = (uint8_t)((value >> 8) & 0xFFu);
+    data[1] = (uint8_t)(value & 0xFFu);
+}
+
+static void build_dead_prefix(chunk_t * chunk, uint8_t * dead_bytes, uint32_t * prefix_removed) {
+    memset(dead_bytes, 0, chunk->byteCodeCount);
+
+    for (uint32_t offset = 0; offset < chunk->byteCodeCount;) {
+        uint32_t size = opcode_size(chunk, offset);
+        if (!BIT_GET(chunk->_reachable_bitset, offset)) {
+            for (uint32_t i = 0; i < size && offset + i < chunk->byteCodeCount; i++) {
+                dead_bytes[offset + i] = 1;
+            }
+        }
+        offset += size;
+    }
+
+    prefix_removed[0] = 0;
+    for (uint32_t i = 0; i < chunk->byteCodeCount; i++) {
+        prefix_removed[i + 1] = prefix_removed[i] + dead_bytes[i];
+    }
 }
 
 static void clear_reachability_state(chunk_t * chunk) {
@@ -181,6 +206,10 @@ pass_result_t pass_dead_code_elimination(chunk_t * chunk) {
         return result;
     }
 
+    uint8_t * dead_bytes = malloc(chunk->byteCodeCount);
+    uint32_t * prefix_removed = malloc((chunk->byteCodeCount + 1) * sizeof(uint32_t));
+    build_dead_prefix(chunk, dead_bytes, prefix_removed);
+
     // Collect dead instruction starts first, then remove from back to front.
     uint32_t * dead_offsets = malloc(chunk->byteCodeCount * sizeof(uint32_t));
     uint32_t dead_count = 0;
@@ -193,6 +222,27 @@ pass_result_t pass_dead_code_elimination(chunk_t * chunk) {
         offset += size;
     }
 
+    // Collect jump instructions that remain reachable and must be re-targeted.
+    uint32_t * jump_offsets = malloc(chunk->byteCodeCount * sizeof(uint32_t));
+    uint32_t * jump_targets = malloc(chunk->byteCodeCount * sizeof(uint32_t));
+    uint8_t * jump_opcodes = malloc(chunk->byteCodeCount);
+    uint32_t jump_count = 0;
+
+    for (uint32_t offset = 0; offset < chunk->byteCodeCount;) {
+        uint32_t size = opcode_size(chunk, offset);
+        uint8_t opcode = chunk->code[offset];
+        if (BIT_GET(chunk->_reachable_bitset, offset) && is_jump_opcode(opcode)) {
+            int32_t old_target = jump_target(chunk, offset);
+            if (old_target >= 0 && (uint32_t)old_target < chunk->byteCodeCount) {
+                jump_offsets[jump_count] = offset;
+                jump_targets[jump_count] = (uint32_t)old_target;
+                jump_opcodes[jump_count] = opcode;
+                jump_count++;
+            }
+        }
+        offset += size;
+    }
+
     for (int32_t i = (int32_t)dead_count - 1; i >= 0; i--) {
         uint32_t offset = dead_offsets[i];
         uint32_t size = opcode_size(chunk, offset);
@@ -201,7 +251,44 @@ pass_result_t pass_dead_code_elimination(chunk_t * chunk) {
         result.modified = true;
     }
 
+    // Re-target jump offsets after compaction.
+    for (uint32_t i = 0; i < jump_count; i++) {
+        uint32_t old_jump_offset = jump_offsets[i];
+        uint32_t old_target = jump_targets[i];
+        uint8_t opcode = jump_opcodes[i];
+
+        uint32_t new_jump_offset = old_jump_offset - prefix_removed[old_jump_offset];
+        uint32_t new_target = old_target - prefix_removed[old_target];
+
+        if (new_jump_offset + 2 >= chunk->byteCodeCount) {
+            continue;
+        }
+
+        uint32_t jump_distance;
+        if (opcode == OP_LOOP) {
+            if (new_jump_offset + 3 < new_target) {
+                continue;
+            }
+            jump_distance = (new_jump_offset + 3) - new_target;
+        } else {
+            if (new_target < new_jump_offset + 3) {
+                continue;
+            }
+            jump_distance = new_target - (new_jump_offset + 3);
+        }
+
+        if (jump_distance > UINT16_MAX) {
+            continue;
+        }
+        write_u16_be(&chunk->code[new_jump_offset + 1], (uint16_t)jump_distance);
+    }
+
+    free(dead_bytes);
+    free(prefix_removed);
     free(dead_offsets);
+    free(jump_offsets);
+    free(jump_targets);
+    free(jump_opcodes);
     clear_reachability_state(chunk);
 
     return result;

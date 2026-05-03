@@ -24,10 +24,6 @@
 #include <stdio.h>
 #include <time.h>
 
-// ============================================================================
-// Global Pipeline State
-// ============================================================================
-
 static optimization_pipeline_t* g_global_pipeline = NULL;
 
 // ============================================================================
@@ -66,10 +62,6 @@ static optimization_pass_entry_t* find_pass_by_name(const char* name) {
     return NULL;
 }
 
-// ============================================================================
-// Public API Implementation
-// ============================================================================
-
 void optimization_module_init(void) {
     if (g_global_pipeline != NULL) {
         return;  // Already initialized
@@ -91,14 +83,14 @@ void optimization_module_init(void) {
             .name = "dead_code_detection",
             .fn = pass_dead_code_detection,
             .priority = 0,
-            .enabled = false,
+            .enabled = true,
             .description = "Mark unreachable instructions"
         },
         {
             .name = "dead_code_elimination",
             .fn = pass_dead_code_elimination,
             .priority = 1,
-            .enabled = false,
+            .enabled = true,
             .description = "Remove marked dead code"
         },
         {
@@ -112,14 +104,14 @@ void optimization_module_init(void) {
             .name = "algebraic_identity",
             .fn = pass_algebraic_identity,
             .priority = 3,
-            .enabled = false,
+            .enabled = true,
             .description = "Simplify algebraic expressions (x+0, x*1, etc.)"
         },
         {
             .name = "branch_predication",
             .fn = pass_branch_predication,
             .priority = 4,
-            .enabled = false,
+            .enabled = true,
             .description = "Fold constant-condition branches"
         },
         {
@@ -133,7 +125,7 @@ void optimization_module_init(void) {
             .name = "dead_code_elimination_2nd",
             .fn = pass_dead_code_elimination,
             .priority = 6,
-            .enabled = false,
+            .enabled = true,
             .description = "Final dead code cleanup"
         }
     };
