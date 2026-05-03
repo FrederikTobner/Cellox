@@ -37,12 +37,21 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 include(CompileDefinitions)
+include(CelloxHelpers)
 
 cellox_add_compiler_compile_definitions()
 cellox_add_os_compile_definitions()
 
+# Suppress exit() calls in library code so tests can inspect error paths
+if(CLX_BUILD_TESTS)
+    add_compile_definitions(CELLOX_TESTS_RUNNING)
+endif()
+
 file(GLOB_RECURSE CELLOX_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c)
 file(GLOB_RECURSE CELLOX_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
+
+# Allow includes from the src root (e.g. frontend/... and backend/...)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 LIST(REMOVE_ITEM CELLOX_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/common.c )
 LIST(REMOVE_ITEM CELLOX_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/common.h)

@@ -22,9 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../backend/garbage_collector.h"
-#include "../../backend/memory_mutator.h"
-#include "../object.h"
+#include "backend/garbage_collector.h"
+#include "backend/memory_mutator.h"
+#include "language-models/object.h"
 
 /// @brief The max load factor of the hashtable
 /// @details If the max load factor multiplied with the capacity is reached we grow the hashtable

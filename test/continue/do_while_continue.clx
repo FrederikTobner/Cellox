@@ -1,0 +1,8 @@
+var i = 0;
+do {
+    i += 1;
+    if (i == 3) {
+        continue;
+    }
+    printf("{}\n", i);
+} while (i < 5);

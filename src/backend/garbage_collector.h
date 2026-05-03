@@ -21,7 +21,7 @@
 #ifndef CELLOX_GARBAGE_COLLECTOR_H_
 #define CELLOX_GARBAGE_COLLECTOR_H_
 
-#include "../language-models/object.h"
+#include "language-models/object.h"
 
 /** @brief Starts the garbage collection process.
  * @details The garbage collector of cellox is a precise GC.
@@ -44,5 +44,10 @@ void garbage_collector_mark_object(object_t * object);
 /// @brief Marks a cellox value
 /// @param value The value that is marked
 void garbage_collector_mark_value(value_t value);
+
+/// @brief Registers a callback that marks additional GC roots.
+/// @details Call this once at startup (e.g. from the compiler layer) so the GC can
+/// traverse roots that live outside the runtime library without a direct dependency.
+void garbage_collector_set_mark_roots_hook(void (*fn)(void));
 
 #endif

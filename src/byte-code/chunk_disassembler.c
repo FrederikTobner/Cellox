@@ -23,9 +23,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../common.h"
-#include "../language-models/object.h"
-#include "../language-models/value.h"
+#include "common.h"
+#include "language-models/object.h"
+#include "language-models/value.h"
 
 static int32_t chunk_disassembler_byte_instruction(char const *, chunk_t *, int32_t);
 static int32_t chunk_disassembler_constant_instruction(char const *, chunk_t *, int32_t);

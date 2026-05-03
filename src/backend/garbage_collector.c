@@ -23,13 +23,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../frontend/compiler.h"
 #ifdef DEBUG_LOG_GC
 #include "chunk_disassembler.h"
 #endif
-#include "../language-models/object.h"
+#include "language-models/object.h"
 #include "memory_mutator.h"
 #include "virtual_machine.h"
+
+static void (*gc_mark_roots_hook)(void) = NULL;
+
+void garbage_collector_set_mark_roots_hook(void (*fn)(void)) {
+    gc_mark_roots_hook = fn;
+}
 
 #define GC_HEAP_GROWTH_FACTOR (2)
 
@@ -186,8 +191,10 @@ static void garbage_collector_mark_roots(void) {
     }
     // all the global variables
     value_hash_table_mark(&virtualMachine.globals);
-    // and all the compiler roots allocated on the heap
-    compiler_mark_roots();
+    // and all the compiler roots allocated on the heap (registered via hook at startup)
+    if (gc_mark_roots_hook) {
+        gc_mark_roots_hook();
+    }
     garbage_collector_mark_object((object_t *)virtualMachine.initString);
 }
 

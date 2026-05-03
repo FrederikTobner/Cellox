@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../backend/memory_mutator.h"
+#include "backend/memory_mutator.h"
 
 void dynamic_value_array_free(dynamic_value_array_t * array) {
     FREE_ARRAY(value_t, array->values, array->capacity);

@@ -24,9 +24,27 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../backend/memory_mutator.h"
-#include "../backend/virtual_machine.h"
-#include "../string_utils.h"
+#include "backend/memory_mutator.h"
+#include "string_utils.h"
+#include "language-models/data-structures/value_hash_table.h"
+
+static value_hash_table_t * vm_string_table = NULL;
+static object_t ** vm_objects_head = NULL;
+static void (*obj_gc_push)(value_t) = NULL;
+static value_t (*obj_gc_pop)(void) = NULL;
+
+void object_set_vm_string_table(value_hash_table_t * table) {
+    vm_string_table = table;
+}
+
+void object_set_vm_objects(object_t ** objects) {
+    vm_objects_head = objects;
+}
+
+void object_set_gc_guard_hooks(void (*push_fn)(value_t), value_t (*pop_fn)(void)) {
+    obj_gc_push = push_fn;
+    obj_gc_pop = pop_fn;
+}
 
 /// Marko for allocating a new object
 #define ALLOCATE_OBJECT(type, objectType) (type *)object_allocate_object(sizeof(type), objectType)
@@ -46,9 +64,11 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
 
     if (!string_utils_contains_character_restricted(chars, '\\', length)) {
         hash = string_utils_hash_string(chars, length);
-        interned = value_hash_table_find_string(&virtualMachine.strings, chars, length, hash);
-        if (interned) {
-            return interned;
+        if (vm_string_table) {
+            interned = value_hash_table_find_string(vm_string_table, chars, length, hash);
+            if (interned) {
+                return interned;
+            }
         }
         heapChars = ALLOCATE(char, length + 1);
         memcpy(heapChars, chars, length);
@@ -66,12 +86,13 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
                 }
             }
         }
-        // We have to look again for duplicates in the hashtable storing the strings allocated by the virtualMachine
         hash = string_utils_hash_string(heapChars, length);
-        interned = value_hash_table_find_string(&virtualMachine.strings, heapChars, length, hash);
-        if (interned) {
-            free(heapChars);
-            return interned;
+        if (vm_string_table) {
+            interned = value_hash_table_find_string(vm_string_table, heapChars, length, hash);
+            if (interned) {
+                free(heapChars);
+                return interned;
+            }
         }
     }
 
@@ -213,10 +234,12 @@ void object_print(value_t value) {
 
 object_string_t * object_take_string(char * chars, uint32_t length) {
     uint32_t hash = string_utils_hash_string(chars, length);
-    object_string_t * interned = value_hash_table_find_string(&virtualMachine.strings, chars, length, hash);
-    if (interned) {
-        FREE_ARRAY(char, chars, length + 1);
-        return interned;
+    if (vm_string_table) {
+        object_string_t * interned = value_hash_table_find_string(vm_string_table, chars, length, hash);
+        if (interned) {
+            FREE_ARRAY(char, chars, length + 1);
+            return interned;
+        }
     }
     return object_allocate_string(chars, length, hash);
 }
@@ -231,10 +254,16 @@ static object_string_t * object_allocate_string(char * chars, uint32_t length, u
     string->length = length;
     string->chars = chars;
     string->hash = hash;
-    virtual_machine_push(OBJECT_VAL(string));
+    if (obj_gc_push) {
+        obj_gc_push(OBJECT_VAL(string));
+    }
     // Adds the string to hashtable storing all the strings allocated by the virtualMachine
-    value_hash_table_set(&virtualMachine.strings, string, NULL_VAL);
-    virtual_machine_pop();
+    if (vm_string_table) {
+        value_hash_table_set(vm_string_table, string, NULL_VAL);
+    }
+    if (obj_gc_pop) {
+        obj_gc_pop();
+    }
     return string;
 }
 
@@ -250,8 +279,12 @@ static object_t * object_allocate_object(size_t size, object_type type) {
     // Disables mark so it is picked up by the Garbage Collection in the next cycle
     object->isMarked = false;
     // Adds the object at the start of the linked list storing the objects allocated by the virtualMachine
-    object->next = virtualMachine.objects;
-    virtualMachine.objects = object;
+    if (vm_objects_head) {
+        object->next = *vm_objects_head;
+        *vm_objects_head = object;
+    } else {
+        object->next = NULL;
+    }
 #ifdef DEBUG_LOG_GC
     printf("%p allocated %zu bytes for %d\n", (void *)object, size, type);
 #endif

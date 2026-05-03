@@ -23,7 +23,7 @@
 
 #include <string.h>
 
-#include "../common.h"
+#include "common.h"
 
 /// Defines object_t as a new type (specified in object.h)
 typedef struct object_t object_t;
@@ -169,5 +169,9 @@ bool value_values_equal(value_t a, value_t b);
 /// @param value The value where the type is determined
 /// @return A character sequence that represents the type
 char const * value_stringify_type(value_t value);
+
+/// @brief Native function signature
+/// @details A function pointer type for all native (C-implemented) functions callable from Cellox.
+typedef value_t (*native_function_t)(uint32_t argCount, value_t const * args);
 
 #endif // NAN_BOXING

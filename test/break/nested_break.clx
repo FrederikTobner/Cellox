@@ -1,0 +1,12 @@
+var outer = 0;
+while (outer < 3) {
+    var inner = 0;
+    while (inner < 3) {
+        if (inner == 1) {
+            break;
+        }
+        printf("{},{}\n", outer, inner);
+        inner += 1;
+    }
+    outer += 1;
+}

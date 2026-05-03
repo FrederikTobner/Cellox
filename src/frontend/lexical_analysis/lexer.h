@@ -22,7 +22,7 @@
 #ifndef CELLOX_LEXER_H_
 #define CELLOX_LEXER_H_
 
-#include "../common.h"
+#include "common.h"
 
 /// @brief Tokens of the language
 typedef enum {
@@ -38,6 +38,10 @@ typedef enum {
     TOKEN_CLASS,
     /// ,
     TOKEN_COMMA,
+    /// break
+    TOKEN_BREAK,
+    /// continue
+    TOKEN_CONTINUE,
     /// do
     TOKEN_DO,
     /// &sdot;

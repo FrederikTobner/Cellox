@@ -27,7 +27,7 @@
 
 #include "cellox_config.h"
 
-#include "../language-models/object.h"
+#include "language-models/object.h"
 
 /// @brief Chunk segment prefixes
 enum chunk_segment_prefix {

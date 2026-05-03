@@ -21,9 +21,8 @@
 #ifndef CELLOX_OBJECT_H_
 #define CELLOX_OBJECT_H_
 
-#include "../backend/native_functions.h"
-#include "../byte-code/chunk.h"
-#include "../common.h"
+#include "byte-code/chunk.h"
+#include "common.h"
 #include "./data-structures/value_hash_table.h"
 #include "value.h"
 
@@ -262,6 +261,17 @@ void object_print(value_t value);
 /// @param object The object that is used
 /// @return A character pointer that represents the type
 char const * object_stringify_type(object_t * object);
+
+/// @brief Registers the VM string intern table.
+/// @details Called once from virtual_machine_init so that object_copy_string and
+/// object_take_string can intern strings without depending on the VM header.
+void object_set_vm_string_table(value_hash_table_t * table);
+
+/// @brief Registers the VM objects list head pointer.
+void object_set_vm_objects(object_t ** objects);
+
+/// @brief Registers GC guard hooks (push/pop) so object allocation can protect new strings from GC.
+void object_set_gc_guard_hooks(void (*push_fn)(value_t), value_t (*pop_fn)(void));
 
 /// @brief Determines whether a value is of a given type
 /// @param value The value that is checked

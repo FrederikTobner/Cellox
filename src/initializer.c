@@ -25,13 +25,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "backend/garbage_collector.h"
 #include "backend/virtual_machine.h"
 #include "byte-code/chunk.h"
 #include "byte-code/chunk_disassembler.h"
 #include "byte-code/chunk_file.h"
 #include "cellox_config.h"
 #include "common.h"
-#include "frontend/compiler.h"
+#include "frontend/compilation/compiler.h"
 #include "module_loader.h"
 
 /// Maximum length of a line is 1024 characters
@@ -48,6 +49,8 @@
 static void initializer_io_error(char const *, ...);
 
 void initializer_run_as_repl(void) {
+    virtual_machine_set_compile_fn(compiler_compile);
+    garbage_collector_set_mark_roots_hook(compiler_mark_roots);
     virtual_machine_init();
     // Used to store the next line that is read from input
     char line[MAX_LINE_LENGTH];
@@ -78,6 +81,8 @@ void initializer_run_from_file(char const * path, bool compile) {
         if (!source) {
             return;
         }
+        virtual_machine_set_compile_fn(compiler_compile);
+        garbage_collector_set_mark_roots_hook(compiler_mark_roots);
         virtual_machine_init();
         if (compile) {
             result = INTERPRET_COMPILE_ERROR;

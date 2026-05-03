@@ -21,7 +21,7 @@
 #ifndef CELLOX_CHUNK_OPTIMIZER_H_
 #define CELLOX_CHUNK_OPTIMIZER_H_
 
-#include "../byte-code/chunk.h"
+#include "byte-code/chunk.h"
 
 /// @brief Optimizes the chunk by using different compiler optimization techniques
 /// @param chunk The chunk that is optimized

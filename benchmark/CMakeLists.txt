@@ -41,13 +41,9 @@ if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     add_compile_definitions(BUILD_DEBUG)
 endif()
 
-add_executable(${LANGUAGE_BENCHMARKS} 
-${CELLOX_SOURCE_FILES} ${CELLOX_HEADER_FILES} 
-${BENCHMARK_SOURCE_FILES} ${BENCHMARK_HEADER_FILES})
-
-# Includes Libmath under unix-like operating systems
-if(UNIX)
-    target_link_libraries(${LANGUAGE_BENCHMARKS} m)
-endif()
-
-target_include_directories(${LANGUAGE_BENCHMARKS} PUBLIC ${PROJECT_BINARY_DIR}/src)
+cellox_add_executable(${LANGUAGE_BENCHMARKS}
+    SOURCES
+        ${BENCHMARK_SOURCE_FILES}
+    DEPENDENCIES
+        cellox_all
+)

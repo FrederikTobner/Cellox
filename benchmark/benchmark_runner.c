@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 #endif
 
-#include "../src/initializer.h"
+#include "initializer.h"
 
 #include "common.h"
 
