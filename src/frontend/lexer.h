@@ -38,6 +38,10 @@ typedef enum {
     TOKEN_CLASS,
     /// ,
     TOKEN_COMMA,
+    /// break
+    TOKEN_BREAK,
+    /// continue
+    TOKEN_CONTINUE,
     /// do
     TOKEN_DO,
     /// &sdot;

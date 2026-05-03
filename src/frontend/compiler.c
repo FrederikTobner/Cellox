@@ -159,6 +159,31 @@ compiler_t * current = NULL;
 /// @details Used to model inheritance for a cellox class
 class_compiler_t * currentClass = NULL;
 
+/// @brief Maximum number of pending break/continue jump offsets within a single loop
+#define LOOP_MAX_PENDING_JUMPS 256
+
+/// @brief Tracks the context of the innermost loop being compiled
+/// @details Chained via the enclosing pointer for nested loops
+typedef struct loop_context_t {
+    /// The enclosing loop context (NULL at the outermost loop)
+    struct loop_context_t * enclosing;
+    /// Backward jump target for continue (offset known at loop start); -1 for do-while (forward patches)
+    int32_t continueTarget;
+    /// Pending forward jump offsets for continue (do-while only)
+    int32_t continueJumps[LOOP_MAX_PENDING_JUMPS];
+    /// Number of pending continue jumps
+    int32_t continueJumpCount;
+    /// Pending forward jump offsets for break
+    int32_t breakJumps[LOOP_MAX_PENDING_JUMPS];
+    /// Number of pending break jumps
+    int32_t breakJumpCount;
+    /// Compiler local count at the time the loop was entered (for stack cleanup on break/continue)
+    int32_t localCountAtLoop;
+} loop_context_t;
+
+/// @brief Global loop context variable
+loop_context_t * currentLoop = NULL;
+
 static void compiler_add_local(token_t);
 static uint32_t compiler_add_upvalue(compiler_t *, uint8_t, bool);
 static void compiler_advance(void);
@@ -168,10 +193,12 @@ static void compiler_begin_scope(void);
 static void compiler_binary(bool);
 static inline void compiler_binary_number(bool);
 static void compiler_block(void);
+static void compiler_break_statement(void);
 static inline void compiler_call(bool);
 static inline bool compiler_check(tokentype);
 static void compiler_class_declaration();
 static void compiler_consume(tokentype, char const *);
+static void compiler_continue_statement(void);
 static inline chunk_t * compiler_current_chunk(void);
 static void compiler_declaration(void);
 static void compiler_declare_variable(void);
@@ -238,6 +265,8 @@ static parse_rule_t rules[] = {
     [TOKEN_BINARY_NUMBER] = {.prefix = compiler_binary_number, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_CLASS] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_COMMA] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_BREAK] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_CONTINUE] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_DO] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_DOT] = {.prefix = NULL, .infix = compiler_dot, .precedence = PREC_CALL},
     [TOKEN_EOF] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
@@ -594,9 +623,72 @@ static void compiler_define_variable(uint8_t global) {
 /// if condition is not met -> jump to end
 /// Jump to start
 /// end:
+
+/// @brief Emits OP_POP / OP_CLOSE_UPVALUE instructions to clean up locals that were declared inside the loop body
+/// @details Does not update the compiler's localCount - the surrounding scopes handle their own cleanup.
+static void compiler_emit_loop_cleanup_pops(void) {
+    for (int32_t i = current->localCount - 1; i >= currentLoop->localCountAtLoop; i--) {
+        if (current->locals[i].isCaptured) {
+            compiler_emit_byte(OP_CLOSE_UPVALUE);
+        } else {
+            compiler_emit_byte(OP_POP);
+        }
+    }
+}
+
+/// @brief Compiles a break statement
+static void compiler_break_statement(void) {
+    if (!currentLoop) {
+        compiler_error("Can't use 'break' outside of a loop.");
+        return;
+    }
+    compiler_consume(TOKEN_SEMICOLON, "Expect ';' after 'break'.");
+    if (currentLoop->breakJumpCount == LOOP_MAX_PENDING_JUMPS) {
+        compiler_error("Too many 'break' statements in a single loop.");
+        return;
+    }
+    compiler_emit_loop_cleanup_pops();
+    currentLoop->breakJumps[currentLoop->breakJumpCount++] = compiler_emit_jump(OP_JUMP);
+}
+
+/// @brief Compiles a continue statement
+static void compiler_continue_statement(void) {
+    if (!currentLoop) {
+        compiler_error("Can't use 'continue' outside of a loop.");
+        return;
+    }
+    compiler_consume(TOKEN_SEMICOLON, "Expect ';' after 'continue'.");
+    compiler_emit_loop_cleanup_pops();
+    if (currentLoop->continueTarget >= 0) {
+        // while / for: target is already known - emit backward loop instruction
+        compiler_emit_loop(currentLoop->continueTarget);
+    } else {
+        // do-while: condition comes after the body, patch later
+        if (currentLoop->continueJumpCount == LOOP_MAX_PENDING_JUMPS) {
+            compiler_error("Too many 'continue' statements in a single loop.");
+            return;
+        }
+        currentLoop->continueJumps[currentLoop->continueJumpCount++] = compiler_emit_jump(OP_JUMP);
+    }
+}
+
 static void compiler_do_while_statement(void) {
+    loop_context_t loopContext;
+    loopContext.enclosing = currentLoop;
+    loopContext.continueTarget = -1; // forward patches - condition is after the body
+    loopContext.continueJumpCount = 0;
+    loopContext.breakJumpCount = 0;
+    loopContext.localCountAtLoop = current->localCount;
+    currentLoop = &loopContext;
+
     int32_t loopStart = compiler_current_chunk()->byteCodeCount;
     compiler_statement();
+
+    // Patch continue jumps to here - just before the condition
+    for (int32_t i = 0; i < loopContext.continueJumpCount; i++) {
+        compiler_patch_jump(loopContext.continueJumps[i]);
+    }
+
     compiler_consume(TOKEN_WHILE, "Expect 'while' after 'do'.");
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
     // Compiles condition
@@ -608,6 +700,12 @@ static void compiler_do_while_statement(void) {
     compiler_patch_jump(exitJump);
     compiler_emit_byte(OP_POP);
     compiler_consume(TOKEN_SEMICOLON, "Expect ';' after 'while'.");
+
+    // Patch break jumps to here (after the loop)
+    for (int32_t i = 0; i < loopContext.breakJumpCount; i++) {
+        compiler_patch_jump(loopContext.breakJumps[i]);
+    }
+    currentLoop = loopContext.enclosing;
 }
 
 /// @brief Compiles a dot statement
@@ -827,6 +925,15 @@ static void compiler_for_statement(void) {
         compiler_emit_byte(OP_POP); // Condition.
     }
 
+    // Set up loop context: continue target starts at loopStart (condition), updated if increment exists
+    loop_context_t loopContext;
+    loopContext.enclosing = currentLoop;
+    loopContext.continueTarget = loopStart;
+    loopContext.continueJumpCount = 0;
+    loopContext.breakJumpCount = 0;
+    loopContext.localCountAtLoop = current->localCount;
+    currentLoop = &loopContext;
+
     // Compiling the increment clause
     if (!compiler_match_token(TOKEN_RIGHT_PAREN)) {
         int32_t bodyJump = compiler_emit_jump(OP_JUMP);
@@ -836,6 +943,8 @@ static void compiler_for_statement(void) {
         compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after for clauses.");
         compiler_emit_loop(loopStart);
         loopStart = incrementStart;
+        // continue should jump to the increment
+        loopContext.continueTarget = incrementStart;
         compiler_patch_jump(bodyJump);
     }
 
@@ -846,6 +955,12 @@ static void compiler_for_statement(void) {
         compiler_patch_jump(exitJump);
         compiler_emit_byte(OP_POP); // Condition.
     }
+
+    // Patch break jumps to here (after the loop)
+    for (int32_t i = 0; i < loopContext.breakJumpCount; i++) {
+        compiler_patch_jump(loopContext.breakJumps[i]);
+    }
+    currentLoop = loopContext.enclosing;
 
     compiler_end_scope();
 }
@@ -939,6 +1054,7 @@ static void compiler_if_statement(void) {
     compiler_consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
     // Offset to the instruction that corresponds to the body of the then block
     int32_t thenJump = compiler_emit_jump(OP_JUMP_IF_FALSE);
+    compiler_emit_byte(OP_POP); // pop condition when true
     compiler_statement();
     // Offset to the instruction that corresponds to the body of the else block
     int32_t elseJump = compiler_emit_jump(OP_JUMP);
@@ -1262,6 +1378,10 @@ static void compiler_statement(void) {
         compiler_if_statement();
     } else if (compiler_match_token(TOKEN_RETURN)) {
         compiler_return_statement();
+    } else if (compiler_match_token(TOKEN_BREAK)) {
+        compiler_break_statement();
+    } else if (compiler_match_token(TOKEN_CONTINUE)) {
+        compiler_continue_statement();
     } else if (compiler_match_token(TOKEN_WHILE)) {
         compiler_while_statement();
     } else if (compiler_match_token(TOKEN_DO)) {
@@ -1332,6 +1452,8 @@ static void compiler_synchronize(void) {
         case TOKEN_IF:
         case TOKEN_WHILE:
         case TOKEN_RETURN:
+        case TOKEN_BREAK:
+        case TOKEN_CONTINUE:
             return;
 
         default:
@@ -1412,6 +1534,15 @@ static inline void compiler_variable(bool canAssign) {
 /// end:
 static void compiler_while_statement(void) {
     int32_t loopStart = compiler_current_chunk()->byteCodeCount;
+
+    loop_context_t loopContext;
+    loopContext.enclosing = currentLoop;
+    loopContext.continueTarget = loopStart; // continue jumps back to condition
+    loopContext.continueJumpCount = 0;
+    loopContext.breakJumpCount = 0;
+    loopContext.localCountAtLoop = current->localCount;
+    currentLoop = &loopContext;
+
     compiler_consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
     // Compiles condition
     compiler_expression();
@@ -1422,4 +1553,10 @@ static void compiler_while_statement(void) {
     compiler_emit_loop(loopStart);
     compiler_patch_jump(exitJump);
     compiler_emit_byte(OP_POP);
+
+    // Patch break jumps to here (after the loop)
+    for (int32_t i = 0; i < loopContext.breakJumpCount; i++) {
+        compiler_patch_jump(loopContext.breakJumps[i]);
+    }
+    currentLoop = loopContext.enclosing;
 }

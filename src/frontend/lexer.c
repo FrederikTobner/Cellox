@@ -183,7 +183,18 @@ static tokentype lexer_identifier_type(void) {
         return lexer_check_keyword(start, length, rest, token);
     switch (lexer.start[0]) {
         CASE_KEYWORD('a', 1, 2, "nd", TOKEN_AND);
-        CASE_KEYWORD('c', 1, 4, "lass", TOKEN_CLASS);
+    case 'b':
+        return lexer_check_keyword(1, 4, "reak", TOKEN_BREAK);
+    case 'c':
+        if (lexer.current - lexer.start > 1) {
+            switch (lexer.start[1]) {
+            case 'l':
+                return lexer_check_keyword(2, 3, "ass", TOKEN_CLASS);
+            case 'o':
+                return lexer_check_keyword(2, 6, "ntinue", TOKEN_CONTINUE);
+            }
+        }
+        break;
         CASE_KEYWORD('d', 1, 1, "o", TOKEN_DO);
         CASE_KEYWORD('e', 1, 3, "lse", TOKEN_ELSE);
     case 'f':
