@@ -5,7 +5,11 @@
 #include <cstring>
 #include <string>
 
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <unistd.h>
+#endif
 
 extern "C" {
 #include "backend/virtual_machine.h"
@@ -20,7 +24,19 @@ static std::string derive_chunk_path(std::string path) {
     return path;
 }
 
-static std::string make_temp_program_path() {
+static std::string make_temp_base_path() {
+#ifdef _WIN32
+    char tempDirectory[MAX_PATH];
+    DWORD directoryLength = GetTempPathA(MAX_PATH, tempDirectory);
+    EXPECT_GT(directoryLength, 0u);
+    EXPECT_LT(directoryLength, MAX_PATH);
+
+    char tempFile[MAX_PATH];
+    UINT result = GetTempFileNameA(tempDirectory, "clx", 0, tempFile);
+    EXPECT_NE(0u, result);
+    std::remove(tempFile);
+    return std::string(tempFile);
+#else
     char pathTemplate[] = "/tmp/cellox_bytecode_XXXXXX";
     int fd = mkstemp(pathTemplate);
     EXPECT_NE(-1, fd);
@@ -28,7 +44,17 @@ static std::string make_temp_program_path() {
         close(fd);
         std::remove(pathTemplate);
     }
-    return std::string(pathTemplate) + ".clx";
+    return std::string(pathTemplate);
+#endif
+}
+
+static std::string make_temp_program_path() {
+    return make_temp_base_path() + ".clx";
+}
+
+static std::string make_temp_chunk_path() {
+    std::string path = make_temp_base_path() + ".cxcf";
+    return path;
 }
 
 TEST(BytecodeSerialization, RoundTripNestedClosureExecutes) {
@@ -114,5 +140,82 @@ TEST(BytecodeSerialization, RoundTripPreservesCodeAndLineInfo) {
     virtual_machine_free();
 
     std::remove(programPath.c_str());
+    std::remove(chunkPath.c_str());
+}
+
+TEST(BytecodeSerialization, RoundTripPreservesNegativeAndSpecialNumbers) {
+    const char * source =
+        "printf(\"{}\\n\", -1.5);\n"
+        "printf(\"{}\\n\", 0.125);\n"
+        "printf(\"{}\\n\", 1000000000.25);\n";
+
+    std::string programPath = make_temp_program_path();
+    std::string chunkPath = derive_chunk_path(programPath);
+
+    virtual_machine_init();
+    object_function_t * function = compiler_compile(source);
+    ASSERT_NE(nullptr, function);
+
+    ASSERT_EQ(0, chunk_file_store(function->chunk, programPath.c_str(), static_cast<chunk_file_compile_flag>(0)));
+
+    chunk_t * loaded = chunk_file_load(chunkPath.c_str());
+    ASSERT_NE(nullptr, loaded);
+
+    testing::internal::CaptureStdout();
+    interpret_result result = virtual_machine_run_chunk(*loaded);
+    std::string output = testing::internal::GetCapturedStdout();
+
+    EXPECT_EQ(INTERPRET_OK, result);
+    EXPECT_EQ("-1.5\n0.125\n1e+09\n", output);
+
+    free(loaded);
+    virtual_machine_free();
+
+    std::remove(programPath.c_str());
+    std::remove(chunkPath.c_str());
+}
+
+TEST(BytecodeSerialization, RejectsUnsupportedChunkVersion) {
+    std::string chunkPath = make_temp_chunk_path();
+
+    FILE * file = std::fopen(chunkPath.c_str(), "wb");
+    ASSERT_NE(nullptr, file);
+    std::fputc(0, file);
+    std::fputc(255, file);
+    std::fputc(0, file);
+    std::fclose(file);
+
+    testing::internal::CaptureStderr();
+    chunk_t * loaded = chunk_file_load(chunkPath.c_str());
+    std::string errorOutput = testing::internal::GetCapturedStderr();
+
+    EXPECT_EQ(nullptr, loaded);
+    EXPECT_NE(std::string::npos, errorOutput.find("Unsupported chunk file version"));
+
+    std::remove(chunkPath.c_str());
+}
+
+TEST(BytecodeSerialization, RejectsTruncatedChunkFile) {
+    std::string chunkPath = make_temp_chunk_path();
+
+    FILE * file = std::fopen(chunkPath.c_str(), "wb");
+    ASSERT_NE(nullptr, file);
+    std::fputc(0, file);
+    std::fputc(0, file);
+    std::fputc(1, file);
+    std::fputc(0, file);
+    std::fputc(0, file);
+    std::fputc(0, file);
+    std::fputc(2, file);
+    std::fputc(0, file);
+    std::fclose(file);
+
+    testing::internal::CaptureStderr();
+    chunk_t * loaded = chunk_file_load(chunkPath.c_str());
+    std::string errorOutput = testing::internal::GetCapturedStderr();
+
+    EXPECT_EQ(nullptr, loaded);
+    EXPECT_NE(std::string::npos, errorOutput.find("Chunk file is incomplete"));
+
     std::remove(chunkPath.c_str());
 }

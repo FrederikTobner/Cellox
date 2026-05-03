@@ -6,7 +6,11 @@
 #include <sstream>
 #include <string>
 
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <unistd.h>
+#endif
 
 extern "C" {
 #include "backend/virtual_machine.h"
@@ -19,7 +23,19 @@ static std::string fuzz_derive_chunk_path(std::string path) {
     return path;
 }
 
-static std::string fuzz_make_temp_program_path() {
+static std::string fuzz_make_temp_base_path() {
+#ifdef _WIN32
+    char tempDirectory[MAX_PATH];
+    DWORD directoryLength = GetTempPathA(MAX_PATH, tempDirectory);
+    EXPECT_GT(directoryLength, 0u);
+    EXPECT_LT(directoryLength, MAX_PATH);
+
+    char tempFile[MAX_PATH];
+    UINT result = GetTempFileNameA(tempDirectory, "clx", 0, tempFile);
+    EXPECT_NE(0u, result);
+    std::remove(tempFile);
+    return std::string(tempFile);
+#else
     char pathTemplate[] = "/tmp/cellox_fuzz_bytecode_XXXXXX";
     int fd = mkstemp(pathTemplate);
     EXPECT_NE(-1, fd);
@@ -27,7 +43,12 @@ static std::string fuzz_make_temp_program_path() {
         close(fd);
         std::remove(pathTemplate);
     }
-    return std::string(pathTemplate) + ".clx";
+    return std::string(pathTemplate);
+#endif
+}
+
+static std::string fuzz_make_temp_program_path() {
+    return fuzz_make_temp_base_path() + ".clx";
 }
 
 TEST(PropertyFuzzIntegration, RandomNestedClosureRoundTrip) {

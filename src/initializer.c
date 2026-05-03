@@ -99,7 +99,13 @@ void initializer_run_from_file(char const * path, bool compile) {
             initializer_io_error("Can not compile a chunk file");
         }
         virtual_machine_init();
-        result = virtual_machine_run_chunk(*chunk_file_load(path));
+        chunk_t * loadedChunk = chunk_file_load(path);
+        if (!loadedChunk) {
+            result = INTERPRET_COMPILE_ERROR;
+        } else {
+            result = virtual_machine_run_chunk(*loadedChunk);
+            free(loadedChunk);
+        }
     } else {
         initializer_io_error("File type not supported");
         return;
