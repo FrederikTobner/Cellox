@@ -15,20 +15,22 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Setup Ninja
-      uses: ashutoshvarma/setup-ninja@master
-      with:
-        version: 1.10.2
-
-    - name: Setup MSVC under Windows
-      if: runner.os == 'Windows'
-      uses: ilammy/msvc-dev-cmd@v1
+    - name: Setup CI toolchain
+      uses: ./.github/actions/setup-ci-toolchain
 
     - name: Configure CMake        
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja -DCLX_BUILD_TESTS=ON
+      uses: ./.github/actions/cmake-configure
+      with:
+        build-dir: ${{github.workspace}}/build
+        build-type: ${{env.BUILD_TYPE}}
+        options: -DCLX_BUILD_TESTS=ON
 
     - name: Build tests
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
+      uses: ./.github/actions/cmake-build
+      with:
+        build-dir: ${{github.workspace}}/build
+        build-type: ${{env.BUILD_TYPE}}
+        targets: CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
 
     - name: Run unit tests
       working-directory: ${{github.workspace}}/build
@@ -54,28 +56,29 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install toolchain
-      run: |
-        sudo apt-get update
-        sudo apt-get -y install \
-          clang \
-          cmake \
-          ninja-build \
-          ${NULL+}
+      uses: ./.github/actions/setup-ci-toolchain
+      with:
+        linux-packages: clang cmake ninja-build
 
     - name: Configure CMake with sanitizers
-      run: >
-        cmake -B ${{github.workspace}}/build
-        -G Ninja
-        -DCLX_BUILD_TESTS=ON
-        -DCLX_BUILD_TOOLS=OFF
-        -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-        -DCMAKE_C_COMPILER=clang
-        -DCMAKE_CXX_COMPILER=clang++
-        -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
-        -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
+      uses: ./.github/actions/cmake-configure
+      with:
+        build-dir: ${{github.workspace}}/build
+        build-type: ${{env.BUILD_TYPE}}
+        options: >
+          -DCLX_BUILD_TESTS=ON
+          -DCLX_BUILD_TOOLS=OFF
+          -DCMAKE_C_COMPILER=clang
+          -DCMAKE_CXX_COMPILER=clang++
+          -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
+          -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
 
     - name: Build tests
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
+      uses: ./.github/actions/cmake-build
+      with:
+        build-dir: ${{github.workspace}}/build
+        build-type: ${{env.BUILD_TYPE}}
+        targets: CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
 
     - name: Run tests under sanitizers
       working-directory: ${{github.workspace}}/build
@@ -95,32 +98,31 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install coverage toolchain
-      run: |
-        sudo apt-get update
-        sudo apt-get -y install \
-          gcc \
-          g++ \
-          lcov \
-          cmake \
-          ninja-build \
-          ${NULL+}
+      uses: ./.github/actions/setup-ci-toolchain
+      with:
+        linux-packages: gcc g++ lcov cmake ninja-build
 
     - name: Configure CMake with coverage flags
-      run: >
-        cmake -B ${{github.workspace}}/build
-        -G Ninja
-        -DCLX_BUILD_TESTS=ON
-        -DCLX_BUILD_TOOLS=OFF
-        -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-        -DCMAKE_C_COMPILER=gcc
-        -DCMAKE_CXX_COMPILER=g++
-        -DCMAKE_C_FLAGS="--coverage -O0 -g"
-        -DCMAKE_CXX_FLAGS="--coverage -O0 -g"
-        -DCMAKE_EXE_LINKER_FLAGS="--coverage"
-        -DCMAKE_SHARED_LINKER_FLAGS="--coverage"
+      uses: ./.github/actions/cmake-configure
+      with:
+        build-dir: ${{github.workspace}}/build
+        build-type: ${{env.BUILD_TYPE}}
+        options: >
+          -DCLX_BUILD_TESTS=ON
+          -DCLX_BUILD_TOOLS=OFF
+          -DCMAKE_C_COMPILER=gcc
+          -DCMAKE_CXX_COMPILER=g++
+          -DCMAKE_C_FLAGS="--coverage -O0 -g"
+          -DCMAKE_CXX_FLAGS="--coverage -O0 -g"
+          -DCMAKE_EXE_LINKER_FLAGS="--coverage"
+          -DCMAKE_SHARED_LINKER_FLAGS="--coverage"
 
     - name: Build tests
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
+      uses: ./.github/actions/cmake-build
+      with:
+        build-dir: ${{github.workspace}}/build
+        build-type: ${{env.BUILD_TYPE}}
+        targets: CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
 
     - name: Run tests for coverage
       working-directory: ${{github.workspace}}/build

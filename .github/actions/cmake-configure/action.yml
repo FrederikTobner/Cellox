@@ -1,0 +1,29 @@
+name: Configure CMake
+description: Runs CMake configure with a common set of options.
+inputs:
+  build-dir:
+    description: Build directory path.
+    required: false
+    default: build
+  build-type:
+    description: CMake build type.
+    required: false
+    default: Debug
+  generator:
+    description: CMake generator.
+    required: false
+    default: Ninja
+  options:
+    description: Additional raw options passed to CMake configure.
+    required: false
+    default: ""
+runs:
+  using: composite
+  steps:
+    - name: Configure
+      shell: bash
+      run: |
+        cmake -B "${{ inputs.build-dir }}" \
+          -DCMAKE_BUILD_TYPE="${{ inputs.build-type }}" \
+          -G "${{ inputs.generator }}" \
+          ${{ inputs.options }}
