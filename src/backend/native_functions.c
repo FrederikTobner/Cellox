@@ -20,6 +20,7 @@
 
 #include <ctype.h>
 #include <math.h>
+#include <limits.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -128,6 +129,7 @@ native_function_config_t native_function_configs[] = {
         {
             .functionName = "printf",
             .function = native_functions_print_formated,
+            .arrity = SIZE_MAX,
         },
     [NATIVE_FUNCTION_RANDOM] = {.functionName = "random", .function = native_functions_random},
     [NATIVE_FUNCTION_READ_FILE] = {.functionName = "read_file", .function = native_functions_read_file, .arrity = 1},
@@ -153,9 +155,11 @@ native_function_config_t native_function_configs[] = {
 static void native_functions_arguments_error(char const * format, ...);
 static void native_functions_assert_arrity(uint8_t, uint32_t);
 static value_t native_functions_io_error_result(char const * variantName);
+static value_t native_functions_stdlib_error_result(char const * variantName);
 static size_t native_functions_value_size(value_t value);
 
 static object_error_set_t * nativeIoErrorSet = NULL;
+static object_error_set_t * nativeStdlibErrorSet = NULL;
 
 native_function_config_t * native_functions_get_function_configs(void) {
     return native_function_configs;
@@ -170,6 +174,13 @@ void native_functions_set_io_error_set(value_t ioErrorSet) {
         return;
     }
     nativeIoErrorSet = AS_ERROR_SET(ioErrorSet);
+}
+
+void native_functions_set_stdlib_error_set(value_t stdlibErrorSet) {
+    if (!IS_ERROR_SET(stdlibErrorSet)) {
+        return;
+    }
+    nativeStdlibErrorSet = AS_ERROR_SET(stdlibErrorSet);
 }
 
 value_t native_functions_append_to_file(uint32_t argCount, value_t const * args) {
@@ -194,9 +205,7 @@ value_t native_functions_append_to_file(uint32_t argCount, value_t const * args)
 value_t native_functions_array_length(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_ARRAY_LENGTH, argCount);
     if (!IS_ARRAY(*args)) {
-        native_functions_arguments_error(
-            "array_length can only be called with an array as argument but was called with %s",
-            value_stringify_type(*args));
+        return native_functions_stdlib_error_result("TypeError");
     }
     return NUMBER_VAL(AS_ARRAY(*args)->array.count);
 }
@@ -204,13 +213,11 @@ value_t native_functions_array_length(uint32_t argCount, value_t const * args) {
 value_t native_functions_asci_to_numerical(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_ASCI_TO_NUMERICAL, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error(
-            "asci_to_num can only be called with a string as argument but was called with %s",
-            value_stringify_type(*args));
+        return native_functions_stdlib_error_result("TypeError");
     }
     object_string_t * character = AS_STRING(*args);
     if (character->length != 1) {
-        native_functions_arguments_error("Can only determine the ssci value of a single character");
+        return native_functions_stdlib_error_result("InvalidArgument");
     }
     return NUMBER_VAL(character->chars[0]);
 }
@@ -218,7 +225,7 @@ value_t native_functions_asci_to_numerical(uint32_t argCount, value_t const * ar
 value_t native_functions_classof(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_CLASS_OF, argCount);
     if (!IS_INSTANCE(*args)) {
-        native_functions_arguments_error("class_of can only be called with an instance as argument");
+        return native_functions_stdlib_error_result("TypeError");
     }
     return OBJECT_VAL(AS_INSTANCE(*args)->celloxClass);
 }
@@ -231,15 +238,15 @@ value_t native_functions_clock(uint32_t argCount, value_t const * args) {
 value_t native_functions_cosine(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_COSINE, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error("logarithm10 can only be called with a number as argument");
+        return native_functions_stdlib_error_result("TypeError");
     }
-    return NUMBER_VAL(sin(AS_NUMBER(*args)));
+    return NUMBER_VAL(cos(AS_NUMBER(*args)));
 }
 
 value_t native_functions_exit(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_EXIT, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error("exit can only be called with a number as argument");
+        return native_functions_stdlib_error_result("TypeError");
     }
     int exitCode = AS_NUMBER(*args);
     virtual_machine_free();
@@ -249,7 +256,7 @@ value_t native_functions_exit(uint32_t argCount, value_t const * args) {
 value_t native_functions_exponential(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_EXPONENTIAL, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error("logarithm can only be called with a number as argument");
+        return native_functions_stdlib_error_result("TypeError");
     }
     return NUMBER_VAL(exp(AS_NUMBER(*args)));
 }
@@ -257,7 +264,10 @@ value_t native_functions_exponential(uint32_t argCount, value_t const * args) {
 value_t native_functions_logarithm(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_LOG, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error("logarithm can only be called with a number as argument");
+        return native_functions_stdlib_error_result("TypeError");
+    }
+    if (AS_NUMBER(*args) <= 0) {
+        return native_functions_stdlib_error_result("DomainError");
     }
     return NUMBER_VAL(log(AS_NUMBER(*args)));
 }
@@ -265,7 +275,10 @@ value_t native_functions_logarithm(uint32_t argCount, value_t const * args) {
 value_t native_functions_logarithm10(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_LOG10, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error("logarithm10 can only be called with a number as argument");
+        return native_functions_stdlib_error_result("TypeError");
+    }
+    if (AS_NUMBER(*args) <= 0) {
+        return native_functions_stdlib_error_result("DomainError");
     }
     return NUMBER_VAL(log10(AS_NUMBER(*args)));
 }
@@ -273,13 +286,11 @@ value_t native_functions_logarithm10(uint32_t argCount, value_t const * args) {
 value_t native_functions_numerical_to_asci(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_ASCI_TO_NUMERICAL, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error(
-            "asci_to_num can only be called with a string as argument but was called with %s",
-            value_stringify_type(*args));
+        return native_functions_stdlib_error_result("TypeError");
     }
     int number = AS_NUMBER(*args);
     if (number < 0 || number > 255) {
-        native_functions_arguments_error("Can not convert number %d to asci value", number);
+        return native_functions_stdlib_error_result("DomainError");
     }
     char numberAsChar = (char)number;
     return OBJECT_VAL(object_copy_string(&numberAsChar, 1, false));
@@ -314,9 +325,12 @@ value_t native_functions_on_windows(uint32_t argCount, value_t const * args) {
 
 value_t native_functions_print_formated(uint32_t argCount, value_t const * args) {
     // No arrity is asserted because printf is variadic
+    if (argCount == 0) {
+        return native_functions_stdlib_error_result("InvalidArgument");
+    }
     if (!IS_STRING(*args)) {
         if (argCount > 1) {
-            native_functions_arguments_error("printf can only be called with a string as first argument");
+            return native_functions_stdlib_error_result("TypeError");
         }
         value_print(*args);
         return NULL_VAL;
@@ -328,7 +342,7 @@ value_t native_functions_print_formated(uint32_t argCount, value_t const * args)
             i++;
             if (string->chars[i] == '}') {
                 if (placeHolderCounter > argCount) {
-                    native_functions_arguments_error("Can not automatically infer value");
+                    return native_functions_stdlib_error_result("FormatError");
                 }
                 value_print(*(args + placeHolderCounter));
 
@@ -338,14 +352,14 @@ value_t native_functions_print_formated(uint32_t argCount, value_t const * args)
                     i++;
                 }
                 if (string->chars[i] != '}') {
-                    native_functions_arguments_error("Expect '}' in format specifier");
+                    return native_functions_stdlib_error_result("FormatError");
                 }
                 if (specifiedIndex >= argCount - 1) {
-                    native_functions_arguments_error("Index value in placeholder to high - %d", specifiedIndex);
+                    return native_functions_stdlib_error_result("FormatError");
                 }
                 value_print(*(args + specifiedIndex + 1));
             } else {
-                native_functions_arguments_error("Expect '}' or number in format specifier");
+                return native_functions_stdlib_error_result("FormatError");
             }
             placeHolderCounter++;
         } else {
@@ -399,22 +413,29 @@ value_t native_functions_read_file(uint32_t argCount, value_t const * args) {
 value_t native_functions_read_key(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_READ_KEY, argCount);
     char character = getchar();
-    object_string_t result;
+    if (character == EOF) {
+        return native_functions_stdlib_error_result("ReadFailed");
+    }
     return OBJECT_VAL(object_copy_string(&character, 1, false));
 }
 
 value_t native_functions_read_line(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_READ_LINE, argCount);
     char line[MAX_READ_LINE_INPUT];
-    object_string_t result;
-    fgets(line, sizeof(line), stdin);
-    return OBJECT_VAL(object_copy_string(line, strlen(line) - 1, false));
+    if (!fgets(line, sizeof(line), stdin)) {
+        return native_functions_stdlib_error_result("ReadFailed");
+    }
+    size_t len = strlen(line);
+    if (len > 0 && line[len - 1] == '\n') {
+        len--;
+    }
+    return OBJECT_VAL(object_copy_string(line, (uint32_t)len, false));
 }
 
 value_t native_functions_sine(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_SINE, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error("logarithm10 can only be called with a number as argument");
+        return native_functions_stdlib_error_result("TypeError");
     }
     return NUMBER_VAL(sin(AS_NUMBER(*args)));
 }
@@ -427,8 +448,7 @@ value_t native_functions_size_of(uint32_t argCount, value_t const * args) {
 value_t native_functions_string_hash(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_STRLEN, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error("strlen can only be called with a string as argument but was called with %s",
-                                         value_stringify_type(*args));
+        return native_functions_stdlib_error_result("TypeError");
     }
     return NUMBER_VAL(AS_STRING(*args)->hash);
 }
@@ -436,8 +456,7 @@ value_t native_functions_string_hash(uint32_t argCount, value_t const * args) {
 value_t native_functions_string_length(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_STRLEN, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error("strlen can only be called with a string as argument but was called with %s",
-                                         value_stringify_type(*args));
+        return native_functions_stdlib_error_result("TypeError");
     }
     return NUMBER_VAL(strlen(AS_CSTRING(*args)));
 }
@@ -445,30 +464,23 @@ value_t native_functions_string_length(uint32_t argCount, value_t const * args) 
 value_t native_functions_string_replace_at(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_STRING_REPLACE_AT, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error(
-            "string_replace_at can only be called with a string as first argument but was called with %s",
-            value_stringify_type(*args));
+        return native_functions_stdlib_error_result("TypeError");
     }
     if (!IS_NUMBER(*(args + 1))) {
-        native_functions_arguments_error(
-            "string_replace_at can only be called with a number as second argument but was called with %s",
-            value_stringify_type(*args));
+        return native_functions_stdlib_error_result("TypeError");
     }
     if (!IS_STRING(*(args + 2))) {
-        native_functions_arguments_error(
-            "string_replace_at can only be called with a string as third argument but was called with %s",
-            value_stringify_type(*args));
+        return native_functions_stdlib_error_result("TypeError");
     }
 
     object_string_t * character = AS_STRING(*(args + 2));
     if (character->length != 1) {
-        native_functions_arguments_error("Can only replace a single character in the string with a single character");
-        return NULL_VAL;
+        return native_functions_stdlib_error_result("InvalidArgument");
     }
     int num = AS_NUMBER(*(args + 1));
     object_string_t * str = AS_STRING(*args);
     if (num >= str->length || num < 0) {
-        native_functions_arguments_error("accessed string out of bounds at index %d", num);
+        return native_functions_stdlib_error_result("DomainError");
     }
     // We need to allocate a new character sequnce so no other objects are affected
     char * newCharacterSequence = malloc(str->length + 1);
@@ -482,16 +494,18 @@ value_t native_functions_string_replace_at(uint32_t argCount, value_t const * ar
 value_t native_functions_system(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_SYSTEM, argCount);
     if (!IS_STRING(*args)) {
-        native_functions_arguments_error("system can only be called with a string as argument");
+        return native_functions_stdlib_error_result("TypeError");
     }
-    system(AS_CSTRING(*args));
+    if (system(AS_CSTRING(*args)) != 0) {
+        return native_functions_stdlib_error_result("SystemFailed");
+    }
     return NULL_VAL;
 }
 
 value_t native_functions_tangent(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_TANGENT, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error("logarithm10 can only be called with a number as argument");
+        return native_functions_stdlib_error_result("TypeError");
     }
     return NUMBER_VAL(tan(AS_NUMBER(*args)));
 }
@@ -499,7 +513,10 @@ value_t native_functions_tangent(uint32_t argCount, value_t const * args) {
 value_t native_functions_wait(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_WAIT, argCount);
     if (!IS_NUMBER(*args)) {
-        native_functions_arguments_error("wait can only be called with a number as argument");
+        return native_functions_stdlib_error_result("TypeError");
+    }
+    if (AS_NUMBER(*args) < 0) {
+        return native_functions_stdlib_error_result("DomainError");
     }
 #ifdef OS_WINDOWS
     // Milliseconds -> multiply with 1000
@@ -558,6 +575,20 @@ static value_t native_functions_io_error_result(char const * variantName) {
     return OBJECT_VAL(object_new_result_error(OBJECT_VAL(err)));
 }
 
+/// @brief Creates a standardized stdlib argument/type/domain error result object
+/// @param variantName Name of a StdlibError variant
+/// @return error(StdlibError.<variantName>)
+static value_t native_functions_stdlib_error_result(char const * variantName) {
+    if (!nativeStdlibErrorSet) {
+        // Fallback for safety in case VM wiring is skipped.
+        object_string_t * setName = object_copy_string("StdlibError", 11, false);
+        nativeStdlibErrorSet = object_new_error_set(setName);
+    }
+    object_string_t * variant = object_copy_string(variantName, (uint32_t)strlen(variantName), false);
+    object_error_value_t * err = object_new_error_value(nativeStdlibErrorSet, variant);
+    return OBJECT_VAL(object_new_result_error(OBJECT_VAL(err)));
+}
+
 /// @brief Emits a error message regarding a faulty native function call and exits with the appropriate exit code (70 -
 /// runtime error)
 /// @param format The format of the error message
@@ -565,10 +596,12 @@ static value_t native_functions_io_error_result(char const * variantName) {
 static void native_functions_arguments_error(char const * format, ...) {
     va_list args;
     va_start(args, format);
+    fprintf(stderr, "Native function error: ");
     vfprintf(stderr, format, args);
+    fputc('\n', stderr);
     va_end(args);
     virtual_machine_free();
-    exit(EXIT_CODE_COMPILATION_ERROR);
+    exit(EXIT_CODE_RUNTIME_ERROR);
 }
 
 /// @brief Determines the size of a value

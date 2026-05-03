@@ -170,9 +170,10 @@ object_instance_t * object_new_instance(object_class_t * celloxClass) {
     return instance;
 }
 
-object_native_t * object_new_native(native_function_t function) {
+object_native_t * object_new_native(native_function_t function, size_t arity) {
     object_native_t * native = ALLOCATE_OBJECT(object_native_t, OBJECT_NATIVE);
     native->function = function;
+    native->arity = arity;
     return native;
 }
 

@@ -55,8 +55,9 @@ static void virtual_machine_close_upvalues(value_t *);
 static void virtual_machine_concatenate_arrays(void);
 static void virtual_machine_concatenate_strings(void);
 static void virtual_machine_define_method(object_string_t *);
-static void virtual_machine_define_native(char const *, native_function_t);
+static void virtual_machine_define_native(char const *, native_function_t, size_t);
 static object_error_set_t * virtual_machine_define_error_set(char const *, char const * const *, size_t);
+static value_t virtual_machine_stdlib_error_result(char const *);
 static void virtual_machine_define_natives(void);
 static bool virtual_machine_get_index_of(void);
 static bool virtual_machine_get_sclice_of(void);
@@ -250,7 +251,14 @@ static bool virtual_machine_call_value(value_t callee, int32_t argCount) {
             return virtual_machine_call(AS_CLOSURE(callee), argCount);
         case OBJECT_NATIVE:
             {
-                native_function_t native = AS_NATIVE(callee);
+                object_native_t * nativeObj = (object_native_t *)AS_OBJECT(callee);
+                if (nativeObj->arity != SIZE_MAX && nativeObj->arity != (size_t)argCount) {
+                    value_t result = virtual_machine_stdlib_error_result("InvalidArgument");
+                    virtualMachine.stackTop -= argCount + 1;
+                    virtual_machine_push(result);
+                    return true;
+                }
+                native_function_t native = nativeObj->function;
                 value_t result = native(argCount, virtualMachine.stackTop - argCount);
                 virtualMachine.stackTop -= argCount + 1;
                 virtual_machine_push(result);
@@ -356,12 +364,30 @@ static void virtual_machine_define_method(object_string_t * name) {
 /// @brief Defines a native function for the virtual machine
 /// @param name The name of the native function
 /// @param function The function that is defined
-static void virtual_machine_define_native(char const * name, native_function_t function) {
+static void virtual_machine_define_native(char const * name, native_function_t function, size_t arity) {
     virtual_machine_push(OBJECT_VAL(object_copy_string(name, (int32_t)strlen(name), false)));
-    virtual_machine_push(OBJECT_VAL(object_new_native(function)));
+    virtual_machine_push(OBJECT_VAL(object_new_native(function, arity)));
     value_hash_table_set(&virtualMachine.globals, AS_STRING(virtualMachine.stack[0]), virtualMachine.stack[1]);
     virtual_machine_pop();
     virtual_machine_pop();
+}
+
+/// @brief Constructs error(StdlibError.<variantName>) from VM globals
+static value_t virtual_machine_stdlib_error_result(char const * variantName) {
+    object_string_t * setName = object_copy_string("StdlibError", 11, false);
+    value_t stdlibErrorSetValue;
+    if (!value_hash_table_get(&virtualMachine.globals, setName, &stdlibErrorSetValue) ||
+        !IS_ERROR_SET(stdlibErrorSetValue)) {
+        return NULL_VAL;
+    }
+
+    object_error_set_t * stdlibErrorSet = AS_ERROR_SET(stdlibErrorSetValue);
+    object_string_t * variantNameObj = object_copy_string(variantName, (uint32_t)strlen(variantName), false);
+    value_t errorValue;
+    if (!value_hash_table_get(&stdlibErrorSet->variants, variantNameObj, &errorValue) || !IS_ERROR_VALUE(errorValue)) {
+        errorValue = OBJECT_VAL(object_new_error_value(stdlibErrorSet, variantNameObj));
+    }
+    return OBJECT_VAL(object_new_result_error(errorValue));
 }
 
 /// @brief Defines an error set object as global and returns it
@@ -392,10 +418,17 @@ static void virtual_machine_define_natives(void) {
     static char const * const ioErrorVariants[] = {
         "InvalidArgument", "OpenFailed", "AllocFailed", "ReadFailed", "WriteFailed",
     };
+    static char const * const stdlibErrorVariants[] = {
+        "InvalidArgument", "TypeError", "DomainError", "FormatError", "ReadFailed", "SystemFailed",
+    };
     object_error_set_t * ioErrorSet =
         virtual_machine_define_error_set("IoError", ioErrorVariants,
                                          sizeof(ioErrorVariants) / sizeof(*ioErrorVariants));
+    object_error_set_t * stdlibErrorSet =
+        virtual_machine_define_error_set("StdlibError", stdlibErrorVariants,
+                                         sizeof(stdlibErrorVariants) / sizeof(*stdlibErrorVariants));
     native_functions_set_io_error_set(OBJECT_VAL(ioErrorSet));
+    native_functions_set_stdlib_error_set(OBJECT_VAL(stdlibErrorSet));
 
     // Pointer to the first configuration
     native_function_config_t * configs = native_functions_get_function_configs();
@@ -403,7 +436,8 @@ static void virtual_machine_define_natives(void) {
     native_function_config_t * upperBound = configs + native_functions_get_function_count();
     for (native_function_config_t * nativeFunctionPointer = configs; nativeFunctionPointer < upperBound;
          nativeFunctionPointer++) {
-        virtual_machine_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function);
+        virtual_machine_define_native(nativeFunctionPointer->functionName, nativeFunctionPointer->function,
+                                      nativeFunctionPointer->arrity);
     }
 }
 

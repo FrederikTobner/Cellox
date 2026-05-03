@@ -135,6 +135,8 @@ typedef struct {
     object_t obj;
     /// Reference to the native implementation in c
     native_function_t function;
+    /// Expected arity (SIZE_MAX means variadic)
+    size_t arity;
 } object_native_t;
 
 /// @brief ObjectString structure definition
@@ -309,8 +311,9 @@ object_instance_t * object_new_instance(object_class_t * celloxClass);
 
 /// @brief Creates a new native function object
 /// @param function The native_function_t that is used to create the native function object
+/// @param arity Expected arity (SIZE_MAX means variadic)
 /// @return The new function that was created
-object_native_t * object_new_native(native_function_t function);
+object_native_t * object_new_native(native_function_t function, size_t arity);
 
 /// @brief Creates a string or returns a string from the hashtable of the virtualMachine if it already exists
 /// @param chars Pointer to the character sequence

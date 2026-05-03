@@ -1,0 +1,19 @@
+// Type error in non-I/O stdlib
+var t = array_length(1) catch "type";
+printf("{}\n", t);
+
+// Domain error in non-I/O stdlib
+var d = logarithm(-1) catch "domain";
+printf("{}\n", d);
+
+// Format error in variadic stdlib
+var f = printf("{x}", 123) catch "format";
+printf("{}\n", f);
+
+// Verify precise error variant matching with iferror
+iferror string_replace_at("ab", 5, "x") |err| {
+    printf("{}\n", err == StdlibError.DomainError);
+    printf("{}\n", err == StdlibError.TypeError);
+} else |value| {
+    printf("unexpected: {}\n", value);
+}

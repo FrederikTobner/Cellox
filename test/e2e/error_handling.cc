@@ -72,3 +72,11 @@ TEST(ErrorHandling, StdlibIoErrors) {
 TEST(ErrorHandling, StdlibIoSuccess) {
     test_cellox_program("error_handling/stdlib_io_success.clx", "true\ntrue\nhello!\n");
 }
+
+TEST(ErrorHandling, StdlibNonIoErrors) {
+    test_cellox_program("error_handling/stdlib_non_io_errors.clx", "type\ndomain\nformat\ntrue\nfalse\n");
+}
+
+TEST(ErrorHandling, StdlibArityErrors) {
+    test_cellox_program("error_handling/stdlib_arity_errors.clx", "arity\narity\noknull\narity\ntrue\n");
+}
