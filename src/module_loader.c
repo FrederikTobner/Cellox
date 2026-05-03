@@ -145,7 +145,18 @@ static void module_loader_append_source(source_buffer_t * buffer, char const * t
 
 static char * module_loader_canonicalize_path(char const * path) {
 #if defined(_WIN32)
-    return _fullpath(NULL, path, 0);
+    char * resolved = _fullpath(NULL, path, 0);
+    if (!resolved) {
+        return NULL;
+    }
+    // _fullpath does not check whether the file exists; verify before returning
+    FILE * check = fopen(resolved, "rb");
+    if (!check) {
+        free(resolved);
+        return NULL;
+    }
+    fclose(check);
+    return resolved;
 #else
     return realpath(path, NULL);
 #endif
