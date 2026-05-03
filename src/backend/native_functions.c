@@ -393,7 +393,7 @@ value_t native_functions_read_file(uint32_t argCount, value_t const * args) {
     // Rewind filepointer to the beginning of the file
     rewind(file);
     // Allocate memory apropriate to store the file
-    char * buffer = (char *)malloc(fileSize);
+    char * buffer = (char *)malloc(fileSize + 1);
     if (!buffer) {
         fclose(file);
         return native_functions_io_error_result("AllocFailed");
@@ -406,8 +406,9 @@ value_t native_functions_read_file(uint32_t argCount, value_t const * args) {
         return native_functions_io_error_result("ReadFailed");
     }
     fclose(file);
-    // Create cellox string from content stored in the character buffer
-    return OBJECT_VAL(object_copy_string(buffer, fileSize, false));
+    buffer[fileSize] = '\0';
+    // Transfer ownership of the file buffer to the VM string object.
+    return OBJECT_VAL(object_take_string(buffer, (uint32_t)fileSize));
 }
 
 value_t native_functions_read_key(uint32_t argCount, value_t const * args) {
