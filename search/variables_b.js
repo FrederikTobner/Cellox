@@ -1,5 +1,6 @@
 var searchData=
 [
   ['method_0',['method',['../structobject__bound__method__t.html#a4e695f5656eb43dff40ffb308fb8dd37',1,'object_bound_method_t']]],
-  ['methods_1',['methods',['../structobject__class__t.html#a63c0acfd596fdb6e5dcf255264321ff6',1,'object_class_t']]]
+  ['methods_1',['methods',['../structobject__class__t.html#a63c0acfd596fdb6e5dcf255264321ff6',1,'object_class_t']]],
+  ['modules_2',['modules',['../structmodule__context__t.html#acc9ea2e575580b44340761f0bdb65a28',1,'module_context_t']]]
 ];

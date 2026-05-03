@@ -6,5 +6,6 @@ var searchData=
   ['stack_3',['stack',['../structvirtual__machine__t.html#a3a01286420f23d09307571cf2cdb499e',1,'virtual_machine_t']]],
   ['stacktop_4',['stackTop',['../structvirtual__machine__t.html#a99dd70f02df666165d26b084309adb1a',1,'virtual_machine_t']]],
   ['start_5',['start',['../structlexer__t.html#ad63735bb1e8f9126d806c2eec49ac941',1,'lexer_t::start'],['../structtoken__t.html#ad63735bb1e8f9126d806c2eec49ac941',1,'token_t::start']]],
-  ['strings_6',['strings',['../structvirtual__machine__t.html#a03801ce0604151b1f3c89abcbc68cba7',1,'virtual_machine_t']]]
+  ['stitchedsource_6',['stitchedSource',['../structmodule__context__t.html#a719bfcf919c19d4223325220769fb755',1,'module_context_t']]],
+  ['strings_7',['strings',['../structvirtual__machine__t.html#a03801ce0604151b1f3c89abcbc68cba7',1,'virtual_machine_t']]]
 ];

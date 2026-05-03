@@ -12,6 +12,8 @@ var files_dup =
     [ "initializer.c", "initializer_8c.html", "initializer_8c" ],
     [ "initializer.h", "initializer_8h.html", "initializer_8h" ],
     [ "main.c", "main_8c.html", "main_8c" ],
+    [ "module_loader.c", "module__loader_8c.html", "module__loader_8c" ],
+    [ "module_loader.h", "module__loader_8h.html", "module__loader_8h" ],
     [ "string_utils.c", "string__utils_8c.html", "string__utils_8c" ],
     [ "string_utils.h", "string__utils_8h.html", "string__utils_8h" ]
 ];

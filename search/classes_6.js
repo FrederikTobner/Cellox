@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['token_5ft_0',['token_t',['../structtoken__t.html',1,'']]]
+  ['native_5ffunction_5fconfig_5ft_0',['native_function_config_t',['../structnative__function__config__t.html',1,'']]]
 ];

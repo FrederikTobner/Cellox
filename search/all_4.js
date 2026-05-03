@@ -7,5 +7,7 @@ var searchData=
   ['exit_5fcode_5fcompilation_5ferror_4',['EXIT_CODE_COMPILATION_ERROR',['../common_8h.html#abd98cd84c2672bf6ac0533964589a361adb83b83bca8f75ff2266b9760a66bd14',1,'common.h']]],
   ['exit_5fcode_5finput_5foutput_5ferror_5',['EXIT_CODE_INPUT_OUTPUT_ERROR',['../common_8h.html#abd98cd84c2672bf6ac0533964589a361aa89869f27a1d1de61bba55507a26d676',1,'common.h']]],
   ['exit_5fcode_5fruntime_5ferror_6',['EXIT_CODE_RUNTIME_ERROR',['../common_8h.html#abd98cd84c2672bf6ac0533964589a361ab46ca1d32c5845d516dfc744d3c9b381',1,'common.h']]],
-  ['exit_5fcode_5fsystem_5ferror_7',['EXIT_CODE_SYSTEM_ERROR',['../common_8h.html#abd98cd84c2672bf6ac0533964589a361a11d65c27a9297140b1822730e777e336',1,'common.h']]]
+  ['exit_5fcode_5fsystem_5ferror_7',['EXIT_CODE_SYSTEM_ERROR',['../common_8h.html#abd98cd84c2672bf6ac0533964589a361a11d65c27a9297140b1822730e777e336',1,'common.h']]],
+  ['export_5flist_5ft_8',['export_list_t',['../structexport__list__t.html',1,'']]],
+  ['exports_9',['exports',['../structmodule__record__t.html#a7d0d1785541f24074734fc9755c231a2',1,'module_record_t']]]
 ];
