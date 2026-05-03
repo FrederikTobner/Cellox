@@ -1,0 +1,2 @@
+var s = "abcd";
+printf("{}\n", s[-1 .. 2]);

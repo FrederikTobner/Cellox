@@ -1,0 +1,10 @@
+fun outer() {
+  var x = 41;
+  fun inner() {
+    printf("{}\n", x + 1);
+  }
+
+  inner();
+}
+
+outer();

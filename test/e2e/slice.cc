@@ -9,3 +9,7 @@ TEST(Slice, Array) {
 TEST(Slice, String) {
     test_cellox_program("slice/string.clx", "Hello\n");
 }
+
+TEST(Slice, StringOffset) {
+    test_cellox_program("slice/string_offset.clx", "llo\n");
+}

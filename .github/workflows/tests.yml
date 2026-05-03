@@ -28,8 +28,20 @@ jobs:
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja -DCLX_BUILD_TESTS=ON
 
     - name: Build tests
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxTests
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
 
-    - name: Run tests
+    - name: Run unit tests
       working-directory: ${{github.workspace}}/build
-      run: ctest -C ${{env.BUILD_TYPE}}
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure -L unit
+
+    - name: Run integration tests
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure -L integration
+
+    - name: Run end-to-end tests
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure -L e2e
+
+    - name: Run property-fuzz tests
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure -L fuzz

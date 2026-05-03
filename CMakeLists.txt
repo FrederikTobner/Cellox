@@ -5,7 +5,6 @@ VERSION 0.1.0
 LANGUAGES C CXX
 )
 
-
 # C99 standard is required to build the compiler
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
