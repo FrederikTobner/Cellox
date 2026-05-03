@@ -1,0 +1,3 @@
+import { println } from "../../stdlib/io.clx";
+println("hello");
+println("world");

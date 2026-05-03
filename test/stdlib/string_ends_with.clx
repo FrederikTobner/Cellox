@@ -1,0 +1,4 @@
+import { str_ends_with } from "../../stdlib/string.clx";
+printf("{}\n", str_ends_with("hello world", "world"));
+printf("{}\n", str_ends_with("hello world", "hello"));
+printf("{}\n", str_ends_with("hi", "hello"));

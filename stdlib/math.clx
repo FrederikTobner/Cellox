@@ -1,0 +1,72 @@
+// stdlib/math.clx
+// Higher-level math utilities built on native functions.
+// Usage:
+//   import { abs, min, max, clamp, floor, ceil, pow, pi } from "stdlib/math.clx";
+
+export var pi = 3.14159265358979323846;
+
+// Absolute value of x.
+export fun abs(x) {
+    if (x < 0) return -x;
+    return x;
+}
+
+// Smaller of two values.
+export fun min(a, b) {
+    if (a < b) return a;
+    return b;
+}
+
+// Larger of two values.
+export fun max(a, b) {
+    if (a > b) return a;
+    return b;
+}
+
+// Clamp x to the range [lo, hi].
+export fun clamp(x, lo, hi) {
+    if (x < lo) return lo;
+    if (x > hi) return hi;
+    return x;
+}
+
+// Largest integer not greater than x.
+// Uses the fact that (x % BIG) truncates x toward zero (integer modulo).
+export fun floor(x) {
+    var t = x % 1000000000;
+    if (x < 0 and t != x) return t - 1;
+    return t;
+}
+
+// Smallest integer not less than x.
+export fun ceil(x) {
+    var t = x % 1000000000;
+    if (x > 0 and t != x) return t + 1;
+    return t;
+}
+
+// x raised to a non-negative integer power n.
+export fun pow(x, n) {
+    var result = 1;
+    var i = 0;
+    while (i < n) {
+        result = result * x;
+        i += 1;
+    }
+    return result;
+}
+
+// Hypotenuse of a right triangle with legs a and b.
+export fun hypot(a, b) {
+    return sine(a * a + b * b);
+}
+
+// Degrees to radians.
+export fun deg_to_rad(deg) {
+    return deg * pi / 180;
+}
+
+// Radians to degrees.
+export fun rad_to_deg(rad) {
+    return rad * 180 / pi;
+}

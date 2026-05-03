@@ -1,0 +1,4 @@
+import { pow } from "../../stdlib/math.clx";
+printf("{}\n", pow(2, 0));
+printf("{}\n", pow(2, 3));
+printf("{}\n", pow(3, 4));

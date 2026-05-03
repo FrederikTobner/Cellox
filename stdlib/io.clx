@@ -1,0 +1,53 @@
+// stdlib/io.clx
+// Higher-level I/O utilities built on native I/O functions.
+// Usage:
+//   import { println, file_copy, read_lines_prompt } from "stdlib/io.clx";
+
+// Print text followed by a newline.
+export fun println(text) {
+    printf("{}\n", text);
+}
+
+// Print a separator line of n dashes.
+export fun print_separator(n) {
+    var line = "";
+    var i = 0;
+    while (i < n) {
+        line = line + "-";
+        i += 1;
+    }
+    printf("{}\n", line);
+}
+
+// Copy the contents of src file to dst file. Returns true on success.
+export fun file_copy(src, dst) {
+    var content = read_file(src);
+    if (content == nil) return false;
+    return write_to_file(dst, content);
+}
+
+// Prompt the user with a message and return their input line.
+export fun prompt(msg) {
+    printf("{}", msg);
+    return read_line();
+}
+
+// Read a line and convert it to a number (best-effort).
+export fun read_number(msg) {
+    printf("{}", msg);
+    var line = read_line();
+    var len = strlen(line);
+    var result = 0;
+    var i = 0;
+    var neg = false;
+    if (len > 0 and line[0] == "-") {
+        neg = true;
+        i = 1;
+    }
+    while (i < len) {
+        result = result * 10 + (asci_to_num(line[i]) - 48);
+        i += 1;
+    }
+    if (neg) return -result;
+    return result;
+}

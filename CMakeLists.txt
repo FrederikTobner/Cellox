@@ -42,6 +42,10 @@ include(CelloxHelpers)
 cellox_add_compiler_compile_definitions()
 cellox_add_os_compile_definitions()
 
+# Standard library of Cellox source files
+# Must come before src/ so CELLOX_STDLIB_SOURCE_DIR is set before cellox_config.h is generated.
+add_subdirectory(stdlib)
+
 # Suppress exit() calls in library code so tests can inspect error paths
 if(CLX_BUILD_TESTS)
     add_compile_definitions(CELLOX_TESTS_RUNNING)

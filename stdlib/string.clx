@@ -1,0 +1,96 @@
+// stdlib/string.clx
+// Higher-level string utilities built on native string functions.
+// Usage:
+//   import { str_starts_with, str_ends_with, str_repeat, str_pad_left } from "stdlib/string.clx";
+
+// True if s starts with the prefix p.
+export fun str_starts_with(s, p) {
+    var sLen = strlen(s);
+    var pLen = strlen(p);
+    if (pLen > sLen) return false;
+    var i = 0;
+    while (i < pLen) {
+        if (s[i] != p[i]) return false;
+        i += 1;
+    }
+    return true;
+}
+
+// True if s ends with the suffix suf.
+export fun str_ends_with(s, suf) {
+    var sLen = strlen(s);
+    var sufLen = strlen(suf);
+    if (sufLen > sLen) return false;
+    var offset = sLen - sufLen;
+    var i = 0;
+    while (i < sufLen) {
+        if (s[offset + i] != suf[i]) return false;
+        i += 1;
+    }
+    return true;
+}
+
+// Repeat string s n times.
+export fun str_repeat(s, n) {
+    var result = "";
+    var i = 0;
+    while (i < n) {
+        result = result + s;
+        i += 1;
+    }
+    return result;
+}
+
+// Pad s on the left with character ch until total length is width.
+export fun str_pad_left(s, width, ch) {
+    var result = s;
+    while (strlen(result) < width) {
+        result = ch + result;
+    }
+    return result;
+}
+
+// Pad s on the right with character ch until total length is width.
+export fun str_pad_right(s, width, ch) {
+    var result = s;
+    while (strlen(result) < width) {
+        result = result + ch;
+    }
+    return result;
+}
+
+// Reverse a string.
+export fun str_reverse(s) {
+    var len = strlen(s);
+    var result = s;
+    var i = 0;
+    while (i < len / 2) {
+        var tmp = result[i];
+        result = string_replace_at(result, i, result[len - 1 - i]);
+        result = string_replace_at(result, len - 1 - i, tmp);
+        i += 1;
+    }
+    return result;
+}
+
+// True if s contains the substring sub.
+export fun str_contains(s, sub) {
+    var sLen = strlen(s);
+    var subLen = strlen(sub);
+    if (subLen > sLen) return false;
+    var i = 0;
+    while (i <= sLen - subLen) {
+        var match = true;
+        var j = 0;
+        while (j < subLen) {
+            if (s[i + j] != sub[j]) {
+                match = false;
+                j = subLen;
+            }
+            j += 1;
+        }
+        if (match) return true;
+        i += 1;
+    }
+    return false;
+}

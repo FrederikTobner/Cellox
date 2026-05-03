@@ -1,0 +1,3 @@
+import { os_name } from "../../stdlib/os.clx";
+var name = os_name();
+printf("{}\n", name);

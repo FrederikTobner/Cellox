@@ -1,0 +1,4 @@
+import { str_contains } from "../../stdlib/string.clx";
+printf("{}\n", str_contains("hello world", "world"));
+printf("{}\n", str_contains("hello world", "xyz"));
+printf("{}\n", str_contains("abcdef", "cde"));
