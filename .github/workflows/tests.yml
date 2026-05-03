@@ -128,7 +128,10 @@ jobs:
 
     - name: Capture lcov report
       run: |
-        lcov --capture --directory ${{github.workspace}}/build --output-file ${{github.workspace}}/coverage.info
+        lcov --capture \
+          --ignore-errors mismatch \
+          --directory ${{github.workspace}}/build \
+          --output-file ${{github.workspace}}/coverage.info
         lcov --remove ${{github.workspace}}/coverage.info \
           '/usr/*' \
           '*/_deps/*' \
