@@ -14,6 +14,17 @@ void test_failing_cellox_program(std::string const & programPath, std::string co
     test_program(programPath, expectedOutput, true);
 }
 
+void test_failing_cellox_program_contains(std::string const & programPath, std::string const & expectedSubstring) {
+    std::string filePath = TEST_PROGRAM_BASE_PATH;
+    filePath.append(programPath);
+
+    testing::internal::CaptureStderr();
+    initializer_run_from_file(filePath.c_str(), false);
+    std::string actual_output = testing::internal::GetCapturedStderr();
+
+    ASSERT_NE(std::string::npos, actual_output.find(expectedSubstring));
+}
+
 void test_compiled_cellox_program(std::string const & programPath, std::string const & expectedOutput) {
     std::string filePath = TEST_PROGRAM_BASE_PATH;
     filePath.append(programPath);

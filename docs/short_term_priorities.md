@@ -31,6 +31,8 @@ This roadmap is optimized for limited implementation time. Focus is on improveme
 
 ## 2) Minimal Module Support (High Value)
 
+Design specification: [Module and Imports Design Specification](module_imports_design_spec.md)
+
 - Recommended MVP:
 - Syntax: `import "path/to/module.clx";`
 - Behavior: load once (module cache), execute top-level once, expose module globals into importer namespace via prefix object or direct import policy.

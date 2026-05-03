@@ -1,0 +1,9 @@
+import "./module_bench_math.clx";
+
+var start = clock();
+var result = 0;
+for (var i = 0; i < 20000; i = i + 1) {
+    result += heavy(i % 20);
+}
+var end = clock();
+printf("{}", end - start);

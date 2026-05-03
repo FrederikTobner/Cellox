@@ -36,6 +36,40 @@ TEST(DynamicValueArrayUnit, RemoveOutOfBoundsKeepsArrayUnchanged) {
     dynamic_value_array_free(&array);
 }
 
+TEST(DynamicValueArrayUnit, RemoveFirstElementShiftsAllRemaining) {
+    dynamic_value_array_t array;
+    dynamic_value_array_init(&array);
+
+    dynamic_value_array_write(&array, NUMBER_VAL(10));
+    dynamic_value_array_write(&array, NUMBER_VAL(20));
+    dynamic_value_array_write(&array, NUMBER_VAL(30));
+
+    dynamic_value_array_remove(&array, 0);
+
+    ASSERT_EQ(2u, array.count);
+    EXPECT_DOUBLE_EQ(20.0, AS_NUMBER(array.values[0]));
+    EXPECT_DOUBLE_EQ(30.0, AS_NUMBER(array.values[1]));
+
+    dynamic_value_array_free(&array);
+}
+
+TEST(DynamicValueArrayUnit, RemoveLastElementKeepsPrefix) {
+    dynamic_value_array_t array;
+    dynamic_value_array_init(&array);
+
+    dynamic_value_array_write(&array, NUMBER_VAL(10));
+    dynamic_value_array_write(&array, NUMBER_VAL(20));
+    dynamic_value_array_write(&array, NUMBER_VAL(30));
+
+    dynamic_value_array_remove(&array, 2);
+
+    ASSERT_EQ(2u, array.count);
+    EXPECT_DOUBLE_EQ(10.0, AS_NUMBER(array.values[0]));
+    EXPECT_DOUBLE_EQ(20.0, AS_NUMBER(array.values[1]));
+
+    dynamic_value_array_free(&array);
+}
+
 TEST(ChunkUnit, DetermineLineByInstructionIndex) {
     chunk_t chunk;
     chunk_init(&chunk);

@@ -24,4 +24,9 @@ void test_compiled_cellox_program(std::string const & programPath, std::string c
 /// that given string
 void test_failing_cellox_program(std::string const & programPath, std::string const & expectedOutput);
 
+/// @brief Tests that a failing program emits an error containing a given substring
+/// @param programPath The path of the failing program
+/// @param expectedSubstring A substring that has to appear in stderr
+void test_failing_cellox_program_contains(std::string const & programPath, std::string const & expectedSubstring);
+
 #endif

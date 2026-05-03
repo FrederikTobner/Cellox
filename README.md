@@ -22,9 +22,11 @@ Cellox is a programming language based on [lox](https://craftinginterpreters.com
 * [Objects](#objects)
 * [Functions](#functions)
 * [Classes](#classes)
+* [Modules](#modules)
 * [Strings](#strings)
 * [Arrays](#arrays)
 * [Slices](#slices)
+* [Benchmarking](#benchmarking)
 * [IDE Integration](#ide-integration)
 * [How it works](#how-it-works)
 * [License](#license)
@@ -78,6 +80,18 @@ Cellox also offers some [native functions](https://github.com/FrederikTobner/Cel
 Cellox is a objectoriented language, that features inheritance and methods that are bound to a [class](https://github.com/FrederikTobner/Cellox/wiki/Classes) instance.
 
 Classes can also extend the functionality of an already existing class by using inheritance.
+
+## Modules
+
+Cellox supports file-based modules with relative imports.
+
+Current module support includes:
+
+* importing another file via relative path
+* named imports (`import { symbol } from "./module.clx"`)
+* explicit exports (`export var`, `export fun`, `export class`)
+* load-once semantics per module path
+* cycle and invalid-import diagnostics
 
 ## Strings
 

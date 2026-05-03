@@ -23,7 +23,8 @@
 
 #include "common.h"
 
-/// @brief Benchmarks that are included in the benchmarking suiteby default
+/// @brief Benchmarks that are included in the benchmarking suite by default
+/// @details Includes arithmetic, object, module import, and slice-heavy workloads.
 static benchmark_config_t benchmarks[] = {
     [BENCHMARK_EQUALITY] = {.benchmarkName = "Equality", .benchmarkFilePath = "Equality.clx", .executionCount = 3},
     [BENCHMARK_FIBONACCI] = {.benchmarkName = "Fibonacci", .benchmarkFilePath = "Fibonacci.clx", .executionCount = 3},
@@ -38,7 +39,11 @@ static benchmark_config_t benchmarks[] = {
                               .benchmarkFilePath = "Properties.clx",
                               .executionCount = 3},
     [BENCHMARK_RAISE] = {.benchmarkName = "Raise", .benchmarkFilePath = "Raise.clx", .executionCount = 3},
-    [BENCHMARK_ZOO] = {.benchmarkName = "Zoo", .benchmarkFilePath = "Zoo.clx", .executionCount = 3}};
+    [BENCHMARK_ZOO] = {.benchmarkName = "Zoo", .benchmarkFilePath = "Zoo.clx", .executionCount = 3},
+    [BENCHMARK_MODULE_IMPORT_CHAIN] = {.benchmarkName = "Module Import Chain",
+                                       .benchmarkFilePath = "ModuleImportChain.clx",
+                                       .executionCount = 3},
+    [BENCHMARK_SLICE_OPS] = {.benchmarkName = "Slice Ops", .benchmarkFilePath = "SliceOps.clx", .executionCount = 3}};
 
 static FILE * benchmark_runner_create_results_file_pointer(void);
 static void benchamrk_runner_ensure_results_directory_exists(void);

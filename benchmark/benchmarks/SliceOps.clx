@@ -1,0 +1,13 @@
+var array = {};
+for (var i = 0; i < 30000; i = i + 1) {
+    array += i;
+}
+
+var start = clock();
+var total = 0;
+for (var i = 0; i < 5000; i = i + 1) {
+    var part = array[10..200];
+    total += part[0];
+}
+var end = clock();
+printf("{}", end - start);

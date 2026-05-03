@@ -1,0 +1,4 @@
+export var answer = 42;
+export fun add(a, b) {
+    return a + b;
+}
