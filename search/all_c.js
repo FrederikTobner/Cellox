@@ -30,7 +30,7 @@ var searchData=
   ['native_5ffunction_5fstring_5freplace_5fat_27',['NATIVE_FUNCTION_STRING_REPLACE_AT',['../native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a60f3c00ab7667e09ebde2452ae759fe0',1,'native_functions.c']]],
   ['native_5ffunction_5fstrlen_28',['NATIVE_FUNCTION_STRLEN',['../native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a8ca40e5bd663150bbb8ee04b0f6519e6',1,'native_functions.c']]],
   ['native_5ffunction_5fsystem_29',['NATIVE_FUNCTION_SYSTEM',['../native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a2bd4737e39eb4d1071c2b2bed90a1568',1,'native_functions.c']]],
-  ['native_5ffunction_5ft_30',['native_function_t',['../native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7',1,'native_functions.h']]],
+  ['native_5ffunction_5ft_30',['native_function_t',['../value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7',1,'value.h']]],
   ['native_5ffunction_5ftangent_31',['NATIVE_FUNCTION_TANGENT',['../native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6ad96e22054ee6aa188425da9e8add70e1',1,'native_functions.c']]],
   ['native_5ffunction_5fwait_32',['NATIVE_FUNCTION_WAIT',['../native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6a746d67984d40c6d42945a568e0dabad9',1,'native_functions.c']]],
   ['native_5ffunction_5fwrite_5fto_5ffile_33',['NATIVE_FUNCTION_WRITE_TO_FILE',['../native__functions_8c.html#aa698caa21f9dc3d72a4b657a694a95d6afc79908e3f304d87d4529954098e0ed7',1,'native_functions.c']]],

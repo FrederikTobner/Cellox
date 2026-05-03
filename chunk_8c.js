@@ -11,5 +11,8 @@ var chunk_8c =
     [ "chunk_remove_bytecode", "chunk_8c.html#a298c6a4aea45bd621a3a765281132517", null ],
     [ "chunk_remove_constant", "chunk_8c.html#a572715597d3c067b3ca53fad51e060cc", null ],
     [ "chunk_replace_constant_references", "chunk_8c.html#aa7742e013bbe23c63997c0ba51381469", null ],
-    [ "chunk_write", "chunk_8c.html#ac03d441a37f451f581cccf8395eed8c4", null ]
+    [ "chunk_set_gc_guard_hooks", "chunk_8c.html#a9372a8e3ed6ce83fda747701cb52e683", null ],
+    [ "chunk_write", "chunk_8c.html#ac03d441a37f451f581cccf8395eed8c4", null ],
+    [ "chunk_gc_pop", "chunk_8c.html#a1880343b22d0573e9ba5037401dea5a8", null ],
+    [ "chunk_gc_push", "chunk_8c.html#aea7b48053fd7a6e1967ffcd22969a0c0", null ]
 ];

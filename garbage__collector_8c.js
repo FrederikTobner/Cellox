@@ -7,6 +7,8 @@ var garbage__collector_8c =
     [ "garbage_collector_mark_object", "garbage__collector_8c.html#a6f08f0ec3e7f1343526535f9868d5fe2", null ],
     [ "garbage_collector_mark_roots", "garbage__collector_8c.html#acbbf01aad1a3a636066f511dada4b735", null ],
     [ "garbage_collector_mark_value", "garbage__collector_8c.html#a2f5fedd825262e07980e56fe5a41b6b4", null ],
+    [ "garbage_collector_set_mark_roots_hook", "garbage__collector_8c.html#ab60c279948f7aa42b70f1eb55b3aa86a", null ],
     [ "garbage_collector_sweep", "garbage__collector_8c.html#a4227421f7002718bf96e9ed70eabeef6", null ],
-    [ "garbage_collector_trace_references", "garbage__collector_8c.html#a7206cd17b0e9e501999a531f96f59f89", null ]
+    [ "garbage_collector_trace_references", "garbage__collector_8c.html#a7206cd17b0e9e501999a531f96f59f89", null ],
+    [ "gc_mark_roots_hook", "garbage__collector_8c.html#a7807e97add27bb3d8de7b4af033cbf97", null ]
 ];

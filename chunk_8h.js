@@ -54,5 +54,6 @@ var chunk_8h =
     [ "chunk_remove_bytecode", "chunk_8h.html#a298c6a4aea45bd621a3a765281132517", null ],
     [ "chunk_remove_constant", "chunk_8h.html#a572715597d3c067b3ca53fad51e060cc", null ],
     [ "chunk_replace_constant_references", "chunk_8h.html#aa7742e013bbe23c63997c0ba51381469", null ],
+    [ "chunk_set_gc_guard_hooks", "chunk_8h.html#a9372a8e3ed6ce83fda747701cb52e683", null ],
     [ "chunk_write", "chunk_8h.html#ac03d441a37f451f581cccf8395eed8c4", null ]
 ];

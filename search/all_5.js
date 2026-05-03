@@ -8,6 +8,6 @@ var searchData=
   ['free_5',['FREE',['../memory__mutator_8h.html#a15985952db75d2608fdc0e24dd06e775',1,'memory_mutator.h']]],
   ['free_5farray_6',['FREE_ARRAY',['../memory__mutator_8h.html#a3b69129733a4bd10f3c5726e4ea6e518',1,'memory_mutator.h']]],
   ['function_7',['function',['../structnative__function__config__t.html#a5f7b3b197f31170afa44fe0aa4f945cd',1,'native_function_config_t::function'],['../structcompiler__t.html#a6ea5e688e8dc462b6245a728932c2972',1,'compiler_t::function'],['../structobject__native__t.html#a5f7b3b197f31170afa44fe0aa4f945cd',1,'object_native_t::function'],['../structobject__closure__t.html#a6ea5e688e8dc462b6245a728932c2972',1,'object_closure_t::function']]],
-  ['function_5ftype_8',['function_type',['../compiler_8c.html#a6e6333c061b2073ba9abaaf67e20164b',1,'compiler.c']]],
+  ['function_5ftype_8',['function_type',['../core__types_8h.html#a6e6333c061b2073ba9abaaf67e20164b',1,'core_types.h']]],
   ['functionname_9',['functionName',['../structnative__function__config__t.html#a81da7a5f36571c24404001c87ba6395b',1,'native_function_config_t']]]
 ];

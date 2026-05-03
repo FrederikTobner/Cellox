@@ -51,6 +51,9 @@ var object_8h =
     [ "object_new_native", "object_8h.html#a531e0d044d567b40189dfe2afff49444", null ],
     [ "object_new_upvalue", "object_8h.html#af3877fdc05fa12e37f7c6b03833df200", null ],
     [ "object_print", "object_8h.html#a76dd015cb99008998a7bd0d9c3485b1b", null ],
+    [ "object_set_gc_guard_hooks", "object_8h.html#af38dffea97b4c7e32a488619b85a6948", null ],
+    [ "object_set_vm_objects", "object_8h.html#a4e395f17dfe09d202c74763013fbf91d", null ],
+    [ "object_set_vm_string_table", "object_8h.html#a6a659b775190ebfea109687c747a4331", null ],
     [ "object_stringify_type", "object_8h.html#a0bd8a458ac170ad1c907ec1ab864d3fd", null ],
     [ "object_take_string", "object_8h.html#a520a8e4a061b39c3bf328fa5ce1513f7", null ]
 ];

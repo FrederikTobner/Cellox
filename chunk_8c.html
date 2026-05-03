@@ -92,7 +92,8 @@ $(document).ready(function(){initNavTree('chunk_8c.html',''); initResizable(); }
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">chunk.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -102,8 +103,7 @@ $(document).ready(function(){initNavTree('chunk_8c.html',''); initResizable(); }
 <div class="textblock"><code>#include &quot;<a class="el" href="chunk_8h_source.html">chunk.h</a>&quot;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="memory__mutator_8h_source.html">../backend/memory_mutator.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="virtual__machine_8h_source.html">../backend/virtual_machine.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="memory__mutator_8h_source.html">backend/memory_mutator.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -115,6 +115,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aadc36598f32078c22fcc067c7ca6fce2" id="r_aadc36598f32078c22fcc067c7ca6fce2"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8c.html#aadc36598f32078c22fcc067c7ca6fce2">chunk_line_info_is_full</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
 <tr class="memdesc:aadc36598f32078c22fcc067c7ca6fce2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether a chunk is completely filled with bytecode instructions.  <br /></td></tr>
 <tr class="separator:aadc36598f32078c22fcc067c7ca6fce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9372a8e3ed6ce83fda747701cb52e683" id="r_a9372a8e3ed6ce83fda747701cb52e683"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8c.html#a9372a8e3ed6ce83fda747701cb52e683">chunk_set_gc_guard_hooks</a> (void(*push)(<a class="el" href="structvalue__t.html">value_t</a>), <a class="el" href="structvalue__t.html">value_t</a>(*pop)(void))</td></tr>
+<tr class="memdesc:a9372a8e3ed6ce83fda747701cb52e683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers push/pop callbacks used by chunk_add_constant for GC safety.  <br /></td></tr>
+<tr class="separator:a9372a8e3ed6ce83fda747701cb52e683"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f34ca771a7b1ad9190c5781e8f0ed35" id="r_a7f34ca771a7b1ad9190c5781e8f0ed35"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8c.html#a7f34ca771a7b1ad9190c5781e8f0ed35">chunk_add_constant</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, <a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:a7f34ca771a7b1ad9190c5781e8f0ed35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a constant to the chunk.  <br /></td></tr>
 <tr class="separator:a7f34ca771a7b1ad9190c5781e8f0ed35"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,6 +143,13 @@ Functions</h2></td></tr>
 <tr class="memitem:ac03d441a37f451f581cccf8395eed8c4" id="r_ac03d441a37f451f581cccf8395eed8c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8c.html#ac03d441a37f451f581cccf8395eed8c4">chunk_write</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint8_t byte, int32_t line)</td></tr>
 <tr class="memdesc:ac03d441a37f451f581cccf8395eed8c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a single bytecode instruction to a chunk.  <br /></td></tr>
 <tr class="separator:ac03d441a37f451f581cccf8395eed8c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aea7b48053fd7a6e1967ffcd22969a0c0" id="r_aea7b48053fd7a6e1967ffcd22969a0c0"><td class="memItemLeft" align="right" valign="top">static void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8c.html#aea7b48053fd7a6e1967ffcd22969a0c0">chunk_gc_push</a> )(<a class="el" href="structvalue__t.html">value_t</a>) = NULL</td></tr>
+<tr class="separator:aea7b48053fd7a6e1967ffcd22969a0c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1880343b22d0573e9ba5037401dea5a8" id="r_a1880343b22d0573e9ba5037401dea5a8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvalue__t.html">value_t</a>(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8c.html#a1880343b22d0573e9ba5037401dea5a8">chunk_gc_pop</a> )(void) = NULL</td></tr>
+<tr class="separator:a1880343b22d0573e9ba5037401dea5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing the implementation of functionality regarding cellox chunks. </p>
@@ -527,6 +537,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a9372a8e3ed6ce83fda747701cb52e683" name="a9372a8e3ed6ce83fda747701cb52e683"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9372a8e3ed6ce83fda747701cb52e683">&#9670;&#160;</a></span>chunk_set_gc_guard_hooks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chunk_set_gc_guard_hooks </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(<a class="el" href="structvalue__t.html">value_t</a>)&#160;</td>
+          <td class="paramname"><em>push</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>(*)(void)&#160;</td>
+          <td class="paramname"><em>pop</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers push/pop callbacks used by chunk_add_constant for GC safety. </p>
+<p>The runtime calls this on VM init. Without the hooks chunk_add_constant skips GC guarding, which is safe only before the VM is running. </p>
+
+</div>
+</div>
 <a id="ac03d441a37f451f581cccf8395eed8c4" name="ac03d441a37f451f581cccf8395eed8c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac03d441a37f451f581cccf8395eed8c4">&#9670;&#160;</a></span>chunk_write()</h2>
 
@@ -569,6 +610,59 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <p>The line in the soucecode that corresponds to the bytecode instruction that is stored </p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a1880343b22d0573e9ba5037401dea5a8" name="a1880343b22d0573e9ba5037401dea5a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1880343b22d0573e9ba5037401dea5a8">&#9670;&#160;</a></span>chunk_gc_pop</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvalue__t.html">value_t</a>(* chunk_gc_pop) (void) </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aea7b48053fd7a6e1967ffcd22969a0c0" name="aea7b48053fd7a6e1967ffcd22969a0c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea7b48053fd7a6e1967ffcd22969a0c0">&#9670;&#160;</a></span>chunk_gc_push</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* chunk_gc_push) (<a class="el" href="structvalue__t.html">value_t</a>) </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

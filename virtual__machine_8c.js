@@ -33,6 +33,8 @@ var virtual__machine_8c =
     [ "virtual_machine_run", "virtual__machine_8c.html#af94ef7b2fef3665e7346b1857f777e45", null ],
     [ "virtual_machine_run_chunk", "virtual__machine_8c.html#a8a0aaa73c6923c3227015846d1384374", null ],
     [ "virtual_machine_runtime_error", "virtual__machine_8c.html#a2b4425b182a0ef48af9d3886b02a7dfa", null ],
+    [ "virtual_machine_set_compile_fn", "virtual__machine_8c.html#a914e23c4c04a0e8faaa3f0d3d3ec3780", null ],
     [ "virtual_machine_set_index_of", "virtual__machine_8c.html#a7f1a23f799e4a2ccf99b05a5ccc4a490", null ],
-    [ "virtualMachine", "virtual__machine_8c.html#aef13dc0b5804875832a5b69c00bdcddf", null ]
+    [ "virtualMachine", "virtual__machine_8c.html#aef13dc0b5804875832a5b69c00bdcddf", null ],
+    [ "vm_compile_fn", "virtual__machine_8c.html#acaaebefe5198fea984c4977ac328470c", null ]
 ];

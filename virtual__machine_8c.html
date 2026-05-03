@@ -108,11 +108,11 @@ $(document).ready(function(){initNavTree('virtual__machine_8c.html',''); initRes
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;time.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">../common.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="compiler_8h_source.html">../frontend/compiler.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="memory__mutator_8h_source.html">memory_mutator.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="native__functions_8h_source.html">native_functions.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="value_8h_source.html">../language-models/value.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="value_8h_source.html">language-models/value.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="object_8h_source.html">language-models/object.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
@@ -129,6 +129,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a914e23c4c04a0e8faaa3f0d3d3ec3780" id="r_a914e23c4c04a0e8faaa3f0d3d3ec3780"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a914e23c4c04a0e8faaa3f0d3d3ec3780">virtual_machine_set_compile_fn</a> (<a class="el" href="virtual__machine_8h.html#aba9ab1abee3f2f8f315d3768c8ffcd46">vm_compile_fn_t</a> fn)</td></tr>
+<tr class="memdesc:a914e23c4c04a0e8faaa3f0d3d3ec3780"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the compile function used by virtual_machine_interpret.  <br /></td></tr>
+<tr class="separator:a914e23c4c04a0e8faaa3f0d3d3ec3780"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74446d91d6ed9d03a1cb40744483ae33" id="r_a74446d91d6ed9d03a1cb40744483ae33"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a74446d91d6ed9d03a1cb40744483ae33">virtual_machine_array_literal</a> (int32_t argCount)</td></tr>
 <tr class="memdesc:a74446d91d6ed9d03a1cb40744483ae33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an array based on an array literal expression.  <br /></td></tr>
 <tr class="separator:a74446d91d6ed9d03a1cb40744483ae33"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,7 +159,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a5351b4a129b99a02da6eb1e5d9a7ba11" id="r_a5351b4a129b99a02da6eb1e5d9a7ba11"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a5351b4a129b99a02da6eb1e5d9a7ba11">virtual_machine_define_method</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name)</td></tr>
 <tr class="memdesc:a5351b4a129b99a02da6eb1e5d9a7ba11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a new Method in the hashTable of the cellox class instance.  <br /></td></tr>
 <tr class="separator:a5351b4a129b99a02da6eb1e5d9a7ba11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48bc5513f68a21feba246331f899b020" id="r_a48bc5513f68a21feba246331f899b020"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a48bc5513f68a21feba246331f899b020">virtual_machine_define_native</a> (char const *name, <a class="el" href="native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a> function)</td></tr>
+<tr class="memitem:a48bc5513f68a21feba246331f899b020" id="r_a48bc5513f68a21feba246331f899b020"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a48bc5513f68a21feba246331f899b020">virtual_machine_define_native</a> (char const *name, <a class="el" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a> function)</td></tr>
 <tr class="memdesc:a48bc5513f68a21feba246331f899b020"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a native function for the virtual machine.  <br /></td></tr>
 <tr class="separator:a48bc5513f68a21feba246331f899b020"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17ee9002084f19db68b91046c9fd0e05" id="r_a17ee9002084f19db68b91046c9fd0e05"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a17ee9002084f19db68b91046c9fd0e05">virtual_machine_define_natives</a> (void)</td></tr>
@@ -219,6 +222,8 @@ Variables</h2></td></tr>
 <tr class="memitem:aef13dc0b5804875832a5b69c00bdcddf" id="r_aef13dc0b5804875832a5b69c00bdcddf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvirtual__machine__t.html">virtual_machine_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#aef13dc0b5804875832a5b69c00bdcddf">virtualMachine</a></td></tr>
 <tr class="memdesc:aef13dc0b5804875832a5b69c00bdcddf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global VirtualMachine variable.  <br /></td></tr>
 <tr class="separator:aef13dc0b5804875832a5b69c00bdcddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaaebefe5198fea984c4977ac328470c" id="r_acaaebefe5198fea984c4977ac328470c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="virtual__machine_8h.html#aba9ab1abee3f2f8f315d3768c8ffcd46">vm_compile_fn_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#acaaebefe5198fea984c4977ac328470c">vm_compile_fn</a> = NULL</td></tr>
+<tr class="separator:acaaebefe5198fea984c4977ac328470c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file containing of definitions of the virtual machine. </p>
@@ -266,8 +271,8 @@ Variables</h2></td></tr>
 <div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition</b> value.h:132</div></div>
 <div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition</b> value.h:139</div></div>
 <div class="ttc" id="avalue_8h_html_ac652f84a0dd6007f0ba26eefdf61d14c"><div class="ttname"><a href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a></div><div class="ttdeci">#define IS_OBJECT(value)</div><div class="ttdoc">Makro that determines whether a value is of the type object.</div><div class="ttdef"><b>Definition</b> value.h:134</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_a75c83b2d4270498a8fba788ed47a7803"><div class="ttname"><a href="virtual__machine_8c.html#a75c83b2d4270498a8fba788ed47a7803">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop(void)</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:142</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:526</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_a75c83b2d4270498a8fba788ed47a7803"><div class="ttname"><a href="virtual__machine_8c.html#a75c83b2d4270498a8fba788ed47a7803">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop(void)</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:159</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_aa0ec70aec5b3b580191b56a0b91cbd36"><div class="ttname"><a href="virtual__machine_8c.html#aa0ec70aec5b3b580191b56a0b91cbd36">virtual_machine_peek</a></div><div class="ttdeci">static value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:543</div></div>
 <div class="ttc" id="avirtual__machine_8h_html_a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition</b> virtual_machine.h:90</div></div>
 </div><!-- fragment -->
 </div>
@@ -686,7 +691,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a>&#160;</td>
           <td class="paramname"><em>function</em>&#160;</td>
         </tr>
         <tr>
@@ -1274,6 +1279,27 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a914e23c4c04a0e8faaa3f0d3d3ec3780" name="a914e23c4c04a0e8faaa3f0d3d3ec3780"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a914e23c4c04a0e8faaa3f0d3d3ec3780">&#9670;&#160;</a></span>virtual_machine_set_compile_fn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void virtual_machine_set_compile_fn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="virtual__machine_8h.html#aba9ab1abee3f2f8f315d3768c8ffcd46">vm_compile_fn_t</a>&#160;</td>
+          <td class="paramname"><em>fn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers the compile function used by virtual_machine_interpret. </p>
+<p>Call this once at startup (from the app layer) to inject the frontend compiler without creating a direct dependency from the runtime library on the frontend. </p>
+
+</div>
+</div>
 <a id="a7f1a23f799e4a2ccf99b05a5ccc4a490" name="a7f1a23f799e4a2ccf99b05a5ccc4a490"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7f1a23f799e4a2ccf99b05a5ccc4a490">&#9670;&#160;</a></span>virtual_machine_set_index_of()</h2>
 
@@ -1317,6 +1343,28 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Global VirtualMachine variable. </p>
+
+</div>
+</div>
+<a id="acaaebefe5198fea984c4977ac328470c" name="acaaebefe5198fea984c4977ac328470c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaaebefe5198fea984c4977ac328470c">&#9670;&#160;</a></span>vm_compile_fn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="virtual__machine_8h.html#aba9ab1abee3f2f8f315d3768c8ffcd46">vm_compile_fn_t</a> vm_compile_fn = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

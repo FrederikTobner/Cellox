@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['read_5fbyte_0',['READ_BYTE',['../virtual__machine_8c.html#a8d4d508ce869a6217c76b3d9d2a2de1c',1,'virtual_machine.c']]],
-  ['read_5fconstant_1',['READ_CONSTANT',['../virtual__machine_8c.html#a614083110814a3cb141c7653b3c346bc',1,'virtual_machine.c']]],
-  ['read_5fshort_2',['READ_SHORT',['../virtual__machine_8c.html#a01ae3d90f96f11bc8f1eb3b4917056ae',1,'virtual_machine.c']]],
-  ['read_5fstring_3',['READ_STRING',['../virtual__machine_8c.html#a49c43dd7a58bf7648fda3cb705c8ec95',1,'virtual_machine.c']]]
+  ['parser_0',['parser',['../expression__parser_8c.html#a873cca955d1a1f5159089ccd2f4f0002',1,'PARSER:&#160;expression_parser.c'],['../statement__parser_8c.html#a873cca955d1a1f5159089ccd2f4f0002',1,'PARSER:&#160;statement_parser.c']]],
+  ['path_5fseparator_1',['PATH_SEPARATOR',['../module__loader_8c.html#a256a5721249aa3309437212cc21a9fe4',1,'module_loader.c']]],
+  ['project_5finit_5flettering_2',['PROJECT_INIT_LETTERING',['../initializer_8c.html#a6a1ba09401bc03d6f81472f56ab2bd4d',1,'initializer.c']]]
 ];

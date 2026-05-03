@@ -14,7 +14,14 @@ var object_8c =
     [ "object_new_upvalue", "object_8c.html#af3877fdc05fa12e37f7c6b03833df200", null ],
     [ "object_print", "object_8c.html#a76dd015cb99008998a7bd0d9c3485b1b", null ],
     [ "object_print_function", "object_8c.html#a55363e6fbf1c8dd56a1f62b5cfd1f005", null ],
+    [ "object_set_gc_guard_hooks", "object_8c.html#af38dffea97b4c7e32a488619b85a6948", null ],
+    [ "object_set_vm_objects", "object_8c.html#a4e395f17dfe09d202c74763013fbf91d", null ],
+    [ "object_set_vm_string_table", "object_8c.html#a6a659b775190ebfea109687c747a4331", null ],
     [ "object_stringify_type", "object_8c.html#a0bd8a458ac170ad1c907ec1ab864d3fd", null ],
     [ "object_take_string", "object_8c.html#a520a8e4a061b39c3bf328fa5ce1513f7", null ],
-    [ "objectTypesStringified", "object_8c.html#aa132dbcf953952aa668b7f90ef48f6cf", null ]
+    [ "obj_gc_pop", "object_8c.html#a25f90154ba3b61bd3110d87b672b6ed0", null ],
+    [ "obj_gc_push", "object_8c.html#a28f44d72ed208899705238bcf06d55e1", null ],
+    [ "objectTypesStringified", "object_8c.html#aa132dbcf953952aa668b7f90ef48f6cf", null ],
+    [ "vm_objects_head", "object_8c.html#af407bb47ffedc74086fb3c1f52f7747c", null ],
+    [ "vm_string_table", "object_8c.html#a40d75c2c53dd9a0ed6accfb80db64a01", null ]
 ];

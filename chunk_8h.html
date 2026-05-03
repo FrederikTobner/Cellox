@@ -101,9 +101,9 @@ $(document).ready(function(){initNavTree('chunk_8h.html',''); initResizable(); }
 
 <p>Header file containing the declarations of functionality regarding cellox chunks.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">../common.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="dynamic__value__array_8h_source.html">../language-models/data-structures/dynamic_value_array.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="value_8h_source.html">../language-models/value.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="dynamic__value__array_8h_source.html">language-models/data-structures/dynamic_value_array.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="value_8h_source.html">language-models/value.h</a>&quot;</code><br />
 </div>
 <p><a href="chunk_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -178,6 +178,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a9372a8e3ed6ce83fda747701cb52e683" id="r_a9372a8e3ed6ce83fda747701cb52e683"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#a9372a8e3ed6ce83fda747701cb52e683">chunk_set_gc_guard_hooks</a> (void(*push)(<a class="el" href="structvalue__t.html">value_t</a>), <a class="el" href="structvalue__t.html">value_t</a>(*pop)(void))</td></tr>
+<tr class="memdesc:a9372a8e3ed6ce83fda747701cb52e683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers push/pop callbacks used by chunk_add_constant for GC safety.  <br /></td></tr>
+<tr class="separator:a9372a8e3ed6ce83fda747701cb52e683"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f34ca771a7b1ad9190c5781e8f0ed35" id="r_a7f34ca771a7b1ad9190c5781e8f0ed35"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8h.html#a7f34ca771a7b1ad9190c5781e8f0ed35">chunk_add_constant</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, <a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:a7f34ca771a7b1ad9190c5781e8f0ed35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a constant to the chunk.  <br /></td></tr>
 <tr class="separator:a7f34ca771a7b1ad9190c5781e8f0ed35"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -578,6 +581,37 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9372a8e3ed6ce83fda747701cb52e683" name="a9372a8e3ed6ce83fda747701cb52e683"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9372a8e3ed6ce83fda747701cb52e683">&#9670;&#160;</a></span>chunk_set_gc_guard_hooks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chunk_set_gc_guard_hooks </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(<a class="el" href="structvalue__t.html">value_t</a>)&#160;</td>
+          <td class="paramname"><em>push</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>(*)(void)&#160;</td>
+          <td class="paramname"><em>pop</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers push/pop callbacks used by chunk_add_constant for GC safety. </p>
+<p>The runtime calls this on VM init. Without the hooks chunk_add_constant skips GC guarding, which is safe only before the VM is running. </p>
 
 </div>
 </div>

@@ -12,7 +12,8 @@ var searchData=
   ['loadingstackcapacity_9',['loadingStackCapacity',['../structmodule__context__t.html#a8e0db2b852371483b57b1e962b35053b',1,'module_context_t']]],
   ['loadingstackcount_10',['loadingStackCount',['../structmodule__context__t.html#aafefc934fa29f7cf46d3125bd2967475',1,'module_context_t']]],
   ['localcount_11',['localCount',['../structcompiler__t.html#a9e31cbcd5f82d66b5f8f62c0c92e5f1d',1,'compiler_t']]],
-  ['locals_12',['locals',['../structcompiler__t.html#a54b34c8c06bbf18f65407a0f855a0cde',1,'compiler_t']]],
-  ['location_13',['location',['../structobject__upvalue__t.html#ab39a36623c8d492162307a8c4935aaa7',1,'object_upvalue_t']]],
-  ['longrepresentation_14',['longRepresentation',['../structcommand__line__option__type__config__t.html#afda5c7581b47d58a4eb2c0222faa804a',1,'command_line_option_type_config_t']]]
+  ['localcountatloop_12',['localCountAtLoop',['../structloop__context__t.html#a83637d550cb446776bdd291bee545794',1,'loop_context_t']]],
+  ['locals_13',['locals',['../structcompiler__t.html#a54b34c8c06bbf18f65407a0f855a0cde',1,'compiler_t']]],
+  ['location_14',['location',['../structobject__upvalue__t.html#ab39a36623c8d492162307a8c4935aaa7',1,'object_upvalue_t']]],
+  ['longrepresentation_15',['longRepresentation',['../structcommand__line__option__type__config__t.html#afda5c7581b47d58a4eb2c0222faa804a',1,'command_line_option_type_config_t']]]
 ];

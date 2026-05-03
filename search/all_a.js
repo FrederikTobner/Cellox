@@ -10,7 +10,7 @@ var searchData=
   ['lexer_5ferror_5ftoken_7',['lexer_error_token',['../lexer_8c.html#aec8119c37e88693e241134a2df28abeb',1,'lexer.c']]],
   ['lexer_5fidentifier_8',['lexer_identifier',['../lexer_8c.html#add5c4229e720e7ae979bfb28a3226239',1,'lexer.c']]],
   ['lexer_5fidentifier_5ftype_9',['lexer_identifier_type',['../lexer_8c.html#aea06a48d71bff2bdd69ebd709a271315',1,'lexer.c']]],
-  ['lexer_5finit_10',['lexer_init',['../lexer_8h.html#a95bc589fa00449110766bfc92fdc45bd',1,'lexer_init(char const *sourcecode):&#160;lexer.c'],['../lexer_8c.html#a95bc589fa00449110766bfc92fdc45bd',1,'lexer_init(char const *sourcecode):&#160;lexer.c']]],
+  ['lexer_5finit_10',['lexer_init',['../lexer_8c.html#a95bc589fa00449110766bfc92fdc45bd',1,'lexer_init(char const *sourcecode):&#160;lexer.c'],['../lexer_8h.html#a95bc589fa00449110766bfc92fdc45bd',1,'lexer_init(char const *sourcecode):&#160;lexer.c']]],
   ['lexer_5fis_5falpha_11',['lexer_is_alpha',['../lexer_8c.html#abc90d34a8a5686291eb784d0d88263fa',1,'lexer.c']]],
   ['lexer_5fis_5fat_5fend_12',['lexer_is_at_end',['../lexer_8c.html#ad79d7aca5fe0d36c01ad8cbbe668a019',1,'lexer.c']]],
   ['lexer_5fis_5fdigit_13',['lexer_is_digit',['../lexer_8c.html#a9aed5d54c1d268484387f7162f6b64d8',1,'lexer.c']]],
@@ -35,7 +35,10 @@ var searchData=
   ['loadingstackcount_32',['loadingStackCount',['../structmodule__context__t.html#aafefc934fa29f7cf46d3125bd2967475',1,'module_context_t']]],
   ['local_5ft_33',['local_t',['../structlocal__t.html',1,'']]],
   ['localcount_34',['localCount',['../structcompiler__t.html#a9e31cbcd5f82d66b5f8f62c0c92e5f1d',1,'compiler_t']]],
-  ['locals_35',['locals',['../structcompiler__t.html#a54b34c8c06bbf18f65407a0f855a0cde',1,'compiler_t']]],
-  ['location_36',['location',['../structobject__upvalue__t.html#ab39a36623c8d492162307a8c4935aaa7',1,'object_upvalue_t']]],
-  ['longrepresentation_37',['longRepresentation',['../structcommand__line__option__type__config__t.html#afda5c7581b47d58a4eb2c0222faa804a',1,'command_line_option_type_config_t']]]
+  ['localcountatloop_35',['localCountAtLoop',['../structloop__context__t.html#a83637d550cb446776bdd291bee545794',1,'loop_context_t']]],
+  ['locals_36',['locals',['../structcompiler__t.html#a54b34c8c06bbf18f65407a0f855a0cde',1,'compiler_t']]],
+  ['location_37',['location',['../structobject__upvalue__t.html#ab39a36623c8d492162307a8c4935aaa7',1,'object_upvalue_t']]],
+  ['longrepresentation_38',['longRepresentation',['../structcommand__line__option__type__config__t.html#afda5c7581b47d58a4eb2c0222faa804a',1,'command_line_option_type_config_t']]],
+  ['loop_5fcontext_5ft_39',['loop_context_t',['../structloop__context__t.html',1,'loop_context_t'],['../core__types_8h.html#a8ac871abc92c734e57872a9ef9238dba',1,'loop_context_t:&#160;core_types.h']]],
+  ['loop_5fmax_5fpending_5fjumps_40',['LOOP_MAX_PENDING_JUMPS',['../core__types_8h.html#a0e3b66edcaccd2dbd5719fb346737a4f',1,'core_types.h']]]
 ];

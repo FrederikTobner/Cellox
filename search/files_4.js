@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['lexer_2ec_0',['lexer.c',['../lexer_8c.html',1,'']]],
-  ['lexer_2eh_1',['lexer.h',['../lexer_8h.html',1,'']]]
+  ['garbage_5fcollector_2ec_0',['garbage_collector.c',['../garbage__collector_8c.html',1,'']]],
+  ['garbage_5fcollector_2eh_1',['garbage_collector.h',['../garbage__collector_8h.html',1,'']]]
 ];

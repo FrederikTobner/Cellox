@@ -14,6 +14,7 @@ var value_8h =
     [ "NUMBER_VAL", "value_8h.html#acca47ec80dce7e412502ceb7a201d240", null ],
     [ "OBJECT_VAL", "value_8h.html#a84728aae78aa0001c16ba66fbb04ebcb", null ],
     [ "TRUE_VAL", "value_8h.html#a4cc9cc92f3facf53e9c801be21a97af3", null ],
+    [ "native_function_t", "value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7", null ],
     [ "object_string_t", "value_8h.html#a1c9ea3843ddea74bb8c5612d87eb482e", null ],
     [ "object_t", "value_8h.html#a27555b6a6718dd529daf3f8acd554745", null ],
     [ "value_type", "value_8h.html#a5b7c2b5c96c13d5b5d2842e91794f6c1", [

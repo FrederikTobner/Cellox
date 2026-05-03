@@ -103,9 +103,8 @@ $(document).ready(function(){initNavTree('object_8h.html',''); initResizable(); 
 
 <p>Header file containing the declarations of functionality regarding cellox objects.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="native__functions_8h_source.html">../backend/native_functions.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="chunk_8h_source.html">../byte-code/chunk.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">../common.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="chunk_8h_source.html">byte-code/chunk.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="value__hash__table_8h_source.html">./data-structures/value_hash_table.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="value_8h_source.html">value.h</a>&quot;</code><br />
 </div>
@@ -249,7 +248,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a7826f0afd0b5a3c134d12ff75fefb1e5" id="r_a7826f0afd0b5a3c134d12ff75fefb1e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__instance__t.html">object_instance_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a7826f0afd0b5a3c134d12ff75fefb1e5">object_new_instance</a> (<a class="el" href="structobject__class__t.html">object_class_t</a> *celloxClass)</td></tr>
 <tr class="memdesc:a7826f0afd0b5a3c134d12ff75fefb1e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new cellox class instance.  <br /></td></tr>
 <tr class="separator:a7826f0afd0b5a3c134d12ff75fefb1e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a531e0d044d567b40189dfe2afff49444" id="r_a531e0d044d567b40189dfe2afff49444"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__native__t.html">object_native_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a531e0d044d567b40189dfe2afff49444">object_new_native</a> (<a class="el" href="native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a> function)</td></tr>
+<tr class="memitem:a531e0d044d567b40189dfe2afff49444" id="r_a531e0d044d567b40189dfe2afff49444"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__native__t.html">object_native_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a531e0d044d567b40189dfe2afff49444">object_new_native</a> (<a class="el" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a> function)</td></tr>
 <tr class="memdesc:a531e0d044d567b40189dfe2afff49444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new native function object.  <br /></td></tr>
 <tr class="separator:a531e0d044d567b40189dfe2afff49444"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520a8e4a061b39c3bf328fa5ce1513f7" id="r_a520a8e4a061b39c3bf328fa5ce1513f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structobject__string__t.html">object_string_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a520a8e4a061b39c3bf328fa5ce1513f7">object_take_string</a> (char *chars, uint32_t length)</td></tr>
@@ -264,6 +263,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a0bd8a458ac170ad1c907ec1ab864d3fd" id="r_a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a0bd8a458ac170ad1c907ec1ab864d3fd">object_stringify_type</a> (<a class="el" href="structobject__t.html">object_t</a> *object)</td></tr>
 <tr class="memdesc:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the textual representation of a cellox type.  <br /></td></tr>
 <tr class="separator:a0bd8a458ac170ad1c907ec1ab864d3fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a659b775190ebfea109687c747a4331" id="r_a6a659b775190ebfea109687c747a4331"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a6a659b775190ebfea109687c747a4331">object_set_vm_string_table</a> (<a class="el" href="structvalue__hash__table__t.html">value_hash_table_t</a> *table)</td></tr>
+<tr class="memdesc:a6a659b775190ebfea109687c747a4331"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the VM string intern table.  <br /></td></tr>
+<tr class="separator:a6a659b775190ebfea109687c747a4331"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e395f17dfe09d202c74763013fbf91d" id="r_a4e395f17dfe09d202c74763013fbf91d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a4e395f17dfe09d202c74763013fbf91d">object_set_vm_objects</a> (<a class="el" href="structobject__t.html">object_t</a> **objects)</td></tr>
+<tr class="memdesc:a4e395f17dfe09d202c74763013fbf91d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the VM objects list head pointer.  <br /></td></tr>
+<tr class="separator:a4e395f17dfe09d202c74763013fbf91d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af38dffea97b4c7e32a488619b85a6948" id="r_af38dffea97b4c7e32a488619b85a6948"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af38dffea97b4c7e32a488619b85a6948">object_set_gc_guard_hooks</a> (void(*push_fn)(<a class="el" href="structvalue__t.html">value_t</a>), <a class="el" href="structvalue__t.html">value_t</a>(*pop_fn)(void))</td></tr>
+<tr class="memdesc:af38dffea97b4c7e32a488619b85a6948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers GC guard hooks (push/pop) so object allocation can protect new strings from GC.  <br /></td></tr>
+<tr class="separator:af38dffea97b4c7e32a488619b85a6948"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a757116825d0287d762d16ff76846575b" id="r_a757116825d0287d762d16ff76846575b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a757116825d0287d762d16ff76846575b">object_is_type</a> (<a class="el" href="structvalue__t.html">value_t</a> value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623">object_type</a> type)</td></tr>
 <tr class="memdesc:a757116825d0287d762d16ff76846575b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether a value is of a given type.  <br /></td></tr>
 <tr class="separator:a757116825d0287d762d16ff76846575b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -948,7 +956,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structobject__native__t.html">object_native_t</a> * object_new_native </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a>&#160;</td>
           <td class="paramname"><em>function</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1016,6 +1024,77 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="af38dffea97b4c7e32a488619b85a6948" name="af38dffea97b4c7e32a488619b85a6948"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af38dffea97b4c7e32a488619b85a6948">&#9670;&#160;</a></span>object_set_gc_guard_hooks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void object_set_gc_guard_hooks </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(<a class="el" href="structvalue__t.html">value_t</a>)&#160;</td>
+          <td class="paramname"><em>push_fn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>(*)(void)&#160;</td>
+          <td class="paramname"><em>pop_fn</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers GC guard hooks (push/pop) so object allocation can protect new strings from GC. </p>
+
+</div>
+</div>
+<a id="a4e395f17dfe09d202c74763013fbf91d" name="a4e395f17dfe09d202c74763013fbf91d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e395f17dfe09d202c74763013fbf91d">&#9670;&#160;</a></span>object_set_vm_objects()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void object_set_vm_objects </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structobject__t.html">object_t</a> **&#160;</td>
+          <td class="paramname"><em>objects</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers the VM objects list head pointer. </p>
+
+</div>
+</div>
+<a id="a6a659b775190ebfea109687c747a4331" name="a6a659b775190ebfea109687c747a4331"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a659b775190ebfea109687c747a4331">&#9670;&#160;</a></span>object_set_vm_string_table()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void object_set_vm_string_table </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structvalue__hash__table__t.html">value_hash_table_t</a> *&#160;</td>
+          <td class="paramname"><em>table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers the VM string intern table. </p>
+<p>Called once from virtual_machine_init so that object_copy_string and object_take_string can intern strings without depending on the VM header. </p>
 
 </div>
 </div>

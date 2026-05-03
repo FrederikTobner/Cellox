@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('value_8h.html',''); initResizable(); }
 <p>Header file containing the declarations of functionality of cellox values.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;string.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">../common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 </div>
 <p><a href="value_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -164,6 +164,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a1c9ea3843ddea74bb8c5612d87eb482e" id="r_a1c9ea3843ddea74bb8c5612d87eb482e"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structobject__string__t.html">object_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="value_8h.html#a1c9ea3843ddea74bb8c5612d87eb482e">object_string_t</a></td></tr>
 <tr class="memdesc:a1c9ea3843ddea74bb8c5612d87eb482e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <a class="el" href="structobject__string__t.html" title="ObjectString structure definition.">object_string_t</a> as a new type (specified in <a class="el" href="object_8h.html" title="Header file containing the declarations of functionality regarding cellox objects.">object.h</a>)  <br /></td></tr>
 <tr class="separator:a1c9ea3843ddea74bb8c5612d87eb482e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66bdf91c6a9723966a227e8dbb6777b7" id="r_a66bdf91c6a9723966a227e8dbb6777b7"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structvalue__t.html">value_t</a>(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a>) (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td></tr>
+<tr class="memdesc:a66bdf91c6a9723966a227e8dbb6777b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native function signature.  <br /></td></tr>
+<tr class="separator:a66bdf91c6a9723966a227e8dbb6777b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -439,6 +442,23 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Typedef Documentation</h2>
+<a id="a66bdf91c6a9723966a227e8dbb6777b7" name="a66bdf91c6a9723966a227e8dbb6777b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66bdf91c6a9723966a227e8dbb6777b7">&#9670;&#160;</a></span>native_function_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="structvalue__t.html">value_t</a>(* native_function_t) (uint32_t argCount, <a class="el" href="structvalue__t.html">value_t</a> const *args)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Native function signature. </p>
+<p>A function pointer type for all native (C-implemented) functions callable from Cellox. </p>
+
+</div>
+</div>
 <a id="a1c9ea3843ddea74bb8c5612d87eb482e" name="a1c9ea3843ddea74bb8c5612d87eb482e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1c9ea3843ddea74bb8c5612d87eb482e">&#9670;&#160;</a></span>object_string_t</h2>
 

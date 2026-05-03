@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['garbage_5fcollector_2ec_0',['garbage_collector.c',['../garbage__collector_8c.html',1,'']]],
-  ['garbage_5fcollector_2eh_1',['garbage_collector.h',['../garbage__collector_8h.html',1,'']]]
+  ['dynamic_5fvalue_5farray_2ec_0',['dynamic_value_array.c',['../dynamic__value__array_8c.html',1,'']]],
+  ['dynamic_5fvalue_5farray_2eh_1',['dynamic_value_array.h',['../dynamic__value__array_8h.html',1,'']]]
 ];

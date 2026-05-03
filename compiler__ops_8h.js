@@ -1,0 +1,27 @@
+var compiler__ops_8h =
+[
+    [ "compiler_add_local", "compiler__ops_8h.html#a064050832125c8870ffd68042ad372d2", null ],
+    [ "compiler_add_upvalue", "compiler__ops_8h.html#a06ca99ce972083da0387a15966c6870e", null ],
+    [ "compiler_advance", "compiler__ops_8h.html#a40f5784e0633bf9df9a2d58fb27be8af", null ],
+    [ "compiler_begin_scope", "compiler__ops_8h.html#af589f01e438051ed72f5486a89c00211", null ],
+    [ "compiler_check", "compiler__ops_8h.html#a3aa1a38eec429dc52efbe493d8886a48", null ],
+    [ "compiler_consume", "compiler__ops_8h.html#a54bb54b6429fb96777e99d22c7c7e96e", null ],
+    [ "compiler_current_chunk", "compiler__ops_8h.html#aadf6e2a399aba997da692053033745cc", null ],
+    [ "compiler_declare_variable", "compiler__ops_8h.html#a97ebbd055fd6b741415fb0e95e80278f", null ],
+    [ "compiler_emit_byte", "compiler__ops_8h.html#a1a096b76eccfad2e5102326a89c6b664", null ],
+    [ "compiler_emit_bytes", "compiler__ops_8h.html#a8b7c665a02be4781ac21e891947a2ab5", null ],
+    [ "compiler_emit_constant", "compiler__ops_8h.html#a2c9da05f67db26f58b00ddabc775fe7b", null ],
+    [ "compiler_emit_jump", "compiler__ops_8h.html#a2816df307e7f900233f26fd36cdd246f", null ],
+    [ "compiler_emit_loop", "compiler__ops_8h.html#a560e3c83220bd1207b1e279e21bbfe52", null ],
+    [ "compiler_emit_return", "compiler__ops_8h.html#a493529c04e3ced90959aaa1422151abe", null ],
+    [ "compiler_end", "compiler__ops_8h.html#a4e6c9605b1b6ac5692e3a4551cf11bff", null ],
+    [ "compiler_end_scope", "compiler__ops_8h.html#aca5cb06da8045766a2b2fa1a1b9c4c62", null ],
+    [ "compiler_error", "compiler__ops_8h.html#afaadf808718a1ebd896c2e514ed16511", null ],
+    [ "compiler_error_at_current", "compiler__ops_8h.html#a265265be3cea18d54397f403b9833386", null ],
+    [ "compiler_init", "compiler__ops_8h.html#a826cca8a7c309f6a4e848b304dd44e10", null ],
+    [ "compiler_make_constant", "compiler__ops_8h.html#a3baf4929d81fd0c0ee4f4f2658b6c837", null ],
+    [ "compiler_mark_initialized", "compiler__ops_8h.html#aa6dcff8ac7d210fba632beb99338baac", null ],
+    [ "compiler_match_token", "compiler__ops_8h.html#a16b92757e9bdd36c82bba8a4e03adc8c", null ],
+    [ "compiler_patch_jump", "compiler__ops_8h.html#a7b84839e313cdcfc695865a2e0ec2ddd", null ],
+    [ "compiler_synthetic_token", "compiler__ops_8h.html#ab0e0345e83c68df2810e2cbdd382106b", null ]
+];

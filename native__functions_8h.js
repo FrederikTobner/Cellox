@@ -1,7 +1,6 @@
 var native__functions_8h =
 [
     [ "native_function_config_t", "structnative__function__config__t.html", "structnative__function__config__t" ],
-    [ "native_function_t", "native__functions_8h.html#a66bdf91c6a9723966a227e8dbb6777b7", null ],
     [ "native_functions_append_to_file", "native__functions_8h.html#a964acf053097d97a86bcf8ec8989c3b7", null ],
     [ "native_functions_array_length", "native__functions_8h.html#aa6a0b7e7afab7526fb5284fa78b9a27e", null ],
     [ "native_functions_asci_to_numerical", "native__functions_8h.html#a57fc4fa16e5deda6607666a5155ea5c5", null ],

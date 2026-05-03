@@ -93,7 +93,8 @@ $(document).ready(function(){initNavTree('garbage__collector_8c.html',''); initR
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">garbage_collector.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -103,8 +104,7 @@ $(document).ready(function(){initNavTree('garbage__collector_8c.html',''); initR
 <div class="textblock"><code>#include &quot;<a class="el" href="garbage__collector_8h_source.html">garbage_collector.h</a>&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="compiler_8h_source.html">../frontend/compiler.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="object_8h_source.html">../language-models/object.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="object_8h_source.html">language-models/object.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="memory__mutator_8h_source.html">memory_mutator.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="virtual__machine_8h_source.html">virtual_machine.h</a>&quot;</code><br />
 </div><table class="memberdecls">
@@ -115,6 +115,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ab60c279948f7aa42b70f1eb55b3aa86a" id="r_ab60c279948f7aa42b70f1eb55b3aa86a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="garbage__collector_8c.html#ab60c279948f7aa42b70f1eb55b3aa86a">garbage_collector_set_mark_roots_hook</a> (void(*fn)(void))</td></tr>
+<tr class="memdesc:ab60c279948f7aa42b70f1eb55b3aa86a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a callback that marks additional GC roots.  <br /></td></tr>
+<tr class="separator:ab60c279948f7aa42b70f1eb55b3aa86a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a014e054b75db36a783e439d9e8522b2f" id="r_a014e054b75db36a783e439d9e8522b2f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="garbage__collector_8c.html#a014e054b75db36a783e439d9e8522b2f">garbage_collector_blacken_object</a> (<a class="el" href="structobject__t.html">object_t</a> *object)</td></tr>
 <tr class="memdesc:a014e054b75db36a783e439d9e8522b2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blackens an object.  <br /></td></tr>
 <tr class="separator:a014e054b75db36a783e439d9e8522b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,6 +142,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a2f5fedd825262e07980e56fe5a41b6b4" id="r_a2f5fedd825262e07980e56fe5a41b6b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="garbage__collector_8c.html#a2f5fedd825262e07980e56fe5a41b6b4">garbage_collector_mark_value</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:a2f5fedd825262e07980e56fe5a41b6b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks a cellox value.  <br /></td></tr>
 <tr class="separator:a2f5fedd825262e07980e56fe5a41b6b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a7807e97add27bb3d8de7b4af033cbf97" id="r_a7807e97add27bb3d8de7b4af033cbf97"><td class="memItemLeft" align="right" valign="top">static void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="garbage__collector_8c.html#a7807e97add27bb3d8de7b4af033cbf97">gc_mark_roots_hook</a> )(void) = NULL</td></tr>
+<tr class="separator:a7807e97add27bb3d8de7b4af033cbf97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing implementation of functionality used for garbage collection. </p>
@@ -333,6 +341,27 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ab60c279948f7aa42b70f1eb55b3aa86a" name="ab60c279948f7aa42b70f1eb55b3aa86a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab60c279948f7aa42b70f1eb55b3aa86a">&#9670;&#160;</a></span>garbage_collector_set_mark_roots_hook()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void garbage_collector_set_mark_roots_hook </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(void)&#160;</td>
+          <td class="paramname"><em>fn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers a callback that marks additional GC roots. </p>
+<p>Call this once at startup (e.g. from the compiler layer) so the GC can traverse roots that live outside the runtime library without a direct dependency. </p>
+
+</div>
+</div>
 <a id="a4227421f7002718bf96e9ed70eabeef6" name="a4227421f7002718bf96e9ed70eabeef6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4227421f7002718bf96e9ed70eabeef6">&#9670;&#160;</a></span>garbage_collector_sweep()</h2>
 
@@ -387,6 +416,33 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Traces all the references to the objects of the virtual machine that are reachable All the objects that are reachable are marked as gray after the compiler roots are marked. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a7807e97add27bb3d8de7b4af033cbf97" name="a7807e97add27bb3d8de7b4af033cbf97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7807e97add27bb3d8de7b4af033cbf97">&#9670;&#160;</a></span>gc_mark_roots_hook</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* gc_mark_roots_hook) (void) </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

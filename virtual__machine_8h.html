@@ -94,6 +94,7 @@ $(document).ready(function(){initNavTree('virtual__machine_8h.html',''); initRes
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
@@ -103,8 +104,8 @@ $(document).ready(function(){initNavTree('virtual__machine_8h.html',''); initRes
 
 <p>Header file containing of declarations of the virtual machine.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="value__hash__table_8h_source.html">../language-models/data-structures/value_hash_table.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="object_8h_source.html">../language-models/object.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="value__hash__table_8h_source.html">language-models/data-structures/value_hash_table.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="object_8h_source.html">language-models/object.h</a>&quot;</code><br />
 </div>
 <p><a href="virtual__machine_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -125,6 +126,12 @@ Macros</h2></td></tr>
 <tr class="memitem:a27b296fccb4da1e9cfcf1f9c810e619e" id="r_a27b296fccb4da1e9cfcf1f9c810e619e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#a27b296fccb4da1e9cfcf1f9c810e619e">STACK_MAX</a>&#160;&#160;&#160;(<a class="el" href="virtual__machine_8h.html#a48b601641bf3e2604770f9ee5ed0abed">FRAMES_MAX</a> * <a class="el" href="common_8h.html#a2c580133a436e5d548aadde685fdbb52">UINT8_COUNT</a>)</td></tr>
 <tr class="memdesc:a27b296fccb4da1e9cfcf1f9c810e619e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum amount values that can be allocated on the stack of the VirtualMachine.  <br /></td></tr>
 <tr class="separator:a27b296fccb4da1e9cfcf1f9c810e619e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:aba9ab1abee3f2f8f315d3768c8ffcd46" id="r_aba9ab1abee3f2f8f315d3768c8ffcd46"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structobject__function__t.html">object_function_t</a> *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#aba9ab1abee3f2f8f315d3768c8ffcd46">vm_compile_fn_t</a>) (char const *program)</td></tr>
+<tr class="memdesc:aba9ab1abee3f2f8f315d3768c8ffcd46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer type for compiling source code.  <br /></td></tr>
+<tr class="separator:aba9ab1abee3f2f8f315d3768c8ffcd46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -154,6 +161,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a75c83b2d4270498a8fba788ed47a7803" id="r_a75c83b2d4270498a8fba788ed47a7803"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#a75c83b2d4270498a8fba788ed47a7803">virtual_machine_pop</a> (void)</td></tr>
 <tr class="memdesc:a75c83b2d4270498a8fba788ed47a7803"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pops a value from the stack.  <br /></td></tr>
 <tr class="separator:a75c83b2d4270498a8fba788ed47a7803"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a914e23c4c04a0e8faaa3f0d3d3ec3780" id="r_a914e23c4c04a0e8faaa3f0d3d3ec3780"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8h.html#a914e23c4c04a0e8faaa3f0d3d3ec3780">virtual_machine_set_compile_fn</a> (<a class="el" href="virtual__machine_8h.html#aba9ab1abee3f2f8f315d3768c8ffcd46">vm_compile_fn_t</a> fn)</td></tr>
+<tr class="memdesc:a914e23c4c04a0e8faaa3f0d3d3ec3780"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the compile function used by virtual_machine_interpret.  <br /></td></tr>
+<tr class="separator:a914e23c4c04a0e8faaa3f0d3d3ec3780"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -196,6 +206,23 @@ Variables</h2></td></tr>
 
 <p>Maximum amount values that can be allocated on the stack of the VirtualMachine. </p>
 <p>These are currently 16384 values </p>
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="aba9ab1abee3f2f8f315d3768c8ffcd46" name="aba9ab1abee3f2f8f315d3768c8ffcd46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba9ab1abee3f2f8f315d3768c8ffcd46">&#9670;&#160;</a></span>vm_compile_fn_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="structobject__function__t.html">object_function_t</a> *(* vm_compile_fn_t) (char const *program)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Function pointer type for compiling source code. </p>
 
 </div>
 </div>
@@ -365,6 +392,27 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a914e23c4c04a0e8faaa3f0d3d3ec3780" name="a914e23c4c04a0e8faaa3f0d3d3ec3780"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a914e23c4c04a0e8faaa3f0d3d3ec3780">&#9670;&#160;</a></span>virtual_machine_set_compile_fn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void virtual_machine_set_compile_fn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="virtual__machine_8h.html#aba9ab1abee3f2f8f315d3768c8ffcd46">vm_compile_fn_t</a>&#160;</td>
+          <td class="paramname"><em>fn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers the compile function used by virtual_machine_interpret. </p>
+<p>Call this once at startup (from the app layer) to inject the frontend compiler without creating a direct dependency from the runtime library on the frontend. </p>
 
 </div>
 </div>
