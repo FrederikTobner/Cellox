@@ -28,4 +28,13 @@
 /// @return Heap-allocated source text or NULL if loading failed.
 char * module_loader_load_program(char const * entryPath);
 
+/// @brief Overrides the standard library search path used to resolve bare imports.
+/// @details A "bare" import is one that does not start with '.', '/', or a drive letter.
+///          For example, `import { abs } from "stdlib/math.clx"` will be resolved as
+///          `<stdlibPath>/math.clx` when stdlibPath is set to the directory containing math.clx.
+///          If not called, the path compiled in via CLX_STDLIB_PATH is used.
+///          Passing NULL resets to the compiled-in default.
+/// @param path The directory that contains the stdlib modules, or NULL to reset.
+void module_loader_set_stdlib_path(char const * path);
+
 #endif

@@ -1,4 +1,4 @@
-import { stack } from "../../stdlib/collections.clx";
+import { stack } from "stdlib/collections.clx";
 
 var s = stack();
 s.push(1).push(2).push(3);

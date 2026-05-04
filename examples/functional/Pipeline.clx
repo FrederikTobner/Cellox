@@ -1,4 +1,4 @@
-import { array_view } from "../../stdlib/view.clx";
+import { array_view } from "stdlib/view.clx";
 
 // Data pipeline using the stdlib view: filter → map → reduce
 // Demonstrates: stdlib import, higher-order functions, method chaining on views

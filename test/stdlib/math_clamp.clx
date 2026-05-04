@@ -1,4 +1,4 @@
-import { clamp } from "../../stdlib/math.clx";
+import { clamp } from "stdlib/math.clx";
 printf("{}\n", clamp(5, 0, 10));
 printf("{}\n", clamp(-3, 0, 10));
 printf("{}\n", clamp(15, 0, 10));

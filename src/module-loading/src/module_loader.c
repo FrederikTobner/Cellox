@@ -56,6 +56,25 @@ static bool module_loader_validate_named_imports(module_context_t *, module_reco
                                                  char const *);
 static void module_loader_error(module_context_t *, char const *, ...);
 
+/// Runtime-overridable stdlib search path.  NULL means "use CLX_STDLIB_PATH".
+static char const * module_loader_stdlib_path_override = NULL;
+
+void module_loader_set_stdlib_path(char const * path) {
+    module_loader_stdlib_path_override = path;
+}
+
+/// Returns the effective stdlib directory (never NULL if CLX_STDLIB_PATH was set at build time).
+static char const * module_loader_get_stdlib_path(void) {
+    if (module_loader_stdlib_path_override) {
+        return module_loader_stdlib_path_override;
+    }
+#ifdef CLX_STDLIB_PATH
+    return CLX_STDLIB_PATH;
+#else
+    return NULL;
+#endif
+}
+
 char * module_loader_load_program(char const * entryPath) {
     module_context_t context;
     context.modules = NULL;
@@ -199,7 +218,8 @@ static module_record_t * module_loader_process_module_from(module_context_t * co
     module->exports = exports;
 
     for (size_t i = 0; i < importCount; i++) {
-        char * resolvedImportPath = module_path_resolve_import(module->canonicalPath, imports[i].path);
+        char * resolvedImportPath = module_path_resolve_import(module->canonicalPath, imports[i].path,
+                                                                module_loader_get_stdlib_path());
         if (!resolvedImportPath) {
             module_loader_error(context, "Could not resolve import path \"%s\" from \"%s\"", imports[i].path,
                                 module->canonicalPath);

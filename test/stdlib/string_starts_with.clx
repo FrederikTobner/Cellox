@@ -1,4 +1,4 @@
-import { str_starts_with } from "../../stdlib/string.clx";
+import { str_starts_with } from "stdlib/string.clx";
 printf("{}\n", str_starts_with("hello world", "hello"));
 printf("{}\n", str_starts_with("hello world", "world"));
 printf("{}\n", str_starts_with("hi", "hello"));

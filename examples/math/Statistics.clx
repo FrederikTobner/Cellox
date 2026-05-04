@@ -1,4 +1,4 @@
-import { floor, ceil } from "../../stdlib/math.clx";
+import { floor, ceil } from "stdlib/math.clx";
 
 // Statistics: mean, variance, standard deviation, median
 // Demonstrates: stdlib math import, for loops, array operations

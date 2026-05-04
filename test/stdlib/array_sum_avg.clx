@@ -1,4 +1,4 @@
-import { arr_sum, arr_avg } from "../../stdlib/array.clx";
+import { arr_sum, arr_avg } from "stdlib/array.clx";
 var a = {1, 2, 3, 4, 5};
 printf("{}\n", arr_sum(a));
 printf("{}\n", arr_avg(a));

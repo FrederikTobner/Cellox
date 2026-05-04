@@ -46,12 +46,9 @@ static std::string stdlib_run_source(char * source) {
 }
 
 TEST(StdlibIntegration, MathAbsViaModuleLoader) {
-    std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
-    stdlibPath += "../stdlib/math.clx";
-
     std::string entryPath = stdlib_make_temp_path();
     std::string entrySource =
-        "import { abs } from \"" + stdlibPath + "\";\n"
+        "import { abs } from \"stdlib/math.clx\";\n"
         "printf(\"{}\\n\", abs(-4));\n"
         "printf(\"{}\\n\", abs(6));\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
@@ -65,12 +62,9 @@ TEST(StdlibIntegration, MathAbsViaModuleLoader) {
 }
 
 TEST(StdlibIntegration, StringRepeatViaModuleLoader) {
-    std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
-    stdlibPath += "../stdlib/string.clx";
-
     std::string entryPath = stdlib_make_temp_path();
     std::string entrySource =
-        "import { str_repeat } from \"" + stdlibPath + "\";\n"
+        "import { str_repeat } from \"stdlib/string.clx\";\n"
         "printf(\"{}\\n\", str_repeat(\"ha\", 3));\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
@@ -83,12 +77,9 @@ TEST(StdlibIntegration, StringRepeatViaModuleLoader) {
 }
 
 TEST(StdlibIntegration, ArraySumViaModuleLoader) {
-    std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
-    stdlibPath += "../stdlib/array.clx";
-
     std::string entryPath = stdlib_make_temp_path();
     std::string entrySource =
-        "import { arr_sum } from \"" + stdlibPath + "\";\n"
+        "import { arr_sum } from \"stdlib/array.clx\";\n"
         "printf(\"{}\\n\", arr_sum({10, 20, 30}));\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
@@ -101,12 +92,9 @@ TEST(StdlibIntegration, ArraySumViaModuleLoader) {
 }
 
 TEST(StdlibIntegration, IoPrintlnViaModuleLoader) {
-    std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
-    stdlibPath += "../stdlib/io.clx";
-
     std::string entryPath = stdlib_make_temp_path();
     std::string entrySource =
-        "import { println } from \"" + stdlibPath + "\";\n"
+        "import { println } from \"stdlib/io.clx\";\n"
         "println(\"integration\");\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
@@ -119,12 +107,9 @@ TEST(StdlibIntegration, IoPrintlnViaModuleLoader) {
 }
 
 TEST(StdlibIntegration, OsNameViaModuleLoader) {
-    std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
-    stdlibPath += "../stdlib/os.clx";
-
     std::string entryPath = stdlib_make_temp_path();
     std::string entrySource =
-        "import { os_name } from \"" + stdlibPath + "\";\n"
+        "import { os_name } from \"stdlib/os.clx\";\n"
         "printf(\"{}\\n\", os_name());\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
@@ -137,12 +122,9 @@ TEST(StdlibIntegration, OsNameViaModuleLoader) {
 }
 
 TEST(StdlibIntegration, CollectionsStackViaModuleLoader) {
-    std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
-    stdlibPath += "../stdlib/collections.clx";
-
     std::string entryPath = stdlib_make_temp_path();
     std::string entrySource =
-        "import { stack } from \"" + stdlibPath + "\";\n"
+        "import { stack } from \"stdlib/collections.clx\";\n"
         "var s = stack();\n"
         "s.push(1).push(2);\n"
         "printf(\"{}\\n\", s.pop());\n"
@@ -158,12 +140,9 @@ TEST(StdlibIntegration, CollectionsStackViaModuleLoader) {
 }
 
 TEST(StdlibIntegration, ViewPipelineViaModuleLoader) {
-    std::string stdlibPath = TEST_PROGRAM_BASE_PATH;
-    stdlibPath += "../stdlib/view.clx";
-
     std::string entryPath = stdlib_make_temp_path();
     std::string entrySource =
-        "import { array_view } from \"" + stdlibPath + "\";\n"
+        "import { array_view } from \"stdlib/view.clx\";\n"
         "fun is_even(x) { return x % 2 == 0; }\n"
         "fun square(x) { return x * x; }\n"
         "fun sum(acc, x) { return acc + x; }\n"
