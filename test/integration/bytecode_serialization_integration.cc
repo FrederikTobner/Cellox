@@ -5,17 +5,12 @@
 #include <cstring>
 #include <string>
 
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-
 extern "C" {
 #include "backend/virtual_machine.h"
 #include "byte-code/chunk.h"
 #include "byte-code/chunk_file.h"
-#include "frontend/compilation/compiler.h"
+#include "clx_os/temp.h"
+#include "frontend/compiler.h"
 #include "language-models/object.h"
 }
 
@@ -25,27 +20,11 @@ static std::string derive_chunk_path(std::string path) {
 }
 
 static std::string make_temp_base_path() {
-#ifdef _WIN32
-    char tempDirectory[MAX_PATH];
-    DWORD directoryLength = GetTempPathA(MAX_PATH, tempDirectory);
-    EXPECT_GT(directoryLength, 0u);
-    EXPECT_LT(directoryLength, MAX_PATH);
-
-    char tempFile[MAX_PATH];
-    UINT result = GetTempFileNameA(tempDirectory, "clx", 0, tempFile);
-    EXPECT_NE(0u, result);
-    std::remove(tempFile);
-    return std::string(tempFile);
-#else
-    char pathTemplate[] = "/tmp/cellox_bytecode_XXXXXX";
-    int fd = mkstemp(pathTemplate);
-    EXPECT_NE(-1, fd);
-    if (fd != -1) {
-        close(fd);
-        std::remove(pathTemplate);
-    }
-    return std::string(pathTemplate);
-#endif
+    char * path = clx_os_temp_make_path("cellox_bytecode_", "");
+    EXPECT_NE(nullptr, path);
+    std::string result = path ? std::string(path) : std::string();
+    std::free(path);
+    return result;
 }
 
 static std::string make_temp_program_path() {

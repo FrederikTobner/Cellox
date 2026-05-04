@@ -22,6 +22,10 @@ option(CLX_DEBUG_TRACE_EXECUTION "Determines whether the execution shall be trac
 option(CLX_DEBUG_STRESS_GARBAGE_COLLECTOR "Determines whether the garbage collector shall be stressed" OFF)
 option(CLX_DEBUG_LOG_GARBAGE_COLLECTION "Determines whether the garbage collection be logged" OFF)
 
+# Optimization diagnostics (all builds)
+option(CLX_OPTIMIZATION_PRINT_STATS "Print optimization summary statistics for each compiled chunk" OFF)
+option(CLX_OPTIMIZATION_VERBOSE_STATS "Print verbose per-pass optimization diagnostics" OFF)
+
 # Build options
 option(CLX_BUILD_TESTS "Determines whether the tests shall be built" OFF)
 option(CLX_BUILD_TOOLS "Determines whether the development tools shall be built" ON)
@@ -36,11 +40,14 @@ if(CLX_NAN_BOXING_ACTIVATED)
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
-include(CompileDefinitions)
 include(CelloxHelpers)
 
-cellox_add_compiler_compile_definitions()
-cellox_add_os_compile_definitions()
+set(CLX_CMAKE_CONDITIONALS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake/conditionals")
+include("${CLX_CMAKE_CONDITIONALS_DIR}/compiler/select.cmake")
+include("${CLX_CMAKE_CONDITIONALS_DIR}/os/select.cmake")
+include("${CLX_CMAKE_CONDITIONALS_DIR}/build_types.cmake")
+
+clx_os_check_core_headers()
 
 # Standard library of Cellox source files
 # Must come before src/ so CELLOX_STDLIB_SOURCE_DIR is set before cellox_config.h is generated.

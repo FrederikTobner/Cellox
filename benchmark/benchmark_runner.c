@@ -8,20 +8,11 @@
 #include <string.h>
 #include <time.h>
 
-#ifdef OS_WINDOWS
-#include <windows.h>
-// Windows.h has to be included before the fileapi
-#include <fileapi.h>
-#endif
+#include "driver/initializer.h"
 
-#ifdef OS_UNIX_LIKE
-#include <dirent.h>
-#include <sys/stat.h>
-#endif
-
-#include "initializer.h"
-
-#include "common.h"
+#include "clx_os/fs.h"
+#include "clx_os/stdio.h"
+#include "base/common.h"
 
 /// @brief Benchmarks that are included in the benchmarking suite by default
 /// @details Includes arithmetic, object, module import, and slice-heavy workloads.
@@ -129,40 +120,10 @@ static FILE * benchmark_runner_create_results_file_pointer(void) {
 }
 
 static void benchamrk_runner_ensure_results_directory_exists(void) {
-#ifdef OS_WINDOWS
-    DWORD dwAttribute = GetFileAttributes(RESULTS_BASE_PATH);
-    if (dwAttribute == INVALID_FILE_ATTRIBUTES) {
-        CreateDirectory(RESULTS_BASE_PATH, NULL);
-        dwAttribute = GetFileAttributes(RESULTS_BASE_PATH);
-        if (dwAttribute == INVALID_FILE_ATTRIBUTES) {
-            fprintf(stderr, "Can not create results directory!\n");
-            exit(EXIT_CODE_SYSTEM_ERROR);
-        }
-    } else if (!(dwAttribute & FILE_ATTRIBUTE_DIRECTORY)) {
-        fprintf(stderr, "Results is not a directory");
-        exit(EXIT_CODE_SYSTEM_ERROR);
-    }
-#endif
-#ifdef OS_UNIX_LIKE
-    DIR * resultsDirectory = opendir(RESULTS_BASE_PATH);
-    if (resultsDirectory) {
-        closedir(resultsDirectory);
-    } else if (ENOENT == errno) {
-        // If the directory does not exists we need to create it
-        mkdir(RESULTS_BASE_PATH, 0700);
-        resultsDirectory = opendir(RESULTS_BASE_PATH);
-        if (resultsDirectory) {
-            closedir(resultsDirectory);
-        } else {
-            fprintf(stderr, "Can not create results directory!\n");
-            exit(EXIT_CODE_SYSTEM_ERROR);
-        }
-
-    } else {
+    if (!clx_os_fs_ensure_directory(RESULTS_BASE_PATH)) {
         fprintf(stderr, "Can not access results directory!\n");
         exit(EXIT_CODE_SYSTEM_ERROR);
     }
-#endif
 }
 
 static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, bool custom, FILE * filePointer) {
@@ -181,11 +142,7 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
     }
 
     char * measured_time = (char *)calloc(1024, sizeof(char));
-#ifdef OS_WINDOWS
-    freopen("NUL", "a", stdout);
-#elif OS_UNIX_LIKE
-    freopen("/dev/nul", "a", stdout);
-#endif
+    freopen(clx_os_stdio_null_device_path(), "a", stdout);
 
     double benchmark_execution_time;
     for (size_t i = 0; i < benchmark.executionCount; i++) {
@@ -210,7 +167,7 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
         }
     }
     // Reset stdout redirection
-    freopen("CON", "w", stdout);
+    freopen(clx_os_stdio_console_device_path(), "w", stdout);
     printf("%9gs | %9gs | %9gs | %s\n", combined_execution_duration / benchmark.executionCount, min_execution_duration,
            max_execution_duration, benchmark.benchmarkName);
     fprintf(filePointer, "%9gs | %9gs | %9gs | %s\n", combined_execution_duration / benchmark.executionCount,

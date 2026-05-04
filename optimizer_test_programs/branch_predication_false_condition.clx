@@ -1,0 +1,16 @@
+if (false) {
+    printf("{}", 1);
+} else {
+    printf("{}", 2);
+}
+/*
+ * Relevant branch pattern before optimization:
+ * OP_FALSE
+ * OP_JUMP_IF_FALSE <offset>
+ *
+ * Is transformed to:
+ * OP_FALSE
+ * OP_JUMP <same offset>
+ *
+ * This validates branch predication for statically falsey conditions.
+ */

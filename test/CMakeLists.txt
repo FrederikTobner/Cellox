@@ -49,7 +49,6 @@ add_executable(${FUZZ_TESTS}
     ${FUZZ_TEST_SOURCE_FILES})
 
 # Includes SourcePath of the compiler for shorter includes and top-level test include paths
-# cellox_all propagates all necessary include directories transitively
 target_include_directories(${E2E_TESTS} PUBLIC ${SOURCEPATH} ${CMAKE_CURRENT_SOURCE_DIR}/e2e)
 target_include_directories(${INTEGRATION_TESTS} PUBLIC ${SOURCEPATH})
 target_include_directories(${UNIT_TESTS} PUBLIC ${SOURCEPATH})
@@ -62,10 +61,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Links cellox libraries and googletest
-target_link_libraries(${E2E_TESTS} PRIVATE cellox_all GTest::gtest_main)
-target_link_libraries(${INTEGRATION_TESTS} PRIVATE cellox_all GTest::gtest_main)
-target_link_libraries(${UNIT_TESTS} PRIVATE cellox_all GTest::gtest_main)
-target_link_libraries(${FUZZ_TESTS} PRIVATE cellox_all GTest::gtest_main)
+target_link_libraries(${E2E_TESTS} PRIVATE clx_driver GTest::gtest_main)
+target_link_libraries(${INTEGRATION_TESTS} PRIVATE clx_driver GTest::gtest_main)
+target_link_libraries(${UNIT_TESTS} PRIVATE clx_driver GTest::gtest_main)
+target_link_libraries(${FUZZ_TESTS} PRIVATE clx_driver GTest::gtest_main)
 
 # Includes google test framework specific macros
 include(GoogleTest)
@@ -74,3 +73,11 @@ gtest_discover_tests(${E2E_TESTS} TEST_LIST E2E_TEST_LIST PROPERTIES LABELS "e2e
 gtest_discover_tests(${INTEGRATION_TESTS} PROPERTIES LABELS "integration")
 gtest_discover_tests(${UNIT_TESTS} PROPERTIES LABELS "unit")
 gtest_discover_tests(${FUZZ_TESTS} PROPERTIES LABELS "fuzz")
+
+# Optimization pass unit tests (standalone, no googletest dependency)
+add_subdirectory(middle-end)
+
+# CI builds a fixed list of top-level test targets. Make the standalone
+# optimization tests transitive so their executables always exist before ctest.
+add_dependencies(${UNIT_TESTS} test_optimization_passes)
+add_dependencies(${INTEGRATION_TESTS} test_optimization_integration)

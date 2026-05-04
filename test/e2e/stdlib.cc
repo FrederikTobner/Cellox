@@ -1,5 +1,9 @@
 #include <gtest/gtest.h>
 
+extern "C" {
+#include "clx_os/platform.h"
+}
+
 #include "test_cellox.hh"
 
 // ── math.clx ─────────────────────────────────────────────────────────────────
@@ -85,13 +89,8 @@ TEST(StdlibIo, Separator) {
 // ── os.clx ───────────────────────────────────────────────────────────────────
 
 TEST(StdlibOs, Name) {
-#ifdef __linux__
-    test_cellox_program("stdlib/os_name.clx", "linux\n");
-#elif defined(__APPLE__)
-    test_cellox_program("stdlib/os_name.clx", "macos\n");
-#elif defined(_WIN32)
-    test_cellox_program("stdlib/os_name.clx", "windows\n");
-#endif
+    std::string expected = std::string(clx_os_platform_name()) + "\n";
+    test_cellox_program("stdlib/os_name.clx", expected);
 }
 
 TEST(StdlibOs, Benchmark) {

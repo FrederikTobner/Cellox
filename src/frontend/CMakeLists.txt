@@ -1,18 +1,20 @@
 cellox_add_library(clx_lex
     SOURCES
-        lexical_analysis/lexer.c
+        src/lexical_analysis/lexer.c
     DEPENDENCIES
         clx_base
 )
 
 cellox_add_library(clx_frontend
     SOURCES
-        parsing/expression_parser.c
-        parsing/statement_parser.c
-        compilation/bytecode_emitter.c
-        compilation/compilation_context.c
-        compilation/compiler.c
+        src/parsing/expression_parser.c
+        src/parsing/statement_parser.c
+        src/compilation/bytecode_emitter.c
+        src/compilation/compilation_context.c
+        src/compilation/compiler.c
     DEPENDENCIES
         clx_middleend
         clx_lex
+    INCLUDE_DIRS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )

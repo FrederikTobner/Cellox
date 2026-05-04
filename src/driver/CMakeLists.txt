@@ -1,0 +1,11 @@
+cellox_add_library(clx_driver
+    SOURCES
+        src/command_line_argument_parser.c
+        src/initializer.c
+    DEPENDENCIES
+        clx_runtime
+        clx_frontend
+        clx_module_loading
+    INCLUDE_DIRS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)

@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-#include "initializer.h"
+#include "driver/initializer.h"
 
 static void test_program(std::string const & programPath, std::string const & expectedOutput, bool producesError);
 

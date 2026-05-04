@@ -5,10 +5,13 @@ endif()
 
 cellox_add_library(clx_runtime
     SOURCES
-        garbage_collector.c
-        memory_mutator.c
-        native_functions.c
-        virtual_machine.c
+        src/garbage_collector.c
+        src/memory_mutator.c
+        src/native_functions.c
+        src/virtual_machine.c
     DEPENDENCIES
+        clx_utils
         ${_runtime_deps}
+    INCLUDE_DIRS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )

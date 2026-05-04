@@ -1,0 +1,15 @@
+if (true) {
+    printf("{}", 10);
+} else {
+    // This branch is never executed once branch predication rewrites the jump.
+    printf("{}", 20);
+}
+
+printf("{}", 30);
+/*
+ * Pipeline-oriented expectation:
+ * 1) Branch predication rewrites OP_TRUE + OP_JUMP_IF_FALSE.
+ * 2) Dead code detection/elimination can remove instructions no longer reachable.
+ *
+ * This program helps validate inter-pass behavior (branch rewrite + DCE).
+ */

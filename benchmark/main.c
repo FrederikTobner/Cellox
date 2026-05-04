@@ -2,7 +2,7 @@
 
 #include "benchmark_argument_parser.h"
 #include "benchmark_runner.h"
-#include "common.h"
+#include "base/common.h"
 
 /// @brief Main entry point of the cellox benchmarking suite
 /// @details Runs predefined benchmarks that include module import and slice workloads in addition to core language paths.
