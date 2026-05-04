@@ -73,3 +73,6 @@ gtest_discover_tests(${E2E_TESTS} TEST_LIST E2E_TEST_LIST PROPERTIES LABELS "e2e
 gtest_discover_tests(${INTEGRATION_TESTS} PROPERTIES LABELS "integration")
 gtest_discover_tests(${UNIT_TESTS} PROPERTIES LABELS "unit")
 gtest_discover_tests(${FUZZ_TESTS} PROPERTIES LABELS "fuzz")
+
+# Optimization pass unit tests (standalone, no googletest dependency)
+add_subdirectory(middle-end)

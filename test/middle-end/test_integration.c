@@ -10,7 +10,7 @@
 
 // Include test framework
 #include "byte-code/chunk.h"
-#include "frontend/compilation/compiler.h"
+#include "frontend/compiler.h"
 #include "middle-end/chunk_optimizer.h"
 
 // ============================================================================

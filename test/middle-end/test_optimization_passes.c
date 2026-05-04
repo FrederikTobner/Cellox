@@ -54,17 +54,16 @@ static int g_test_failed = 0;
  * @brief Emit a constant bytecode instruction
  */
 static void emit_constant(chunk_t* chunk, value_t value) {
-    chunk_add_constant(chunk, value);
-    chunk->code[chunk->byteCodeCount++] = OP_CONSTANT;
-    chunk->code[chunk->byteCodeCount++] = (uint8_t)((chunk->constants.count - 1) >> 8);
-    chunk->code[chunk->byteCodeCount++] = (uint8_t)((chunk->constants.count - 1) & 0xFF);
+    int32_t index = chunk_add_constant(chunk, value);
+    chunk_write(chunk, OP_CONSTANT, 0);
+    chunk_write(chunk, (uint8_t)index, 0);
 }
 
 /**
  * @brief Emit a binary operation bytecode instruction
  */
 static void emit_op(chunk_t* chunk, uint8_t opcode) {
-    chunk->code[chunk->byteCodeCount++] = opcode;
+    chunk_write(chunk, opcode, 0);
 }
 
 /**

@@ -233,7 +233,7 @@ pass_result_t pass_dead_code_elimination(chunk_t * chunk) {
         uint8_t opcode = chunk->code[offset];
         if (BIT_GET(chunk->_reachable_bitset, offset) && is_jump_opcode(opcode)) {
             int32_t old_target = jump_target(chunk, offset);
-            if (old_target >= 0 && (uint32_t)old_target < chunk->byteCodeCount) {
+            if (old_target >= 0 && (uint32_t)old_target <= chunk->byteCodeCount) {
                 jump_offsets[jump_count] = offset;
                 jump_targets[jump_count] = (uint32_t)old_target;
                 jump_opcodes[jump_count] = opcode;
