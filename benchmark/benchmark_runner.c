@@ -8,11 +8,11 @@
 #include <string.h>
 #include <time.h>
 
-#include "initializer.h"
+#include "driver/initializer.h"
 
 #include "clx_os/fs.h"
 #include "clx_os/stdio.h"
-#include "common.h"
+#include "base/common.h"
 
 /// @brief Benchmarks that are included in the benchmarking suite by default
 /// @details Includes arithmetic, object, module import, and slice-heavy workloads.

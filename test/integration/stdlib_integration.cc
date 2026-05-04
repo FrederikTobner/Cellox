@@ -10,7 +10,7 @@ extern "C" {
 #include "backend/virtual_machine.h"
 #include "clx_os/platform.h"
 #include "clx_os/temp.h"
-#include "frontend/compilation/compiler.h"
+#include "frontend/compiler.h"
 #include "module-loading/module_loader.h"
 }
 

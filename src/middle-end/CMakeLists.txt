@@ -1,13 +1,15 @@
 cellox_add_library(clx_middleend
     SOURCES
-        chunk_optimizer.c
-        optimization_pass.c
-        passes/dead_code_elimination.c
-        passes/constant_folding.c
-        passes/algebraic_identity.c
-        passes/branch_predication.c
-        passes/constant_pool_dedup.c
+        src/chunk_optimizer.c
+        src/optimization_pass.c
+        src/passes/dead_code_elimination.c
+        src/passes/constant_folding.c
+        src/passes/algebraic_identity.c
+        src/passes/branch_predication.c
+        src/passes/constant_pool_dedup.c
     DEPENDENCIES
         clx_bytecode
         clx_os
+    INCLUDE_DIRS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )

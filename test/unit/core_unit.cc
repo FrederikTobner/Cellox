@@ -3,7 +3,7 @@
 extern "C" {
 #include "backend/virtual_machine.h"
 #include "byte-code/chunk.h"
-#include "language-models/data-structures/dynamic_value_array.h"
+#include "language-models/dynamic_value_array.h"
 }
 
 TEST(DynamicValueArrayUnit, RemoveMiddleElementShiftsTail) {

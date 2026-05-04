@@ -1,9 +1,12 @@
 cellox_add_library(clx_model
     SOURCES
-        value.c
-        object.c
-        data-structures/dynamic_value_array.c
-        data-structures/value_hash_table.c
+        src/value.c
+        src/object.c
+        src/data-structures/dynamic_value_array.c
+        src/data-structures/value_hash_table.c
     DEPENDENCIES
         clx_base
+        clx_utils
+    INCLUDE_DIRS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )

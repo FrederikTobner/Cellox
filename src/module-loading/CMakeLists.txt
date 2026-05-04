@@ -1,9 +1,12 @@
 cellox_add_library(clx_module_loading
     SOURCES
-        module_loader.c
-        module_parser.c
-        module_path.c
+        src/module_loader.c
+        src/module_parser.c
+        src/module_path.c
     DEPENDENCIES
         clx_base
+        clx_utils
         clx_os
+    INCLUDE_DIRS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )

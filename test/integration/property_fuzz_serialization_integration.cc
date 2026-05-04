@@ -10,7 +10,7 @@ extern "C" {
 #include "backend/virtual_machine.h"
 #include "byte-code/chunk_file.h"
 #include "clx_os/temp.h"
-#include "frontend/compilation/compiler.h"
+#include "frontend/compiler.h"
 }
 
 static std::string fuzz_derive_chunk_path(std::string path) {

@@ -7,5 +7,5 @@ cellox_add_executable(${LANGUAGE_DISASSEMBLER}
     SOURCES
         ${DISASSEMBLER_SOURCE_FILES}
     DEPENDENCIES
-        cellox_all
+        clx_driver
 )

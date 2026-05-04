@@ -2,9 +2,29 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # Convenience wrappers for defining Cellox static libraries and executables.
 # Every target created through these helpers gets the project-wide include root
-# (src/) and inherits the compiler/OS compile-definitions that were set at the
-# top level.
+# (src/) and all per-module public include roots (src/<mod>/include/) so that
+# cross-module public headers are always resolvable via "#include "<mod>/foo.h"".
+#
+# NOTE: clx_toolchain is NOT linked automatically. Targets that include
+# compiler-attribute headers (base/common.h → clx_compiler/attributes.h) must
+# declare it explicitly in their DEPENDENCIES list.
 # ─────────────────────────────────────────────────────────────────────────────
+
+# All per-module public include roots. Adding them here (rather than only via
+# transitive link propagation) is necessary because the Cellox module graph has
+# intentional cross-cutting header dependencies (e.g. language-models → backend
+# allocator, byte-code → backend allocator) that do not follow the link graph.
+set(CELLOX_MODULE_INCLUDE_ROOTS
+    "${CMAKE_SOURCE_DIR}/src/base/include"
+    "${CMAKE_SOURCE_DIR}/src/utils/include"
+    "${CMAKE_SOURCE_DIR}/src/backend/include"
+    "${CMAKE_SOURCE_DIR}/src/byte-code/include"
+    "${CMAKE_SOURCE_DIR}/src/language-models/include"
+    "${CMAKE_SOURCE_DIR}/src/middle-end/include"
+    "${CMAKE_SOURCE_DIR}/src/module-loading/include"
+    "${CMAKE_SOURCE_DIR}/src/frontend/include"
+    "${CMAKE_SOURCE_DIR}/src/driver/include"
+)
 
 # cellox_add_library(
 #   <name>
@@ -29,22 +49,10 @@ function(cellox_add_library NAME)
         message(FATAL_ERROR "cellox_add_library(${NAME}): SOURCES must not be empty")
     endif()
 
-    if(NOT DEFINED CLX_COMPILER_PUBLIC_INCLUDE_DIR)
-        set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
-    endif()
-    if(NOT DEFINED CLX_COMPILER_IMPL_INCLUDE_DIR)
-        set(CLX_COMPILER_IMPL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/impl/generic/include")
-    endif()
-
     add_library(${NAME} STATIC ${ARG_SOURCES})
 
-    # Every library can include from the project src/ root
-    target_include_directories(${NAME} PUBLIC
-        "${CMAKE_SOURCE_DIR}/src"
-        "${CLX_COMPILER_PUBLIC_INCLUDE_DIR}"
-        "${CLX_COMPILER_IMPL_INCLUDE_DIR}"
-        ${ARG_INCLUDE_DIRS}
-    )
+    # Every library can include from the project src/ root and all module public headers
+    target_include_directories(${NAME} PUBLIC "${CMAKE_SOURCE_DIR}/src" ${CELLOX_MODULE_INCLUDE_ROOTS} ${ARG_INCLUDE_DIRS})
 
     if(ARG_DEPENDENCIES)
         target_link_libraries(${NAME} PUBLIC ${ARG_DEPENDENCIES})
@@ -61,14 +69,13 @@ endfunction()
 #   SOURCES   file1.c [file2.c ...]
 #   [DEPENDENCIES  target1 [target2 ...]]
 #   [COMPILE_DEFS  DEF1   [DEF2   ...]]   # PRIVATE compile definitions
-#   [PRECOMPILE_COMMON_HEADER]            # enable common.h PCH (only for the main executable)
 # )
 #
 # Creates an executable, links its DEPENDENCIES with PRIVATE visibility.
 function(cellox_add_executable NAME)
     cmake_parse_arguments(
         ARG
-        "PRECOMPILE_COMMON_HEADER"   # option
+        ""   # options (none)
         ""
         "SOURCES;DEPENDENCIES;COMPILE_DEFS"
         ${ARGN}
@@ -78,20 +85,9 @@ function(cellox_add_executable NAME)
         message(FATAL_ERROR "cellox_add_executable(${NAME}): SOURCES must not be empty")
     endif()
 
-    if(NOT DEFINED CLX_COMPILER_PUBLIC_INCLUDE_DIR)
-        set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
-    endif()
-    if(NOT DEFINED CLX_COMPILER_IMPL_INCLUDE_DIR)
-        set(CLX_COMPILER_IMPL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/impl/generic/include")
-    endif()
-
     add_executable(${NAME} ${ARG_SOURCES})
 
-    target_include_directories(${NAME} PRIVATE
-        "${CMAKE_SOURCE_DIR}/src"
-        "${CLX_COMPILER_PUBLIC_INCLUDE_DIR}"
-        "${CLX_COMPILER_IMPL_INCLUDE_DIR}"
-    )
+    target_include_directories(${NAME} PRIVATE "${CMAKE_SOURCE_DIR}/src" ${CELLOX_MODULE_INCLUDE_ROOTS})
 
     if(ARG_DEPENDENCIES)
         target_link_libraries(${NAME} PRIVATE ${ARG_DEPENDENCIES})
@@ -99,14 +95,5 @@ function(cellox_add_executable NAME)
 
     if(ARG_COMPILE_DEFS)
         target_compile_definitions(${NAME} PRIVATE ${ARG_COMPILE_DEFS})
-    endif()
-
-    # Precompiled-header (opt-in — only where common.h lives alongside the target)
-    if(ARG_PRECOMPILE_COMMON_HEADER)
-        if(MSVC)
-            target_precompile_headers(${NAME} PUBLIC common.h common.c)
-        else()
-            target_precompile_headers(${NAME} PUBLIC common.h)
-        endif()
     endif()
 endfunction()

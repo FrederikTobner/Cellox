@@ -1,5 +1,5 @@
 # configure cellox config to show version
-configure_file(cellox_config.h.in cellox_config.h)
+configure_file(base/cellox_config.h.in cellox_config.h)
 
 if(CLX_OPTIMIZATION_PRINT_STATS)
     add_compile_definitions(CLX_OPTIMIZATION_PRINT_STATS)
@@ -39,14 +39,9 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     include(CPack)
 endif()
 
-# ── foundational utilities (clx_base) ────────────────────────────────────────
-cellox_add_library(clx_base
-    SOURCES
-        common.c
-        string_utils.c
-)
-
 # ── Sub-libraries (each managed in their own CMakeLists.txt) ─────────────────
+add_subdirectory(base)            # → clx_base
+add_subdirectory(utils)           # → clx_utils
 add_subdirectory(language-models)   # → clx_model
 add_subdirectory(byte-code)         # → clx_bytecode
 add_subdirectory(conditionals/os)   # → clx_os
@@ -54,29 +49,21 @@ add_subdirectory(middle-end)        # → clx_middleend
 add_subdirectory(frontend)          # → clx_lex, clx_frontend
 add_subdirectory(backend)           # → clx_runtime
 add_subdirectory(module-loading)    # → clx_module_loading
-
-cellox_add_library(clx_app
-    SOURCES
-        command_line_argument_parser.c
-        initializer.c
-    DEPENDENCIES
-        clx_runtime
-        clx_frontend
-        clx_module_loading
-)
-
-# ── Interface alias — downstream tools link this one target ──────────────────
-add_library(cellox_all INTERFACE)
-target_link_libraries(cellox_all INTERFACE clx_app)
+add_subdirectory(driver)            # → clx_driver
 
 # ── Main executable ───────────────────────────────────────────────────────────
 cellox_add_executable(${PROJECT_NAME}
     SOURCES
         main.c
     DEPENDENCIES
-        cellox_all
-    PRECOMPILE_COMMON_HEADER
+        clx_driver
 )
+
+if(MSVC)
+    target_precompile_headers(${PROJECT_NAME} PRIVATE <base/common.h> base/src/common.c)
+else()
+    target_precompile_headers(${PROJECT_NAME} PRIVATE <base/common.h>)
+endif()
 
 if(NOT CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)

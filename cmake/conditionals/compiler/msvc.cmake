@@ -1,7 +1,7 @@
 add_compile_definitions(COMPILER_MSVC)
 
-set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
 set(CLX_COMPILER_IMPL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/impl/msvc/include")
+set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
 
 add_compile_options(/W4 /permissive-)
 

@@ -10,7 +10,7 @@ extern "C" {
 #include "byte-code/chunk.h"
 #include "byte-code/chunk_file.h"
 #include "clx_os/temp.h"
-#include "frontend/compilation/compiler.h"
+#include "frontend/compiler.h"
 #include "language-models/object.h"
 }
 

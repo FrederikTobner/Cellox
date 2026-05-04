@@ -9,3 +9,6 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "Intel")
 else()
     include("${CMAKE_CURRENT_LIST_DIR}/generic.cmake")
 endif()
+
+# Create the clx_toolchain INTERFACE library after CLX_COMPILER_IMPL_INCLUDE_DIR is set
+add_subdirectory("${CMAKE_SOURCE_DIR}/src/conditionals/compiler" "${CMAKE_BINARY_DIR}/src/conditionals/compiler")

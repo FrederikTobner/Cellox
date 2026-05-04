@@ -17,7 +17,7 @@ src/
 ├── common.c/h         ┐
 ├── string_utils.c/h   ┘ → clx_base   — foundational utilities (shared by all)
 ├── command_line_argument_parser.c/h ┐
-├── initializer.c/h                  ┤ → clx_app — application-level glue
+├── initializer.c/h                  ┤ → clx_driver — application-level glue
 ├── module_loader.c/h                ┘
 └── main.c             → Cellox executable (links cellox_all)
 ```
@@ -33,11 +33,11 @@ clx_base
   │           └── clx_runtime
   └── clx_lex
         └── clx_frontend
-                └── clx_app
+                └── clx_driver
                       └── Cellox (executable)
 ```
 
-`cellox_all` is a convenience `INTERFACE` target that exposes `clx_app` (and
+`cellox_all` is a convenience `INTERFACE` target that exposes `clx_driver` (and
 therefore the entire graph) behind a single link target used by the benchmark
 runner, disassembler, and test suites.
 

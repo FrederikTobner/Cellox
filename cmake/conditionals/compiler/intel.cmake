@@ -1,7 +1,7 @@
 add_compile_definitions(COMPILER_INTEL)
 
-set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
 set(CLX_COMPILER_IMPL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/impl/generic/include")
+set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
 
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0 -g3")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3")

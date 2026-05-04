@@ -1,7 +1,7 @@
 add_compile_definitions(COMPILER_GCC)
 
-set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
 set(CLX_COMPILER_IMPL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/impl/gcc/include")
+set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
 
 add_compile_options(-Wall -Wextra -Wpedantic)
 
