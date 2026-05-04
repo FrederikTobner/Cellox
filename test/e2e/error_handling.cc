@@ -80,3 +80,8 @@ TEST(ErrorHandling, StdlibNonIoErrors) {
 TEST(ErrorHandling, StdlibArityErrors) {
     test_cellox_program("error_handling/stdlib_arity_errors.clx", "arity\narity\noknull\narity\ntrue\n");
 }
+
+TEST(ErrorHandling, ExpressionForms) {
+    test_cellox_program("error_handling/expression_forms.clx",
+                        "true\nok\ntrue\nok:readme\ntrue\nok2:readme\nok3:readme\ntrue\n");
+}

@@ -1,0 +1,8 @@
+// Factorial — n! = n × (n-1) × … × 1  (https://en.wikipedia.org/wiki/Factorial)
+fun factorial(n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+
+for (var i = 0; i <= 10; i += 1)
+    printf("{}! = {}\n", i, factorial(i));

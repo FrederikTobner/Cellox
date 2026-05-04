@@ -1,0 +1,26 @@
+// Word count: counts words separated by one or more spaces
+// Demonstrates: string indexing, boolean state machine, for loops
+
+fun countWords(s) {
+    var len = strlen(s);
+    if (len == 0) return 0;
+    var count  = 0;
+    var inWord = false;
+    for (var i = 0; i < len; i += 1) {
+        if (s[i] == " ") {
+            inWord = false;
+        } else {
+            if (!inWord) {
+                count += 1;
+                inWord = true;
+            }
+        }
+    }
+    return count;
+}
+
+printf("{}\n", countWords("The quick brown fox"));           // 4
+printf("{}\n", countWords("  leading and trailing  "));     // 3
+printf("{}\n", countWords("oneword"));                      // 1
+printf("{}\n", countWords(""));                             // 0
+printf("{}\n", countWords("   "));                          // 0

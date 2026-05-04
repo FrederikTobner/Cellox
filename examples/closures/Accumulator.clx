@@ -1,0 +1,20 @@
+// Accumulator factory: each call returns a new independent counter
+// Demonstrates: closures capture independent upvalue copies
+
+fun makeAccumulator(initial) {
+    var total = initial;
+    fun add(n) {
+        total += n;
+        return total;
+    }
+    return add;
+}
+
+var acc1 = makeAccumulator(0);
+var acc2 = makeAccumulator(100);
+
+printf("{}\n", acc1(5));   // 5
+printf("{}\n", acc1(3));   // 8
+printf("{}\n", acc2(10));  // 110
+printf("{}\n", acc1(2));   // 10  — acc1 is independent of acc2
+printf("{}\n", acc2(5));   // 115

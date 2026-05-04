@@ -49,3 +49,16 @@ TEST(BinaryOperators, smaller) {
 TEST(BinaryOperators, smaller_equal) {
     test_cellox_program("binary_operators/smaller_equal.clx", "true\ntrue\nfalse\n");
 }
+
+TEST(BinaryOperators, minusTypeError) {
+    test_failing_cellox_program("binary_operators/minus_type_error.clx",
+                                "Operands must be numbers but they are a string object and a string object\n[line "
+                                "1] in script\n");
+}
+
+TEST(BinaryOperators, plusNullTypeError) {
+    test_failing_cellox_program(
+        "binary_operators/plus_null_type_error.clx",
+        "Operands must be two numbers, two strings, an array and a value or an array and an array, but they are a "
+        "numerical value and a undefiened value\n[line 1] in script\n");
+}

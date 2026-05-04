@@ -82,6 +82,8 @@ int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offs
         return chunk_disassembler_constant_instruction("CONSTANT", chunk, offset);
     case OP_DEFINE_GLOBAL:
         return chunk_disassembler_constant_instruction("DEFINE_GLOBAL", chunk, offset);
+    case OP_DUP:
+        return chunk_disassembler_simple_instruction("DUP", offset);
     case OP_DIVIDE:
         return chunk_disassembler_simple_instruction("DIVIDE", offset);
     case OP_EQUAL:

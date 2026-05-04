@@ -1,0 +1,6 @@
+fun add(a, b) {
+    return a + b;
+}
+
+var fn = add;
+printf("{}\n", fn(2, 3));

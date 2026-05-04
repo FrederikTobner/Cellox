@@ -1166,6 +1166,9 @@ static interpret_result virtual_machine_run(void) {
                 virtual_machine_pop();
                 break;
             }
+        case OP_DUP:
+            virtual_machine_push(virtual_machine_peek(0));
+            break;
         case OP_DIVIDE:
             BINARY_OP(NUMBER_VAL, /);
             break;

@@ -1,0 +1,5 @@
+for (var i = 1; i < 3; i += 1) {
+    for (var j = 1; j < 3; j += 1) {
+        printf("{}\n", i * j);
+    }
+}

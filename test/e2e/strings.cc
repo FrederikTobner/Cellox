@@ -9,3 +9,7 @@ TEST(Strings, ChangeStringByIndex) {
 TEST(Strings, GetByIndex) {
     test_cellox_program("strings/get_by_index.clx", "t\ne\ns\nt\n");
 }
+
+TEST(Strings, ConcatenationEdgeCases) {
+    test_cellox_program("strings/concatenation_edge_cases.clx", "\nab\n");
+}

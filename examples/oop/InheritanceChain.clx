@@ -1,0 +1,46 @@
+// Multi-level inheritance: Animal -> Mammal -> Dog
+// Demonstrates: super.init(), super.method(), method override, deep chains
+
+class Animal {
+    init(name, sound) {
+        this.name  = name;
+        this.sound = sound;
+    }
+    speak() {
+        printf("{} says: {}\n", this.name, this.sound);
+    }
+    describe() {
+        printf("I am {}\n", this.name);
+    }
+}
+
+class Mammal : Animal {
+    init(name, sound, legs) {
+        super.init(name, sound);
+        this.legs = legs;
+    }
+    describe() {
+        super.describe();
+        printf("I have {} legs\n", this.legs);
+    }
+}
+
+class Dog : Mammal {
+    init(name) {
+        super.init(name, "Woof", 4);
+        this.tricks = {};
+    }
+    learnTrick(trick) {
+        this.tricks = this.tricks + {trick};
+        return this;
+    }
+    showTricks() {
+        printf("{}'s tricks: {}\n", this.name, this.tricks);
+    }
+}
+
+var dog = Dog("Rex");
+dog.speak();
+dog.describe();
+dog.learnTrick("sit").learnTrick("shake").learnTrick("roll over");
+dog.showTricks();

@@ -1,0 +1,6 @@
+fun sideEffect() {
+    printf("{}\n", "called");
+    return true;
+}
+
+printf("{}\n", false and sideEffect());

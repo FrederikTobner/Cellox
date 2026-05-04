@@ -1,0 +1,32 @@
+error FileError { NotFound }
+
+fun openFile(path) {
+    if (path == "") {
+        throw FileError.NotFound;
+    }
+    return path;
+}
+
+var a = openFile("") catch |err| err;
+printf("{}\n", a == FileError.NotFound);
+
+var b = openFile("ok") catch |err| "fallback";
+printf("{}\n", b);
+
+var c = iferror openFile("") |err| err else |val| "ok:" + val;
+printf("{}\n", c == FileError.NotFound);
+
+var d = iferror openFile("readme") |err| "bad" else |val| "ok:" + val;
+printf("{}\n", d);
+
+var e = openFile("") catch |err| { "ignored"; err };
+printf("{}\n", e == FileError.NotFound);
+
+var f = iferror openFile("readme") |err| { "bad"; err } else |val| { "prefix"; "ok2:" + val };
+printf("{}\n", f);
+
+var g = openFile("readme") catch |err| "bad" else |val| "ok3:" + val;
+printf("{}\n", g);
+
+var h = openFile("") catch |err| { "tmp"; err } else |val| { "tmp"; "ok4:" + val };
+printf("{}\n", h == FileError.NotFound);

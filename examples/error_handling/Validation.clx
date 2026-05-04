@@ -1,0 +1,28 @@
+// Input validation using a custom error set and iferror
+// Demonstrates: error sets with multiple variants, throw, iferror, for loop
+
+error ValidationError { TooShort, TooLong, ContainsSpace, InvalidChar }
+
+fun validateUsername(name) {
+    var len = strlen(name);
+    if (len < 3)  throw ValidationError.TooShort;
+    if (len > 16) throw ValidationError.TooLong;
+    for (var i = 0; i < len; i += 1) {
+        if (name[i] == " ") throw ValidationError.ContainsSpace;
+    }
+    return name;
+}
+
+fun tryRegister(name) {
+    iferror validateUsername(name) |err| {
+        printf("Invalid '{}': {}\n", name, err);
+    } else |valid| {
+        printf("Registered: {}\n", valid);
+    }
+}
+
+tryRegister("alice");                       // Registered: alice
+tryRegister("ok_user_name");                // Registered: ok_user_name
+tryRegister("ab");                          // TooShort
+tryRegister("hello world");                 // ContainsSpace
+tryRegister("thisusernameiswaytoolong");    // TooLong

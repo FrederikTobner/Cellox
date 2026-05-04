@@ -1,0 +1,22 @@
+// Array partition — split an array into three parts using slices
+// Demonstrates: slices as views into a larger dataset
+
+var scores = {12, 45, 7, 33, 89, 21, 56, 3, 74, 60, 18, 40};
+var n = array_length(scores);
+
+// Divide into thirds (indices must stay within bounds)
+var third = n / 3;             // 4
+var left   = scores[0 .. third];           // indices 0-3
+var middle = scores[third .. third * 2];   // indices 4-7
+var right  = scores[third * 2 .. n - 1];  // indices 8-10 (last element excluded)
+
+printf("All scores: {}\n", scores);
+printf("Left   (first third):  {}\n", left);
+printf("Middle (second third): {}\n", middle);
+printf("Right  (last third):   {}\n", right);
+
+// Also useful: isolate the top half by index after sorting externally
+// Here we just demonstrate slicing the already-sorted array
+var sorted = {3, 7, 12, 18, 21, 33, 40, 45, 56, 60, 74, 89};
+var top = sorted[n / 2 .. n - 1];  // upper half (excluding last element)
+printf("Top half (approx):     {}\n", top);

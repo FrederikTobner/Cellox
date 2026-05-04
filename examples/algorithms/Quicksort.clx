@@ -1,0 +1,26 @@
+// Quicksort: divide-and-conquer sorting algorithm
+// Average time complexity: O(n log n)
+// Demonstrates: recursion, array slices, array concatenation
+
+fun quickSort(arr) {
+    var n = array_length(arr);
+    if (n <= 1) return arr;
+
+    // Pivot: first element
+    var pivot = arr[0];
+    var less    = {};
+    var greater = {};
+
+    for (var i = 1; i < n; i += 1) {
+        if (arr[i] <= pivot)
+            less = less + {arr[i]};
+        else
+            greater = greater + {arr[i]};
+    }
+
+    return quickSort(less) + {pivot} + quickSort(greater);
+}
+
+var nums = {3, 6, 8, 10, 1, 2, 1};
+printf("before: {}\n", nums);
+printf("after:  {}\n", quickSort(nums));   // 1 1 2 3 6 8 10

@@ -1,0 +1,10 @@
+// Tower of Hanoi — move n disks from one peg to another using a third as helper
+// (https://en.wikipedia.org/wiki/Tower_of_Hanoi)
+fun hanoi(n, from, via, to) {
+    if (n == 0) return;
+    hanoi(n - 1, from, to, via);
+    printf("Move disk {} from {} to {}\n", n, from, to);
+    hanoi(n - 1, via, from, to);
+}
+
+hanoi(4, "A", "B", "C");

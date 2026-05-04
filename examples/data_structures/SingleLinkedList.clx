@@ -33,7 +33,7 @@ class SingleLinkedList {
 			if(i == index)
 				return current;
 			current = current.nextNode;
-			i++;
+			i += 1;
 		}
 		return null;
 	}

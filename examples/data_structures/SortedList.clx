@@ -1,0 +1,61 @@
+// Sorted list: maintains ascending order on every insertion
+// Demonstrates: ordered insertion, while-loop pointer walking, classes
+
+class Node {
+    init(value, next) {
+        this.value = value;
+        this.next  = next;
+    }
+}
+
+class SortedList {
+    init() {
+        this.head = null;
+    }
+
+    insert(value) {
+        var node = Node(value, null);
+        // Insert before head when list is empty or value is the new minimum
+        if (!this.head or this.head.value >= value) {
+            node.next = this.head;
+            this.head = node;
+            return;
+        }
+        var curr = this.head;
+        while (curr.next and curr.next.value < value)
+            curr = curr.next;
+        node.next = curr.next;
+        curr.next = node;
+    }
+
+    contains(value) {
+        var curr = this.head;
+        while (curr) {
+            if (curr.value == value) return true;
+            if (curr.value > value)  return false; // list is sorted, no need to go further
+            curr = curr.next;
+        }
+        return false;
+    }
+
+    print() {
+        var curr = this.head;
+        while (curr) {
+            printf("{} ", curr.value);
+            curr = curr.next;
+        }
+        printf("\n");
+    }
+}
+
+var sl = SortedList();
+sl.insert(5);
+sl.insert(2);
+sl.insert(8);
+sl.insert(1);
+sl.insert(4);
+sl.insert(7);
+sl.print();                              // 1 2 4 5 7 8
+
+printf("{}\n", sl.contains(4));          // true
+printf("{}\n", sl.contains(6));          // false

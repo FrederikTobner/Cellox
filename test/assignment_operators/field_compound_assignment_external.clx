@@ -1,0 +1,17 @@
+// Compound assignment on a field of an externally held instance (not just 'this')
+class Box {
+    init(value) { this.value = value; }
+}
+var b = Box(10);
+b.value += 5;
+printf("{}\n", b.value);  // 15
+b.value -= 3;
+printf("{}\n", b.value);  // 12
+b.value *= 2;
+printf("{}\n", b.value);  // 24
+b.value /= 4;
+printf("{}\n", b.value);  // 6
+b.value %= 4;
+printf("{}\n", b.value);  // 2
+b.value **= 3;
+printf("{}\n", b.value);  // 8

@@ -1,0 +1,56 @@
+// Builder pattern via method chaining
+// QueryBuilder accumulates clauses and produces a query string on build()
+// Demonstrates: method chaining (return this), string concatenation, classes
+
+class QueryBuilder {
+    init() {
+        this.selectClause  = "*";
+        this.fromClause    = "";
+        this.whereClause   = "";
+        this.orderByClause = "";
+    }
+
+    select(cols) {
+        this.selectClause = cols;
+        return this;
+    }
+
+    from(table) {
+        this.fromClause = table;
+        return this;
+    }
+
+    where(condition) {
+        this.whereClause = condition;
+        return this;
+    }
+
+    orderBy(column) {
+        this.orderByClause = column;
+        return this;
+    }
+
+    build() {
+        var q = "SELECT " + this.selectClause + " FROM " + this.fromClause;
+        if (this.whereClause != "")
+            q = q + " WHERE " + this.whereClause;
+        if (this.orderByClause != "")
+            q = q + " ORDER BY " + this.orderByClause;
+        return q;
+    }
+}
+
+var q1 = QueryBuilder()
+    .from("users")
+    .where("age > 18")
+    .orderBy("name")
+    .build();
+printf("{}\n", q1);
+// SELECT * FROM users WHERE age > 18 ORDER BY name
+
+var q2 = QueryBuilder()
+    .select("id, email")
+    .from("accounts")
+    .build();
+printf("{}\n", q2);
+// SELECT id, email FROM accounts

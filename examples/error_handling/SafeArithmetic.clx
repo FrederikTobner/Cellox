@@ -1,0 +1,47 @@
+// Safe arithmetic using error sets, catch, iferror, must, and try
+// Demonstrates: error sets, throw, catch fallback, iferror branching, must unwrap
+
+error MathError { DivisionByZero, NegativeSqrt }
+
+fun divide(a, b) {
+    if (b == 0) throw MathError.DivisionByZero;
+    return a / b;
+}
+
+fun sqrt(x) {
+    if (x < 0) throw MathError.NegativeSqrt;
+    // Newton–Raphson approximation
+    var guess = x / 2;
+    for (var i = 0; i < 20; i += 1)
+        guess = (guess + x / guess) / 2;
+    return guess;
+}
+
+// catch: provide a fallback when division fails
+printf("{}\n", divide(10, 2) catch 0);   // 5
+printf("{}\n", divide(10, 0) catch 0);   // 0  (fallback)
+
+// iferror: inspect which variant was thrown
+iferror divide(7, 0) |err| {
+    printf("error: {}\n", err);          // error: MathError.DivisionByZero
+} else |result| {
+    printf("result: {}\n", result);
+}
+
+// chained catch: try bad host, then good, then literal fallback
+fun riskyDivide(a, b) {
+    return divide(a, b);
+}
+var r = riskyDivide(1, 0) catch riskyDivide(10, 2) catch 99;
+printf("{}\n", r);                       // 5 (second call succeeds)
+
+// must: panics if the expression is an error — use when input is known valid
+printf("{}\n", must divide(15, 3));      // 5
+
+// try propagation inside a function
+fun compute(a, b) {
+    var result = try divide(a, b);
+    return result * 2;
+}
+printf("{}\n", compute(6, 3) catch "propagated");   // 4
+printf("{}\n", compute(6, 0) catch "propagated");   // propagated

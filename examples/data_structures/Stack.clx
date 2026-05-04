@@ -1,0 +1,51 @@
+// Stack implemented with a singly-linked list (LIFO)
+// Demonstrates: classes, linked nodes, method chaining, null checks
+
+class Node {
+    init(value, next) {
+        this.value = value;
+        this.next = next;
+    }
+}
+
+class Stack {
+    init() {
+        this.top = null;
+        this.count = 0;
+    }
+
+    push(value) {
+        this.top = Node(value, this.top);
+        this.count += 1;
+        return this; // enable chaining
+    }
+
+    pop() {
+        if (!this.top)
+            return null;
+        var value = this.top.value;
+        this.top = this.top.next;
+        this.count -= 1;
+        return value;
+    }
+
+    peek() {
+        if (!this.top)
+            return null;
+        return this.top.value;
+    }
+
+    isEmpty() { return this.count == 0; }
+    size()    { return this.count; }
+}
+
+var s = Stack();
+s.push(10).push(20).push(30);
+printf("size:  {}\n", s.size());      // 3
+printf("peek:  {}\n", s.peek());      // 30
+printf("pop:   {}\n", s.pop());       // 30
+printf("pop:   {}\n", s.pop());       // 20
+printf("size:  {}\n", s.size());      // 1
+printf("empty: {}\n", s.isEmpty());   // false
+s.pop();
+printf("empty: {}\n", s.isEmpty());   // true
