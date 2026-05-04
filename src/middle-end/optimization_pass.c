@@ -184,11 +184,15 @@ optimization_stats_t optimization_pipeline_run_chunk(
     stats.chunk_name = chunk_name;
     stats.bytecode_size_before = chunk->byteCodeCount;
     stats.constants_before = chunk->constants.count;
-    stats.pass_results = malloc(sizeof(pass_result_t) * 32);
+    stats.pass_results = NULL;
     stats.pass_results_count = 0;
     
     if (g_global_pipeline == NULL) {
         optimization_module_init();
+    }
+
+    if (g_global_pipeline->collect_stats) {
+        stats.pass_results = malloc(sizeof(pass_result_t) * 32);
     }
     
     uint64_t start_time = get_time_ns();
@@ -216,7 +220,7 @@ optimization_stats_t optimization_pipeline_run_chunk(
             }
             
             // Collect statistics
-            if (g_global_pipeline->collect_stats && stats.pass_results_count < 32) {
+            if (g_global_pipeline->collect_stats && stats.pass_results != NULL && stats.pass_results_count < 32) {
                 stats.pass_results[stats.pass_results_count++] = result;
             }
             

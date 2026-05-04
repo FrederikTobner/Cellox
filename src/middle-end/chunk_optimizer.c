@@ -21,8 +21,11 @@
 #include "chunk_optimizer.h"
 #include "optimization_pass.h"
 
+#include <stdlib.h>
+
 void chunk_optimizer_optimize_chunk(chunk_t * chunk) {
     // Delegate to the optimization pass framework
     // This runs the entire pipeline on the chunk
-    optimization_pipeline_run_chunk(chunk, "unknown_chunk");
+    optimization_stats_t stats = optimization_pipeline_run_chunk(chunk, "unknown_chunk");
+    free(stats.pass_results);
 }
