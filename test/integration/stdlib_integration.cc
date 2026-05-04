@@ -5,36 +5,21 @@
 #include <cstring>
 #include <string>
 
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-
 extern "C" {
 #include "backend/garbage_collector.h"
 #include "backend/virtual_machine.h"
+#include "clx_os/platform.h"
+#include "clx_os/temp.h"
 #include "frontend/compilation/compiler.h"
 #include "module-loading/module_loader.h"
 }
 
 static std::string stdlib_make_temp_path() {
-#ifdef _WIN32
-    char tempDirectory[MAX_PATH];
-    GetTempPathA(MAX_PATH, tempDirectory);
-    char tempFile[MAX_PATH];
-    GetTempFileNameA(tempDirectory, "clx", 0, tempFile);
-    std::remove(tempFile);
-    return std::string(tempFile) + ".clx";
-#else
-    char pathTemplate[] = "/tmp/cellox_stdlib_XXXXXX";
-    int fd = mkstemp(pathTemplate);
-    if (fd != -1) {
-        close(fd);
-        std::remove(pathTemplate);
-    }
-    return std::string(pathTemplate) + ".clx";
-#endif
+    char * path = clx_os_temp_make_path("cellox_stdlib_", ".clx");
+    EXPECT_NE(nullptr, path);
+    std::string result = path ? std::string(path) : std::string();
+    std::free(path);
+    return result;
 }
 
 /// Writes text to a file. Returns true on success.
@@ -148,13 +133,7 @@ TEST(StdlibIntegration, OsNameViaModuleLoader) {
     ASSERT_NE(nullptr, stitched);
 
     std::string output = stdlib_run_source(stitched);
-#ifdef __linux__
-    EXPECT_EQ("linux\n", output);
-#elif defined(__APPLE__)
-    EXPECT_EQ("macos\n", output);
-#elif defined(_WIN32)
-    EXPECT_EQ("windows\n", output);
-#endif
+    EXPECT_EQ(std::string(clx_os_platform_name()) + "\n", output);
 }
 
 TEST(StdlibIntegration, CollectionsStackViaModuleLoader) {

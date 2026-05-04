@@ -1,0 +1,21 @@
+set(CLX_OS_LAYER_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/os/linux")
+add_compile_definitions(OS_UNIX_LIKE OS_MACOS)
+
+function(clx_os_check_core_headers)
+    CHECK_INCLUDE_FILE("curses.h" CURSES_AVAILABLE)
+    CHECK_INCLUDE_FILE("unistd.h" UNISTD_AVAILABLE)
+
+    if(NOT CURSES_AVAILABLE)
+        message(FATAL_ERROR "curses.h is required to build the compiler under macOS")
+    endif()
+    if(NOT UNISTD_AVAILABLE)
+        message(FATAL_ERROR "unistd.h is required to build the compiler under macOS")
+    endif()
+endfunction()
+
+function(clx_os_check_benchmark_headers)
+    CHECK_INCLUDE_FILE("dirent.h" DIRENT_AVAILABLE)
+    if(NOT DIRENT_AVAILABLE)
+        message(FATAL_ERROR "dirent.h is required to build the benchmark runner under macOS")
+    endif()
+endfunction()

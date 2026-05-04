@@ -1,0 +1,10 @@
+printf("{}", 84 / 1);
+/*
+ * OP_CONSTANT (pushes 84)
+ * OP_CONSTANT (pushes 1)
+ * OP_DIVIDE   (84 / 1)
+ * Is transformed to
+ * OP_CONSTANT (pushes 84)
+ *
+ * This validates algebraic identity: x / 1 -> x.
+ */

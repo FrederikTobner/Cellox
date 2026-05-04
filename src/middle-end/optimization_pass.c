@@ -22,12 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <time.h>
 #include <inttypes.h>
 
-#ifdef _WIN32
-#include <windows.h>
-#endif
+#include "clx_os/time.h"
 
 static optimization_pipeline_t* g_global_pipeline = NULL;
 static uint32_t g_optimization_level = 2;
@@ -42,21 +39,7 @@ static void optimization_apply_level_locked(uint32_t level);
  * @brief Get current time in nanoseconds
  */
 static uint64_t get_time_ns(void) {
-#ifdef _WIN32
-    static LARGE_INTEGER frequency = {0};
-    LARGE_INTEGER counter;
-
-    if (frequency.QuadPart == 0) {
-        QueryPerformanceFrequency(&frequency);
-    }
-
-    QueryPerformanceCounter(&counter);
-    return (uint64_t)((counter.QuadPart * 1000000000ULL) / frequency.QuadPart);
-#else
-    struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC, &ts);
-    return ts.tv_sec * 1000000000ULL + ts.tv_nsec;
-#endif
+    return clx_os_time_now_ns();
 }
 
 /**

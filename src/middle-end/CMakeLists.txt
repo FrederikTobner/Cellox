@@ -9,4 +9,5 @@ cellox_add_library(clx_middleend
         passes/constant_pool_dedup.c
     DEPENDENCIES
         clx_bytecode
+        clx_os
 )

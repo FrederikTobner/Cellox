@@ -24,13 +24,6 @@
 #ifndef CELLOX_MODULE_PATH_H_
 #define CELLOX_MODULE_PATH_H_
 
-/// Platform path separator character
-#if defined(_WIN32)
-#    define MODULE_PATH_SEPARATOR '\\'
-#else
-#    define MODULE_PATH_SEPARATOR '/'
-#endif
-
 /// @brief Returns the canonical (absolute, symlink-resolved) path for `path`.
 /// @param path The raw path to canonicalise.
 /// @return A malloc'd canonical path string the caller must free, or NULL if

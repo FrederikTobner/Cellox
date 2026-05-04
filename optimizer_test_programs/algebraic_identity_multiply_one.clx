@@ -1,0 +1,10 @@
+printf("{}", 7 * 1);
+/*
+ * OP_CONSTANT (pushes 7)
+ * OP_CONSTANT (pushes 1)
+ * OP_MULTIPLY (7 * 1)
+ * Is transformed to
+ * OP_CONSTANT (pushes 7)
+ *
+ * This validates algebraic identity: x * 1 -> x.
+ */

@@ -20,42 +20,21 @@
 
 #include "module_path.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#if defined(_WIN32)
-#    include <direct.h>
-#else
-#    include <limits.h>
-#    include <unistd.h>
-#endif
-
+#include "clx_os/path.h"
 #include "string_utils.h"
 
 char * module_path_canonicalize(char const * path) {
-#if defined(_WIN32)
-    char * resolved = _fullpath(NULL, path, 0);
-    if (!resolved) {
-        return NULL;
-    }
-    /* _fullpath does not check whether the file exists; verify before returning */
-    FILE * check = fopen(resolved, "rb");
-    if (!check) {
-        free(resolved);
-        return NULL;
-    }
-    fclose(check);
-    return resolved;
-#else
-    return realpath(path, NULL);
-#endif
+    return clx_os_path_canonicalize(path);
 }
 
 char * module_path_join(char const * left, char const * right) {
+    char separator = clx_os_path_separator();
     size_t leftLength = strlen(left);
     size_t rightLength = strlen(right);
-    size_t hasSeparator = leftLength && left[leftLength - 1] == MODULE_PATH_SEPARATOR;
+    size_t hasSeparator = leftLength && (left[leftLength - 1] == '/' || left[leftLength - 1] == '\\');
     size_t totalLength = leftLength + rightLength + (hasSeparator ? 0 : 1) + 1;
     char * joined = malloc(totalLength);
     if (!joined) {
@@ -65,7 +44,7 @@ char * module_path_join(char const * left, char const * right) {
     memcpy(joined, left, leftLength);
     size_t offset = leftLength;
     if (!hasSeparator) {
-        joined[offset++] = MODULE_PATH_SEPARATOR;
+        joined[offset++] = separator;
     }
     memcpy(joined + offset, right, rightLength);
     joined[offset + rightLength] = '\0';
@@ -77,24 +56,13 @@ char * module_path_resolve_import(char const * importerPath, char const * import
         return NULL;
     }
 
-    bool isAbsolute = importPath[0] == '/' || importPath[0] == '\\';
-#if defined(_WIN32)
-    if (strlen(importPath) > 1 && importPath[1] == ':') {
-        isAbsolute = true;
-    }
-#endif
+    bool isAbsolute = clx_os_path_is_absolute(importPath);
 
     if (isAbsolute) {
         return string_utils_strdup(importPath);
     }
 
-    char const * lastSeparator = strrchr(importerPath, '/');
-#if defined(_WIN32)
-    char const * windowsSeparator = strrchr(importerPath, '\\');
-    if (!lastSeparator || (windowsSeparator && windowsSeparator > lastSeparator)) {
-        lastSeparator = windowsSeparator;
-    }
-#endif
+    char const * lastSeparator = clx_os_path_find_last_separator(importerPath);
 
     if (!lastSeparator) {
         return string_utils_strdup(importPath);

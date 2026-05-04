@@ -1,0 +1,16 @@
+fun compute() {
+    return 11;
+
+    // Unreachable: should be removed by dead code elimination.
+    printf("{}", 999);
+}
+
+printf("{}", compute());
+/*
+ * Relevant behavior before optimization:
+ * OP_RETURN
+ * ...unreachable instructions...
+ *
+ * Dead code detection marks instructions after OP_RETURN in the same block
+ * as unreachable, and dead code elimination removes them.
+ */

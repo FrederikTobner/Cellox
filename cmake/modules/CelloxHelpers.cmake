@@ -29,11 +29,20 @@ function(cellox_add_library NAME)
         message(FATAL_ERROR "cellox_add_library(${NAME}): SOURCES must not be empty")
     endif()
 
+    if(NOT DEFINED CLX_COMPILER_PUBLIC_INCLUDE_DIR)
+        set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
+    endif()
+    if(NOT DEFINED CLX_COMPILER_IMPL_INCLUDE_DIR)
+        set(CLX_COMPILER_IMPL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/impl/generic/include")
+    endif()
+
     add_library(${NAME} STATIC ${ARG_SOURCES})
 
     # Every library can include from the project src/ root
     target_include_directories(${NAME} PUBLIC
         "${CMAKE_SOURCE_DIR}/src"
+        "${CLX_COMPILER_PUBLIC_INCLUDE_DIR}"
+        "${CLX_COMPILER_IMPL_INCLUDE_DIR}"
         ${ARG_INCLUDE_DIRS}
     )
 
@@ -69,9 +78,20 @@ function(cellox_add_executable NAME)
         message(FATAL_ERROR "cellox_add_executable(${NAME}): SOURCES must not be empty")
     endif()
 
+    if(NOT DEFINED CLX_COMPILER_PUBLIC_INCLUDE_DIR)
+        set(CLX_COMPILER_PUBLIC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/include")
+    endif()
+    if(NOT DEFINED CLX_COMPILER_IMPL_INCLUDE_DIR)
+        set(CLX_COMPILER_IMPL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/compiler/impl/generic/include")
+    endif()
+
     add_executable(${NAME} ${ARG_SOURCES})
 
-    target_include_directories(${NAME} PRIVATE "${CMAKE_SOURCE_DIR}/src")
+    target_include_directories(${NAME} PRIVATE
+        "${CMAKE_SOURCE_DIR}/src"
+        "${CLX_COMPILER_PUBLIC_INCLUDE_DIR}"
+        "${CLX_COMPILER_IMPL_INCLUDE_DIR}"
+    )
 
     if(ARG_DEPENDENCIES)
         target_link_libraries(${NAME} PRIVATE ${ARG_DEPENDENCIES})

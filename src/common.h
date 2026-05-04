@@ -50,7 +50,7 @@ typedef enum {
 /// Maximum number of values in a dynamic array of upvalues or locals
 #define UINT8_COUNT (256)
 
-#include "attributes.h"
+#include "clx_compiler/attributes.h"
 #include "macros.h"
 
 #endif // CELLOX_COMMON_H_

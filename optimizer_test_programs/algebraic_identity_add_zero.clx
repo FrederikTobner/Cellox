@@ -1,0 +1,10 @@
+printf("{}", 42 + 0);
+/*
+ * OP_CONSTANT (pushes 42)
+ * OP_CONSTANT (pushes 0)
+ * OP_ADD      (42 + 0)
+ * Is transformed to
+ * OP_CONSTANT (pushes 42)
+ *
+ * This validates algebraic identity: x + 0 -> x.
+ */

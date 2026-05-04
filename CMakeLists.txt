@@ -40,11 +40,14 @@ if(CLX_NAN_BOXING_ACTIVATED)
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
-include(CompileDefinitions)
 include(CelloxHelpers)
 
-cellox_add_compiler_compile_definitions()
-cellox_add_os_compile_definitions()
+set(CLX_CMAKE_CONDITIONALS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake/conditionals")
+include("${CLX_CMAKE_CONDITIONALS_DIR}/compiler/select.cmake")
+include("${CLX_CMAKE_CONDITIONALS_DIR}/os/select.cmake")
+include("${CLX_CMAKE_CONDITIONALS_DIR}/build_types.cmake")
+
+clx_os_check_core_headers()
 
 # Standard library of Cellox source files
 # Must come before src/ so CELLOX_STDLIB_SOURCE_DIR is set before cellox_config.h is generated.

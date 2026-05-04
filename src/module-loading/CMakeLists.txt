@@ -5,4 +5,5 @@ cellox_add_library(clx_module_loading
         module_path.c
     DEPENDENCIES
         clx_base
+        clx_os
 )
