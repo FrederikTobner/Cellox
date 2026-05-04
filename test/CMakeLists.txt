@@ -76,3 +76,8 @@ gtest_discover_tests(${FUZZ_TESTS} PROPERTIES LABELS "fuzz")
 
 # Optimization pass unit tests (standalone, no googletest dependency)
 add_subdirectory(middle-end)
+
+# CI builds a fixed list of top-level test targets. Make the standalone
+# optimization tests transitive so their executables always exist before ctest.
+add_dependencies(${UNIT_TESTS} test_optimization_passes)
+add_dependencies(${INTEGRATION_TESTS} test_optimization_integration)
