@@ -10,6 +10,8 @@
 
 // Include test framework
 #include "byte-code/chunk.h"
+#include "backend/garbage_collector.h"
+#include "backend/virtual_machine.h"
 #include "frontend/compiler.h"
 #include "middle-end/chunk_optimizer.h"
 
@@ -210,6 +212,10 @@ int main(void) {
     printf("║  Tests real code compilation with optimization passes       ║\n");
     printf("╚══════════════════════════════════════════════════════════════╝\n");
     
+    // Initialize runtime ownership for compiler-allocated objects.
+    garbage_collector_set_mark_roots_hook(compiler_mark_roots);
+    virtual_machine_init();
+
     // Initialize the optimization module
     optimization_module_init();
     
@@ -223,6 +229,7 @@ int main(void) {
     
     // Cleanup
     optimization_module_cleanup();
+    virtual_machine_free();
     
     printf("\n╔══════════════════════════════════════════════════════════════╗\n");
     printf("║  Results: %d passed, %d failed (total: %d)                      \n",
