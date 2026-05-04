@@ -30,6 +30,9 @@
 #endif
 
 static optimization_pipeline_t* g_global_pipeline = NULL;
+static uint32_t g_optimization_level = 2;
+
+static void optimization_apply_level_locked(uint32_t level);
 
 // ============================================================================
 // Helper Functions
@@ -91,6 +94,13 @@ void optimization_module_init(void) {
     g_global_pipeline->verbose = false;
     g_global_pipeline->max_iterations = 1;
     g_global_pipeline->collect_stats = false;
+
+#ifdef CLX_OPTIMIZATION_VERBOSE_STATS
+    g_global_pipeline->verbose = true;
+#endif
+#ifdef CLX_OPTIMIZATION_PRINT_STATS
+    g_global_pipeline->collect_stats = true;
+#endif
     
     // Register all passes in order
     // Note: priority is used as execution order after sorting
@@ -166,6 +176,8 @@ void optimization_module_init(void) {
         sizeof(optimization_pass_entry_t),
         pass_compare_priority
     );
+
+    optimization_apply_level_locked(g_optimization_level);
 }
 
 void optimization_module_cleanup(void) {
@@ -242,6 +254,10 @@ optimization_stats_t optimization_pipeline_run_chunk(
     stats.bytecode_size_after = chunk->byteCodeCount;
     stats.constants_after = chunk->constants.count;
     stats.time_ns = get_time_ns() - start_time;
+
+    if (g_global_pipeline->collect_stats) {
+        optimization_print_stats(&stats);
+    }
     
     return stats;
 }
@@ -265,6 +281,58 @@ void optimization_set_max_iterations(uint32_t max_iterations) {
         optimization_module_init();
     }
     g_global_pipeline->max_iterations = max_iterations > 0 ? max_iterations : 1;
+}
+
+static void optimization_apply_level_locked(uint32_t level) {
+    // Disable all passes first.
+    for (size_t i = 0; i < g_global_pipeline->pass_count; i++) {
+        g_global_pipeline->passes[i].enabled = false;
+    }
+
+    // O0: no optimizations.
+    if (level == 0) {
+        g_global_pipeline->max_iterations = 1;
+        return;
+    }
+
+    // O1: light + local optimizations.
+    optimization_set_pass_enabled("constant_folding", true);
+
+    if (level == 1) {
+        g_global_pipeline->max_iterations = 1;
+        return;
+    }
+
+    // O2: full safe pipeline.
+    optimization_set_pass_enabled("dead_code_detection", true);
+    optimization_set_pass_enabled("dead_code_elimination", true);
+    optimization_set_pass_enabled("algebraic_identity", true);
+    optimization_set_pass_enabled("branch_predication", true);
+    optimization_set_pass_enabled("dead_code_elimination_2nd", true);
+    g_global_pipeline->max_iterations = 1;
+
+    // O3: O2 + one extra pipeline iteration.
+    if (level >= 3) {
+        g_global_pipeline->max_iterations = 2;
+    }
+}
+
+void optimization_set_level(uint32_t level) {
+    if (level > 3) {
+        level = 3;
+    }
+
+    g_optimization_level = level;
+    if (g_global_pipeline == NULL) {
+        optimization_module_init();
+        return;
+    }
+
+    optimization_apply_level_locked(level);
+}
+
+uint32_t optimization_get_level(void) {
+    return g_optimization_level;
 }
 
 void optimization_print_stats(const optimization_stats_t* stats) {

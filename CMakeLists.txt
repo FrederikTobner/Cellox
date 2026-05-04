@@ -22,6 +22,10 @@ option(CLX_DEBUG_TRACE_EXECUTION "Determines whether the execution shall be trac
 option(CLX_DEBUG_STRESS_GARBAGE_COLLECTOR "Determines whether the garbage collector shall be stressed" OFF)
 option(CLX_DEBUG_LOG_GARBAGE_COLLECTION "Determines whether the garbage collection be logged" OFF)
 
+# Optimization diagnostics (all builds)
+option(CLX_OPTIMIZATION_PRINT_STATS "Print optimization summary statistics for each compiled chunk" OFF)
+option(CLX_OPTIMIZATION_VERBOSE_STATS "Print verbose per-pass optimization diagnostics" OFF)
+
 # Build options
 option(CLX_BUILD_TESTS "Determines whether the tests shall be built" OFF)
 option(CLX_BUILD_TOOLS "Determines whether the development tools shall be built" ON)

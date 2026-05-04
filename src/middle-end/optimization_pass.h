@@ -144,6 +144,21 @@ void optimization_set_verbose(bool verbose);
 void optimization_set_max_iterations(uint32_t max_iterations);
 
 /**
+ * @brief Set optimization level similar to compiler -O levels
+ * @param level Level in range [0, 3]
+ * @details O0 disables optimization passes, O1 enables light optimizations,
+ * O2 enables the default full safe pipeline, O3 enables full pipeline with
+ * additional iteration.
+ */
+void optimization_set_level(uint32_t level);
+
+/**
+ * @brief Get current optimization level
+ * @return Current level in range [0, 3]
+ */
+uint32_t optimization_get_level(void);
+
+/**
  * @brief Print statistics for a chunk optimization
  * @param stats Statistics to print
  */

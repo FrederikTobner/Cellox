@@ -4,6 +4,14 @@ configure_file(cellox_config.h.in cellox_config.h)
 cellox_add_compiler_compile_definitions()
 cellox_add_os_compile_definitions()
 
+if(CLX_OPTIMIZATION_PRINT_STATS)
+    add_compile_definitions(CLX_OPTIMIZATION_PRINT_STATS)
+endif()
+
+if(CLX_OPTIMIZATION_VERBOSE_STATS)
+    add_compile_definitions(CLX_OPTIMIZATION_VERBOSE_STATS)
+endif()
+
 # ── Platform dependency checks ──────────────────────────────────────────────
 if(UNIX)
     CHECK_INCLUDE_FILE("curses.h" CURSES_AVAILABLE)

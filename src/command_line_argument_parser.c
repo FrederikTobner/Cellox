@@ -28,6 +28,7 @@
 
 #include "common.h"
 #include "initializer.h"
+#include "middle-end/optimization_pass.h"
 
 /// @brief Command line options of the cellox compiler
 typedef enum {
@@ -65,19 +66,40 @@ static command_line_option_type_config_t optionConfigs[] = {
 
 static void command_line_argument_parser_error(char const *, ...);
 static inline bool command_line_argument_parser_is_option(char const *);
-static void command_line_argument_parser_parse_option(char const *, command_line_option_type *);
+static bool command_line_argument_parser_parse_option(char const *, command_line_option_type *);
+static bool command_line_argument_parser_parse_optimization_level(char const *, int32_t *, bool *);
+static void command_line_argument_parser_apply_optimization_level(int32_t);
 static inline void command_line_argument_parser_show_usage(void);
 
 void command_line_argument_parser_parse(int argc, char const ** argv) {
     command_line_option_type currentOption = OPTION_NO_OPTION;
+    int32_t optimizationLevel = -1;
+    bool expectOptimizationLevelValue = false;
+
     for (int i = 1; i < argc; i++) {
+        if (expectOptimizationLevelValue) {
+            if (!command_line_argument_parser_parse_optimization_level(argv[i], &optimizationLevel,
+                                                                       &expectOptimizationLevelValue)) {
+                command_line_argument_parser_error("Missing or invalid optimization level after -O/--optimize");
+            }
+            continue;
+        }
+
+        if (command_line_argument_parser_parse_optimization_level(argv[i], &optimizationLevel,
+                                                                  &expectOptimizationLevelValue)) {
+            continue;
+        }
+
         if (command_line_argument_parser_is_option(argv[i])) {
-            command_line_argument_parser_parse_option(argv[i], &currentOption);
+            if (!command_line_argument_parser_parse_option(argv[i], &currentOption)) {
+                command_line_argument_parser_error("Unknown option: %s", argv[i]);
+            }
         } else {
             // Only a single argument is supported at the moment
             if (i + 1 != argc) {
                 command_line_argument_parser_show_usage();
             } else {
+                command_line_argument_parser_apply_optimization_level(optimizationLevel);
                 switch (currentOption) {
                 case OPTION_NO_OPTION:
                     initializer_run_from_file(argv[i], false);
@@ -91,6 +113,13 @@ void command_line_argument_parser_parse(int argc, char const ** argv) {
             }
         }
     }
+
+    if (expectOptimizationLevelValue) {
+        command_line_argument_parser_error("Missing optimization level after -O/--optimize");
+    }
+
+    command_line_argument_parser_apply_optimization_level(optimizationLevel);
+
     switch (currentOption) {
     case OPTION_TYPE_HELP:
         initializer_show_help();
@@ -128,7 +157,7 @@ static inline bool command_line_argument_parser_is_option(char const * argument)
 /// @brief Parses the next option in the arguments
 /// @param option The option that is parsed (character sequence)
 /// @param currentOption The option that was previously specified
-static void command_line_argument_parser_parse_option(char const * option, command_line_option_type * currentOption) {
+static bool command_line_argument_parser_parse_option(char const * option, command_line_option_type * currentOption) {
     // Old option is a singular option
     if (optionConfigs[*currentOption].exclusionaryOption) {
         command_line_argument_parser_error("Multiple options specified");
@@ -142,8 +171,54 @@ static void command_line_argument_parser_parse_option(char const * option, comma
                 command_line_argument_parser_error("Multiple exclusionary options specified");
             }
             *currentOption = i;
-            break;
+            return true;
         }
+    }
+    return false;
+}
+
+static bool command_line_argument_parser_parse_optimization_level(char const * option,
+                                                                  int32_t * optimizationLevel,
+                                                                  bool * expectValue) {
+    if (!strcmp(option, "-O") || !strcmp(option, "--optimize")) {
+        *expectValue = true;
+        return true;
+    }
+
+    if (!strncmp(option, "-O", 2)) {
+        if (strlen(option) != 3 || option[2] < '0' || option[2] > '3') {
+            command_line_argument_parser_error("Invalid optimization level: %s (supported: -O0..-O3)", option);
+        }
+        *optimizationLevel = option[2] - '0';
+        *expectValue = false;
+        return true;
+    }
+
+    if (!strncmp(option, "--optimize=", 11)) {
+        if (strlen(option) != 12 || option[11] < '0' || option[11] > '3') {
+            command_line_argument_parser_error("Invalid optimization level: %s (supported: --optimize=0..3)",
+                                               option);
+        }
+        *optimizationLevel = option[11] - '0';
+        *expectValue = false;
+        return true;
+    }
+
+    if (*expectValue) {
+        if (strlen(option) != 1 || option[0] < '0' || option[0] > '3') {
+            return false;
+        }
+        *optimizationLevel = option[0] - '0';
+        *expectValue = false;
+        return true;
+    }
+
+    return false;
+}
+
+static void command_line_argument_parser_apply_optimization_level(int32_t optimizationLevel) {
+    if (optimizationLevel >= 0) {
+        optimization_set_level((uint32_t)optimizationLevel);
     }
 }
 
