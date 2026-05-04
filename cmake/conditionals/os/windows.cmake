@@ -14,12 +14,8 @@ function(clx_os_check_core_headers)
 endfunction()
 
 function(clx_os_check_benchmark_headers)
-    CHECK_INCLUDE_FILE("fileapi.h" FILEAPI_AVAILABLE)
     CHECK_INCLUDE_FILE("windows.h" WINDOWS_AVAILABLE)
 
-    if(NOT FILEAPI_AVAILABLE)
-        message(FATAL_ERROR "fileapi.h is required to build the benchmark runner under windows")
-    endif()
     if(NOT WINDOWS_AVAILABLE)
         message(FATAL_ERROR "windows.h is required to build the benchmark runner under windows")
     endif()
