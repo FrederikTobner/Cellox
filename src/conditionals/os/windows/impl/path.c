@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
 char * clx_os_path_canonicalize(char const * path) {
     char * resolved = _fullpath(NULL, path, 0);
@@ -76,7 +77,7 @@ char * clx_os_path_executable_dir(void) {
     char * lastFwdSlash = strrchr(buf, '/');
     char * last = lastSlash > lastFwdSlash ? lastSlash : lastFwdSlash;
     if (!last) {
-        return strdup(".");
+        return _strdup(".");
     }
     size_t dirLen = (size_t)(last - buf);
     char * dir = malloc(dirLen + 1);

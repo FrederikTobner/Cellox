@@ -15,26 +15,27 @@
 
 #include "clx_os/fs.h"
 
-#include <windows.h>
+#include <errno.h>
+#include <sys/stat.h>
 
 bool clx_os_fs_ensure_directory(char const * path) {
-    DWORD attributes = GetFileAttributesA(path);
-    if (attributes != INVALID_FILE_ATTRIBUTES) {
-        return (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+    struct stat st;
+    if (stat(path, &st) == 0) {
+        return S_ISDIR(st.st_mode);
     }
 
-    if (!CreateDirectoryA(path, NULL)) {
-        if (GetLastError() == ERROR_ALREADY_EXISTS) {
-            attributes = GetFileAttributesA(path);
-            return attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
-        }
+    if (errno != ENOENT) {
         return false;
     }
 
-    attributes = GetFileAttributesA(path);
-    return attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+    if (mkdir(path, 0700) != 0) {
+        return false;
+    }
+
+    return stat(path, &st) == 0 && S_ISDIR(st.st_mode);
 }
 
 bool clx_os_fs_path_exists(char const * path) {
-    return GetFileAttributesA(path) != INVALID_FILE_ATTRIBUTES;
+    struct stat st;
+    return stat(path, &st) == 0;
 }

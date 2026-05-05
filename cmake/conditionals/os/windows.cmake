@@ -1,4 +1,12 @@
-set(CLX_OS_LAYER_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/os/windows")
+set(_windows_impl "${CMAKE_SOURCE_DIR}/src/conditionals/os/windows/impl")
+set(CLX_OS_SOURCES
+    ${_windows_impl}/fs.c
+    ${_windows_impl}/path.c
+    ${_windows_impl}/platform.c
+    ${_windows_impl}/stdio.c
+    ${_windows_impl}/temp.c
+    ${_windows_impl}/time.c
+)
 add_compile_definitions(OS_WINDOWS)
 
 function(clx_os_check_core_headers)

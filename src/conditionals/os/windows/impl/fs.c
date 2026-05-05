@@ -13,8 +13,28 @@
  * License for more details.                                                *
  ****************************************************************************/
 
-#include "clx_os/platform.h"
+#include "clx_os/fs.h"
 
-char const * clx_os_platform_name(void) {
-    return "windows";
+#include <windows.h>
+
+bool clx_os_fs_ensure_directory(char const * path) {
+    DWORD attributes = GetFileAttributesA(path);
+    if (attributes != INVALID_FILE_ATTRIBUTES) {
+        return (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+    }
+
+    if (!CreateDirectoryA(path, NULL)) {
+        if (GetLastError() == ERROR_ALREADY_EXISTS) {
+            attributes = GetFileAttributesA(path);
+            return attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+        }
+        return false;
+    }
+
+    attributes = GetFileAttributesA(path);
+    return attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+}
+
+bool clx_os_fs_path_exists(char const * path) {
+    return GetFileAttributesA(path) != INVALID_FILE_ATTRIBUTES;
 }

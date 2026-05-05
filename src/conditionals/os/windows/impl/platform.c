@@ -13,12 +13,8 @@
  * License for more details.                                                *
  ****************************************************************************/
 
-#include "clx_os/stdio.h"
+#include "clx_os/platform.h"
 
-char const * clx_os_stdio_null_device_path(void) {
-    return "/dev/null";
-}
-
-char const * clx_os_stdio_console_device_path(void) {
-    return "/dev/tty";
+char const * clx_os_platform_name(void) {
+    return "windows";
 }

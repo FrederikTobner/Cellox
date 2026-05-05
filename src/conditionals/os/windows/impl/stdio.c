@@ -13,41 +13,12 @@
  * License for more details.                                                *
  ****************************************************************************/
 
-#include "clx_os/temp.h"
+#include "clx_os/stdio.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+char const * clx_os_stdio_null_device_path(void) {
+    return "NUL";
+}
 
-char * clx_os_temp_make_path(char const * prefix, char const * suffix) {
-    char const * tempDirectory = getenv("TMPDIR");
-    if (!tempDirectory || !tempDirectory[0]) {
-        tempDirectory = "/tmp";
-    }
-
-    if (!prefix) {
-        prefix = "cellox_";
-    }
-    if (!suffix) {
-        suffix = "";
-    }
-
-    size_t suffixLength = strlen(suffix);
-    size_t pathLength = strlen(tempDirectory) + 1 + strlen(prefix) + 6 + suffixLength + 1;
-    char * path = malloc(pathLength);
-    if (!path) {
-        return NULL;
-    }
-
-    snprintf(path, pathLength, "%s/%sXXXXXX%s", tempDirectory, prefix, suffix);
-    int fd = mkstemps(path, (int)suffixLength);
-    if (fd == -1) {
-        free(path);
-        return NULL;
-    }
-
-    close(fd);
-    remove(path);
-    return path;
+char const * clx_os_stdio_console_device_path(void) {
+    return "CON";
 }

@@ -13,12 +13,49 @@
  * License for more details.                                                *
  ****************************************************************************/
 
-#include "clx_os/stdio.h"
+#include "clx_os/path.h"
 
-char const * clx_os_stdio_null_device_path(void) {
-    return "NUL";
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+char * clx_os_path_canonicalize(char const * path) {
+    return realpath(path, NULL);
 }
 
-char const * clx_os_stdio_console_device_path(void) {
-    return "CON";
+bool clx_os_path_is_absolute(char const * path) {
+    return path && path[0] == '/';
+}
+
+char const * clx_os_path_find_last_separator(char const * path) {
+    if (!path) {
+        return NULL;
+    }
+
+    return strrchr(path, '/');
+}
+
+char clx_os_path_separator(void) {
+    return '/';
+}
+
+char * clx_os_path_executable_dir(void) {
+    char buf[4096];
+    ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+    if (len <= 0) {
+        return NULL;
+    }
+    buf[len] = '\0';
+    char * last = strrchr(buf, '/');
+    if (!last) {
+        return strdup(".");
+    }
+    size_t dirLen = (size_t)(last - buf);
+    char * dir = malloc(dirLen + 1);
+    if (!dir) {
+        return NULL;
+    }
+    memcpy(dir, buf, dirLen);
+    dir[dirLen] = '\0';
+    return dir;
 }

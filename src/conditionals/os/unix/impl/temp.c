@@ -13,29 +13,41 @@
  * License for more details.                                                *
  ****************************************************************************/
 
-#include "clx_os/fs.h"
+#include "clx_os/temp.h"
 
-#include <errno.h>
-#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
-bool clx_os_fs_ensure_directory(char const * path) {
-    struct stat st;
-    if (stat(path, &st) == 0) {
-        return S_ISDIR(st.st_mode);
+char * clx_os_temp_make_path(char const * prefix, char const * suffix) {
+    char const * tempDirectory = getenv("TMPDIR");
+    if (!tempDirectory || !tempDirectory[0]) {
+        tempDirectory = "/tmp";
     }
 
-    if (errno != ENOENT) {
-        return false;
+    if (!prefix) {
+        prefix = "cellox_";
+    }
+    if (!suffix) {
+        suffix = "";
     }
 
-    if (mkdir(path, 0700) != 0) {
-        return false;
+    size_t suffixLength = strlen(suffix);
+    size_t pathLength = strlen(tempDirectory) + 1 + strlen(prefix) + 6 + suffixLength + 1;
+    char * path = malloc(pathLength);
+    if (!path) {
+        return NULL;
     }
 
-    return stat(path, &st) == 0 && S_ISDIR(st.st_mode);
-}
+    snprintf(path, pathLength, "%s/%sXXXXXX%s", tempDirectory, prefix, suffix);
+    int fd = mkstemps(path, (int)suffixLength);
+    if (fd == -1) {
+        free(path);
+        return NULL;
+    }
 
-bool clx_os_fs_path_exists(char const * path) {
-    struct stat st;
-    return stat(path, &st) == 0;
+    close(fd);
+    remove(path);
+    return path;
 }

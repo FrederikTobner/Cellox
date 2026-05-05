@@ -13,14 +13,12 @@
  * License for more details.                                                *
  ****************************************************************************/
 
-#include "clx_os/platform.h"
+#include "clx_os/stdio.h"
 
-char const * clx_os_platform_name(void) {
-#if defined(__APPLE__)
-    return "macos";
-#elif defined(__linux__)
-    return "linux";
-#else
-    return "unix";
-#endif
+char const * clx_os_stdio_null_device_path(void) {
+    return "/dev/null";
+}
+
+char const * clx_os_stdio_console_device_path(void) {
+    return "/dev/tty";
 }

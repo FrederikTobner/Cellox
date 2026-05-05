@@ -1,4 +1,4 @@
-set(CLX_OS_LAYER_DIR "")
+set(CLX_OS_SOURCES "")
 add_compile_definitions(OS_UNKNOWN)
 
 function(clx_os_check_core_headers)
