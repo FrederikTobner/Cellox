@@ -209,6 +209,159 @@ function resolve_import(importer_path, entry_root, import_path, stdlib_root):
 - Env override precedence over executable-relative fallback.
 - Runtime override precedence over all defaults.
 
+### Design Stance: Single-File First, Project Mode Optional
+
+The language should not force a project layout, naming convention, casing rule, or build system.
+That means import resolution should be capability-based, not convention-based.
+
+Recommended interpretation:
+
+- Keep single-file execution as the primary model.
+- Treat "project mode" as an optional runtime/tooling enhancement, not a language requirement.
+- Resolve imports through explicit roots and deterministic precedence, never through implicit repo heuristics.
+
+#### Why Single-File First is Strong
+
+- Excellent for onboarding, scripting, and small utilities.
+- Works naturally with "compile one file" workflows similar to C tools.
+- Avoids premature lock-in to package metadata formats.
+- Keeps the language timeless: source file + explicit imports stays valid across tooling eras.
+
+#### Where Single-File Only Can Hurt Later
+
+- Large multi-module codebases may want shared root configuration.
+- Reproducible CI and packaging often benefit from explicit import root declarations.
+- Cross-platform distribution can require predictable stdlib/application lookup without relying on CWD.
+
+#### Low-Convention Compromise (Flags First)
+
+Use a two-layer model:
+
+1. Language/runtime layer (required):
+    - Entry file directory root
+    - Relative and absolute imports
+    - Explicit stdlib root resolution chain
+
+2. Tooling layer (optional):
+    - Optional CLI flags to add extra import roots
+    - Optional build integration for packaging
+
+If no optional flags are provided, behavior remains fully defined by the language/runtime defaults.
+
+This preserves freedom while still allowing scale when needed.
+
+Practical direction:
+
+- Prefer gcc/clang-style explicit flags over mandatory project metadata files.
+- Keep import behavior reproducible in CI by passing the same flags in scripts.
+- Allow build orchestration via user-defined scripts/programs (including future language-native build scripts), but keep that outside core language semantics.
+
+### Compatibility Contract for Plan 3
+
+To avoid future deprecations, freeze these guarantees early:
+
+- Existing relative and absolute import semantics never change.
+- Bare import fallback to entry-root remains valid unless user explicitly overrides roots.
+- Resolution precedence is deterministic and documented.
+- New mechanisms (CLI include path flags, package manager, optional tooling metadata) may add roots, but do not silently reorder existing precedence.
+
+This contract enables incremental evolution without breaking old projects.
+
+### Suggested Evolution Path
+
+Phase A (now):
+
+- Implement runtime root chain from this plan.
+- Keep entry-root fallback as the default non-stdlib bare import behavior.
+
+Phase B (optional later):
+
+- Add explicit CLI include-root flags (repeatable).
+- Keep them strictly opt-in.
+
+Phase C (optional later):
+
+- Add optional language-native build script conventions (or external script conventions) that translate to the same CLI flags.
+- If tooling metadata files are ever supported, keep them strictly optional and equivalent to passing flags explicitly.
+
+### Build Orchestration Position (Framework Side)
+
+Preferred direction:
+
+- Keep the Cellox compiler/runtime focused on compilation and execution primitives.
+- Let a separate build framework/tool (written in Cellox or otherwise) orchestrate project builds.
+- Do not require a mandatory project manifest for core compiler usage.
+
+This is similar in spirit to C/C++ ecosystems:
+
+- Compiler remains timeless and scriptable through flags.
+- Build systems are replaceable layers on top (framework choice stays open).
+- Users can still run single-file commands without adopting any framework.
+
+#### Minimal Compiler Surface for Framework Authors
+
+To support a robust external build framework, keep a stable, explicit CLI surface:
+
+- Include/import roots: repeatable flags (for example, -I style)
+- Stdlib root override flag
+- Entry-root override flag
+- Output path/format flags
+- Build mode/optimization/debug flags
+
+Frameworks should be thin translators from user intent to these flags.
+
+#### Compatibility Rule
+
+Any future framework feature should compile down to plain compiler invocations.
+If a project can be built by the framework, it must also be representable as explicit compiler commands.
+This prevents lock-in and keeps the core toolchain transparent.
+
+### Toolchain Pluralism (Compiler + Stdlib Are Replaceable)
+
+Design principle:
+
+- The Cellox language is the specification.
+- Compilers and standard libraries are implementations.
+- No single implementation should be mandatory for ecosystem participation.
+
+This enables a Unix-like model where defaults exist, but alternatives remain first-class.
+
+#### Policy Goals
+
+- Allow multiple compiler implementations to coexist.
+- Allow multiple stdlib implementations (or profiles) to coexist.
+- Keep default implementation convenient, but never exclusive.
+- Avoid legal and technical lock-in patterns.
+
+#### Runtime/CLI Implications
+
+Support explicit selection/override points instead of hard-coding one global default:
+
+- Stdlib root override (already aligned with Plan 3)
+- Optional stdlib profile identifier (for example, core/posix/embedded) as a flag-level concern
+- Compiler identification/version reporting command for tooling interoperability
+
+No requirement that a compiler distribution must ship a specific stdlib implementation.
+
+#### Compatibility Contract (Important)
+
+To make replaceability practical, standardize interfaces rather than implementations:
+
+- Language semantics and syntax are implementation-independent.
+- Module/import resolution semantics are spec-defined; path roots are configurable.
+- A minimum "core stdlib contract" (APIs + behavior) is documented and versioned.
+- Conformance tests validate compiler and stdlib compatibility.
+
+This is the mechanism that lets others build better implementations without fragmentation.
+
+#### Recommended Governance Shape
+
+- Maintain an open conformance suite.
+- Version the language spec and core-stdlib contract separately.
+- Permit extensions, but require feature flags/capabilities so portability remains visible.
+
+This keeps innovation open while preserving ecosystem coherence.
+
 ---
 
 ## Delivery Order (Low Risk)
@@ -222,6 +375,5 @@ This keeps compiler/runtime changes isolated and makes regressions easier to bis
 ## Out of Scope (Future)
 
 - Capture-by-reference binder semantics
-- Configurable include root lists via command line
 - Package manager integration or package lock behavior
 - Build-system-specific conventions

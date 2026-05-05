@@ -675,7 +675,7 @@ static interpret_result virtual_machine_run(void) {
         &&label_set_index_of,  &&label_set_local,     &&label_set_property,  &&label_set_upvalue,   &&label_subtract,
         &&label_super_invoke,  &&label_true,          &&label_result_is_error, &&label_result_unwrap,
         &&label_result_unwrap_error, &&label_result_wrap_ok, &&label_result_wrap_err, &&label_must,
-        &&label_try_propagate};
+        &&label_try_propagate, &&label_close_upvalue_keep};
 
 /// Makro that dipatches the next bytecode instuction
 #define DISPATCH() goto * dispatch_table[READ_BYTE()]
@@ -744,6 +744,9 @@ static interpret_result virtual_machine_run(void) {
     label_close_upvalue:
         virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
         virtual_machine_pop();
+        DISPATCH();
+    label_close_upvalue_keep:
+        virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
         DISPATCH();
     label_constant:
         {
@@ -1538,6 +1541,9 @@ static interpret_result virtual_machine_run(void) {
                 frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
                 break;
             }
+        case OP_CLOSE_UPVALUE_KEEP:
+            virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
+            break;
         default:
             CLX_UNREACHABLE();
         }

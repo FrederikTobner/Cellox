@@ -1,0 +1,28 @@
+error FileError { NotFound }
+
+fun openFile(path) {
+    if (path == "") {
+        throw FileError.NotFound;
+    }
+    return path;
+}
+
+fun captureByValue(v) {
+    fun get() {
+        return v;
+    }
+    return get;
+}
+
+var a = openFile("") catch |err| { err = "handled"; err };
+printf("{}\n", a);
+
+var closure = openFile("") catch |err| { err = "snapshot"; captureByValue(err) };
+printf("{}\n", closure());
+
+var b = openFile("") catch |err| { err = "changed"; err };
+printf("{}\n", b);
+printf("{}\n", closure());
+
+var c = iferror openFile("") |err| { err = "iferror"; err } else |val| "ok:" + val;
+printf("{}\n", c);

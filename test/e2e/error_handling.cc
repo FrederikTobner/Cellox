@@ -85,3 +85,11 @@ TEST(ErrorHandling, ExpressionForms) {
     test_cellox_program("error_handling/expression_forms.clx",
                         "true\nok\ntrue\nok:readme\ntrue\nok2:readme\nok3:readme\ntrue\n");
 }
+
+TEST(ErrorHandling, BinderValueOnly) {
+    test_cellox_program("error_handling/binder_value_only.clx", "handled\nsnapshot\nchanged\nsnapshot\niferror\n");
+}
+
+TEST(ErrorHandling, BinderScopeOutside) {
+    test_failing_cellox_program("error_handling/binder_scope_outside.clx", "Undefined variable 'err'.\n[line 11] in script\n");
+}

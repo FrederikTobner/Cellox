@@ -142,6 +142,8 @@ enum opcode {
     OP_MUST,
     /// Pops a result: if error result, returns it from the current function; else pushes success payload
     OP_TRY_PROPAGATE,
+    /// Closes upvalues for the value on top of the stack but keeps that value on the stack
+    OP_CLOSE_UPVALUE_KEEP,
 };
 
 /// @brief Line info of a chunk

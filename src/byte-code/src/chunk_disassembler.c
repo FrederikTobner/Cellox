@@ -166,6 +166,8 @@ int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offs
         return chunk_disassembler_simple_instruction("MUST", offset);
     case OP_TRY_PROPAGATE:
         return chunk_disassembler_simple_instruction("TRY_PROPAGATE", offset);
+    case OP_CLOSE_UPVALUE_KEEP:
+        return chunk_disassembler_simple_instruction("CLOSE_UPVALUE_KEEP", offset);
     default:
         printf("Unknown opcode %02X\n", instruction);
         return offset + 1;

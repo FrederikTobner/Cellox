@@ -609,6 +609,10 @@ static void expression_parser_parse_pipe_bound_handler(precedence handlerPrecede
     expression_parser_emit_bytes(OP_SET_LOCAL, boundSlot);
     expression_parser_emit_byte(OP_POP);
 
+    if (CURRENT->locals[boundSlot].isCaptured) {
+        expression_parser_emit_byte(OP_CLOSE_UPVALUE_KEEP);
+    }
+
     CURRENT->scopeDepth--;
     CURRENT->localCount--;
 }
