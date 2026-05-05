@@ -665,7 +665,8 @@ static interpret_result virtual_machine_run(void) {
     // Dispatch table with the labels we jump to instead of function pointers
     void * dispatch_table[] = {
         &&label_add,           &&label_array_literal, &&label_call,          &&label_class,         &&label_closure,
-        &&label_close_upvalue, &&label_constant,      &&label_define_global, &&label_divide,        &&label_equal,
+        &&label_close_upvalue, &&label_constant,      &&label_define_global, &&label_dup,           &&label_divide,
+        &&label_equal,
         &&label_exponent,      &&label_false,         &&label_get_global,    &&label_get_index_of,  &&label_get_local,
         &&label_get_property,  &&label_get_slice_of,  &&label_get_super,     &&label_get_upvalue,   &&label_greater,
         &&label_inherit,       &&label_invoke,        &&label_jump,          &&label_jump_if_false, &&label_less,
@@ -757,6 +758,9 @@ static interpret_result virtual_machine_run(void) {
             virtual_machine_pop();
             DISPATCH();
         }
+    label_dup:
+        virtual_machine_push(virtual_machine_peek(0));
+        DISPATCH();
     label_divide:
         BINARY_OP(NUMBER_VAL, /);
         DISPATCH();
