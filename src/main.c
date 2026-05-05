@@ -24,6 +24,7 @@
 #include "base/common.h"
 #include "driver/initializer.h"
 #include "middle-end/optimization_pass.h"
+#include "module-loading/module_loader.h"
 
 /// @brief Main entry point of the cellox compiler
 /// @param argc The amount of arguments that were specified by the user
@@ -36,6 +37,11 @@ int main(int argc, char const ** argv) {
     // Apply optimization level if specified
     if (config.optimizationLevel != UINT32_MAX) {
         optimization_set_level(config.optimizationLevel);
+    }
+
+    // Apply stdlib directory override if specified via --stdlib-dir
+    if (config.stdlibDir) {
+        module_loader_set_stdlib_path(config.stdlibDir);
     }
 
     // Dispatch based on configuration

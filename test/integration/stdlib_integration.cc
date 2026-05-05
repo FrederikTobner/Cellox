@@ -159,6 +159,33 @@ TEST(StdlibIntegration, ViewPipelineViaModuleLoader) {
     EXPECT_EQ("{4, 16}\n20\n", output);
 }
 
+TEST(StdlibIntegration, EnvVarOverridesBuiltinPath) {
+    // Resolve the stdlib source dir relative to the test base path.
+    std::string stdlibDir = TEST_PROGRAM_BASE_PATH;
+    stdlibDir += "../stdlib";
+
+    // Set env var so the loader picks it up on the next resolution.
+    setenv("CELLOX_STDLIB_DIR", stdlibDir.c_str(), /*overwrite=*/1);
+
+    // Clear any explicit override so that the env var path is exercised.
+    module_loader_set_stdlib_path(NULL);
+
+    std::string entryPath = stdlib_make_temp_path();
+    std::string entrySource =
+        "import { abs } from \"stdlib/math.clx\";\n"
+        "printf(\"{}\\n\", abs(-5));\n";
+    ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
+
+    char * stitched = module_loader_load_program(entryPath.c_str());
+    std::remove(entryPath.c_str());
+
+    unsetenv("CELLOX_STDLIB_DIR");
+
+    ASSERT_NE(nullptr, stitched);
+    std::string output = stdlib_run_source(stitched);
+    EXPECT_EQ("5\n", output);
+}
+
 TEST(StdlibIntegration, StdlibPathOverrideOwnsMemory) {
     std::string stdlibDir = TEST_PROGRAM_BASE_PATH;
     stdlibDir += "../stdlib";

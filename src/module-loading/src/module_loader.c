@@ -28,6 +28,8 @@
 #include "base/common.h"
 #include <module-loading/internal/module_parser.h>
 #include <module-loading/internal/module_path.h>
+#include "clx_os/fs.h"
+#include "clx_os/path.h"
 #include "utils/string_utils.h"
 
 typedef struct module_record_t {
@@ -56,8 +58,13 @@ static bool module_loader_validate_named_imports(module_context_t *, module_reco
                                                  char const *);
 static void module_loader_error(module_context_t *, char const *, ...);
 
-/// Runtime-overridable stdlib search path.  NULL means "use CLX_STDLIB_PATH".
+/// Runtime-overridable stdlib search path.  NULL means use the discovery chain.
 static char * module_loader_stdlib_path_override = NULL;
+
+/// Cached exe-relative stdlib path. Computed once; NULL means not yet tried.
+static char * module_loader_exe_relative_stdlib_path = NULL;
+/// True once we have attempted exe-relative resolution (even if it failed).
+static bool module_loader_exe_relative_resolved = false;
 
 void module_loader_set_stdlib_path(char const * path) {
     if (!path) {
@@ -75,11 +82,39 @@ void module_loader_set_stdlib_path(char const * path) {
     module_loader_stdlib_path_override = copiedPath;
 }
 
-/// Returns the effective stdlib directory (never NULL if CLX_STDLIB_PATH was set at build time).
+/// Returns the effective stdlib directory using a C-compiler-style resolution chain.
+/// Precedence (highest to lowest):
+///   1. Explicit runtime override via module_loader_set_stdlib_path()
+///   2. CELLOX_STDLIB_DIR environment variable
+///   3. Executable-relative:  <exedir>/../lib/cellox/stdlib
+///   4. Compile-time baked-in path CLX_STDLIB_PATH (last resort / dev fallback)
 static char const * module_loader_get_stdlib_path(void) {
     if (module_loader_stdlib_path_override) {
         return module_loader_stdlib_path_override;
     }
+
+    char const * env = getenv("CELLOX_STDLIB_DIR");
+    if (env && env[0]) {
+        return env;
+    }
+
+    if (!module_loader_exe_relative_resolved) {
+        module_loader_exe_relative_resolved = true;
+        char * exeDir = clx_os_path_executable_dir();
+        if (exeDir) {
+            char * candidate = module_path_join(exeDir, "../lib/cellox/stdlib");
+            free(exeDir);
+            if (candidate && clx_os_fs_path_exists(candidate)) {
+                module_loader_exe_relative_stdlib_path = candidate;
+            } else {
+                free(candidate);
+            }
+        }
+    }
+    if (module_loader_exe_relative_stdlib_path) {
+        return module_loader_exe_relative_stdlib_path;
+    }
+
 #ifdef CLX_STDLIB_PATH
     return CLX_STDLIB_PATH;
 #else

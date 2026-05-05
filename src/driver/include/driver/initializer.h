@@ -30,7 +30,7 @@ extern "C" {
 #include <stdbool.h>
 
 /// Message that explains the usage of the cellox compiler
-#define CELLOX_USAGE_MESSAGE ("Usage: Cellox ((-h|--help|-v|--version) | ([-c|--compile] [-O0|-O1|-O2|-O3] [path]))\n")
+#define CELLOX_USAGE_MESSAGE ("Usage: Cellox ((-h|--help|-v|--version) | ([-c|--compile] [-O0|-O1|-O2|-O3] [--stdlib-dir <path>] [path]))\n")
 
 /** @brief Run with repl
  * @details

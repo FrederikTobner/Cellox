@@ -38,3 +38,24 @@ char const * clx_os_path_find_last_separator(char const * path) {
 char clx_os_path_separator(void) {
     return '/';
 }
+
+char * clx_os_path_executable_dir(void) {
+    char buf[4096];
+    ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+    if (len <= 0) {
+        return NULL;
+    }
+    buf[len] = '\0';
+    char * last = strrchr(buf, '/');
+    if (!last) {
+        return strdup(".");
+    }
+    size_t dirLen = (size_t)(last - buf);
+    char * dir = malloc(dirLen + 1);
+    if (!dir) {
+        return NULL;
+    }
+    memcpy(dir, buf, dirLen);
+    dir[dirLen] = '\0';
+    return dir;
+}

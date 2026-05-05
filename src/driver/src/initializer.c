@@ -138,6 +138,8 @@ void initializer_show_help(void) {
     printf("  -c, --compile\t\tConverts the specified file to bytecode and stores the result as a seperate file\n");
     printf("  -O0 .. -O3\t\tSets optimization level (default: O2)\n");
     printf("  --optimize=0..3\tSets optimization level (same as -O)\n");
+    printf("  --stdlib-dir <path>\tOverrides the stdlib search path (also: --stdlib-dir=<path>)\n");
+    printf("  \t\t\tEquivalent to setting the CELLOX_STDLIB_DIR environment variable\n");
     printf("  -h, --help\t\tDisplay this help and exit\n");
     printf("  -v, --version\t\tShows the version of the installed compiler and exit\n\n");
 }

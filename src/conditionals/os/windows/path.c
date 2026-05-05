@@ -65,3 +65,25 @@ char const * clx_os_path_find_last_separator(char const * path) {
 char clx_os_path_separator(void) {
     return '\\';
 }
+
+char * clx_os_path_executable_dir(void) {
+    char buf[MAX_PATH];
+    DWORD len = GetModuleFileNameA(NULL, buf, sizeof(buf));
+    if (len == 0 || len == sizeof(buf)) {
+        return NULL;
+    }
+    char * lastSlash = strrchr(buf, '\\');
+    char * lastFwdSlash = strrchr(buf, '/');
+    char * last = lastSlash > lastFwdSlash ? lastSlash : lastFwdSlash;
+    if (!last) {
+        return strdup(".");
+    }
+    size_t dirLen = (size_t)(last - buf);
+    char * dir = malloc(dirLen + 1);
+    if (!dir) {
+        return NULL;
+    }
+    memcpy(dir, buf, dirLen);
+    dir[dirLen] = '\0';
+    return dir;
+}

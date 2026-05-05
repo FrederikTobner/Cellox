@@ -34,3 +34,8 @@ bool clx_os_fs_ensure_directory(char const * path) {
 
     return stat(path, &st) == 0 && S_ISDIR(st.st_mode);
 }
+
+bool clx_os_fs_path_exists(char const * path) {
+    struct stat st;
+    return stat(path, &st) == 0;
+}

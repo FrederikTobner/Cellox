@@ -83,6 +83,11 @@ static const command_line_option_config_t option_configs[] = {
         .shortRepresentation = NULL,  // Handled specially: -ON or --optimize=N or --optimize N
         .longRepresentation = NULL,
         .category = OPTION_TYPE_MODIFIER
+    },
+    [OPTION_STDLIB_DIR] = {
+        .shortRepresentation = NULL,  // Handled specially: --stdlib-dir=<path> or --stdlib-dir <path>
+        .longRepresentation = NULL,
+        .category = OPTION_TYPE_MODIFIER
     }
 };
 
@@ -133,10 +138,12 @@ command_line_config_t command_line_argument_parser_parse(int argc, char const **
         .version = false,
         .compile = false,
         .inputFile = NULL,
-        .optimizationLevel = UINT32_MAX
+        .optimizationLevel = UINT32_MAX,
+        .stdlibDir = NULL
     };
 
     bool expectOptimizationLevelValue = false;
+    bool expectStdlibDirValue = false;
 
     for (int i = 1; i < argc; i++) {
         // Handle pending optimization level value (from --optimize without =)
@@ -148,12 +155,35 @@ command_line_config_t command_line_argument_parser_parse(int argc, char const **
             continue;
         }
 
+        // Handle pending stdlib dir value (from --stdlib-dir without =)
+        if (expectStdlibDirValue) {
+            config.stdlibDir = argv[i];
+            expectStdlibDirValue = false;
+            continue;
+        }
+
         // Try to parse optimization level (may set expectOptimizationLevelValue to true)
         if (command_line_argument_parser_parse_optimization_level(argv[i], &config.optimizationLevel,
                                                                   &expectOptimizationLevelValue)) {
             if (!command_line_argument_parser_can_add_option(&config, OPTION_TYPE_MODIFIER)) {
                 command_line_argument_parser_error("Optimization level cannot be combined with help or version");
             }
+            continue;
+        }
+
+        // Try to parse --stdlib-dir (--stdlib-dir=<path> or --stdlib-dir <path>)
+        if (!strncmp(argv[i], "--stdlib-dir=", 13)) {
+            if (!command_line_argument_parser_can_add_option(&config, OPTION_TYPE_MODIFIER)) {
+                command_line_argument_parser_error("--stdlib-dir cannot be combined with help or version");
+            }
+            config.stdlibDir = argv[i] + 13;
+            continue;
+        }
+        if (!strcmp(argv[i], "--stdlib-dir")) {
+            if (!command_line_argument_parser_can_add_option(&config, OPTION_TYPE_MODIFIER)) {
+                command_line_argument_parser_error("--stdlib-dir cannot be combined with help or version");
+            }
+            expectStdlibDirValue = true;
             continue;
         }
 

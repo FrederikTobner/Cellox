@@ -34,3 +34,7 @@ bool clx_os_fs_ensure_directory(char const * path) {
     attributes = GetFileAttributesA(path);
     return attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 }
+
+bool clx_os_fs_path_exists(char const * path) {
+    return GetFileAttributesA(path) != INVALID_FILE_ATTRIBUTES;
+}
