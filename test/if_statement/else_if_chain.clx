@@ -1,0 +1,7 @@
+var x = 0;
+if (x == 1)
+    printf("{}\n", "a");
+else if (x == 2)
+    printf("{}\n", "b");
+else
+    printf("{}\n", "c");

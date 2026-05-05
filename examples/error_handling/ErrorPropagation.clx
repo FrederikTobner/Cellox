@@ -1,0 +1,37 @@
+// Error propagation across multiple call frames using try
+// Demonstrates: try unwraps or re-throws, layered functions, catch at the top
+
+error DbError { NotFound, ConnectionFailed }
+
+fun fetchRow(id) {
+    if (id <= 0)  throw DbError.ConnectionFailed;
+    if (id > 100) throw DbError.NotFound;
+    return id * 10; // simulated row value
+}
+
+fun processRow(id) {
+    var row = try fetchRow(id); // propagates error if fetchRow throws
+    return row + 1;
+}
+
+fun handleRequest(id) {
+    var result = try processRow(id);
+    return result;
+}
+
+// Success path
+printf("{}\n", handleRequest(5) catch "error");     // 51
+
+// Error propagates all the way to the top-level catch
+printf("{}\n", handleRequest(0)   catch "conn fail");  // conn fail
+printf("{}\n", handleRequest(200) catch "not found");  // not found
+
+// iferror to distinguish the variant
+iferror handleRequest(0) |err| {
+    if (err == DbError.ConnectionFailed)
+        printf("database is unreachable\n");
+    else
+        printf("other error: {}\n", err);
+} else |val| {
+    printf("success: {}\n", val);
+}

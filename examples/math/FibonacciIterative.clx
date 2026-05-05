@@ -1,0 +1,19 @@
+// Iterative Fibonacci — no recursion, no memoisation overhead
+// Demonstrates: for loops, variable swapping, pure functions
+
+fun fibonacci(n) {
+    if (n <= 0) return 0;
+    if (n == 1) return 1;
+    var a = 0;
+    var b = 1;
+    for (var i = 2; i <= n; i += 1) {
+        var tmp = a + b;
+        a = b;
+        b = tmp;
+    }
+    return b;
+}
+
+printf("First 15 Fibonacci numbers:\n");
+for (var i = 0; i <= 14; i += 1)
+    printf("F({}) = {}\n", i, fibonacci(i));

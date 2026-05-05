@@ -36,8 +36,8 @@ static int32_t chunk_disassembler_simple_instruction(char const *, int32_t);
 
 void chunk_disassembler_disassemble_chunk(chunk_t * chunk, char const * name, uint32_t arity) {
     chunk_disassembler_print_chunk_metadata(chunk, name, arity);
-    for (int32_t offset = 0; offset < chunk->byteCodeCount;) {
-        offset = chunk_disassembler_disassemble_instruction(chunk, offset);
+    for (uint32_t offset = 0; offset < chunk->byteCodeCount;) {
+        offset = (uint32_t)chunk_disassembler_disassemble_instruction(chunk, (int32_t)offset);
     }
 }
 
@@ -82,6 +82,8 @@ int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offs
         return chunk_disassembler_constant_instruction("CONSTANT", chunk, offset);
     case OP_DEFINE_GLOBAL:
         return chunk_disassembler_constant_instruction("DEFINE_GLOBAL", chunk, offset);
+    case OP_DUP:
+        return chunk_disassembler_simple_instruction("DUP", offset);
     case OP_DIVIDE:
         return chunk_disassembler_simple_instruction("DIVIDE", offset);
     case OP_EQUAL:
@@ -164,6 +166,8 @@ int32_t chunk_disassembler_disassemble_instruction(chunk_t * chunk, int32_t offs
         return chunk_disassembler_simple_instruction("MUST", offset);
     case OP_TRY_PROPAGATE:
         return chunk_disassembler_simple_instruction("TRY_PROPAGATE", offset);
+    case OP_CLOSE_UPVALUE_KEEP:
+        return chunk_disassembler_simple_instruction("CLOSE_UPVALUE_KEEP", offset);
     default:
         printf("Unknown opcode %02X\n", instruction);
         return offset + 1;
@@ -251,6 +255,7 @@ static void chunk_disassembler_print_chunk_metadata(chunk_t * chunk, char const 
             if (IS_STRING(chunk->constants.values[chunk->code[j + 1]])) {
                 classCount++;
             }
+            /* fall through */
         case OP_ARRAY_LITERAL:
         case OP_DEFINE_GLOBAL:
         case OP_GET_GLOBAL:

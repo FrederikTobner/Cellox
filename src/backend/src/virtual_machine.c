@@ -60,7 +60,6 @@ static object_error_set_t * virtual_machine_define_error_set(char const *, char 
 static value_t virtual_machine_stdlib_error_result(char const *);
 static void virtual_machine_define_natives(void);
 static bool virtual_machine_get_index_of(void);
-static bool virtual_machine_get_sclice_of(void);
 static bool virtual_machine_invoke(object_string_t *, int32_t);
 static bool virtual_machine_invoke_from_class(object_class_t *, object_string_t *, int32_t);
 CLX_PURE CLX_ALWAYS_INLINE bool virtual_machine_is_falsey(value_t);
@@ -169,7 +168,6 @@ value_t virtual_machine_pop(void) {
 /// @param argCount The size of the array
 static void virtual_machine_array_literal(int32_t argCount) {
     object_dynamic_value_array_t * dynamicArray = object_new_dynamic_value_array();
-    value_t val;
     // The elements are reversed on the stack so we iterate backwards 🔙
     for (int32_t i = argCount - 1; i >= 0; i--) {
         dynamic_value_array_write(&dynamicArray->array, virtual_machine_peek(i));
@@ -203,7 +201,7 @@ static bool virtual_machine_bind_method(object_class_t * celloxClass, object_str
 /// @note The function can fail if the function was called with a wrong amount of arguments or there are too much
 /// callframes on the callstack -> stack overflow
 static bool virtual_machine_call(object_closure_t * closure, int32_t argCount) {
-    if (argCount != closure->function->arity) {
+    if ((uint32_t)argCount != closure->function->arity) {
         virtual_machine_runtime_error("Expected %d arguments but got %d.", closure->function->arity, argCount);
         return false;
     }
@@ -447,7 +445,7 @@ static bool virtual_machine_get_index_of(void) {
     if (IS_NUMBER(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1))) {
         int num = AS_NUMBER(virtual_machine_pop());
         object_string_t * str = AS_STRING(virtual_machine_pop());
-        if (num >= str->length || num < 0) {
+        if (num < 0 || (uint32_t)num >= str->length) {
             virtual_machine_runtime_error("accessed string out of bounds (at index %i)", num);
             return false;
         }
@@ -459,7 +457,7 @@ static bool virtual_machine_get_index_of(void) {
     } else if (IS_NUMBER(virtual_machine_peek(0)) && IS_ARRAY(virtual_machine_peek(1))) {
         int num = AS_NUMBER(virtual_machine_pop());
         object_dynamic_value_array_t * array = AS_ARRAY(virtual_machine_pop());
-        if (num >= array->array.count || num < 0) {
+        if (num < 0 || (uint32_t)num >= array->array.count) {
             virtual_machine_runtime_error("accessed array out of bounds (at index %i)", num);
             return false;
         }
@@ -510,7 +508,7 @@ static bool virtual_machine_get_slice_of(void) {
     }
     if (IS_ARRAY(virtual_machine_peek(0))) {
         object_dynamic_value_array_t * sourceArray = AS_ARRAY(virtual_machine_pop());
-        if (upperBound >= sourceArray->array.count) {
+        if (upperBound < 0 || (uint32_t)upperBound >= sourceArray->array.count) {
             virtual_machine_runtime_error(
                 "Upperbound can not be higher or equal to the size of the array, but upperbound is %d and size %d",
                 upperBound, sourceArray->array.count);
@@ -523,7 +521,7 @@ static bool virtual_machine_get_slice_of(void) {
         virtual_machine_push(OBJECT_VAL(resultArray));
     } else {
         object_string_t * sourceString = AS_STRING(virtual_machine_pop());
-        if (upperBound >= sourceString->length) {
+        if (upperBound < 0 || (uint32_t)upperBound >= sourceString->length) {
             virtual_machine_runtime_error(
                 "Upperbound can not be higher or equal to the length of the string but upperbound is %d and size %d",
                 upperBound, sourceString->length);
@@ -587,7 +585,7 @@ CLX_PURE CLX_ALWAYS_INLINE bool virtual_machine_is_falsey(value_t value) {
 
 /// @brief Executes a modulo operation
 /// @return A boolean value that indicates whether the execution has led to a runtime error
-static bool virtual_machine_modulo() {
+static bool virtual_machine_modulo(void) {
     if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1))) {
         int b = AS_NUMBER(virtual_machine_pop());
         int a = AS_NUMBER(virtual_machine_pop());
@@ -665,7 +663,8 @@ static interpret_result virtual_machine_run(void) {
     // Dispatch table with the labels we jump to instead of function pointers
     void * dispatch_table[] = {
         &&label_add,           &&label_array_literal, &&label_call,          &&label_class,         &&label_closure,
-        &&label_close_upvalue, &&label_constant,      &&label_define_global, &&label_divide,        &&label_equal,
+        &&label_close_upvalue, &&label_constant,      &&label_define_global, &&label_dup,           &&label_divide,
+        &&label_equal,
         &&label_exponent,      &&label_false,         &&label_get_global,    &&label_get_index_of,  &&label_get_local,
         &&label_get_property,  &&label_get_slice_of,  &&label_get_super,     &&label_get_upvalue,   &&label_greater,
         &&label_inherit,       &&label_invoke,        &&label_jump,          &&label_jump_if_false, &&label_less,
@@ -674,7 +673,7 @@ static interpret_result virtual_machine_run(void) {
         &&label_set_index_of,  &&label_set_local,     &&label_set_property,  &&label_set_upvalue,   &&label_subtract,
         &&label_super_invoke,  &&label_true,          &&label_result_is_error, &&label_result_unwrap,
         &&label_result_unwrap_error, &&label_result_wrap_ok, &&label_result_wrap_err, &&label_must,
-        &&label_try_propagate};
+        &&label_try_propagate, &&label_close_upvalue_keep};
 
 /// Makro that dipatches the next bytecode instuction
 #define DISPATCH() goto * dispatch_table[READ_BYTE()]
@@ -744,6 +743,9 @@ static interpret_result virtual_machine_run(void) {
         virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
         virtual_machine_pop();
         DISPATCH();
+    label_close_upvalue_keep:
+        virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
+        DISPATCH();
     label_constant:
         {
             value_t constant = READ_CONSTANT();
@@ -757,6 +759,9 @@ static interpret_result virtual_machine_run(void) {
             virtual_machine_pop();
             DISPATCH();
         }
+    label_dup:
+        virtual_machine_push(virtual_machine_peek(0));
+        DISPATCH();
     label_divide:
         BINARY_OP(NUMBER_VAL, /);
         DISPATCH();
@@ -1166,6 +1171,9 @@ static interpret_result virtual_machine_run(void) {
                 virtual_machine_pop();
                 break;
             }
+        case OP_DUP:
+            virtual_machine_push(virtual_machine_peek(0));
+            break;
         case OP_DIVIDE:
             BINARY_OP(NUMBER_VAL, /);
             break;
@@ -1531,6 +1539,9 @@ static interpret_result virtual_machine_run(void) {
                 frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
                 break;
             }
+        case OP_CLOSE_UPVALUE_KEEP:
+            virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
+            break;
         default:
             CLX_UNREACHABLE();
         }
@@ -1577,7 +1588,7 @@ static bool virtual_machine_set_index_of(void) {
         value_t val = virtual_machine_pop();
         int num = AS_NUMBER(virtual_machine_pop());
         object_dynamic_value_array_t * array = AS_ARRAY(virtual_machine_pop());
-        if (num >= array->array.count || num < 0) {
+        if (num < 0 || (uint32_t)num >= array->array.count) {
             virtual_machine_runtime_error("accessed array out of bounds at index %d", num);
             return false;
         }

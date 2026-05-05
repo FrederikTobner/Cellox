@@ -1,0 +1,11 @@
+error FileError { NotFound }
+
+fun openFile(path) {
+    if (path == "") {
+        throw FileError.NotFound;
+    }
+    return path;
+}
+
+var value = openFile("") catch |err| err;
+printf("{}\n", err);

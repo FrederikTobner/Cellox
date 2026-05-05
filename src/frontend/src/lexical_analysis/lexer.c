@@ -39,21 +39,21 @@ typedef struct {
 /// Global Lexer variable
 lexer_t lexer;
 
-static inline char lexer_advance();
+static inline char lexer_advance(void);
 static tokentype lexer_check_keyword(uint32_t, uint32_t, char const *, tokentype);
 static token_t lexer_error_token(char const *);
-static token_t lexer_identifier();
-static tokentype lexer_identifier_type();
+static token_t lexer_identifier(void);
+static tokentype lexer_identifier_type(void);
 static inline bool lexer_is_alpha(char);
 static inline bool lexer_is_digit(char);
-static inline bool lexer_is_at_end();
+static inline bool lexer_is_at_end(void);
 static token_t lexer_make_token(tokentype);
 static bool lexer_match(char);
-static token_t lexer_number();
-static inline char lexer_peek();
-static char lexer_peek_next();
-static void lexer_skip_whitespace();
-static token_t lexer_string();
+static token_t lexer_number(void);
+static inline char lexer_peek(void);
+static char lexer_peek_next(void);
+static void lexer_skip_whitespace(void);
+static token_t lexer_string(void);
 
 void lexer_init(char const * sourcecode) {
     lexer.start = lexer.current = sourcecode;
@@ -323,11 +323,9 @@ static token_t lexer_number(void) {
     } else if (lexer_peek() == 'b' || lexer_peek() == 'B') {
         // Binary number
         lexer_advance();
-        char c = lexer_peek();
         size_t length = 0;
         while (lexer_peek() == '0' || lexer_peek() == '1') {
             lexer_advance();
-            c = lexer_peek();
             length++;
         }
         if (length > 32) {

@@ -26,6 +26,9 @@ char * clx_os_path_canonicalize(char const * path);
 bool clx_os_path_is_absolute(char const * path);
 char const * clx_os_path_find_last_separator(char const * path);
 char clx_os_path_separator(void);
+/// Returns a heap-allocated string containing the directory of the running executable,
+/// or NULL on failure. The caller does not need to free the result; it is cached internally.
+char * clx_os_path_executable_dir(void);
 
 #ifdef __cplusplus
 }

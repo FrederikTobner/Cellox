@@ -17,3 +17,11 @@ TEST(If, Simple) {
 TEST(If, VariableInThen) {
     test_failing_cellox_program("if_statement/variable_in_then.clx", "[line 2] Error at 'var': Expect expression.\n");
 }
+
+TEST(If, ElseIfChain) {
+    test_cellox_program("if_statement/else_if_chain.clx", "c\n");
+}
+
+TEST(If, NestedIfElse) {
+    test_cellox_program("if_statement/nested_if_else.clx", "y\n");
+}

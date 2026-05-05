@@ -1,0 +1,27 @@
+// Memoised Fibonacci using a closure over a cache array
+// The inner function remembers previously computed values, making repeated
+// calls to fib(n) O(1) after the first computation.
+// Demonstrates: closures, upvalues, array mutation
+
+fun makeMemoFib() {
+    // Cache indices 0..30; -1 signals "not yet computed"
+    var cache = {
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+    };
+
+    fun fib(n) {
+        if (n <= 1) return n;
+        if (cache[n] != -1) return cache[n];
+        cache[n] = fib(n - 1) + fib(n - 2);
+        return cache[n];
+    }
+
+    return fib;
+}
+
+var fib = makeMemoFib();
+
+for (var i = 0; i <= 12; i += 1)
+    printf("fib({}) = {}\n", i, fib(i));

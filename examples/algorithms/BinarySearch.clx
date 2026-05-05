@@ -1,0 +1,26 @@
+import { floor } from "stdlib/math.clx";
+
+// Binary search on a sorted array — returns the index, or -1 if not found
+// Time complexity: O(log n)  |  Demonstrates: while loops, stdlib import
+
+fun binarySearch(arr, target) {
+    var lo = 0;
+    var hi = array_length(arr) - 1;
+    while (lo <= hi) {
+        var mid = floor((lo + hi) / 2);
+        if (arr[mid] == target) return mid;
+        if (arr[mid] < target)
+            lo = mid + 1;
+        else
+            hi = mid - 1;
+    }
+    return -1;
+}
+
+var sorted = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};
+
+printf("index of 23: {}\n", binarySearch(sorted, 23));   // 5
+printf("index of 72: {}\n", binarySearch(sorted, 72));   // 8
+printf("index of  2: {}\n", binarySearch(sorted, 2));    // 0
+printf("index of 91: {}\n", binarySearch(sorted, 91));   // 9
+printf("index of 99: {}\n", binarySearch(sorted, 99));   // -1

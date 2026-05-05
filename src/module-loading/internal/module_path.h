@@ -39,8 +39,11 @@ char * module_path_join(char const * left, char const * right);
 /// @brief Resolves an import path relative to the importer's directory.
 /// @param importerPath Canonical path of the importing file.
 /// @param importPath   The path string from the import statement.
+/// @param stdlibPath   The stdlib search directory used for bare imports (no leading . or /),
+///                     or NULL to skip bare-import resolution.
 /// @return A malloc'd resolved path the caller must free, or NULL on failure.
 ///         Absolute import paths are duplicated as-is.
-char * module_path_resolve_import(char const * importerPath, char const * importPath);
+char * module_path_resolve_import(char const * importerPath, char const * importPath,
+                                  char const * stdlibPath);
 
 #endif /* CELLOX_MODULE_PATH_H_ */

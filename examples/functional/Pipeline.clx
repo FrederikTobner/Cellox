@@ -1,0 +1,27 @@
+import { array_view } from "stdlib/view.clx";
+
+// Data pipeline using the stdlib view: filter → map → reduce
+// Demonstrates: stdlib import, higher-order functions, method chaining on views
+
+fun isEven(x)       { return x % 2 == 0; }
+fun square(x)       { return x * x; }
+fun add(acc, x)     { return acc + x; }
+fun isPositive(x)   { return x > 0; }
+fun negate(x)       { return -x; }
+
+var numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+// Squared even numbers
+var evenSquares = array_view(numbers)
+    .filter(isEven)
+    .map(square);
+
+printf("even squares:  {}\n", evenSquares.to_array());    // 4 16 36 64 100
+printf("sum:           {}\n", evenSquares.reduce(add, 0)); // 220
+
+// Negate positives from a mixed set
+var mixed = {-3, -1, 0, 2, 4, 6};
+var result = array_view(mixed)
+    .filter(isPositive)
+    .map(negate);
+printf("negated positives: {}\n", result.to_array());     // -2 -4 -6

@@ -13,3 +13,11 @@ TEST(ForLoops, NoVariable) {
 TEST(ForLoops, NormalFor) {
     test_cellox_program("for_loops/normal_for.clx", "1\n2\n3\n4\n5\n");
 }
+
+TEST(ForLoops, NestedFor) {
+    test_cellox_program("for_loops/nested_for.clx", "1\n2\n2\n4\n");
+}
+
+TEST(ForLoops, ContinueAndBreak) {
+    test_cellox_program("for_loops/continue_and_break.clx", "0\n2\n3\n");
+}

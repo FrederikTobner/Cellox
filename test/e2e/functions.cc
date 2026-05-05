@@ -22,3 +22,23 @@ TEST(Functions, parameters) {
 TEST(Functions, recursion) {
     test_cellox_program("functions/recursion.clx", "21\n");
 }
+
+TEST(Functions, closureCapture) {
+    test_cellox_program("functions/closure_capture.clx", "1\n2\n3\n");
+}
+
+TEST(Functions, firstClassFunction) {
+    test_cellox_program("functions/first_class_function.clx", "5\n");
+}
+
+TEST(Functions, arityTooFew) {
+    test_failing_cellox_program("functions/arity_too_few.clx", "Expected 2 arguments but got 1.\n[line 5] in script\n");
+}
+
+TEST(Functions, arityTooMany) {
+    test_failing_cellox_program("functions/arity_too_many.clx", "Expected 2 arguments but got 3.\n[line 5] in script\n");
+}
+
+TEST(Functions, mutualRecursion) {
+    test_cellox_program("functions/mutual_recursion.clx", "true\ntrue\nfalse\n");
+}

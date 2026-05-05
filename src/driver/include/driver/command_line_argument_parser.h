@@ -29,7 +29,8 @@ typedef enum {
     OPTION_HELP,
     OPTION_VERSION,
     OPTION_COMPILE,
-    OPTION_OPTIMIZATION_LEVEL
+    OPTION_OPTIMIZATION_LEVEL,
+    OPTION_STDLIB_DIR
 } command_line_option_type;
 
 /// @brief Represents the parsed command line configuration
@@ -46,6 +47,9 @@ typedef struct {
     char const * inputFile;
     /// @brief The optimization level (0-3), or UINT32_MAX if not specified
     uint32_t optimizationLevel;
+    /// @brief Explicit stdlib directory override (NULL if not provided)
+    /// @details Equivalent to setting CELLOX_STDLIB_DIR for this invocation.
+    char const * stdlibDir;
 } command_line_config_t;
 
 /// @brief Parses the command line arguements that were specified when cellox was called

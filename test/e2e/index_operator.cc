@@ -36,3 +36,12 @@ TEST(IndexOperator, WithString) {
                                 "Operands must a numerical value and a string object but are a string object and a "
                                 "string object\n[line 2] in script\n");
 }
+
+TEST(IndexOperator, ArrayGetSet) {
+    test_cellox_program("index_operator/array_get_set.clx", "2\n99\n");
+}
+
+TEST(IndexOperator, ArrayOutOfBounds) {
+    test_failing_cellox_program("index_operator/array_out_of_bounds.clx",
+                                "accessed array out of bounds (at index 3)\n[line 2] in script\n");
+}

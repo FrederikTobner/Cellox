@@ -1,0 +1,96 @@
+// Doubly linked list: O(1) push/pop at both ends
+// Demonstrates: classes with multiple pointers, bidirectional traversal
+
+class Node {
+    init(value, prev, next) {
+        this.value = value;
+        this.prev  = prev;
+        this.next  = next;
+    }
+}
+
+class DoublyLinkedList {
+    init() {
+        this.head  = null;
+        this.tail  = null;
+        this.count = 0;
+    }
+
+    pushBack(value) {
+        var node = Node(value, this.tail, null);
+        if (this.tail)
+            this.tail.next = node;
+        else
+            this.head = node;
+        this.tail = node;
+        this.count += 1;
+    }
+
+    pushFront(value) {
+        var node = Node(value, null, this.head);
+        if (this.head)
+            this.head.prev = node;
+        else
+            this.tail = node;
+        this.head = node;
+        this.count += 1;
+    }
+
+    popBack() {
+        if (!this.tail) return null;
+        var value = this.tail.value;
+        this.tail = this.tail.prev;
+        if (this.tail)
+            this.tail.next = null;
+        else
+            this.head = null;
+        this.count -= 1;
+        return value;
+    }
+
+    popFront() {
+        if (!this.head) return null;
+        var value = this.head.value;
+        this.head = this.head.next;
+        if (this.head)
+            this.head.prev = null;
+        else
+            this.tail = null;
+        this.count -= 1;
+        return value;
+    }
+
+    printForward() {
+        var curr = this.head;
+        while (curr) {
+            printf("{} ", curr.value);
+            curr = curr.next;
+        }
+        printf("\n");
+    }
+
+    printBackward() {
+        var curr = this.tail;
+        while (curr) {
+            printf("{} ", curr.value);
+            curr = curr.prev;
+        }
+        printf("\n");
+    }
+
+    size() { return this.count; }
+}
+
+var dll = DoublyLinkedList();
+dll.pushBack(1);
+dll.pushBack(2);
+dll.pushBack(3);
+dll.pushFront(0);
+
+printf("forward:  "); dll.printForward();    // 0 1 2 3
+printf("backward: "); dll.printBackward();   // 3 2 1 0
+
+printf("popFront: {}\n", dll.popFront());    // 0
+printf("popBack:  {}\n", dll.popBack());     // 3
+printf("forward:  "); dll.printForward();    // 1 2
+printf("size:     {}\n", dll.size());        // 2

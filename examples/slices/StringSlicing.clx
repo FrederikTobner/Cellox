@@ -1,0 +1,22 @@
+// String slicing — extract substrings using the [lo..hi] range syntax
+// Upper bound is exclusive and must be < string length
+
+var csv = "first,second,third!";
+//         01234567890123456789
+// length = 19
+
+var col1 = csv[0 .. 5];   // "first"
+var col2 = csv[6 .. 12];  // "second"
+var col3 = csv[13 .. 18]; // "third"
+
+printf("Column 1: {}\n", col1);
+printf("Column 2: {}\n", col2);
+printf("Column 3: {}\n", col3);
+
+// Slice a URL to extract its path component
+var url = "https://example.com/index/";
+//         0         1         2
+//         01234567890123456789012345
+// length = 26
+var path = url[20 .. 25]; // "index"
+printf("Path: {}\n", path);

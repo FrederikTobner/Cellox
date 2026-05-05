@@ -1,0 +1,37 @@
+// First-class functions and higher-order patterns
+// Demonstrates: functions as values, passing/returning functions, arrays of functions
+
+// Apply a function twice: f(f(x))
+fun applyTwice(f, x) {
+    return f(f(x));
+}
+
+fun double(x)   { return x * 2; }
+fun addThree(x) { return x + 3; }
+
+printf("{}\n", applyTwice(double, 3));      // 12
+printf("{}\n", applyTwice(addThree, 10));   // 16
+
+// Factory: return a specialised multiplier closure
+fun multiplier(factor) {
+    fun multiply(x) { return x * factor; }
+    return multiply;
+}
+
+var triple = multiplier(3);
+var times5 = multiplier(5);
+printf("{}\n", triple(7));   // 21
+printf("{}\n", times5(4));   // 20
+
+// Apply a list of transforms in sequence
+fun applyAll(fns, x) {
+    var result = x;
+    var n = array_length(fns);
+    for (var i = 0; i < n; i += 1)
+        result = fns[i](result);
+    return result;
+}
+
+var transforms = {double, addThree, double};
+printf("{}\n", applyAll(transforms, 5));
+// double(5)=10 → addThree(10)=13 → double(13)=26

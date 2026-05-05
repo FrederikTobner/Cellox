@@ -58,7 +58,6 @@ static void chunk_file_append_constant(value_t, dynamic_value_array_t *, chunk_f
 static void chunk_file_append_constant_segment(dynamic_value_array_t, dynamic_value_array_t *, chunk_file_compile_flag,
                                                FILE *);
 static void chunk_file_append_function_meta_data(object_function_t, FILE *);
-static void chunk_file_append_inner_segment(dynamic_value_array_t, chunk_file_compile_flag, FILE *);
 static inline void chunk_file_append_line_info(line_info_t, FILE *);
 static void chunk_file_append_line_info_segment(line_info_t *, uint32_t, FILE *);
 static void chunk_file_append_meta_data(chunk_file_compile_flag, FILE *);
@@ -172,6 +171,7 @@ static void chunk_file_append_code_segment(uint8_t * code, uint32_t codeSize, FI
 /// @param filePointer Pointer to the file
 static void chunk_file_append_constant(value_t value, dynamic_value_array_t * functions, chunk_file_compile_flag flag,
                                        FILE * filePointer) {
+    (void)functions;
     if (IS_OBJECT(value)) {
         switch (OBJECT_TYPE(value)) {
         case OBJECT_FUNCTION:
@@ -226,23 +226,6 @@ static void chunk_file_append_function_meta_data(object_function_t function, FIL
     fputc(0, filePointer);
     chunk_file_append_u32(function.arity, filePointer);
     chunk_file_append_u32(function.upvalueCount, filePointer);
-}
-
-/// @brief Appends the inner segment of the chunk to tthe file
-/// @param functions The inner functions of the chunk
-/// @param flags Compile flags used to compile the sourcecode to a cellox chunk file
-/// @param filePointer Pointer to the file
-static void chunk_file_append_inner_segment(dynamic_value_array_t functions, chunk_file_compile_flag flag,
-                                            FILE * filePointer) {
-    if (!functions.count) {
-        return;
-    }
-    fputc(CHUNK_SEGMENT_TYPE_INNER, filePointer);
-    chunk_file_append_u32(functions.count, filePointer);
-    for (size_t i = 0; i < functions.count; i++) {
-        chunk_file_append_function_meta_data(*AS_FUNCTION(functions.values[i]), filePointer);
-        chunk_file_append_chunk(AS_FUNCTION(functions.values[i])->chunk, flag, filePointer);
-    }
 }
 
 /// @brief Appends a single line information to a chunk file
@@ -572,6 +555,7 @@ static void chunk_file_parse_line_info(char const ** fileContent, chunk_t * resu
 /// @param fileSize The size of the file in bytes
 static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
                                       size_t fileSize) {
+    (void)result;
     if (fileSize < 3) {
         chunk_file_error("Chunk file is incomplete");
         return;
@@ -602,6 +586,7 @@ static void chunk_file_parse_metadata(char const ** fileContent, chunk_t * resul
 /// @return The number that was parsed
 static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
                                      size_t fileSize) {
+    (void)result;
     if (*bytesReadPointer > fileSize || 4 > fileSize - *bytesReadPointer) {
         chunk_file_error("Chunk file is incomplete");
         return 0;
@@ -622,6 +607,7 @@ static uint32_t chunk_file_parse_u32(char const ** fileContent, chunk_t * result
 /// @return The number that was parsed
 static uint64_t chunk_file_parse_u64(char const ** fileContent, chunk_t * result, size_t * bytesReadPointer,
                                      size_t fileSize) {
+    (void)result;
     if (*bytesReadPointer > fileSize || 8 > fileSize - *bytesReadPointer) {
         chunk_file_error("Chunk file is incomplete");
         return 0;

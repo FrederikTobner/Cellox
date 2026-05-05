@@ -1,0 +1,13 @@
+fun makeCounter() {
+    var value = 0;
+    fun next() {
+        value += 1;
+        return value;
+    }
+    return next;
+}
+
+var counter = makeCounter();
+printf("{}\n", counter());
+printf("{}\n", counter());
+printf("{}\n", counter());

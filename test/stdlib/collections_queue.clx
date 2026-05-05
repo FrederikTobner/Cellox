@@ -1,4 +1,4 @@
-import { queue } from "../../stdlib/collections.clx";
+import { queue } from "stdlib/collections.clx";
 
 var q = queue();
 q.enqueue("a").enqueue("b").enqueue("c");

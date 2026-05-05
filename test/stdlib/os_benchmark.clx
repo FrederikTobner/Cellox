@@ -1,4 +1,4 @@
-import { os_benchmark } from "../../stdlib/os.clx";
+import { os_benchmark } from "stdlib/os.clx";
 // benchmark a trivial function — elapsed time must be non-negative
 fun work() {
     var x = 0;

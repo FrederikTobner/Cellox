@@ -101,7 +101,7 @@ void compiler_advance(void) {
         if (parser->current.type != TOKEN_ERROR) {
             break;
         }
-        compiler_error_at_current(parser->current.start);
+        compiler_error_at_current("%s", parser->current.start);
     }
 }
 
@@ -114,17 +114,17 @@ void compiler_consume(tokentype type, char const * message) {
         compiler_advance();
         return;
     }
-    compiler_error_at_current(message);
+    compiler_error_at_current("%s", message);
 }
 
 object_function_t * compiler_end(void) {
-    parser_t * parser = compilation_context_get_parser();
     compiler_t * currentCompiler = compilation_context_get_current_compiler();
 
     compiler_emit_return();
     object_function_t * function = currentCompiler->function;
 
 #ifdef DEBUG_PRINT_CODE
+    parser_t * parser = compilation_context_get_parser();
     if (!parser->hadError) {
         chunk_disassembler_disassemble_chunk(compiler_current_chunk(),
                                              function->name != NULL ? function->name->chars : "main",

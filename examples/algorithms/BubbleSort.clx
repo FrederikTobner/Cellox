@@ -1,0 +1,20 @@
+// Bubble sort: repeatedly swap adjacent elements that are out of order
+// Time complexity: O(n²)  |  Demonstrates: nested loops, array mutation
+
+fun bubbleSort(arr) {
+    var n = array_length(arr);
+    for (var i = 0; i < n - 1; i += 1) {
+        for (var j = 0; j < n - i - 1; j += 1) {
+            if (arr[j] > arr[j + 1]) {
+                var tmp   = arr[j];
+                arr[j]    = arr[j + 1];
+                arr[j + 1] = tmp;
+            }
+        }
+    }
+}
+
+var nums = {64, 34, 25, 12, 22, 11, 90};
+printf("before: {}\n", nums);
+bubbleSort(nums);
+printf("after:  {}\n", nums);   // 11 12 22 25 34 64 90

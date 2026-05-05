@@ -51,7 +51,8 @@ char * module_path_join(char const * left, char const * right) {
     return joined;
 }
 
-char * module_path_resolve_import(char const * importerPath, char const * importPath) {
+char * module_path_resolve_import(char const * importerPath, char const * importPath,
+                                  char const * stdlibPath) {
     if (!importPath || !importPath[0]) {
         return NULL;
     }
@@ -60,6 +61,23 @@ char * module_path_resolve_import(char const * importerPath, char const * import
 
     if (isAbsolute) {
         return string_utils_strdup(importPath);
+    }
+
+    /* A bare import does not start with '.', '/', or a Windows drive letter.
+     * Example: "stdlib/math.clx"  →  <stdlibPath>/math.clx
+     * The prefix "stdlib/" is stripped so users write `from "stdlib/math.clx"` and
+     * the resolved path becomes `<stdlibPath>/math.clx`. */
+    bool isBare = importPath[0] != '.' && importPath[0] != '/' && importPath[0] != '\\' &&
+                  !(strlen(importPath) > 1 && importPath[1] == ':');
+    if (isBare && stdlibPath) {
+        /* Strip an optional leading "stdlib/" prefix */
+        char const * relativePart = importPath;
+        if (strncmp(importPath, "stdlib/", 7) == 0) {
+            relativePart = importPath + 7;
+        } else if (strncmp(importPath, "stdlib\\", 7) == 0) {
+            relativePart = importPath + 7;
+        }
+        return module_path_join(stdlibPath, relativePart);
     }
 
     char const * lastSeparator = clx_os_path_find_last_separator(importerPath);

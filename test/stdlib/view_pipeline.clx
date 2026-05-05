@@ -1,4 +1,4 @@
-import { array_view } from "../../stdlib/view.clx";
+import { array_view } from "stdlib/view.clx";
 
 fun is_even(x) { return x % 2 == 0; }
 fun square(x) { return x * x; }

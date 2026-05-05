@@ -16,7 +16,7 @@ jobs:
       
       run: |
         cd src
-        doxygen
+        doxygen doxygen/Doxyfile
     - name: Deploy to GitHub Pages
       uses: Cecilapp/GitHub-Pages-deploy@v3
       env:

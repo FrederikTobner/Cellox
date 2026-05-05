@@ -1,0 +1,59 @@
+// Queue implemented with a singly-linked list (FIFO)
+// Enqueue at the tail, dequeue from the head — both O(1).
+// Demonstrates: classes, null checks, method chaining
+
+class Node {
+    init(value, next) {
+        this.value = value;
+        this.next = next;
+    }
+}
+
+class Queue {
+    init() {
+        this.head = null;
+        this.tail = null;
+        this.count = 0;
+    }
+
+    enqueue(value) {
+        var node = Node(value, null);
+        if (!this.tail) {
+            this.head = node;
+            this.tail = node;
+        } else {
+            this.tail.next = node;
+            this.tail = node;
+        }
+        this.count += 1;
+        return this; // enable chaining
+    }
+
+    dequeue() {
+        if (!this.head)
+            return null;
+        var value = this.head.value;
+        this.head = this.head.next;
+        if (!this.head)
+            this.tail = null;
+        this.count -= 1;
+        return value;
+    }
+
+    front() {
+        if (this.head) return this.head.value;
+        return null;
+    }
+    size()    { return this.count; }
+    isEmpty() { return this.count == 0; }
+}
+
+var q = Queue();
+q.enqueue("first").enqueue("second").enqueue("third");
+printf("front:   {}\n", q.front());      // first
+printf("dequeue: {}\n", q.dequeue());    // first
+printf("dequeue: {}\n", q.dequeue());    // second
+printf("size:    {}\n", q.size());       // 1
+printf("empty:   {}\n", q.isEmpty());    // false
+q.dequeue();
+printf("empty:   {}\n", q.isEmpty());    // true

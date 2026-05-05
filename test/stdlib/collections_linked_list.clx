@@ -1,4 +1,4 @@
-import { linked_list } from "../../stdlib/collections.clx";
+import { linked_list } from "stdlib/collections.clx";
 
 var list = linked_list();
 list.push_back(10).push_back(20).push_front(5);

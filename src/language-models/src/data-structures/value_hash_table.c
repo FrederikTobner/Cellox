@@ -145,7 +145,7 @@ bool value_hash_table_set(value_hash_table_t * table, object_string_t * key, val
 /// without risking an infinite loop when the hashtable is full.
 static void hash_table_adjust_capacity(value_hash_table_t * table, int32_t capacity) {
     value_hash_table_entry_t * entries = ALLOCATE(value_hash_table_entry_t, capacity);
-    for (uint32_t i = 0; i < capacity; i++) {
+    for (int32_t i = 0; i < capacity; i++) {
         entries[i].key = NULL;
         entries[i].value = NULL_VAL;
     }

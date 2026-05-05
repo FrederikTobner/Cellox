@@ -1,0 +1,26 @@
+// once: wraps a function so the underlying computation runs at most once.
+// Subsequent calls return the cached result without re-executing fn.
+// Demonstrates: closures, boolean upvalue, null initialisation
+
+fun once(fn) {
+    var called = false;
+    var result = null;
+    fun wrapper() {
+        if (!called) {
+            result = fn();
+            called = true;
+        }
+        return result;
+    }
+    return wrapper;
+}
+
+fun expensiveComputation() {
+    printf("(computing...)\n");
+    return 42;
+}
+
+var compute = once(expensiveComputation);
+printf("{}\n", compute()); // prints "(computing...)" then 42
+printf("{}\n", compute()); // prints 42 only — fn not called again
+printf("{}\n", compute()); // 42

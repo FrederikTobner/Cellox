@@ -1,0 +1,8 @@
+// Compound assignment on fields returns the new value (assignment is an expression)
+class Wrapper {
+    init(x) { this.x = x; }
+}
+var w = Wrapper(5);
+printf("{}\n", w.x += 3);  // 8
+printf("{}\n", w.x -= 2);  // 6
+printf("{}\n", w.x *= 4);  // 24

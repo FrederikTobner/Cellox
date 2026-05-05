@@ -1,0 +1,25 @@
+// Run-length encoding: compress repeated characters (e.g. "aaabbc" -> "a3b2c1")
+// Demonstrates: string indexing, while loops, string concatenation
+
+fun encode(s) {
+    var len = strlen(s);
+    if (len == 0) return "";
+    var result = "";
+    var i = 0;
+    while (i < len) {
+        var ch    = s[i];
+        var count = 0;
+        while (i < len and s[i] == ch) {
+            count += 1;
+            i += 1;
+        }
+        result = result + ch + count;
+    }
+    return result;
+}
+
+printf("{}\n", encode("aaabbc"));           // a3b2c1
+printf("{}\n", encode("aabbccdd"));         // a2b2c2d2
+printf("{}\n", encode("abcde"));            // a1b1c1d1e1
+printf("{}\n", encode("aaaaaaa"));          // a7
+printf("{}\n", encode(""));                 // (empty)

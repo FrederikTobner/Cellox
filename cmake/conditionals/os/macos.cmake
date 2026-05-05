@@ -1,4 +1,13 @@
-set(CLX_OS_LAYER_DIR "${CMAKE_SOURCE_DIR}/src/conditionals/os/linux")
+set(_unix_impl "${CMAKE_SOURCE_DIR}/src/conditionals/os/unix/impl")
+set(_macos_impl "${CMAKE_SOURCE_DIR}/src/conditionals/os/unix/macos/impl")
+set(CLX_OS_SOURCES
+    ${_unix_impl}/fs.c
+    ${_unix_impl}/path.c
+    ${_unix_impl}/stdio.c
+    ${_unix_impl}/temp.c
+    ${_unix_impl}/time.c
+    ${_macos_impl}/platform.c
+)
 add_compile_definitions(OS_UNIX_LIKE OS_MACOS)
 
 function(clx_os_check_core_headers)

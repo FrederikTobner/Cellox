@@ -30,6 +30,17 @@
 // Private helpers
 // ---------------------------------------------------------------------------
 
+static void module_parser_cleanup_import_spec(import_spec_t * importSpec) {
+    free(importSpec->path);
+    importSpec->path = NULL;
+    for (size_t j = 0; j < importSpec->importedNameCount; j++) {
+        free(importSpec->importedNames[j]);
+    }
+    free(importSpec->importedNames);
+    importSpec->importedNames = NULL;
+    importSpec->importedNameCount = 0;
+}
+
 /// Returns true if `text` starts with `keyword` and the next character is not
 /// an identifier character (i.e. the keyword is not a prefix of a longer word).
 static bool module_parser_starts_with_keyword(char const * text, char const * keyword) {
@@ -141,7 +152,7 @@ static bool module_parser_parse_import(char const * line, import_spec_t * import
 
         char const * nameStart = cursor;
         if (!((*cursor >= 'a' && *cursor <= 'z') || (*cursor >= 'A' && *cursor <= 'Z') || *cursor == '_')) {
-            module_parser_cleanup_imports(importSpec, 1);
+            module_parser_cleanup_import_spec(importSpec);
             return false;
         }
         cursor++;
@@ -152,14 +163,14 @@ static bool module_parser_parse_import(char const * line, import_spec_t * import
 
         char * name = string_utils_substr(nameStart, (size_t)(cursor - nameStart));
         if (!name) {
-            module_parser_cleanup_imports(importSpec, 1);
+            module_parser_cleanup_import_spec(importSpec);
             return false;
         }
 
         char ** grownNames = realloc(importSpec->importedNames, (importSpec->importedNameCount + 1) * sizeof(char *));
         if (!grownNames) {
             free(name);
-            module_parser_cleanup_imports(importSpec, 1);
+            module_parser_cleanup_import_spec(importSpec);
             return false;
         }
         importSpec->importedNames = grownNames;
@@ -178,7 +189,7 @@ static bool module_parser_parse_import(char const * line, import_spec_t * import
             break;
         }
 
-        module_parser_cleanup_imports(importSpec, 1);
+        module_parser_cleanup_import_spec(importSpec);
         return false;
     }
 
@@ -186,7 +197,7 @@ static bool module_parser_parse_import(char const * line, import_spec_t * import
         cursor++;
     }
     if (!module_parser_starts_with_keyword(cursor, "from")) {
-        module_parser_cleanup_imports(importSpec, 1);
+        module_parser_cleanup_import_spec(importSpec);
         return false;
     }
     cursor += strlen("from");
@@ -195,7 +206,7 @@ static bool module_parser_parse_import(char const * line, import_spec_t * import
         cursor++;
     }
     if (*cursor != '"') {
-        module_parser_cleanup_imports(importSpec, 1);
+        module_parser_cleanup_import_spec(importSpec);
         return false;
     }
 
@@ -205,13 +216,13 @@ static bool module_parser_parse_import(char const * line, import_spec_t * import
         cursor++;
     }
     if (*cursor != '"') {
-        module_parser_cleanup_imports(importSpec, 1);
+        module_parser_cleanup_import_spec(importSpec);
         return false;
     }
 
     importSpec->path = string_utils_substr(pathStart, (size_t)(cursor - pathStart));
     if (!importSpec->path) {
-        module_parser_cleanup_imports(importSpec, 1);
+        module_parser_cleanup_import_spec(importSpec);
         return false;
     }
 
@@ -220,7 +231,7 @@ static bool module_parser_parse_import(char const * line, import_spec_t * import
         cursor++;
     }
     if (*cursor != ';') {
-        module_parser_cleanup_imports(importSpec, 1);
+        module_parser_cleanup_import_spec(importSpec);
         return false;
     }
 
@@ -359,11 +370,7 @@ bool module_parser_parse(char const * source, export_list_t * exports, import_sp
 
 void module_parser_cleanup_imports(import_spec_t * imports, size_t importCount) {
     for (size_t i = 0; i < importCount; i++) {
-        free(imports[i].path);
-        for (size_t j = 0; j < imports[i].importedNameCount; j++) {
-            free(imports[i].importedNames[j]);
-        }
-        free(imports[i].importedNames);
+        module_parser_cleanup_import_spec(imports + i);
     }
     free(imports);
 }

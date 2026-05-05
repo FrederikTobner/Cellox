@@ -1,0 +1,78 @@
+// Simple single linked list implementation
+class Node {
+	init(value, nextNode) {
+		this.value = value;
+		this.nextNode = nextNode;
+	}
+}
+
+class SingleLinkedList {
+	init() {
+		this.head = null;
+	}
+
+	addLast(value) {
+		if(!this.head) {
+			this.head = Node(value, null);
+			return;
+		}
+		var current = this.head;
+		while(current.nextNode)
+			current = current.nextNode;
+		current.nextNode = Node(value, null);
+	}
+
+	addFirst(value) {
+		this.head = Node(value, this.head);
+	}
+
+	getAt(index) {
+		var current = this.head;
+		var i = 0;
+		while(current) {
+			if(i == index)
+				return current;
+			current = current.nextNode;
+			i += 1;
+		}
+		return null;
+	}
+
+	printList() {
+		var current = this.head;
+		while(current) {	
+			printf("{}\n", current.value);		
+			current = current.nextNode;
+		}
+	}
+
+	remove(value) {
+		var current = this.head;
+		var prevoius = null;
+		while(current) {	
+			if(current.value == value) {
+				if(prevoius)
+					prevoius.nextNode = current.nextNode;
+				else
+					this.head = current.nextNode;
+			}
+			else {
+				prevoius = current;		
+			}
+			current = current.nextNode;
+		}
+	}
+}
+
+var list = SingleLinkedList();
+list.addLast(random());
+list.addLast(random());
+list.addLast(random());
+list.addLast(1);
+list.addLast(1);
+list.addFirst(1);
+list.printList();
+list.remove(1);
+list.printList();
+
+

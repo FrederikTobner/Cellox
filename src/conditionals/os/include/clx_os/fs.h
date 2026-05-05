@@ -23,6 +23,8 @@ extern "C" {
 #endif
 
 bool clx_os_fs_ensure_directory(char const * path);
+/// Returns true if the given path exists (file or directory).
+bool clx_os_fs_path_exists(char const * path);
 
 #ifdef __cplusplus
 }

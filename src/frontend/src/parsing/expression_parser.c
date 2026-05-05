@@ -83,7 +83,7 @@ static inline token_t expression_parser_make_synthetic_token(char const * text) 
 }
 
 static void expression_parser_error(char const * message) {
-    compiler_error(message);
+    compiler_error("%s", message);
 }
 
 static void expression_parser_and(bool canAssign);
@@ -100,6 +100,7 @@ static void expression_parser_index_of(bool canAssign, uint8_t getOp, uint32_t a
 static void expression_parser_literal(bool canAssign);
 static void expression_parser_nondirect_assignment(uint8_t assignmentType, uint8_t getOp, uint8_t setOp,
                                                    uint8_t arg);
+static void expression_parser_nondirect_property_assignment(uint8_t assignmentType, uint8_t name);
 static inline void expression_parser_number(bool canAssign);
 static void expression_parser_or(bool canAssign);
 static void expression_parser_parse_precedence(precedence precedence);
@@ -111,6 +112,9 @@ static void expression_parser_this(bool canAssign);
 static void expression_parser_try(bool canAssign);
 static void expression_parser_must(bool canAssign);
 static void expression_parser_catch(bool canAssign);
+static void expression_parser_iferror_expression(bool canAssign);
+static void expression_parser_parse_pipe_bound_handler(precedence handlerPrecedence);
+static void expression_parser_parse_handler_block(void);
 static void expression_parser_unary(bool canAssign);
 
 /// ParseRules for the tokens of cellox
@@ -173,7 +177,7 @@ static parse_rule_t rules[] = {
     [TOKEN_MUST] = {.prefix = expression_parser_must, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_TRUE] = {.prefix = expression_parser_literal, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_VAR] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
-    [TOKEN_IFERROR] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
+    [TOKEN_IFERROR] = {.prefix = expression_parser_iferror_expression, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_THROW] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_PIPE] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_WHILE] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE}};
@@ -183,6 +187,7 @@ void expression_parser_init(expression_parser_context_t * context) {
 }
 
 static void expression_parser_and(bool canAssign) {
+    (void)canAssign;
     int32_t endJump = expression_parser_emit_jump_offset(OP_JUMP_IF_FALSE);
     expression_parser_emit_byte(OP_POP);
     expression_parser_parse_precedence(PREC_AND);
@@ -206,6 +211,7 @@ static uint8_t expression_parser_argument_list(void) {
 }
 
 static void expression_parser_binary(bool canAssign) {
+    (void)canAssign;
     tokentype operatorType = PARSER.previous.type;
     parse_rule_t * rule = expression_parser_get_rule(operatorType);
     expression_parser_parse_precedence((precedence)(rule->precedence + 1));
@@ -253,16 +259,19 @@ static void expression_parser_binary(bool canAssign) {
 }
 
 static inline void expression_parser_binary_number(bool canAssign) {
+    (void)canAssign;
     double value = strtol(PARSER.previous.start + 2, NULL, 2);
     expression_parser_emit_constant_value(NUMBER_VAL(value));
 }
 
 static inline void expression_parser_call(bool canAssign) {
+    (void)canAssign;
     uint8_t argCount = expression_parser_argument_list();
     expression_parser_emit_bytes(OP_CALL, argCount);
 }
 
 void expression_parser_compile_dynamic_array(bool canAssign) {
+    (void)canAssign;
     uint8_t argCount = expression_parser_dynamic_array_argument_list();
     expression_parser_emit_bytes(OP_ARRAY_LITERAL, argCount);
 }
@@ -290,6 +299,18 @@ static void expression_parser_dot(bool canAssign) {
     if (canAssign && expression_parser_match_token(TOKEN_EQUAL)) {
         expression_parser_parse_expression();
         expression_parser_emit_bytes(OP_SET_PROPERTY, name);
+    } else if (canAssign && expression_parser_match_token(TOKEN_PLUS_EQUAL)) {
+        expression_parser_nondirect_property_assignment(OP_ADD, name);
+    } else if (canAssign && expression_parser_match_token(TOKEN_MINUS_EQUAL)) {
+        expression_parser_nondirect_property_assignment(OP_SUBTRACT, name);
+    } else if (canAssign && expression_parser_match_token(TOKEN_STAR_EQUAL)) {
+        expression_parser_nondirect_property_assignment(OP_MULTIPLY, name);
+    } else if (canAssign && expression_parser_match_token(TOKEN_SLASH_EQUAL)) {
+        expression_parser_nondirect_property_assignment(OP_DIVIDE, name);
+    } else if (canAssign && expression_parser_match_token(TOKEN_MODULO_EQUAL)) {
+        expression_parser_nondirect_property_assignment(OP_MODULO, name);
+    } else if (canAssign && expression_parser_match_token(TOKEN_STAR_STAR_EQUAL)) {
+        expression_parser_nondirect_property_assignment(OP_EXPONENT, name);
     } else if (expression_parser_match_token(TOKEN_LEFT_PAREN)) {
         uint8_t argCount = expression_parser_argument_list();
         expression_parser_emit_bytes(OP_INVOKE, name);
@@ -308,11 +329,13 @@ static inline parse_rule_t * expression_parser_get_rule(tokentype type) {
 }
 
 static void expression_parser_grouping(bool canAssign) {
+    (void)canAssign;
     expression_parser_parse_expression();
     expression_parser_consume_token(TOKEN_RIGHT_PAREN, "Expect ')' after expression.");
 }
 
 static inline void expression_parser_hex_number(bool canAssign) {
+    (void)canAssign;
     double value = strtol(PARSER.previous.start + 2, NULL, 16);
     expression_parser_emit_constant_value(NUMBER_VAL(value));
 }
@@ -356,6 +379,7 @@ static void expression_parser_index_of(bool canAssign, uint8_t getOp, uint32_t a
 }
 
 static void expression_parser_literal(bool canAssign) {
+    (void)canAssign;
     switch (PARSER.previous.type) {
     case TOKEN_FALSE:
         expression_parser_emit_byte(OP_FALSE);
@@ -415,12 +439,31 @@ static void expression_parser_nondirect_assignment(uint8_t assignmentType, uint8
     expression_parser_emit_bytes(setOp, arg);
 }
 
+// Compound assignment for object properties (e.g. this.count += 1).
+// When called the receiver is already on the stack top.
+// Stack sequence:
+//   before:  ... receiver
+//   DUP      ... receiver receiver
+//   GET_PROP ... receiver old_value
+//   <rhs>    ... receiver old_value rhs
+//   <op>     ... receiver new_value
+//   SET_PROP ... new_value              (SET_PROP pops receiver + value, pushes value back)
+static void expression_parser_nondirect_property_assignment(uint8_t assignmentType, uint8_t name) {
+    expression_parser_emit_byte(OP_DUP);
+    expression_parser_emit_bytes(OP_GET_PROPERTY, name);
+    expression_parser_parse_expression();
+    expression_parser_emit_byte(assignmentType);
+    expression_parser_emit_bytes(OP_SET_PROPERTY, name);
+}
+
 static inline void expression_parser_number(bool canAssign) {
+    (void)canAssign;
     double value = strtod(PARSER.previous.start, NULL);
     expression_parser_emit_constant_value(NUMBER_VAL(value));
 }
 
 static void expression_parser_or(bool canAssign) {
+    (void)canAssign;
     int32_t elseJump = expression_parser_emit_jump_offset(OP_JUMP_IF_FALSE);
     int32_t endJump = expression_parser_emit_jump_offset(OP_JUMP);
     expression_parser_patch_jump_offset(elseJump);
@@ -482,6 +525,7 @@ static int32_t expression_parser_resolve_upvalue(compiler_t * compiler, token_t 
 }
 
 static void expression_parser_string(bool canAssign) {
+    (void)canAssign;
     object_string_t * string = object_copy_string(PARSER.previous.start + 1, PARSER.previous.length - 2, true);
     if (!string) {
         expression_parser_error("Unknown escape sequence in string");
@@ -491,6 +535,7 @@ static void expression_parser_string(bool canAssign) {
 }
 
 static void expression_parser_super(bool canAssign) {
+    (void)canAssign;
     if (!CURRENT_CLASS) {
         expression_parser_error("Can't use 'super' outside of a class.");
     } else if (!CURRENT_CLASS->hasSuperclass) {
@@ -512,6 +557,7 @@ static void expression_parser_super(bool canAssign) {
 }
 
 static void expression_parser_this(bool canAssign) {
+    (void)canAssign;
     if (!CURRENT_CLASS) {
         expression_parser_error("Can't use 'this' outside of a class.");
         return;
@@ -520,33 +566,130 @@ static void expression_parser_this(bool canAssign) {
 }
 
 static void expression_parser_try(bool canAssign) {
+    (void)canAssign;
     expression_parser_parse_precedence(PREC_UNARY);
     expression_parser_emit_byte(OP_TRY_PROPAGATE);
 }
 
 static void expression_parser_must(bool canAssign) {
+    (void)canAssign;
     expression_parser_parse_precedence(PREC_UNARY);
     expression_parser_emit_byte(OP_MUST);
 }
 
+static void expression_parser_parse_handler_block(void) {
+    // Block handler evaluates to its last expression value.
+    // Grammar shape: '{' expression (';' expression)* ';'? '}'
+    expression_parser_consume_token(TOKEN_LEFT_BRACE, "Expect '{' to start handler block.");
+
+    if (expression_parser_match_token(TOKEN_RIGHT_BRACE)) {
+        expression_parser_emit_byte(OP_NULL);
+        return;
+    }
+
+    expression_parser_parse_expression();
+    while (expression_parser_match_token(TOKEN_SEMICOLON)) {
+        if (expression_parser_check_token(TOKEN_RIGHT_BRACE)) {
+            // Trailing ';' means no final expression remains.
+            expression_parser_emit_byte(OP_POP);
+            expression_parser_emit_byte(OP_NULL);
+            break;
+        }
+        expression_parser_emit_byte(OP_POP);
+        expression_parser_parse_expression();
+    }
+
+    expression_parser_consume_token(TOKEN_RIGHT_BRACE, "Expect '}' after handler block.");
+}
+
+static void expression_parser_parse_pipe_bound_handler(precedence handlerPrecedence) {
+    expression_parser_consume_token(TOKEN_PIPE, "Expect '|' before bound variable name.");
+    expression_parser_consume_token(TOKEN_IDENTIFIER, "Expect bound variable name.");
+    token_t boundName = PARSER.previous;
+    expression_parser_consume_token(TOKEN_PIPE, "Expect '|' after bound variable name.");
+
+    compiler_begin_scope();
+    compiler_add_local(boundName);
+    compiler_mark_initialized();
+
+    uint8_t boundSlot = (uint8_t)(CURRENT->localCount - 1);
+    if (expression_parser_check_token(TOKEN_LEFT_BRACE)) {
+        expression_parser_parse_handler_block();
+    } else {
+        expression_parser_parse_precedence(handlerPrecedence);
+    }
+
+    // Move the handler result into the binder's stack slot, then drop the temporary top value.
+    // After metadata unwind below, that slot remains as the expression result.
+    expression_parser_emit_bytes(OP_SET_LOCAL, boundSlot);
+    expression_parser_emit_byte(OP_POP);
+
+    if (CURRENT->locals[boundSlot].isCaptured) {
+        expression_parser_emit_byte(OP_CLOSE_UPVALUE_KEEP);
+    }
+
+    CURRENT->scopeDepth--;
+    CURRENT->localCount--;
+}
+
+static void expression_parser_iferror_expression(bool canAssign) {
+    (void)canAssign;
+    expression_parser_parse_expression();
+    expression_parser_emit_byte(OP_RESULT_IS_ERROR);
+    int32_t elseBranch = expression_parser_emit_jump_offset(OP_JUMP_IF_FALSE);
+
+    // error branch
+    expression_parser_emit_byte(OP_POP);
+    expression_parser_emit_byte(OP_RESULT_UNWRAP_ERROR);
+    expression_parser_parse_pipe_bound_handler(PREC_ASSIGNMENT);
+    int32_t endJump = expression_parser_emit_jump_offset(OP_JUMP);
+
+    // success branch
+    expression_parser_patch_jump_offset(elseBranch);
+    expression_parser_emit_byte(OP_POP);
+    expression_parser_emit_byte(OP_RESULT_UNWRAP);
+    expression_parser_consume_token(TOKEN_ELSE, "Expect 'else' in iferror expression.");
+    expression_parser_parse_pipe_bound_handler(PREC_ASSIGNMENT);
+
+    expression_parser_patch_jump_offset(endJump);
+}
+
 // infix: lhs (a result value) is already on stack
 static void expression_parser_catch(bool canAssign) {
+    (void)canAssign;
     // Stack: [..., result]
     expression_parser_emit_byte(OP_RESULT_IS_ERROR); // [..., result, bool]
     int32_t successJump = expression_parser_emit_jump_offset(OP_JUMP_IF_FALSE);
     // error path
     expression_parser_emit_byte(OP_POP); // pop true
-    expression_parser_emit_byte(OP_POP); // pop error result
-    expression_parser_parse_precedence(PREC_OR); // evaluate fallback
+    bool hasSuccessHandler = false;
+    if (expression_parser_check_token(TOKEN_PIPE)) {
+        expression_parser_emit_byte(OP_RESULT_UNWRAP_ERROR); // pop result, push error payload
+        expression_parser_parse_pipe_bound_handler(PREC_OR);
+        if (expression_parser_match_token(TOKEN_ELSE)) {
+            hasSuccessHandler = true;
+        }
+    } else {
+        expression_parser_emit_byte(OP_POP); // pop error result
+        expression_parser_parse_precedence(PREC_OR); // evaluate fallback
+    }
+
     int32_t endJump = expression_parser_emit_jump_offset(OP_JUMP);
+
     // success path
     expression_parser_patch_jump_offset(successJump);
     expression_parser_emit_byte(OP_POP); // pop false
     expression_parser_emit_byte(OP_RESULT_UNWRAP);
+
+    if (hasSuccessHandler) {
+        expression_parser_parse_pipe_bound_handler(PREC_OR);
+    }
+
     expression_parser_patch_jump_offset(endJump);
 }
 
 static void expression_parser_unary(bool canAssign) {
+    (void)canAssign;
     tokentype operatorType = PARSER.previous.type;
     expression_parser_parse_precedence(PREC_UNARY);
     switch (operatorType) {

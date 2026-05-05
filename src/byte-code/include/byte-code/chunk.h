@@ -48,6 +48,8 @@ enum opcode {
     OP_CONSTANT,
     /// Defines a global variable
     OP_DEFINE_GLOBAL,
+    /// Duplicates the value on top of the stack and pushes the copy
+    OP_DUP,
     /// Pops the two most upper values from the stack, divides the first with the second value and pushes the result on
     /// the stack
     OP_DIVIDE,
@@ -140,6 +142,8 @@ enum opcode {
     OP_MUST,
     /// Pops a result: if error result, returns it from the current function; else pushes success payload
     OP_TRY_PROPAGATE,
+    /// Closes upvalues for the value on top of the stack but keeps that value on the stack
+    OP_CLOSE_UPVALUE_KEEP,
 };
 
 /// @brief Line info of a chunk

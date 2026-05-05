@@ -1,0 +1,25 @@
+// Compound assignment operators on object fields via 'this'
+class Counter {
+    init() {
+        this.n = 0;
+    }
+    inc()  { this.n += 1; }
+    dec()  { this.n -= 1; }
+    mul(x) { this.n *= x; }
+    div(x) { this.n /= x; }
+    mod(x) { this.n %= x; }
+    pow(x) { this.n **= x; }
+}
+var c = Counter();
+c.inc(); c.inc(); c.inc();
+printf("{}\n", c.n); // 3
+c.dec();
+printf("{}\n", c.n); // 2
+c.mul(5);
+printf("{}\n", c.n); // 10
+c.div(2);
+printf("{}\n", c.n); // 5
+c.mod(3);
+printf("{}\n", c.n); // 2
+c.pow(3);
+printf("{}\n", c.n); // 8

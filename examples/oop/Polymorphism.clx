@@ -1,0 +1,45 @@
+// Polymorphism: every Shape subclass overrides area()
+// Demonstrates: inheritance, method overriding, virtual dispatch, for loops over objects
+
+class Shape {
+    init(name) {
+        this.name = name;
+    }
+    area() { return 0; }
+    describe() {
+        printf("{} -> area = {}\n", this.name, this.area());
+    }
+}
+
+class Circle : Shape {
+    init(radius) {
+        super.init("Circle(r=" + radius + ")");
+        this.radius = radius;
+    }
+    area() {
+        return 3.14159 * this.radius * this.radius;
+    }
+}
+
+class Rectangle : Shape {
+    init(w, h) {
+        super.init("Rectangle(" + w + "x" + h + ")");
+        this.w = w;
+        this.h = h;
+    }
+    area() { return this.w * this.h; }
+}
+
+class Triangle : Shape {
+    init(base, height) {
+        super.init("Triangle(b=" + base + " h=" + height + ")");
+        this.base   = base;
+        this.height = height;
+    }
+    area() { return 0.5 * this.base * this.height; }
+}
+
+var shapes = {Circle(5), Rectangle(4, 6), Triangle(3, 8), Circle(1)};
+var n = array_length(shapes);
+for (var i = 0; i < n; i += 1)
+    shapes[i].describe();

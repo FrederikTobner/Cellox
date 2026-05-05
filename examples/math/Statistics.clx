@@ -1,0 +1,64 @@
+import { floor, ceil } from "stdlib/math.clx";
+
+// Statistics: mean, variance, standard deviation, median
+// Demonstrates: stdlib math import, for loops, array operations
+
+fun sum(arr) {
+    var total = 0;
+    var n = array_length(arr);
+    for (var i = 0; i < n; i += 1)
+        total += arr[i];
+    return total;
+}
+
+fun mean(arr) {
+    return sum(arr) / array_length(arr);
+}
+
+fun variance(arr) {
+    var m = mean(arr);
+    var n = array_length(arr);
+    var sq = 0;
+    for (var i = 0; i < n; i += 1) {
+        var diff = arr[i] - m;
+        sq += diff * diff;
+    }
+    return sq / n;
+}
+
+// Newton–Raphson square root
+fun sqrt(x) {
+    if (x <= 0) return 0;
+    var g = x / 2;
+    for (var i = 0; i < 30; i += 1)
+        g = (g + x / g) / 2;
+    return g;
+}
+
+fun stddev(arr) { return sqrt(variance(arr)); }
+
+// Sort a copy (bubble sort) then pick the middle element
+fun median(arr) {
+    var n = array_length(arr);
+    // work on a copy
+    var copy = arr + {};
+    for (var i = 0; i < n - 1; i += 1) {
+        for (var j = 0; j < n - i - 1; j += 1) {
+            if (copy[j] > copy[j + 1]) {
+                var tmp = copy[j];
+                copy[j]     = copy[j + 1];
+                copy[j + 1] = tmp;
+            }
+        }
+    }
+    if (n % 2 == 0)
+        return (copy[n / 2 - 1] + copy[n / 2]) / 2;
+    return copy[floor(n / 2)];
+}
+
+var data = {4, 8, 15, 16, 23, 42};
+printf("data:     {}\n", data);
+printf("mean:     {}\n", mean(data));
+printf("variance: {}\n", variance(data));
+printf("std dev:  {}\n", stddev(data));
+printf("median:   {}\n", median(data));

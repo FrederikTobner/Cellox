@@ -1,0 +1,7 @@
+fun transform(n) {
+    if (n < 0) return -1;
+    return n * 2;
+}
+
+printf("{}\n", transform(-5));
+printf("{}\n", transform(3));

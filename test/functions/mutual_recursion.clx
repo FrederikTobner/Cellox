@@ -1,0 +1,13 @@
+fun isEven(n) {
+    if (n == 0) return true;
+    return isOdd(n - 1);
+}
+
+fun isOdd(n) {
+    if (n == 0) return false;
+    return isEven(n - 1);
+}
+
+printf("{}\n", isEven(10));
+printf("{}\n", isOdd(9));
+printf("{}\n", isOdd(10));

@@ -57,3 +57,15 @@ TEST(AssgnmentOperator, ToString) {
     test_failing_cellox_program("assignment_operators/to_string.clx",
                                 "[line 1] Error at '=': Invalid Token at the current position\n");
 }
+
+TEST(AssgnmentOperator, FieldCompoundAssignment) {
+    test_cellox_program("assignment_operators/field_compound_assignment.clx", "3\n2\n10\n5\n2\n8\n");
+}
+
+TEST(AssgnmentOperator, FieldCompoundAssignmentExternal) {
+    test_cellox_program("assignment_operators/field_compound_assignment_external.clx", "15\n12\n24\n6\n2\n8\n");
+}
+
+TEST(AssgnmentOperator, FieldCompoundAssignmentAsExpression) {
+    test_cellox_program("assignment_operators/field_compound_assignment_as_expression.clx", "8\n6\n24\n");
+}

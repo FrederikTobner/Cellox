@@ -1,0 +1,22 @@
+// Greatest common divisor (Euclidean algorithm) and least common multiple
+// Demonstrates: while loops, modulo, pure functions
+
+fun gcd(a, b) {
+    while (b != 0) {
+        var t = b;
+        b = a % b;
+        a = t;
+    }
+    return a;
+}
+
+fun lcm(a, b) {
+    return (a / gcd(a, b)) * b;
+}
+
+printf("gcd(48, 18)   = {}\n", gcd(48, 18));    // 6
+printf("gcd(100, 75)  = {}\n", gcd(100, 75));   // 25
+printf("gcd(17, 13)   = {}\n", gcd(17, 13));    // 1 (coprime)
+printf("lcm(4, 6)     = {}\n", lcm(4, 6));      // 12
+printf("lcm(12, 15)   = {}\n", lcm(12, 15));    // 60
+printf("lcm(7, 3)     = {}\n", lcm(7, 3));      // 21

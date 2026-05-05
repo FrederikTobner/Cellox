@@ -1,0 +1,32 @@
+// Caesar cipher: shifts each letter by a fixed number of positions
+// Non-letter characters are left unchanged.
+// Demonstrates: ascii_to_numerical / numerical_to_ascii, for loops, string building
+
+fun caesarEncrypt(text, shift) {
+    var result = "";
+    var len = strlen(text);
+    for (var i = 0; i < len; i += 1) {
+        var code = ascii_to_numerical(text[i]);
+        // Uppercase A–Z: 65–90
+        if (code >= 65 and code <= 90)
+            result = result + numerical_to_ascii(65 + (code - 65 + shift) % 26);
+        // Lowercase a–z: 97–122
+        else if (code >= 97 and code <= 122)
+            result = result + numerical_to_ascii(97 + (code - 97 + shift) % 26);
+        else
+            result = result + text[i];
+    }
+    return result;
+}
+
+fun caesarDecrypt(text, shift) {
+    return caesarEncrypt(text, 26 - shift % 26);
+}
+
+var message   = "Hello, World!";
+var encrypted = caesarEncrypt(message, 3);
+var decrypted = caesarDecrypt(encrypted, 3);
+
+printf("Original:  {}\n", message);
+printf("Encrypted: {}\n", encrypted);   // Khoor, Zruog!
+printf("Decrypted: {}\n", decrypted);   // Hello, World!

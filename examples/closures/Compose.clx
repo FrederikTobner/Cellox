@@ -1,0 +1,25 @@
+// Function composition: compose(f, g)(x) == f(g(x))
+// Demonstrates: closures, first-class functions, higher-order functions
+
+fun compose(f, g) {
+    fun composed(x) {
+        return f(g(x));
+    }
+    return composed;
+}
+
+fun double(x)  { return x * 2; }
+fun addTen(x)  { return x + 10; }
+fun square(x)  { return x * x; }
+fun negate(x)  { return -x; }
+
+var doubleAfterAdd = compose(double, addTen);
+printf("{}\n", doubleAfterAdd(5));    // (5+10)*2 = 30
+
+// Chain three: square -> addTen -> double
+var pipeline = compose(double, compose(addTen, square));
+printf("{}\n", pipeline(3));          // double(addTen(3²)) = double(19) = 38
+
+// Compose with negate
+var negateSquare = compose(negate, square);
+printf("{}\n", negateSquare(4));      // -(4²) = -16

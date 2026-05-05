@@ -186,7 +186,7 @@ static void garbage_collector_blacken_object(object_t * object) {
 /// @brief  Marks all the values in an array
 /// @param array The array where all the values are marked
 static void garbage_collector_mark_array(dynamic_value_array_t * array) {
-    for (int32_t i = 0; i < array->count; i++) {
+    for (uint32_t i = 0; i < array->count; i++) {
         garbage_collector_mark_value(array->values[i]);
     }
 }
@@ -199,7 +199,7 @@ static void garbage_collector_mark_roots(void) {
         garbage_collector_mark_value(*slot);
     }
     // all the objects
-    for (int32_t i = 0; i < virtualMachine.frameCount; i++) {
+    for (uint32_t i = 0; i < virtualMachine.frameCount; i++) {
         garbage_collector_mark_object((object_t *)virtualMachine.callStack[i].closure);
     }
     // all the upvalues

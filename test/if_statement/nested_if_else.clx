@@ -1,0 +1,6 @@
+if (true) {
+    if (false)
+        printf("{}\n", "x");
+    else
+        printf("{}\n", "y");
+}
