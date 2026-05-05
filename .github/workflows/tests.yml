@@ -141,6 +141,10 @@ jobs:
           '*/_deps/*' \
           '*/test/*' \
           --output-file ${{github.workspace}}/coverage.info
+        # Keep only production sources to avoid any accidental test coverage upload.
+        lcov --extract ${{github.workspace}}/coverage.info \
+          '*/src/*' \
+          --output-file ${{github.workspace}}/coverage.info
 
     - name: Upload coverage report as artifact
       uses: actions/upload-artifact@v4
