@@ -219,6 +219,7 @@ value_t native_functions_classof(uint32_t argCount, value_t const * args) {
 
 value_t native_functions_clock(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_CLOCK, argCount);
+    (void)args;
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
 
@@ -285,6 +286,7 @@ value_t native_functions_numerical_to_asci(uint32_t argCount, value_t const * ar
 
 value_t native_functions_on_linux(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_LINUX, argCount);
+    (void)args;
 #ifdef OS_LINUX
     return TRUE_VAL;
 #else
@@ -294,6 +296,7 @@ value_t native_functions_on_linux(uint32_t argCount, value_t const * args) {
 
 value_t native_functions_on_macOS(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_MACOS, argCount);
+    (void)args;
 #ifdef OS_MACOS
     return TRUE_VAL;
 #else
@@ -303,6 +306,7 @@ value_t native_functions_on_macOS(uint32_t argCount, value_t const * args) {
 
 value_t native_functions_on_windows(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_ON_WINDOWS, argCount);
+    (void)args;
 #ifdef OS_WINDOWS
     return TRUE_VAL;
 #else
@@ -341,7 +345,7 @@ value_t native_functions_print_formated(uint32_t argCount, value_t const * args)
                 if (string->chars[i] != '}') {
                     return native_functions_stdlib_error_result("FormatError");
                 }
-                if (specifiedIndex >= argCount - 1) {
+                if ((uint32_t)specifiedIndex >= argCount - 1) {
                     return native_functions_stdlib_error_result("FormatError");
                 }
                 value_print(*(args + specifiedIndex + 1));
@@ -359,6 +363,7 @@ value_t native_functions_print_formated(uint32_t argCount, value_t const * args)
 
 value_t native_functions_random(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_RANDOM, argCount);
+    (void)args;
     return NUMBER_VAL(rand());
 }
 
@@ -386,6 +391,7 @@ value_t native_functions_read_file(uint32_t argCount, value_t const * args) {
 
 value_t native_functions_read_key(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_READ_KEY, argCount);
+    (void)args;
     char character = getchar();
     if (character == EOF) {
         return native_functions_stdlib_error_result("ReadFailed");
@@ -395,6 +401,7 @@ value_t native_functions_read_key(uint32_t argCount, value_t const * args) {
 
 value_t native_functions_read_line(uint32_t argCount, value_t const * args) {
     native_functions_assert_arrity(NATIVE_FUNCTION_READ_LINE, argCount);
+    (void)args;
     char line[MAX_READ_LINE_INPUT];
     if (!fgets(line, sizeof(line), stdin)) {
         return native_functions_stdlib_error_result("ReadFailed");
@@ -453,7 +460,7 @@ value_t native_functions_string_replace_at(uint32_t argCount, value_t const * ar
     }
     int num = AS_NUMBER(*(args + 1));
     object_string_t * str = AS_STRING(*args);
-    if (num >= str->length || num < 0) {
+    if (num < 0 || (uint32_t)num >= str->length) {
         return native_functions_stdlib_error_result("DomainError");
     }
     // We need to allocate a new character sequnce so no other objects are affected
@@ -628,6 +635,7 @@ static size_t native_functions_value_size(value_t value) {
                     size += native_functions_value_size(instance->fields.entries[i].value);
                 }
             }
+            return size;
         }
     case OBJECT_NATIVE:
         return sizeof(native_function_t);

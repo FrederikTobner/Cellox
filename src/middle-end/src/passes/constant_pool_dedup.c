@@ -25,6 +25,7 @@
  * Merges duplicate constants in the pool
  */
 pass_result_t pass_constant_pool_dedup(chunk_t* chunk) {
+    (void)chunk;
     pass_result_t result = {
         .pass_name = "constant_pool_dedup",
         .modified = false,

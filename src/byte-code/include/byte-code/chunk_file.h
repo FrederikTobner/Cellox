@@ -28,13 +28,13 @@
 /// @brief Compiler flags
 typedef enum {
     /// Compile flag that indicates that line information is included in the chunk file
-    COMPILE_FLAG_LINE_INFO_INCLUDED = 0b00000001u,
+    COMPILE_FLAG_LINE_INFO_INCLUDED = 0x01u,
     /// Compile flag that indicates that line information is included in the chunk file
-    COMPILE_FLAG_ANONYMIZE_FUNCTIONS = 0b00000010u,
+    COMPILE_FLAG_ANONYMIZE_FUNCTIONS = 0x02u,
     /// Compile flag that indicates whether the contents have already been optimized in the chunk file (may be removed)
-    COMPILE_FLAG_OPTIMIZE = 0b00000100u,
+    COMPILE_FLAG_OPTIMIZE = 0x04u,
     /// All compile flags combined
-    COMPILE_FLAG_ALL = 0b11111111u
+    COMPILE_FLAG_ALL = 0xFFu
 } chunk_file_compile_flag;
 
 /**

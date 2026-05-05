@@ -60,6 +60,7 @@ static object_string_t * object_allocate_string(char *, uint32_t, uint32_t);
 static void object_print_function(object_function_t *);
 
 object_string_t * object_copy_string(char const * chars, uint32_t length, bool removeBackSlash) {
+    (void)removeBackSlash;
     uint32_t hash;
     object_string_t * interned;
     char * heapChars;
@@ -79,7 +80,6 @@ object_string_t * object_copy_string(char const * chars, uint32_t length, bool r
         heapChars = ALLOCATE(char, length + 1);
         memcpy(heapChars, chars, length);
         heapChars[length] = '\0';
-        char * next = NULL;
         for (uint32_t i = 0; i < length; i++) {
             if (heapChars[i] == '\\') {
                 if (string_utils_resolve_escape_sequence(&heapChars[i], &length)) {
@@ -242,7 +242,6 @@ void object_print(value_t value) {
                 break;
             }
             putc('{', stdout);
-            value_t fieldValue;
             size_t fieldCounter = instance->fields.count;
             for (size_t i = 0; i < instance->fields.capacity; i++) {
                 if (instance->fields.entries[i].key != NULL) {

@@ -368,7 +368,7 @@ static void compiler_function(function_type type) {
 
     object_function_t * function = compiler_end();
     compiler_emit_bytes(OP_CLOSURE, compiler_make_constant(OBJECT_VAL(function)));
-    for (int32_t i = 0; i < function->upvalueCount; i++) {
+    for (uint32_t i = 0; i < function->upvalueCount; i++) {
         compiler_emit_byte(compiler.upvalues[i].isLocal ? 1 : 0);
         compiler_emit_byte(compiler.upvalues[i].index);
     }

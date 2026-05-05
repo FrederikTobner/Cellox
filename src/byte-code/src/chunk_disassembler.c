@@ -36,8 +36,8 @@ static int32_t chunk_disassembler_simple_instruction(char const *, int32_t);
 
 void chunk_disassembler_disassemble_chunk(chunk_t * chunk, char const * name, uint32_t arity) {
     chunk_disassembler_print_chunk_metadata(chunk, name, arity);
-    for (int32_t offset = 0; offset < chunk->byteCodeCount;) {
-        offset = chunk_disassembler_disassemble_instruction(chunk, offset);
+    for (uint32_t offset = 0; offset < chunk->byteCodeCount;) {
+        offset = (uint32_t)chunk_disassembler_disassemble_instruction(chunk, (int32_t)offset);
     }
 }
 
@@ -255,6 +255,7 @@ static void chunk_disassembler_print_chunk_metadata(chunk_t * chunk, char const 
             if (IS_STRING(chunk->constants.values[chunk->code[j + 1]])) {
                 classCount++;
             }
+            /* fall through */
         case OP_ARRAY_LITERAL:
         case OP_DEFINE_GLOBAL:
         case OP_GET_GLOBAL:

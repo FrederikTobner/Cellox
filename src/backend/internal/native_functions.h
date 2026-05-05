@@ -36,7 +36,7 @@ typedef struct {
 
 /// @brief Gets the configuration of the native functions
 /// @return an array that contains the native function configurations
-native_function_config_t * native_functions_get_function_configs();
+native_function_config_t * native_functions_get_function_configs(void);
 
 /// @brief Gets the amount of defined native functions
 /// @return The amount of native functions that are defiened

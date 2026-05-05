@@ -105,6 +105,7 @@ void chunk_decrement_constant_indezes(chunk_t * chunk, uint32_t startIndex) {
             if (chunk->code[i + 1] >= startIndex) {
                 chunk->code[i + 1]--;
             }
+            /* fall through */
         case OP_ARRAY_LITERAL:
         case OP_CLASS:
         case OP_DEFINE_GLOBAL:
@@ -138,6 +139,7 @@ void chunk_replace_constant_references(chunk_t * chunk, uint32_t oldIndex, uint3
             if (chunk->code[i + 1] == oldIndex) {
                 chunk->code[i + 1] = replacementIndex;
             }
+            /* fall through */
         case OP_ARRAY_LITERAL:
         case OP_CLASS:
         case OP_DEFINE_GLOBAL:
@@ -184,7 +186,7 @@ void chunk_write(chunk_t * chunk, uint8_t byte, int32_t line) {
      * Adds line info from the sourceCode in case a runtime error occurs,
      * so we can show the line in case of an error
      */
-    if (chunk->lineInfoCount == 0 || chunk->lineInfos[chunk->lineInfoCount - 1].lineNumber != line) {
+    if (chunk->lineInfoCount == 0 || chunk->lineInfos[chunk->lineInfoCount - 1].lineNumber != (uint32_t)line) {
         // Initialize line info
         if (chunk_line_info_is_full(chunk)) {
             uint32_t oldCapacity = chunk->lineInfoCapacity;
