@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['gc_5fmark_5froots_5fhook_0',['gc_mark_roots_hook',['../garbage__collector_8c.html#a7807e97add27bb3d8de7b4af033cbf97',1,'garbage_collector.c']]],
-  ['globals_1',['globals',['../structvirtual__machine__t.html#a2308387c6ea247ff65b73a23469b6ad9',1,'virtual_machine_t']]],
-  ['graycapacity_2',['grayCapacity',['../structvirtual__machine__t.html#a549b69659fa7100ead74033c06347ca0',1,'virtual_machine_t']]],
-  ['graycount_3',['grayCount',['../structvirtual__machine__t.html#ace4864d4a5c3c98574fd0306f5d5dc74',1,'virtual_machine_t']]],
-  ['graystack_4',['grayStack',['../structvirtual__machine__t.html#a36add9dbc3b4482c74504b7aa2a82ee4',1,'virtual_machine_t']]]
+  ['fields_0',['fields',['../structobject__instance__t.html#a0e974472008691f9d41c1ae30812a89f',1,'object_instance_t']]],
+  ['fn_1',['fn',['../structoptimization__pass__entry__t.html#a70dcc146b2b2bf23b6eea619ad13784b',1,'optimization_pass_entry_t']]],
+  ['framecount_2',['frameCount',['../structvirtual__machine__t.html#a958d64a9279fc5e3dba5201e0db6457d',1,'virtual_machine_t']]],
+  ['function_3',['function',['../structnative__function__config__t.html#a5f7b3b197f31170afa44fe0aa4f945cd',1,'native_function_config_t::function'],['../structcompiler__t.html#a6ea5e688e8dc462b6245a728932c2972',1,'compiler_t::function'],['../structobject__native__t.html#a5f7b3b197f31170afa44fe0aa4f945cd',1,'object_native_t::function'],['../structobject__closure__t.html#a6ea5e688e8dc462b6245a728932c2972',1,'object_closure_t::function']]],
+  ['functionname_4',['functionName',['../structnative__function__config__t.html#a81da7a5f36571c24404001c87ba6395b',1,'native_function_config_t']]]
 ];

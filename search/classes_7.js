@@ -12,5 +12,8 @@ var searchData=
   ['object_5fresult_5ft_9',['object_result_t',['../structobject__result__t.html',1,'']]],
   ['object_5fstring_5ft_10',['object_string_t',['../structobject__string__t.html',1,'']]],
   ['object_5ft_11',['object_t',['../structobject__t.html',1,'']]],
-  ['object_5fupvalue_5ft_12',['object_upvalue_t',['../structobject__upvalue__t.html',1,'']]]
+  ['object_5fupvalue_5ft_12',['object_upvalue_t',['../structobject__upvalue__t.html',1,'']]],
+  ['optimization_5fpass_5fentry_5ft_13',['optimization_pass_entry_t',['../structoptimization__pass__entry__t.html',1,'']]],
+  ['optimization_5fpipeline_5ft_14',['optimization_pipeline_t',['../structoptimization__pipeline__t.html',1,'']]],
+  ['optimization_5fstats_5ft_15',['optimization_stats_t',['../structoptimization__stats__t.html',1,'']]]
 ];

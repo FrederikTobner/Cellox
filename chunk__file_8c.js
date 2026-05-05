@@ -16,7 +16,6 @@ var chunk__file_8c =
     [ "chunk_file_append_constant", "chunk__file_8c.html#ae91250d4ca6a3adfa067a826e6b70ff6", null ],
     [ "chunk_file_append_constant_segment", "chunk__file_8c.html#a1b1f69075837663d9ad3fbd3ed5e8bd7", null ],
     [ "chunk_file_append_function_meta_data", "chunk__file_8c.html#a8bdb93da7ac5da456b5423ad7ffa454c", null ],
-    [ "chunk_file_append_inner_segment", "chunk__file_8c.html#a717001a0315f77e68ac2fcee34afd933", null ],
     [ "chunk_file_append_line_info", "chunk__file_8c.html#a040fd415e784de79b16e16eb643e9c96", null ],
     [ "chunk_file_append_line_info_segment", "chunk__file_8c.html#adaa83d1a713efcc7c226c5f6048bd4a5", null ],
     [ "chunk_file_append_meta_data", "chunk__file_8c.html#a3d01273c5531ab024e7a77c467656a3e", null ],

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: backend/memory_mutator.h File Reference</title>
+<title>Cellox: backend/include/backend/memory_mutator.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('memory__mutator_8h.html',''); initResi
 
 <p>Header file containing the declarations of functionality used for memory management.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">base/common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="object_8h_source.html">language-models/object.h</a>&quot;</code><br />
 </div>
 <p><a href="memory__mutator_8h_source.html">Go to the source code of this file.</a></p>
@@ -113,19 +113,19 @@ Macros</h2></td></tr>
 <tr class="memitem:a13252ea664170e23fa827b7e7571203c" id="r_a13252ea664170e23fa827b7e7571203c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a13252ea664170e23fa827b7e7571203c">HASH_TABLE_GROWTH_FACTOR</a>&#160;&#160;&#160;(2u)</td></tr>
 <tr class="memdesc:a13252ea664170e23fa827b7e7571203c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Growth factor of a hashtable.  <br /></td></tr>
 <tr class="separator:a13252ea664170e23fa827b7e7571203c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b802bbc56b822e67bf1523c9d87ee3f" id="r_a9b802bbc56b822e67bf1523c9d87ee3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">ALLOCATE</a>(type,  count)&#160;&#160;&#160;((type *)<a class="el" href="memory__mutator_8c.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(NULL, 0, sizeof(type) * (count)))</td></tr>
+<tr class="memitem:a9b802bbc56b822e67bf1523c9d87ee3f" id="r_a9b802bbc56b822e67bf1523c9d87ee3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a9b802bbc56b822e67bf1523c9d87ee3f">ALLOCATE</a>(type,  count)&#160;&#160;&#160;((type *)<a class="el" href="memory__mutator_8h.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(NULL, 0, sizeof(type) * (count)))</td></tr>
 <tr class="memdesc:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that allocates the memory needed for a given type multiplied by the count.  <br /></td></tr>
 <tr class="separator:a9b802bbc56b822e67bf1523c9d87ee3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15985952db75d2608fdc0e24dd06e775" id="r_a15985952db75d2608fdc0e24dd06e775"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a15985952db75d2608fdc0e24dd06e775">FREE</a>(type,  pointer)&#160;&#160;&#160;(<a class="el" href="memory__mutator_8c.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type), 0))</td></tr>
+<tr class="memitem:a15985952db75d2608fdc0e24dd06e775" id="r_a15985952db75d2608fdc0e24dd06e775"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a15985952db75d2608fdc0e24dd06e775">FREE</a>(type,  pointer)&#160;&#160;&#160;(<a class="el" href="memory__mutator_8h.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type), 0))</td></tr>
 <tr class="memdesc:a15985952db75d2608fdc0e24dd06e775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that frees the memory used by a given type at the position specified by the pointer.  <br /></td></tr>
 <tr class="separator:a15985952db75d2608fdc0e24dd06e775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b69129733a4bd10f3c5726e4ea6e518" id="r_a3b69129733a4bd10f3c5726e4ea6e518"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a3b69129733a4bd10f3c5726e4ea6e518">FREE_ARRAY</a>(type,  pointer,  oldCount)&#160;&#160;&#160;(<a class="el" href="memory__mutator_8c.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type) * (oldCount), 0))</td></tr>
+<tr class="memitem:a3b69129733a4bd10f3c5726e4ea6e518" id="r_a3b69129733a4bd10f3c5726e4ea6e518"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a3b69129733a4bd10f3c5726e4ea6e518">FREE_ARRAY</a>(type,  pointer,  oldCount)&#160;&#160;&#160;(<a class="el" href="memory__mutator_8h.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type) * (oldCount), 0))</td></tr>
 <tr class="memdesc:a3b69129733a4bd10f3c5726e4ea6e518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that dealocates an existing dynamic array.  <br /></td></tr>
 <tr class="separator:a3b69129733a4bd10f3c5726e4ea6e518"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3f26420257fbc4c78eece0f473860c2" id="r_ad3f26420257fbc4c78eece0f473860c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#ad3f26420257fbc4c78eece0f473860c2">GROW_CAPACITY</a>(capacity)&#160;&#160;&#160;((capacity) &lt; 8u ? 8u : (capacity)*<a class="el" href="memory__mutator_8h.html#abe104ef64af521de16baf648eeb86e8d">ARRAY_GROWTH_FACTOR</a>)</td></tr>
 <tr class="memdesc:ad3f26420257fbc4c78eece0f473860c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)  <br /></td></tr>
 <tr class="separator:ad3f26420257fbc4c78eece0f473860c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a535c54c8dcb6e740b47e09ee33c07f8f" id="r_a535c54c8dcb6e740b47e09ee33c07f8f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a535c54c8dcb6e740b47e09ee33c07f8f">GROW_ARRAY</a>(type,  pointer,  oldCount,  newCount)&#160;&#160;&#160;    ((type *)<a class="el" href="memory__mutator_8c.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))</td></tr>
+<tr class="memitem:a535c54c8dcb6e740b47e09ee33c07f8f" id="r_a535c54c8dcb6e740b47e09ee33c07f8f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a535c54c8dcb6e740b47e09ee33c07f8f">GROW_ARRAY</a>(type,  pointer,  oldCount,  newCount)&#160;&#160;&#160;    ((type *)<a class="el" href="memory__mutator_8h.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))</td></tr>
 <tr class="memdesc:a535c54c8dcb6e740b47e09ee33c07f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that increases the size of a dynamic Array.  <br /></td></tr>
 <tr class="separator:a535c54c8dcb6e740b47e09ee33c07f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a592f8b7b00784641f6873d3e2aecf9f6" id="r_a592f8b7b00784641f6873d3e2aecf9f6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__mutator_8h.html#a592f8b7b00784641f6873d3e2aecf9f6">GROW_HASHTABLE_CAPACITY</a>(capacity)&#160;&#160;&#160;((capacity) &lt; 8u ? 8u : (capacity)*<a class="el" href="memory__mutator_8h.html#a13252ea664170e23fa827b7e7571203c">HASH_TABLE_GROWTH_FACTOR</a>)</td></tr>
@@ -168,7 +168,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;((type *)<a class="el" href="memory__mutator_8c.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(NULL, 0, sizeof(type) * (count)))</td>
+          <td></td><td>&#160;&#160;&#160;((type *)<a class="el" href="memory__mutator_8h.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(NULL, 0, sizeof(type) * (count)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -214,7 +214,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(<a class="el" href="memory__mutator_8c.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type), 0))</td>
+          <td></td><td>&#160;&#160;&#160;(<a class="el" href="memory__mutator_8h.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type), 0))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -250,7 +250,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(<a class="el" href="memory__mutator_8c.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type) * (oldCount), 0))</td>
+          <td></td><td>&#160;&#160;&#160;(<a class="el" href="memory__mutator_8h.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type) * (oldCount), 0))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -292,7 +292,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;    ((type *)<a class="el" href="memory__mutator_8c.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))</td>
+          <td></td><td>&#160;&#160;&#160;    ((type *)<a class="el" href="memory__mutator_8h.html#aa79e3541e620952232834671244d73de">memory_mutator_reallocate</a>(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -461,7 +461,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8c739bbef76d64b22d6b0911c526dd76.html">backend</a></li><li class="navelem"><a class="el" href="memory__mutator_8h.html">memory_mutator.h</a></li>
+    <li class="navelem"><a class="el" href="dir_8c739bbef76d64b22d6b0911c526dd76.html">backend</a></li><li class="navelem"><a class="el" href="dir_afc1e89bdcbaba0f1e323dc5f755439c.html">include</a></li><li class="navelem"><a class="el" href="dir_2e29742dd5fdc0cbcfc17881b64b63aa.html">backend</a></li><li class="navelem"><a class="el" href="memory__mutator_8h.html">memory_mutator.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

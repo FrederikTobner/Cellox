@@ -1,9 +1,26 @@
 var searchData=
 [
-  ['haderror_0',['haderror',['../structparser__t.html#a5acd1c773774df929c1a561128c90189',1,'parser_t::hadError'],['../structmodule__context__t.html#a5acd1c773774df929c1a561128c90189',1,'module_context_t::hadError']]],
-  ['hash_1',['hash',['../structobject__string__t.html#a11ecb029164e055f28f4123ce3748862',1,'object_string_t']]],
-  ['hash_5ftable_5fadjust_5fcapacity_2',['hash_table_adjust_capacity',['../value__hash__table_8c.html#a7a7313b9a30edf0f61e1de5563f6d892',1,'value_hash_table.c']]],
-  ['hash_5ftable_5ffind_5fentry_3',['hash_table_find_entry',['../value__hash__table_8c.html#a99adca561b7d7e2bbd4226702df3dbca',1,'value_hash_table.c']]],
-  ['hash_5ftable_5fgrowth_5ffactor_4',['HASH_TABLE_GROWTH_FACTOR',['../memory__mutator_8h.html#a13252ea664170e23fa827b7e7571203c',1,'memory_mutator.h']]],
-  ['hassuperclass_5',['hasSuperclass',['../structclass__compiler__t.html#aec097adbf939c4b09cf3e7840aadc8ee',1,'class_compiler_t']]]
+  ['g_5fglobal_5fpipeline_0',['g_global_pipeline',['../optimization__pass_8c.html#af2d06b7e99108cb728902930c6342c0c',1,'optimization_pass.c']]],
+  ['g_5foptimization_5flevel_1',['g_optimization_level',['../optimization__pass_8c.html#a8adf242beaeda4d0083ddbbfea6bcebc',1,'optimization_pass.c']]],
+  ['garbage_5fcollector_2ec_2',['garbage_collector.c',['../garbage__collector_8c.html',1,'']]],
+  ['garbage_5fcollector_2eh_3',['garbage_collector.h',['../garbage__collector_8h.html',1,'']]],
+  ['garbage_5fcollector_5fblacken_5fobject_4',['garbage_collector_blacken_object',['../garbage__collector_8c.html#a014e054b75db36a783e439d9e8522b2f',1,'garbage_collector.c']]],
+  ['garbage_5fcollector_5fcollect_5fgarbage_5',['garbage_collector_collect_garbage',['../garbage__collector_8c.html#afdea5da7114484324c1574a7dc022c0b',1,'garbage_collector_collect_garbage(void):&#160;garbage_collector.c'],['../garbage__collector_8h.html#afdea5da7114484324c1574a7dc022c0b',1,'garbage_collector_collect_garbage(void):&#160;garbage_collector.c']]],
+  ['garbage_5fcollector_5fmark_5farray_6',['garbage_collector_mark_array',['../garbage__collector_8c.html#a8a4a33ae1986bd19ca99a91f3d97a2f2',1,'garbage_collector.c']]],
+  ['garbage_5fcollector_5fmark_5fobject_7',['garbage_collector_mark_object',['../garbage__collector_8c.html#a6f08f0ec3e7f1343526535f9868d5fe2',1,'garbage_collector_mark_object(object_t *object):&#160;garbage_collector.c'],['../garbage__collector_8h.html#a6f08f0ec3e7f1343526535f9868d5fe2',1,'garbage_collector_mark_object(object_t *object):&#160;garbage_collector.c']]],
+  ['garbage_5fcollector_5fmark_5froots_8',['garbage_collector_mark_roots',['../garbage__collector_8c.html#acbbf01aad1a3a636066f511dada4b735',1,'garbage_collector.c']]],
+  ['garbage_5fcollector_5fmark_5fvalue_9',['garbage_collector_mark_value',['../garbage__collector_8h.html#a2f5fedd825262e07980e56fe5a41b6b4',1,'garbage_collector_mark_value(value_t value):&#160;garbage_collector.c'],['../garbage__collector_8c.html#a2f5fedd825262e07980e56fe5a41b6b4',1,'garbage_collector_mark_value(value_t value):&#160;garbage_collector.c']]],
+  ['garbage_5fcollector_5fset_5fmark_5froots_5fhook_10',['garbage_collector_set_mark_roots_hook',['../garbage__collector_8h.html#ab60c279948f7aa42b70f1eb55b3aa86a',1,'garbage_collector_set_mark_roots_hook(void(*fn)(void)):&#160;garbage_collector.c'],['../garbage__collector_8c.html#ab60c279948f7aa42b70f1eb55b3aa86a',1,'garbage_collector_set_mark_roots_hook(void(*fn)(void)):&#160;garbage_collector.c']]],
+  ['garbage_5fcollector_5fsweep_11',['garbage_collector_sweep',['../garbage__collector_8c.html#a4227421f7002718bf96e9ed70eabeef6',1,'garbage_collector.c']]],
+  ['garbage_5fcollector_5ftrace_5freferences_12',['garbage_collector_trace_references',['../garbage__collector_8c.html#a7206cd17b0e9e501999a531f96f59f89',1,'garbage_collector.c']]],
+  ['gc_5fheap_5fgrowth_5ffactor_13',['GC_HEAP_GROWTH_FACTOR',['../garbage__collector_8c.html#acdfe815e99fcc24784302a803ed9fac9',1,'garbage_collector.c']]],
+  ['gc_5fmark_5froots_5fhook_14',['gc_mark_roots_hook',['../garbage__collector_8c.html#a7807e97add27bb3d8de7b4af033cbf97',1,'garbage_collector.c']]],
+  ['get_5ftime_5fns_15',['get_time_ns',['../optimization__pass_8c.html#a9007f46ad94a54194e491dfe4c4dca17',1,'optimization_pass.c']]],
+  ['globals_16',['globals',['../structvirtual__machine__t.html#a2308387c6ea247ff65b73a23469b6ad9',1,'virtual_machine_t']]],
+  ['graycapacity_17',['grayCapacity',['../structvirtual__machine__t.html#a549b69659fa7100ead74033c06347ca0',1,'virtual_machine_t']]],
+  ['graycount_18',['grayCount',['../structvirtual__machine__t.html#ace4864d4a5c3c98574fd0306f5d5dc74',1,'virtual_machine_t']]],
+  ['graystack_19',['grayStack',['../structvirtual__machine__t.html#a36add9dbc3b4482c74504b7aa2a82ee4',1,'virtual_machine_t']]],
+  ['grow_5farray_20',['GROW_ARRAY',['../memory__mutator_8h.html#a535c54c8dcb6e740b47e09ee33c07f8f',1,'memory_mutator.h']]],
+  ['grow_5fcapacity_21',['GROW_CAPACITY',['../memory__mutator_8h.html#ad3f26420257fbc4c78eece0f473860c2',1,'memory_mutator.h']]],
+  ['grow_5fhashtable_5fcapacity_22',['GROW_HASHTABLE_CAPACITY',['../memory__mutator_8h.html#a592f8b7b00784641f6873d3e2aecf9f6',1,'memory_mutator.h']]]
 ];

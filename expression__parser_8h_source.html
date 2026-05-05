@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: frontend/parsing/expression_parser.h Source File</title>
+<title>Cellox: frontend/internal/expression_parser.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -117,8 +117,8 @@ $(document).ready(function(){initNavTree('expression__parser_8h_source.html','')
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#ifndef CELLOX_EXPRESSION_PARSER_H_</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define CELLOX_EXPRESSION_PARSER_H_</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;<a class="code" href="core__types_8h.html">frontend/compilation/core_types.h</a>&quot;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;<a class="code" href="parser__state_8h.html">parser_state.h</a>&quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;<a class="code" href="core__types_8h.html">frontend/internal/core_types.h</a>&gt;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &lt;<a class="code" href="parser__state_8h.html">frontend/internal/parser_state.h</a>&gt;</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="foldopen" id="foldopen00027" data-start="{" data-end="};">
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structexpression__parser__context__t.html">   27</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -138,13 +138,13 @@ $(document).ready(function(){initNavTree('expression__parser_8h_source.html','')
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="acore__types_8h_html"><div class="ttname"><a href="core__types_8h.html">core_types.h</a></div><div class="ttdoc">Core compiler type declarations shared across compiler modules.</div></div>
-<div class="ttc" id="aexpression__parser_8h_html_a1b61930314bb8f511ed3f9cc8e5ba90d"><div class="ttname"><a href="expression__parser_8h.html#a1b61930314bb8f511ed3f9cc8e5ba90d">expression_parser_compile_dynamic_array</a></div><div class="ttdeci">void expression_parser_compile_dynamic_array(bool canAssign)</div><div class="ttdef"><b>Definition</b> expression_parser.c:265</div></div>
-<div class="ttc" id="aexpression__parser_8h_html_a36da70fd7b937371e3224e874072b007"><div class="ttname"><a href="expression__parser_8h.html#a36da70fd7b937371e3224e874072b007">expression_parser_compile_named_variable</a></div><div class="ttdeci">void expression_parser_compile_named_variable(token_t name, bool canAssign)</div><div class="ttdef"><b>Definition</b> expression_parser.c:374</div></div>
-<div class="ttc" id="aexpression__parser_8h_html_a3f18b211acdce96365297b449bafefeb"><div class="ttname"><a href="expression__parser_8h.html#a3f18b211acdce96365297b449bafefeb">expression_parser_identifiers_equal</a></div><div class="ttdeci">bool expression_parser_identifiers_equal(token_t *a, token_t *b)</div><div class="ttdef"><b>Definition</b> expression_parser.c:324</div></div>
-<div class="ttc" id="aexpression__parser_8h_html_a5a8e1c8020d6396fcd760909e4eff623"><div class="ttname"><a href="expression__parser_8h.html#a5a8e1c8020d6396fcd760909e4eff623">expression_parser_compile_variable</a></div><div class="ttdeci">void expression_parser_compile_variable(bool canAssign)</div><div class="ttdef"><b>Definition</b> expression_parser.c:564</div></div>
-<div class="ttc" id="aexpression__parser_8h_html_a68e888fc1477c7842280a0e3de6cac7b"><div class="ttname"><a href="expression__parser_8h.html#a68e888fc1477c7842280a0e3de6cac7b">expression_parser_init</a></div><div class="ttdeci">void expression_parser_init(expression_parser_context_t *context)</div><div class="ttdef"><b>Definition</b> expression_parser.c:181</div></div>
-<div class="ttc" id="aexpression__parser_8h_html_a8558a46a59da0264c11fe2b1b968c5cb"><div class="ttname"><a href="expression__parser_8h.html#a8558a46a59da0264c11fe2b1b968c5cb">expression_parser_parse_expression</a></div><div class="ttdeci">void expression_parser_parse_expression(void)</div><div class="ttdef"><b>Definition</b> expression_parser.c:302</div></div>
-<div class="ttc" id="aexpression__parser_8h_html_ad596e716d343b47b1bb9e83c6b34612a"><div class="ttname"><a href="expression__parser_8h.html#ad596e716d343b47b1bb9e83c6b34612a">expression_parser_identifier_constant</a></div><div class="ttdeci">uint8_t expression_parser_identifier_constant(token_t *name)</div><div class="ttdef"><b>Definition</b> expression_parser.c:320</div></div>
+<div class="ttc" id="aexpression__parser_8h_html_a1b61930314bb8f511ed3f9cc8e5ba90d"><div class="ttname"><a href="expression__parser_8h.html#a1b61930314bb8f511ed3f9cc8e5ba90d">expression_parser_compile_dynamic_array</a></div><div class="ttdeci">void expression_parser_compile_dynamic_array(bool canAssign)</div><div class="ttdef"><b>Definition</b> expression_parser.c:273</div></div>
+<div class="ttc" id="aexpression__parser_8h_html_a36da70fd7b937371e3224e874072b007"><div class="ttname"><a href="expression__parser_8h.html#a36da70fd7b937371e3224e874072b007">expression_parser_compile_named_variable</a></div><div class="ttdeci">void expression_parser_compile_named_variable(token_t name, bool canAssign)</div><div class="ttdef"><b>Definition</b> expression_parser.c:398</div></div>
+<div class="ttc" id="aexpression__parser_8h_html_a3f18b211acdce96365297b449bafefeb"><div class="ttname"><a href="expression__parser_8h.html#a3f18b211acdce96365297b449bafefeb">expression_parser_identifiers_equal</a></div><div class="ttdeci">bool expression_parser_identifiers_equal(token_t *a, token_t *b)</div><div class="ttdef"><b>Definition</b> expression_parser.c:347</div></div>
+<div class="ttc" id="aexpression__parser_8h_html_a5a8e1c8020d6396fcd760909e4eff623"><div class="ttname"><a href="expression__parser_8h.html#a5a8e1c8020d6396fcd760909e4eff623">expression_parser_compile_variable</a></div><div class="ttdeci">void expression_parser_compile_variable(bool canAssign)</div><div class="ttdef"><b>Definition</b> expression_parser.c:707</div></div>
+<div class="ttc" id="aexpression__parser_8h_html_a68e888fc1477c7842280a0e3de6cac7b"><div class="ttname"><a href="expression__parser_8h.html#a68e888fc1477c7842280a0e3de6cac7b">expression_parser_init</a></div><div class="ttdeci">void expression_parser_init(expression_parser_context_t *context)</div><div class="ttdef"><b>Definition</b> expression_parser.c:185</div></div>
+<div class="ttc" id="aexpression__parser_8h_html_a8558a46a59da0264c11fe2b1b968c5cb"><div class="ttname"><a href="expression__parser_8h.html#a8558a46a59da0264c11fe2b1b968c5cb">expression_parser_parse_expression</a></div><div class="ttdeci">void expression_parser_parse_expression(void)</div><div class="ttdef"><b>Definition</b> expression_parser.c:323</div></div>
+<div class="ttc" id="aexpression__parser_8h_html_ad596e716d343b47b1bb9e83c6b34612a"><div class="ttname"><a href="expression__parser_8h.html#ad596e716d343b47b1bb9e83c6b34612a">expression_parser_identifier_constant</a></div><div class="ttdeci">uint8_t expression_parser_identifier_constant(token_t *name)</div><div class="ttdef"><b>Definition</b> expression_parser.c:343</div></div>
 <div class="ttc" id="aparser__state_8h_html"><div class="ttname"><a href="parser__state_8h.html">parser_state.h</a></div><div class="ttdoc">Parser state declarations used by compiler modules.</div></div>
 <div class="ttc" id="astructclass__compiler__t_html"><div class="ttname"><a href="structclass__compiler__t.html">class_compiler_t</a></div><div class="ttdoc">Class compiler struct definition.</div><div class="ttdef"><b>Definition</b> core_types.h:81</div></div>
 <div class="ttc" id="astructcompiler__t_html"><div class="ttname"><a href="structcompiler__t.html">compiler_t</a></div><div class="ttdoc">The cellox compiler.</div><div class="ttdef"><b>Definition</b> core_types.h:60</div></div>
@@ -159,7 +159,7 @@ $(document).ready(function(){initNavTree('expression__parser_8h_source.html','')
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="dir_aea2421f4424902be99d519cf4640485.html">parsing</a></li><li class="navelem"><a class="el" href="expression__parser_8h.html">expression_parser.h</a></li>
+    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="dir_e2c12b9f791dbc3d6f8cc11c8305c8a3.html">internal</a></li><li class="navelem"><a class="el" href="expression__parser_8h.html">expression_parser.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

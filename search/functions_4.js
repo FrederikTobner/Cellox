@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['hash_5ftable_5fadjust_5fcapacity_0',['hash_table_adjust_capacity',['../value__hash__table_8c.html#a7a7313b9a30edf0f61e1de5563f6d892',1,'value_hash_table.c']]],
-  ['hash_5ftable_5ffind_5fentry_1',['hash_table_find_entry',['../value__hash__table_8c.html#a99adca561b7d7e2bbd4226702df3dbca',1,'value_hash_table.c']]]
+  ['find_5fpass_5fby_5fname_0',['find_pass_by_name',['../optimization__pass_8c.html#ae491c009831af41a16a714e7a21c9f65',1,'optimization_pass.c']]]
 ];

@@ -1,5 +1,7 @@
 var structchunk__t =
 [
+    [ "_reachable_bitset", "structchunk__t.html#ad16ea4cba77446314706ae2cd95e3087", null ],
+    [ "_reachable_bitset_size", "structchunk__t.html#a6bd01000da47285259fdbdd5c1ec2a96", null ],
     [ "byteCodeCapacity", "structchunk__t.html#aa7278a37b0ef0ca46b5b510ec047db2e", null ],
     [ "byteCodeCount", "structchunk__t.html#a63abe2ff53f9c2c0893231a1578ae5cc", null ],
     [ "code", "structchunk__t.html#a4dfe3469a02cc47dab46ad45643a71c8", null ],

@@ -100,8 +100,11 @@ $(document).ready(function(){initNavTree('main_8c.html',''); initResizable(); })
 <p>File containing main entry point of the compiler.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="command__line__argument__parser_8h_source.html">command_line_argument_parser.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="command__line__argument__parser_8h_source.html">driver/command_line_argument_parser.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_8h_source.html">base/common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="initializer_8h_source.html">driver/initializer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="optimization__pass_8h_source.html">middle-end/optimization_pass.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="module__loader_8h_source.html">module-loading/module_loader.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -146,7 +149,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if no error occurs </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if no error occurs; otherwise an appropriate error code </dd></dl>
 
 </div>
 </div>

@@ -17,5 +17,7 @@ var searchData=
   ['compiler_2ec_14',['compiler.c',['../compiler_8c.html',1,'']]],
   ['compiler_2eh_15',['compiler.h',['../compiler_8h.html',1,'']]],
   ['compiler_5fops_2eh_16',['compiler_ops.h',['../compiler__ops_8h.html',1,'']]],
-  ['core_5ftypes_2eh_17',['core_types.h',['../core__types_8h.html',1,'']]]
+  ['constant_5ffolding_2ec_17',['constant_folding.c',['../constant__folding_8c.html',1,'']]],
+  ['constant_5fpool_5fdedup_2ec_18',['constant_pool_dedup.c',['../constant__pool__dedup_8c.html',1,'']]],
+  ['core_5ftypes_2eh_19',['core_types.h',['../core__types_8h.html',1,'']]]
 ];

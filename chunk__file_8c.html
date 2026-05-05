@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: byte-code/chunk_file.c File Reference</title>
+<title>Cellox: byte-code/src/chunk_file.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -101,9 +101,9 @@ $(document).ready(function(){initNavTree('chunk__file_8c.html',''); initResizabl
 
 <p>File containing the implementation of functionalitity regarding cellox files.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="chunk__file_8h_source.html">chunk_file.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="chunk__file_8h_source.html">byte-code/chunk_file.h</a>&quot;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
-<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="stdio_8h_source.html">stdio.h</a>&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;cellox_config.h&quot;</code><br />
@@ -142,9 +142,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a8bdb93da7ac5da456b5423ad7ffa454c" id="r_a8bdb93da7ac5da456b5423ad7ffa454c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk__file_8c.html#a8bdb93da7ac5da456b5423ad7ffa454c">chunk_file_append_function_meta_data</a> (<a class="el" href="structobject__function__t.html">object_function_t</a> function, FILE *filePointer)</td></tr>
 <tr class="memdesc:a8bdb93da7ac5da456b5423ad7ffa454c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the meta data of a function to the file (arity and upvalue count)  <br /></td></tr>
 <tr class="separator:a8bdb93da7ac5da456b5423ad7ffa454c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a717001a0315f77e68ac2fcee34afd933" id="r_a717001a0315f77e68ac2fcee34afd933"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk__file_8c.html#a717001a0315f77e68ac2fcee34afd933">chunk_file_append_inner_segment</a> (<a class="el" href="structdynamic__value__array__t.html">dynamic_value_array_t</a> functions, <a class="el" href="chunk__file_8h.html#ae03deb2613af0552068def910963304e">chunk_file_compile_flag</a> flag, FILE *filePointer)</td></tr>
-<tr class="memdesc:a717001a0315f77e68ac2fcee34afd933"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the inner segment of the chunk to tthe file.  <br /></td></tr>
-<tr class="separator:a717001a0315f77e68ac2fcee34afd933"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a040fd415e784de79b16e16eb643e9c96" id="r_a040fd415e784de79b16e16eb643e9c96"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk__file_8c.html#a040fd415e784de79b16e16eb643e9c96">chunk_file_append_line_info</a> (<a class="el" href="structline__info__t.html">line_info_t</a> lineInfo, FILE *filePointer)</td></tr>
 <tr class="memdesc:a040fd415e784de79b16e16eb643e9c96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a single line information to a chunk file.  <br /></td></tr>
 <tr class="separator:a040fd415e784de79b16e16eb643e9c96"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -533,58 +530,6 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">function</td><td>The function that has it's metadata appended to the file </td></tr>
-    <tr><td class="paramname">filePointer</td><td>Pointer to the file </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a717001a0315f77e68ac2fcee34afd933" name="a717001a0315f77e68ac2fcee34afd933"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a717001a0315f77e68ac2fcee34afd933">&#9670;&#160;</a></span>chunk_file_append_inner_segment()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void chunk_file_append_inner_segment </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structdynamic__value__array__t.html">dynamic_value_array_t</a>&#160;</td>
-          <td class="paramname"><em>functions</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="chunk__file_8h.html#ae03deb2613af0552068def910963304e">chunk_file_compile_flag</a>&#160;</td>
-          <td class="paramname"><em>flag</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">FILE *&#160;</td>
-          <td class="paramname"><em>filePointer</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Appends the inner segment of the chunk to tthe file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">functions</td><td>The inner functions of the chunk </td></tr>
-    <tr><td class="paramname">flags</td><td>Compile flags used to compile the sourcecode to a cellox chunk file </td></tr>
     <tr><td class="paramname">filePointer</td><td>Pointer to the file </td></tr>
   </table>
   </dd>
@@ -1622,7 +1567,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_e198b91448e92c4ea6fc1d0284ac2f16.html">byte-code</a></li><li class="navelem"><a class="el" href="chunk__file_8c.html">chunk_file.c</a></li>
+    <li class="navelem"><a class="el" href="dir_e198b91448e92c4ea6fc1d0284ac2f16.html">byte-code</a></li><li class="navelem"><a class="el" href="dir_73cac3bef13d46e026c3ec0ff1c34117.html">src</a></li><li class="navelem"><a class="el" href="chunk__file_8c.html">chunk_file.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

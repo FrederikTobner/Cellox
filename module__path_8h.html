@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: module-loading/module_path.h File Reference</title>
+<title>Cellox: module-loading/internal/module_path.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,7 +92,6 @@ $(document).ready(function(){initNavTree('module__path_8h.html',''); initResizab
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">module_path.h File Reference</div></div>
 </div><!--header-->
@@ -103,12 +102,6 @@ $(document).ready(function(){initNavTree('module__path_8h.html',''); initResizab
 
 <p><a href="module__path_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a4d8b45da16e800ebd3138365e4032901" id="r_a4d8b45da16e800ebd3138365e4032901"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="module__path_8h.html#a4d8b45da16e800ebd3138365e4032901">MODULE_PATH_SEPARATOR</a>&#160;&#160;&#160;'/'</td></tr>
-<tr class="memdesc:a4d8b45da16e800ebd3138365e4032901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Platform path separator character.  <br /></td></tr>
-<tr class="separator:a4d8b45da16e800ebd3138365e4032901"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a260643bfaaec1ef560e9dc41257cd3ec" id="r_a260643bfaaec1ef560e9dc41257cd3ec"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="module__path_8h.html#a260643bfaaec1ef560e9dc41257cd3ec">module_path_canonicalize</a> (char const *path)</td></tr>
@@ -117,31 +110,14 @@ Functions</h2></td></tr>
 <tr class="memitem:ac27a64ade1478fd609cd5bf45ac265c9" id="r_ac27a64ade1478fd609cd5bf45ac265c9"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="module__path_8h.html#ac27a64ade1478fd609cd5bf45ac265c9">module_path_join</a> (char const *left, char const *right)</td></tr>
 <tr class="memdesc:ac27a64ade1478fd609cd5bf45ac265c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joins two path segments with the platform path separator.  <br /></td></tr>
 <tr class="separator:ac27a64ade1478fd609cd5bf45ac265c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af46a7f83a529bb5343cbaab2557ea07f" id="r_af46a7f83a529bb5343cbaab2557ea07f"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="module__path_8h.html#af46a7f83a529bb5343cbaab2557ea07f">module_path_resolve_import</a> (char const *importerPath, char const *importPath)</td></tr>
-<tr class="memdesc:af46a7f83a529bb5343cbaab2557ea07f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves an import path relative to the importer's directory.  <br /></td></tr>
-<tr class="separator:af46a7f83a529bb5343cbaab2557ea07f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af13c4e07f4317cb1bb8baeb6d80ad0a3" id="r_af13c4e07f4317cb1bb8baeb6d80ad0a3"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="module__path_8h.html#af13c4e07f4317cb1bb8baeb6d80ad0a3">module_path_resolve_import</a> (char const *importerPath, char const *importPath, char const *stdlibPath)</td></tr>
+<tr class="memdesc:af13c4e07f4317cb1bb8baeb6d80ad0a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves an import path relative to the importer's directory.  <br /></td></tr>
+<tr class="separator:af13c4e07f4317cb1bb8baeb6d80ad0a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Filesystem path utilities used by the module loader. </p>
 <p>Provides portable helpers for resolving, canonicalising, and joining file-system paths. All functions are pure path manipulations with no dependency on module-graph state. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a4d8b45da16e800ebd3138365e4032901" name="a4d8b45da16e800ebd3138365e4032901"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d8b45da16e800ebd3138365e4032901">&#9670;&#160;</a></span>MODULE_PATH_SEPARATOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MODULE_PATH_SEPARATOR&#160;&#160;&#160;'/'</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Platform path separator character. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="a260643bfaaec1ef560e9dc41257cd3ec" name="a260643bfaaec1ef560e9dc41257cd3ec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a260643bfaaec1ef560e9dc41257cd3ec">&#9670;&#160;</a></span>module_path_canonicalize()</h2>
 
@@ -207,8 +183,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af46a7f83a529bb5343cbaab2557ea07f" name="af46a7f83a529bb5343cbaab2557ea07f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af46a7f83a529bb5343cbaab2557ea07f">&#9670;&#160;</a></span>module_path_resolve_import()</h2>
+<a id="af13c4e07f4317cb1bb8baeb6d80ad0a3" name="af13c4e07f4317cb1bb8baeb6d80ad0a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af13c4e07f4317cb1bb8baeb6d80ad0a3">&#9670;&#160;</a></span>module_path_resolve_import()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -223,7 +199,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char const *&#160;</td>
-          <td class="paramname"><em>importPath</em>&#160;</td>
+          <td class="paramname"><em>importPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>stdlibPath</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -238,6 +220,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">importerPath</td><td>Canonical path of the importing file. </td></tr>
     <tr><td class="paramname">importPath</td><td>The path string from the import statement. </td></tr>
+    <tr><td class="paramname">stdlibPath</td><td>The stdlib search directory used for bare imports (no leading . or /), or NULL to skip bare-import resolution. </td></tr>
   </table>
   </dd>
 </dl>
@@ -250,7 +233,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d3439a234b9643745d2a2b2b21fe9361.html">module-loading</a></li><li class="navelem"><a class="el" href="module__path_8h.html">module_path.h</a></li>
+    <li class="navelem"><a class="el" href="dir_d3439a234b9643745d2a2b2b21fe9361.html">module-loading</a></li><li class="navelem"><a class="el" href="dir_92220c3f1185c38810f3873fc0ef4128.html">internal</a></li><li class="navelem"><a class="el" href="module__path_8h.html">module_path.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

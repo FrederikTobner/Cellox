@@ -11,6 +11,7 @@ var chunk_8h =
       [ "OP_CLOSE_UPVALUE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eaab701cd5894cd00f45b81e0065e25d79", null ],
       [ "OP_CONSTANT", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea0aae8bd3e44dcbe18dcd011ea16f7d3c", null ],
       [ "OP_DEFINE_GLOBAL", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea2919243a288096a3dd8fb013f9b4ff05", null ],
+      [ "OP_DUP", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea47360cbb2e673baa31591adbb153c9b3", null ],
       [ "OP_DIVIDE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea78a61af8bcdaef135491c842df4c2b83", null ],
       [ "OP_EQUAL", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea383e0c5476b2ddc1839af951b393ca17", null ],
       [ "OP_EXPONENT", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea4eb1c5aa5391d745eca56a71181a2966", null ],
@@ -51,7 +52,8 @@ var chunk_8h =
       [ "OP_RESULT_WRAP_OK", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eaef5a39ef801823b978dea5e01ded986a", null ],
       [ "OP_RESULT_WRAP_ERR", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158eac5aee5f5a1b6d6a9d4316751e146be9a", null ],
       [ "OP_MUST", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea230e186499ea594bef20cc1ea4a9dbfc", null ],
-      [ "OP_TRY_PROPAGATE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea97f143b0cf9ee2a2047d34587c51153f", null ]
+      [ "OP_TRY_PROPAGATE", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea97f143b0cf9ee2a2047d34587c51153f", null ],
+      [ "OP_CLOSE_UPVALUE_KEEP", "chunk_8h.html#a299fc707c775371e0b2b0495ccb6158ea6c356f6ce2869eff52f91c447da550a0", null ]
     ] ],
     [ "chunk_add_constant", "chunk_8h.html#a7f34ca771a7b1ad9190c5781e8f0ed35", null ],
     [ "chunk_decrement_constant_indezes", "chunk_8h.html#ab74755cf2cd3d38a0311fd562bc8fa41", null ],

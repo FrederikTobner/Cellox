@@ -1,6 +1,7 @@
 var module__parser_8c =
 [
     [ "module_parser_append_source", "module__parser_8c.html#a6c2d4e8fe72aa7754aab95d661b29348", null ],
+    [ "module_parser_cleanup_import_spec", "module__parser_8c.html#ada2a4962b7ea36facef7aa77523de8dc", null ],
     [ "module_parser_cleanup_imports", "module__parser_8c.html#ae36ca6a312a2939a6a5efda58ecece28", null ],
     [ "module_parser_export_list_free", "module__parser_8c.html#a6d0f073139b20f84b8072cb4947d2c35", null ],
     [ "module_parser_parse", "module__parser_8c.html#afbb66053c8096fa6cad0889f6e439134", null ],

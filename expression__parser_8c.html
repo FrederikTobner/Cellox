@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: frontend/parsing/expression_parser.c File Reference</title>
+<title>Cellox: frontend/src/parsing/expression_parser.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -101,12 +101,12 @@ $(document).ready(function(){initNavTree('expression__parser_8c.html',''); initR
 
 <p>File containing expression-related compiler implementation.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="expression__parser_8h_source.html">expression_parser.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="compiler__ops_8h_source.html">frontend/compilation/compiler_ops.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="expression__parser_8h_source.html">frontend/internal/expression_parser.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="compiler__ops_8h_source.html">frontend/internal/compiler_ops.h</a>&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="lexer_8h_source.html">frontend/lexical_analysis/lexer.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="parse__rules_8h_source.html">parse_rules.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="lexer_8h_source.html">frontend/internal/lexer.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="parse__rules_8h_source.html">frontend/internal/parse_rules.h</a>&gt;</code><br />
 <code>#include &quot;<a class="el" href="virtual__machine_8h_source.html">backend/virtual_machine.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -172,6 +172,8 @@ Functions</h2></td></tr>
 <tr class="separator:a60dfada56be935c832a425fd7be54c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2757addefebb0458e6fcf32145c481fd" id="r_a2757addefebb0458e6fcf32145c481fd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#a2757addefebb0458e6fcf32145c481fd">expression_parser_nondirect_assignment</a> (uint8_t assignmentType, uint8_t getOp, uint8_t setOp, uint8_t arg)</td></tr>
 <tr class="separator:a2757addefebb0458e6fcf32145c481fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0877d093e333ad988d65674909540b5" id="r_ad0877d093e333ad988d65674909540b5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#ad0877d093e333ad988d65674909540b5">expression_parser_nondirect_property_assignment</a> (uint8_t assignmentType, uint8_t name)</td></tr>
+<tr class="separator:ad0877d093e333ad988d65674909540b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa91c0fa0601df8e09b9733657d6220bc" id="r_aa91c0fa0601df8e09b9733657d6220bc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#aa91c0fa0601df8e09b9733657d6220bc">expression_parser_number</a> (bool canAssign)</td></tr>
 <tr class="separator:aa91c0fa0601df8e09b9733657d6220bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80836663fca9ef66a7fb8a726cf3a8ec" id="r_a80836663fca9ef66a7fb8a726cf3a8ec"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#a80836663fca9ef66a7fb8a726cf3a8ec">expression_parser_or</a> (bool canAssign)</td></tr>
@@ -194,6 +196,12 @@ Functions</h2></td></tr>
 <tr class="separator:af9eb34deaf1da211d4c3fec8cb0a2a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af183cf22a4a3a8f1bfab8ccff65a09ef" id="r_af183cf22a4a3a8f1bfab8ccff65a09ef"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#af183cf22a4a3a8f1bfab8ccff65a09ef">expression_parser_catch</a> (bool canAssign)</td></tr>
 <tr class="separator:af183cf22a4a3a8f1bfab8ccff65a09ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f8d523f17cfa91824e59503adb86e9f" id="r_a5f8d523f17cfa91824e59503adb86e9f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#a5f8d523f17cfa91824e59503adb86e9f">expression_parser_iferror_expression</a> (bool canAssign)</td></tr>
+<tr class="separator:a5f8d523f17cfa91824e59503adb86e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92586647a5da0a915d0b469b1fd7f1ef" id="r_a92586647a5da0a915d0b469b1fd7f1ef"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#a92586647a5da0a915d0b469b1fd7f1ef">expression_parser_parse_pipe_bound_handler</a> (<a class="el" href="parse__rules_8h.html#a7ba15b09f5921966959e0abb2e1d3e4a">precedence</a> handlerPrecedence)</td></tr>
+<tr class="separator:a92586647a5da0a915d0b469b1fd7f1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a4b44ff2ccc7a20d15f1ac4b4868823" id="r_a1a4b44ff2ccc7a20d15f1ac4b4868823"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#a1a4b44ff2ccc7a20d15f1ac4b4868823">expression_parser_parse_handler_block</a> (void)</td></tr>
+<tr class="separator:a1a4b44ff2ccc7a20d15f1ac4b4868823"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a001283d647e0516ef37f35e24b1d0d08" id="r_a001283d647e0516ef37f35e24b1d0d08"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#a001283d647e0516ef37f35e24b1d0d08">expression_parser_unary</a> (bool canAssign)</td></tr>
 <tr class="separator:a001283d647e0516ef37f35e24b1d0d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68e888fc1477c7842280a0e3de6cac7b" id="r_a68e888fc1477c7842280a0e3de6cac7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__parser_8c.html#a68e888fc1477c7842280a0e3de6cac7b">expression_parser_init</a> (<a class="el" href="structexpression__parser__context__t.html">expression_parser_context_t</a> *context)</td></tr>
@@ -931,6 +939,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a5f8d523f17cfa91824e59503adb86e9f" name="a5f8d523f17cfa91824e59503adb86e9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f8d523f17cfa91824e59503adb86e9f">&#9670;&#160;</a></span>expression_parser_iferror_expression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void expression_parser_iferror_expression </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>canAssign</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae126a6d48b6f561c5e732cabb32f8c74" name="ae126a6d48b6f561c5e732cabb32f8c74"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae126a6d48b6f561c5e732cabb32f8c74">&#9670;&#160;</a></span>expression_parser_index_of()</h2>
 
@@ -1169,6 +1203,42 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ad0877d093e333ad988d65674909540b5" name="ad0877d093e333ad988d65674909540b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0877d093e333ad988d65674909540b5">&#9670;&#160;</a></span>expression_parser_nondirect_property_assignment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void expression_parser_nondirect_property_assignment </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>assignmentType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa91c0fa0601df8e09b9733657d6220bc" name="aa91c0fa0601df8e09b9733657d6220bc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa91c0fa0601df8e09b9733657d6220bc">&#9670;&#160;</a></span>expression_parser_number()</h2>
 
@@ -1235,6 +1305,58 @@ Variables</h2></td></tr>
           <td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1a4b44ff2ccc7a20d15f1ac4b4868823" name="a1a4b44ff2ccc7a20d15f1ac4b4868823"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a4b44ff2ccc7a20d15f1ac4b4868823">&#9670;&#160;</a></span>expression_parser_parse_handler_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void expression_parser_parse_handler_block </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a92586647a5da0a915d0b469b1fd7f1ef" name="a92586647a5da0a915d0b469b1fd7f1ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92586647a5da0a915d0b469b1fd7f1ef">&#9670;&#160;</a></span>expression_parser_parse_pipe_bound_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void expression_parser_parse_pipe_bound_handler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="parse__rules_8h.html#a7ba15b09f5921966959e0abb2e1d3e4a">precedence</a>&#160;</td>
+          <td class="paramname"><em>handlerPrecedence</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -1545,7 +1667,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="dir_aea2421f4424902be99d519cf4640485.html">parsing</a></li><li class="navelem"><a class="el" href="expression__parser_8c.html">expression_parser.c</a></li>
+    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="dir_debbd63f1d8db984f7ce6be7690dc411.html">src</a></li><li class="navelem"><a class="el" href="dir_a1f0d1721038420750d06e1399f27dd2.html">parsing</a></li><li class="navelem"><a class="el" href="expression__parser_8c.html">expression_parser.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

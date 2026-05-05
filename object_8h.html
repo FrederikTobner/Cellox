@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: language-models/object.h File Reference</title>
+<title>Cellox: language-models/include/language-models/object.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -104,9 +104,9 @@ $(document).ready(function(){initNavTree('object_8h.html',''); initResizable(); 
 <p>Header file containing the declarations of functionality regarding cellox objects.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="chunk_8h_source.html">byte-code/chunk.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="value__hash__table_8h_source.html">./data-structures/value_hash_table.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="value_8h_source.html">value.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_8h_source.html">base/common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="value__hash__table_8h_source.html">language-models/value_hash_table.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="value_8h_source.html">language-models/value.h</a>&quot;</code><br />
 </div>
 <p><a href="object_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -226,10 +226,10 @@ Macros</h2></td></tr>
 <tr class="memitem:a43057a2addec6e03f7b516dbc43b3291" id="r_a43057a2addec6e03f7b516dbc43b3291"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a43057a2addec6e03f7b516dbc43b3291">AS_STRING</a>(value)&#160;&#160;&#160;((<a class="el" href="structobject__string__t.html">object_string_t</a> *)<a class="el" href="value_8h.html#a49a02b3cde1cc17ed9060e3cdcf976e6">AS_OBJECT</a>(value))</td></tr>
 <tr class="memdesc:a43057a2addec6e03f7b516dbc43b3291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makro that gets the value of an object as a string.  <br /></td></tr>
 <tr class="separator:a43057a2addec6e03f7b516dbc43b3291"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af31ddbeb9eee4b69914f2bcd98246992" id="r_af31ddbeb9eee4b69914f2bcd98246992"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af31ddbeb9eee4b69914f2bcd98246992">object_new_result_ok</a>(val)&#160;&#160;&#160;<a class="el" href="object_8c.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), false)</td></tr>
+<tr class="memitem:af31ddbeb9eee4b69914f2bcd98246992" id="r_af31ddbeb9eee4b69914f2bcd98246992"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af31ddbeb9eee4b69914f2bcd98246992">object_new_result_ok</a>(val)&#160;&#160;&#160;<a class="el" href="object_8h.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), false)</td></tr>
 <tr class="memdesc:af31ddbeb9eee4b69914f2bcd98246992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro: wrap a success value in a result.  <br /></td></tr>
 <tr class="separator:af31ddbeb9eee4b69914f2bcd98246992"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ff1640ae89f27c36ed79d46283aedfa" id="r_a3ff1640ae89f27c36ed79d46283aedfa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a3ff1640ae89f27c36ed79d46283aedfa">object_new_result_error</a>(val)&#160;&#160;&#160;<a class="el" href="object_8c.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), true)</td></tr>
+<tr class="memitem:a3ff1640ae89f27c36ed79d46283aedfa" id="r_a3ff1640ae89f27c36ed79d46283aedfa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a3ff1640ae89f27c36ed79d46283aedfa">object_new_result_error</a>(val)&#160;&#160;&#160;<a class="el" href="object_8h.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), true)</td></tr>
 <tr class="memdesc:a3ff1640ae89f27c36ed79d46283aedfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro: wrap an error value in a result.  <br /></td></tr>
 <tr class="separator:a3ff1640ae89f27c36ed79d46283aedfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -317,7 +317,7 @@ Functions</h2></td></tr>
 <tr class="memitem:af38dffea97b4c7e32a488619b85a6948" id="r_af38dffea97b4c7e32a488619b85a6948"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af38dffea97b4c7e32a488619b85a6948">object_set_gc_guard_hooks</a> (void(*push_fn)(<a class="el" href="structvalue__t.html">value_t</a>), <a class="el" href="structvalue__t.html">value_t</a>(*pop_fn)(void))</td></tr>
 <tr class="memdesc:af38dffea97b4c7e32a488619b85a6948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers GC guard hooks (push/pop) so object allocation can protect new strings from GC.  <br /></td></tr>
 <tr class="separator:af38dffea97b4c7e32a488619b85a6948"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0175bb6d4227f33af92186598af9a35" id="r_ad0175bb6d4227f33af92186598af9a35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a> (<a class="el" href="structvalue__t.html">value_t</a> value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623">object_type</a> type)</td></tr>
+<tr class="memitem:ad0175bb6d4227f33af92186598af9a35" id="r_ad0175bb6d4227f33af92186598af9a35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ad0175bb6d4227f33af92186598af9a35">object_is_type</a> (<a class="el" href="structvalue__t.html">value_t</a> value, <a class="el" href="object_8h.html#af54461b7c3322b2256322f7b545bd623">object_type</a> type)</td></tr>
 <tr class="memdesc:ad0175bb6d4227f33af92186598af9a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether a value is of a given type.  <br /></td></tr>
 <tr class="separator:ad0175bb6d4227f33af92186598af9a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -795,7 +795,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">val</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8c.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), true)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), true)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -815,7 +815,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">val</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="object_8c.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), false)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="object_8h.html#a03a38b1a2fe020592250900220bffc86">object_new_result</a>((val), false)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -958,7 +958,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool object_is_type </td>
+          <td class="memname"><a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool object_is_type </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
           <td class="paramname"><em>value</em>, </td>
@@ -1485,7 +1485,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_3ea8d1ca324076f24dafcc5889d19d78.html">language-models</a></li><li class="navelem"><a class="el" href="object_8h.html">object.h</a></li>
+    <li class="navelem"><a class="el" href="dir_3ea8d1ca324076f24dafcc5889d19d78.html">language-models</a></li><li class="navelem"><a class="el" href="dir_72a9cebdfb57fe3f96f3a3e71fe1fae9.html">include</a></li><li class="navelem"><a class="el" href="dir_53ab42d3e0d36ea51583cb0d43cff6cb.html">language-models</a></li><li class="navelem"><a class="el" href="object_8h.html">object.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

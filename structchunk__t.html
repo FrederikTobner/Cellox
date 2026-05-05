@@ -125,11 +125,49 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a3832a2175b6ac6696aaa31c925f8cb24" id="r_a3832a2175b6ac6696aaa31c925f8cb24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdynamic__value__array__t.html">dynamic_value_array_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a3832a2175b6ac6696aaa31c925f8cb24">constants</a></td></tr>
 <tr class="memdesc:a3832a2175b6ac6696aaa31c925f8cb24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constants stored in the chunk.  <br /></td></tr>
 <tr class="separator:a3832a2175b6ac6696aaa31c925f8cb24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad16ea4cba77446314706ae2cd95e3087" id="r_ad16ea4cba77446314706ae2cd95e3087"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#ad16ea4cba77446314706ae2cd95e3087">_reachable_bitset</a></td></tr>
+<tr class="memdesc:ad16ea4cba77446314706ae2cd95e3087"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optimization pass state: reachability bitset for dead code detection.  <br /></td></tr>
+<tr class="separator:ad16ea4cba77446314706ae2cd95e3087"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bd01000da47285259fdbdd5c1ec2a96" id="r_a6bd01000da47285259fdbdd5c1ec2a96"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchunk__t.html#a6bd01000da47285259fdbdd5c1ec2a96">_reachable_bitset_size</a></td></tr>
+<tr class="memdesc:a6bd01000da47285259fdbdd5c1ec2a96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the reachability bitset in bytes.  <br /></td></tr>
+<tr class="separator:a6bd01000da47285259fdbdd5c1ec2a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A dynamic array structure of bytecode instructions and constants. </p>
 <p>instructions are idealized instructions for an abstract/virtual computer. The constants in the program are defined at the beginning of the chunk. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a id="ad16ea4cba77446314706ae2cd95e3087" name="ad16ea4cba77446314706ae2cd95e3087"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad16ea4cba77446314706ae2cd95e3087">&#9670;&#160;</a></span>_reachable_bitset</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t* _reachable_bitset</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Optimization pass state: reachability bitset for dead code detection. </p>
+
+</div>
+</div>
+<a id="a6bd01000da47285259fdbdd5c1ec2a96" name="a6bd01000da47285259fdbdd5c1ec2a96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bd01000da47285259fdbdd5c1ec2a96">&#9670;&#160;</a></span>_reachable_bitset_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t _reachable_bitset_size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Size of the reachability bitset in bytes. </p>
+
+</div>
+</div>
 <a id="aa7278a37b0ef0ca46b5b510ec047db2e" name="aa7278a37b0ef0ca46b5b510ec047db2e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa7278a37b0ef0ca46b5b510ec047db2e">&#9670;&#160;</a></span>byteCodeCapacity</h2>
 
@@ -243,7 +281,7 @@ Data Fields</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>byte-code/<a class="el" href="chunk_8h_source.html">chunk.h</a></li>
+<li>byte-code/include/byte-code/<a class="el" href="chunk_8h_source.html">chunk.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

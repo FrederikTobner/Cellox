@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: command_line_argument_parser.c File Reference</title>
+<title>Cellox: driver/src/command_line_argument_parser.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -102,85 +102,142 @@ $(document).ready(function(){initNavTree('command__line__argument__parser_8c.htm
 
 <p>File containing the implementation of the command line argument parser.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="command__line__argument__parser_8h_source.html">command_line_argument_parser.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="command__line__argument__parser_8h_source.html">driver/command_line_argument_parser.h</a>&quot;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
-<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="stdio_8h_source.html">stdio.h</a>&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="initializer_8h_source.html">initializer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_8h_source.html">base/common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="initializer_8h_source.html">driver/initializer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="optimization__pass_8h_source.html">middle-end/optimization_pass.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcommand__line__option__type__config__t.html">command_line_option_type_config_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Models a command line option configuration.  <a href="structcommand__line__option__type__config__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcommand__line__option__config__t.html">command_line_option_config_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Models the configuration for a single command line option.  <a href="structcommand__line__option__config__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ae1f66b8383a2324f319fab80c65c6d86" id="r_ae1f66b8383a2324f319fab80c65c6d86"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a> { <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d">OPTION_NO_OPTION</a>
-, <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c">OPTION_TYPE_COMPILE</a>
-, <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c">OPTION_TYPE_HELP</a>
-, <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5">OPTION_TYPE_VERSION</a>
+<tr class="memitem:abc7c56bdb4ad9aa184c764a753e38958" id="r_abc7c56bdb4ad9aa184c764a753e38958"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958">option_category_t</a> { <a class="el" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6">OPTION_TYPE_SINGLETON</a>
+, <a class="el" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a>
+, <a class="el" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7a7d12e1d73f309dc8c5ec768b68c23b">OPTION_TYPE_POSITIONAL</a>
  }</td></tr>
-<tr class="memdesc:ae1f66b8383a2324f319fab80c65c6d86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command line options of the cellox compiler.  <a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">More...</a><br /></td></tr>
-<tr class="separator:ae1f66b8383a2324f319fab80c65c6d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:abc7c56bdb4ad9aa184c764a753e38958"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the categories of command line options.  <a href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958">More...</a><br /></td></tr>
+<tr class="separator:abc7c56bdb4ad9aa184c764a753e38958"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a9c20eaaa0fc3b35dab89b9a9cd715e28" id="r_a9c20eaaa0fc3b35dab89b9a9cd715e28"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a9c20eaaa0fc3b35dab89b9a9cd715e28">command_line_argument_parser_error</a> (char const *format,...)</td></tr>
-<tr class="memdesc:a9c20eaaa0fc3b35dab89b9a9cd715e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits an error and exits the program with the appropriate exit code.  <br /></td></tr>
+<tr class="memdesc:a9c20eaaa0fc3b35dab89b9a9cd715e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits an error message and exits with command-line usage error code.  <br /></td></tr>
 <tr class="separator:a9c20eaaa0fc3b35dab89b9a9cd715e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa421ad3ddca439b7e2d202a775f089b1" id="r_aa421ad3ddca439b7e2d202a775f089b1"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#aa421ad3ddca439b7e2d202a775f089b1">command_line_argument_parser_is_option</a> (char const *argument)</td></tr>
-<tr class="memdesc:aa421ad3ddca439b7e2d202a775f089b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the argument is an option.  <br /></td></tr>
+<tr class="memdesc:aa421ad3ddca439b7e2d202a775f089b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if an argument is an option (starts with '-')  <br /></td></tr>
 <tr class="separator:aa421ad3ddca439b7e2d202a775f089b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d7e96a1f1389d5d08a81090eab8d090" id="r_a7d7e96a1f1389d5d08a81090eab8d090"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a7d7e96a1f1389d5d08a81090eab8d090">command_line_argument_parser_parse_option</a> (char const *option, <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a> *currentOption)</td></tr>
-<tr class="memdesc:a7d7e96a1f1389d5d08a81090eab8d090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the next option in the arguments.  <br /></td></tr>
-<tr class="separator:a7d7e96a1f1389d5d08a81090eab8d090"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6264b224b9b816f7c7d15f462d088a43" id="r_a6264b224b9b816f7c7d15f462d088a43"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a6264b224b9b816f7c7d15f462d088a43">command_line_argument_parser_show_usage</a> (void)</td></tr>
-<tr class="memdesc:a6264b224b9b816f7c7d15f462d088a43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shows a brief explanation how the compiler can be used from the command line.  <br /></td></tr>
-<tr class="separator:a6264b224b9b816f7c7d15f462d088a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b70a9e91ed3816f5ebc3556235befb7" id="r_a6b70a9e91ed3816f5ebc3556235befb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a6b70a9e91ed3816f5ebc3556235befb7">command_line_argument_parser_parse</a> (int argc, char const **argv)</td></tr>
-<tr class="memdesc:a6b70a9e91ed3816f5ebc3556235befb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the command line arguements that were specified when cellox was called.  <br /></td></tr>
-<tr class="separator:a6b70a9e91ed3816f5ebc3556235befb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a343bb64c4007b015bc7ed8bdfd0f24" id="r_a7a343bb64c4007b015bc7ed8bdfd0f24"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a7a343bb64c4007b015bc7ed8bdfd0f24">command_line_argument_parser_parse_optimization_level</a> (char const *option, uint32_t *out_level, bool *out_expect_value)</td></tr>
+<tr class="memdesc:a7a343bb64c4007b015bc7ed8bdfd0f24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses an optimization level argument.  <br /></td></tr>
+<tr class="separator:a7a343bb64c4007b015bc7ed8bdfd0f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacbe22f45f338326764dc7b9a6cec9c6" id="r_aacbe22f45f338326764dc7b9a6cec9c6"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#aacbe22f45f338326764dc7b9a6cec9c6">command_line_argument_parser_try_parse_option</a> (char const *option, <a class="el" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a> *out_option)</td></tr>
+<tr class="memdesc:aacbe22f45f338326764dc7b9a6cec9c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to parse an option and returns its type.  <br /></td></tr>
+<tr class="separator:aacbe22f45f338326764dc7b9a6cec9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a022db45bd580a490a523b9b5021f1d9d" id="r_a022db45bd580a490a523b9b5021f1d9d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a022db45bd580a490a523b9b5021f1d9d">command_line_argument_parser_can_add_option</a> (<a class="el" href="structcommand__line__config__t.html">command_line_config_t</a> const *config, <a class="el" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958">option_category_t</a> new_option_category)</td></tr>
+<tr class="memdesc:a022db45bd580a490a523b9b5021f1d9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a new option can be combined with the current parse state.  <br /></td></tr>
+<tr class="separator:a022db45bd580a490a523b9b5021f1d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85f182aa2334d6485f8eef6a4e00969c" id="r_a85f182aa2334d6485f8eef6a4e00969c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcommand__line__config__t.html">command_line_config_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a85f182aa2334d6485f8eef6a4e00969c">command_line_argument_parser_parse</a> (int argc, char const **argv)</td></tr>
+<tr class="memdesc:a85f182aa2334d6485f8eef6a4e00969c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses command line arguments and populates the configuration structure.  <br /></td></tr>
+<tr class="separator:a85f182aa2334d6485f8eef6a4e00969c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a84728823666aa5084d1091811b658879" id="r_a84728823666aa5084d1091811b658879"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structcommand__line__option__type__config__t.html">command_line_option_type_config_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#a84728823666aa5084d1091811b658879">optionConfigs</a> []</td></tr>
-<tr class="memdesc:a84728823666aa5084d1091811b658879"><td class="mdescLeft">&#160;</td><td class="mdescRight">Option configurations for all the possible options.  <br /></td></tr>
-<tr class="separator:a84728823666aa5084d1091811b658879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb2834794c2707d4c25a45ee35070317" id="r_adb2834794c2707d4c25a45ee35070317"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structcommand__line__option__config__t.html">command_line_option_config_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8c.html#adb2834794c2707d4c25a45ee35070317">option_configs</a> []</td></tr>
+<tr class="memdesc:adb2834794c2707d4c25a45ee35070317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for all available options.  <br /></td></tr>
+<tr class="separator:adb2834794c2707d4c25a45ee35070317"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing the implementation of the command line argument parser. </p>
+<p>The parser uses a type-based metadata constraint system:</p><ul>
+<li>Option types define what can and cannot be combined:<ul>
+<li>SINGLETON: mutually exclusive with all other options</li>
+<li>MODIFIER: can be combined with other modifiers and positional args</li>
+<li>POSITIONAL: represents a positional argument (input file)</li>
+</ul>
+</li>
+<li>Constraints are checked generically based on option types, not hardcoded logic</li>
+<li>This design makes it trivial to add new options without modifying constraint logic </li>
+</ul>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="ae1f66b8383a2324f319fab80c65c6d86" name="ae1f66b8383a2324f319fab80c65c6d86"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1f66b8383a2324f319fab80c65c6d86">&#9670;&#160;</a></span>command_line_option_type</h2>
+<a id="abc7c56bdb4ad9aa184c764a753e38958" name="abc7c56bdb4ad9aa184c764a753e38958"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc7c56bdb4ad9aa184c764a753e38958">&#9670;&#160;</a></span>option_category_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a></td>
+          <td class="memname">enum <a class="el" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958">option_category_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Command line options of the cellox compiler. </p>
+<p>Enumerates the categories of command line options. </p>
+<p>These categories define compatibility rules - what options can be combined </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d" name="ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d"></a>OPTION_NO_OPTION&#160;</td><td class="fielddoc"><p>No option specified (yet) </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6" name="abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6"></a>OPTION_TYPE_SINGLETON&#160;</td><td class="fielddoc"><p>Singleton options: mutually exclusive with all other options (e.g., help, version) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c" name="ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c"></a>OPTION_TYPE_COMPILE&#160;</td><td class="fielddoc"><p>&ndash;compile / -c </p>
+<tr><td class="fieldname"><a id="abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2" name="abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2"></a>OPTION_TYPE_MODIFIER&#160;</td><td class="fielddoc"><p>Modifier options: can be combined with other modifiers and positional args. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c" name="ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c"></a>OPTION_TYPE_HELP&#160;</td><td class="fielddoc"><p>&ndash;help / -h </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5" name="ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5"></a>OPTION_TYPE_VERSION&#160;</td><td class="fielddoc"><p>&ndash;version / -v </p>
+<tr><td class="fieldname"><a id="abc7c56bdb4ad9aa184c764a753e38958a7a7d12e1d73f309dc8c5ec768b68c23b" name="abc7c56bdb4ad9aa184c764a753e38958a7a7d12e1d73f309dc8c5ec768b68c23b"></a>OPTION_TYPE_POSITIONAL&#160;</td><td class="fielddoc"><p>Positional argument: the input file (only one allowed) </p>
 </td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a022db45bd580a490a523b9b5021f1d9d" name="a022db45bd580a490a523b9b5021f1d9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a022db45bd580a490a523b9b5021f1d9d">&#9670;&#160;</a></span>command_line_argument_parser_can_add_option()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool command_line_argument_parser_can_add_option </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcommand__line__config__t.html">command_line_config_t</a> const *&#160;</td>
+          <td class="paramname"><em>config</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958">option_category_t</a>&#160;</td>
+          <td class="paramname"><em>new_option_category</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks if a new option can be combined with the current parse state. </p>
+<p>Uses option categories to determine compatibility:</p><ul>
+<li>At most one SINGLETON option</li>
+<li>Multiple MODIFIER options allowed</li>
+<li>At most one POSITIONAL argument</li>
+<li>SINGLETONs cannot combine with any other option (modifiers or positional) <dl class="section return"><dt>Returns</dt><dd>True if the option can be added, false if it violates constraints </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
 <a id="a9c20eaaa0fc3b35dab89b9a9cd715e28" name="a9c20eaaa0fc3b35dab89b9a9cd715e28"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9c20eaaa0fc3b35dab89b9a9cd715e28">&#9670;&#160;</a></span>command_line_argument_parser_error()</h2>
 
@@ -215,11 +272,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Emits an error and exits the program with the appropriate exit code. </p>
+<p>Emits an error message and exits with command-line usage error code. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">format</td><td>The format of the message that is printed </td></tr>
-    <tr><td class="paramname">...</td><td>The arguments that are printed using the previously specified format </td></tr>
+    <tr><td class="paramname">format</td><td>The format string for the error message </td></tr>
+    <tr><td class="paramname">...</td><td>The format arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -250,25 +307,25 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Determines whether the argument is an option. </p>
+<p>Determines if an argument is an option (starts with '-') </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">argument</td><td>The argument that is checked </td></tr>
+    <tr><td class="paramname">argument</td><td>The argument to check </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if it is an option, false if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the argument starts with '-' </dd></dl>
 
 </div>
 </div>
-<a id="a6b70a9e91ed3816f5ebc3556235befb7" name="a6b70a9e91ed3816f5ebc3556235befb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b70a9e91ed3816f5ebc3556235befb7">&#9670;&#160;</a></span>command_line_argument_parser_parse()</h2>
+<a id="a85f182aa2334d6485f8eef6a4e00969c" name="a85f182aa2334d6485f8eef6a4e00969c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85f182aa2334d6485f8eef6a4e00969c">&#9670;&#160;</a></span>command_line_argument_parser_parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void command_line_argument_parser_parse </td>
+          <td class="memname"><a class="el" href="structcommand__line__config__t.html">command_line_config_t</a> command_line_argument_parser_parse </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>argc</em>, </td>
@@ -287,20 +344,17 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Parses the command line arguements that were specified when cellox was called. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">argc</td><td>The amount of arguments that were specified by the user </td></tr>
-    <tr><td class="paramname">argv</td><td>The arguments that were spepcified by the user </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>if the arguments could not be parsed the program exits with an exit code indicating an command-line-usage error by the user </dd></dl>
+<p>Parses command line arguments and populates the configuration structure. </p>
+<p>Parses the command line arguements that were specified when cellox was called.</p>
+<p>All constraint validation is type-based and defined once, making this function generic and easy to extend. Adding new options requires only:</p><ol type="1">
+<li>Adding enum value to command_line_option_type</li>
+<li>Adding config entry with appropriate category No changes to this function needed. </li>
+</ol>
 
 </div>
 </div>
-<a id="a7d7e96a1f1389d5d08a81090eab8d090" name="a7d7e96a1f1389d5d08a81090eab8d090"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d7e96a1f1389d5d08a81090eab8d090">&#9670;&#160;</a></span>command_line_argument_parser_parse_option()</h2>
+<a id="a7a343bb64c4007b015bc7ed8bdfd0f24" name="a7a343bb64c4007b015bc7ed8bdfd0f24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a343bb64c4007b015bc7ed8bdfd0f24">&#9670;&#160;</a></span>command_line_argument_parser_parse_optimization_level()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -309,7 +363,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void command_line_argument_parser_parse_option </td>
+          <td class="memname">static bool command_line_argument_parser_parse_optimization_level </td>
           <td>(</td>
           <td class="paramtype">char const *&#160;</td>
           <td class="paramname"><em>option</em>, </td>
@@ -317,8 +371,14 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a> *&#160;</td>
-          <td class="paramname"><em>currentOption</em>&#160;</td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>out_level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool *&#160;</td>
+          <td class="paramname"><em>out_expect_value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -333,19 +393,26 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Parses the next option in the arguments. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Parses an optimization level argument. </p>
+<p>Supports three formats:</p><ul>
+<li>Short form: -O0, -O1, -O2, -O3</li>
+<li>Long form with equals: &ndash;optimize=0, &ndash;optimize=1, &ndash;optimize=2, &ndash;optimize=3</li>
+<li>Long form with space: &ndash;optimize followed by 0, 1, 2, or 3 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">option</td><td>The option that is parsed (character sequence) </td></tr>
-    <tr><td class="paramname">currentOption</td><td>The option that was previously specified </td></tr>
+    <tr><td class="paramname">option</td><td>The argument to parse </td></tr>
+    <tr><td class="paramname">out_level</td><td>Pointer to store the parsed optimization level (0-3) </td></tr>
+    <tr><td class="paramname">out_expect_value</td><td>Set to true if &ndash;optimize was found without a value </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>True if this was an optimization level argument, false otherwise </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
-<a id="a6264b224b9b816f7c7d15f462d088a43" name="a6264b224b9b816f7c7d15f462d088a43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6264b224b9b816f7c7d15f462d088a43">&#9670;&#160;</a></span>command_line_argument_parser_show_usage()</h2>
+<a id="aacbe22f45f338326764dc7b9a6cec9c6" name="aacbe22f45f338326764dc7b9a6cec9c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacbe22f45f338326764dc7b9a6cec9c6">&#9670;&#160;</a></span>command_line_argument_parser_try_parse_option()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -354,28 +421,45 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void command_line_argument_parser_show_usage </td>
+          <td class="memname">static bool command_line_argument_parser_try_parse_option </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>option</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a> *&#160;</td>
+          <td class="paramname"><em>out_option</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Shows a brief explanation how the compiler can be used from the command line. </p>
-<dl class="section note"><dt>Note</dt><dd>Also exits the program with a command-line-usage error exit code </dd></dl>
+<p>Attempts to parse an option and returns its type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">option</td><td>The option string to parse (e.g., "-h" or "--help") </td></tr>
+    <tr><td class="paramname">out_option</td><td>Pointer to store the parsed option type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the option was recognized, false otherwise </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a84728823666aa5084d1091811b658879" name="a84728823666aa5084d1091811b658879"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84728823666aa5084d1091811b658879">&#9670;&#160;</a></span>optionConfigs</h2>
+<a id="adb2834794c2707d4c25a45ee35070317" name="adb2834794c2707d4c25a45ee35070317"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb2834794c2707d4c25a45ee35070317">&#9670;&#160;</a></span>option_configs</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -384,7 +468,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcommand__line__option__type__config__t.html">command_line_option_type_config_t</a> optionConfigs[]</td>
+          <td class="memname">const <a class="el" href="structcommand__line__option__config__t.html">command_line_option_config_t</a> option_configs[]</td>
         </tr>
       </table>
   </td>
@@ -394,19 +478,42 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d">OPTION_NO_OPTION</a>] = {.exclusionaryOption = <span class="keyword">false</span>},</div>
-<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c">OPTION_TYPE_COMPILE</a>] = {.shortRepresentation = <span class="stringliteral">&quot;-c&quot;</span>,</div>
-<div class="line">                             .longRepresentation = <span class="stringliteral">&quot;--compile&quot;</span>,</div>
-<div class="line">                             .exclusionaryOption = <span class="keyword">true</span>},</div>
-<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c">OPTION_TYPE_HELP</a>] = {.shortRepresentation = <span class="stringliteral">&quot;-h&quot;</span>, .longRepresentation = <span class="stringliteral">&quot;--help&quot;</span>, .exclusionaryOption = <span class="keyword">true</span>},</div>
-<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5">OPTION_TYPE_VERSION</a>] = {</div>
-<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-v&quot;</span>, .longRepresentation = <span class="stringliteral">&quot;--version&quot;</span>, .exclusionaryOption = <span class="keyword">true</span>}}</div>
-<div class="ttc" id="acommand__line__argument__parser_8c_html_ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d"><div class="ttname"><a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a74b95e8f4bbb70a900fdd13941f60c9d">OPTION_NO_OPTION</a></div><div class="ttdeci">@ OPTION_NO_OPTION</div><div class="ttdoc">No option specified (yet)</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.c:35</div></div>
-<div class="ttc" id="acommand__line__argument__parser_8c_html_ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c"><div class="ttname"><a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86a9bd8425d0fd2dc6f3551fd025a31096c">OPTION_TYPE_COMPILE</a></div><div class="ttdeci">@ OPTION_TYPE_COMPILE</div><div class="ttdoc">–compile / -c</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.c:37</div></div>
-<div class="ttc" id="acommand__line__argument__parser_8c_html_ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c"><div class="ttname"><a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86adeea8eaaa1e765293d390eeef605274c">OPTION_TYPE_HELP</a></div><div class="ttdeci">@ OPTION_TYPE_HELP</div><div class="ttdoc">–help / -h</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.c:39</div></div>
-<div class="ttc" id="acommand__line__argument__parser_8c_html_ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5"><div class="ttname"><a href="command__line__argument__parser_8c.html#ae1f66b8383a2324f319fab80c65c6d86ae66dae77a71f03e9d93bcc407e5a95f5">OPTION_TYPE_VERSION</a></div><div class="ttdeci">@ OPTION_TYPE_VERSION</div><div class="ttdoc">–version / -v</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.c:41</div></div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a3a0297603315832ffae9a70c8e2e27e1">OPTION_HELP</a>] = {</div>
+<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-h&quot;</span>,</div>
+<div class="line">        .longRepresentation = <span class="stringliteral">&quot;--help&quot;</span>,</div>
+<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6">OPTION_TYPE_SINGLETON</a></div>
+<div class="line">    },</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86afe6b54762d8578bdba577d1bb9fee63f">OPTION_VERSION</a>] = {</div>
+<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-v&quot;</span>,</div>
+<div class="line">        .longRepresentation = <span class="stringliteral">&quot;--version&quot;</span>,</div>
+<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6">OPTION_TYPE_SINGLETON</a></div>
+<div class="line">    },</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a5430edee50f0581cdff343eb37faf60d">OPTION_COMPILE</a>] = {</div>
+<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-c&quot;</span>,</div>
+<div class="line">        .longRepresentation = <span class="stringliteral">&quot;--compile&quot;</span>,</div>
+<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a></div>
+<div class="line">    },</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a37471a93d0fcf5ad5f353d35b4d66383">OPTION_OPTIMIZATION_LEVEL</a>] = {</div>
+<div class="line">        .shortRepresentation = NULL,  </div>
+<div class="line">        .longRepresentation = NULL,</div>
+<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a></div>
+<div class="line">    },</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9">OPTION_STDLIB_DIR</a>] = {</div>
+<div class="line">        .shortRepresentation = NULL,  </div>
+<div class="line">        .longRepresentation = NULL,</div>
+<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a></div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="ttc" id="acommand__line__argument__parser_8c_html_abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2"><div class="ttname"><a href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a></div><div class="ttdeci">@ OPTION_TYPE_MODIFIER</div><div class="ttdoc">Modifier options: can be combined with other modifiers and positional args.</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.c:47</div></div>
+<div class="ttc" id="acommand__line__argument__parser_8c_html_abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6"><div class="ttname"><a href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6">OPTION_TYPE_SINGLETON</a></div><div class="ttdeci">@ OPTION_TYPE_SINGLETON</div><div class="ttdoc">Singleton options: mutually exclusive with all other options (e.g., help, version)</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.c:45</div></div>
+<div class="ttc" id="acommand__line__argument__parser_8h_html_ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9"><div class="ttname"><a href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9">OPTION_STDLIB_DIR</a></div><div class="ttdeci">@ OPTION_STDLIB_DIR</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.h:33</div></div>
+<div class="ttc" id="acommand__line__argument__parser_8h_html_ae1f66b8383a2324f319fab80c65c6d86a37471a93d0fcf5ad5f353d35b4d66383"><div class="ttname"><a href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a37471a93d0fcf5ad5f353d35b4d66383">OPTION_OPTIMIZATION_LEVEL</a></div><div class="ttdeci">@ OPTION_OPTIMIZATION_LEVEL</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.h:32</div></div>
+<div class="ttc" id="acommand__line__argument__parser_8h_html_ae1f66b8383a2324f319fab80c65c6d86a3a0297603315832ffae9a70c8e2e27e1"><div class="ttname"><a href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a3a0297603315832ffae9a70c8e2e27e1">OPTION_HELP</a></div><div class="ttdeci">@ OPTION_HELP</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.h:29</div></div>
+<div class="ttc" id="acommand__line__argument__parser_8h_html_ae1f66b8383a2324f319fab80c65c6d86a5430edee50f0581cdff343eb37faf60d"><div class="ttname"><a href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a5430edee50f0581cdff343eb37faf60d">OPTION_COMPILE</a></div><div class="ttdeci">@ OPTION_COMPILE</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.h:31</div></div>
+<div class="ttc" id="acommand__line__argument__parser_8h_html_ae1f66b8383a2324f319fab80c65c6d86afe6b54762d8578bdba577d1bb9fee63f"><div class="ttname"><a href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86afe6b54762d8578bdba577d1bb9fee63f">OPTION_VERSION</a></div><div class="ttdeci">@ OPTION_VERSION</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.h:30</div></div>
 </div><!-- fragment -->
-<p>Option configurations for all the possible options. </p>
+<p>Configuration for all available options. </p>
+<p>The only constraint information needed is in the category field. Compatibility rules are defined once generically and apply universally. </p>
 
 </div>
 </div>
@@ -415,7 +522,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="command__line__argument__parser_8c.html">command_line_argument_parser.c</a></li>
+    <li class="navelem"><a class="el" href="dir_1284b95147afa48b330f502c8bbc0529.html">driver</a></li><li class="navelem"><a class="el" href="dir_a73e662009d191b54bc30e34ae038220.html">src</a></li><li class="navelem"><a class="el" href="command__line__argument__parser_8c.html">command_line_argument_parser.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

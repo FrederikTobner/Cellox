@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: backend/virtual_machine.c File Reference</title>
+<title>Cellox: backend/src/virtual_machine.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -101,16 +101,16 @@ $(document).ready(function(){initNavTree('virtual__machine_8c.html',''); initRes
 
 <p>Header file containing of definitions of the virtual machine.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="virtual__machine_8h_source.html">virtual_machine.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="virtual__machine_8h_source.html">backend/virtual_machine.h</a>&quot;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
-<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="stdio_8h_source.html">stdio.h</a>&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
-<code>#include &lt;time.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="memory__mutator_8h_source.html">memory_mutator.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="native__functions_8h_source.html">native_functions.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="time_8h_source.html">time.h</a>&gt;</code><br />
+<code>#include &quot;<a class="el" href="common_8h_source.html">base/common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="memory__mutator_8h_source.html">backend/memory_mutator.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="native__functions_8h_source.html">backend/internal/native_functions.h</a>&gt;</code><br />
 <code>#include &quot;<a class="el" href="value_8h_source.html">language-models/value.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="object_8h_source.html">language-models/object.h</a>&quot;</code><br />
 </div><table class="memberdecls">
@@ -174,29 +174,27 @@ Functions</h2></td></tr>
 <tr class="memitem:a69b64dfe2f89d517dbe3e336b3dfa93d" id="r_a69b64dfe2f89d517dbe3e336b3dfa93d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a69b64dfe2f89d517dbe3e336b3dfa93d">virtual_machine_get_index_of</a> (void)</td></tr>
 <tr class="memdesc:a69b64dfe2f89d517dbe3e336b3dfa93d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets an item in an array or a string specified by a numerical index.  <br /></td></tr>
 <tr class="separator:a69b64dfe2f89d517dbe3e336b3dfa93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a9c8c825dff5feeb8693b4bac89c654" id="r_a9a9c8c825dff5feeb8693b4bac89c654"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9a9c8c825dff5feeb8693b4bac89c654">virtual_machine_get_sclice_of</a> (void)</td></tr>
-<tr class="separator:a9a9c8c825dff5feeb8693b4bac89c654"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a691b78b954ba9ce4d6169b27cbe2c056" id="r_a691b78b954ba9ce4d6169b27cbe2c056"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a691b78b954ba9ce4d6169b27cbe2c056">virtual_machine_invoke</a> (<a class="el" href="structobject__string__t.html">object_string_t</a> *name, int32_t argCount)</td></tr>
 <tr class="memdesc:a691b78b954ba9ce4d6169b27cbe2c056"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a method bound to a cellox class instance.  <br /></td></tr>
 <tr class="separator:a691b78b954ba9ce4d6169b27cbe2c056"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a878f62fd42536a5c0265340fffd8d4ae" id="r_a878f62fd42536a5c0265340fffd8d4ae"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a878f62fd42536a5c0265340fffd8d4ae">virtual_machine_invoke_from_class</a> (<a class="el" href="structobject__class__t.html">object_class_t</a> *celloxClass, <a class="el" href="structobject__string__t.html">object_string_t</a> *name, int32_t argCount)</td></tr>
 <tr class="memdesc:a878f62fd42536a5c0265340fffd8d4ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a method from a celloxclass.  <br /></td></tr>
 <tr class="separator:a878f62fd42536a5c0265340fffd8d4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51614596f6411f6de1364785310d36b2" id="r_a51614596f6411f6de1364785310d36b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a51614596f6411f6de1364785310d36b2">virtual_machine_is_falsey</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
+<tr class="memitem:a51614596f6411f6de1364785310d36b2" id="r_a51614596f6411f6de1364785310d36b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a51614596f6411f6de1364785310d36b2">virtual_machine_is_falsey</a> (<a class="el" href="structvalue__t.html">value_t</a> value)</td></tr>
 <tr class="memdesc:a51614596f6411f6de1364785310d36b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if a value is falsey (either null or false)  <br /></td></tr>
 <tr class="separator:a51614596f6411f6de1364785310d36b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae02306599dc3ed28e1969c5cd7ee4252" id="r_ae02306599dc3ed28e1969c5cd7ee4252"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ae02306599dc3ed28e1969c5cd7ee4252">virtual_machine_modulo</a> ()</td></tr>
-<tr class="memdesc:ae02306599dc3ed28e1969c5cd7ee4252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a modulo operation.  <br /></td></tr>
-<tr class="separator:ae02306599dc3ed28e1969c5cd7ee4252"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b41d9486a773761886f1a510e9d5f3b" id="r_a9b41d9486a773761886f1a510e9d5f3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> <a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a> (int32_t distance)</td></tr>
+<tr class="memitem:ab414dbc70c74a500e8a6b85ed1581290" id="r_ab414dbc70c74a500e8a6b85ed1581290"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ab414dbc70c74a500e8a6b85ed1581290">virtual_machine_modulo</a> (void)</td></tr>
+<tr class="memdesc:ab414dbc70c74a500e8a6b85ed1581290"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a modulo operation.  <br /></td></tr>
+<tr class="separator:ab414dbc70c74a500e8a6b85ed1581290"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b41d9486a773761886f1a510e9d5f3b" id="r_a9b41d9486a773761886f1a510e9d5f3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> <a class="el" href="structvalue__t.html">value_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a> (int32_t distance)</td></tr>
 <tr class="memdesc:a9b41d9486a773761886f1a510e9d5f3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the value at the specified distance on the stack.  <br /></td></tr>
 <tr class="separator:a9b41d9486a773761886f1a510e9d5f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac97017613ccbbd75192ef978c84fb8e0" id="r_ac97017613ccbbd75192ef978c84fb8e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ac97017613ccbbd75192ef978c84fb8e0">virtual_machine_reset_stack</a> (void)</td></tr>
+<tr class="memitem:ac97017613ccbbd75192ef978c84fb8e0" id="r_ac97017613ccbbd75192ef978c84fb8e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#ac97017613ccbbd75192ef978c84fb8e0">virtual_machine_reset_stack</a> (void)</td></tr>
 <tr class="memdesc:ac97017613ccbbd75192ef978c84fb8e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the stack of the vm.  <br /></td></tr>
 <tr class="separator:ac97017613ccbbd75192ef978c84fb8e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af94ef7b2fef3665e7346b1857f777e45" id="r_af94ef7b2fef3665e7346b1857f777e45"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="attributes_8h.html#a9b28a79541345d4c1da020822eaac0c4">CLX_HOT</a> <a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#af94ef7b2fef3665e7346b1857f777e45">virtual_machine_run</a> (void)</td></tr>
+<tr class="memitem:af94ef7b2fef3665e7346b1857f777e45" id="r_af94ef7b2fef3665e7346b1857f777e45"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a9b28a79541345d4c1da020822eaac0c4">CLX_HOT</a> <a class="el" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243">interpret_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#af94ef7b2fef3665e7346b1857f777e45">virtual_machine_run</a> (void)</td></tr>
 <tr class="separator:af94ef7b2fef3665e7346b1857f777e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00cdddcc6c19f6e85c525d5b444c2fdd" id="r_a00cdddcc6c19f6e85c525d5b444c2fdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="attributes_8h.html#a22a21e02afbe3ec702738fbb249f8d97">CLX_COLD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a00cdddcc6c19f6e85c525d5b444c2fdd">CLX_PRINTF_FORMAT</a> (1, 2)</td></tr>
+<tr class="memitem:a00cdddcc6c19f6e85c525d5b444c2fdd" id="r_a00cdddcc6c19f6e85c525d5b444c2fdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a22a21e02afbe3ec702738fbb249f8d97">CLX_COLD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a00cdddcc6c19f6e85c525d5b444c2fdd">CLX_PRINTF_FORMAT</a> (1, 2)</td></tr>
 <tr class="separator:a00cdddcc6c19f6e85c525d5b444c2fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a383464453405934913f1e83b9bd7a354" id="r_a383464453405934913f1e83b9bd7a354"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="virtual__machine_8c.html#a383464453405934913f1e83b9bd7a354">virtual_machine_init</a> (void)</td></tr>
 <tr class="memdesc:a383464453405934913f1e83b9bd7a354"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the virtual machine.  <br /></td></tr>
@@ -262,9 +260,9 @@ Variables</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span> {                                                                                               \</div>
 <div class="line">        if (!<a class="code hl_define" href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a>(<a class="code hl_function" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a>(0)) || !<a class="code hl_define" href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a>(<a class="code hl_function" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a>(1))) {              \</div>
 <div class="line">            virtual_machine_runtime_error(<span class="stringliteral">&quot;Operands must be numbers but they are a %s %s and a %s %s&quot;</span>, \</div>
-<div class="line">                                          <a class="code hl_function" href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a>(<a class="code hl_function" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a>(0)),               \</div>
+<div class="line">                                          <a class="code hl_function" href="value_8h.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a>(<a class="code hl_function" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a>(0)),               \</div>
 <div class="line">                                          <a class="code hl_define" href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a>(<a class="code hl_function" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a>(0)) ? <span class="stringliteral">&quot;object&quot;</span> : <span class="stringliteral">&quot;value&quot;</span>,     \</div>
-<div class="line">                                          <a class="code hl_function" href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a>(<a class="code hl_function" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a>(1)),               \</div>
+<div class="line">                                          <a class="code hl_function" href="value_8h.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a>(<a class="code hl_function" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a>(1)),               \</div>
 <div class="line">                                          <a class="code hl_define" href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a>(<a class="code hl_function" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a>(1)) ? <span class="stringliteral">&quot;object&quot;</span> : <span class="stringliteral">&quot;value&quot;</span>);    \</div>
 <div class="line">            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a>;                                                            \</div>
 <div class="line">        }                                                                                              \</div>
@@ -272,12 +270,12 @@ Variables</h2></td></tr>
 <div class="line">        <span class="keywordtype">double</span> a = <a class="code hl_define" href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a>(<a class="code hl_function" href="virtual__machine_8c.html#a75c83b2d4270498a8fba788ed47a7803">virtual_machine_pop</a>());                                                   \</div>
 <div class="line">        virtual_machine_push(valueType(a op b));                                                       \</div>
 <div class="line">    } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
-<div class="ttc" id="avalue_8c_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition</b> value.c:66</div></div>
 <div class="ttc" id="avalue_8h_html_a0257646ec057f253c1dd2da75aad53e3"><div class="ttname"><a href="value_8h.html#a0257646ec057f253c1dd2da75aad53e3">IS_NUMBER</a></div><div class="ttdeci">#define IS_NUMBER(value)</div><div class="ttdoc">Makro that determines whether a value is of the type number.</div><div class="ttdef"><b>Definition</b> value.h:132</div></div>
 <div class="ttc" id="avalue_8h_html_a5134d9dbb50a079107222dba8a6e98b7"><div class="ttname"><a href="value_8h.html#a5134d9dbb50a079107222dba8a6e98b7">AS_NUMBER</a></div><div class="ttdeci">#define AS_NUMBER(value)</div><div class="ttdoc">Makro that returns the value of a number in the union.</div><div class="ttdef"><b>Definition</b> value.h:139</div></div>
+<div class="ttc" id="avalue_8h_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8h.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition</b> value.c:66</div></div>
 <div class="ttc" id="avalue_8h_html_ac652f84a0dd6007f0ba26eefdf61d14c"><div class="ttname"><a href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a></div><div class="ttdeci">#define IS_OBJECT(value)</div><div class="ttdoc">Makro that determines whether a value is of the type object.</div><div class="ttdef"><b>Definition</b> value.h:134</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_a75c83b2d4270498a8fba788ed47a7803"><div class="ttname"><a href="virtual__machine_8c.html#a75c83b2d4270498a8fba788ed47a7803">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop(void)</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:161</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_a9b41d9486a773761886f1a510e9d5f3b"><div class="ttname"><a href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a></div><div class="ttdeci">CLX_ALWAYS_INLINE value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:608</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_a75c83b2d4270498a8fba788ed47a7803"><div class="ttname"><a href="virtual__machine_8c.html#a75c83b2d4270498a8fba788ed47a7803">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop(void)</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:160</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_a9b41d9486a773761886f1a510e9d5f3b"><div class="ttname"><a href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a></div><div class="ttdeci">CLX_ALWAYS_INLINE value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:606</div></div>
 <div class="ttc" id="avirtual__machine_8h_html_a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition</b> virtual_machine.h:90</div></div>
 </div><!-- fragment -->
 </div>
@@ -868,32 +866,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a9a9c8c825dff5feeb8693b4bac89c654" name="a9a9c8c825dff5feeb8693b4bac89c654"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a9c8c825dff5feeb8693b4bac89c654">&#9670;&#160;</a></span>virtual_machine_get_sclice_of()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool virtual_machine_get_sclice_of </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a24f1d914eae419bda3d779016db98bf3" name="a24f1d914eae419bda3d779016db98bf3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a24f1d914eae419bda3d779016db98bf3">&#9670;&#160;</a></span>virtual_machine_get_slice_of()</h2>
 
@@ -1088,7 +1060,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool virtual_machine_is_falsey </td>
+          <td class="memname"><a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#aaa4bb194e856860329f061cc36325d8f">CLX_PURE</a> <a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> bool virtual_machine_is_falsey </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structvalue__t.html">value_t</a>&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -1108,8 +1080,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ae02306599dc3ed28e1969c5cd7ee4252" name="ae02306599dc3ed28e1969c5cd7ee4252"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae02306599dc3ed28e1969c5cd7ee4252">&#9670;&#160;</a></span>virtual_machine_modulo()</h2>
+<a id="ab414dbc70c74a500e8a6b85ed1581290" name="ab414dbc70c74a500e8a6b85ed1581290"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab414dbc70c74a500e8a6b85ed1581290">&#9670;&#160;</a></span>virtual_machine_modulo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1144,7 +1116,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> <a class="el" href="structvalue__t.html">value_t</a> virtual_machine_peek </td>
+          <td class="memname"><a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> <a class="el" href="structvalue__t.html">value_t</a> virtual_machine_peek </td>
           <td>(</td>
           <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>distance</em></td><td>)</td>
@@ -1218,7 +1190,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> void virtual_machine_reset_stack </td>
+          <td class="memname"><a class="el" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> void virtual_machine_reset_stack </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -1449,7 +1421,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8c739bbef76d64b22d6b0911c526dd76.html">backend</a></li><li class="navelem"><a class="el" href="virtual__machine_8c.html">virtual_machine.c</a></li>
+    <li class="navelem"><a class="el" href="dir_8c739bbef76d64b22d6b0911c526dd76.html">backend</a></li><li class="navelem"><a class="el" href="dir_27747142951285b09bacafa002e92b5f.html">src</a></li><li class="navelem"><a class="el" href="virtual__machine_8c.html">virtual_machine.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

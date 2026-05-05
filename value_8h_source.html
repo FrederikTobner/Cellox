@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: language-models/value.h Source File</title>
+<title>Cellox: language-models/include/language-models/value.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('value_8h_source.html',''); initResizab
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;string.h&gt;</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">common.h</a>&quot;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">base/common.h</a>&quot;</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="value_8h.html#a27555b6a6718dd529daf3f8acd554745">   29</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structobject__t.html">object_t</a> <a class="code hl_struct" href="structobject__t.html">object_t</a>;</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
@@ -155,12 +155,12 @@ $(document).ready(function(){initNavTree('value_8h_source.html',''); initResizab
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#define NUMBER_VAL(num)  numToValue(num)</span></div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#define OBJECT_VAL(obj)  (value_t)(SIGN_BIT | QNAN | (uint64_t)(uintptr_t)(obj))</span></div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><a class="code hl_define" href="attributes_8h.html#a7aca1bb9fc1a0237db3215dab0797422">CLX_CONST</a> <a class="code hl_define" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> <a class="code hl_struct" href="structvalue__t.html">value_t</a> numToValue(<span class="keywordtype">double</span> number) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><a class="code hl_define" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a7aca1bb9fc1a0237db3215dab0797422">CLX_CONST</a> <a class="code hl_define" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> <a class="code hl_struct" href="structvalue__t.html">value_t</a> numToValue(<span class="keywordtype">double</span> number) {</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <a class="code hl_struct" href="structvalue__t.html">value_t</a> value;</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    memcpy(&amp;value, &amp;number, <span class="keyword">sizeof</span>(<span class="keywordtype">double</span>));</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">return</span> value;</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>}</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><a class="code hl_define" href="attributes_8h.html#a7aca1bb9fc1a0237db3215dab0797422">CLX_CONST</a> <a class="code hl_define" href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> <span class="keywordtype">double</span> valueToNum(<a class="code hl_struct" href="structvalue__t.html">value_t</a> value) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><a class="code hl_define" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a7aca1bb9fc1a0237db3215dab0797422">CLX_CONST</a> <a class="code hl_define" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a> <span class="keywordtype">double</span> valueToNum(<a class="code hl_struct" href="structvalue__t.html">value_t</a> value) {</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordtype">double</span> num;</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    memcpy(&amp;num, &amp;value, <span class="keyword">sizeof</span>(<a class="code hl_struct" href="structvalue__t.html">value_t</a>));</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">return</span> num;</div>
@@ -208,17 +208,17 @@ $(document).ready(function(){initNavTree('value_8h_source.html',''); initResizab
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="keywordtype">void</span> <a class="code hl_function" href="value_8h.html#afbcb72d28bc42542e9023a4382a088f9">value_print</a>(<a class="code hl_struct" href="structvalue__t.html">value_t</a> value);</div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><a class="code hl_define" href="attributes_8h.html#a9b28a79541345d4c1da020822eaac0c4">CLX_HOT</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="value_8h.html#a0fdfcf73065641505054c4009796dc31">value_values_equal</a>(<a class="code hl_struct" href="structvalue__t.html">value_t</a> a, <a class="code hl_struct" href="structvalue__t.html">value_t</a> b);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><a class="code hl_define" href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a9b28a79541345d4c1da020822eaac0c4">CLX_HOT</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="value_8h.html#a0fdfcf73065641505054c4009796dc31">value_values_equal</a>(<a class="code hl_struct" href="structvalue__t.html">value_t</a> a, <a class="code hl_struct" href="structvalue__t.html">value_t</a> b);</div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="keywordtype">char</span> <span class="keyword">const</span> * <a class="code hl_function" href="value_8h.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a>(<a class="code hl_struct" href="structvalue__t.html">value_t</a> value);</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">  175</a></span><span class="keyword">typedef</span> <a class="code hl_struct" href="structvalue__t.html">value_t</a> (*<a class="code hl_typedef" href="value_8h.html#a66bdf91c6a9723966a227e8dbb6777b7">native_function_t</a>)(uint32_t argCount, <a class="code hl_struct" href="structvalue__t.html">value_t</a> <span class="keyword">const</span> * args);</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="preprocessor">#endif </span><span class="comment">// NAN_BOXING</span></div>
-<div class="ttc" id="aattributes_8h_html_a2032f4d1a9b5997fd916993801eac50f"><div class="ttname"><a href="attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a></div><div class="ttdeci">#define CLX_ALWAYS_INLINE</div><div class="ttdef"><b>Definition</b> attributes.h:42</div></div>
-<div class="ttc" id="aattributes_8h_html_a7aca1bb9fc1a0237db3215dab0797422"><div class="ttname"><a href="attributes_8h.html#a7aca1bb9fc1a0237db3215dab0797422">CLX_CONST</a></div><div class="ttdeci">#define CLX_CONST</div><div class="ttdef"><b>Definition</b> attributes.h:99</div></div>
-<div class="ttc" id="aattributes_8h_html_a9b28a79541345d4c1da020822eaac0c4"><div class="ttname"><a href="attributes_8h.html#a9b28a79541345d4c1da020822eaac0c4">CLX_HOT</a></div><div class="ttdeci">#define CLX_HOT</div><div class="ttdef"><b>Definition</b> attributes.h:65</div></div>
 <div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div><div class="ttdoc">Common header file of the compiler.</div></div>
+<div class="ttc" id="aimpl_2clang_2include_2clx__compiler_2impl_2attributes_8h_html_a2032f4d1a9b5997fd916993801eac50f"><div class="ttname"><a href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a2032f4d1a9b5997fd916993801eac50f">CLX_ALWAYS_INLINE</a></div><div class="ttdeci">#define CLX_ALWAYS_INLINE</div><div class="ttdef"><b>Definition</b> attributes.h:4</div></div>
+<div class="ttc" id="aimpl_2clang_2include_2clx__compiler_2impl_2attributes_8h_html_a7aca1bb9fc1a0237db3215dab0797422"><div class="ttname"><a href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a7aca1bb9fc1a0237db3215dab0797422">CLX_CONST</a></div><div class="ttdeci">#define CLX_CONST</div><div class="ttdef"><b>Definition</b> attributes.h:13</div></div>
+<div class="ttc" id="aimpl_2clang_2include_2clx__compiler_2impl_2attributes_8h_html_a9b28a79541345d4c1da020822eaac0c4"><div class="ttname"><a href="impl_2clang_2include_2clx__compiler_2impl_2attributes_8h.html#a9b28a79541345d4c1da020822eaac0c4">CLX_HOT</a></div><div class="ttdeci">#define CLX_HOT</div><div class="ttdef"><b>Definition</b> attributes.h:7</div></div>
 <div class="ttc" id="astructobject__string__t_html"><div class="ttname"><a href="structobject__string__t.html">object_string_t</a></div><div class="ttdoc">ObjectString structure definition.</div><div class="ttdef"><b>Definition</b> object.h:143</div></div>
 <div class="ttc" id="astructobject__t_html"><div class="ttname"><a href="structobject__t.html">object_t</a></div><div class="ttdoc">A cellox object.</div><div class="ttdef"><b>Definition</b> object.h:109</div></div>
 <div class="ttc" id="astructvalue__t_html"><div class="ttname"><a href="structvalue__t.html">value_t</a></div><div class="ttdoc">An value type.</div><div class="ttdef"><b>Definition</b> value.h:118</div></div>
@@ -240,7 +240,7 @@ $(document).ready(function(){initNavTree('value_8h_source.html',''); initResizab
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_3ea8d1ca324076f24dafcc5889d19d78.html">language-models</a></li><li class="navelem"><a class="el" href="value_8h.html">value.h</a></li>
+    <li class="navelem"><a class="el" href="dir_3ea8d1ca324076f24dafcc5889d19d78.html">language-models</a></li><li class="navelem"><a class="el" href="dir_72a9cebdfb57fe3f96f3a3e71fe1fae9.html">include</a></li><li class="navelem"><a class="el" href="dir_53ab42d3e0d36ea51583cb0d43cff6cb.html">language-models</a></li><li class="navelem"><a class="el" href="value_8h.html">value.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

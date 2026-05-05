@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: module-loading/module_parser.h Source File</title>
+<title>Cellox: module-loading/internal/module_parser.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('module__parser_8h_source.html',''); in
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">common.h</a>&quot;</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">base/common.h</a>&quot;</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
 <div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="structimport__spec__t.html">   32</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -156,10 +156,10 @@ $(document).ready(function(){initNavTree('module__parser_8h_source.html',''); in
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#endif </span><span class="comment">// CELLOX_MODULE_PARSER_H_</span></div>
 <div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div><div class="ttdoc">Common header file of the compiler.</div></div>
-<div class="ttc" id="amodule__parser_8h_html_a6c2d4e8fe72aa7754aab95d661b29348"><div class="ttname"><a href="module__parser_8h.html#a6c2d4e8fe72aa7754aab95d661b29348">module_parser_append_source</a></div><div class="ttdeci">void module_parser_append_source(source_buffer_t *buffer, char const *text, size_t length)</div><div class="ttdoc">Appends length bytes from text to buffer, growing it as needed.</div><div class="ttdef"><b>Definition</b> module_parser.c:234</div></div>
-<div class="ttc" id="amodule__parser_8h_html_a6d0f073139b20f84b8072cb4947d2c35"><div class="ttname"><a href="module__parser_8h.html#a6d0f073139b20f84b8072cb4947d2c35">module_parser_export_list_free</a></div><div class="ttdeci">void module_parser_export_list_free(export_list_t *list)</div><div class="ttdoc">Frees all export names stored in list and resets its fields to zero.</div><div class="ttdef"><b>Definition</b> module_parser.c:371</div></div>
-<div class="ttc" id="amodule__parser_8h_html_ae36ca6a312a2939a6a5efda58ecece28"><div class="ttname"><a href="module__parser_8h.html#ae36ca6a312a2939a6a5efda58ecece28">module_parser_cleanup_imports</a></div><div class="ttdeci">void module_parser_cleanup_imports(import_spec_t *imports, size_t importCount)</div><div class="ttdoc">Frees the contents of an import_spec_t array allocated by module_parser_parse().</div><div class="ttdef"><b>Definition</b> module_parser.c:360</div></div>
-<div class="ttc" id="amodule__parser_8h_html_afbb66053c8096fa6cad0889f6e439134"><div class="ttname"><a href="module__parser_8h.html#afbb66053c8096fa6cad0889f6e439134">module_parser_parse</a></div><div class="ttdeci">bool module_parser_parse(char const *source, export_list_t *exports, import_spec_t **imports, size_t *importCount, char **transformedSource)</div><div class="ttdoc">Parses source, collects exports/imports, and returns a transformed source.</div><div class="ttdef"><b>Definition</b> module_parser.c:258</div></div>
+<div class="ttc" id="amodule__parser_8h_html_a6c2d4e8fe72aa7754aab95d661b29348"><div class="ttname"><a href="module__parser_8h.html#a6c2d4e8fe72aa7754aab95d661b29348">module_parser_append_source</a></div><div class="ttdeci">void module_parser_append_source(source_buffer_t *buffer, char const *text, size_t length)</div><div class="ttdoc">Appends length bytes from text to buffer, growing it as needed.</div><div class="ttdef"><b>Definition</b> module_parser.c:245</div></div>
+<div class="ttc" id="amodule__parser_8h_html_a6d0f073139b20f84b8072cb4947d2c35"><div class="ttname"><a href="module__parser_8h.html#a6d0f073139b20f84b8072cb4947d2c35">module_parser_export_list_free</a></div><div class="ttdeci">void module_parser_export_list_free(export_list_t *list)</div><div class="ttdoc">Frees all export names stored in list and resets its fields to zero.</div><div class="ttdef"><b>Definition</b> module_parser.c:378</div></div>
+<div class="ttc" id="amodule__parser_8h_html_ae36ca6a312a2939a6a5efda58ecece28"><div class="ttname"><a href="module__parser_8h.html#ae36ca6a312a2939a6a5efda58ecece28">module_parser_cleanup_imports</a></div><div class="ttdeci">void module_parser_cleanup_imports(import_spec_t *imports, size_t importCount)</div><div class="ttdoc">Frees the contents of an import_spec_t array allocated by module_parser_parse().</div><div class="ttdef"><b>Definition</b> module_parser.c:371</div></div>
+<div class="ttc" id="amodule__parser_8h_html_afbb66053c8096fa6cad0889f6e439134"><div class="ttname"><a href="module__parser_8h.html#afbb66053c8096fa6cad0889f6e439134">module_parser_parse</a></div><div class="ttdeci">bool module_parser_parse(char const *source, export_list_t *exports, import_spec_t **imports, size_t *importCount, char **transformedSource)</div><div class="ttdoc">Parses source, collects exports/imports, and returns a transformed source.</div><div class="ttdef"><b>Definition</b> module_parser.c:269</div></div>
 <div class="ttc" id="astructexport__list__t_html"><div class="ttname"><a href="structexport__list__t.html">export_list_t</a></div><div class="ttdoc">Growing list of export names declared in a module.</div><div class="ttdef"><b>Definition</b> module_parser.h:42</div></div>
 <div class="ttc" id="astructexport__list__t_html_a26fc633cf551a2621e172633486c85ef"><div class="ttname"><a href="structexport__list__t.html#a26fc633cf551a2621e172633486c85ef">export_list_t::names</a></div><div class="ttdeci">char ** names</div><div class="ttdef"><b>Definition</b> module_parser.h:43</div></div>
 <div class="ttc" id="astructexport__list__t_html_a76d971a3c552bc58ba9f0d5fceae9806"><div class="ttname"><a href="structexport__list__t.html#a76d971a3c552bc58ba9f0d5fceae9806">export_list_t::count</a></div><div class="ttdeci">size_t count</div><div class="ttdef"><b>Definition</b> module_parser.h:44</div></div>
@@ -177,7 +177,7 @@ $(document).ready(function(){initNavTree('module__parser_8h_source.html',''); in
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d3439a234b9643745d2a2b2b21fe9361.html">module-loading</a></li><li class="navelem"><a class="el" href="module__parser_8h.html">module_parser.h</a></li>
+    <li class="navelem"><a class="el" href="dir_d3439a234b9643745d2a2b2b21fe9361.html">module-loading</a></li><li class="navelem"><a class="el" href="dir_92220c3f1185c38810f3873fc0ef4128.html">internal</a></li><li class="navelem"><a class="el" href="module__parser_8h.html">module_parser.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

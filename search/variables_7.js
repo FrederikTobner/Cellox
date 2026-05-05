@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['haderror_0',['haderror',['../structparser__t.html#a5acd1c773774df929c1a561128c90189',1,'parser_t::hadError'],['../structmodule__context__t.html#a5acd1c773774df929c1a561128c90189',1,'module_context_t::hadError']]],
-  ['hash_1',['hash',['../structobject__string__t.html#a11ecb029164e055f28f4123ce3748862',1,'object_string_t']]],
-  ['hassuperclass_2',['hasSuperclass',['../structclass__compiler__t.html#aec097adbf939c4b09cf3e7840aadc8ee',1,'class_compiler_t']]]
+  ['g_5fglobal_5fpipeline_0',['g_global_pipeline',['../optimization__pass_8c.html#af2d06b7e99108cb728902930c6342c0c',1,'optimization_pass.c']]],
+  ['g_5foptimization_5flevel_1',['g_optimization_level',['../optimization__pass_8c.html#a8adf242beaeda4d0083ddbbfea6bcebc',1,'optimization_pass.c']]],
+  ['gc_5fmark_5froots_5fhook_2',['gc_mark_roots_hook',['../garbage__collector_8c.html#a7807e97add27bb3d8de7b4af033cbf97',1,'garbage_collector.c']]],
+  ['globals_3',['globals',['../structvirtual__machine__t.html#a2308387c6ea247ff65b73a23469b6ad9',1,'virtual_machine_t']]],
+  ['graycapacity_4',['grayCapacity',['../structvirtual__machine__t.html#a549b69659fa7100ead74033c06347ca0',1,'virtual_machine_t']]],
+  ['graycount_5',['grayCount',['../structvirtual__machine__t.html#ace4864d4a5c3c98574fd0306f5d5dc74',1,'virtual_machine_t']]],
+  ['graystack_6',['grayStack',['../structvirtual__machine__t.html#a36add9dbc3b4482c74504b7aa2a82ee4',1,'virtual_machine_t']]]
 ];

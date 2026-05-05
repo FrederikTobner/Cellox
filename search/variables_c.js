@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['name_0',['name',['../structlocal__t.html#a08de113c348f1a311cd1155fe856eefc',1,'local_t::name'],['../structobject__function__t.html#a7702169b0ef777473b4773bc75f26515',1,'object_function_t::name'],['../structobject__class__t.html#a7702169b0ef777473b4773bc75f26515',1,'object_class_t::name'],['../structobject__error__set__t.html#a7702169b0ef777473b4773bc75f26515',1,'object_error_set_t::name'],['../structobject__error__value__t.html#a7702169b0ef777473b4773bc75f26515',1,'object_error_value_t::name']]],
-  ['names_1',['names',['../structexport__list__t.html#a26fc633cf551a2621e172633486c85ef',1,'export_list_t']]],
-  ['native_5ffunction_5fconfigs_2',['native_function_configs',['../native__functions_8c.html#a50202211f99da983ccc19e4008ab2376',1,'native_functions.c']]],
-  ['nativeioerrorset_3',['nativeIoErrorSet',['../native__functions_8c.html#a181d073af98c5e1e1e0662e8207ae590',1,'native_functions.c']]],
-  ['nativestdliberrorset_4',['nativeStdlibErrorSet',['../native__functions_8c.html#a53c74f9af1915fd6b71d253c777a57c3',1,'native_functions.c']]],
-  ['next_5',['next',['../structobject__t.html#a9a589f47acb8eb60cf599a7fda16587a',1,'object_t::next'],['../structobject__upvalue__t.html#a522dcd29ca6f3c3bebd5e8a53927a087',1,'object_upvalue_t::next'],['../structmodule__record__t.html#a41bd94373b888da5b18a62ce20fb6a66',1,'module_record_t::next']]],
-  ['nextgc_6',['nextGC',['../structvirtual__machine__t.html#abf4df9b9c3309d06f4279a85b6b16211',1,'virtual_machine_t']]],
-  ['number_7',['number',['../structvalue__t.html#a01b4671c6b7cc8f831c951c000a37735',1,'value_t']]]
+  ['max_5fiterations_0',['max_iterations',['../structoptimization__pipeline__t.html#a094d3f076670a49a1bf7ee697bfe1a21',1,'optimization_pipeline_t']]],
+  ['method_1',['method',['../structobject__bound__method__t.html#a4e695f5656eb43dff40ffb308fb8dd37',1,'object_bound_method_t']]],
+  ['methods_2',['methods',['../structobject__class__t.html#a63c0acfd596fdb6e5dcf255264321ff6',1,'object_class_t']]],
+  ['modified_3',['modified',['../structpass__result__t.html#a48b46e9dd96a6a268ee4e28d52a3ed87',1,'pass_result_t']]],
+  ['module_5floader_5fexe_5frelative_5fresolved_4',['module_loader_exe_relative_resolved',['../module__loader_8c.html#a809826d5a023a520e0fabd465a7ad169',1,'module_loader.c']]],
+  ['module_5floader_5fexe_5frelative_5fstdlib_5fpath_5',['module_loader_exe_relative_stdlib_path',['../module__loader_8c.html#a3b00baf4beff48a4dee2c248da6f52a5',1,'module_loader.c']]],
+  ['module_5floader_5fstdlib_5fpath_5foverride_6',['module_loader_stdlib_path_override',['../module__loader_8c.html#acd0965bed703ffa83cf98d7d30a3c462',1,'module_loader.c']]],
+  ['modules_7',['modules',['../structmodule__context__t.html#acc9ea2e575580b44340761f0bdb65a28',1,'module_context_t']]]
 ];

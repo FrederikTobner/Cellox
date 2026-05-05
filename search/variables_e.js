@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['panicmode_0',['panicMode',['../structparser__t.html#a73f915537724bd961727c111c46cebd4',1,'parser_t']]],
-  ['parser_1',['parser',['../structexpression__parser__context__t.html#a5435bc7bbb8b3b9bc9543aa0d44451b9',1,'expression_parser_context_t::parser'],['../compilation__context_8c.html#a0a1493079542f9299323bcb1ac7488f4',1,'parser:&#160;compilation_context.c']]],
-  ['path_2',['path',['../structimport__spec__t.html#a44196e6a5696d10442c29e639437196e',1,'import_spec_t']]],
-  ['payload_3',['payload',['../structobject__result__t.html#a1fac5569af8331047d19b6773f83a118',1,'object_result_t']]],
-  ['precedence_4',['precedence',['../structparse__rule__t.html#a2609811c1c06d7dff04e53363f1eb59e',1,'parse_rule_t']]],
-  ['prefix_5',['prefix',['../structparse__rule__t.html#a68ed40dc8ec0c4b3f403716e978e380b',1,'parse_rule_t']]],
-  ['previous_6',['previous',['../structparser__t.html#afb03a4993da355287d7be9e0834b7206',1,'parser_t']]],
-  ['program_7',['program',['../structvirtual__machine__t.html#a24bffa4be3efba394b2090a77170e3d1',1,'virtual_machine_t']]]
+  ['obj_0',['obj',['../structobject__native__t.html#a2269642720772ebb310d3740f81af52f',1,'object_native_t::obj'],['../structvalue__t.html#ac0a5ba9e5f9b3eeacc264a08b6e54f32',1,'value_t::obj'],['../structobject__dynamic__value__array__t.html#a2269642720772ebb310d3740f81af52f',1,'object_dynamic_value_array_t::obj'],['../structobject__result__t.html#a2269642720772ebb310d3740f81af52f',1,'object_result_t::obj'],['../structobject__error__value__t.html#a2269642720772ebb310d3740f81af52f',1,'object_error_value_t::obj'],['../structobject__error__set__t.html#a2269642720772ebb310d3740f81af52f',1,'object_error_set_t::obj'],['../structobject__bound__method__t.html#a2269642720772ebb310d3740f81af52f',1,'object_bound_method_t::obj'],['../structobject__instance__t.html#a2269642720772ebb310d3740f81af52f',1,'object_instance_t::obj'],['../structobject__class__t.html#a2269642720772ebb310d3740f81af52f',1,'object_class_t::obj'],['../structobject__closure__t.html#a2269642720772ebb310d3740f81af52f',1,'object_closure_t::obj'],['../structobject__upvalue__t.html#a2269642720772ebb310d3740f81af52f',1,'object_upvalue_t::obj'],['../structobject__string__t.html#a2269642720772ebb310d3740f81af52f',1,'object_string_t::obj'],['../structobject__function__t.html#a2269642720772ebb310d3740f81af52f',1,'object_function_t::obj']]],
+  ['obj_5fgc_5fpop_1',['obj_gc_pop',['../object_8c.html#a25f90154ba3b61bd3110d87b672b6ed0',1,'object.c']]],
+  ['obj_5fgc_5fpush_2',['obj_gc_push',['../object_8c.html#a28f44d72ed208899705238bcf06d55e1',1,'object.c']]],
+  ['objects_3',['objects',['../structvirtual__machine__t.html#a61b0f887fa3fde178df10a0bd1ddcf72',1,'virtual_machine_t']]],
+  ['objecttypesstringified_4',['objectTypesStringified',['../object_8c.html#aa132dbcf953952aa668b7f90ef48f6cf',1,'object.c']]],
+  ['openupvalues_5',['openUpvalues',['../structvirtual__machine__t.html#ad6bffe4fd943a6cab3da1081c37cf737',1,'virtual_machine_t']]],
+  ['optimizationlevel_6',['optimizationLevel',['../structcommand__line__config__t.html#a050045001bea2ed8de8716bff06a7495',1,'command_line_config_t']]],
+  ['option_5fconfigs_7',['option_configs',['../command__line__argument__parser_8c.html#adb2834794c2707d4c25a45ee35070317',1,'command_line_argument_parser.c']]]
 ];

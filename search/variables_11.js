@@ -1,4 +1,12 @@
 var searchData=
 [
-  ['type_0',['type',['../structcompiler__t.html#a045a85a62e26d4fb62250b7cdcdf8966',1,'compiler_t::type'],['../structtoken__t.html#ad8476705b739134cdeabb8d1e2218a45',1,'token_t::type'],['../structobject__t.html#ab030e33dd218540cbd626c9745dbc1cb',1,'object_t::type'],['../structvalue__t.html#a148d7e48cc64e6d014585a575baba015',1,'value_t::type']]]
+  ['scopedepth_0',['scopeDepth',['../structcompiler__t.html#a6675505a54412ab99ed57375dd0fdf35',1,'compiler_t']]],
+  ['shortrepresentation_1',['shortRepresentation',['../structcommand__line__option__config__t.html#a8221067f9f311bc4105d522d941ba0aa',1,'command_line_option_config_t']]],
+  ['slots_2',['slots',['../structcall__frame__t.html#a260b816c5173ef60e38b49d2c4f67681',1,'call_frame_t']]],
+  ['stack_3',['stack',['../structvirtual__machine__t.html#a3a01286420f23d09307571cf2cdb499e',1,'virtual_machine_t']]],
+  ['stacktop_4',['stackTop',['../structvirtual__machine__t.html#a99dd70f02df666165d26b084309adb1a',1,'virtual_machine_t']]],
+  ['start_5',['start',['../structtoken__t.html#ad63735bb1e8f9126d806c2eec49ac941',1,'token_t::start'],['../structlexer__t.html#ad63735bb1e8f9126d806c2eec49ac941',1,'lexer_t::start']]],
+  ['stdlibdir_6',['stdlibDir',['../structcommand__line__config__t.html#a1f5f4043660828ad91bf252f5f458c49',1,'command_line_config_t']]],
+  ['stitchedsource_7',['stitchedSource',['../structmodule__context__t.html#a719bfcf919c19d4223325220769fb755',1,'module_context_t']]],
+  ['strings_8',['strings',['../structvirtual__machine__t.html#a03801ce0604151b1f3c89abcbc68cba7',1,'virtual_machine_t']]]
 ];

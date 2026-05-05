@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: command_line_argument_parser.h File Reference</title>
+<title>Cellox: driver/include/driver/command_line_argument_parser.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,6 +92,8 @@ $(document).ready(function(){initNavTree('command__line__argument__parser_8h.htm
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">command_line_argument_parser.h File Reference</div></div>
 </div><!--header-->
@@ -99,26 +101,72 @@ $(document).ready(function(){initNavTree('command__line__argument__parser_8h.htm
 
 <p>Header file containing the declarations regarrding the command line argument parser.  
 <a href="#details">More...</a></p>
-
+<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
+</div>
 <p><a href="command__line__argument__parser_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcommand__line__config__t.html">command_line_config_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the parsed command line configuration.  <a href="structcommand__line__config__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ae1f66b8383a2324f319fab80c65c6d86" id="r_ae1f66b8383a2324f319fab80c65c6d86"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a> { <br />
+&#160;&#160;<a class="el" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a3a0297603315832ffae9a70c8e2e27e1">OPTION_HELP</a>
+, <a class="el" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86afe6b54762d8578bdba577d1bb9fee63f">OPTION_VERSION</a>
+, <a class="el" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a5430edee50f0581cdff343eb37faf60d">OPTION_COMPILE</a>
+, <a class="el" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a37471a93d0fcf5ad5f353d35b4d66383">OPTION_OPTIMIZATION_LEVEL</a>
+, <br />
+&#160;&#160;<a class="el" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9">OPTION_STDLIB_DIR</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ae1f66b8383a2324f319fab80c65c6d86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates all available command line options.  <a href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86">More...</a><br /></td></tr>
+<tr class="separator:ae1f66b8383a2324f319fab80c65c6d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6b70a9e91ed3816f5ebc3556235befb7" id="r_a6b70a9e91ed3816f5ebc3556235befb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8h.html#a6b70a9e91ed3816f5ebc3556235befb7">command_line_argument_parser_parse</a> (int argc, char const **argv)</td></tr>
-<tr class="memdesc:a6b70a9e91ed3816f5ebc3556235befb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the command line arguements that were specified when cellox was called.  <br /></td></tr>
-<tr class="separator:a6b70a9e91ed3816f5ebc3556235befb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85f182aa2334d6485f8eef6a4e00969c" id="r_a85f182aa2334d6485f8eef6a4e00969c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcommand__line__config__t.html">command_line_config_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="command__line__argument__parser_8h.html#a85f182aa2334d6485f8eef6a4e00969c">command_line_argument_parser_parse</a> (int argc, char const **argv)</td></tr>
+<tr class="memdesc:a85f182aa2334d6485f8eef6a4e00969c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the command line arguements that were specified when cellox was called.  <br /></td></tr>
+<tr class="separator:a85f182aa2334d6485f8eef6a4e00969c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file containing the declarations regarrding the command line argument parser. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="a6b70a9e91ed3816f5ebc3556235befb7" name="a6b70a9e91ed3816f5ebc3556235befb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b70a9e91ed3816f5ebc3556235befb7">&#9670;&#160;</a></span>command_line_argument_parser_parse()</h2>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ae1f66b8383a2324f319fab80c65c6d86" name="ae1f66b8383a2324f319fab80c65c6d86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1f66b8383a2324f319fab80c65c6d86">&#9670;&#160;</a></span>command_line_option_type</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void command_line_argument_parser_parse </td>
+          <td class="memname">enum <a class="el" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86">command_line_option_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enumerates all available command line options. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86a3a0297603315832ffae9a70c8e2e27e1" name="ae1f66b8383a2324f319fab80c65c6d86a3a0297603315832ffae9a70c8e2e27e1"></a>OPTION_HELP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86afe6b54762d8578bdba577d1bb9fee63f" name="ae1f66b8383a2324f319fab80c65c6d86afe6b54762d8578bdba577d1bb9fee63f"></a>OPTION_VERSION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86a5430edee50f0581cdff343eb37faf60d" name="ae1f66b8383a2324f319fab80c65c6d86a5430edee50f0581cdff343eb37faf60d"></a>OPTION_COMPILE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86a37471a93d0fcf5ad5f353d35b4d66383" name="ae1f66b8383a2324f319fab80c65c6d86a37471a93d0fcf5ad5f353d35b4d66383"></a>OPTION_OPTIMIZATION_LEVEL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9" name="ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9"></a>OPTION_STDLIB_DIR&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a85f182aa2334d6485f8eef6a4e00969c" name="a85f182aa2334d6485f8eef6a4e00969c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85f182aa2334d6485f8eef6a4e00969c">&#9670;&#160;</a></span>command_line_argument_parser_parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcommand__line__config__t.html">command_line_config_t</a> command_line_argument_parser_parse </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>argc</em>, </td>
@@ -145,7 +193,13 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>if the arguments could not be parsed the program exits with an exit code indicating an command-line-usage error by the user </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Populated command line configuration structure </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>if the arguments could not be parsed the program exits with an exit code indicating a command-line-usage error by the user</dd></dl>
+<p>Parses the command line arguements that were specified when cellox was called.</p>
+<p>All constraint validation is type-based and defined once, making this function generic and easy to extend. Adding new options requires only:</p><ol type="1">
+<li>Adding enum value to command_line_option_type</li>
+<li>Adding config entry with appropriate category No changes to this function needed. </li>
+</ol>
 
 </div>
 </div>
@@ -154,7 +208,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="command__line__argument__parser_8h.html">command_line_argument_parser.h</a></li>
+    <li class="navelem"><a class="el" href="dir_1284b95147afa48b330f502c8bbc0529.html">driver</a></li><li class="navelem"><a class="el" href="dir_503d9bcc45879383b08c0a7ee967393c.html">include</a></li><li class="navelem"><a class="el" href="dir_16da81e81559f1a904069020fb8ea170.html">driver</a></li><li class="navelem"><a class="el" href="command__line__argument__parser_8h.html">command_line_argument_parser.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
