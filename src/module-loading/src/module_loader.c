@@ -57,10 +57,22 @@ static bool module_loader_validate_named_imports(module_context_t *, module_reco
 static void module_loader_error(module_context_t *, char const *, ...);
 
 /// Runtime-overridable stdlib search path.  NULL means "use CLX_STDLIB_PATH".
-static char const * module_loader_stdlib_path_override = NULL;
+static char * module_loader_stdlib_path_override = NULL;
 
 void module_loader_set_stdlib_path(char const * path) {
-    module_loader_stdlib_path_override = path;
+    if (!path) {
+        free(module_loader_stdlib_path_override);
+        module_loader_stdlib_path_override = NULL;
+        return;
+    }
+
+    char * copiedPath = string_utils_strdup(path);
+    if (!copiedPath) {
+        return;
+    }
+
+    free(module_loader_stdlib_path_override);
+    module_loader_stdlib_path_override = copiedPath;
 }
 
 /// Returns the effective stdlib directory (never NULL if CLX_STDLIB_PATH was set at build time).

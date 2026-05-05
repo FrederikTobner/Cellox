@@ -158,3 +158,30 @@ TEST(StdlibIntegration, ViewPipelineViaModuleLoader) {
     std::string output = stdlib_run_source(stitched);
     EXPECT_EQ("{4, 16}\n20\n", output);
 }
+
+TEST(StdlibIntegration, StdlibPathOverrideOwnsMemory) {
+    std::string stdlibDir = TEST_PROGRAM_BASE_PATH;
+    stdlibDir += "../stdlib";
+
+    std::string overrideBuffer = stdlibDir;
+    module_loader_set_stdlib_path(overrideBuffer.c_str());
+
+    // Mutate the caller-owned buffer after passing it to the loader.
+    // The loader must use its own copy, not this storage.
+    overrideBuffer.assign("/tmp/this-path-does-not-exist");
+
+    std::string entryPath = stdlib_make_temp_path();
+    std::string entrySource =
+        "import { abs } from \"stdlib/math.clx\";\n"
+        "printf(\"{}\\n\", abs(-7));\n";
+    ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
+
+    char * stitched = module_loader_load_program(entryPath.c_str());
+    std::remove(entryPath.c_str());
+
+    module_loader_set_stdlib_path(NULL);
+
+    ASSERT_NE(nullptr, stitched);
+    std::string output = stdlib_run_source(stitched);
+    EXPECT_EQ("7\n", output);
+}
