@@ -5,6 +5,23 @@
 #include <cstring>
 #include <string>
 
+// POSIX setenv / unsetenv are not available on MSVC.
+#ifdef _WIN32
+static int stdlib_setenv(char const * name, char const * value) {
+    return _putenv_s(name, value);
+}
+static int stdlib_unsetenv(char const * name) {
+    return _putenv_s(name, "");
+}
+#else
+static int stdlib_setenv(char const * name, char const * value) {
+    return setenv(name, value, /*overwrite=*/1);
+}
+static int stdlib_unsetenv(char const * name) {
+    return unsetenv(name);
+}
+#endif
+
 extern "C" {
 #include "backend/garbage_collector.h"
 #include "backend/virtual_machine.h"
@@ -165,7 +182,7 @@ TEST(StdlibIntegration, EnvVarOverridesBuiltinPath) {
     stdlibDir += "../stdlib";
 
     // Set env var so the loader picks it up on the next resolution.
-    setenv("CELLOX_STDLIB_DIR", stdlibDir.c_str(), /*overwrite=*/1);
+    stdlib_setenv("CELLOX_STDLIB_DIR", stdlibDir.c_str());
 
     // Clear any explicit override so that the env var path is exercised.
     module_loader_set_stdlib_path(NULL);
@@ -179,7 +196,7 @@ TEST(StdlibIntegration, EnvVarOverridesBuiltinPath) {
     char * stitched = module_loader_load_program(entryPath.c_str());
     std::remove(entryPath.c_str());
 
-    unsetenv("CELLOX_STDLIB_DIR");
+    stdlib_unsetenv("CELLOX_STDLIB_DIR");
 
     ASSERT_NE(nullptr, stitched);
     std::string output = stdlib_run_source(stitched);
