@@ -3,7 +3,7 @@ if(UNIX)
     list(APPEND _runtime_deps m)
 endif()
 
-cellox_add_library(clx_runtime
+cellox_add_library(clx_backend
     SOURCES
         src/garbage_collector.c
         src/memory_mutator.c

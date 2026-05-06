@@ -16,6 +16,8 @@
 /**
  * @file module_path.c
  * @brief Filesystem path utilities used by the module loader.
+ * @details Keeps path resolution policy in one place so module loading can
+ * stay focused on graph traversal and import validation.
  */
 
 #include <module-loading/internal/module_path.h>
@@ -26,10 +28,21 @@
 #include "clx_os/path.h"
 #include "utils/string_utils.h"
 
+/**
+ * @brief Canonicalises a path using the active OS abstraction layer.
+ * @param path Raw path to canonicalise.
+ * @return A newly allocated canonical path, or NULL on failure.
+ */
 char * module_path_canonicalize(char const * path) {
     return clx_os_path_canonicalize(path);
 }
 
+/**
+ * @brief Joins two path segments using the platform separator.
+ * @param left Left-hand path segment.
+ * @param right Right-hand path segment.
+ * @return A newly allocated joined path, or NULL on allocation failure.
+ */
 char * module_path_join(char const * left, char const * right) {
     char separator = clx_os_path_separator();
     size_t leftLength = strlen(left);
@@ -51,6 +64,16 @@ char * module_path_join(char const * left, char const * right) {
     return joined;
 }
 
+/**
+ * @brief Resolves an import path against an importer or stdlib root.
+ * @details Absolute paths are returned unchanged, bare imports are resolved
+ * against `stdlibPath`, and relative imports are resolved from the importer's
+ * containing directory.
+ * @param importerPath Canonical path of the importing module.
+ * @param importPath Raw import string from the source file.
+ * @param stdlibPath Standard-library root used for bare imports, or NULL.
+ * @return A newly allocated resolved path, or NULL on failure.
+ */
 char * module_path_resolve_import(char const * importerPath, char const * importPath,
                                   char const * stdlibPath) {
     if (!importPath || !importPath[0]) {

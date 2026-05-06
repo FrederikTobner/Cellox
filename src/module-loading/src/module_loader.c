@@ -16,6 +16,9 @@
 /**
  * @file module_loader.c
  * @brief Module graph orchestration: loading, dependency resolution, and source stitching.
+ * @details Walks the transitive import graph starting from an entry module,
+ * validates named imports against collected exports, and concatenates the
+ * transformed module sources into a single compilation unit.
  */
 
 #include "module-loading/module_loader.h"
@@ -33,29 +36,86 @@
 #include "utils/string_utils.h"
 
 typedef struct module_record_t {
+    /// Canonical file-system path of the module source file.
     char * canonicalPath;
+    /// Export names declared by the module.
     export_list_t exports;
+    /// True while the module is on the active DFS loading stack.
     bool isLoading;
+    /// True after the module source has been appended to the stitched output.
     bool isEmitted;
+    /// Next node in the context-owned linked list.
     struct module_record_t * next;
 } module_record_t;
 
 typedef struct {
+    /// Linked list of all module records created during the load.
     module_record_t * modules;
+    /// Stack of canonical paths used for cycle tracking and diagnostics.
     char ** loadingStack;
+    /// Number of entries currently stored in `loadingStack`.
     size_t loadingStackCount;
+    /// Allocated capacity of `loadingStack`.
     size_t loadingStackCapacity;
+    /// Accumulates the transformed module sources in dependency order.
     source_buffer_t stitchedSource;
+    /// Sticky error flag set once any module-loading error is reported.
     bool hadError;
 } module_context_t;
 
+/**
+ * @brief Releases all memory owned by a module-loading context.
+ * @param context The context to clean up.
+ */
 static void module_loader_cleanup_context(module_context_t *);
+
+/**
+ * @brief Looks up an existing module record by canonical path.
+ * @param context The active module-loading context.
+ * @param canonicalPath Canonical path of the module to find.
+ * @return The existing record, or NULL if the module has not been seen yet.
+ */
 static module_record_t * module_loader_find_module(module_context_t *, char const *);
+
+/**
+ * @brief Frees a module record and all data owned by it.
+ * @param module The record to destroy.
+ */
 static void module_loader_free_module(module_record_t *);
+
+/**
+ * @brief Loads the entry module or a directly specified raw path.
+ * @param context The active module-loading context.
+ * @param rawPath Raw path to resolve and load.
+ * @return The loaded module record, or NULL on failure.
+ */
 static module_record_t * module_loader_process_module(module_context_t *, char const *);
+
+/**
+ * @brief Loads a module relative to an importer and emits its transformed source.
+ * @param context The active module-loading context.
+ * @param rawPath Raw import path before canonicalisation.
+ * @param importerPath Canonical path of the importer, or NULL for the entry module.
+ * @return The loaded module record, or NULL if resolution, parsing, or validation failed.
+ */
 static module_record_t * module_loader_process_module_from(module_context_t *, char const *, char const *);
+
+/**
+ * @brief Ensures that every named import exists in the imported module's exports.
+ * @param context The active module-loading context.
+ * @param module The imported module record.
+ * @param importSpec The import declaration being validated.
+ * @param importerPath Canonical path of the importing module.
+ * @return true if all named imports are valid, otherwise false.
+ */
 static bool module_loader_validate_named_imports(module_context_t *, module_record_t *, import_spec_t const *,
                                                  char const *);
+
+/**
+ * @brief Reports a module-loading error and marks the context as failed.
+ * @param context The active module-loading context, or NULL.
+ * @param format Printf-style format string describing the error.
+ */
 static void module_loader_error(module_context_t *, char const *, ...);
 
 /// Runtime-overridable stdlib search path.  NULL means use the discovery chain.
@@ -82,12 +142,65 @@ void module_loader_set_stdlib_path(char const * path) {
     module_loader_stdlib_path_override = copiedPath;
 }
 
-/// Returns the effective stdlib directory using a C-compiler-style resolution chain.
-/// Precedence (highest to lowest):
-///   1. Explicit runtime override via module_loader_set_stdlib_path()
-///   2. CELLOX_STDLIB_DIR environment variable
-///   3. Executable-relative:  <exedir>/../lib/cellox/stdlib
-///   4. Compile-time baked-in path CLX_STDLIB_PATH (last resort / dev fallback)
+char * module_loader_load_program(char const * entryPath) {
+    module_context_t context;
+    context.modules = NULL;
+    context.loadingStack = NULL;
+    context.loadingStackCount = 0;
+    context.loadingStackCapacity = 0;
+    context.stitchedSource.chars = NULL;
+    context.stitchedSource.length = 0;
+    context.stitchedSource.capacity = 0;
+    context.hadError = false;
+
+    module_record_t * entryModule = module_loader_process_module(&context, entryPath);
+    if (!entryModule || context.hadError) {
+        module_loader_cleanup_context(&context);
+        return NULL;
+    }
+
+    module_parser_append_source(&context.stitchedSource, "\0", 1);
+    char * result = context.stitchedSource.chars;
+    context.stitchedSource.chars = NULL;
+    context.stitchedSource.length = 0;
+    context.stitchedSource.capacity = 0;
+
+    module_loader_cleanup_context(&context);
+    return result;
+}
+
+/**
+ * @brief Releases all memory owned by a module-loading context.
+ * @param context The context to clean up.
+ */
+static void module_loader_cleanup_context(module_context_t * context) {
+    free(context->loadingStack);
+    context->loadingStack = NULL;
+    context->loadingStackCount = 0;
+    context->loadingStackCapacity = 0;
+
+    module_record_t * module = context->modules;
+    while (module) {
+        module_record_t * next = module->next;
+        module_loader_free_module(module);
+        module = next;
+    }
+    context->modules = NULL;
+
+    free(context->stitchedSource.chars);
+    context->stitchedSource.chars = NULL;
+    context->stitchedSource.length = 0;
+    context->stitchedSource.capacity = 0;
+}
+/**
+ * @brief Resolves the effective standard-library directory.
+ * @details Uses a C-toolchain-style precedence chain:
+ * 1. Explicit runtime override via module_loader_set_stdlib_path().
+ * 2. The CELLOX_STDLIB_DIR environment variable.
+ * 3. Executable-relative lookup at `<exedir>/../lib/cellox/stdlib`.
+ * 4. The compile-time fallback CLX_STDLIB_PATH.
+ * @return The selected stdlib directory, or NULL if none is available.
+ */
 static char const * module_loader_get_stdlib_path(void) {
     if (module_loader_stdlib_path_override) {
         return module_loader_stdlib_path_override;
@@ -122,53 +235,12 @@ static char const * module_loader_get_stdlib_path(void) {
 #endif
 }
 
-char * module_loader_load_program(char const * entryPath) {
-    module_context_t context;
-    context.modules = NULL;
-    context.loadingStack = NULL;
-    context.loadingStackCount = 0;
-    context.loadingStackCapacity = 0;
-    context.stitchedSource.chars = NULL;
-    context.stitchedSource.length = 0;
-    context.stitchedSource.capacity = 0;
-    context.hadError = false;
-
-    module_record_t * entryModule = module_loader_process_module(&context, entryPath);
-    if (!entryModule || context.hadError) {
-        module_loader_cleanup_context(&context);
-        return NULL;
-    }
-
-    module_parser_append_source(&context.stitchedSource, "\0", 1);
-    char * result = context.stitchedSource.chars;
-    context.stitchedSource.chars = NULL;
-    context.stitchedSource.length = 0;
-    context.stitchedSource.capacity = 0;
-
-    module_loader_cleanup_context(&context);
-    return result;
-}
-
-static void module_loader_cleanup_context(module_context_t * context) {
-    free(context->loadingStack);
-    context->loadingStack = NULL;
-    context->loadingStackCount = 0;
-    context->loadingStackCapacity = 0;
-
-    module_record_t * module = context->modules;
-    while (module) {
-        module_record_t * next = module->next;
-        module_loader_free_module(module);
-        module = next;
-    }
-    context->modules = NULL;
-
-    free(context->stitchedSource.chars);
-    context->stitchedSource.chars = NULL;
-    context->stitchedSource.length = 0;
-    context->stitchedSource.capacity = 0;
-}
-
+/**
+ * @brief Looks up an existing module record by canonical path.
+ * @param context The active module-loading context.
+ * @param canonicalPath Canonical path of the module to find.
+ * @return The existing record, or NULL if the module has not been seen yet.
+ */
 static module_record_t * module_loader_find_module(module_context_t * context, char const * canonicalPath) {
     for (module_record_t * module = context->modules; module; module = module->next) {
         if (!strcmp(module->canonicalPath, canonicalPath)) {
@@ -178,16 +250,33 @@ static module_record_t * module_loader_find_module(module_context_t * context, c
     return NULL;
 }
 
+/**
+ * @brief Frees a module record and all data owned by it.
+ * @param module The record to destroy.
+ */
 static void module_loader_free_module(module_record_t * module) {
     free(module->canonicalPath);
     module_parser_export_list_free(&module->exports);
     free(module);
 }
 
+/**
+ * @brief Loads a module from a raw path without importer-relative diagnostics.
+ * @param context The active module-loading context.
+ * @param rawPath Raw module path supplied by the caller.
+ * @return The loaded module record, or NULL on failure.
+ */
 static module_record_t * module_loader_process_module(module_context_t * context, char const * rawPath) {
     return module_loader_process_module_from(context, rawPath, NULL);
 }
 
+/**
+ * @brief Loads a module, recursively processes its imports, and emits its source once.
+ * @param context The active module-loading context.
+ * @param rawPath Raw import path before canonicalisation.
+ * @param importerPath Canonical importer path, or NULL for the entry module.
+ * @return The loaded module record, or NULL if any step fails.
+ */
 static module_record_t * module_loader_process_module_from(module_context_t * context, char const * rawPath,
                                                            char const * importerPath) {
     char * canonicalPath = module_path_canonicalize(rawPath);
@@ -307,6 +396,14 @@ static module_record_t * module_loader_process_module_from(module_context_t * co
     return module;
 }
 
+/**
+ * @brief Validates named imports against a module's collected export list.
+ * @param context The active module-loading context.
+ * @param module The imported module record.
+ * @param importSpec The import specification to validate.
+ * @param importerPath Canonical path of the importing module.
+ * @return true if every requested symbol is exported, otherwise false.
+ */
 static bool module_loader_validate_named_imports(module_context_t * context, module_record_t * module,
                                                  import_spec_t const * importSpec, char const * importerPath) {
     for (size_t i = 0; i < importSpec->importedNameCount; i++) {
@@ -328,6 +425,11 @@ static bool module_loader_validate_named_imports(module_context_t * context, mod
     return true;
 }
 
+/**
+ * @brief Reports a module-loading error to stderr and marks the context as failed.
+ * @param context The active module-loading context, or NULL.
+ * @param format Printf-style format string describing the error.
+ */
 static void module_loader_error(module_context_t * context, char const * format, ...) {
     if (context) {
         context->hadError = true;

@@ -27,4 +27,4 @@ object_set_vm_objects(object_t **);               // GC root list head
 object_set_gc_guard_hooks(push_fn, pop_fn);       // stack pinning during allocation
 ```
 
-These are wired by `virtual_machine_init()` inside `clx_runtime`.
+These are wired by `virtual_machine_init()` inside `clx_backend`.

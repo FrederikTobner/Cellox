@@ -9,13 +9,15 @@
 [![CTest Labels](https://img.shields.io/badge/ctest-unit%20%7C%20integration%20%7C%20e2e%20%7C%20fuzz-1F6FEB)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
 [![CI Matrix](https://img.shields.io/badge/ci%20matrix-windows%20%7C%20linux%20%7C%20macOS-7A3EC8)](https://github.com/FrederikTobner/Cellox/actions/workflows/tests.yml)
 
-Compiler based on the book [Crafting interpreters](https://craftinginterpreters.com/contents.html) for the programming language cellox.
+Bytecode compiler and interpreter based on the book [Crafting Interpreters](https://craftinginterpreters.com/contents.html) for the programming language Cellox.
 
 Cellox is a programming language based on [lox](https://craftinginterpreters.com/the-lox-language.html) from Robert Nystrom.
 
 ## Table of Contents
 
 * [Overview](#overview)
+* [Building](#building)
+* [Usage](#usage)
 * [Values](#values)
 * [Control structures](#control-structures)
 * [Operators](#operators)
@@ -34,9 +36,49 @@ Cellox is a programming language based on [lox](https://craftinginterpreters.com
 
 ## Overview
 
-Cellox is a dynamically typed, object oriented, high-level scripting language.
+Cellox is a dynamically typed, object-oriented, high-level scripting language.
 
-It is available under windows, linux and macOS but is currently in an experimental state. Some of the language features that are currently included (especially native functions), might change or not be included in the upcoming versions of the compiler.
+It is available on Windows, Linux, and macOS. The language is in active development; some features (especially native functions) may change in upcoming releases.
+
+## Building
+
+Prerequisites: CMake ≥ 3.16, a C99 compiler, and a C++14 compiler (for the test suite).
+
+```sh
+cmake -S . -B build
+cmake --build build
+```
+
+To also build the tests:
+
+```sh
+cmake -S . -B build -DCLX_BUILD_TESTS=ON
+cmake --build build
+ctest --test-dir build
+```
+
+The resulting interpreter binary is `build/src/Cellox` (Linux/macOS) or `build\src\Cellox.exe` (Windows).
+
+## Usage
+
+```
+Cellox ((-h|--help|-v|--version) | ([-c|--compile] [-O0|-O1|-O2|-O3] [--stdlib-dir <path>] [path]))
+```
+
+| Flag | Description |
+|------|-------------|
+| `-h`, `--help` | Print usage information. |
+| `-v`, `--version` | Print the version. |
+| `-c`, `--compile` | Compile to a `.cxcf` bytecode file instead of executing. |
+| `-O0` … `-O3` | Set the bytecode optimisation level (default: `-O0`). |
+| `--stdlib-dir <path>` | Override the standard library directory used to resolve bare module imports. |
+
+The standard library directory is resolved in the following order:
+
+1. `--stdlib-dir <path>` command-line flag.
+2. `CELLOX_STDLIB_DIR` environment variable.
+3. A `stdlib/` directory next to the interpreter executable.
+4. The path baked in at build time (`CLX_STDLIB_PATH`).
 
 ## Values
 
@@ -44,7 +86,7 @@ In cellox [values](https://github.com/FrederikTobner/Cellox/wiki/Values) are gro
 
 * booleans,
 * numbers,
-* undefiened (null)
+* undefined (null)
 * and [cellox objects](https://github.com/FrederikTobner/Cellox#objects) (e.g. a string or a class instance)
 
 ## Control structures
@@ -78,7 +120,7 @@ Cellox also offers some [native functions](https://github.com/FrederikTobner/Cel
 
 ## Classes
 
-Cellox is a objectoriented language, that features inheritance and methods that are bound to a [class](https://github.com/FrederikTobner/Cellox/wiki/Classes) instance.
+Cellox is an object-oriented language that features inheritance and methods bound to a [class](https://github.com/FrederikTobner/Cellox/wiki/Classes) instance.
 
 Classes can also extend the functionality of an already existing class by using inheritance.
 
@@ -124,11 +166,13 @@ There are plugins for VS Code, Vim and Neovim. Another alternative is YATE, whic
 
 The language provides automatic memory management to the programmer using it's own [garbage collector](https://github.com/FrederikTobner/Cellox/wiki/Garbage-Collector), that uses the mark-and-sweep algorithm.
 
-The variables defiened in a cellox program are stored in a hashtable. The variable name is used as the key for the value stored in the hashtable.
+The variables defined in a cellox program are stored in a hash table. The variable name is used as the key for the value stored in the hash table.
 
-The program is converted into bytecode and executed by a stack based [virtual machine](https://github.com/FrederikTobner/Cellox/wiki/Virtual-Machine).
+Source files are resolved into a single compilation unit by the module loader, which handles bare imports (e.g. `import { abs } from "stdlib/math.clx"`) by searching the standard library directory, and relative imports by resolving paths from the importing file.
 
-The bytecode can also be stored in a [seperate file](https://github.com/FrederikTobner/Cellox/wiki/Chunk-Files) in order to be executed at a later point in time.
+The program is converted into bytecode and executed by a stack-based [virtual machine](https://github.com/FrederikTobner/Cellox/wiki/Virtual-Machine).
+
+The bytecode can also be stored in a [separate file](https://github.com/FrederikTobner/Cellox/wiki/Chunk-Files) in order to be executed at a later point in time.
 
 More information about the compiler can be found at the [technical documentation](https://frederiktobner.github.io/Cellox/).
 
