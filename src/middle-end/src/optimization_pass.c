@@ -31,10 +31,6 @@ static uint32_t g_optimization_level = 2;
 
 static void optimization_apply_level_locked(uint32_t level);
 
-// ============================================================================
-// Helper Functions
-// ============================================================================
-
 /**
  * @brief Get current time in nanoseconds
  */

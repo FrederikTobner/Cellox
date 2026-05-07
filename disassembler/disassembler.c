@@ -30,7 +30,7 @@ void disassembler_disassemble_file(char const * filepath) {
     }
 }
 
-void disassembler_show_usage() {
+void disassembler_show_usage(void) {
     printf("Usgae:\nCelloxDisassembler (<celloxfile>|<celloxchunkfile>)");
 }
 

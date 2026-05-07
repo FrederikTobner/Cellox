@@ -12,10 +12,6 @@
 #include "language-models/value.h"
 #include "middle-end/optimization_pass.h"
 
-// ============================================================================
-// Test Framework Utilities
-// ============================================================================
-
 static int g_test_count = 0;
 static int g_test_passed = 0;
 static int g_test_failed = 0;
@@ -80,7 +76,7 @@ static void emit_return(chunk_t* chunk) {
 static void print_chunk(chunk_t* chunk, const char* name) {
     printf("  Chunk: %s\n", name);
     printf("  Bytecode count: %u\n", chunk->byteCodeCount);
-    printf("  Constants count: %zu\n", chunk->constants.count);
+    printf("  Constants count: %u\n", chunk->constants.count);
     
     printf("  Bytecode: ");
     for (uint32_t i = 0; i < chunk->byteCodeCount; i++) {
@@ -119,7 +115,6 @@ static void test_constant_folding_addition(void) {
     emit_return(&chunk);
     
     uint32_t bytecode_before = chunk.byteCodeCount;
-    size_t constants_before = chunk.constants.count;
     
     print_chunk(&chunk, "before folding");
     
@@ -242,7 +237,6 @@ static void test_dead_code_elimination(void) {
     emit_op(&chunk, OP_POP);
     
     uint32_t bytecode_before = chunk.byteCodeCount;
-    size_t constants_before = chunk.constants.count;
     
     print_chunk(&chunk, "before dead code elimination");
     
@@ -279,7 +273,6 @@ static void test_optimization_pipeline(void) {
     emit_constant(&chunk, NUMBER_VAL(999.0));  // Dead code
     
     uint32_t bytecode_before = chunk.byteCodeCount;
-    size_t constants_before = chunk.constants.count;
     
     print_chunk(&chunk, "before pipeline");
     
@@ -300,9 +293,33 @@ static void test_optimization_pipeline(void) {
     TEST_PASS();
 }
 
-// ============================================================================
-// Main Test Runner
-// ============================================================================
+static void test_constant_pool_dedup(void) {
+    chunk_t chunk;
+    chunk_init(&chunk);
+
+    // Emit: CONST 42, CONST 42, ADD, RETURN
+    emit_constant(&chunk, NUMBER_VAL(42.0));
+    emit_constant(&chunk, NUMBER_VAL(42.0)); // duplicate
+    emit_op(&chunk, OP_ADD);
+    emit_return(&chunk);
+
+    size_t constants_before = chunk.constants.count;
+    print_chunk(&chunk, "before dedup");
+
+    // Run deduplication
+    pass_result_t result = pass_constant_pool_dedup(&chunk);
+
+    print_chunk(&chunk, "after dedup");
+
+    ASSERT_TRUE(result.modified, "Dedup should modify chunk");
+    ASSERT_TRUE(chunk.constants.count < constants_before, "Should reduce constant count");
+    // All constant references should now point to the same index (0)
+    ASSERT_EQ(chunk.code[1], 0, "%d");
+    ASSERT_EQ(chunk.code[3], 0, "%d");
+
+    chunk_free(&chunk);
+    TEST_PASS();
+}
 
 int main(void) {
     printf("\n╔════════════════════════════════════════════════════════╗\n");
@@ -320,6 +337,9 @@ int main(void) {
     SECTION("Dead Code Elimination Tests");
     test_dead_code_elimination();
     
+    SECTION("Constant Pool Deduplication Tests");
+    test_constant_pool_dedup();
+
     SECTION("Pipeline Integration Tests");
     test_optimization_pipeline();
     

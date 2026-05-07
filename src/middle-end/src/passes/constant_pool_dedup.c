@@ -19,6 +19,7 @@
  */
 
 #include "middle-end/optimization_pass.h"
+#include "language-models/value_hash_table.h"
 
 /**
  * @brief Constant pool deduplication pass (stub)
@@ -34,9 +35,46 @@ pass_result_t pass_constant_pool_dedup(chunk_t* chunk) {
         .branches_eliminated = 0
     };
     
-    // Stub implementation - MVP
-    // Full implementation would create a hash map of constant values
-    // and remap references to deduplicated pool
     
+    value_hash_table_t table;
+    value_hash_table_init(&table);
+
+    int32_t* remap = malloc(sizeof(int32_t) * chunk->constants.count);
+    int32_t new_count = 0;
+
+    for (uint32_t i = 0; i < chunk->constants.count; ++i) {
+        value_t v = chunk->constants.values[i];
+        int32_t found = -1;
+        for (int32_t j = 0; j < new_count; ++j) {
+            if (value_values_equal(chunk->constants.values[j], v)) {
+                found = j;
+                break;
+            }
+        }
+        if (found >= 0) {
+            remap[i] = found;
+            result.constants_folded++;
+            result.modified = true;
+        } else {
+            chunk->constants.values[new_count] = v;
+            remap[i] = new_count;
+            new_count++;
+        }
+    }
+
+    for (uint32_t i = 0; i < chunk->byteCodeCount; ++i) {
+        uint8_t op = chunk->code[i];
+        if (op == OP_CONSTANT) {
+            uint32_t idx = chunk->code[i + 1]; 
+            uint32_t new_idx = remap[idx];
+            if (new_idx != idx) {
+                chunk->code[i + 1] = (uint8_t)new_idx;
+            }
+        }
+    }
+
+    chunk->constants.count = new_count;
+    free(remap);
+    value_hash_table_free(&table);
     return result;
 }

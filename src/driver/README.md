@@ -4,13 +4,13 @@
 
 `clx_driver` is the application-facing orchestration layer of Cellox. It sits
 above the frontend, runtime, and module-loading code and turns high-level user
-actions into concrete interpreter behaviour.
+actions into concrete behaviour.
 
 At a high level, this module is responsible for:
 
 - parsing command-line arguments,
 - selecting the requested execution mode,
-- wiring together the frontend, runtime, and module loader for normal program execution.
+- wiring together the frontend, backend, and module loader for normal program execution.
 
 The main executable adds only the actual `main()` entry point on top of this
 library.

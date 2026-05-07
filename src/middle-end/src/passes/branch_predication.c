@@ -20,18 +20,9 @@
 
 #include "middle-end/optimization_pass.h"
 
-static bool is_statically_falsey(uint8_t opcode) {
-    return opcode == OP_FALSE || opcode == OP_NULL;
-}
-
-static bool is_statically_truthy(uint8_t opcode) {
-    return opcode == OP_TRUE;
-}
-
-static void write_u16_be(uint8_t * data, uint16_t value) {
-    data[0] = (uint8_t)((value >> 8) & 0xFFu);
-    data[1] = (uint8_t)(value & 0xFFu);
-}
+static bool is_statically_falsey(uint8_t opcode);
+static bool is_statically_truthy(uint8_t opcode);
+static void write_u16_be(uint8_t * data, uint16_t value);
 
 pass_result_t pass_branch_predication(chunk_t * chunk) {
     pass_result_t result = {
@@ -67,3 +58,17 @@ pass_result_t pass_branch_predication(chunk_t * chunk) {
 
     return result;
 }
+
+static bool is_statically_falsey(uint8_t opcode) {
+    return opcode == OP_FALSE || opcode == OP_NULL;
+}
+
+static bool is_statically_truthy(uint8_t opcode) {
+    return opcode == OP_TRUE;
+}
+
+static void write_u16_be(uint8_t * data, uint16_t value) {
+    data[0] = (uint8_t)((value >> 8) & 0xFFu);
+    data[1] = (uint8_t)(value & 0xFFu);
+}
+

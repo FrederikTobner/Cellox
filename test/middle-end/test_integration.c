@@ -46,7 +46,7 @@ static void print_function_info(object_function_t* func, const char* label) {
     
     printf("  %s: %s\n", label, func->name ? func->name->chars : "main");
     printf("    Bytecode: %u bytes\n", func->chunk.byteCodeCount);
-    printf("    Constants: %zu\n", func->chunk.constants.count);
+    printf("    Constants: %u\n", func->chunk.constants.count);
 }
 
 /**
@@ -75,7 +75,7 @@ static void test_constant_folding(void) {
         printf("  PASS: Constants were optimized\n");
         g_tests_pass++;
     } else {
-        printf("  FAIL: Too many constants (expected <=10, got %zu)\n", func1->chunk.constants.count);
+        printf("  FAIL: Too many constants (expected <=10, got %u)\n", func1->chunk.constants.count);
         g_tests_fail++;
     }
 }
