@@ -98,10 +98,6 @@ typedef struct {
     size_t total_indices;
 } dead_code_bitset_t;
 
-// ============================================================================
-// Public API
-// ============================================================================
-
 /**
  * @brief Initialize the global optimization pipeline
  * @details Must be called once at VM startup
@@ -164,16 +160,11 @@ uint32_t optimization_get_level(void);
  */
 void optimization_print_stats(const optimization_stats_t* stats);
 
-// ============================================================================
-// Pass Implementations (declared in individual pass files)
-// ============================================================================
-
 pass_result_t pass_dead_code_detection(chunk_t* chunk);
 pass_result_t pass_dead_code_elimination(chunk_t* chunk);
 pass_result_t pass_constant_folding(chunk_t* chunk);
 pass_result_t pass_algebraic_identity(chunk_t* chunk);
 pass_result_t pass_branch_predication(chunk_t* chunk);
-pass_result_t pass_constant_pool_dedup(chunk_t* chunk);
 
 #ifdef __cplusplus
 }

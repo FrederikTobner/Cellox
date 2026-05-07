@@ -121,16 +121,9 @@ void optimization_module_init(void) {
             .description = "Fold constant-condition branches"
         },
         {
-            .name = "constant_pool_dedup",
-            .fn = pass_constant_pool_dedup,
-            .priority = 5,
-            .enabled = false,
-            .description = "Merge duplicate constants"
-        },
-        {
             .name = "dead_code_elimination_2nd",
             .fn = pass_dead_code_elimination,
-            .priority = 6,
+            .priority = 5,
             .enabled = true,
             .description = "Final dead code cleanup"
         }

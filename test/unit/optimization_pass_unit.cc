@@ -136,36 +136,6 @@ TEST(OptimizationPassUnit, PipelineRunKeepsCorrectFoldedBytecode) {
     virtual_machine_free();
 }
 
-TEST(OptimizationPassUnit, ConstantPoolDedupMergesDuplicateConstants) {
-    virtual_machine_init();
-
-    chunk_t chunk;
-    chunk_init(&chunk);
-
-    // Add two identical constants (e.g., 42.0)
-    uint8_t c0 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(42.0));
-    uint8_t c1 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(42.0)); // duplicate
-
-    // Emit: OP_CONSTANT c0, OP_CONSTANT c1, OP_ADD, OP_RETURN
-    EmitConstant(&chunk, c0);
-    EmitConstant(&chunk, c1);
-    EmitSimple(&chunk, OP_ADD);
-    EmitSimple(&chunk, OP_RETURN);
-
-    size_t constants_before = chunk.constants.count;
-
-    pass_result_t dedup = pass_constant_pool_dedup(&chunk);
-
-    EXPECT_TRUE(dedup.modified);
-    EXPECT_LT(chunk.constants.count, constants_before);
-    // Both constant references should now point to the same index (0)
-    EXPECT_EQ(chunk.code[1], 0);
-    EXPECT_EQ(chunk.code[3], 0);
-
-    chunk_free(&chunk);
-    virtual_machine_free();
-}
-
 TEST(OptimizationPassUnit, DeadCodeEliminationRetargetsForwardJump) {
     virtual_machine_init();
 
