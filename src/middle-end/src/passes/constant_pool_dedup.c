@@ -26,7 +26,6 @@
  * Merges duplicate constants in the pool
  */
 pass_result_t pass_constant_pool_dedup(chunk_t* chunk) {
-    (void)chunk;
     pass_result_t result = {
         .pass_name = "constant_pool_dedup",
         .modified = false,
@@ -34,15 +33,17 @@ pass_result_t pass_constant_pool_dedup(chunk_t* chunk) {
         .constants_folded = 0,
         .branches_eliminated = 0
     };
-    
-    
+
     value_hash_table_t table;
     value_hash_table_init(&table);
 
-    int32_t* remap = malloc(sizeof(int32_t) * chunk->constants.count);
+    // Save the original constant count for safe remapping
+    uint32_t original_constant_count = chunk->constants.count;
+    int32_t* remap = malloc(sizeof(int32_t) * original_constant_count);
     int32_t new_count = 0;
 
-    for (uint32_t i = 0; i < chunk->constants.count; ++i) {
+    // Deduplicate constants and build remap table
+    for (uint32_t i = 0; i < original_constant_count; ++i) {
         value_t v = chunk->constants.values[i];
         int32_t found = -1;
         for (int32_t j = 0; j < new_count; ++j) {
@@ -62,13 +63,16 @@ pass_result_t pass_constant_pool_dedup(chunk_t* chunk) {
         }
     }
 
-    for (uint32_t i = 0; i < chunk->byteCodeCount; ++i) {
+    // Remap constant indices in bytecode with bounds checking
+    for (uint32_t i = 0; i + 1 < chunk->byteCodeCount; ++i) {
         uint8_t op = chunk->code[i];
         if (op == OP_CONSTANT) {
-            uint32_t idx = chunk->code[i + 1]; 
-            uint32_t new_idx = remap[idx];
-            if (new_idx != idx) {
-                chunk->code[i + 1] = (uint8_t)new_idx;
+            uint32_t idx = chunk->code[i + 1];
+            if (idx < original_constant_count) {
+                uint32_t new_idx = remap[idx];
+                if (new_idx != idx) {
+                    chunk->code[i + 1] = (uint8_t)new_idx;
+                }
             }
         }
     }
