@@ -28,38 +28,23 @@
 
 static optimization_pipeline_t* g_global_pipeline = NULL;
 static uint32_t g_optimization_level = 2;
-
+/** 
+ * @brief Apply optimization level settings to enable/disable passes
+ */
 static void optimization_apply_level_locked(uint32_t level);
-
-/**
- * @brief Get current time in nanoseconds
- */
-static uint64_t get_time_ns(void) {
-    return clx_os_time_now_ns();
-}
-
-/**
- * @brief Compare passes by priority for sorting
- */
-static int pass_compare_priority(const void* a, const void* b) {
-    const optimization_pass_entry_t* pa = (const optimization_pass_entry_t*)a;
-    const optimization_pass_entry_t* pb = (const optimization_pass_entry_t*)b;
-    return (int)pa->priority - (int)pb->priority;
-}
-
 /**
  * @brief Find a pass by name
  */
-static optimization_pass_entry_t* find_pass_by_name(const char* name) {
-    if (g_global_pipeline == NULL) return NULL;
-    
-    for (size_t i = 0; i < g_global_pipeline->pass_count; i++) {
-        if (strcmp(g_global_pipeline->passes[i].name, name) == 0) {
-            return &g_global_pipeline->passes[i];
-        }
-    }
-    return NULL;
-}
+static optimization_pass_entry_t* find_pass_by_name(const char* name); 
+/**
+ * @brief Compare passes by priority for sorting
+ */
+static int pass_compare_priority(const void* a, const void* b);
+/**
+ * @brief Get current time in nanoseconds
+ */
+static uint64_t get_time_ns(void);
+
 
 void optimization_module_init(void) {
     if (g_global_pipeline != NULL) {
@@ -255,40 +240,6 @@ void optimization_set_max_iterations(uint32_t max_iterations) {
     g_global_pipeline->max_iterations = max_iterations > 0 ? max_iterations : 1;
 }
 
-static void optimization_apply_level_locked(uint32_t level) {
-    // Disable all passes first.
-    for (size_t i = 0; i < g_global_pipeline->pass_count; i++) {
-        g_global_pipeline->passes[i].enabled = false;
-    }
-
-    // O0: no optimizations.
-    if (level == 0) {
-        g_global_pipeline->max_iterations = 1;
-        return;
-    }
-
-    // O1: light + local optimizations.
-    optimization_set_pass_enabled("constant_folding", true);
-
-    if (level == 1) {
-        g_global_pipeline->max_iterations = 1;
-        return;
-    }
-
-    // O2: full safe pipeline.
-    optimization_set_pass_enabled("dead_code_detection", true);
-    optimization_set_pass_enabled("dead_code_elimination", true);
-    optimization_set_pass_enabled("algebraic_identity", true);
-    optimization_set_pass_enabled("branch_predication", true);
-    optimization_set_pass_enabled("dead_code_elimination_2nd", true);
-    g_global_pipeline->max_iterations = 1;
-
-    // O3: O2 + one extra pipeline iteration.
-    if (level >= 3) {
-        g_global_pipeline->max_iterations = 2;
-    }
-}
-
 void optimization_set_level(uint32_t level) {
     if (level > 3) {
         level = 3;
@@ -332,3 +283,61 @@ void optimization_print_stats(const optimization_stats_t* stats) {
         stats->time_ns,
         (double)stats->time_ns / 1000.0);
 }
+
+
+static uint64_t get_time_ns(void) {
+    return clx_os_time_now_ns();
+}
+
+
+static int pass_compare_priority(const void* a, const void* b) {
+    const optimization_pass_entry_t* pa = (const optimization_pass_entry_t*)a;
+    const optimization_pass_entry_t* pb = (const optimization_pass_entry_t*)b;
+    return (int)pa->priority - (int)pb->priority;
+}
+
+
+static optimization_pass_entry_t* find_pass_by_name(const char* name) {
+    if (g_global_pipeline == NULL) return NULL;
+    
+    for (size_t i = 0; i < g_global_pipeline->pass_count; i++) {
+        if (strcmp(g_global_pipeline->passes[i].name, name) == 0) {
+            return &g_global_pipeline->passes[i];
+        }
+    }
+    return NULL;
+}
+static void optimization_apply_level_locked(uint32_t level) {
+    // Disable all passes first.
+    for (size_t i = 0; i < g_global_pipeline->pass_count; i++) {
+        g_global_pipeline->passes[i].enabled = false;
+    }
+
+    // O0: no optimizations.
+    if (level == 0) {
+        g_global_pipeline->max_iterations = 1;
+        return;
+    }
+
+    // O1: light + local optimizations.
+    optimization_set_pass_enabled("constant_folding", true);
+
+    if (level == 1) {
+        g_global_pipeline->max_iterations = 1;
+        return;
+    }
+
+    // O2: full safe pipeline.
+    optimization_set_pass_enabled("dead_code_detection", true);
+    optimization_set_pass_enabled("dead_code_elimination", true);
+    optimization_set_pass_enabled("algebraic_identity", true);
+    optimization_set_pass_enabled("branch_predication", true);
+    optimization_set_pass_enabled("dead_code_elimination_2nd", true);
+    g_global_pipeline->max_iterations = 1;
+
+    // O3: O2 + one extra pipeline iteration.
+    if (level >= 3) {
+        g_global_pipeline->max_iterations = 2;
+    }
+}
+

@@ -1,0 +1,17 @@
+CompileFlags:
+  # Use compile_commands.json for flags (default)
+  Add: []
+Diagnostics:
+  ClangTidy:
+    Add: []
+    Remove: []
+    # Enable clang-tidy checks (customize as needed)
+  UnusedIncludes: Strict
+  Suppress: []
+Index:
+  Background: Build 
+InlayHints:
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+  Designators: true

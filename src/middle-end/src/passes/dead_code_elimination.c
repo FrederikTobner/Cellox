@@ -28,6 +28,13 @@
 #define BIT_SET(bits, idx) ((bits)[(idx) / 8] |= (1u << ((idx) % 8)))
 #define BIT_GET(bits, idx) (((bits)[(idx) / 8] & (1u << ((idx) % 8))) != 0)
 
+static void write_u16_be(uint8_t * data, uint16_t value);
+static bool is_jump_opcode(uint8_t opcode);
+static uint32_t opcode_size(chunk_t * chunk, uint32_t offset); 
+static uint16_t read_u16_be(uint8_t const * data);
+static void clear_reachability_state(chunk_t * chunk); 
+static void build_dead_prefix(chunk_t * chunk, uint8_t * dead_bytes, uint32_t * prefix_removed);
+
 static uint16_t read_u16_be(uint8_t const * data) {
     return (uint16_t)(((uint16_t)data[0] << 8) | (uint16_t)data[1]);
 }
