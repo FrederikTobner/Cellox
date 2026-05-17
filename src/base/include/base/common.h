@@ -35,7 +35,7 @@ typedef enum {
     /// Signals an error that occured during system time
     EXIT_CODE_SYSTEM_ERROR = 71,
     /// Signals an error regarding the input or the output
-    EXIT_CODE_INPU_OUTPUT_ERROR = 74
+    EXIT_CODE_INPUT_OUTPUT_ERROR = 74
 } compiler_exit_code_t;
 
 // Bool from the C99 standard
