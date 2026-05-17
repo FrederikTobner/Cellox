@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <string>
 #include "../../fixtures/chunk_fixture.h"
+#include <string>
 
 extern "C" {
 #include "byte-code/chunk.h"
@@ -12,12 +12,12 @@ extern "C" {
 class ChunkDisassemblerConstant : public ChunkDisassemblerTest {};
 
 TEST_F(ChunkDisassemblerConstant, ConstantReturnsOffsetPlusTwo) {
-    // Arrange.
+    // Arrange
     int32_t idx = chunk_add_constant(&chunk, NUMBER_VAL(3.14));
     write2(OP_CONSTANT, (uint8_t)idx, 1);
     // Act
     int32_t next = disassembleInstruction(0);
-    // Assert.
+    // Assert
     EXPECT_EQ(2, next);
 }
 
@@ -47,7 +47,7 @@ TEST_F(ChunkDisassemblerConstant, GetGlobalOutputContainsName) {
     write2(OP_GET_GLOBAL, (uint8_t)idx, 1);
     // Act
     std::string out = captureDisassembleInstruction(0);
-    // Assert.
+    // Assert
     EXPECT_NE(std::string::npos, out.find("GET_GLOBAL"));
 }
 

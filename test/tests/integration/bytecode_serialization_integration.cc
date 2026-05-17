@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "../fixtures/vm_fixture.h"
+#include <gtest/gtest.h>
 
 #include <cstdio>
 #include <cstdlib>
@@ -16,7 +16,7 @@ extern "C" {
 }
 
 class ChunkFileIntegrationFixture : public VirtualMachineFixture {
-protected:
+  protected:
     std::string derive_chunk_path(std::string path) {
         path.replace(path.size() - 3, 3, "cxcf");
         return path;

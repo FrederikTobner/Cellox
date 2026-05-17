@@ -7,7 +7,7 @@ extern "C" {
 }
 
 class VirtualMachineFixture : public ::testing::Test {
-protected:
+  protected:
     void SetUp() override {
         virtual_machine_init();
     }

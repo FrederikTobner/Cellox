@@ -23,29 +23,6 @@ src/
 ├── utils/             → clx_utils          — small shared helper routines
 └── main.c             → Cellox executable  (links cellox_all)
 ```
-
-## Dependency graph
-
-```
-clx_toolchain ──┐
-clx_os          │
-                ▼
-clx_base ───► clx_model
-                  └── clx_bytecode
-                        ├── clx_middleend
-                        │     └── clx_frontend (also needs clx_lex)
-                        └── clx_backend
-clx_base ───► clx_lex
-                └── clx_frontend
-clx_utils ──► clx_module_loading
-                └── clx_driver
-                      └── Cellox (executable)
-```
-
-`cellox_all` is a convenience `INTERFACE` target that exposes `clx_driver` (and
-therefore the entire graph) behind a single link target used by the benchmark
-runner, disassembler, and test suites.
-
 ## Adding a new library
 
 1. Create a sub-directory under `src/`.

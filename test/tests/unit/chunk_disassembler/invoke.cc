@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <string>
 #include "../../fixtures/chunk_fixture.h"
+#include <string>
 
 extern "C" {
 #include "byte-code/chunk.h"
@@ -17,7 +17,7 @@ TEST_F(ChunkDisassemblerInvoke, InvokeReturnsOffsetPlusThree) {
     write3(OP_INVOKE, (uint8_t)idx, 2, 1);
     // Act
     int32_t next = disassembleInstruction(0);
-    // Assert.
+    // Assert
     EXPECT_EQ(3, next);
 }
 

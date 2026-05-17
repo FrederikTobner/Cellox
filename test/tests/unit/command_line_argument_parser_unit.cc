@@ -137,7 +137,7 @@ TEST(CommandLineArgumentParserUnit, ParsesLongVersionOption) {
     // Act
     command_line_config_t config = command_line_argument_parser_parse(2, argv);
 
-    // Assert    
+    // Assert
     EXPECT_FALSE(config.help);
     EXPECT_TRUE(config.version);
     EXPECT_FALSE(config.compile);

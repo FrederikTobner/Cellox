@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <string>
 #include "../../fixtures/chunk_fixture.h"
+#include <string>
 
 extern "C" {
 #include "byte-code/chunk.h"

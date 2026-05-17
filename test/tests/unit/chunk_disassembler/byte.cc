@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <string>
 #include "../../fixtures/chunk_fixture.h"
+#include <string>
 
 extern "C" {
 #include "byte-code/chunk.h"
@@ -11,11 +11,11 @@ extern "C" {
 class ChunkDisassemblerByte : public ChunkDisassemblerTest {};
 
 TEST_F(ChunkDisassemblerByte, CallReturnsOffsetPlusTwo) {
-    // Arrange.
+    // Arrange
     write2(OP_CALL, 2, 1);
-    // Act.
+    // Act
     int32_t next = disassembleInstruction(0);
-    // Assert.
+    // Assert
     EXPECT_EQ(2, next);
 }
 
@@ -65,10 +65,10 @@ TEST_F(ChunkDisassemblerByte, SetUpvalueOutputContainsName) {
 }
 
 TEST_F(ChunkDisassemblerByte, ArrayLiteralOutputContainsName) {
-    // Arrange.
+    // Arrange
     write2(OP_ARRAY_LITERAL, 3, 1);
-    // Act.
+    // Act
     std::string out = captureDisassembleInstruction(0);
-    // Assert.
+    // Assert
     EXPECT_NE(std::string::npos, out.find("DYNAMIC_ARRAY_LITERAL"));
 }

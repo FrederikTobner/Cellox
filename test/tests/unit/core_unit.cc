@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "../fixtures/chunk_fixture.h"
+#include <gtest/gtest.h>
 
 extern "C" {
 #include "backend/virtual_machine.h"

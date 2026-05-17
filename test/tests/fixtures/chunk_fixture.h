@@ -1,8 +1,8 @@
 #pragma once
 
+#include "vm_fixture.h"
 #include <gtest/gtest.h>
 #include <string>
-#include "vm_fixture.h"
 
 extern "C" {
 #include "backend/virtual_machine.h"
@@ -11,7 +11,7 @@ extern "C" {
 }
 
 class ChunkFixture : public ::testing::Test {
-protected:
+  protected:
     chunk_t chunk;
 
     void SetUp() override {
@@ -44,11 +44,10 @@ protected:
     void emitSimple(uint8_t opcode, int32_t line = 1) {
         write1(opcode, line);
     }
-
 };
 
 class ChunkVMFixture : public ChunkFixture {
-protected:
+  protected:
     void SetUp() override {
         virtual_machine_init();
         ChunkFixture::SetUp();
@@ -63,7 +62,7 @@ protected:
 class ChunkVMTest : public ChunkVMFixture {};
 
 class ChunkDisassemblerTest : public ChunkFixture {
-protected:
+  protected:
     std::string captureDisassembleInstruction(int32_t offset) {
         testing::internal::CaptureStdout();
         chunk_disassembler_disassemble_instruction(&chunk, offset);

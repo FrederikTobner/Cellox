@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <string>
 #include "../../fixtures/chunk_fixture.h"
+#include <string>
 
 extern "C" {
 #include "byte-code/chunk.h"
@@ -192,8 +192,6 @@ TEST_F(ChunkDisassemblerSimple, UnknownOpcodeOutputContainsUnknown) {
 }
 
 TEST_F(ChunkDisassemblerSimple, SameLineShowsPipeMarker) {
-    // Both instructions on line 5 — the second should print "   | " instead of
-    // the line number.
     // Arrange
     write1(OP_ADD, 5);
     write1(OP_RETURN, 5);

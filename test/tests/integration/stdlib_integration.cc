@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "../fixtures/vm_fixture.h"
+#include <gtest/gtest.h>
 
 #include <cstdio>
 #include <cstdlib>
@@ -16,7 +16,7 @@ extern "C" {
 }
 
 class StdlibIntegrationFixture : public VirtualMachineFixture {
-protected:
+  protected:
     void SetUp() override {
         VirtualMachineFixture::SetUp();
         virtual_machine_set_compile_fn(compiler_compile);
