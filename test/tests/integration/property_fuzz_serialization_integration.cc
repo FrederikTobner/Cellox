@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "../fixtures/vm_fixture.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -13,24 +14,31 @@ extern "C" {
 #include "frontend/compiler.h"
 }
 
-static std::string fuzz_derive_chunk_path(std::string path) {
-    path.replace(path.size() - 3, 3, "cxcf");
-    return path;
-}
+class PropertyFuzzSerializationIntegrationFixture : public VirtualMachineFixture {
+protected:
+    std::string derive_chunk_path(std::string path) {
+        path.replace(path.size() - 3, 3, "cxcf");
+        return path;
+    }
 
-static std::string fuzz_make_temp_base_path() {
-    char * path = clx_os_temp_make_path("cellox_fuzz_bytecode_", "");
-    EXPECT_NE(nullptr, path);
-    std::string result = path ? std::string(path) : std::string();
-    std::free(path);
-    return result;
-}
+    std::string make_temp_base_path() {
+        char * path = clx_os_temp_make_path("cellox_fuzz_bytecode_", "");
+        EXPECT_NE(nullptr, path);
+        std::string result = path ? std::string(path) : std::string();
+        std::free(path);
+        return result;
+    }
 
-static std::string fuzz_make_temp_program_path() {
-    return fuzz_make_temp_base_path() + ".clx";
-}
+    std::string make_temp_program_path() {
+        return make_temp_base_path() + ".clx";
+    }
 
-TEST(PropertyFuzzIntegration, RandomNestedClosureRoundTrip) {
+    void reset_vm() {
+        reset();
+    }
+};
+
+TEST_F(PropertyFuzzSerializationIntegrationFixture, RandomNestedClosureRoundTrip) {
     std::mt19937 rng(987654u);
     std::uniform_int_distribution<int> valueDist(-500, 500);
 
@@ -47,10 +55,13 @@ TEST(PropertyFuzzIntegration, RandomNestedClosureRoundTrip) {
                << "}\n"
                << "outer();\n";
 
-        std::string programPath = fuzz_make_temp_program_path();
-        std::string chunkPath = fuzz_derive_chunk_path(programPath);
+        std::string programPath = make_temp_program_path();
+        std::string chunkPath = derive_chunk_path(programPath);
 
-        virtual_machine_init();
+        if (i > 0) {
+            reset_vm();
+        }
+
         object_function_t * function = compiler_compile(source.str().c_str());
         ASSERT_NE(nullptr, function);
         ASSERT_EQ(0, chunk_file_store(function->chunk, programPath.c_str(), static_cast<chunk_file_compile_flag>(0)));
@@ -66,7 +77,10 @@ TEST(PropertyFuzzIntegration, RandomNestedClosureRoundTrip) {
         EXPECT_EQ(std::to_string(expected) + "\n", output);
 
         free(loaded);
-        virtual_machine_free();
+
+        if (i < 29) {
+            reset_vm();
+        }
 
         std::remove(programPath.c_str());
         std::remove(chunkPath.c_str());

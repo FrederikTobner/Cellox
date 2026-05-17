@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "../fixtures/chunk_fixture.h"
 
 extern "C" {
 #include "backend/virtual_machine.h"
@@ -82,12 +83,8 @@ TEST(DynamicValueArrayUnit, RemoveLastElementKeepsPrefix) {
     dynamic_value_array_free(&array);
 }
 
-TEST(ChunkUnit, DetermineLineByInstructionIndex) {
+TEST_F(ChunkFixture, DetermineLineByInstructionIndex) {
     // Arrange
-    chunk_t chunk;
-    // Act
-    chunk_init(&chunk);
-
     chunk_write(&chunk, OP_CONSTANT, 1);
     chunk_write(&chunk, 0, 1);
     chunk_write(&chunk, OP_RETURN, 2);
@@ -96,17 +93,9 @@ TEST(ChunkUnit, DetermineLineByInstructionIndex) {
     EXPECT_EQ(1u, chunk_determine_line_by_index(&chunk, 0));
     EXPECT_EQ(1u, chunk_determine_line_by_index(&chunk, 1));
     EXPECT_EQ(2u, chunk_determine_line_by_index(&chunk, 2));
-
-    chunk_free(&chunk);
 }
 
-TEST(ChunkUnit, AddConstantReturnsSequentialIndices) {
-    // Act
-    virtual_machine_init();
-
-    chunk_t chunk;
-    chunk_init(&chunk);
-
+TEST_F(ChunkVMTest, AddConstantReturnsSequentialIndices) {
     int32_t first = chunk_add_constant(&chunk, NUMBER_VAL(12));
     int32_t second = chunk_add_constant(&chunk, NUMBER_VAL(34));
 
@@ -116,7 +105,4 @@ TEST(ChunkUnit, AddConstantReturnsSequentialIndices) {
     ASSERT_EQ(2u, chunk.constants.count);
     EXPECT_DOUBLE_EQ(12.0, AS_NUMBER(chunk.constants.values[0]));
     EXPECT_DOUBLE_EQ(34.0, AS_NUMBER(chunk.constants.values[1]));
-
-    chunk_free(&chunk);
-    virtual_machine_free();
 }

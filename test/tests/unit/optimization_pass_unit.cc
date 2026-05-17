@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-
 #include <cstdlib>
+#include "../fixtures/chunk_fixture.h"
 
 extern "C" {
 #include "backend/virtual_machine.h"
@@ -10,29 +10,14 @@ extern "C" {
 
 namespace {
 
-static void EmitConstant(chunk_t * chunk, uint8_t constant_index, int32_t line = 1) {
-    chunk_write(chunk, OP_CONSTANT, line);
-    chunk_write(chunk, constant_index, line);
-}
-
-static void EmitSimple(chunk_t * chunk, uint8_t opcode, int32_t line = 1) {
-    chunk_write(chunk, opcode, line);
-}
-
-TEST(OptimizationPassUnit, ConstantFoldingFoldsBinaryAdditionBytecodeShape) {
-    // Act
-    virtual_machine_init();
-
-    chunk_t chunk;
-    chunk_init(&chunk);
-
+TEST_F(ChunkVMTest, ConstantFoldingFoldsBinaryAdditionBytecodeShape) {
     uint8_t c0 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(2));
     uint8_t c1 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(3));
 
-    EmitConstant(&chunk, c0);
-    EmitConstant(&chunk, c1);
-    EmitSimple(&chunk, OP_ADD);
-    EmitSimple(&chunk, OP_RETURN);
+    emitConstant(c0);
+    emitConstant(c1);
+    emitSimple(OP_ADD);
+    emitSimple(OP_RETURN);
 
     // Assert
     ASSERT_EQ(6u, chunk.byteCodeCount);
@@ -49,23 +34,15 @@ TEST(OptimizationPassUnit, ConstantFoldingFoldsBinaryAdditionBytecodeShape) {
     EXPECT_EQ(OP_RETURN, chunk.code[2]);
     EXPECT_DOUBLE_EQ(5.0, AS_NUMBER(chunk.constants.values[c0]));
 
-    chunk_free(&chunk);
-    virtual_machine_free();
 }
 
-TEST(OptimizationPassUnit, ConstantFoldingDoesNotFoldDivisionByZero) {
-    // Act
-    virtual_machine_init();
-
-    chunk_t chunk;
-    chunk_init(&chunk);
-
+TEST_F(ChunkVMTest, ConstantFoldingDoesNotFoldDivisionByZero) {
     uint8_t c0 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(10));
     uint8_t c1 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(0));
-    EmitConstant(&chunk, c0);
-    EmitConstant(&chunk, c1);
-    EmitSimple(&chunk, OP_DIVIDE);
-    EmitSimple(&chunk, OP_RETURN);
+    emitConstant(c0);
+    emitConstant(c1);
+    emitSimple(OP_DIVIDE);
+    emitSimple(OP_RETURN);
 
     pass_result_t fold = pass_constant_folding(&chunk);
 
@@ -75,24 +52,16 @@ TEST(OptimizationPassUnit, ConstantFoldingDoesNotFoldDivisionByZero) {
     ASSERT_EQ(6u, chunk.byteCodeCount);
     EXPECT_EQ(OP_DIVIDE, chunk.code[4]);
 
-    chunk_free(&chunk);
-    virtual_machine_free();
 }
 
-TEST(OptimizationPassUnit, DeadCodeDetectionAndEliminationRemovesCodeAfterReturn) {
-    // Act
-    virtual_machine_init();
-
-    chunk_t chunk;
-    chunk_init(&chunk);
-
+TEST_F(ChunkVMTest, DeadCodeDetectionAndEliminationRemovesCodeAfterReturn) {
     uint8_t c0 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(1));
     uint8_t c1 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(42));
 
-    EmitConstant(&chunk, c0);      // reachable
-    EmitSimple(&chunk, OP_RETURN); // terminal
-    EmitConstant(&chunk, c1);      // dead
-    EmitSimple(&chunk, OP_NEGATE); // dead
+    emitConstant(c0);      // reachable
+    emitSimple(OP_RETURN); // terminal
+    emitConstant(c1);      // dead
+    emitSimple(OP_NEGATE); // dead
 
     pass_result_t detect = pass_dead_code_detection(&chunk);
     // Assert
@@ -107,24 +76,16 @@ TEST(OptimizationPassUnit, DeadCodeDetectionAndEliminationRemovesCodeAfterReturn
     EXPECT_EQ(c0, chunk.code[1]);
     EXPECT_EQ(OP_RETURN, chunk.code[2]);
 
-    chunk_free(&chunk);
-    virtual_machine_free();
 }
 
-TEST(OptimizationPassUnit, PipelineRunKeepsCorrectFoldedBytecode) {
-    // Act
-    virtual_machine_init();
-
-    chunk_t chunk;
-    chunk_init(&chunk);
-
+TEST_F(ChunkVMTest, PipelineRunKeepsCorrectFoldedBytecode) {
     uint8_t c0 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(6));
     uint8_t c1 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(7));
     // Foldable expression.
-    EmitConstant(&chunk, c0);
-    EmitConstant(&chunk, c1);
-    EmitSimple(&chunk, OP_MULTIPLY);
-    EmitSimple(&chunk, OP_RETURN);
+    emitConstant(c0);
+    emitConstant(c1);
+    emitSimple(OP_MULTIPLY);
+    emitSimple(OP_RETURN);
 
     optimization_module_init();
     optimization_stats_t stats = optimization_pipeline_run_chunk(&chunk, "unit_pipeline");
@@ -140,17 +101,9 @@ TEST(OptimizationPassUnit, PipelineRunKeepsCorrectFoldedBytecode) {
 
     free(stats.pass_results);
     optimization_module_cleanup();
-    chunk_free(&chunk);
-    virtual_machine_free();
 }
 
-TEST(OptimizationPassUnit, DeadCodeEliminationRetargetsForwardJump) {
-    // Act
-    virtual_machine_init();
-
-    chunk_t chunk;
-    chunk_init(&chunk);
-
+TEST_F(ChunkVMTest, DeadCodeEliminationRetargetsForwardJump) {
     uint8_t c0 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(7));
 
     // Layout before DCE:
@@ -158,12 +111,12 @@ TEST(OptimizationPassUnit, DeadCodeEliminationRetargetsForwardJump) {
     // 3: OP_RETURN       (dead)
     // 4: OP_CONSTANT c0
     // 6: OP_RETURN
-    EmitSimple(&chunk, OP_JUMP);
-    EmitSimple(&chunk, 0x00);
-    EmitSimple(&chunk, 0x01);
-    EmitSimple(&chunk, OP_RETURN);
-    EmitConstant(&chunk, c0);
-    EmitSimple(&chunk, OP_RETURN);
+    emitSimple(OP_JUMP);
+    emitSimple(0x00);
+    emitSimple(0x01);
+    emitSimple(OP_RETURN);
+    emitConstant(c0);
+    emitSimple(OP_RETURN);
 
     pass_result_t detect = pass_dead_code_detection(&chunk);
     // Assert
@@ -184,28 +137,20 @@ TEST(OptimizationPassUnit, DeadCodeEliminationRetargetsForwardJump) {
     EXPECT_EQ(c0, chunk.code[4]);
     EXPECT_EQ(OP_RETURN, chunk.code[5]);
 
-    chunk_free(&chunk);
-    virtual_machine_free();
 }
 
-TEST(OptimizationPassUnit, AlgebraicIdentityRemovesMultiplyByOneForNumericLhs) {
-    // Act
-    virtual_machine_init();
-
-    chunk_t chunk;
-    chunk_init(&chunk);
-
+TEST_F(ChunkVMTest, AlgebraicIdentityRemovesMultiplyByOneForNumericLhs) {
     uint8_t c2 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(2));
     uint8_t c3 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(3));
     uint8_t c1 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(1));
 
     // CONST 2, CONST 3, SUBTRACT => numeric lhs, then * 1 identity.
-    EmitConstant(&chunk, c2);
-    EmitConstant(&chunk, c3);
-    EmitSimple(&chunk, OP_SUBTRACT);
-    EmitConstant(&chunk, c1);
-    EmitSimple(&chunk, OP_MULTIPLY);
-    EmitSimple(&chunk, OP_RETURN);
+    emitConstant(c2);
+    emitConstant(c3);
+    emitSimple(OP_SUBTRACT);
+    emitConstant(c1);
+    emitSimple(OP_MULTIPLY);
+    emitSimple(OP_RETURN);
 
     // Assert
     ASSERT_EQ(9u, chunk.byteCodeCount);
@@ -221,23 +166,15 @@ TEST(OptimizationPassUnit, AlgebraicIdentityRemovesMultiplyByOneForNumericLhs) {
     EXPECT_EQ(OP_SUBTRACT, chunk.code[4]);
     EXPECT_EQ(OP_RETURN, chunk.code[5]);
 
-    chunk_free(&chunk);
-    virtual_machine_free();
 }
 
-TEST(OptimizationPassUnit, BranchPredicationRewritesConstantTrueBranchToNoopJump) {
-    // Act
-    virtual_machine_init();
-
-    chunk_t chunk;
-    chunk_init(&chunk);
-
+TEST_F(ChunkVMTest, BranchPredicationRewritesConstantTrueBranchToNoopJump) {
     // TRUE, JUMP_IF_FALSE +5
-    EmitSimple(&chunk, OP_TRUE);
-    EmitSimple(&chunk, OP_JUMP_IF_FALSE);
-    EmitSimple(&chunk, 0x00);
-    EmitSimple(&chunk, 0x05);
-    EmitSimple(&chunk, OP_RETURN);
+    emitSimple(OP_TRUE);
+    emitSimple(OP_JUMP_IF_FALSE);
+    emitSimple(0x00);
+    emitSimple(0x05);
+    emitSimple(OP_RETURN);
 
     pass_result_t pred = pass_branch_predication(&chunk);
     // Assert
@@ -250,8 +187,6 @@ TEST(OptimizationPassUnit, BranchPredicationRewritesConstantTrueBranchToNoopJump
     EXPECT_EQ(0x00, chunk.code[2]);
     EXPECT_EQ(0x00, chunk.code[3]);
 
-    chunk_free(&chunk);
-    virtual_machine_free();
 }
 
 } // namespace

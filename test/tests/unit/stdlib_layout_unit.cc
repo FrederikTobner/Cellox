@@ -1,13 +1,10 @@
 #include <gtest/gtest.h>
 
-#include <fstream>
-#include <sstream>
 #include <string>
 
-static std::string read_text_file(std::string const & path);
-static std::string stdlib_file_path(char const * relativeName); 
+#include "../fixtures/stdlib_fixture.h"
 
-TEST(StdlibUnit, CollectionsModuleExistsAndExportsFactories) {
+TEST_F(StdlibLayoutFixture, CollectionsModuleExistsAndExportsFactories) {
     // Act
     std::string text = read_text_file(stdlib_file_path("collections.clx"));
     // Assert
@@ -24,7 +21,7 @@ TEST(StdlibUnit, CollectionsModuleExistsAndExportsFactories) {
     EXPECT_NE(std::string::npos, text.find("export fun set_like()"));
 }
 
-TEST(StdlibUnit, ViewModuleExistsAndExportsArrayViewFactory) {
+TEST_F(StdlibLayoutFixture, ViewModuleExistsAndExportsArrayViewFactory) {
     // Act
     std::string text = read_text_file(stdlib_file_path("view.clx"));
     // Assert
@@ -40,28 +37,11 @@ TEST(StdlibUnit, ViewModuleExistsAndExportsArrayViewFactory) {
     EXPECT_NE(std::string::npos, text.find("export fun array_view(data)"));
 }
 
-TEST(StdlibUnit, ExistingCoreModulesStillPresent) {
+TEST_F(StdlibLayoutFixture, ExistingCoreModulesStillPresent) {
     // Assert
     EXPECT_FALSE(read_text_file(stdlib_file_path("math.clx")).empty());
     EXPECT_FALSE(read_text_file(stdlib_file_path("string.clx")).empty());
     EXPECT_FALSE(read_text_file(stdlib_file_path("array.clx")).empty());
     EXPECT_FALSE(read_text_file(stdlib_file_path("io.clx")).empty());
     EXPECT_FALSE(read_text_file(stdlib_file_path("os.clx")).empty());
-}
-
-static std::string read_text_file(std::string const & path) {
-    std::ifstream input(path);
-    if (!input.is_open()) {
-        return "";
-    }
-    std::ostringstream buffer;
-    buffer << input.rdbuf();
-    return buffer.str();
-}
-
-static std::string stdlib_file_path(char const * relativeName) {
-    std::string path = TEST_PROGRAM_BASE_PATH;
-    path += "../stdlib/";
-    path += relativeName;
-    return path;
 }

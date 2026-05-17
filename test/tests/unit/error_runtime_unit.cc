@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "../fixtures/vm_fixture.h"
 
 extern "C" {
 #include "backend/virtual_machine.h"
@@ -6,10 +7,7 @@ extern "C" {
 #include "language-models/value.h"
 }
 
-TEST(ErrorRuntimeUnit, ErrorValueEqualityUsesSetAndVariant) {
-    // Act
-    virtual_machine_init();
-
+TEST_F(VirtualMachineFixture, ErrorValueEqualityUsesSetAndVariant) {
     object_string_t * setName = object_copy_string("FileError", 9, false);
     object_string_t * notFoundName = object_copy_string("NotFound", 8, false);
     object_string_t * permissionName = object_copy_string("PermissionDenied", 16, false);
@@ -22,6 +20,4 @@ TEST(ErrorRuntimeUnit, ErrorValueEqualityUsesSetAndVariant) {
     // Assert
     EXPECT_TRUE(value_values_equal(OBJECT_VAL(notFoundA), OBJECT_VAL(notFoundB)));
     EXPECT_FALSE(value_values_equal(OBJECT_VAL(notFoundA), OBJECT_VAL(permission)));
-
-    virtual_machine_free();
 }

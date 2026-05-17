@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "../fixtures/vm_fixture.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -14,44 +15,46 @@ extern "C" {
 #include "language-models/object.h"
 }
 
-static std::string derive_chunk_path(std::string path) {
-    path.replace(path.size() - 3, 3, "cxcf");
-    return path;
+class ChunkFileIntegrationFixture : public VirtualMachineFixture {
+protected:
+    std::string derive_chunk_path(std::string path) {
+        path.replace(path.size() - 3, 3, "cxcf");
+        return path;
+    }
+
+    std::string make_temp_base_path() {
+        char * path = clx_os_temp_make_path("cellox_bytecode_", "");
+        EXPECT_NE(nullptr, path);
+        std::string result = path ? std::string(path) : std::string();
+        std::free(path);
+        return result;
+    }
+
+    std::string make_temp_program_path() {
+        return make_temp_base_path() + ".clx";
+    }
+
+    std::string make_temp_chunk_path() {
+        return make_temp_base_path() + ".cxcf";
+    }
+};
+
+TEST_F(ChunkFileIntegrationFixture, RoundTripNestedClosureExecutes) {
+    const char * source = R"(fun makeAdder(a) {
+  fun inner(b) {
+    return a + b;
+  }
+
+  return inner;
 }
 
-static std::string make_temp_base_path() {
-    char * path = clx_os_temp_make_path("cellox_bytecode_", "");
-    EXPECT_NE(nullptr, path);
-    std::string result = path ? std::string(path) : std::string();
-    std::free(path);
-    return result;
-}
-
-static std::string make_temp_program_path() {
-    return make_temp_base_path() + ".clx";
-}
-
-static std::string make_temp_chunk_path() {
-    std::string path = make_temp_base_path() + ".cxcf";
-    return path;
-}
-
-TEST(BytecodeSerialization, RoundTripNestedClosureExecutes) {
-    const char * source = "fun makeAdder(a) {\n"
-                          "  fun inner(b) {\n"
-                          "    return a + b;\n"
-                          "  }\n"
-                          "\n"
-                          "  return inner;\n"
-                          "}\n"
-                          "\n"
-                          "var addTwo = makeAdder(2);\n"
-                          "printf(\"{}\\n\", addTwo(40));\n";
+var addTwo = makeAdder(2);
+printf("{}\n", addTwo(40));
+)";
 
     std::string programPath = make_temp_program_path();
     std::string chunkPath = derive_chunk_path(programPath);
 
-    virtual_machine_init();
     object_function_t * function = compiler_compile(source);
     ASSERT_NE(nullptr, function);
     ASSERT_EQ(0, chunk_file_store(function->chunk, programPath.c_str(), static_cast<chunk_file_compile_flag>(0)));
@@ -77,21 +80,20 @@ TEST(BytecodeSerialization, RoundTripNestedClosureExecutes) {
     EXPECT_EQ("42\n", output);
 
     free(loaded);
-    virtual_machine_free();
 
     std::remove(programPath.c_str());
     std::remove(chunkPath.c_str());
 }
 
-TEST(BytecodeSerialization, RoundTripPreservesCodeAndLineInfo) {
-    const char * source = "var x = 1;\n"
-                          "x += 41;\n"
-                          "printf(\"{}\\n\", x);\n";
+TEST_F(ChunkFileIntegrationFixture, RoundTripPreservesCodeAndLineInfo) {
+    const char * source = R"(var x = 1;
+x += 41;
+printf("{}\n", x);
+)";
 
     std::string programPath = make_temp_program_path();
     std::string chunkPath = derive_chunk_path(programPath);
 
-    virtual_machine_init();
     object_function_t * function = compiler_compile(source);
     ASSERT_NE(nullptr, function);
 
@@ -114,21 +116,20 @@ TEST(BytecodeSerialization, RoundTripPreservesCodeAndLineInfo) {
     EXPECT_EQ("42\n", output);
 
     free(loaded);
-    virtual_machine_free();
 
     std::remove(programPath.c_str());
     std::remove(chunkPath.c_str());
 }
 
-TEST(BytecodeSerialization, RoundTripPreservesNegativeAndSpecialNumbers) {
-    const char * source = "printf(\"{}\\n\", -1.5);\n"
-                          "printf(\"{}\\n\", 0.125);\n"
-                          "printf(\"{}\\n\", 1000000000.25);\n";
+TEST_F(ChunkFileIntegrationFixture, RoundTripPreservesNegativeAndSpecialNumbers) {
+    const char * source = R"(printf("{}\n", -1.5);
+printf("{}\n", 0.125);
+printf("{}\n", 1000000000.25);
+)";
 
     std::string programPath = make_temp_program_path();
     std::string chunkPath = derive_chunk_path(programPath);
 
-    virtual_machine_init();
     object_function_t * function = compiler_compile(source);
     ASSERT_NE(nullptr, function);
 
@@ -145,13 +146,12 @@ TEST(BytecodeSerialization, RoundTripPreservesNegativeAndSpecialNumbers) {
     EXPECT_EQ("-1.5\n0.125\n1e+09\n", output);
 
     free(loaded);
-    virtual_machine_free();
 
     std::remove(programPath.c_str());
     std::remove(chunkPath.c_str());
 }
 
-TEST(BytecodeSerialization, RejectsUnsupportedChunkVersion) {
+TEST_F(ChunkFileIntegrationFixture, RejectsUnsupportedChunkFileVersion) {
     std::string chunkPath = make_temp_chunk_path();
 
     FILE * file = std::fopen(chunkPath.c_str(), "wb");
@@ -171,7 +171,7 @@ TEST(BytecodeSerialization, RejectsUnsupportedChunkVersion) {
     std::remove(chunkPath.c_str());
 }
 
-TEST(BytecodeSerialization, RejectsTruncatedChunkFile) {
+TEST_F(ChunkFileIntegrationFixture, RejectsTruncatedChunkFile) {
     std::string chunkPath = make_temp_chunk_path();
 
     FILE * file = std::fopen(chunkPath.c_str(), "wb");

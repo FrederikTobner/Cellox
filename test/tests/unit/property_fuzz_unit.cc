@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "../fixtures/chunk_fixture.h"
 
 #include <random>
 #include <vector>
@@ -45,13 +46,12 @@ TEST(PropertyFuzzUnit, DynamicArrayWriteRemoveMatchesModel) {
     }
 }
 
-TEST(PropertyFuzzUnit, ChunkLineLookupMatchesRecordedLines) {
+TEST_F(ChunkFixture, ChunkLineLookupMatchesRecordedLines) {
     // Arrange
     std::mt19937 rng(424242u);
 
     for (int round = 0; round < 30; round++) {
-        chunk_t chunk;
-        // Act
+        chunk_free(&chunk);
         chunk_init(&chunk);
         std::vector<uint32_t> expectedLines;
 
@@ -69,7 +69,5 @@ TEST(PropertyFuzzUnit, ChunkLineLookupMatchesRecordedLines) {
             // Assert
             EXPECT_EQ(expectedLines[i], chunk_determine_line_by_index(&chunk, i));
         }
-
-        chunk_free(&chunk);
     }
 }
