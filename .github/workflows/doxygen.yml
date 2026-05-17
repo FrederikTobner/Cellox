@@ -15,6 +15,7 @@ jobs:
     - name: Generate documentation
       
       run: |
+        mkdir -p build/docs
         doxygen src/doxygen/Doxyfile
     - name: Deploy to GitHub Pages
       uses: Cecilapp/GitHub-Pages-deploy@v3
