@@ -74,8 +74,7 @@ char * module_path_join(char const * left, char const * right) {
  * @param stdlibPath Standard-library root used for bare imports, or NULL.
  * @return A newly allocated resolved path, or NULL on failure.
  */
-char * module_path_resolve_import(char const * importerPath, char const * importPath,
-                                  char const * stdlibPath) {
+char * module_path_resolve_import(char const * importerPath, char const * importPath, char const * stdlibPath) {
     if (!importPath || !importPath[0]) {
         return NULL;
     }

@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "benchmark_runner.h"
 #include "base/common.h"
+#include "benchmark_runner.h"
 #include "dynamic_benchmark_config_array.h"
 
 #define DEFAULT_EXECUTION_COUNT (10)

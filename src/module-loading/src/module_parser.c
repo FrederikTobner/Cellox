@@ -59,8 +59,7 @@ static bool module_parser_starts_with_keyword(char const * text, char const * ke
         return false;
     }
     char c = text[keywordLength];
-    bool identifierChar =
-        (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
+    bool identifierChar = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
     return !identifierChar;
 }
 

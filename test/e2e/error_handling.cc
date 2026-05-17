@@ -16,8 +16,7 @@ TEST(ErrorHandling, CatchBasic) {
 }
 
 TEST(ErrorHandling, IferrorBasic) {
-    test_cellox_program("error_handling/iferror_basic.clx",
-                        "error: FileError.NotFound\nok: readme.txt\n");
+    test_cellox_program("error_handling/iferror_basic.clx", "error: FileError.NotFound\nok: readme.txt\n");
 }
 
 TEST(ErrorHandling, TryBasic) {
@@ -91,5 +90,6 @@ TEST(ErrorHandling, BinderValueOnly) {
 }
 
 TEST(ErrorHandling, BinderScopeOutside) {
-    test_failing_cellox_program("error_handling/binder_scope_outside.clx", "Undefined variable 'err'.\n[line 11] in script\n");
+    test_failing_cellox_program("error_handling/binder_scope_outside.clx",
+                                "Undefined variable 'err'.\n[line 11] in script\n");
 }

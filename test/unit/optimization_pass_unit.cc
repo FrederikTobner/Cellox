@@ -20,6 +20,7 @@ static void EmitSimple(chunk_t * chunk, uint8_t opcode, int32_t line = 1) {
 }
 
 TEST(OptimizationPassUnit, ConstantFoldingFoldsBinaryAdditionBytecodeShape) {
+    // Act
     virtual_machine_init();
 
     chunk_t chunk;
@@ -33,6 +34,7 @@ TEST(OptimizationPassUnit, ConstantFoldingFoldsBinaryAdditionBytecodeShape) {
     EmitSimple(&chunk, OP_ADD);
     EmitSimple(&chunk, OP_RETURN);
 
+    // Assert
     ASSERT_EQ(6u, chunk.byteCodeCount);
 
     pass_result_t fold = pass_constant_folding(&chunk);
@@ -52,6 +54,7 @@ TEST(OptimizationPassUnit, ConstantFoldingFoldsBinaryAdditionBytecodeShape) {
 }
 
 TEST(OptimizationPassUnit, ConstantFoldingDoesNotFoldDivisionByZero) {
+    // Act
     virtual_machine_init();
 
     chunk_t chunk;
@@ -66,6 +69,7 @@ TEST(OptimizationPassUnit, ConstantFoldingDoesNotFoldDivisionByZero) {
 
     pass_result_t fold = pass_constant_folding(&chunk);
 
+    // Assert
     EXPECT_FALSE(fold.modified);
     EXPECT_EQ(0u, fold.constants_folded);
     ASSERT_EQ(6u, chunk.byteCodeCount);
@@ -76,6 +80,7 @@ TEST(OptimizationPassUnit, ConstantFoldingDoesNotFoldDivisionByZero) {
 }
 
 TEST(OptimizationPassUnit, DeadCodeDetectionAndEliminationRemovesCodeAfterReturn) {
+    // Act
     virtual_machine_init();
 
     chunk_t chunk;
@@ -84,12 +89,13 @@ TEST(OptimizationPassUnit, DeadCodeDetectionAndEliminationRemovesCodeAfterReturn
     uint8_t c0 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(1));
     uint8_t c1 = (uint8_t)chunk_add_constant(&chunk, NUMBER_VAL(42));
 
-    EmitConstant(&chunk, c0);       // reachable
-    EmitSimple(&chunk, OP_RETURN);  // terminal
-    EmitConstant(&chunk, c1);       // dead
-    EmitSimple(&chunk, OP_NEGATE);  // dead
+    EmitConstant(&chunk, c0);      // reachable
+    EmitSimple(&chunk, OP_RETURN); // terminal
+    EmitConstant(&chunk, c1);      // dead
+    EmitSimple(&chunk, OP_NEGATE); // dead
 
     pass_result_t detect = pass_dead_code_detection(&chunk);
+    // Assert
     EXPECT_GE(detect.instructions_removed, 1u);
 
     pass_result_t dce = pass_dead_code_elimination(&chunk);
@@ -106,6 +112,7 @@ TEST(OptimizationPassUnit, DeadCodeDetectionAndEliminationRemovesCodeAfterReturn
 }
 
 TEST(OptimizationPassUnit, PipelineRunKeepsCorrectFoldedBytecode) {
+    // Act
     virtual_machine_init();
 
     chunk_t chunk;
@@ -122,6 +129,7 @@ TEST(OptimizationPassUnit, PipelineRunKeepsCorrectFoldedBytecode) {
     optimization_module_init();
     optimization_stats_t stats = optimization_pipeline_run_chunk(&chunk, "unit_pipeline");
 
+    // Assert
     EXPECT_LE(stats.bytecode_size_after, stats.bytecode_size_before);
 
     ASSERT_EQ(3u, chunk.byteCodeCount);
@@ -137,6 +145,7 @@ TEST(OptimizationPassUnit, PipelineRunKeepsCorrectFoldedBytecode) {
 }
 
 TEST(OptimizationPassUnit, DeadCodeEliminationRetargetsForwardJump) {
+    // Act
     virtual_machine_init();
 
     chunk_t chunk;
@@ -157,6 +166,7 @@ TEST(OptimizationPassUnit, DeadCodeEliminationRetargetsForwardJump) {
     EmitSimple(&chunk, OP_RETURN);
 
     pass_result_t detect = pass_dead_code_detection(&chunk);
+    // Assert
     EXPECT_GE(detect.instructions_removed, 1u);
 
     pass_result_t dce = pass_dead_code_elimination(&chunk);
@@ -179,6 +189,7 @@ TEST(OptimizationPassUnit, DeadCodeEliminationRetargetsForwardJump) {
 }
 
 TEST(OptimizationPassUnit, AlgebraicIdentityRemovesMultiplyByOneForNumericLhs) {
+    // Act
     virtual_machine_init();
 
     chunk_t chunk;
@@ -196,6 +207,7 @@ TEST(OptimizationPassUnit, AlgebraicIdentityRemovesMultiplyByOneForNumericLhs) {
     EmitSimple(&chunk, OP_MULTIPLY);
     EmitSimple(&chunk, OP_RETURN);
 
+    // Assert
     ASSERT_EQ(9u, chunk.byteCodeCount);
 
     pass_result_t id = pass_algebraic_identity(&chunk);
@@ -214,6 +226,7 @@ TEST(OptimizationPassUnit, AlgebraicIdentityRemovesMultiplyByOneForNumericLhs) {
 }
 
 TEST(OptimizationPassUnit, BranchPredicationRewritesConstantTrueBranchToNoopJump) {
+    // Act
     virtual_machine_init();
 
     chunk_t chunk;
@@ -227,6 +240,7 @@ TEST(OptimizationPassUnit, BranchPredicationRewritesConstantTrueBranchToNoopJump
     EmitSimple(&chunk, OP_RETURN);
 
     pass_result_t pred = pass_branch_predication(&chunk);
+    // Assert
     EXPECT_TRUE(pred.modified);
     EXPECT_EQ(1u, pred.branches_eliminated);
 

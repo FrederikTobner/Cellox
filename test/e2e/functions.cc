@@ -36,7 +36,8 @@ TEST(Functions, arityTooFew) {
 }
 
 TEST(Functions, arityTooMany) {
-    test_failing_cellox_program("functions/arity_too_many.clx", "Expected 2 arguments but got 3.\n[line 5] in script\n");
+    test_failing_cellox_program("functions/arity_too_many.clx",
+                                "Expected 2 arguments but got 3.\n[line 5] in script\n");
 }
 
 TEST(Functions, mutualRecursion) {

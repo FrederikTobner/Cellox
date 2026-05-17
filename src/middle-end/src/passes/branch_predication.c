@@ -71,4 +71,3 @@ static void write_u16_be(uint8_t * data, uint16_t value) {
     data[0] = (uint8_t)((value >> 8) & 0xFFu);
     data[1] = (uint8_t)(value & 0xFFu);
 }
-

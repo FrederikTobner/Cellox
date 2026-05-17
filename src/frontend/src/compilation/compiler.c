@@ -20,8 +20,8 @@
 
 #include "frontend/compiler.h"
 
-#include <frontend/internal/compiler_ops.h>
 #include <frontend/internal/compilation_context.h>
+#include <frontend/internal/compiler_ops.h>
 #include <frontend/internal/statement_parser.h>
 
 #include <stdarg.h>
@@ -47,7 +47,7 @@ object_function_t * compiler_compile(char const * program) {
         optimization_module_init();
         optimization_initialized = true;
     }
-    
+
     parser_t * parser = compilation_context_get_parser();
 
     lexer_init(program);
@@ -127,8 +127,7 @@ object_function_t * compiler_end(void) {
     parser_t * parser = compilation_context_get_parser();
     if (!parser->hadError) {
         chunk_disassembler_disassemble_chunk(compiler_current_chunk(),
-                                             function->name != NULL ? function->name->chars : "main",
-                                             function->arity);
+                                             function->name != NULL ? function->name->chars : "main", function->arity);
     }
 #endif
 
@@ -195,8 +194,8 @@ void compiler_init(compiler_t * compiler, function_type type) {
             object_copy_string(parser->previous.start, parser->previous.length, false);
     }
 
-    local_t * local = &compilation_context_get_current_compiler()->locals
-        [compilation_context_get_current_compiler()->localCount++];
+    local_t * local =
+        &compilation_context_get_current_compiler()->locals[compilation_context_get_current_compiler()->localCount++];
     local->depth = 0;
     local->isCaptured = false;
     if (type != TYPE_FUNCTION) {

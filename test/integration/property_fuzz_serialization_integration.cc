@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
 #include <random>
 #include <sstream>
 #include <string>
@@ -40,12 +40,12 @@ TEST(PropertyFuzzIntegration, RandomNestedClosureRoundTrip) {
         int expected = a + b;
 
         std::ostringstream source;
-         source << "fun outer() {\n"
-             << "  var x = " << a << ";\n"
-             << "  fun inner() { return x + " << b << "; }\n"
-             << "  printf(\"{}\\n\", inner());\n"
-             << "}\n"
-             << "outer();\n";
+        source << "fun outer() {\n"
+               << "  var x = " << a << ";\n"
+               << "  fun inner() { return x + " << b << "; }\n"
+               << "  printf(\"{}\\n\", inner());\n"
+               << "}\n"
+               << "outer();\n";
 
         std::string programPath = fuzz_make_temp_program_path();
         std::string chunkPath = fuzz_derive_chunk_path(programPath);
@@ -53,8 +53,7 @@ TEST(PropertyFuzzIntegration, RandomNestedClosureRoundTrip) {
         virtual_machine_init();
         object_function_t * function = compiler_compile(source.str().c_str());
         ASSERT_NE(nullptr, function);
-        ASSERT_EQ(0,
-                  chunk_file_store(function->chunk, programPath.c_str(), static_cast<chunk_file_compile_flag>(0)));
+        ASSERT_EQ(0, chunk_file_store(function->chunk, programPath.c_str(), static_cast<chunk_file_compile_flag>(0)));
 
         chunk_t * loaded = chunk_file_load(chunkPath.c_str());
         ASSERT_NE(nullptr, loaded);

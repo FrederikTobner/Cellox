@@ -21,10 +21,10 @@
 #ifndef CELLOX_OBJECT_H_
 #define CELLOX_OBJECT_H_
 
-#include "byte-code/chunk.h"
 #include "base/common.h"
-#include "language-models/value_hash_table.h"
+#include "byte-code/chunk.h"
 #include "language-models/value.h"
+#include "language-models/value_hash_table.h"
 
 /// Makro that determines the type of an object
 #define OBJECT_TYPE(value)     (AS_OBJECT(value)->type)
@@ -34,11 +34,11 @@
 ///  Makro that determines if the object has the object type bound-method
 #define IS_BOUND_METHOD(value) object_is_type(value, OBJECT_BOUND_METHOD)
 /// Makro that determines if the object has the object type error set
-#define IS_ERROR_SET(value)     object_is_type(value, OBJECT_ERROR_SET)
+#define IS_ERROR_SET(value)    object_is_type(value, OBJECT_ERROR_SET)
 /// Makro that determines if the object has the object type error value
-#define IS_ERROR_VALUE(value)   object_is_type(value, OBJECT_ERROR_VALUE)
+#define IS_ERROR_VALUE(value)  object_is_type(value, OBJECT_ERROR_VALUE)
 /// Makro that determines if the object has the object type result wrapper
-#define IS_RESULT(value)        object_is_type(value, OBJECT_RESULT)
+#define IS_RESULT(value)       object_is_type(value, OBJECT_RESULT)
 ///  Makro that determines if the object has the object type instance
 #define IS_INSTANCE(value)     object_is_type(value, OBJECT_INSTANCE)
 /// Makro that determines if the object has the object type class

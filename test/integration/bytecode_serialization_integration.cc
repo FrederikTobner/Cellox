@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <string>
 
@@ -37,17 +37,16 @@ static std::string make_temp_chunk_path() {
 }
 
 TEST(BytecodeSerialization, RoundTripNestedClosureExecutes) {
-    const char * source =
-        "fun makeAdder(a) {\n"
-        "  fun inner(b) {\n"
-        "    return a + b;\n"
-        "  }\n"
-        "\n"
-        "  return inner;\n"
-        "}\n"
-        "\n"
-        "var addTwo = makeAdder(2);\n"
-        "printf(\"{}\\n\", addTwo(40));\n";
+    const char * source = "fun makeAdder(a) {\n"
+                          "  fun inner(b) {\n"
+                          "    return a + b;\n"
+                          "  }\n"
+                          "\n"
+                          "  return inner;\n"
+                          "}\n"
+                          "\n"
+                          "var addTwo = makeAdder(2);\n"
+                          "printf(\"{}\\n\", addTwo(40));\n";
 
     std::string programPath = make_temp_program_path();
     std::string chunkPath = derive_chunk_path(programPath);
@@ -85,10 +84,9 @@ TEST(BytecodeSerialization, RoundTripNestedClosureExecutes) {
 }
 
 TEST(BytecodeSerialization, RoundTripPreservesCodeAndLineInfo) {
-    const char * source =
-        "var x = 1;\n"
-        "x += 41;\n"
-        "printf(\"{}\\n\", x);\n";
+    const char * source = "var x = 1;\n"
+                          "x += 41;\n"
+                          "printf(\"{}\\n\", x);\n";
 
     std::string programPath = make_temp_program_path();
     std::string chunkPath = derive_chunk_path(programPath);
@@ -123,10 +121,9 @@ TEST(BytecodeSerialization, RoundTripPreservesCodeAndLineInfo) {
 }
 
 TEST(BytecodeSerialization, RoundTripPreservesNegativeAndSpecialNumbers) {
-    const char * source =
-        "printf(\"{}\\n\", -1.5);\n"
-        "printf(\"{}\\n\", 0.125);\n"
-        "printf(\"{}\\n\", 1000000000.25);\n";
+    const char * source = "printf(\"{}\\n\", -1.5);\n"
+                          "printf(\"{}\\n\", 0.125);\n"
+                          "printf(\"{}\\n\", 1000000000.25);\n";
 
     std::string programPath = make_temp_program_path();
     std::string chunkPath = derive_chunk_path(programPath);

@@ -23,7 +23,7 @@
 #include "language-models/object.h"
 #include "language-models/value.h"
 
-static uint32_t opcode_size(chunk_t * chunk, uint32_t offset); 
+static uint32_t opcode_size(chunk_t * chunk, uint32_t offset);
 static bool opcode_guarantees_numeric(chunk_t * chunk, uint32_t offset);
 
 pass_result_t pass_algebraic_identity(chunk_t * chunk) {

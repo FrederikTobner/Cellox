@@ -9,6 +9,7 @@ extern "C" {
 }
 
 TEST(PropertyFuzzUnit, DynamicArrayWriteRemoveMatchesModel) {
+    // Arrange
     std::mt19937 rng(1337u);
 
     for (int round = 0; round < 50; round++) {
@@ -24,6 +25,7 @@ TEST(PropertyFuzzUnit, DynamicArrayWriteRemoveMatchesModel) {
             if (doWrite) {
                 int value = valueDist(rng);
                 model.push_back(value);
+                // Act
                 dynamic_value_array_write(&array, NUMBER_VAL(value));
             } else {
                 std::uniform_int_distribution<size_t> idxDist(0, model.size() - 1);
@@ -32,6 +34,7 @@ TEST(PropertyFuzzUnit, DynamicArrayWriteRemoveMatchesModel) {
                 dynamic_value_array_remove(&array, index);
             }
 
+            // Assert
             ASSERT_EQ(model.size(), array.count);
             for (size_t i = 0; i < model.size(); i++) {
                 EXPECT_DOUBLE_EQ(model[i], AS_NUMBER(array.values[i]));
@@ -43,10 +46,12 @@ TEST(PropertyFuzzUnit, DynamicArrayWriteRemoveMatchesModel) {
 }
 
 TEST(PropertyFuzzUnit, ChunkLineLookupMatchesRecordedLines) {
+    // Arrange
     std::mt19937 rng(424242u);
 
     for (int round = 0; round < 30; round++) {
         chunk_t chunk;
+        // Act
         chunk_init(&chunk);
         std::vector<uint32_t> expectedLines;
 
@@ -61,6 +66,7 @@ TEST(PropertyFuzzUnit, ChunkLineLookupMatchesRecordedLines) {
         }
 
         for (uint32_t i = 0; i < chunk.byteCodeCount; i++) {
+            // Assert
             EXPECT_EQ(expectedLines[i], chunk_determine_line_by_index(&chunk, i));
         }
 

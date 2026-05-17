@@ -37,7 +37,7 @@
 /// Example:
 ///   int arr[] = {1, 2, 3};
 ///   size_t n = CLX_ARRAY_SIZE(arr); // 3
-#define CLX_ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+#define CLX_ARRAY_SIZE(arr)    (sizeof(arr) / sizeof((arr)[0]))
 
 // ── Suppress unused warnings ──────────────────────────────────────────────────
 
@@ -48,7 +48,7 @@
 ///       CLX_UNUSED(ctx);
 ///       handle(event);
 ///   }
-#define CLX_UNUSED(x) ((void)(x))
+#define CLX_UNUSED(x)          ((void)(x))
 
 // ── Stringification ───────────────────────────────────────────────────────────
 
@@ -57,8 +57,8 @@
 /// Example:
 ///   #define VERSION 42
 ///   const char * s = CLX_STRINGIFY(VERSION); // "42"
-#define CLX_STRINGIFY_IMPL(x) #x
-#define CLX_STRINGIFY(x)      CLX_STRINGIFY_IMPL(x)
+#define CLX_STRINGIFY_IMPL(x)  #x
+#define CLX_STRINGIFY(x)       CLX_STRINGIFY_IMPL(x)
 
 // ── Token concatenation ───────────────────────────────────────────────────────
 
@@ -67,15 +67,15 @@
 /// Example:
 ///   #define PREFIX my_
 ///   CLX_CONCAT(PREFIX, func)()  →  my_func()
-#define CLX_CONCAT_IMPL(a, b) a##b
-#define CLX_CONCAT(a, b)      CLX_CONCAT_IMPL(a, b)
+#define CLX_CONCAT_IMPL(a, b)  a##b
+#define CLX_CONCAT(a, b)       CLX_CONCAT_IMPL(a, b)
 
 // ── Arithmetic min / max ──────────────────────────────────────────────────────
 
 /// Type-safe minimum and maximum that evaluate each argument exactly once.
 /// Prefer these over the classic multi-evaluation versions.
-#define CLX_MIN(a, b) ((a) < (b) ? (a) : (b))
-#define CLX_MAX(a, b) ((a) > (b) ? (a) : (b))
+#define CLX_MIN(a, b)          ((a) < (b) ? (a) : (b))
+#define CLX_MAX(a, b)          ((a) > (b) ? (a) : (b))
 
 // ── Alignment ────────────────────────────────────────────────────────────────
 

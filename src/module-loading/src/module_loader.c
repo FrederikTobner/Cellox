@@ -29,11 +29,11 @@
 #include <string.h>
 
 #include "base/common.h"
-#include <module-loading/internal/module_parser.h>
-#include <module-loading/internal/module_path.h>
 #include "clx_os/fs.h"
 #include "clx_os/path.h"
 #include "utils/string_utils.h"
+#include <module-loading/internal/module_parser.h>
+#include <module-loading/internal/module_path.h>
 
 typedef struct module_record_t {
     /// Canonical file-system path of the module source file.
@@ -282,8 +282,7 @@ static module_record_t * module_loader_process_module_from(module_context_t * co
     char * canonicalPath = module_path_canonicalize(rawPath);
     if (!canonicalPath) {
         if (importerPath) {
-            module_loader_error(context, "Could not resolve module \"%s\" imported from \"%s\"", rawPath,
-                                importerPath);
+            module_loader_error(context, "Could not resolve module \"%s\" imported from \"%s\"", rawPath, importerPath);
         } else {
             module_loader_error(context, "Could not resolve module \"%s\"", rawPath);
         }
@@ -354,8 +353,8 @@ static module_record_t * module_loader_process_module_from(module_context_t * co
     module->exports = exports;
 
     for (size_t i = 0; i < importCount; i++) {
-        char * resolvedImportPath = module_path_resolve_import(module->canonicalPath, imports[i].path,
-                                                                module_loader_get_stdlib_path());
+        char * resolvedImportPath =
+            module_path_resolve_import(module->canonicalPath, imports[i].path, module_loader_get_stdlib_path());
         if (!resolvedImportPath) {
             module_loader_error(context, "Could not resolve import path \"%s\" from \"%s\"", imports[i].path,
                                 module->canonicalPath);

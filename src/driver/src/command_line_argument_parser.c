@@ -64,32 +64,20 @@ typedef struct {
 /// @details The only constraint information needed is in the category field.
 /// Compatibility rules are defined once generically and apply universally.
 static const command_line_option_config_t option_configs[] = {
-    [OPTION_HELP] = {
-        .shortRepresentation = "-h",
-        .longRepresentation = "--help",
-        .category = OPTION_TYPE_SINGLETON
-    },
-    [OPTION_VERSION] = {
-        .shortRepresentation = "-v",
-        .longRepresentation = "--version",
-        .category = OPTION_TYPE_SINGLETON
-    },
-    [OPTION_COMPILE] = {
-        .shortRepresentation = "-c",
-        .longRepresentation = "--compile",
-        .category = OPTION_TYPE_MODIFIER
-    },
-    [OPTION_OPTIMIZATION_LEVEL] = {
-        .shortRepresentation = NULL,  // Handled specially: -ON or --optimize=N or --optimize N
-        .longRepresentation = NULL,
-        .category = OPTION_TYPE_MODIFIER
-    },
-    [OPTION_STDLIB_DIR] = {
-        .shortRepresentation = NULL,  // Handled specially: --stdlib-dir=<path> or --stdlib-dir <path>
-        .longRepresentation = NULL,
-        .category = OPTION_TYPE_MODIFIER
-    }
-};
+    [OPTION_HELP] = {.shortRepresentation = "-h", .longRepresentation = "--help", .category = OPTION_TYPE_SINGLETON},
+    [OPTION_VERSION] = {.shortRepresentation = "-v",
+                        .longRepresentation = "--version",
+                        .category = OPTION_TYPE_SINGLETON},
+    [OPTION_COMPILE] = {.shortRepresentation = "-c",
+                        .longRepresentation = "--compile",
+                        .category = OPTION_TYPE_MODIFIER},
+    [OPTION_OPTIMIZATION_LEVEL] = {.shortRepresentation =
+                                       NULL, // Handled specially: -ON or --optimize=N or --optimize N
+                                   .longRepresentation = NULL,
+                                   .category = OPTION_TYPE_MODIFIER},
+    [OPTION_STDLIB_DIR] = {.shortRepresentation = NULL, // Handled specially: --stdlib-dir=<path> or --stdlib-dir <path>
+                           .longRepresentation = NULL,
+                           .category = OPTION_TYPE_MODIFIER}};
 
 // Helper function declarations
 static void command_line_argument_parser_error(char const *, ...);
@@ -105,10 +93,8 @@ static bool command_line_argument_parser_can_add_option(command_line_config_t co
 /// - At most one POSITIONAL argument
 /// - SINGLETONs cannot combine with any other option (modifiers or positional)
 /// @return True if the option can be added, false if it violates constraints
-static bool command_line_argument_parser_can_add_option(
-    command_line_config_t const * config,
-    option_category_t new_option_category
-) {
+static bool command_line_argument_parser_can_add_option(command_line_config_t const * config,
+                                                        option_category_t new_option_category) {
     // Check if we already have a singleton
     if (config->help || config->version) {
         // Cannot add anything to a singleton
@@ -117,8 +103,7 @@ static bool command_line_argument_parser_can_add_option(
 
     // If the new option is a singleton, check if we already have modifiers or positional
     if (new_option_category == OPTION_TYPE_SINGLETON) {
-        return (config->compile == false && config->optimizationLevel == UINT32_MAX &&
-                config->inputFile == NULL);
+        return (config->compile == false && config->optimizationLevel == UINT32_MAX && config->inputFile == NULL);
     }
 
     // MODIFIER options can combine with other modifiers and positional args
@@ -133,14 +118,12 @@ static bool command_line_argument_parser_can_add_option(
 /// 2. Adding config entry with appropriate category
 /// No changes to this function needed.
 command_line_config_t command_line_argument_parser_parse(int argc, char const ** argv) {
-    command_line_config_t config = {
-        .help = false,
-        .version = false,
-        .compile = false,
-        .inputFile = NULL,
-        .optimizationLevel = UINT32_MAX,
-        .stdlibDir = NULL
-    };
+    command_line_config_t config = {.help = false,
+                                    .version = false,
+                                    .compile = false,
+                                    .inputFile = NULL,
+                                    .optimizationLevel = UINT32_MAX,
+                                    .stdlibDir = NULL};
 
     bool expectOptimizationLevelValue = false;
     bool expectStdlibDirValue = false;
@@ -202,8 +185,7 @@ command_line_config_t command_line_argument_parser_parse(int argc, char const **
                     command_line_argument_parser_error(
                         "Help and version options cannot be combined with other options");
                 } else if (category == OPTION_TYPE_MODIFIER) {
-                    command_line_argument_parser_error(
-                        "Options cannot be combined with help or version");
+                    command_line_argument_parser_error("Options cannot be combined with help or version");
                 }
             }
 
@@ -260,12 +242,10 @@ static inline bool command_line_argument_parser_is_option(char const * argument)
 /// @param option The option string to parse (e.g., "-h" or "--help")
 /// @param out_option Pointer to store the parsed option type
 /// @return True if the option was recognized, false otherwise
-static bool command_line_argument_parser_try_parse_option(char const * option,
-                                                          command_line_option_type * out_option) {
+static bool command_line_argument_parser_try_parse_option(char const * option, command_line_option_type * out_option) {
     // Compare against all known options
     for (size_t i = 0; i < sizeof(option_configs) / sizeof(command_line_option_config_t); i++) {
-        if (option_configs[i].shortRepresentation != NULL &&
-            !strcmp(option_configs[i].shortRepresentation, option)) {
+        if (option_configs[i].shortRepresentation != NULL && !strcmp(option_configs[i].shortRepresentation, option)) {
             *out_option = (command_line_option_type)i;
             return true;
         }
@@ -286,8 +266,7 @@ static bool command_line_argument_parser_try_parse_option(char const * option,
 /// @param out_level Pointer to store the parsed optimization level (0-3)
 /// @param out_expect_value Set to true if --optimize was found without a value
 /// @return True if this was an optimization level argument, false otherwise
-static bool command_line_argument_parser_parse_optimization_level(char const * option,
-                                                                  uint32_t * out_level,
+static bool command_line_argument_parser_parse_optimization_level(char const * option, uint32_t * out_level,
                                                                   bool * out_expect_value) {
     // Handle bare -O or --optimize (expects next arg to contain the level)
     if (!strcmp(option, "-O") || !strcmp(option, "--optimize")) {
@@ -308,8 +287,8 @@ static bool command_line_argument_parser_parse_optimization_level(char const * o
     // Handle --optimize=N format (--optimize=0, --optimize=1, etc.)
     if (!strncmp(option, "--optimize=", 11)) {
         if (strlen(option) != 12 || option[11] < '0' || option[11] > '3') {
-            command_line_argument_parser_error("Invalid optimization level: %s (expected: --optimize=0 to --optimize=3)",
-                                               option);
+            command_line_argument_parser_error(
+                "Invalid optimization level: %s (expected: --optimize=0 to --optimize=3)", option);
         }
         *out_level = option[11] - '0';
         *out_expect_value = false;

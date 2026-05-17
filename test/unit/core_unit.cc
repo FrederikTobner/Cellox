@@ -7,15 +7,18 @@ extern "C" {
 }
 
 TEST(DynamicValueArrayUnit, RemoveMiddleElementShiftsTail) {
+    // Arrange
     dynamic_value_array_t array;
     dynamic_value_array_init(&array);
 
+    // Act
     dynamic_value_array_write(&array, NUMBER_VAL(1));
     dynamic_value_array_write(&array, NUMBER_VAL(2));
     dynamic_value_array_write(&array, NUMBER_VAL(3));
 
     dynamic_value_array_remove(&array, 1);
 
+    // Assert
     ASSERT_EQ(2u, array.count);
     EXPECT_DOUBLE_EQ(1.0, AS_NUMBER(array.values[0]));
     EXPECT_DOUBLE_EQ(3.0, AS_NUMBER(array.values[1]));
@@ -24,12 +27,15 @@ TEST(DynamicValueArrayUnit, RemoveMiddleElementShiftsTail) {
 }
 
 TEST(DynamicValueArrayUnit, RemoveOutOfBoundsKeepsArrayUnchanged) {
+    // Arrange
     dynamic_value_array_t array;
     dynamic_value_array_init(&array);
 
+    // Act
     dynamic_value_array_write(&array, NUMBER_VAL(7));
     dynamic_value_array_remove(&array, 5);
 
+    // Assert
     ASSERT_EQ(1u, array.count);
     EXPECT_DOUBLE_EQ(7.0, AS_NUMBER(array.values[0]));
 
@@ -37,15 +43,18 @@ TEST(DynamicValueArrayUnit, RemoveOutOfBoundsKeepsArrayUnchanged) {
 }
 
 TEST(DynamicValueArrayUnit, RemoveFirstElementShiftsAllRemaining) {
+    // Arrange
     dynamic_value_array_t array;
     dynamic_value_array_init(&array);
 
+    // Act
     dynamic_value_array_write(&array, NUMBER_VAL(10));
     dynamic_value_array_write(&array, NUMBER_VAL(20));
     dynamic_value_array_write(&array, NUMBER_VAL(30));
 
     dynamic_value_array_remove(&array, 0);
 
+    // Assert
     ASSERT_EQ(2u, array.count);
     EXPECT_DOUBLE_EQ(20.0, AS_NUMBER(array.values[0]));
     EXPECT_DOUBLE_EQ(30.0, AS_NUMBER(array.values[1]));
@@ -54,15 +63,18 @@ TEST(DynamicValueArrayUnit, RemoveFirstElementShiftsAllRemaining) {
 }
 
 TEST(DynamicValueArrayUnit, RemoveLastElementKeepsPrefix) {
+    // Arrange
     dynamic_value_array_t array;
     dynamic_value_array_init(&array);
 
+    // Act
     dynamic_value_array_write(&array, NUMBER_VAL(10));
     dynamic_value_array_write(&array, NUMBER_VAL(20));
     dynamic_value_array_write(&array, NUMBER_VAL(30));
 
     dynamic_value_array_remove(&array, 2);
 
+    // Assert
     ASSERT_EQ(2u, array.count);
     EXPECT_DOUBLE_EQ(10.0, AS_NUMBER(array.values[0]));
     EXPECT_DOUBLE_EQ(20.0, AS_NUMBER(array.values[1]));
@@ -71,13 +83,16 @@ TEST(DynamicValueArrayUnit, RemoveLastElementKeepsPrefix) {
 }
 
 TEST(ChunkUnit, DetermineLineByInstructionIndex) {
+    // Arrange
     chunk_t chunk;
+    // Act
     chunk_init(&chunk);
 
     chunk_write(&chunk, OP_CONSTANT, 1);
     chunk_write(&chunk, 0, 1);
     chunk_write(&chunk, OP_RETURN, 2);
 
+    // Assert
     EXPECT_EQ(1u, chunk_determine_line_by_index(&chunk, 0));
     EXPECT_EQ(1u, chunk_determine_line_by_index(&chunk, 1));
     EXPECT_EQ(2u, chunk_determine_line_by_index(&chunk, 2));
@@ -86,6 +101,7 @@ TEST(ChunkUnit, DetermineLineByInstructionIndex) {
 }
 
 TEST(ChunkUnit, AddConstantReturnsSequentialIndices) {
+    // Act
     virtual_machine_init();
 
     chunk_t chunk;
@@ -94,6 +110,7 @@ TEST(ChunkUnit, AddConstantReturnsSequentialIndices) {
     int32_t first = chunk_add_constant(&chunk, NUMBER_VAL(12));
     int32_t second = chunk_add_constant(&chunk, NUMBER_VAL(34));
 
+    // Assert
     EXPECT_EQ(0, first);
     EXPECT_EQ(1, second);
     ASSERT_EQ(2u, chunk.constants.count);

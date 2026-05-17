@@ -4,9 +4,9 @@
 #include <stdlib.h>
 
 #include "backend/virtual_machine.h"
+#include "base/common.h"
 #include "byte-code/chunk_disassembler.h"
 #include "byte-code/chunk_file.h"
-#include "base/common.h"
 #include "frontend/compiler.h"
 
 static char * disassembler_read_file(char const * path);

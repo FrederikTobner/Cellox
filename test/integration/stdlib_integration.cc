@@ -64,10 +64,9 @@ static std::string stdlib_run_source(char * source) {
 
 TEST(StdlibIntegration, MathAbsViaModuleLoader) {
     std::string entryPath = stdlib_make_temp_path();
-    std::string entrySource =
-        "import { abs } from \"stdlib/math.clx\";\n"
-        "printf(\"{}\\n\", abs(-4));\n"
-        "printf(\"{}\\n\", abs(6));\n";
+    std::string entrySource = "import { abs } from \"stdlib/math.clx\";\n"
+                              "printf(\"{}\\n\", abs(-4));\n"
+                              "printf(\"{}\\n\", abs(6));\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
     char * stitched = module_loader_load_program(entryPath.c_str());
@@ -80,9 +79,8 @@ TEST(StdlibIntegration, MathAbsViaModuleLoader) {
 
 TEST(StdlibIntegration, StringRepeatViaModuleLoader) {
     std::string entryPath = stdlib_make_temp_path();
-    std::string entrySource =
-        "import { str_repeat } from \"stdlib/string.clx\";\n"
-        "printf(\"{}\\n\", str_repeat(\"ha\", 3));\n";
+    std::string entrySource = "import { str_repeat } from \"stdlib/string.clx\";\n"
+                              "printf(\"{}\\n\", str_repeat(\"ha\", 3));\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
     char * stitched = module_loader_load_program(entryPath.c_str());
@@ -95,9 +93,8 @@ TEST(StdlibIntegration, StringRepeatViaModuleLoader) {
 
 TEST(StdlibIntegration, ArraySumViaModuleLoader) {
     std::string entryPath = stdlib_make_temp_path();
-    std::string entrySource =
-        "import { arr_sum } from \"stdlib/array.clx\";\n"
-        "printf(\"{}\\n\", arr_sum({10, 20, 30}));\n";
+    std::string entrySource = "import { arr_sum } from \"stdlib/array.clx\";\n"
+                              "printf(\"{}\\n\", arr_sum({10, 20, 30}));\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
     char * stitched = module_loader_load_program(entryPath.c_str());
@@ -110,9 +107,8 @@ TEST(StdlibIntegration, ArraySumViaModuleLoader) {
 
 TEST(StdlibIntegration, IoPrintlnViaModuleLoader) {
     std::string entryPath = stdlib_make_temp_path();
-    std::string entrySource =
-        "import { println } from \"stdlib/io.clx\";\n"
-        "println(\"integration\");\n";
+    std::string entrySource = "import { println } from \"stdlib/io.clx\";\n"
+                              "println(\"integration\");\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
     char * stitched = module_loader_load_program(entryPath.c_str());
@@ -125,9 +121,8 @@ TEST(StdlibIntegration, IoPrintlnViaModuleLoader) {
 
 TEST(StdlibIntegration, OsNameViaModuleLoader) {
     std::string entryPath = stdlib_make_temp_path();
-    std::string entrySource =
-        "import { os_name } from \"stdlib/os.clx\";\n"
-        "printf(\"{}\\n\", os_name());\n";
+    std::string entrySource = "import { os_name } from \"stdlib/os.clx\";\n"
+                              "printf(\"{}\\n\", os_name());\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
     char * stitched = module_loader_load_program(entryPath.c_str());
@@ -140,12 +135,11 @@ TEST(StdlibIntegration, OsNameViaModuleLoader) {
 
 TEST(StdlibIntegration, CollectionsStackViaModuleLoader) {
     std::string entryPath = stdlib_make_temp_path();
-    std::string entrySource =
-        "import { stack } from \"stdlib/collections.clx\";\n"
-        "var s = stack();\n"
-        "s.push(1).push(2);\n"
-        "printf(\"{}\\n\", s.pop());\n"
-        "printf(\"{}\\n\", s.pop());\n";
+    std::string entrySource = "import { stack } from \"stdlib/collections.clx\";\n"
+                              "var s = stack();\n"
+                              "s.push(1).push(2);\n"
+                              "printf(\"{}\\n\", s.pop());\n"
+                              "printf(\"{}\\n\", s.pop());\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
     char * stitched = module_loader_load_program(entryPath.c_str());
@@ -158,14 +152,13 @@ TEST(StdlibIntegration, CollectionsStackViaModuleLoader) {
 
 TEST(StdlibIntegration, ViewPipelineViaModuleLoader) {
     std::string entryPath = stdlib_make_temp_path();
-    std::string entrySource =
-        "import { array_view } from \"stdlib/view.clx\";\n"
-        "fun is_even(x) { return x % 2 == 0; }\n"
-        "fun square(x) { return x * x; }\n"
-        "fun sum(acc, x) { return acc + x; }\n"
-        "var v = array_view({1, 2, 3, 4}).filter(is_even).map(square);\n"
-        "printf(\"{}\\n\", v.to_array());\n"
-        "printf(\"{}\\n\", v.reduce(sum, 0));\n";
+    std::string entrySource = "import { array_view } from \"stdlib/view.clx\";\n"
+                              "fun is_even(x) { return x % 2 == 0; }\n"
+                              "fun square(x) { return x * x; }\n"
+                              "fun sum(acc, x) { return acc + x; }\n"
+                              "var v = array_view({1, 2, 3, 4}).filter(is_even).map(square);\n"
+                              "printf(\"{}\\n\", v.to_array());\n"
+                              "printf(\"{}\\n\", v.reduce(sum, 0));\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
     char * stitched = module_loader_load_program(entryPath.c_str());
@@ -188,9 +181,8 @@ TEST(StdlibIntegration, EnvVarOverridesBuiltinPath) {
     module_loader_set_stdlib_path(NULL);
 
     std::string entryPath = stdlib_make_temp_path();
-    std::string entrySource =
-        "import { abs } from \"stdlib/math.clx\";\n"
-        "printf(\"{}\\n\", abs(-5));\n";
+    std::string entrySource = "import { abs } from \"stdlib/math.clx\";\n"
+                              "printf(\"{}\\n\", abs(-5));\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
     char * stitched = module_loader_load_program(entryPath.c_str());
@@ -215,9 +207,8 @@ TEST(StdlibIntegration, StdlibPathOverrideOwnsMemory) {
     overrideBuffer.assign("/tmp/this-path-does-not-exist");
 
     std::string entryPath = stdlib_make_temp_path();
-    std::string entrySource =
-        "import { abs } from \"stdlib/math.clx\";\n"
-        "printf(\"{}\\n\", abs(-7));\n";
+    std::string entrySource = "import { abs } from \"stdlib/math.clx\";\n"
+                              "printf(\"{}\\n\", abs(-7));\n";
     ASSERT_TRUE(stdlib_write_file(entryPath, entrySource));
 
     char * stitched = module_loader_load_program(entryPath.c_str());

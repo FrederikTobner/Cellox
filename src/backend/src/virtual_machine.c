@@ -28,14 +28,14 @@
 #include <string.h>
 #include <time.h>
 
-#include "base/common.h"
 #include "backend/memory_mutator.h"
+#include "base/common.h"
 #include <backend/internal/native_functions.h>
 #if defined(DEBUG_TRACE_EXECUTION)
 #include "byte-code/chunk_disassembler.h"
 #endif
-#include "language-models/value.h"
 #include "language-models/object.h"
+#include "language-models/value.h"
 
 /// Global VirtualMachine variable
 virtual_machine_t virtualMachine;
@@ -419,12 +419,10 @@ static void virtual_machine_define_natives(void) {
     static char const * const stdlibErrorVariants[] = {
         "InvalidArgument", "TypeError", "DomainError", "FormatError", "ReadFailed", "SystemFailed",
     };
-    object_error_set_t * ioErrorSet =
-        virtual_machine_define_error_set("IoError", ioErrorVariants,
-                                         sizeof(ioErrorVariants) / sizeof(*ioErrorVariants));
-    object_error_set_t * stdlibErrorSet =
-        virtual_machine_define_error_set("StdlibError", stdlibErrorVariants,
-                                         sizeof(stdlibErrorVariants) / sizeof(*stdlibErrorVariants));
+    object_error_set_t * ioErrorSet = virtual_machine_define_error_set(
+        "IoError", ioErrorVariants, sizeof(ioErrorVariants) / sizeof(*ioErrorVariants));
+    object_error_set_t * stdlibErrorSet = virtual_machine_define_error_set(
+        "StdlibError", stdlibErrorVariants, sizeof(stdlibErrorVariants) / sizeof(*stdlibErrorVariants));
     native_functions_set_io_error_set(OBJECT_VAL(ioErrorSet));
     native_functions_set_stdlib_error_set(OBJECT_VAL(stdlibErrorSet));
 
@@ -661,19 +659,57 @@ static interpret_result virtual_machine_run(void) {
 #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
 
     // Dispatch table with the labels we jump to instead of function pointers
-    void * dispatch_table[] = {
-        &&label_add,           &&label_array_literal, &&label_call,          &&label_class,         &&label_closure,
-        &&label_close_upvalue, &&label_constant,      &&label_define_global, &&label_dup,           &&label_divide,
-        &&label_equal,
-        &&label_exponent,      &&label_false,         &&label_get_global,    &&label_get_index_of,  &&label_get_local,
-        &&label_get_property,  &&label_get_slice_of,  &&label_get_super,     &&label_get_upvalue,   &&label_greater,
-        &&label_inherit,       &&label_invoke,        &&label_jump,          &&label_jump_if_false, &&label_less,
-        &&label_loop,          &&label_method,        &&label_modulo,        &&label_multiply,      &&label_negate,
-        &&label_not,           &&label_null,          &&label_pop,           &&label_return,        &&label_set_global,
-        &&label_set_index_of,  &&label_set_local,     &&label_set_property,  &&label_set_upvalue,   &&label_subtract,
-        &&label_super_invoke,  &&label_true,          &&label_result_is_error, &&label_result_unwrap,
-        &&label_result_unwrap_error, &&label_result_wrap_ok, &&label_result_wrap_err, &&label_must,
-        &&label_try_propagate, &&label_close_upvalue_keep};
+    void * dispatch_table[] = {&&label_add,
+                               &&label_array_literal,
+                               &&label_call,
+                               &&label_class,
+                               &&label_closure,
+                               &&label_close_upvalue,
+                               &&label_constant,
+                               &&label_define_global,
+                               &&label_dup,
+                               &&label_divide,
+                               &&label_equal,
+                               &&label_exponent,
+                               &&label_false,
+                               &&label_get_global,
+                               &&label_get_index_of,
+                               &&label_get_local,
+                               &&label_get_property,
+                               &&label_get_slice_of,
+                               &&label_get_super,
+                               &&label_get_upvalue,
+                               &&label_greater,
+                               &&label_inherit,
+                               &&label_invoke,
+                               &&label_jump,
+                               &&label_jump_if_false,
+                               &&label_less,
+                               &&label_loop,
+                               &&label_method,
+                               &&label_modulo,
+                               &&label_multiply,
+                               &&label_negate,
+                               &&label_not,
+                               &&label_null,
+                               &&label_pop,
+                               &&label_return,
+                               &&label_set_global,
+                               &&label_set_index_of,
+                               &&label_set_local,
+                               &&label_set_property,
+                               &&label_set_upvalue,
+                               &&label_subtract,
+                               &&label_super_invoke,
+                               &&label_true,
+                               &&label_result_is_error,
+                               &&label_result_unwrap,
+                               &&label_result_unwrap_error,
+                               &&label_result_wrap_ok,
+                               &&label_result_wrap_err,
+                               &&label_must,
+                               &&label_try_propagate,
+                               &&label_close_upvalue_keep};
 
 /// Makro that dipatches the next bytecode instuction
 #define DISPATCH() goto * dispatch_table[READ_BYTE()]
@@ -823,8 +859,7 @@ static interpret_result virtual_machine_run(void) {
             }
             if (!IS_INSTANCE(recv)) {
                 virtual_machine_runtime_error("Only instances have properties but get expression but a %s %s was used",
-                                              value_stringify_type(recv),
-                                              IS_OBJECT(recv) ? "object" : "value");
+                                              value_stringify_type(recv), IS_OBJECT(recv) ? "object" : "value");
                 return INTERPRET_RUNTIME_ERROR;
             }
             object_instance_t * instance = AS_INSTANCE(recv);
@@ -1068,8 +1103,8 @@ static interpret_result virtual_machine_run(void) {
             if (res->isError) {
                 if (IS_ERROR_VALUE(res->payload)) {
                     object_error_value_t * ev = AS_ERROR_VALUE(res->payload);
-                    virtual_machine_runtime_error("must: unhandled error %s.%s",
-                                                  ev->errorSet->name->chars, ev->name->chars);
+                    virtual_machine_runtime_error("must: unhandled error %s.%s", ev->errorSet->name->chars,
+                                                  ev->name->chars);
                 } else {
                     virtual_machine_runtime_error("must: unhandled error result");
                 }
@@ -1234,8 +1269,7 @@ static interpret_result virtual_machine_run(void) {
                     value_t value;
                     object_error_set_t * errorSet = AS_ERROR_SET(receiver);
                     if (!value_hash_table_get(&errorSet->variants, name, &value)) {
-                        virtual_machine_runtime_error("Undefined error '%s.%s'.", errorSet->name->chars,
-                                                      name->chars);
+                        virtual_machine_runtime_error("Undefined error '%s.%s'.", errorSet->name->chars, name->chars);
                         return INTERPRET_RUNTIME_ERROR;
                     }
                     virtual_machine_pop();
@@ -1506,8 +1540,8 @@ static interpret_result virtual_machine_run(void) {
                 if (res->isError) {
                     if (IS_ERROR_VALUE(res->payload)) {
                         object_error_value_t * ev = AS_ERROR_VALUE(res->payload);
-                        virtual_machine_runtime_error("must: unhandled error %s.%s",
-                                                      ev->errorSet->name->chars, ev->name->chars);
+                        virtual_machine_runtime_error("must: unhandled error %s.%s", ev->errorSet->name->chars,
+                                                      ev->name->chars);
                     } else {
                         virtual_machine_runtime_error("must: unhandled error result");
                     }

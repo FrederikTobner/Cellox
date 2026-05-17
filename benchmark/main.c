@@ -1,11 +1,12 @@
 #include <stdlib.h>
 
+#include "base/common.h"
 #include "benchmark_argument_parser.h"
 #include "benchmark_runner.h"
-#include "base/common.h"
 
 /// @brief Main entry point of the cellox benchmarking suite
-/// @details Runs predefined benchmarks that include module import and slice workloads in addition to core language paths.
+/// @details Runs predefined benchmarks that include module import and slice workloads in addition to core language
+/// paths.
 /// @param argc The amount of arguments that were specified by the user - unused
 /// @param argv The arguments that were spepcified by the user - unused
 /// @return 0 -> OK, 64 -> wrong arguments (command line usage error), 70 -> runtime error (internal software error), 74

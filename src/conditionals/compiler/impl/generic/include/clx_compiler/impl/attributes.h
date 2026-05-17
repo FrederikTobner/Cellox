@@ -8,10 +8,10 @@
 #define CLX_COLD
 
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
-#    include <stdnoreturn.h>
-#    define CLX_NORETURN noreturn
+#include <stdnoreturn.h>
+#define CLX_NORETURN noreturn
 #else
-#    define CLX_NORETURN
+#define CLX_NORETURN
 #endif
 
 #define CLX_PURE

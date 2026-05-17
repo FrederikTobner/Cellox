@@ -47,9 +47,9 @@ static void test_program(std::string const & programPath, std::string const & ex
     // Redirect output
     std::string actual_output;
     if (producesError) {
-    testing::internal::CaptureStderr();
+        testing::internal::CaptureStderr();
     } else {
-    testing::internal::CaptureStdout();
+        testing::internal::CaptureStdout();
     }
     // Execute Test 🚀
     initializer_run_from_file(filePath.c_str(), false);

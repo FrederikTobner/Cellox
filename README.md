@@ -29,7 +29,7 @@ Cellox is a programming language based on [lox](https://craftinginterpreters.com
 * [Strings](#strings)
 * [Arrays](#arrays)
 * [Slices](#slices)
-* [Benchmarking](#benchmarking)
+* [Standard library](#standard-library)
 * [IDE Integration](#ide-integration)
 * [How it works](#how-it-works)
 * [License](#license)
@@ -153,6 +153,10 @@ A [slice](https://github.com/FrederikTobner/Cellox/wiki/Slices) is a subset of a
 Slices are created by using the range operator.
 
 The values stored in slice can be altered without affecting the original array.
+
+## Standard library
+
+The [standard library](https://github.com/FrederikTobner/Cellox/wiki/Standard-Library) of Cellox is minimal by design and covers arrays, collections, i/o, math, string operations and views.
 
 ## IDE Integration
 

@@ -25,8 +25,8 @@
 #include <string.h>
 
 #include "backend/memory_mutator.h"
-#include "utils/string_utils.h"
 #include "language-models/value_hash_table.h"
+#include "utils/string_utils.h"
 
 static value_hash_table_t * vm_string_table = NULL;
 static object_t ** vm_objects_head = NULL;
@@ -50,10 +50,9 @@ void object_set_gc_guard_hooks(void (*push_fn)(value_t), value_t (*pop_fn)(void)
 #define ALLOCATE_OBJECT(type, objectType) (type *)object_allocate_object(sizeof(type), objectType)
 
 /// The object types of cellox as a string
-static char const * objectTypesStringified[] = {
-    "array",          "method",        "error set", "error",    "result",     "instance",
-    "class",          "closure",       "function",  "native function", "string", "upvalue",
-    "unknown"};
+static char const * objectTypesStringified[] = {"array",    "method",  "error set", "error",    "result",
+                                                "instance", "class",   "closure",   "function", "native function",
+                                                "string",   "upvalue", "unknown"};
 
 static object_t * object_allocate_object(size_t, object_type);
 static object_string_t * object_allocate_string(char *, uint32_t, uint32_t);
