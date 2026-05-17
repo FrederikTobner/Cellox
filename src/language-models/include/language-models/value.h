@@ -57,7 +57,7 @@ typedef uint64_t value_t;
 /// Makro that determines whether a value is nil
 #define IS_NULL(value)   ((value) == NULL_VAL)
 /// Makro that determines whether a value is of the type number
-#define IS_NUMBER(value) (((value)&QNAN) != QNAN)
+#define IS_NUMBER(value) (((value) & QNAN) != QNAN)
 /// Makro that determines whether a value is of the type obejct
 #define IS_OBJECT(value) (((value) & (QNAN | SIGN_BIT)) == (QNAN | SIGN_BIT))
 

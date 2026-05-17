@@ -18,8 +18,8 @@
  * @brief Bytecode emission helpers shared by parser modules.
  */
 
-#include <frontend/internal/compiler_ops.h>
 #include <frontend/internal/compilation_context.h>
+#include <frontend/internal/compiler_ops.h>
 
 #include <stdint.h>
 

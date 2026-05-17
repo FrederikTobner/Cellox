@@ -9,38 +9,20 @@ the [`cellox_add_library`](../cmake/modules/CelloxHelpers.cmake) helper.
 
 ```
 src/
-├── backend/           → clx_runtime  — virtual machine, GC, memory, native functions
-├── byte-code/         → clx_bytecode — chunk IR, disassembler, serialisation
+├── backend/           → clx_backend        — virtual machine, GC, memory, native functions
+├── base/              → clx_base           — foundational utilities (shared by all)
+├── byte-code/         → clx_bytecode       — chunk IR, disassembler, serialisation
+├── conditionals/                           — Conditional compilation layer currently for the compiler and host OS
+│   ├── compiler/      → clx_toolchain      — compiler-specific attribute macros
+│   └── os/            → clx_os             — OS abstraction (fs, path, stdio, temp, time)
+├── driver/            → clx_driver         — application-level orchestration
 ├── frontend/          → clx_lex, clx_frontend — lexer, parser, compiler
-├── language-models/   → clx_model    — value & object representation, hash-table, array
-├── middle-end/        → clx_middleend — bytecode optimisation passes
-├── common.c/h         ┐
-├── string_utils.c/h   ┘ → clx_base   — foundational utilities (shared by all)
-├── command_line_argument_parser.c/h ┐
-├── initializer.c/h                  ┤ → clx_driver — application-level glue
-├── module_loader.c/h                ┘
-└── main.c             → Cellox executable (links cellox_all)
+├── language-models/   → clx_model          — value & object representation, hash-table, array
+├── middle-end/        → clx_middleend      — bytecode optimisation passes
+├── module-loading/    → clx_module_loading — module graph resolution & stdlib lookup
+├── utils/             → clx_utils          — small shared helper routines
+└── main.c             → Cellox executable  (links cellox_all)
 ```
-
-## Dependency graph
-
-```
-clx_base
-  ├── clx_model
-  │     └── clx_bytecode
-  │           ├── clx_middleend
-  │           │     └── clx_frontend (also needs clx_lex)
-  │           └── clx_runtime
-  └── clx_lex
-        └── clx_frontend
-                └── clx_driver
-                      └── Cellox (executable)
-```
-
-`cellox_all` is a convenience `INTERFACE` target that exposes `clx_driver` (and
-therefore the entire graph) behind a single link target used by the benchmark
-runner, disassembler, and test suites.
-
 ## Adding a new library
 
 1. Create a sub-directory under `src/`.

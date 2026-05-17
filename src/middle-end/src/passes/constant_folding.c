@@ -23,6 +23,67 @@
 #include "language-models/object.h"
 #include "language-models/value.h"
 
+static uint32_t opcode_size(chunk_t * chunk, uint32_t offset);
+static bool try_fold_binary_op(uint8_t op, value_t a, value_t b, value_t * result);
+
+pass_result_t pass_constant_folding(chunk_t * chunk) {
+    pass_result_t result = {
+        .pass_name = "constant_folding",
+        .modified = false,
+        .instructions_removed = 0,
+        .constants_folded = 0,
+        .branches_eliminated = 0,
+    };
+
+    for (uint32_t i = 0; i < chunk->byteCodeCount;) {
+        if (chunk->code[i] != OP_CONSTANT || i + 1 >= chunk->byteCodeCount) {
+            i += opcode_size(chunk, i);
+            continue;
+        }
+
+        uint8_t const_idx_a = chunk->code[i + 1];
+        if (const_idx_a >= chunk->constants.count) {
+            i += 2;
+            continue;
+        }
+
+        value_t folded_value;
+
+        // Binary pattern: CONST a, CONST b, OP
+        if (i + 4 >= chunk->byteCodeCount || chunk->code[i + 2] != OP_CONSTANT) {
+            i += 2;
+            continue;
+        }
+
+        uint8_t const_idx_b = chunk->code[i + 3];
+        uint8_t op = chunk->code[i + 4];
+        if (const_idx_b >= chunk->constants.count) {
+            i += 2;
+            continue;
+        }
+
+        if (!try_fold_binary_op(op, chunk->constants.values[const_idx_a], chunk->constants.values[const_idx_b],
+                                &folded_value)) {
+            i += 2;
+            continue;
+        }
+
+        chunk->constants.values[const_idx_a] = folded_value;
+        chunk_remove_bytecode(chunk, i + 2, 3); // remove CONST b + OP
+
+        result.modified = true;
+        result.constants_folded++;
+        result.instructions_removed += 3;
+
+        if (i >= 2 && chunk->code[i - 2] == OP_CONSTANT) {
+            i -= 2;
+            continue;
+        }
+    }
+
+    return result;
+}
+
 static uint32_t opcode_size(chunk_t * chunk, uint32_t offset) {
     if (offset >= chunk->byteCodeCount) {
         return 1;
@@ -95,62 +156,4 @@ static bool try_fold_binary_op(uint8_t op, value_t a, value_t b, value_t * resul
     default:
         return false;
     }
-}
-
-pass_result_t pass_constant_folding(chunk_t * chunk) {
-    pass_result_t result = {
-        .pass_name = "constant_folding",
-        .modified = false,
-        .instructions_removed = 0,
-        .constants_folded = 0,
-        .branches_eliminated = 0,
-    };
-
-    for (uint32_t i = 0; i < chunk->byteCodeCount;) {
-        if (chunk->code[i] != OP_CONSTANT || i + 1 >= chunk->byteCodeCount) {
-            i += opcode_size(chunk, i);
-            continue;
-        }
-
-        uint8_t const_idx_a = chunk->code[i + 1];
-        if (const_idx_a >= chunk->constants.count) {
-            i += 2;
-            continue;
-        }
-
-        value_t folded_value;
-
-        // Binary pattern: CONST a, CONST b, OP
-        if (i + 4 >= chunk->byteCodeCount || chunk->code[i + 2] != OP_CONSTANT) {
-            i += 2;
-            continue;
-        }
-
-        uint8_t const_idx_b = chunk->code[i + 3];
-        uint8_t op = chunk->code[i + 4];
-        if (const_idx_b >= chunk->constants.count) {
-            i += 2;
-            continue;
-        }
-
-        if (!try_fold_binary_op(op, chunk->constants.values[const_idx_a], chunk->constants.values[const_idx_b],
-                                &folded_value)) {
-            i += 2;
-            continue;
-        }
-
-        chunk->constants.values[const_idx_a] = folded_value;
-        chunk_remove_bytecode(chunk, i + 2, 3); // remove CONST b + OP
-
-        result.modified = true;
-        result.constants_folded++;
-        result.instructions_removed += 3;
-
-        if (i >= 2 && chunk->code[i - 2] == OP_CONSTANT) {
-            i -= 2;
-            continue;
-        }
-    }
-
-    return result;
 }

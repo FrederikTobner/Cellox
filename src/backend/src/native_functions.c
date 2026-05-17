@@ -19,8 +19,8 @@
  */
 
 #include <ctype.h>
-#include <math.h>
 #include <limits.h>
+#include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,12 +34,12 @@
 #include <unistd.h>
 #endif
 
+#include "backend/memory_mutator.h"
+#include "backend/virtual_machine.h"
 #include "language-models/object.h"
 #include "language-models/value.h"
 #include "utils/string_utils.h"
-#include "backend/memory_mutator.h"
 #include <backend/internal/native_functions.h>
-#include "backend/virtual_machine.h"
 
 typedef enum {
     /// Native append_to_file function

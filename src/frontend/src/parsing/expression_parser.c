@@ -18,20 +18,20 @@
  * @brief File containing expression-related compiler implementation.
  */
 
-#include <frontend/internal/expression_parser.h>
 #include <frontend/internal/compiler_ops.h>
+#include <frontend/internal/expression_parser.h>
 
 #include <stdlib.h>
 #include <string.h>
 
+#include "backend/virtual_machine.h"
 #include <frontend/internal/lexer.h>
 #include <frontend/internal/parse_rules.h>
-#include "backend/virtual_machine.h"
 
 static expression_parser_context_t * expressionContext = NULL;
 
-#define PARSER (*(expressionContext->parser))
-#define CURRENT (*(expressionContext->currentCompiler))
+#define PARSER        (*(expressionContext->parser))
+#define CURRENT       (*(expressionContext->currentCompiler))
 #define CURRENT_CLASS (*(expressionContext->currentClass))
 
 static inline void expression_parser_advance_token(void) {
@@ -98,8 +98,7 @@ static void expression_parser_grouping(bool canAssign);
 static inline void expression_parser_hex_number(bool canAssign);
 static void expression_parser_index_of(bool canAssign, uint8_t getOp, uint32_t arg);
 static void expression_parser_literal(bool canAssign);
-static void expression_parser_nondirect_assignment(uint8_t assignmentType, uint8_t getOp, uint8_t setOp,
-                                                   uint8_t arg);
+static void expression_parser_nondirect_assignment(uint8_t assignmentType, uint8_t getOp, uint8_t setOp, uint8_t arg);
 static void expression_parser_nondirect_property_assignment(uint8_t assignmentType, uint8_t name);
 static inline void expression_parser_number(bool canAssign);
 static void expression_parser_or(bool canAssign);
@@ -145,7 +144,9 @@ static parse_rule_t rules[] = {
     [TOKEN_IDENTIFIER] = {.prefix = expression_parser_compile_variable, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_IF] = {.prefix = NULL, .infix = NULL, .precedence = PREC_NONE},
     [TOKEN_LEFT_BRACE] = {.prefix = expression_parser_compile_dynamic_array, .infix = NULL, .precedence = PREC_NONE},
-    [TOKEN_LEFT_PAREN] = {.prefix = expression_parser_grouping, .infix = expression_parser_call, .precedence = PREC_CALL},
+    [TOKEN_LEFT_PAREN] = {.prefix = expression_parser_grouping,
+                          .infix = expression_parser_call,
+                          .precedence = PREC_CALL},
     [TOKEN_LEFT_BRACKET] = {.prefix = NULL, .infix = NULL, .precedence = PREC_CALL},
     [TOKEN_LESS] = {.prefix = NULL, .infix = expression_parser_binary, .precedence = PREC_COMPARISON},
     [TOKEN_LESS_EQUAL] = {.prefix = NULL, .infix = expression_parser_binary, .precedence = PREC_COMPARISON},
@@ -431,8 +432,7 @@ void expression_parser_compile_named_variable(token_t name, bool canAssign) {
     }
 }
 
-static void expression_parser_nondirect_assignment(uint8_t assignmentType, uint8_t getOp, uint8_t setOp,
-                                                   uint8_t arg) {
+static void expression_parser_nondirect_assignment(uint8_t assignmentType, uint8_t getOp, uint8_t setOp, uint8_t arg) {
     expression_parser_emit_bytes(getOp, arg);
     expression_parser_parse_expression();
     expression_parser_emit_byte(assignmentType);
@@ -670,7 +670,7 @@ static void expression_parser_catch(bool canAssign) {
             hasSuccessHandler = true;
         }
     } else {
-        expression_parser_emit_byte(OP_POP); // pop error result
+        expression_parser_emit_byte(OP_POP);         // pop error result
         expression_parser_parse_precedence(PREC_OR); // evaluate fallback
     }
 

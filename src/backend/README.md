@@ -1,12 +1,12 @@
-# clx_runtime — Virtual machine, GC, memory, native functions
+# clx_backend — Virtual machine, GC, memory, native functions
 
-**CMake target:** `clx_runtime`  
+**CMake target:** `clx_backend`  
 **Sources:** `garbage_collector.c`, `memory_mutator.c`, `native_functions.c`, `virtual_machine.c`  
 **Depends on:** `clx_bytecode` (+ `m` on UNIX)
 
 ## Purpose
 
-`clx_runtime` is the execution engine of Cellox. It intentionally does **not**
+`clx_backend` is the execution engine of Cellox. It intentionally does **not**
 depend on `clx_frontend`; the compiler is injected via a function pointer at
 startup.
 
@@ -19,7 +19,7 @@ startup.
 
 ## Injection hooks
 
-`clx_runtime` breaks its only upward cycle (→ compiler) through three hooks
+`clx_backend` breaks its only upward cycle (→ compiler) through three hooks
 registered before `virtual_machine_init()` is called:
 
 ```c

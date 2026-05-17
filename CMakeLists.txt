@@ -83,3 +83,12 @@ if(CLX_BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
 endif()
+# Copy compile_commands.json to project root for clangd
+add_custom_target(
+    copy_compile_commands ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_BINARY_DIR}/compile_commands.json
+        ${CMAKE_SOURCE_DIR}/compile_commands.json
+    BYPRODUCTS ${CMAKE_SOURCE_DIR}/compile_commands.json
+    COMMENT "Copying compile_commands.json to project root"
+)

@@ -16,6 +16,9 @@
 /**
  * @file module_parser.c
  * @brief Parser for Cellox module source text.
+ * @details Parses import and export declarations line-by-line, strips export
+ * keywords from the emitted source, and returns the metadata needed by the
+ * module loader for dependency validation.
  */
 
 #include <module-loading/internal/module_parser.h>
@@ -26,10 +29,10 @@
 
 #include "utils/string_utils.h"
 
-// ---------------------------------------------------------------------------
-// Private helpers
-// ---------------------------------------------------------------------------
-
+/**
+ * @brief Frees the dynamically allocated members of a single import spec.
+ * @param importSpec The import specification to clean up.
+ */
 static void module_parser_cleanup_import_spec(import_spec_t * importSpec) {
     free(importSpec->path);
     importSpec->path = NULL;
@@ -41,22 +44,31 @@ static void module_parser_cleanup_import_spec(import_spec_t * importSpec) {
     importSpec->importedNameCount = 0;
 }
 
-/// Returns true if `text` starts with `keyword` and the next character is not
-/// an identifier character (i.e. the keyword is not a prefix of a longer word).
+/**
+ * @brief Checks whether a token starts with a standalone keyword.
+ * @details The match only succeeds if the keyword is followed by a
+ * non-identifier character so partial matches like `important` do not count
+ * as `import`.
+ * @param text The token sequence to inspect.
+ * @param keyword The keyword to compare against.
+ * @return true if `text` starts with `keyword` as a standalone token.
+ */
 static bool module_parser_starts_with_keyword(char const * text, char const * keyword) {
     size_t keywordLength = strlen(keyword);
     if (strncmp(text, keyword, keywordLength)) {
         return false;
     }
     char c = text[keywordLength];
-    bool identifierChar =
-        (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
+    bool identifierChar = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
     return !identifierChar;
 }
 
-/// Tries to parse an export declaration from `line`.
-/// On success, sets `*exportName` to a malloc'd identifier string and returns true.
-/// On failure returns false without allocating.
+/**
+ * @brief Parses a single export declaration.
+ * @param line Source line to inspect.
+ * @param exportName Out-parameter receiving the exported identifier.
+ * @return true if `line` contains a supported export declaration, otherwise false.
+ */
 static bool module_parser_parse_export(char const * line, char ** exportName) {
     char const * cursor = line;
     while (*cursor == ' ' || *cursor == '\t') {
@@ -99,9 +111,14 @@ static bool module_parser_parse_export(char const * line, char ** exportName) {
     return *exportName != NULL;
 }
 
-/// Tries to parse an import declaration from `line`.
-/// On success, populates `*importSpec` and returns true (caller owns the allocation).
-/// On failure returns false; any partial allocation is freed before returning.
+/**
+ * @brief Parses a single import declaration.
+ * @details Supports both bare-path imports and named imports. Any partial
+ * allocation performed while parsing is released before returning false.
+ * @param line Source line to inspect.
+ * @param importSpec Out-parameter receiving the parsed import metadata.
+ * @return true if `line` contains a valid import declaration, otherwise false.
+ */
 static bool module_parser_parse_import(char const * line, import_spec_t * importSpec) {
     memset(importSpec, 0, sizeof(*importSpec));
 
@@ -238,10 +255,12 @@ static bool module_parser_parse_import(char const * line, import_spec_t * import
     return true;
 }
 
-// ---------------------------------------------------------------------------
-// Public API
-// ---------------------------------------------------------------------------
-
+/**
+ * @brief Appends text to a growable source buffer.
+ * @param buffer Destination buffer to grow and append into.
+ * @param text Text bytes to append.
+ * @param length Number of bytes to append from `text`.
+ */
 void module_parser_append_source(source_buffer_t * buffer, char const * text, size_t length) {
     if (!length) {
         return;
@@ -266,6 +285,15 @@ void module_parser_append_source(source_buffer_t * buffer, char const * text, si
     buffer->length += length;
 }
 
+/**
+ * @brief Parses a module source file into imports, exports, and transformed source.
+ * @param source NUL-terminated module source text.
+ * @param exports Output export list populated from `export` declarations.
+ * @param imports Output array of import specifications allocated on success.
+ * @param importCount Output count of entries stored in `imports`.
+ * @param transformedSource Output transformed source with `export` stripped.
+ * @return true on success, otherwise false.
+ */
 bool module_parser_parse(char const * source, export_list_t * exports, import_spec_t ** imports, size_t * importCount,
                          char ** transformedSource) {
     *imports = NULL;
@@ -368,6 +396,11 @@ bool module_parser_parse(char const * source, export_list_t * exports, import_sp
     return true;
 }
 
+/**
+ * @brief Frees an array of import specifications.
+ * @param imports Import array previously returned by module_parser_parse().
+ * @param importCount Number of entries stored in `imports`.
+ */
 void module_parser_cleanup_imports(import_spec_t * imports, size_t importCount) {
     for (size_t i = 0; i < importCount; i++) {
         module_parser_cleanup_import_spec(imports + i);
@@ -375,6 +408,10 @@ void module_parser_cleanup_imports(import_spec_t * imports, size_t importCount) 
     free(imports);
 }
 
+/**
+ * @brief Frees all export names stored in an export list.
+ * @param list Export list to reset and release.
+ */
 void module_parser_export_list_free(export_list_t * list) {
     for (size_t i = 0; i < list->count; i++) {
         free(list->names[i]);

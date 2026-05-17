@@ -28,43 +28,43 @@
 
 /* Enforce a complete compiler attributes contract at compile time. */
 #ifndef CLX_ALWAYS_INLINE
-#    error "Missing CLX_ALWAYS_INLINE in clx_compiler/impl/attributes.h"
+#error "Missing CLX_ALWAYS_INLINE in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_NEVER_INLINE
-#    error "Missing CLX_NEVER_INLINE in clx_compiler/impl/attributes.h"
+#error "Missing CLX_NEVER_INLINE in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_HOT
-#    error "Missing CLX_HOT in clx_compiler/impl/attributes.h"
+#error "Missing CLX_HOT in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_COLD
-#    error "Missing CLX_COLD in clx_compiler/impl/attributes.h"
+#error "Missing CLX_COLD in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_NORETURN
-#    error "Missing CLX_NORETURN in clx_compiler/impl/attributes.h"
+#error "Missing CLX_NORETURN in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_PURE
-#    error "Missing CLX_PURE in clx_compiler/impl/attributes.h"
+#error "Missing CLX_PURE in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_CONST
-#    error "Missing CLX_CONST in clx_compiler/impl/attributes.h"
+#error "Missing CLX_CONST in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_NODISCARD
-#    error "Missing CLX_NODISCARD in clx_compiler/impl/attributes.h"
+#error "Missing CLX_NODISCARD in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_PRINTF_FORMAT
-#    error "Missing CLX_PRINTF_FORMAT in clx_compiler/impl/attributes.h"
+#error "Missing CLX_PRINTF_FORMAT in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_NONNULL
-#    error "Missing CLX_NONNULL in clx_compiler/impl/attributes.h"
+#error "Missing CLX_NONNULL in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_LIKELY
-#    error "Missing CLX_LIKELY in clx_compiler/impl/attributes.h"
+#error "Missing CLX_LIKELY in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_UNLIKELY
-#    error "Missing CLX_UNLIKELY in clx_compiler/impl/attributes.h"
+#error "Missing CLX_UNLIKELY in clx_compiler/impl/attributes.h"
 #endif
 #ifndef CLX_UNREACHABLE
-#    error "Missing CLX_UNREACHABLE in clx_compiler/impl/attributes.h"
+#error "Missing CLX_UNREACHABLE in clx_compiler/impl/attributes.h"
 #endif
 
 #endif /* CELLOX_COMPILER_ATTRIBUTES_H_ */

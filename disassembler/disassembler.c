@@ -4,9 +4,9 @@
 #include <stdlib.h>
 
 #include "backend/virtual_machine.h"
+#include "base/common.h"
 #include "byte-code/chunk_disassembler.h"
 #include "byte-code/chunk_file.h"
-#include "base/common.h"
 #include "frontend/compiler.h"
 
 static char * disassembler_read_file(char const * path);
@@ -30,7 +30,7 @@ void disassembler_disassemble_file(char const * filepath) {
     }
 }
 
-void disassembler_show_usage() {
+void disassembler_show_usage(void) {
     printf("Usgae:\nCelloxDisassembler (<celloxfile>|<celloxchunkfile>)");
 }
 

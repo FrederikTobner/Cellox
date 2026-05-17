@@ -3,7 +3,7 @@ cellox_add_library(clx_driver
         src/command_line_argument_parser.c
         src/initializer.c
     DEPENDENCIES
-        clx_runtime
+        clx_backend
         clx_frontend
         clx_module_loading
     INCLUDE_DIRS

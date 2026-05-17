@@ -21,8 +21,8 @@
 #ifndef CELLOX_COMPILER_H_
 #define CELLOX_COMPILER_H_
 
-#include <frontend/internal/lexer.h>
 #include "language-models/object.h"
+#include <frontend/internal/lexer.h>
 
 /// @brief Compiles a cellox program.
 /// @param code The cellox program that is compiled

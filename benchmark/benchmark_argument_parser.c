@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "benchmark_runner.h"
 #include "base/common.h"
+#include "benchmark_runner.h"
 #include "dynamic_benchmark_config_array.h"
 
 #define DEFAULT_EXECUTION_COUNT (10)
@@ -71,7 +71,7 @@ static void benchmark_argument_parser_parse_argument(char const ** argv, option_
         if (!count) {
             benchmark_argument_parser_show_usage();
         }
-        for (size_t i = 0; i < index - 1; i++) {
+        for (int i = 0; i < index - 1; i++) {
             config_array->configs[i].executionCount = count;
         }
         *countSpecified = true;

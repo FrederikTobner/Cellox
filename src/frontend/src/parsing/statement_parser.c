@@ -20,18 +20,18 @@
 
 #include <frontend/internal/statement_parser.h>
 
-#include <frontend/internal/compiler_ops.h>
 #include <frontend/internal/compilation_context.h>
+#include <frontend/internal/compiler_ops.h>
 #include <frontend/internal/expression_parser.h>
 
 #include <string.h>
 
 #include "backend/virtual_machine.h"
 
-#define PARSER (*compilation_context_get_parser())
-#define CURRENT (compilation_context_get_current_compiler())
+#define PARSER        (*compilation_context_get_parser())
+#define CURRENT       (compilation_context_get_current_compiler())
 #define CURRENT_CLASS (compilation_context_get_current_class())
-#define CURRENT_LOOP (compilation_context_get_current_loop())
+#define CURRENT_LOOP  (compilation_context_get_current_loop())
 
 static void compiler_block(void);
 static void compiler_break_statement(void);
@@ -260,8 +260,7 @@ void compiler_end_scope(void) {
 static void compiler_error_declaration(void) {
     uint8_t global = compiler_parse_variable("Expect error set name.");
     token_t errorSetNameToken = PARSER.previous;
-    object_string_t * errorSetName =
-        object_copy_string(errorSetNameToken.start, errorSetNameToken.length, false);
+    object_string_t * errorSetName = object_copy_string(errorSetNameToken.start, errorSetNameToken.length, false);
     object_error_set_t * errorSet = object_new_error_set(errorSetName);
 
     compiler_emit_constant(OBJECT_VAL(errorSet));
@@ -275,8 +274,7 @@ static void compiler_error_declaration(void) {
             }
             compiler_consume(TOKEN_IDENTIFIER, "Expect error variant name.");
             token_t variantNameToken = PARSER.previous;
-            object_string_t * variantName =
-                object_copy_string(variantNameToken.start, variantNameToken.length, false);
+            object_string_t * variantName = object_copy_string(variantNameToken.start, variantNameToken.length, false);
             object_error_value_t * errorValue = object_new_error_value(errorSet, variantName);
             value_hash_table_set(&errorSet->variants, variantName, OBJECT_VAL(errorValue));
         } while (compiler_match_token(TOKEN_COMMA));
@@ -481,12 +479,12 @@ static void compiler_throw_statement(void) {
 
 static void compiler_iferror_statement(void) {
     // iferror <expr> |err| { ... } else |val| { ... }
-    expression_parser_parse_expression(); // push result value
+    expression_parser_parse_expression();   // push result value
     compiler_emit_byte(OP_RESULT_IS_ERROR); // peek result, push bool
     int32_t elseBranch = compiler_emit_jump(OP_JUMP_IF_FALSE);
 
     // error branch
-    compiler_emit_byte(OP_POP); // pop true
+    compiler_emit_byte(OP_POP);                 // pop true
     compiler_emit_byte(OP_RESULT_UNWRAP_ERROR); // pop result, push error payload
     compiler_consume(TOKEN_PIPE, "Expect '|' before error variable name.");
     compiler_consume(TOKEN_IDENTIFIER, "Expect error variable name.");
@@ -502,7 +500,7 @@ static void compiler_iferror_statement(void) {
 
     // success (else) branch
     compiler_patch_jump(elseBranch);
-    compiler_emit_byte(OP_POP); // pop false
+    compiler_emit_byte(OP_POP);           // pop false
     compiler_emit_byte(OP_RESULT_UNWRAP); // pop result, push success payload
     compiler_consume(TOKEN_ELSE, "Expect 'else' after iferror error body.");
     compiler_consume(TOKEN_PIPE, "Expect '|' before success variable name.");

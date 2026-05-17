@@ -10,6 +10,7 @@
 * <li>Programming should approachable without knowledge about things like memory allocation, representation of values in memory etc</li>
 * <li>Cellox provides a simple syntax that is approachable for beginners</li>
 * <li>The standard libary is simplistic, like the language itself</li>
+* <li>Similar to C, Cellox provides almost no conventions to ensure maximum flexibility</li>
 * </ol>
 * \section building_sec Building
 * To build the compiler a C-Compiler, that supports the C99 standard and CMake (Version >= 3.16) is required. <br>

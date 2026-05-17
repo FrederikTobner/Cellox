@@ -40,14 +40,14 @@
 #define FREE_ARRAY(type, pointer, oldCount) (memory_mutator_reallocate(pointer, sizeof(type) * (oldCount), 0))
 
 /// Makro that determines the increase in capacity for a dynamic array (initalizes capacity at 8)
-#define GROW_CAPACITY(capacity)             ((capacity) < 8u ? 8u : (capacity)*ARRAY_GROWTH_FACTOR)
+#define GROW_CAPACITY(capacity)             ((capacity) < 8u ? 8u : (capacity) * ARRAY_GROWTH_FACTOR)
 
 /// Makro that increases the size of a dynamic Array
 #define GROW_ARRAY(type, pointer, oldCount, newCount) \
     ((type *)memory_mutator_reallocate(pointer, sizeof(type) * (oldCount), sizeof(type) * (newCount)))
 
 /// Determines the new size if a hashtable is grown
-#define GROW_HASHTABLE_CAPACITY(capacity) ((capacity) < 8u ? 8u : (capacity)*HASH_TABLE_GROWTH_FACTOR)
+#define GROW_HASHTABLE_CAPACITY(capacity) ((capacity) < 8u ? 8u : (capacity) * HASH_TABLE_GROWTH_FACTOR)
 
 /// @brief Dealocates the memory used by the objects of the virtualMachine
 void memory_mutator_free_objects(void);

@@ -47,7 +47,7 @@ add_subdirectory(byte-code)         # → clx_bytecode
 add_subdirectory(conditionals/os)   # → clx_os
 add_subdirectory(middle-end)        # → clx_middleend
 add_subdirectory(frontend)          # → clx_lex, clx_frontend
-add_subdirectory(backend)           # → clx_runtime
+add_subdirectory(backend)           # → clx_backend
 add_subdirectory(module-loading)    # → clx_module_loading
 add_subdirectory(driver)            # → clx_driver
 

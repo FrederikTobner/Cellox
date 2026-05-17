@@ -27,11 +27,11 @@
 
 #include "backend/garbage_collector.h"
 #include "backend/virtual_machine.h"
+#include "base/common.h"
 #include "byte-code/chunk.h"
 #include "byte-code/chunk_disassembler.h"
 #include "byte-code/chunk_file.h"
 #include "cellox_config.h"
-#include "base/common.h"
 #include "frontend/compiler.h"
 #include "module-loading/module_loader.h"
 
@@ -161,4 +161,3 @@ static void initializer_io_error(char const * format, ...) {
     exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
 #endif
 }
-

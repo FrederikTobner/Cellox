@@ -26,9 +26,9 @@
 #ifdef DEBUG_LOG_GC
 #include "byte-code/chunk_disassembler.h"
 #endif
-#include "language-models/object.h"
 #include "backend/memory_mutator.h"
 #include "backend/virtual_machine.h"
+#include "language-models/object.h"
 
 static void (*gc_mark_roots_hook)(void) = NULL;
 

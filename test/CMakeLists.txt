@@ -13,27 +13,27 @@ FetchContent_Declare(
   GIT_TAG release-1.12.1
 )
 
-file(GLOB_RECURSE E2E_TEST_SOURCE_FILES e2e/*.cc e2e/*.c e2e/*.cpp)
-file(GLOB_RECURSE E2E_TEST_HEADER_FILES e2e/*.hh e2e/*.h e2e/*.hpp)
-file(GLOB_RECURSE INTEGRATION_TEST_SOURCE_FILES integration/*.cc integration/*.c integration/*.cpp)
-file(GLOB_RECURSE INTEGRATION_TEST_HEADER_FILES integration/*.hh integration/*.h integration/*.hpp)
-file(GLOB_RECURSE UNIT_TEST_SOURCE_FILES unit/*.cc unit/*.c unit/*.cpp)
-file(GLOB_RECURSE UNIT_TEST_HEADER_FILES unit/*.hh unit/*.h unit/*.hpp)
+file(GLOB_RECURSE E2E_TEST_SOURCE_FILES tests/e2e/*.cc tests/e2e/*.c tests/e2e/*.cpp)
+file(GLOB_RECURSE E2E_TEST_HEADER_FILES tests/e2e/*.hh tests/e2e/*.h tests/e2e/*.hpp)
+file(GLOB_RECURSE INTEGRATION_TEST_SOURCE_FILES tests/integration/*.cc tests/integration/*.c tests/integration/*.cpp)
+file(GLOB_RECURSE INTEGRATION_TEST_HEADER_FILES tests/integration/*.hh tests/integration/*.h tests/integration/*.hpp)
+file(GLOB_RECURSE UNIT_TEST_SOURCE_FILES tests/unit/*.cc tests/unit/*.c tests/unit/*.cpp)
+file(GLOB_RECURSE UNIT_TEST_HEADER_FILES tests/unit/*.hh tests/unit/*.h tests/unit/*.hpp)
 
 set(FUZZ_TEST_SOURCE_FILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/unit/property_fuzz_unit.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/integration/property_fuzz_serialization_integration.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/property_fuzz_unit.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/property_fuzz_serialization_integration.cc
 )
 
-list(REMOVE_ITEM UNIT_TEST_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/unit/property_fuzz_unit.cc)
+list(REMOVE_ITEM UNIT_TEST_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/property_fuzz_unit.cc)
 list(REMOVE_ITEM INTEGRATION_TEST_SOURCE_FILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/integration/property_fuzz_serialization_integration.cc)
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/property_fuzz_serialization_integration.cc)
 
 add_compile_definitions(
 # Flag that indicates that test are executed
 CELLOX_TESTS_RUNNING
 # Directory of the cellox e2e tests
-TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/"
+TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/programs/"
 )
 
 add_executable(${E2E_TESTS}
@@ -49,7 +49,7 @@ add_executable(${FUZZ_TESTS}
     ${FUZZ_TEST_SOURCE_FILES})
 
 # Includes SourcePath of the compiler for shorter includes and top-level test include paths
-target_include_directories(${E2E_TESTS} PUBLIC ${SOURCEPATH} ${CMAKE_CURRENT_SOURCE_DIR}/e2e)
+target_include_directories(${E2E_TESTS} PUBLIC ${SOURCEPATH} ${CMAKE_CURRENT_SOURCE_DIR}/tests/e2e)
 target_include_directories(${INTEGRATION_TESTS} PUBLIC ${SOURCEPATH})
 target_include_directories(${UNIT_TESTS} PUBLIC ${SOURCEPATH})
 target_include_directories(${FUZZ_TESTS} PUBLIC ${SOURCEPATH})
@@ -75,7 +75,7 @@ gtest_discover_tests(${UNIT_TESTS} PROPERTIES LABELS "unit")
 gtest_discover_tests(${FUZZ_TESTS} PROPERTIES LABELS "fuzz")
 
 # Optimization pass unit tests (standalone, no googletest dependency)
-add_subdirectory(middle-end)
+add_subdirectory(tests/middle-end)
 
 # CI builds a fixed list of top-level test targets. Make the standalone
 # optimization tests transitive so their executables always exist before ctest.

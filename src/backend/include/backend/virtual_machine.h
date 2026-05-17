@@ -22,8 +22,8 @@
 #ifndef CELLOX_VIRTUAL_MACHINE_H_
 #define CELLOX_VIRTUAL_MACHINE_H_
 
-#include "language-models/value_hash_table.h"
 #include "language-models/object.h"
+#include "language-models/value_hash_table.h"
 
 /// @brief Maximum amount of frames the virtual machine can hold
 /// @details The maxiimum depth of the callstack

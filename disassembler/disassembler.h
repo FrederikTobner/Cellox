@@ -3,6 +3,6 @@
 
 void disassembler_disassemble_file(char const * filePath);
 
-void disassembler_show_usage();
+void disassembler_show_usage(void);
 
 #endif

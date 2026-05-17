@@ -23,6 +23,49 @@
 #include "language-models/object.h"
 #include "language-models/value.h"
 
+static uint32_t opcode_size(chunk_t * chunk, uint32_t offset);
+static bool opcode_guarantees_numeric(chunk_t * chunk, uint32_t offset);
+
+pass_result_t pass_algebraic_identity(chunk_t * chunk) {
+    pass_result_t result = {
+        .pass_name = "algebraic_identity",
+        .modified = false,
+        .instructions_removed = 0,
+        .constants_folded = 0,
+        .branches_eliminated = 0,
+    };
+
+    uint32_t prev_start = UINT32_MAX;
+    for (uint32_t i = 0; i < chunk->byteCodeCount;) {
+        uint32_t size = opcode_size(chunk, i);
+
+        // Pattern (safe): <numeric-producing expr>, CONST(0|1), OP(+,-,*,/)
+        // Remove CONST+OP when operation is identity for numeric lhs.
+        if (chunk->code[i] == OP_CONSTANT && i + 2 < chunk->byteCodeCount && prev_start != UINT32_MAX &&
+            opcode_guarantees_numeric(chunk, prev_start)) {
+            uint8_t idx = chunk->code[i + 1];
+            uint8_t op = chunk->code[i + 2];
+
+            if (idx < chunk->constants.count && IS_NUMBER(chunk->constants.values[idx])) {
+                double rhs = AS_NUMBER(chunk->constants.values[idx]);
+                bool identity = (op == OP_ADD && rhs == 0.0) || (op == OP_SUBTRACT && rhs == 0.0) ||
+                                (op == OP_MULTIPLY && rhs == 1.0) || (op == OP_DIVIDE && rhs == 1.0);
+                if (identity) {
+                    chunk_remove_bytecode(chunk, i, 3); // remove CONST rhs + OP
+                    result.modified = true;
+                    result.instructions_removed += 3;
+                    continue;
+                }
+            }
+        }
+
+        prev_start = i;
+        i += size;
+    }
+
+    return result;
+}
+
 static uint32_t opcode_size(chunk_t * chunk, uint32_t offset) {
     if (offset >= chunk->byteCodeCount) {
         return 1;
@@ -92,44 +135,4 @@ static bool opcode_guarantees_numeric(chunk_t * chunk, uint32_t offset) {
     default:
         return false;
     }
-}
-
-pass_result_t pass_algebraic_identity(chunk_t * chunk) {
-    pass_result_t result = {
-        .pass_name = "algebraic_identity",
-        .modified = false,
-        .instructions_removed = 0,
-        .constants_folded = 0,
-        .branches_eliminated = 0,
-    };
-
-    uint32_t prev_start = UINT32_MAX;
-    for (uint32_t i = 0; i < chunk->byteCodeCount;) {
-        uint32_t size = opcode_size(chunk, i);
-
-        // Pattern (safe): <numeric-producing expr>, CONST(0|1), OP(+,-,*,/)
-        // Remove CONST+OP when operation is identity for numeric lhs.
-        if (chunk->code[i] == OP_CONSTANT && i + 2 < chunk->byteCodeCount && prev_start != UINT32_MAX &&
-            opcode_guarantees_numeric(chunk, prev_start)) {
-            uint8_t idx = chunk->code[i + 1];
-            uint8_t op = chunk->code[i + 2];
-
-            if (idx < chunk->constants.count && IS_NUMBER(chunk->constants.values[idx])) {
-                double rhs = AS_NUMBER(chunk->constants.values[idx]);
-                bool identity = (op == OP_ADD && rhs == 0.0) || (op == OP_SUBTRACT && rhs == 0.0) ||
-                                (op == OP_MULTIPLY && rhs == 1.0) || (op == OP_DIVIDE && rhs == 1.0);
-                if (identity) {
-                    chunk_remove_bytecode(chunk, i, 3); // remove CONST rhs + OP
-                    result.modified = true;
-                    result.instructions_removed += 3;
-                    continue;
-                }
-            }
-        }
-
-        prev_start = i;
-        i += size;
-    }
-
-    return result;
 }

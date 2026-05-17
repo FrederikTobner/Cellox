@@ -21,7 +21,6 @@
 #include <stdlib.h>
 
 #include "driver/command_line_argument_parser.h"
-#include "base/common.h"
 #include "driver/initializer.h"
 #include "middle-end/optimization_pass.h"
 #include "module-loading/module_loader.h"
