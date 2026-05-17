@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: driver/src/command_line_argument_parser.c File Reference</title>
+<title>Cellox: src/driver/src/command_line_argument_parser.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="file_type_cellox.png"/></td>
   <td id="projectalign">
    <div id="projectname">Cellox<span id="projectnumber">&#160;0.1.0</span>
    </div>
@@ -478,32 +477,20 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a3a0297603315832ffae9a70c8e2e27e1">OPTION_HELP</a>] = {</div>
-<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-h&quot;</span>,</div>
-<div class="line">        .longRepresentation = <span class="stringliteral">&quot;--help&quot;</span>,</div>
-<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6">OPTION_TYPE_SINGLETON</a></div>
-<div class="line">    },</div>
-<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86afe6b54762d8578bdba577d1bb9fee63f">OPTION_VERSION</a>] = {</div>
-<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-v&quot;</span>,</div>
-<div class="line">        .longRepresentation = <span class="stringliteral">&quot;--version&quot;</span>,</div>
-<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6">OPTION_TYPE_SINGLETON</a></div>
-<div class="line">    },</div>
-<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a5430edee50f0581cdff343eb37faf60d">OPTION_COMPILE</a>] = {</div>
-<div class="line">        .shortRepresentation = <span class="stringliteral">&quot;-c&quot;</span>,</div>
-<div class="line">        .longRepresentation = <span class="stringliteral">&quot;--compile&quot;</span>,</div>
-<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a></div>
-<div class="line">    },</div>
-<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a37471a93d0fcf5ad5f353d35b4d66383">OPTION_OPTIMIZATION_LEVEL</a>] = {</div>
-<div class="line">        .shortRepresentation = NULL,  </div>
-<div class="line">        .longRepresentation = NULL,</div>
-<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a></div>
-<div class="line">    },</div>
-<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9">OPTION_STDLIB_DIR</a>] = {</div>
-<div class="line">        .shortRepresentation = NULL,  </div>
-<div class="line">        .longRepresentation = NULL,</div>
-<div class="line">        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a></div>
-<div class="line">    }</div>
-<div class="line">}</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a3a0297603315832ffae9a70c8e2e27e1">OPTION_HELP</a>] = {.shortRepresentation = <span class="stringliteral">&quot;-h&quot;</span>, .longRepresentation = <span class="stringliteral">&quot;--help&quot;</span>, .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6">OPTION_TYPE_SINGLETON</a>},</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86afe6b54762d8578bdba577d1bb9fee63f">OPTION_VERSION</a>] = {.shortRepresentation = <span class="stringliteral">&quot;-v&quot;</span>,</div>
+<div class="line">                        .longRepresentation = <span class="stringliteral">&quot;--version&quot;</span>,</div>
+<div class="line">                        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6">OPTION_TYPE_SINGLETON</a>},</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a5430edee50f0581cdff343eb37faf60d">OPTION_COMPILE</a>] = {.shortRepresentation = <span class="stringliteral">&quot;-c&quot;</span>,</div>
+<div class="line">                        .longRepresentation = <span class="stringliteral">&quot;--compile&quot;</span>,</div>
+<div class="line">                        .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a>},</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a37471a93d0fcf5ad5f353d35b4d66383">OPTION_OPTIMIZATION_LEVEL</a>] = {.shortRepresentation =</div>
+<div class="line">                                       NULL, </div>
+<div class="line">                                   .longRepresentation = NULL,</div>
+<div class="line">                                   .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a>},</div>
+<div class="line">    [<a class="code hl_enumvalue" href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9">OPTION_STDLIB_DIR</a>] = {.shortRepresentation = NULL, </div>
+<div class="line">                           .longRepresentation = NULL,</div>
+<div class="line">                           .category = <a class="code hl_enumvalue" href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a>}}</div>
 <div class="ttc" id="acommand__line__argument__parser_8c_html_abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2"><div class="ttname"><a href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958a7016b56166f0f07d23a53be1ecf25ef2">OPTION_TYPE_MODIFIER</a></div><div class="ttdeci">@ OPTION_TYPE_MODIFIER</div><div class="ttdoc">Modifier options: can be combined with other modifiers and positional args.</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.c:47</div></div>
 <div class="ttc" id="acommand__line__argument__parser_8c_html_abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6"><div class="ttname"><a href="command__line__argument__parser_8c.html#abc7c56bdb4ad9aa184c764a753e38958acdafebfc755f8a7650569b65c2abe2e6">OPTION_TYPE_SINGLETON</a></div><div class="ttdeci">@ OPTION_TYPE_SINGLETON</div><div class="ttdoc">Singleton options: mutually exclusive with all other options (e.g., help, version)</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.c:45</div></div>
 <div class="ttc" id="acommand__line__argument__parser_8h_html_ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9"><div class="ttname"><a href="command__line__argument__parser_8h.html#ae1f66b8383a2324f319fab80c65c6d86a0e88e3b656ee4873f21eec8ad7de75c9">OPTION_STDLIB_DIR</a></div><div class="ttdeci">@ OPTION_STDLIB_DIR</div><div class="ttdef"><b>Definition</b> command_line_argument_parser.h:33</div></div>
@@ -522,7 +509,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_1284b95147afa48b330f502c8bbc0529.html">driver</a></li><li class="navelem"><a class="el" href="dir_a73e662009d191b54bc30e34ae038220.html">src</a></li><li class="navelem"><a class="el" href="command__line__argument__parser_8c.html">command_line_argument_parser.c</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4db3a2f7aa3a8b9901e70dfeb2571af9.html">driver</a></li><li class="navelem"><a class="el" href="dir_f960d2e54b22df41aa6ed412b84f06a9.html">src</a></li><li class="navelem"><a class="el" href="command__line__argument__parser_8c.html">command_line_argument_parser.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

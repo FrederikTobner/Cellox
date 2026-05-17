@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: backend/src/virtual_machine.c File Reference</title>
+<title>Cellox: src/backend/src/virtual_machine.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="file_type_cellox.png"/></td>
   <td id="projectalign">
    <div id="projectname">Cellox<span id="projectnumber">&#160;0.1.0</span>
    </div>
@@ -108,11 +107,11 @@ $(document).ready(function(){initNavTree('virtual__machine_8c.html',''); initRes
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="time_8h_source.html">time.h</a>&gt;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">base/common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="memory__mutator_8h_source.html">backend/memory_mutator.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_8h_source.html">base/common.h</a>&quot;</code><br />
 <code>#include &lt;<a class="el" href="native__functions_8h_source.html">backend/internal/native_functions.h</a>&gt;</code><br />
-<code>#include &quot;<a class="el" href="value_8h_source.html">language-models/value.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="object_8h_source.html">language-models/object.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="value_8h_source.html">language-models/value.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
@@ -275,7 +274,7 @@ Variables</h2></td></tr>
 <div class="ttc" id="avalue_8h_html_aa4c6abcb77005bff8a6ecdec294b036b"><div class="ttname"><a href="value_8h.html#aa4c6abcb77005bff8a6ecdec294b036b">value_stringify_type</a></div><div class="ttdeci">char const * value_stringify_type(value_t value)</div><div class="ttdoc">Gets the name of the type of a value_t.</div><div class="ttdef"><b>Definition</b> value.c:66</div></div>
 <div class="ttc" id="avalue_8h_html_ac652f84a0dd6007f0ba26eefdf61d14c"><div class="ttname"><a href="value_8h.html#ac652f84a0dd6007f0ba26eefdf61d14c">IS_OBJECT</a></div><div class="ttdeci">#define IS_OBJECT(value)</div><div class="ttdoc">Makro that determines whether a value is of the type object.</div><div class="ttdef"><b>Definition</b> value.h:134</div></div>
 <div class="ttc" id="avirtual__machine_8c_html_a75c83b2d4270498a8fba788ed47a7803"><div class="ttname"><a href="virtual__machine_8c.html#a75c83b2d4270498a8fba788ed47a7803">virtual_machine_pop</a></div><div class="ttdeci">value_t virtual_machine_pop(void)</div><div class="ttdoc">Pops a value from the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:160</div></div>
-<div class="ttc" id="avirtual__machine_8c_html_a9b41d9486a773761886f1a510e9d5f3b"><div class="ttname"><a href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a></div><div class="ttdeci">CLX_ALWAYS_INLINE value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:606</div></div>
+<div class="ttc" id="avirtual__machine_8c_html_a9b41d9486a773761886f1a510e9d5f3b"><div class="ttname"><a href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine_peek</a></div><div class="ttdeci">CLX_ALWAYS_INLINE value_t virtual_machine_peek(int32_t)</div><div class="ttdoc">Gets the value at the specified distance on the stack.</div><div class="ttdef"><b>Definition</b> virtual_machine.c:604</div></div>
 <div class="ttc" id="avirtual__machine_8h_html_a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c"><div class="ttname"><a href="virtual__machine_8h.html#a74b4b43a9a6716e1863755ec63cde243a972582a24d30295c98b476fc924f2a0c">INTERPRET_RUNTIME_ERROR</a></div><div class="ttdeci">@ INTERPRET_RUNTIME_ERROR</div><div class="ttdoc">Error that occured at runtime.</div><div class="ttdef"><b>Definition</b> virtual_machine.h:90</div></div>
 </div><!-- fragment -->
 </div>
@@ -1421,7 +1420,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8c739bbef76d64b22d6b0911c526dd76.html">backend</a></li><li class="navelem"><a class="el" href="dir_27747142951285b09bacafa002e92b5f.html">src</a></li><li class="navelem"><a class="el" href="virtual__machine_8c.html">virtual_machine.c</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_3f615ade772d23cefe5e20dcb18424a2.html">backend</a></li><li class="navelem"><a class="el" href="dir_5ac48ad24b17c3339f78798dd45c79f5.html">src</a></li><li class="navelem"><a class="el" href="virtual__machine_8c.html">virtual_machine.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

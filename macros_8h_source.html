@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: base/internal/macros.h Source File</title>
+<title>Cellox: src/base/internal/macros.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="file_type_cellox.png"/></td>
   <td id="projectalign">
    <div id="projectname">Cellox<span id="projectnumber">&#160;0.1.0</span>
    </div>
@@ -119,26 +118,26 @@ $(document).ready(function(){initNavTree('macros_8h_source.html',''); initResiza
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">// ── Array utilities ───────────────────────────────────────────────────────────</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="macros_8h.html#a945411a79efd071857389b032a9baa60">   40</a></span><span class="preprocessor">#define CLX_ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="macros_8h.html#a945411a79efd071857389b032a9baa60">   40</a></span><span class="preprocessor">#define CLX_ARRAY_SIZE(arr)    (sizeof(arr) / sizeof((arr)[0]))</span></div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">// ── Suppress unused warnings ──────────────────────────────────────────────────</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="macros_8h.html#a689d0c3964afcfc94d7294429c6c323b">   51</a></span><span class="preprocessor">#define CLX_UNUSED(x) ((void)(x))</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="macros_8h.html#a689d0c3964afcfc94d7294429c6c323b">   51</a></span><span class="preprocessor">#define CLX_UNUSED(x)          ((void)(x))</span></div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="comment">// ── Stringification ───────────────────────────────────────────────────────────</span></div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="macros_8h.html#abe19fdd4c872fe162780d02f3accd055">   60</a></span><span class="preprocessor">#define CLX_STRINGIFY_IMPL(x) #x</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="macros_8h.html#ae86ed33400b2947da3526fb63f44634d">   61</a></span><span class="preprocessor">#define CLX_STRINGIFY(x)      CLX_STRINGIFY_IMPL(x)</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="macros_8h.html#abe19fdd4c872fe162780d02f3accd055">   60</a></span><span class="preprocessor">#define CLX_STRINGIFY_IMPL(x)  #x</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="macros_8h.html#ae86ed33400b2947da3526fb63f44634d">   61</a></span><span class="preprocessor">#define CLX_STRINGIFY(x)       CLX_STRINGIFY_IMPL(x)</span></div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment">// ── Token concatenation ───────────────────────────────────────────────────────</span></div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="macros_8h.html#aac48b8491c4c506b0e03b238ff521dee">   70</a></span><span class="preprocessor">#define CLX_CONCAT_IMPL(a, b) a##b</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="macros_8h.html#a9098541fa8948986cb994b89949e5579">   71</a></span><span class="preprocessor">#define CLX_CONCAT(a, b)      CLX_CONCAT_IMPL(a, b)</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="macros_8h.html#aac48b8491c4c506b0e03b238ff521dee">   70</a></span><span class="preprocessor">#define CLX_CONCAT_IMPL(a, b)  a##b</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="macros_8h.html#a9098541fa8948986cb994b89949e5579">   71</a></span><span class="preprocessor">#define CLX_CONCAT(a, b)       CLX_CONCAT_IMPL(a, b)</span></div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">// ── Arithmetic min / max ──────────────────────────────────────────────────────</span></div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="macros_8h.html#aa8c90475344c56936d84a39b64925819">   77</a></span><span class="preprocessor">#define CLX_MIN(a, b) ((a) &lt; (b) ? (a) : (b))</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="macros_8h.html#ade27d54f74326edf26bd099edac738a5">   78</a></span><span class="preprocessor">#define CLX_MAX(a, b) ((a) &gt; (b) ? (a) : (b))</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="macros_8h.html#aa8c90475344c56936d84a39b64925819">   77</a></span><span class="preprocessor">#define CLX_MIN(a, b)          ((a) &lt; (b) ? (a) : (b))</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="macros_8h.html#ade27d54f74326edf26bd099edac738a5">   78</a></span><span class="preprocessor">#define CLX_MAX(a, b)          ((a) &gt; (b) ? (a) : (b))</span></div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment">// ── Alignment ────────────────────────────────────────────────────────────────</span></div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
@@ -150,7 +149,7 @@ $(document).ready(function(){initNavTree('macros_8h_source.html',''); initResiza
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_e914ee4d4a44400f1fdb170cb4ead18a.html">base</a></li><li class="navelem"><a class="el" href="dir_c85dafb3d1a70fd8419625ed2880379f.html">internal</a></li><li class="navelem"><a class="el" href="macros_8h.html">macros.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_0af1587c8378955de40f48b4bd1869f0.html">base</a></li><li class="navelem"><a class="el" href="dir_c0db2431dddacae62251cca22b94f781.html">internal</a></li><li class="navelem"><a class="el" href="macros_8h.html">macros.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

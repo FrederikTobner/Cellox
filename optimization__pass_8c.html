@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: middle-end/src/optimization_pass.c File Reference</title>
+<title>Cellox: src/middle-end/src/optimization_pass.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="file_type_cellox.png"/></td>
   <td id="projectalign">
    <div id="projectname">Cellox<span id="projectnumber">&#160;0.1.0</span>
    </div>
@@ -101,25 +100,26 @@ $(document).ready(function(){initNavTree('optimization__pass_8c.html',''); initR
 <p>Implementation of the optimization pass framework and registry.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="optimization__pass_8h_source.html">middle-end/optimization_pass.h</a>&quot;</code><br />
+<code>#include &lt;inttypes.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="stdio_8h_source.html">stdio.h</a>&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
-<code>#include &lt;<a class="el" href="stdio_8h_source.html">stdio.h</a>&gt;</code><br />
-<code>#include &lt;inttypes.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="time_8h_source.html">clx_os/time.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a65be1d8ef185bb84bce2fd81a3eaffc7" id="r_a65be1d8ef185bb84bce2fd81a3eaffc7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optimization__pass_8c.html#a65be1d8ef185bb84bce2fd81a3eaffc7">optimization_apply_level_locked</a> (uint32_t level)</td></tr>
+<tr class="memdesc:a65be1d8ef185bb84bce2fd81a3eaffc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply optimization level settings to enable/disable passes.  <br /></td></tr>
 <tr class="separator:a65be1d8ef185bb84bce2fd81a3eaffc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9007f46ad94a54194e491dfe4c4dca17" id="r_a9007f46ad94a54194e491dfe4c4dca17"><td class="memItemLeft" align="right" valign="top">static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optimization__pass_8c.html#a9007f46ad94a54194e491dfe4c4dca17">get_time_ns</a> (void)</td></tr>
-<tr class="memdesc:a9007f46ad94a54194e491dfe4c4dca17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current time in nanoseconds.  <br /></td></tr>
-<tr class="separator:a9007f46ad94a54194e491dfe4c4dca17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a326c1f871e244d2ff0cd3768b3dc48b9" id="r_a326c1f871e244d2ff0cd3768b3dc48b9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optimization__pass_8c.html#a326c1f871e244d2ff0cd3768b3dc48b9">pass_compare_priority</a> (const void *a, const void *b)</td></tr>
-<tr class="memdesc:a326c1f871e244d2ff0cd3768b3dc48b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare passes by priority for sorting.  <br /></td></tr>
-<tr class="separator:a326c1f871e244d2ff0cd3768b3dc48b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae491c009831af41a16a714e7a21c9f65" id="r_ae491c009831af41a16a714e7a21c9f65"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structoptimization__pass__entry__t.html">optimization_pass_entry_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optimization__pass_8c.html#ae491c009831af41a16a714e7a21c9f65">find_pass_by_name</a> (const char *name)</td></tr>
 <tr class="memdesc:ae491c009831af41a16a714e7a21c9f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a pass by name.  <br /></td></tr>
 <tr class="separator:ae491c009831af41a16a714e7a21c9f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a326c1f871e244d2ff0cd3768b3dc48b9" id="r_a326c1f871e244d2ff0cd3768b3dc48b9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optimization__pass_8c.html#a326c1f871e244d2ff0cd3768b3dc48b9">pass_compare_priority</a> (const void *a, const void *b)</td></tr>
+<tr class="memdesc:a326c1f871e244d2ff0cd3768b3dc48b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare passes by priority for sorting.  <br /></td></tr>
+<tr class="separator:a326c1f871e244d2ff0cd3768b3dc48b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9007f46ad94a54194e491dfe4c4dca17" id="r_a9007f46ad94a54194e491dfe4c4dca17"><td class="memItemLeft" align="right" valign="top">static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optimization__pass_8c.html#a9007f46ad94a54194e491dfe4c4dca17">get_time_ns</a> (void)</td></tr>
+<tr class="memdesc:a9007f46ad94a54194e491dfe4c4dca17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current time in nanoseconds.  <br /></td></tr>
+<tr class="separator:a9007f46ad94a54194e491dfe4c4dca17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a8246f1121d4706c48b3d2eea90d870" id="r_a6a8246f1121d4706c48b3d2eea90d870"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optimization__pass_8c.html#a6a8246f1121d4706c48b3d2eea90d870">optimization_module_init</a> (void)</td></tr>
 <tr class="memdesc:a6a8246f1121d4706c48b3d2eea90d870"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the global optimization pipeline.  <br /></td></tr>
 <tr class="separator:a6a8246f1121d4706c48b3d2eea90d870"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -237,6 +237,8 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Apply optimization level settings to enable/disable passes. </p>
 
 </div>
 </div>
@@ -570,7 +572,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_2d992bd3547b48b84eead0051a274712.html">middle-end</a></li><li class="navelem"><a class="el" href="dir_e080d57729e4e52686a39eb0a41db5c6.html">src</a></li><li class="navelem"><a class="el" href="optimization__pass_8c.html">optimization_pass.c</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c104f00db5e63705759075264b9f3e62.html">middle-end</a></li><li class="navelem"><a class="el" href="dir_fa95c9fc3265ec62fe9b7e0f0a84a71c.html">src</a></li><li class="navelem"><a class="el" href="optimization__pass_8c.html">optimization_pass.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

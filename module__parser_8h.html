@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: module-loading/internal/module_parser.h File Reference</title>
+<title>Cellox: src/module-loading/internal/module_parser.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="file_type_cellox.png"/></td>
   <td id="projectalign">
    <div id="projectname">Cellox<span id="projectnumber">&#160;0.1.0</span>
    </div>
@@ -173,7 +172,16 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">buffer</td><td>The destination buffer. </td></tr>
     <tr><td class="paramname">text</td><td>The data to append. </td></tr>
-    <tr><td class="paramname">length</td><td>Number of bytes to append. </td></tr>
+    <tr><td class="paramname">length</td><td>Number of bytes to append.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Appends <code>length</code> bytes from <code>text</code> to <code>buffer</code>, growing it as needed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>Destination buffer to grow and append into. </td></tr>
+    <tr><td class="paramname">text</td><td>Text bytes to append. </td></tr>
+    <tr><td class="paramname">length</td><td>Number of bytes to append from <code>text</code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -210,7 +218,15 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">imports</td><td>The array to free. May be NULL. </td></tr>
-    <tr><td class="paramname">importCount</td><td>Number of elements in <code>imports</code>. </td></tr>
+    <tr><td class="paramname">importCount</td><td>Number of elements in <code>imports</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Frees the contents of an <code><a class="el" href="structimport__spec__t.html" title="Describes a single import statement parsed from a source file.">import_spec_t</a></code> array allocated by <a class="el" href="module__parser_8h.html#afbb66053c8096fa6cad0889f6e439134" title="Parses source, collects exports/imports, and returns a transformed source.">module_parser_parse()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">imports</td><td>Import array previously returned by <a class="el" href="module__parser_8h.html#afbb66053c8096fa6cad0889f6e439134" title="Parses source, collects exports/imports, and returns a transformed source.">module_parser_parse()</a>. </td></tr>
+    <tr><td class="paramname">importCount</td><td>Number of entries stored in <code>imports</code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -236,7 +252,14 @@ Functions</h2></td></tr>
 <p>Frees all export names stored in <code>list</code> and resets its fields to zero. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">list</td><td>The export list to free. Must not be NULL. </td></tr>
+    <tr><td class="paramname">list</td><td>The export list to free. Must not be NULL.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Frees all export names stored in <code>list</code> and resets its fields to zero.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">list</td><td>Export list to reset and release. </td></tr>
   </table>
   </dd>
 </dl>
@@ -298,7 +321,19 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true on success, false on any parse or allocation error. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, false on any parse or allocation error.</dd></dl>
+<p>Parses <code>source</code>, collects exports/imports, and returns a transformed source.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>NUL-terminated module source text. </td></tr>
+    <tr><td class="paramname">exports</td><td>Output export list populated from <code>export</code> declarations. </td></tr>
+    <tr><td class="paramname">imports</td><td>Output array of import specifications allocated on success. </td></tr>
+    <tr><td class="paramname">importCount</td><td>Output count of entries stored in <code>imports</code>. </td></tr>
+    <tr><td class="paramname">transformedSource</td><td>Output transformed source with <code>export</code> stripped. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, otherwise false. </dd></dl>
 
 </div>
 </div>
@@ -307,7 +342,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d3439a234b9643745d2a2b2b21fe9361.html">module-loading</a></li><li class="navelem"><a class="el" href="dir_92220c3f1185c38810f3873fc0ef4128.html">internal</a></li><li class="navelem"><a class="el" href="module__parser_8h.html">module_parser.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_78faa28efc6aa97700769ba631956978.html">module-loading</a></li><li class="navelem"><a class="el" href="dir_fe29e510b5e581cab45c8fb2bcd8a792.html">internal</a></li><li class="navelem"><a class="el" href="module__parser_8h.html">module_parser.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

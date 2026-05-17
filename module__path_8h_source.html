@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: module-loading/internal/module_path.h Source File</title>
+<title>Cellox: src/module-loading/internal/module_path.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="file_type_cellox.png"/></td>
   <td id="projectalign">
    <div id="projectname">Cellox<span id="projectnumber">&#160;0.1.0</span>
    </div>
@@ -121,19 +120,18 @@ $(document).ready(function(){initNavTree('module__path_8h_source.html',''); init
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keywordtype">char</span> * <a class="code hl_function" href="module__path_8h.html#ac27a64ade1478fd609cd5bf45ac265c9">module_path_join</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * left, <span class="keywordtype">char</span> <span class="keyword">const</span> * right);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keywordtype">char</span> * <a class="code hl_function" href="module__path_8h.html#af13c4e07f4317cb1bb8baeb6d80ad0a3">module_path_resolve_import</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * importerPath, <span class="keywordtype">char</span> <span class="keyword">const</span> * importPath,</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                                  <span class="keywordtype">char</span> <span class="keyword">const</span> * stdlibPath);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#endif </span><span class="comment">/* CELLOX_MODULE_PATH_H_ */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="amodule__path_8h_html_a260643bfaaec1ef560e9dc41257cd3ec"><div class="ttname"><a href="module__path_8h.html#a260643bfaaec1ef560e9dc41257cd3ec">module_path_canonicalize</a></div><div class="ttdeci">char * module_path_canonicalize(char const *path)</div><div class="ttdoc">Returns the canonical (absolute, symlink-resolved) path for path.</div><div class="ttdef"><b>Definition</b> module_path.c:29</div></div>
-<div class="ttc" id="amodule__path_8h_html_ac27a64ade1478fd609cd5bf45ac265c9"><div class="ttname"><a href="module__path_8h.html#ac27a64ade1478fd609cd5bf45ac265c9">module_path_join</a></div><div class="ttdeci">char * module_path_join(char const *left, char const *right)</div><div class="ttdoc">Joins two path segments with the platform path separator.</div><div class="ttdef"><b>Definition</b> module_path.c:33</div></div>
-<div class="ttc" id="amodule__path_8h_html_af13c4e07f4317cb1bb8baeb6d80ad0a3"><div class="ttname"><a href="module__path_8h.html#af13c4e07f4317cb1bb8baeb6d80ad0a3">module_path_resolve_import</a></div><div class="ttdeci">char * module_path_resolve_import(char const *importerPath, char const *importPath, char const *stdlibPath)</div><div class="ttdoc">Resolves an import path relative to the importer's directory.</div><div class="ttdef"><b>Definition</b> module_path.c:54</div></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keywordtype">char</span> * <a class="code hl_function" href="module__path_8h.html#af13c4e07f4317cb1bb8baeb6d80ad0a3">module_path_resolve_import</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * importerPath, <span class="keywordtype">char</span> <span class="keyword">const</span> * importPath, <span class="keywordtype">char</span> <span class="keyword">const</span> * stdlibPath);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#endif </span><span class="comment">/* CELLOX_MODULE_PATH_H_ */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="amodule__path_8h_html_a260643bfaaec1ef560e9dc41257cd3ec"><div class="ttname"><a href="module__path_8h.html#a260643bfaaec1ef560e9dc41257cd3ec">module_path_canonicalize</a></div><div class="ttdeci">char * module_path_canonicalize(char const *path)</div><div class="ttdoc">Returns the canonical (absolute, symlink-resolved) path for path.</div><div class="ttdef"><b>Definition</b> module_path.c:36</div></div>
+<div class="ttc" id="amodule__path_8h_html_ac27a64ade1478fd609cd5bf45ac265c9"><div class="ttname"><a href="module__path_8h.html#ac27a64ade1478fd609cd5bf45ac265c9">module_path_join</a></div><div class="ttdeci">char * module_path_join(char const *left, char const *right)</div><div class="ttdoc">Joins two path segments with the platform path separator.</div><div class="ttdef"><b>Definition</b> module_path.c:46</div></div>
+<div class="ttc" id="amodule__path_8h_html_af13c4e07f4317cb1bb8baeb6d80ad0a3"><div class="ttname"><a href="module__path_8h.html#af13c4e07f4317cb1bb8baeb6d80ad0a3">module_path_resolve_import</a></div><div class="ttdeci">char * module_path_resolve_import(char const *importerPath, char const *importPath, char const *stdlibPath)</div><div class="ttdoc">Resolves an import path relative to the importer's directory.</div><div class="ttdef"><b>Definition</b> module_path.c:77</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d3439a234b9643745d2a2b2b21fe9361.html">module-loading</a></li><li class="navelem"><a class="el" href="dir_92220c3f1185c38810f3873fc0ef4128.html">internal</a></li><li class="navelem"><a class="el" href="module__path_8h.html">module_path.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_78faa28efc6aa97700769ba631956978.html">module-loading</a></li><li class="navelem"><a class="el" href="dir_fe29e510b5e581cab45c8fb2bcd8a792.html">internal</a></li><li class="navelem"><a class="el" href="module__path_8h.html">module_path.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: middle-end/src/passes/dead_code_elimination.c File Reference</title>
+<title>Cellox: src/middle-end/src/passes/dead_code_elimination.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="file_type_cellox.png"/></td>
   <td id="projectalign">
    <div id="projectname">Cellox<span id="projectnumber">&#160;0.1.0</span>
    </div>
@@ -114,20 +113,20 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a57d01c368ea479c5a49cc28e225bf398" id="r_a57d01c368ea479c5a49cc28e225bf398"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#a57d01c368ea479c5a49cc28e225bf398">read_u16_be</a> (uint8_t const *data)</td></tr>
-<tr class="separator:a57d01c368ea479c5a49cc28e225bf398"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10922a9d23f871d8a2bddfd3cc6b78f7" id="r_a10922a9d23f871d8a2bddfd3cc6b78f7"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#a10922a9d23f871d8a2bddfd3cc6b78f7">opcode_size</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t offset)</td></tr>
-<tr class="separator:a10922a9d23f871d8a2bddfd3cc6b78f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba73f891eef6664bb1c849fb921f34b9" id="r_aba73f891eef6664bb1c849fb921f34b9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#aba73f891eef6664bb1c849fb921f34b9">is_jump_opcode</a> (uint8_t <a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158e">opcode</a>)</td></tr>
-<tr class="separator:aba73f891eef6664bb1c849fb921f34b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2931ae65f14ee6294bb774879db7ed57" id="r_a2931ae65f14ee6294bb774879db7ed57"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#a2931ae65f14ee6294bb774879db7ed57">jump_target</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t offset)</td></tr>
-<tr class="separator:a2931ae65f14ee6294bb774879db7ed57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae76e757936c8536579b2d78286f87536" id="r_ae76e757936c8536579b2d78286f87536"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#ae76e757936c8536579b2d78286f87536">write_u16_be</a> (uint8_t *data, uint16_t value)</td></tr>
 <tr class="separator:ae76e757936c8536579b2d78286f87536"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac55b8d384d1b8d3998854ede108766c7" id="r_ac55b8d384d1b8d3998854ede108766c7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#ac55b8d384d1b8d3998854ede108766c7">build_dead_prefix</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint8_t *dead_bytes, uint32_t *prefix_removed)</td></tr>
-<tr class="separator:ac55b8d384d1b8d3998854ede108766c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba73f891eef6664bb1c849fb921f34b9" id="r_aba73f891eef6664bb1c849fb921f34b9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#aba73f891eef6664bb1c849fb921f34b9">is_jump_opcode</a> (uint8_t <a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158e">opcode</a>)</td></tr>
+<tr class="separator:aba73f891eef6664bb1c849fb921f34b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10922a9d23f871d8a2bddfd3cc6b78f7" id="r_a10922a9d23f871d8a2bddfd3cc6b78f7"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#a10922a9d23f871d8a2bddfd3cc6b78f7">opcode_size</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t offset)</td></tr>
+<tr class="separator:a10922a9d23f871d8a2bddfd3cc6b78f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57d01c368ea479c5a49cc28e225bf398" id="r_a57d01c368ea479c5a49cc28e225bf398"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#a57d01c368ea479c5a49cc28e225bf398">read_u16_be</a> (uint8_t const *data)</td></tr>
+<tr class="separator:a57d01c368ea479c5a49cc28e225bf398"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab60a07bb33c5c38a6c5b8b49548175ff" id="r_ab60a07bb33c5c38a6c5b8b49548175ff"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#ab60a07bb33c5c38a6c5b8b49548175ff">clear_reachability_state</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
 <tr class="separator:ab60a07bb33c5c38a6c5b8b49548175ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac55b8d384d1b8d3998854ede108766c7" id="r_ac55b8d384d1b8d3998854ede108766c7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#ac55b8d384d1b8d3998854ede108766c7">build_dead_prefix</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint8_t *dead_bytes, uint32_t *prefix_removed)</td></tr>
+<tr class="separator:ac55b8d384d1b8d3998854ede108766c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2931ae65f14ee6294bb774879db7ed57" id="r_a2931ae65f14ee6294bb774879db7ed57"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#a2931ae65f14ee6294bb774879db7ed57">jump_target</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t offset)</td></tr>
+<tr class="separator:a2931ae65f14ee6294bb774879db7ed57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebe8564c29f169bdef2d48f1dccfae90" id="r_aebe8564c29f169bdef2d48f1dccfae90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structpass__result__t.html">pass_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#aebe8564c29f169bdef2d48f1dccfae90">pass_dead_code_detection</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
 <tr class="separator:aebe8564c29f169bdef2d48f1dccfae90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62fa8c99ca8df39ba6fef75bf6e63ce7" id="r_a62fa8c99ca8df39ba6fef75bf6e63ce7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structpass__result__t.html">pass_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#a62fa8c99ca8df39ba6fef75bf6e63ce7">pass_dead_code_elimination</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
@@ -462,7 +461,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_2d992bd3547b48b84eead0051a274712.html">middle-end</a></li><li class="navelem"><a class="el" href="dir_e080d57729e4e52686a39eb0a41db5c6.html">src</a></li><li class="navelem"><a class="el" href="dir_a85d0c1b4598d47b08c969afdd9d91cf.html">passes</a></li><li class="navelem"><a class="el" href="dead__code__elimination_8c.html">dead_code_elimination.c</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c104f00db5e63705759075264b9f3e62.html">middle-end</a></li><li class="navelem"><a class="el" href="dir_fa95c9fc3265ec62fe9b7e0f0a84a71c.html">src</a></li><li class="navelem"><a class="el" href="dir_d7027d8e883bfc54a5cf086781d21331.html">passes</a></li><li class="navelem"><a class="el" href="dead__code__elimination_8c.html">dead_code_elimination.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

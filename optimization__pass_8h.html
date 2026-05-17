@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: middle-end/include/middle-end/optimization_pass.h File Reference</title>
+<title>Cellox: src/middle-end/include/middle-end/optimization_pass.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="file_type_cellox.png"/></td>
   <td id="projectalign">
    <div id="projectname">Cellox<span id="projectnumber">&#160;0.1.0</span>
    </div>
@@ -101,11 +100,11 @@ $(document).ready(function(){initNavTree('optimization__pass_8h.html',''); initR
 
 <p>Header file for the optimization pass framework.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
-<code>#include &lt;stdint.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="chunk_8h_source.html">byte-code/chunk.h</a>&quot;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &lt;stddef.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="time_8h_source.html">time.h</a>&gt;</code><br />
-<code>#include &quot;<a class="el" href="chunk_8h_source.html">byte-code/chunk.h</a>&quot;</code><br />
 </div>
 <p><a href="optimization__pass_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -172,9 +171,6 @@ Functions</h2></td></tr>
 <tr class="separator:a863c89825658b177e41707fb22c259eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a847bd39236292b1ac1ad45a41f3a46a0" id="r_a847bd39236292b1ac1ad45a41f3a46a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structpass__result__t.html">pass_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optimization__pass_8h.html#a847bd39236292b1ac1ad45a41f3a46a0">pass_branch_predication</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
 <tr class="separator:a847bd39236292b1ac1ad45a41f3a46a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2637251c7b331f8dfac27f57f0f09f2" id="r_ae2637251c7b331f8dfac27f57f0f09f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structpass__result__t.html">pass_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optimization__pass_8h.html#ae2637251c7b331f8dfac27f57f0f09f2">pass_constant_pool_dedup</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
-<tr class="memdesc:ae2637251c7b331f8dfac27f57f0f09f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant pool deduplication pass (stub) Merges duplicate constants in the pool.  <br /></td></tr>
-<tr class="separator:ae2637251c7b331f8dfac27f57f0f09f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file for the optimization pass framework. </p>
@@ -499,26 +495,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae2637251c7b331f8dfac27f57f0f09f2" name="ae2637251c7b331f8dfac27f57f0f09f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2637251c7b331f8dfac27f57f0f09f2">&#9670;&#160;</a></span>pass_constant_pool_dedup()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structpass__result__t.html">pass_result_t</a> pass_constant_pool_dedup </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td>
-          <td class="paramname"><em>chunk</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constant pool deduplication pass (stub) Merges duplicate constants in the pool. </p>
-
-</div>
-</div>
 <a id="aebe8564c29f169bdef2d48f1dccfae90" name="aebe8564c29f169bdef2d48f1dccfae90"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aebe8564c29f169bdef2d48f1dccfae90">&#9670;&#160;</a></span>pass_dead_code_detection()</h2>
 
@@ -560,7 +536,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_2d992bd3547b48b84eead0051a274712.html">middle-end</a></li><li class="navelem"><a class="el" href="dir_0e835365f026fb6cfe9e937279e645a1.html">include</a></li><li class="navelem"><a class="el" href="dir_74b18a1743b596248c3cbffbf93fb30a.html">middle-end</a></li><li class="navelem"><a class="el" href="optimization__pass_8h.html">optimization_pass.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c104f00db5e63705759075264b9f3e62.html">middle-end</a></li><li class="navelem"><a class="el" href="dir_84b52cdb5e39671365f8efb6bc84dd4d.html">include</a></li><li class="navelem"><a class="el" href="dir_98994bfa74d385a8c851157e135da398.html">middle-end</a></li><li class="navelem"><a class="el" href="optimization__pass_8h.html">optimization_pass.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

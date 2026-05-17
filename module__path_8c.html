@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cellox: module-loading/src/module_path.c File Reference</title>
+<title>Cellox: src/module-loading/src/module_path.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="file_type_cellox.png"/></td>
   <td id="projectalign">
    <div id="projectname">Cellox<span id="projectnumber">&#160;0.1.0</span>
    </div>
@@ -108,17 +107,18 @@ $(document).ready(function(){initNavTree('module__path_8c.html',''); initResizab
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a260643bfaaec1ef560e9dc41257cd3ec" id="r_a260643bfaaec1ef560e9dc41257cd3ec"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="module__path_8c.html#a260643bfaaec1ef560e9dc41257cd3ec">module_path_canonicalize</a> (char const *path)</td></tr>
-<tr class="memdesc:a260643bfaaec1ef560e9dc41257cd3ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the canonical (absolute, symlink-resolved) path for <code>path</code>.  <br /></td></tr>
+<tr class="memdesc:a260643bfaaec1ef560e9dc41257cd3ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Canonicalises a path using the active OS abstraction layer.  <br /></td></tr>
 <tr class="separator:a260643bfaaec1ef560e9dc41257cd3ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac27a64ade1478fd609cd5bf45ac265c9" id="r_ac27a64ade1478fd609cd5bf45ac265c9"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="module__path_8c.html#ac27a64ade1478fd609cd5bf45ac265c9">module_path_join</a> (char const *left, char const *right)</td></tr>
-<tr class="memdesc:ac27a64ade1478fd609cd5bf45ac265c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joins two path segments with the platform path separator.  <br /></td></tr>
+<tr class="memdesc:ac27a64ade1478fd609cd5bf45ac265c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joins two path segments using the platform separator.  <br /></td></tr>
 <tr class="separator:ac27a64ade1478fd609cd5bf45ac265c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af13c4e07f4317cb1bb8baeb6d80ad0a3" id="r_af13c4e07f4317cb1bb8baeb6d80ad0a3"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="module__path_8c.html#af13c4e07f4317cb1bb8baeb6d80ad0a3">module_path_resolve_import</a> (char const *importerPath, char const *importPath, char const *stdlibPath)</td></tr>
-<tr class="memdesc:af13c4e07f4317cb1bb8baeb6d80ad0a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves an import path relative to the importer's directory.  <br /></td></tr>
+<tr class="memdesc:af13c4e07f4317cb1bb8baeb6d80ad0a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves an import path against an importer or stdlib root.  <br /></td></tr>
 <tr class="separator:af13c4e07f4317cb1bb8baeb6d80ad0a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Filesystem path utilities used by the module loader. </p>
+<p>Keeps path resolution policy in one place so module loading can stay focused on graph traversal and import validation. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a260643bfaaec1ef560e9dc41257cd3ec" name="a260643bfaaec1ef560e9dc41257cd3ec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a260643bfaaec1ef560e9dc41257cd3ec">&#9670;&#160;</a></span>module_path_canonicalize()</h2>
@@ -136,14 +136,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the canonical (absolute, symlink-resolved) path for <code>path</code>. </p>
+<p>Canonicalises a path using the active OS abstraction layer. </p>
+<p>Returns the canonical (absolute, symlink-resolved) path for <code>path</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The raw path to canonicalise. </td></tr>
+    <tr><td class="paramname">path</td><td>Raw path to canonicalise. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A malloc'd canonical path string the caller must free, or NULL if the file does not exist or the path cannot be resolved. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A newly allocated canonical path, or NULL on failure. </dd></dl>
 
 </div>
 </div>
@@ -173,15 +174,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Joins two path segments with the platform path separator. </p>
+<p>Joins two path segments using the platform separator. </p>
+<p>Joins two path segments with the platform path separator.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">left</td><td>The directory part (may or may not end with a separator). </td></tr>
-    <tr><td class="paramname">right</td><td>The file/subdirectory part to append. </td></tr>
+    <tr><td class="paramname">left</td><td>Left-hand path segment. </td></tr>
+    <tr><td class="paramname">right</td><td>Right-hand path segment. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A malloc'd joined path that the caller must free, or NULL on OOM. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A newly allocated joined path, or NULL on allocation failure. </dd></dl>
 
 </div>
 </div>
@@ -217,16 +219,17 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Resolves an import path relative to the importer's directory. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Resolves an import path against an importer or stdlib root. </p>
+<p>Resolves an import path relative to the importer's directory.</p>
+<p>Absolute paths are returned unchanged, bare imports are resolved against <code>stdlibPath</code>, and relative imports are resolved from the importer's containing directory. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">importerPath</td><td>Canonical path of the importing file. </td></tr>
-    <tr><td class="paramname">importPath</td><td>The path string from the import statement. </td></tr>
-    <tr><td class="paramname">stdlibPath</td><td>The stdlib search directory used for bare imports (no leading . or /), or NULL to skip bare-import resolution. </td></tr>
+    <tr><td class="paramname">importerPath</td><td>Canonical path of the importing module. </td></tr>
+    <tr><td class="paramname">importPath</td><td>Raw import string from the source file. </td></tr>
+    <tr><td class="paramname">stdlibPath</td><td>Standard-library root used for bare imports, or NULL. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A malloc'd resolved path the caller must free, or NULL on failure. Absolute import paths are duplicated as-is. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A newly allocated resolved path, or NULL on failure. </dd></dl>
 
 </div>
 </div>
@@ -235,7 +238,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d3439a234b9643745d2a2b2b21fe9361.html">module-loading</a></li><li class="navelem"><a class="el" href="dir_6eefef390e9e65293df20cc3f34e7f2a.html">src</a></li><li class="navelem"><a class="el" href="module__path_8c.html">module_path.c</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_78faa28efc6aa97700769ba631956978.html">module-loading</a></li><li class="navelem"><a class="el" href="dir_43c73a8c3adcefa80baa6b5492f968b8.html">src</a></li><li class="navelem"><a class="el" href="module__path_8c.html">module_path.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
