@@ -25,11 +25,11 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 #include <time.h>
 
 #include "backend/memory_mutator.h"
-#include "base/common.h"
 #include <backend/internal/native_functions.h>
 #if defined(DEBUG_TRACE_EXECUTION)
 #include "byte-code/chunk_disassembler.h"
@@ -56,6 +56,7 @@ static void virtual_machine_concatenate_arrays(void);
 static void virtual_machine_concatenate_strings(void);
 static void virtual_machine_define_method(object_string_t *);
 static void virtual_machine_define_native(char const *, native_function_t, size_t);
+static bool virtual_machine_divide(void);
 static object_error_set_t * virtual_machine_define_error_set(char const *, char const * const *, size_t);
 static value_t virtual_machine_stdlib_error_result(char const *);
 static void virtual_machine_define_natives(void);
@@ -410,6 +411,27 @@ static object_error_set_t * virtual_machine_define_error_set(char const * setNam
     return errorSet;
 }
 
+/// Divides the two upper values on the stack and pushes the result back on the stackTop
+/// @brief Divides the two upper values on the stack and pushes the result back on the stackTop
+/// @return A boolean value that indicates whether the execution has led to a runtime error
+static bool virtual_machine_divide(void) {
+    if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
+        virtual_machine_runtime_error(
+            "Operands must be numbers but are a %s %s and a %s %s", value_stringify_type(virtual_machine_peek(0)),
+            IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", value_stringify_type(virtual_machine_peek(1)),
+            IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    double b = AS_NUMBER(virtual_machine_pop());
+    double a = AS_NUMBER(virtual_machine_pop());
+    if (b == 0) {
+        virtual_machine_runtime_error("Division by zero.");
+        return false;
+    }
+    virtual_machine_push(NUMBER_VAL(a / b));
+    return true;
+}
+
 /// @brief Defines the native functions of the virtual machine
 /// @details These are functions that are implemented in C
 static void virtual_machine_define_natives(void) {
@@ -585,8 +607,12 @@ CLX_PURE CLX_ALWAYS_INLINE bool virtual_machine_is_falsey(value_t value) {
 /// @return A boolean value that indicates whether the execution has led to a runtime error
 static bool virtual_machine_modulo(void) {
     if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1))) {
-        int b = AS_NUMBER(virtual_machine_pop());
-        int a = AS_NUMBER(virtual_machine_pop());
+        int64_t b = (int64_t) AS_NUMBER(virtual_machine_pop());
+        int64_t a = (int64_t) AS_NUMBER(virtual_machine_pop());
+        if(b == 0) {
+            virtual_machine_runtime_error("Division by zero.");
+            return false;
+        }
         virtual_machine_push(NUMBER_VAL(a % b));
     } else {
         virtual_machine_runtime_error(
@@ -799,7 +825,9 @@ static interpret_result virtual_machine_run(void) {
         virtual_machine_push(virtual_machine_peek(0));
         DISPATCH();
     label_divide:
-        BINARY_OP(NUMBER_VAL, /);
+        if (!virtual_machine_divide()) {
+            return INTERPRET_RUNTIME_ERROR;
+        }
         DISPATCH();
     label_equal:
         {
@@ -1210,7 +1238,9 @@ static interpret_result virtual_machine_run(void) {
             virtual_machine_push(virtual_machine_peek(0));
             break;
         case OP_DIVIDE:
-            BINARY_OP(NUMBER_VAL, /);
+            if (!virtual_machine_divide()) {
+                return INTERPRET_RUNTIME_ERROR;
+            }
             break;
         case OP_EQUAL:
             {

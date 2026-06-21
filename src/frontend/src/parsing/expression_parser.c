@@ -24,7 +24,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "backend/virtual_machine.h"
 #include <frontend/internal/lexer.h>
 #include <frontend/internal/parse_rules.h>
 
@@ -202,6 +201,7 @@ static uint8_t expression_parser_argument_list(void) {
             if (argCount == 255) {
                 expression_parser_advance_token();
                 expression_parser_error("Can't have more than 255 arguments in a function call.");
+                break;
             }
             expression_parser_parse_expression();
             argCount++;
@@ -284,6 +284,7 @@ static uint8_t expression_parser_dynamic_array_argument_list(void) {
             if (argCount == 255) {
                 expression_parser_advance_token();
                 expression_parser_error("Can't have more than 255 arguments in a array literal expression.");
+                break;
             }
             expression_parser_parse_expression();
             argCount++;
@@ -371,6 +372,7 @@ static void expression_parser_index_of(bool canAssign, uint8_t getOp, uint32_t a
     if (expression_parser_match_token(TOKEN_EQUAL)) {
         if (!canAssign) {
             expression_parser_error("Invalid assignment target.");
+            return;
         }
         expression_parser_parse_expression();
         expression_parser_emit_byte(OP_SET_INDEX_OF);
@@ -538,8 +540,10 @@ static void expression_parser_super(bool canAssign) {
     (void)canAssign;
     if (!CURRENT_CLASS) {
         expression_parser_error("Can't use 'super' outside of a class.");
+        return;
     } else if (!CURRENT_CLASS->hasSuperclass) {
         expression_parser_error("Can't use 'super' in a class with no superclass.");
+        return;
     }
     expression_parser_consume_token(TOKEN_DOT, "Expect '.' after 'super'.");
     expression_parser_consume_token(TOKEN_IDENTIFIER, "Expect superclass method name.");

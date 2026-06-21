@@ -464,7 +464,7 @@ value_t native_functions_string_replace_at(uint32_t argCount, value_t const * ar
         return native_functions_stdlib_error_result("DomainError");
     }
     // We need to allocate a new character sequnce so no other objects are affected
-    char * newCharacterSequence = malloc(str->length + 1);
+    char * newCharacterSequence = ALLOCATE(char, str->length + 1);
     memcpy(newCharacterSequence, str->chars, str->length);
     newCharacterSequence[num] = character->chars[0];
     newCharacterSequence[str->length] = '\0';
