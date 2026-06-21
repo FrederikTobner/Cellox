@@ -116,7 +116,7 @@ pass_result_t pass_dead_code_detection(chunk_t * chunk) {
         BIT_SET(chunk->_reachable_bitset, offset);
 
         uint8_t opcode = chunk->code[offset];
-        uint32_t next_offset = offset + opcode_size(chunk, offset);
+        uint32_t next_offset = offset + chunk_determine_opcode_size_by_index(chunk, offset);
 
         if (is_jump_opcode(opcode)) {
             int32_t target = jump_target(chunk, offset);
@@ -135,7 +135,7 @@ pass_result_t pass_dead_code_detection(chunk_t * chunk) {
     }
 
     for (uint32_t offset = 0; offset < chunk->byteCodeCount;) {
-        uint32_t size = opcode_size(chunk, offset);
+        uint32_t size = chunk_determine_opcode_size_by_index(chunk, offset);
         if (!BIT_GET(chunk->_reachable_bitset, offset)) {
             result.instructions_removed++;
         }
@@ -175,7 +175,7 @@ pass_result_t pass_dead_code_elimination(chunk_t * chunk) {
     uint32_t dead_count = 0;
 
     for (uint32_t offset = 0; offset < chunk->byteCodeCount;) {
-        uint32_t size = opcode_size(chunk, offset);
+        uint32_t size = chunk_determine_opcode_size_by_index(chunk, offset);
         if (!BIT_GET(chunk->_reachable_bitset, offset)) {
             dead_offsets[dead_count++] = offset;
         }
@@ -189,7 +189,7 @@ pass_result_t pass_dead_code_elimination(chunk_t * chunk) {
     uint32_t jump_count = 0;
 
     for (uint32_t offset = 0; offset < chunk->byteCodeCount;) {
-        uint32_t size = opcode_size(chunk, offset);
+        uint32_t size = chunk_determine_opcode_size_by_index(chunk, offset);
         uint8_t opcode = chunk->code[offset];
         if (BIT_GET(chunk->_reachable_bitset, offset) && is_jump_opcode(opcode)) {
             int32_t old_target = jump_target(chunk, offset);
@@ -205,7 +205,7 @@ pass_result_t pass_dead_code_elimination(chunk_t * chunk) {
 
     for (int32_t i = (int32_t)dead_count - 1; i >= 0; i--) {
         uint32_t offset = dead_offsets[i];
-        uint32_t size = opcode_size(chunk, offset);
+        uint32_t size = chunk_determine_opcode_size_by_index(chunk, offset);
         chunk_remove_bytecode(chunk, offset, size);
         result.instructions_removed++;
         result.modified = true;
