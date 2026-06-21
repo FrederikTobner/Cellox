@@ -43,7 +43,7 @@ void * memory_mutator_reallocate(void * pointer, size_t oldSize, size_t newSize)
     virtualMachine.bytesAllocated += newSize - oldSize;
     if (newSize > oldSize) {
 #ifdef DEBUG_STRESS_GC
-        memory_collect_garbage();
+        garbage_collector_collect_garbage();
 #endif
         if (virtualMachine.bytesAllocated > virtualMachine.nextGC) {
             garbage_collector_collect_garbage();

@@ -17,11 +17,19 @@ void disassembler_disassemble_file(char const * filepath) {
     if (pathLength > 4 && !strcmp(filepath + pathLength - 4, ".clx")) {
         virtual_machine_init();
         object_function_t * main = compiler_compile(disassembler_read_file(filepath));
+        if(!main) {
+            printf("Could not compile file \"%s\".\n", filepath);
+            exit(EXIT_CODE_COMPILATION_ERROR);
+        }
         chunk_disassembler_disassemble_chunk(&main->chunk, "main", main->arity);
         virtual_machine_free();
     } else if (pathLength > 5 && !strcmp(filepath + pathLength - 5, ".cxcf")) {
         virtual_machine_init();
         chunk_t * chunk = chunk_file_load(filepath);
+        if(!chunk) {
+            printf("Could not read chunk file \"%s\".\n", filepath);
+            exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
+        }
         chunk_disassembler_disassemble_chunk(chunk, "main", 0);
         virtual_machine_free();
         chunk_free(chunk);

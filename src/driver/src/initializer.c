@@ -27,9 +27,7 @@
 
 #include "backend/garbage_collector.h"
 #include "backend/virtual_machine.h"
-#include "base/common.h"
 #include "byte-code/chunk.h"
-#include "byte-code/chunk_disassembler.h"
 #include "byte-code/chunk_file.h"
 #include "cellox_config.h"
 #include "frontend/compiler.h"
@@ -79,7 +77,8 @@ void initializer_run_from_file(char const * path, bool compile) {
     if (pathLength > 4 && !strcmp(path + pathLength - 4, ".clx")) {
         char * source = module_loader_load_program(path);
         if (!source) {
-            return;
+                initializer_io_error("Unable to load module from the path %s", path);
+                return;
         }
         virtual_machine_set_compile_fn(compiler_compile);
         garbage_collector_set_mark_roots_hook(compiler_mark_roots);
