@@ -640,6 +640,443 @@ CLX_ALWAYS_INLINE void virtual_machine_reset_stack(void) {
     virtualMachine.openUpvalues = NULL;
 }
 
+CLX_ALWAYS_INLINE bool virtual_machine_op_add(void) {
+    if (IS_STRING(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1))) {
+        virtual_machine_concatenate_strings();
+        return true;
+    }
+    if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1))) {
+        double b = AS_NUMBER(virtual_machine_pop());
+        double a = AS_NUMBER(virtual_machine_pop());
+        virtual_machine_push(NUMBER_VAL(a + b));
+        return true;
+    }
+    if (IS_ARRAY(virtual_machine_peek(1))) {
+        virtual_machine_concatenate_arrays();
+        return true;
+    }
+    virtual_machine_runtime_error("Operands must be two numbers, two strings, an array and a value or an array "
+                                  "and an array, but they are a %s value and a %s value",
+                                  value_stringify_type(virtual_machine_peek(0)),
+                                  value_stringify_type(virtual_machine_peek(1)));
+    return false;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_exponent(void) {
+    if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
+        virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value",
+                                      value_stringify_type(virtual_machine_peek(0)),
+                                      value_stringify_type(virtual_machine_peek(1)));
+        return false;
+    }
+    double b = AS_NUMBER(virtual_machine_pop());
+    double a = AS_NUMBER(virtual_machine_pop());
+    virtual_machine_push(NUMBER_VAL(pow(a, b)));
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_call(call_frame_t ** frame, int32_t argCount) {
+    if (!virtual_machine_call_value(virtual_machine_peek(argCount), argCount)) {
+        return false;
+    }
+    *frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_get_property(object_string_t * name) {
+    value_t receiver = virtual_machine_peek(0);
+    if (IS_ERROR_SET(receiver)) {
+        value_t value;
+        object_error_set_t * errorSet = AS_ERROR_SET(receiver);
+        if (!value_hash_table_get(&errorSet->variants, name, &value)) {
+            virtual_machine_runtime_error("Undefined error '%s.%s'.", errorSet->name->chars, name->chars);
+            return false;
+        }
+        virtual_machine_pop();
+        virtual_machine_push(value);
+        return true;
+    }
+
+    if (!IS_INSTANCE(receiver)) {
+        virtual_machine_runtime_error("Only instances have properties but get expression but a %s %s was used",
+                                      value_stringify_type(receiver), IS_OBJECT(receiver) ? "object" : "value");
+        return false;
+    }
+    object_instance_t * instance = AS_INSTANCE(receiver);
+
+    value_t value;
+    if (value_hash_table_get(&instance->fields, name, &value)) {
+        virtual_machine_pop(); // Instance.
+        virtual_machine_push(value);
+        return true;
+    }
+    return virtual_machine_bind_method(instance->celloxClass, name);
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_inherit(void) {
+    value_t superclass = virtual_machine_peek(1);
+    if (!IS_CLASS(superclass)) {
+        virtual_machine_runtime_error("Superclass must be a class but is a %s %s", value_stringify_type(superclass),
+                                      IS_OBJECT(superclass) ? "object" : "value");
+        return false;
+    }
+    object_class_t * subclass = AS_CLASS(virtual_machine_peek(0));
+    value_hash_table_add_all(&AS_CLASS(superclass)->methods, &subclass->methods);
+    virtual_machine_pop(); // Subclass.
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_invoke(call_frame_t ** frame, object_string_t * method, int32_t argCount) {
+    if (!virtual_machine_invoke(method, argCount)) {
+        return false;
+    }
+    *frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_set_property(object_string_t * name) {
+    if (!IS_INSTANCE(virtual_machine_peek(1))) {
+        virtual_machine_runtime_error("Only instances have fields but was called with a %s %s",
+                                      value_stringify_type(virtual_machine_peek(1)),
+                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(1));
+    value_hash_table_set(&instance->fields, name, virtual_machine_peek(0));
+    value_t value = virtual_machine_pop();
+    virtual_machine_pop();
+    virtual_machine_push(value);
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_super_invoke(call_frame_t ** frame, object_string_t * method,
+                                                       int32_t argCount) {
+    object_class_t * superclass = AS_CLASS(virtual_machine_pop());
+    if (!virtual_machine_invoke_from_class(superclass, method, argCount)) {
+        return false;
+    }
+    *frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_result_unwrap(void) {
+    value_t top = virtual_machine_pop();
+    if (!IS_RESULT(top)) {
+        virtual_machine_push(top);
+        return true;
+    }
+    object_result_t * res = AS_RESULT(top);
+    if (res->isError) {
+        virtual_machine_runtime_error("Unwrapped an error result: %s",
+                                      object_stringify_type((object_t *)AS_ERROR_VALUE(res->payload)));
+        return false;
+    }
+    virtual_machine_push(res->payload);
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_result_unwrap_error(void) {
+    value_t top = virtual_machine_pop();
+    if (!IS_RESULT(top)) {
+        virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a non-result value");
+        return false;
+    }
+    object_result_t * res = AS_RESULT(top);
+    if (!res->isError) {
+        virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a success result");
+        return false;
+    }
+    virtual_machine_push(res->payload);
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_must(void) {
+    value_t top = virtual_machine_pop();
+    if (!IS_RESULT(top)) {
+        virtual_machine_push(top);
+        return true;
+    }
+    object_result_t * res = AS_RESULT(top);
+    if (res->isError) {
+        if (IS_ERROR_VALUE(res->payload)) {
+            object_error_value_t * ev = AS_ERROR_VALUE(res->payload);
+            virtual_machine_runtime_error("must: unhandled error %s.%s", ev->errorSet->name->chars, ev->name->chars);
+        } else {
+            virtual_machine_runtime_error("must: unhandled error result");
+        }
+        return false;
+    }
+    virtual_machine_push(res->payload);
+    return true;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_array_literal(uint8_t argCount) {
+    virtual_machine_array_literal((int32_t)argCount);
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_closure(call_frame_t * frame, uint8_t ** ip, object_function_t * function) {
+    object_closure_t * closure = object_new_closure(function);
+    virtual_machine_push(OBJECT_VAL(closure));
+    for (uint32_t i = 0; i < closure->upvalueCount; i++) {
+        uint8_t isLocal = *(*ip)++;
+        uint8_t index = *(*ip)++;
+        closure->upvalues[i] = isLocal ? virtual_machine_capture_upvalue(frame->slots + index)
+                                       : frame->closure->upvalues[index];
+    }
+    return true;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_class(object_string_t * name) {
+    virtual_machine_push(OBJECT_VAL(object_new_class(name)));
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_close_upvalue(void) {
+    virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
+    virtual_machine_pop();
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_close_upvalue_keep(void) {
+    virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_constant(value_t constant) {
+    virtual_machine_push(constant);
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_define_global(object_string_t * name) {
+    value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
+    virtual_machine_pop();
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_dup(void) {
+    virtual_machine_push(virtual_machine_peek(0));
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_equal(void) {
+    value_t a = virtual_machine_pop();
+    value_t b = virtual_machine_pop();
+    virtual_machine_push(BOOL_VAL(value_values_equal(a, b)));
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_false(void) {
+    virtual_machine_push(BOOL_VAL(false));
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_get_global(object_string_t * name) {
+    value_t value;
+    if (!value_hash_table_get(&virtualMachine.globals, name, &value)) {
+        virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
+        return false;
+    }
+    virtual_machine_push(value);
+    return true;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_get_local(call_frame_t * frame, uint8_t slot) {
+    virtual_machine_push(frame->slots[slot]);
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_get_super(object_string_t * name, bool includeClassError) {
+    object_class_t * superclass = AS_CLASS(virtual_machine_pop());
+    if (!virtual_machine_bind_method(superclass, name)) {
+        if (includeClassError) {
+            virtual_machine_runtime_error("Method %s not defined in parent class %s", name->chars,
+                                          superclass->name->chars);
+        }
+        return false;
+    }
+    return true;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_get_upvalue(call_frame_t * frame, uint8_t slot) {
+    virtual_machine_push(*frame->closure->upvalues[slot]->location);
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_greater(void) {
+    if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
+        virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s",
+                                      value_stringify_type(virtual_machine_peek(0)),
+                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
+                                      value_stringify_type(virtual_machine_peek(1)),
+                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    double b = AS_NUMBER(virtual_machine_pop());
+    double a = AS_NUMBER(virtual_machine_pop());
+    virtual_machine_push(BOOL_VAL(a > b));
+    return true;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_jump(call_frame_t * frame, uint16_t offset) {
+    frame->ip += offset;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_jump_if_false(call_frame_t * frame, uint16_t offset) {
+    if (virtual_machine_is_falsey(virtual_machine_peek(0))) {
+        frame->ip += offset;
+    }
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_less(void) {
+    if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
+        virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s",
+                                      value_stringify_type(virtual_machine_peek(0)),
+                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
+                                      value_stringify_type(virtual_machine_peek(1)),
+                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    double b = AS_NUMBER(virtual_machine_pop());
+    double a = AS_NUMBER(virtual_machine_pop());
+    virtual_machine_push(BOOL_VAL(a < b));
+    return true;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_loop(call_frame_t * frame, uint16_t offset) {
+    frame->ip -= offset;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_method(object_string_t * name) {
+    virtual_machine_define_method(name);
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_multiply(void) {
+    if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
+        virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s",
+                                      value_stringify_type(virtual_machine_peek(0)),
+                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
+                                      value_stringify_type(virtual_machine_peek(1)),
+                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    double b = AS_NUMBER(virtual_machine_pop());
+    double a = AS_NUMBER(virtual_machine_pop());
+    virtual_machine_push(NUMBER_VAL(a * b));
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_negate(void) {
+    if (!IS_NUMBER(virtual_machine_peek(0))) {
+        virtual_machine_runtime_error("Operand must be a number but is a %s %s.",
+                                      value_stringify_type(virtual_machine_peek(0)),
+                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
+        return false;
+    }
+    virtual_machine_push(NUMBER_VAL(-AS_NUMBER(virtual_machine_pop())));
+    return true;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_not(void) {
+    virtual_machine_push(BOOL_VAL(virtual_machine_is_falsey(virtual_machine_pop())));
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_null(void) {
+    virtual_machine_push(NULL_VAL);
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_pop_value(void) {
+    virtual_machine_pop();
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_return(call_frame_t ** frame, interpret_result * returnCode,
+                                                 bool * didReturn) {
+    value_t result = virtual_machine_pop();
+    virtual_machine_close_upvalues((*frame)->slots);
+    virtualMachine.frameCount--;
+    if (!virtualMachine.frameCount) {
+        virtual_machine_pop();
+        *returnCode = INTERPRET_OK;
+        *didReturn = true;
+        return true;
+    }
+    virtualMachine.stackTop = (*frame)->slots;
+    virtual_machine_push(result);
+    *frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+    *didReturn = false;
+    return true;
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_set_global(object_string_t * name) {
+    if (value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0))) {
+        value_hash_table_delete(&virtualMachine.globals, name);
+        virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
+        return false;
+    }
+    return true;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_set_local(call_frame_t * frame, uint8_t slot) {
+    frame->slots[slot] = virtual_machine_peek(0);
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_set_upvalue(call_frame_t * frame, uint8_t slot) {
+    *frame->closure->upvalues[slot]->location = virtual_machine_peek(0);
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_subtract(void) {
+    if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
+        virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s",
+                                      value_stringify_type(virtual_machine_peek(0)),
+                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
+                                      value_stringify_type(virtual_machine_peek(1)),
+                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        return false;
+    }
+    double b = AS_NUMBER(virtual_machine_pop());
+    double a = AS_NUMBER(virtual_machine_pop());
+    virtual_machine_push(NUMBER_VAL(a - b));
+    return true;
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_true(void) {
+    virtual_machine_push(BOOL_VAL(true));
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_result_is_error(void) {
+    value_t top = virtual_machine_peek(0);
+    virtual_machine_push(BOOL_VAL(IS_RESULT(top) && AS_RESULT(top)->isError));
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_result_wrap_ok(void) {
+    value_t val = virtual_machine_pop();
+    virtual_machine_push(OBJECT_VAL(object_new_result_ok(val)));
+}
+
+CLX_ALWAYS_INLINE void virtual_machine_op_result_wrap_err(void) {
+    value_t val = virtual_machine_pop();
+    virtual_machine_push(OBJECT_VAL(object_new_result_error(val)));
+}
+
+CLX_ALWAYS_INLINE bool virtual_machine_op_try_propagate(call_frame_t ** frame, interpret_result * returnCode,
+                                                        bool * didReturn) {
+    value_t top = virtual_machine_pop();
+    if (!IS_RESULT(top)) {
+        virtual_machine_push(top);
+        *didReturn = false;
+        return true;
+    }
+    object_result_t * res = AS_RESULT(top);
+    if (!res->isError) {
+        virtual_machine_push(res->payload);
+        *didReturn = false;
+        return true;
+    }
+
+    virtual_machine_close_upvalues((*frame)->slots);
+    virtualMachine.frameCount--;
+    if (!virtualMachine.frameCount) {
+        virtual_machine_pop();
+        *returnCode = INTERPRET_OK;
+        *didReturn = true;
+        return true;
+    }
+    virtualMachine.stackTop = (*frame)->slots;
+    virtual_machine_push(top);
+    *frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+    *didReturn = false;
+    return true;
+}
+
 static interpret_result virtual_machine_run(void) {
 #ifdef DEBUG_TRACE_EXECUTION
     printf("== execution ==\n");
@@ -656,26 +1093,6 @@ static interpret_result virtual_machine_run(void) {
 
 /// Makro reads string in the chunk
 #define READ_STRING()   AS_STRING(READ_CONSTANT())
-
-/**
- * Macro for creating a binary operator, based on a operator in C
- * We have to embed the marco into a do while, which isn't followed by a semicolon,
- * so all the statements in it get executed if they are after an if 🤮
- */
-#define BINARY_OP(valueType, op)                                                                       \
-    do {                                                                                               \
-        if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {              \
-            virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s", \
-                                          value_stringify_type(virtual_machine_peek(0)),               \
-                                          IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",     \
-                                          value_stringify_type(virtual_machine_peek(1)),               \
-                                          IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");    \
-            return INTERPRET_RUNTIME_ERROR;                                                            \
-        }                                                                                              \
-        double b = AS_NUMBER(virtual_machine_pop());                                                   \
-        double a = AS_NUMBER(virtual_machine_pop());                                                   \
-        virtual_machine_push(valueType(a op b));                                                       \
-    } while (false)
 
     call_frame_t * frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
 
@@ -759,70 +1176,50 @@ static interpret_result virtual_machine_run(void) {
 
 #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
     label_add:
-        if (IS_STRING(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1))) {
-            virtual_machine_concatenate_strings();
-        } else if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1))) {
-            BINARY_OP(NUMBER_VAL, +);
-        } else if (IS_ARRAY(virtual_machine_peek(1))) {
-            virtual_machine_concatenate_arrays();
-        } else {
-            virtual_machine_runtime_error("Operands must be two numbers, two strings, an array and a value or an array "
-                                          "and an array, but they are a %s value and a %s value",
-                                          value_stringify_type(virtual_machine_peek(0)),
-                                          value_stringify_type(virtual_machine_peek(1)));
+        if (!virtual_machine_op_add()) {
             return INTERPRET_RUNTIME_ERROR;
         }
         DISPATCH();
     label_array_literal:
-        virtual_machine_array_literal(READ_BYTE());
+        virtual_machine_op_array_literal(READ_BYTE());
         DISPATCH();
     label_call:
         {
             int32_t argCount = READ_BYTE();
-            if (!virtual_machine_call_value(virtual_machine_peek(argCount), argCount)) {
+            if (!virtual_machine_op_call(&frame, argCount)) {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
             DISPATCH();
         }
     label_closure:
         {
             object_function_t * function = AS_FUNCTION(READ_CONSTANT());
-            object_closure_t * closure = object_new_closure(function);
-            virtual_machine_push(OBJECT_VAL(closure));
-            for (uint32_t i = 0; i < closure->upvalueCount; i++) {
-                uint8_t isLocal = READ_BYTE();
-                uint8_t index = READ_BYTE();
-                closure->upvalues[i] =
-                    isLocal ? virtual_machine_capture_upvalue(frame->slots + index) : frame->closure->upvalues[index];
+            if (!virtual_machine_op_closure(frame, &frame->ip, function)) {
+                return INTERPRET_RUNTIME_ERROR;
             }
             DISPATCH();
         }
     label_class:
-        virtual_machine_push(OBJECT_VAL(object_new_class(READ_STRING())));
+        virtual_machine_op_class(READ_STRING());
         DISPATCH();
     label_close_upvalue:
-        virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
-        virtual_machine_pop();
+        virtual_machine_op_close_upvalue();
         DISPATCH();
     label_close_upvalue_keep:
-        virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
+        virtual_machine_op_close_upvalue_keep();
         DISPATCH();
     label_constant:
         {
-            value_t constant = READ_CONSTANT();
-            virtual_machine_push(constant);
+            virtual_machine_op_constant(READ_CONSTANT());
             DISPATCH();
         }
     label_define_global:
         {
-            object_string_t * name = READ_STRING();
-            value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
-            virtual_machine_pop();
+            virtual_machine_op_define_global(READ_STRING());
             DISPATCH();
         }
     label_dup:
-        virtual_machine_push(virtual_machine_peek(0));
+        virtual_machine_op_dup();
         DISPATCH();
     label_divide:
         if (!virtual_machine_divide()) {
@@ -830,36 +1227,21 @@ static interpret_result virtual_machine_run(void) {
         }
         DISPATCH();
     label_equal:
-        {
-            value_t a = virtual_machine_pop();
-            value_t b = virtual_machine_pop();
-            virtual_machine_push(BOOL_VAL(value_values_equal(a, b)));
-            DISPATCH();
-        }
+        virtual_machine_op_equal();
+        DISPATCH();
     label_exponent:
-        if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1))) {
-            double b = AS_NUMBER(virtual_machine_pop());
-            double a = AS_NUMBER(virtual_machine_pop());
-            virtual_machine_push(NUMBER_VAL(pow(a, b)));
-        } else {
-            virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value",
-                                          value_stringify_type(virtual_machine_peek(0)),
-                                          value_stringify_type(virtual_machine_peek(1)));
+        if (!virtual_machine_op_exponent()) {
             return INTERPRET_RUNTIME_ERROR;
         }
         DISPATCH();
     label_false:
-        virtual_machine_push(BOOL_VAL(false));
+        virtual_machine_op_false();
         DISPATCH();
     label_get_global:
         {
-            object_string_t * name = READ_STRING();
-            value_t value;
-            if (!value_hash_table_get(&virtualMachine.globals, name, &value)) {
-                virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
+            if (!virtual_machine_op_get_global(READ_STRING())) {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            virtual_machine_push(value);
             DISPATCH();
         }
     label_get_index_of:
@@ -868,37 +1250,12 @@ static interpret_result virtual_machine_run(void) {
         }
         DISPATCH();
     label_get_local:
-        virtual_machine_push(frame->slots[READ_BYTE()]);
+        virtual_machine_op_get_local(frame, READ_BYTE());
         DISPATCH();
     label_get_property:
         {
-            value_t recv = virtual_machine_peek(0);
-            if (IS_ERROR_SET(recv)) {
-                object_string_t * name = READ_STRING();
-                value_t value;
-                object_error_set_t * errorSet = AS_ERROR_SET(recv);
-                if (!value_hash_table_get(&errorSet->variants, name, &value)) {
-                    virtual_machine_runtime_error("Undefined error '%s.%s'.", errorSet->name->chars, name->chars);
-                    return INTERPRET_RUNTIME_ERROR;
-                }
-                virtual_machine_pop();
-                virtual_machine_push(value);
-                DISPATCH();
-            }
-            if (!IS_INSTANCE(recv)) {
-                virtual_machine_runtime_error("Only instances have properties but get expression but a %s %s was used",
-                                              value_stringify_type(recv), IS_OBJECT(recv) ? "object" : "value");
-                return INTERPRET_RUNTIME_ERROR;
-            }
-            object_instance_t * instance = AS_INSTANCE(recv);
             object_string_t * name = READ_STRING();
-            value_t value;
-            if (value_hash_table_get(&instance->fields, name, &value)) {
-                virtual_machine_pop(); // Instance.
-                virtual_machine_push(value);
-                DISPATCH();
-            }
-            if (!virtual_machine_bind_method(instance->celloxClass, name)) {
+            if (!virtual_machine_op_get_property(name)) {
                 return INTERPRET_RUNTIME_ERROR;
             }
             DISPATCH();
@@ -910,70 +1267,49 @@ static interpret_result virtual_machine_run(void) {
         DISPATCH();
     label_get_super:
         {
-            object_string_t * name = READ_STRING();
-            object_class_t * superclass = AS_CLASS(virtual_machine_pop());
-
-            if (!virtual_machine_bind_method(superclass, name)) {
-                virtual_machine_runtime_error("Method %s not defined in parent class %s", name->chars,
-                                              superclass->name->chars);
+            if (!virtual_machine_op_get_super(READ_STRING(), true)) {
                 return INTERPRET_RUNTIME_ERROR;
             }
             DISPATCH();
         }
     label_get_upvalue:
-        {
-            uint8_t slot = READ_BYTE();
-            virtual_machine_push(*frame->closure->upvalues[slot]->location);
-            DISPATCH();
-        }
+        virtual_machine_op_get_upvalue(frame, READ_BYTE());
+        DISPATCH();
     label_greater:
-        BINARY_OP(BOOL_VAL, >);
+        if (!virtual_machine_op_greater()) {
+            return INTERPRET_RUNTIME_ERROR;
+        }
         DISPATCH();
     label_inherit:
-        {
-            value_t superclassvalue = virtual_machine_peek(1);
-            if (!IS_CLASS(superclassvalue)) {
-                virtual_machine_runtime_error("Superclass must be a class but is a %s %s",
-                                              value_stringify_type(superclassvalue),
-                                              IS_OBJECT(superclassvalue) ? "object" : "value");
-
-                return INTERPRET_RUNTIME_ERROR;
-            }
-            object_class_t * subclass = AS_CLASS(virtual_machine_peek(0));
-            value_hash_table_add_all(&AS_CLASS(superclassvalue)->methods, &subclass->methods);
-            virtual_machine_pop(); // Subclass.
-            DISPATCH();
+        if (!virtual_machine_op_inherit()) {
+            return INTERPRET_RUNTIME_ERROR;
         }
+        DISPATCH();
     label_invoke:
         {
             object_string_t * method = READ_STRING();
-            if (!virtual_machine_invoke(method, READ_BYTE())) {
+            int32_t argCount = READ_BYTE();
+            if (!virtual_machine_op_invoke(&frame, method, argCount)) {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
             DISPATCH();
         }
     label_jump:
-        // We jump 🦘
-        frame->ip += READ_SHORT();
+        virtual_machine_op_jump(frame, READ_SHORT());
         DISPATCH();
     label_jump_if_false:
-        {
-            uint16_t offset = READ_SHORT();
-            if (virtual_machine_is_falsey(virtual_machine_peek(0))) {
-                // We jump 🦘
-                frame->ip += offset;
-            }
-            DISPATCH();
-        }
+        virtual_machine_op_jump_if_false(frame, READ_SHORT());
+        DISPATCH();
     label_less:
-        BINARY_OP(BOOL_VAL, <);
+        if (!virtual_machine_op_less()) {
+            return INTERPRET_RUNTIME_ERROR;
+        }
         DISPATCH();
     label_loop:
-        frame->ip -= READ_SHORT();
+        virtual_machine_op_loop(frame, READ_SHORT());
         DISPATCH();
     label_method:
-        virtual_machine_define_method(READ_STRING());
+        virtual_machine_op_method(READ_STRING());
         DISPATCH();
     label_modulo:
         if (!virtual_machine_modulo()) {
@@ -981,46 +1317,39 @@ static interpret_result virtual_machine_run(void) {
         }
         DISPATCH();
     label_multiply:
-        BINARY_OP(NUMBER_VAL, *);
-        DISPATCH();
-    label_negate:
-        if (!IS_NUMBER(virtual_machine_peek(0))) {
-            virtual_machine_runtime_error("Operand must be a number but is a %s %s.",
-                                          value_stringify_type(virtual_machine_peek(0)),
-                                          IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
+        if (!virtual_machine_op_multiply()) {
             return INTERPRET_RUNTIME_ERROR;
         }
-        virtual_machine_push(NUMBER_VAL(-AS_NUMBER(virtual_machine_pop())));
+        DISPATCH();
+    label_negate:
+        if (!virtual_machine_op_negate()) {
+            return INTERPRET_RUNTIME_ERROR;
+        }
         DISPATCH();
     label_not:
-        virtual_machine_push(BOOL_VAL(virtual_machine_is_falsey(virtual_machine_pop())));
+        virtual_machine_op_not();
         DISPATCH();
     label_null:
-        virtual_machine_push(NULL_VAL);
+        virtual_machine_op_null();
         DISPATCH();
     label_pop:
-        virtual_machine_pop();
+        virtual_machine_op_pop_value();
         DISPATCH();
     label_return:
         {
-            value_t result = virtual_machine_pop();
-            virtual_machine_close_upvalues(frame->slots);
-            virtualMachine.frameCount--;
-            if (!virtualMachine.frameCount) {
-                virtual_machine_pop();
-                return INTERPRET_OK;
+            interpret_result returnCode = INTERPRET_OK;
+            bool didReturn = false;
+            if (!virtual_machine_op_return(&frame, &returnCode, &didReturn)) {
+                return INTERPRET_RUNTIME_ERROR;
             }
-            virtualMachine.stackTop = frame->slots;
-            virtual_machine_push(result);
-            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+            if (didReturn) {
+                return returnCode;
+            }
             DISPATCH();
         }
     label_set_global:
         {
-            object_string_t * name = READ_STRING();
-            if (value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0))) {
-                value_hash_table_delete(&virtualMachine.globals, name);
-                virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
+            if (!virtual_machine_op_set_global(READ_STRING())) {
                 return INTERPRET_RUNTIME_ERROR;
             }
             DISPATCH();
@@ -1031,139 +1360,76 @@ static interpret_result virtual_machine_run(void) {
         }
         DISPATCH();
     label_set_local:
-        // We set the value at the specified slot to the value that is stored on the top of the stack of the virtual
-        // machine.
-        frame->slots[READ_BYTE()] = virtual_machine_peek(0);
+        virtual_machine_op_set_local(frame, READ_BYTE());
         DISPATCH();
     label_set_property:
         {
-            if (!IS_INSTANCE(virtual_machine_peek(1))) {
-                virtual_machine_runtime_error("Only instances have fields but was called with a %s %s",
-                                              value_stringify_type(virtual_machine_peek(1)),
-                                              IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+            object_string_t * name = READ_STRING();
+            if (!virtual_machine_op_set_property(name)) {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            // We look up the field in the 'fields' hashtable of the cellox object instance
-            value_hash_table_set(&AS_INSTANCE(virtual_machine_peek(1))->fields, READ_STRING(), virtual_machine_peek(0));
-            // The value that is assigned to the property
-            value_t value = virtual_machine_pop();
-            virtual_machine_pop();
-            virtual_machine_push(value);
             DISPATCH();
         }
     label_set_upvalue:
-        *frame->closure->upvalues[READ_BYTE()]->location = virtual_machine_peek(0);
+        virtual_machine_op_set_upvalue(frame, READ_BYTE());
         DISPATCH();
     label_subtract:
-        BINARY_OP(NUMBER_VAL, -);
+        if (!virtual_machine_op_subtract()) {
+            return INTERPRET_RUNTIME_ERROR;
+        }
         DISPATCH();
     label_super_invoke:
         {
             object_string_t * method = READ_STRING();
-            int argCount = READ_BYTE();
-            object_class_t * superclass = AS_CLASS(virtual_machine_pop());
-            if (!virtual_machine_invoke_from_class(superclass, method, argCount)) {
+            int32_t argCount = READ_BYTE();
+            if (!virtual_machine_op_super_invoke(&frame, method, argCount)) {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
             DISPATCH();
         }
     label_true:
-        virtual_machine_push(BOOL_VAL(true));
+        virtual_machine_op_true();
         DISPATCH();
     label_result_is_error:
-        {
-            value_t top = virtual_machine_peek(0);
-            virtual_machine_push(BOOL_VAL(IS_RESULT(top) && AS_RESULT(top)->isError));
-            DISPATCH();
-        }
+        virtual_machine_op_result_is_error();
+        DISPATCH();
     label_result_unwrap:
         {
-            value_t top = virtual_machine_pop();
-            if (!IS_RESULT(top)) {
-                virtual_machine_push(top);
-                DISPATCH();
-            }
-            object_result_t * res = AS_RESULT(top);
-            if (res->isError) {
-                virtual_machine_runtime_error("Unwrapped an error result: %s",
-                                              object_stringify_type((object_t *)AS_ERROR_VALUE(res->payload)));
+            if (!virtual_machine_op_result_unwrap()) {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            virtual_machine_push(res->payload);
             DISPATCH();
         }
     label_result_unwrap_error:
         {
-            value_t top = virtual_machine_pop();
-            if (!IS_RESULT(top)) {
-                virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a non-result value");
+            if (!virtual_machine_op_result_unwrap_error()) {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            object_result_t * res = AS_RESULT(top);
-            if (!res->isError) {
-                virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a success result");
-                return INTERPRET_RUNTIME_ERROR;
-            }
-            virtual_machine_push(res->payload);
             DISPATCH();
         }
     label_result_wrap_ok:
-        {
-            value_t val = virtual_machine_pop();
-            virtual_machine_push(OBJECT_VAL(object_new_result_ok(val)));
-            DISPATCH();
-        }
+        virtual_machine_op_result_wrap_ok();
+        DISPATCH();
     label_result_wrap_err:
-        {
-            value_t val = virtual_machine_pop();
-            virtual_machine_push(OBJECT_VAL(object_new_result_error(val)));
-            DISPATCH();
-        }
+        virtual_machine_op_result_wrap_err();
+        DISPATCH();
     label_must:
         {
-            value_t top = virtual_machine_pop();
-            if (!IS_RESULT(top)) {
-                virtual_machine_push(top);
-                DISPATCH();
-            }
-            object_result_t * res = AS_RESULT(top);
-            if (res->isError) {
-                if (IS_ERROR_VALUE(res->payload)) {
-                    object_error_value_t * ev = AS_ERROR_VALUE(res->payload);
-                    virtual_machine_runtime_error("must: unhandled error %s.%s", ev->errorSet->name->chars,
-                                                  ev->name->chars);
-                } else {
-                    virtual_machine_runtime_error("must: unhandled error result");
-                }
+            if (!virtual_machine_op_must()) {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            virtual_machine_push(res->payload);
             DISPATCH();
         }
     label_try_propagate:
         {
-            value_t top = virtual_machine_pop();
-            if (!IS_RESULT(top)) {
-                virtual_machine_push(top);
-                DISPATCH();
+            interpret_result returnCode = INTERPRET_OK;
+            bool didReturn = false;
+            if (!virtual_machine_op_try_propagate(&frame, &returnCode, &didReturn)) {
+                return INTERPRET_RUNTIME_ERROR;
             }
-            object_result_t * res = AS_RESULT(top);
-            if (!res->isError) {
-                virtual_machine_push(res->payload);
-                DISPATCH();
+            if (didReturn) {
+                return returnCode;
             }
-            /* Propagate: return the error result from the current function */
-            virtual_machine_close_upvalues(frame->slots);
-            virtualMachine.frameCount--;
-            if (!virtualMachine.frameCount) {
-                /* top-level try — return the error result as the final interpreter result */
-                virtual_machine_pop();
-                return INTERPRET_OK;
-            }
-            virtualMachine.stackTop = frame->slots;
-            virtual_machine_push(top); /* push error result as return value */
-            frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
             DISPATCH();
         }
 // For MSVC and other C-compilers we use a switch statement instead
@@ -1172,70 +1438,50 @@ static interpret_result virtual_machine_run(void) {
         switch (instruction = READ_BYTE()) {
         case OP_ADD:
             {
-                if (IS_STRING(virtual_machine_peek(0)) && IS_STRING(virtual_machine_peek(1))) {
-                    virtual_machine_concatenate_strings();
-                } else if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1))) {
-                    BINARY_OP(NUMBER_VAL, +);
-                } else if (IS_ARRAY(virtual_machine_peek(1))) {
-                    virtual_machine_concatenate_arrays();
-                } else {
-                    virtual_machine_runtime_error("Operands must be two numbers, two strings, an array and a value or "
-                                                  "an array and an array, but they are a %s value and a %s value",
-                                                  value_stringify_type(virtual_machine_peek(0)),
-                                                  value_stringify_type(virtual_machine_peek(1)));
+                if (!virtual_machine_op_add()) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 break;
             }
         case OP_ARRAY_LITERAL:
             {
-                virtual_machine_array_literal(READ_BYTE());
+                virtual_machine_op_array_literal(READ_BYTE());
                 break;
             }
         case OP_CALL:
             {
                 int32_t argCount = READ_BYTE();
-                if (!virtual_machine_call_value(virtual_machine_peek(argCount), argCount)) {
+                if (!virtual_machine_op_call(&frame, argCount)) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
                 break;
             }
         case OP_CLOSURE:
             {
                 object_function_t * function = AS_FUNCTION(READ_CONSTANT());
-                object_closure_t * closure = object_new_closure(function);
-                virtual_machine_push(OBJECT_VAL(closure));
-                for (uint32_t i = 0; i < closure->upvalueCount; i++) {
-                    uint8_t isLocal = READ_BYTE();
-                    uint8_t index = READ_BYTE();
-                    closure->upvalues[i] = isLocal ? virtual_machine_capture_upvalue(frame->slots + index)
-                                                   : frame->closure->upvalues[index];
+                if (!virtual_machine_op_closure(frame, &frame->ip, function)) {
+                    return INTERPRET_RUNTIME_ERROR;
                 }
                 break;
             }
         case OP_CLASS:
-            virtual_machine_push(OBJECT_VAL(object_new_class(READ_STRING())));
+            virtual_machine_op_class(READ_STRING());
             break;
         case OP_CLOSE_UPVALUE:
-            virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
-            virtual_machine_pop();
+            virtual_machine_op_close_upvalue();
             break;
         case OP_CONSTANT:
             {
-                value_t constant = READ_CONSTANT();
-                virtual_machine_push(constant);
+                virtual_machine_op_constant(READ_CONSTANT());
                 break;
             }
         case OP_DEFINE_GLOBAL:
             {
-                object_string_t * name = READ_STRING();
-                value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0));
-                virtual_machine_pop();
+                virtual_machine_op_define_global(READ_STRING());
                 break;
             }
         case OP_DUP:
-            virtual_machine_push(virtual_machine_peek(0));
+            virtual_machine_op_dup();
             break;
         case OP_DIVIDE:
             if (!virtual_machine_divide()) {
@@ -1244,37 +1490,24 @@ static interpret_result virtual_machine_run(void) {
             break;
         case OP_EQUAL:
             {
-                value_t a = virtual_machine_pop();
-                value_t b = virtual_machine_pop();
-                virtual_machine_push(BOOL_VAL(value_values_equal(a, b)));
+                virtual_machine_op_equal();
                 break;
             }
         case OP_EXPONENT:
             {
-                if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1))) {
-                    double b = AS_NUMBER(virtual_machine_pop());
-                    double a = AS_NUMBER(virtual_machine_pop());
-                    virtual_machine_push(NUMBER_VAL(pow(a, b)));
-                } else {
-                    virtual_machine_runtime_error("Operands must be two numbers but they are a %s value and a %s value",
-                                                  value_stringify_type(virtual_machine_peek(0)),
-                                                  value_stringify_type(virtual_machine_peek(1)));
+                if (!virtual_machine_op_exponent()) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 break;
             }
         case OP_FALSE:
-            virtual_machine_push(BOOL_VAL(false));
+            virtual_machine_op_false();
             break;
         case OP_GET_GLOBAL:
             {
-                object_string_t * name = READ_STRING();
-                value_t value;
-                if (!value_hash_table_get(&virtualMachine.globals, name, &value)) {
-                    virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
+                if (!virtual_machine_op_get_global(READ_STRING())) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                virtual_machine_push(value);
                 break;
             }
         case OP_GET_INDEX_OF:
@@ -1286,42 +1519,13 @@ static interpret_result virtual_machine_run(void) {
             }
         case OP_GET_LOCAL:
             {
-                uint8_t slot = READ_BYTE();
-                virtual_machine_push(frame->slots[slot]);
+                virtual_machine_op_get_local(frame, READ_BYTE());
                 break;
             }
         case OP_GET_PROPERTY:
             {
                 object_string_t * name = READ_STRING();
-                value_t receiver = virtual_machine_peek(0);
-
-                if (IS_ERROR_SET(receiver)) {
-                    value_t value;
-                    object_error_set_t * errorSet = AS_ERROR_SET(receiver);
-                    if (!value_hash_table_get(&errorSet->variants, name, &value)) {
-                        virtual_machine_runtime_error("Undefined error '%s.%s'.", errorSet->name->chars, name->chars);
-                        return INTERPRET_RUNTIME_ERROR;
-                    }
-                    virtual_machine_pop();
-                    virtual_machine_push(value);
-                    break;
-                }
-
-                if (!IS_INSTANCE(receiver)) {
-                    virtual_machine_runtime_error(
-                        "Only instances have properties but get expression but a %s %s was used",
-                        value_stringify_type(receiver), IS_OBJECT(receiver) ? "object" : "value");
-                    return INTERPRET_RUNTIME_ERROR;
-                }
-                object_instance_t * instance = AS_INSTANCE(receiver);
-
-                value_t value;
-                if (value_hash_table_get(&instance->fields, name, &value)) {
-                    virtual_machine_pop(); // Instance.
-                    virtual_machine_push(value);
-                    break;
-                }
-                if (!virtual_machine_bind_method(instance->celloxClass, name)) {
+                if (!virtual_machine_op_get_property(name)) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 break;
@@ -1335,75 +1539,59 @@ static interpret_result virtual_machine_run(void) {
             }
         case OP_GET_SUPER:
             {
-                object_string_t * name = READ_STRING();
-                object_class_t * superclass = AS_CLASS(virtual_machine_pop());
-
-                if (!virtual_machine_bind_method(superclass, name)) {
+                if (!virtual_machine_op_get_super(READ_STRING(), false)) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 break;
             }
         case OP_GET_UPVALUE:
             {
-                uint8_t slot = READ_BYTE();
-                virtual_machine_push(*frame->closure->upvalues[slot]->location);
+                virtual_machine_op_get_upvalue(frame, READ_BYTE());
                 break;
             }
         case OP_GREATER:
-            BINARY_OP(BOOL_VAL, >);
+            if (!virtual_machine_op_greater()) {
+                return INTERPRET_RUNTIME_ERROR;
+            }
             break;
         case OP_INHERIT:
             {
-                value_t superclass = virtual_machine_peek(1);
-                if (!IS_CLASS(superclass)) {
-                    virtual_machine_runtime_error("Superclass must be a class but is a %s %s",
-                                                  value_stringify_type(superclass),
-                                                  IS_OBJECT(superclass) ? "object" : "value");
-
+                if (!virtual_machine_op_inherit()) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                object_class_t * subclass = AS_CLASS(virtual_machine_peek(0));
-                value_hash_table_add_all(&AS_CLASS(superclass)->methods, &subclass->methods);
-                virtual_machine_pop(); // Subclass.
                 break;
             }
         case OP_INVOKE:
             {
                 object_string_t * method = READ_STRING();
-                int argCount = READ_BYTE();
-                if (!virtual_machine_invoke(method, argCount)) {
+                int32_t argCount = READ_BYTE();
+                if (!virtual_machine_op_invoke(&frame, method, argCount)) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
                 break;
             }
         case OP_JUMP:
             {
-                uint16_t offset = READ_SHORT();
-                // We jump 🦘
-                frame->ip += offset;
+                virtual_machine_op_jump(frame, READ_SHORT());
                 break;
             }
         case OP_JUMP_IF_FALSE:
             {
-                uint16_t offset = READ_SHORT();
-                if (virtual_machine_is_falsey(virtual_machine_peek(0))) {
-                    // We jump 🦘
-                    frame->ip += offset;
-                }
+                virtual_machine_op_jump_if_false(frame, READ_SHORT());
                 break;
             }
         case OP_LESS:
-            BINARY_OP(BOOL_VAL, <);
+            if (!virtual_machine_op_less()) {
+                return INTERPRET_RUNTIME_ERROR;
+            }
             break;
         case OP_LOOP:
             {
-                uint16_t offset = READ_SHORT();
-                frame->ip -= offset;
+                virtual_machine_op_loop(frame, READ_SHORT());
                 break;
             }
         case OP_METHOD:
-            virtual_machine_define_method(READ_STRING());
+            virtual_machine_op_method(READ_STRING());
             break;
         case OP_MODULO:
             {
@@ -1413,46 +1601,39 @@ static interpret_result virtual_machine_run(void) {
                 break;
             }
         case OP_MULTIPLY:
-            BINARY_OP(NUMBER_VAL, *);
-            break;
-        case OP_NEGATE:
-            if (!IS_NUMBER(virtual_machine_peek(0))) {
-                virtual_machine_runtime_error("Operand must be a number but is a %s %s.",
-                                              value_stringify_type(virtual_machine_peek(0)),
-                                              IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value");
+            if (!virtual_machine_op_multiply()) {
                 return INTERPRET_RUNTIME_ERROR;
             }
-            virtual_machine_push(NUMBER_VAL(-AS_NUMBER(virtual_machine_pop())));
+            break;
+        case OP_NEGATE:
+            if (!virtual_machine_op_negate()) {
+                return INTERPRET_RUNTIME_ERROR;
+            }
             break;
         case OP_NOT:
-            virtual_machine_push(BOOL_VAL(virtual_machine_is_falsey(virtual_machine_pop())));
+            virtual_machine_op_not();
             break;
         case OP_NULL:
-            virtual_machine_push(NULL_VAL);
+            virtual_machine_op_null();
             break;
         case OP_POP:
-            virtual_machine_pop();
+            virtual_machine_op_pop_value();
             break;
         case OP_RETURN:
             {
-                value_t result = virtual_machine_pop();
-                virtual_machine_close_upvalues(frame->slots);
-                virtualMachine.frameCount--;
-                if (!virtualMachine.frameCount) {
-                    virtual_machine_pop();
-                    return INTERPRET_OK;
+                interpret_result returnCode = INTERPRET_OK;
+                bool didReturn = false;
+                if (!virtual_machine_op_return(&frame, &returnCode, &didReturn)) {
+                    return INTERPRET_RUNTIME_ERROR;
                 }
-                virtualMachine.stackTop = frame->slots;
-                virtual_machine_push(result);
-                frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
+                if (didReturn) {
+                    return returnCode;
+                }
                 break;
             }
         case OP_SET_GLOBAL:
             {
-                object_string_t * name = READ_STRING();
-                if (value_hash_table_set(&virtualMachine.globals, name, virtual_machine_peek(0))) {
-                    value_hash_table_delete(&virtualMachine.globals, name);
-                    virtual_machine_runtime_error("Undefined variable '%s'.", name->chars);
+                if (!virtual_machine_op_set_global(READ_STRING())) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
                 break;
@@ -1466,145 +1647,89 @@ static interpret_result virtual_machine_run(void) {
             }
         case OP_SET_LOCAL:
             {
-                // We set the value at the specified slot to the value that is stored on the top of the stack of the
-                // virtual machine.
-                uint8_t slot = READ_BYTE();
-                frame->slots[slot] = virtual_machine_peek(0);
+                virtual_machine_op_set_local(frame, READ_BYTE());
                 break;
             }
         case OP_SET_PROPERTY:
             {
-                if (!IS_INSTANCE(virtual_machine_peek(1))) {
-                    virtual_machine_runtime_error("Only instances have fields but was called with a %s %s",
-                                                  value_stringify_type(virtual_machine_peek(1)),
-                                                  IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+                object_string_t * name = READ_STRING();
+                if (!virtual_machine_op_set_property(name)) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                object_instance_t * instance = AS_INSTANCE(virtual_machine_peek(1));
-                value_hash_table_set(&instance->fields, READ_STRING(), virtual_machine_peek(0));
-                value_t value = virtual_machine_pop();
-                virtual_machine_pop();
-                virtual_machine_push(value);
                 break;
             }
         case OP_SET_UPVALUE:
             {
-                uint8_t slot = READ_BYTE();
-                *frame->closure->upvalues[slot]->location = virtual_machine_peek(0);
+                virtual_machine_op_set_upvalue(frame, READ_BYTE());
                 break;
             }
         case OP_SUBTRACT:
-            BINARY_OP(NUMBER_VAL, -);
+            if (!virtual_machine_op_subtract()) {
+                return INTERPRET_RUNTIME_ERROR;
+            }
             break;
         case OP_SUPER_INVOKE:
             {
                 object_string_t * method = READ_STRING();
-                int argCount = READ_BYTE();
-                object_class_t * superclass = AS_CLASS(virtual_machine_pop());
-                if (!virtual_machine_invoke_from_class(superclass, method, argCount)) {
+                int32_t argCount = READ_BYTE();
+                if (!virtual_machine_op_super_invoke(&frame, method, argCount)) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
                 break;
             }
         case OP_TRUE:
-            virtual_machine_push(BOOL_VAL(true));
+            virtual_machine_op_true();
             break;
         case OP_RESULT_IS_ERROR:
             {
-                value_t top = virtual_machine_peek(0);
-                virtual_machine_push(BOOL_VAL(IS_RESULT(top) && AS_RESULT(top)->isError));
+                virtual_machine_op_result_is_error();
                 break;
             }
         case OP_RESULT_UNWRAP:
             {
-                value_t top = virtual_machine_pop();
-                if (!IS_RESULT(top)) {
-                    virtual_machine_push(top);
-                    break;
-                }
-                object_result_t * res = AS_RESULT(top);
-                if (res->isError) {
-                    virtual_machine_runtime_error("Unwrapped an error result: %s",
-                                                  object_stringify_type((object_t *)AS_ERROR_VALUE(res->payload)));
+                if (!virtual_machine_op_result_unwrap()) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                virtual_machine_push(res->payload);
                 break;
             }
         case OP_RESULT_UNWRAP_ERROR:
             {
-                value_t top = virtual_machine_pop();
-                if (!IS_RESULT(top)) {
-                    virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a non-result value");
+                if (!virtual_machine_op_result_unwrap_error()) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                object_result_t * res = AS_RESULT(top);
-                if (!res->isError) {
-                    virtual_machine_runtime_error("OP_RESULT_UNWRAP_ERROR called on a success result");
-                    return INTERPRET_RUNTIME_ERROR;
-                }
-                virtual_machine_push(res->payload);
                 break;
             }
         case OP_RESULT_WRAP_OK:
             {
-                value_t val = virtual_machine_pop();
-                virtual_machine_push(OBJECT_VAL(object_new_result_ok(val)));
+                virtual_machine_op_result_wrap_ok();
                 break;
             }
         case OP_RESULT_WRAP_ERR:
             {
-                value_t val = virtual_machine_pop();
-                virtual_machine_push(OBJECT_VAL(object_new_result_error(val)));
+                virtual_machine_op_result_wrap_err();
                 break;
             }
         case OP_MUST:
             {
-                value_t top = virtual_machine_pop();
-                if (!IS_RESULT(top)) {
-                    virtual_machine_push(top);
-                    break;
-                }
-                object_result_t * res = AS_RESULT(top);
-                if (res->isError) {
-                    if (IS_ERROR_VALUE(res->payload)) {
-                        object_error_value_t * ev = AS_ERROR_VALUE(res->payload);
-                        virtual_machine_runtime_error("must: unhandled error %s.%s", ev->errorSet->name->chars,
-                                                      ev->name->chars);
-                    } else {
-                        virtual_machine_runtime_error("must: unhandled error result");
-                    }
+                if (!virtual_machine_op_must()) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
-                virtual_machine_push(res->payload);
                 break;
             }
         case OP_TRY_PROPAGATE:
             {
-                value_t top = virtual_machine_pop();
-                if (!IS_RESULT(top)) {
-                    virtual_machine_push(top);
-                    break;
+                interpret_result returnCode = INTERPRET_OK;
+                bool didReturn = false;
+                if (!virtual_machine_op_try_propagate(&frame, &returnCode, &didReturn)) {
+                    return INTERPRET_RUNTIME_ERROR;
                 }
-                object_result_t * res = AS_RESULT(top);
-                if (!res->isError) {
-                    virtual_machine_push(res->payload);
-                    break;
+                if (didReturn) {
+                    return returnCode;
                 }
-                virtual_machine_close_upvalues(frame->slots);
-                virtualMachine.frameCount--;
-                if (!virtualMachine.frameCount) {
-                    virtual_machine_pop();
-                    return INTERPRET_OK;
-                }
-                virtualMachine.stackTop = frame->slots;
-                virtual_machine_push(top);
-                frame = &virtualMachine.callStack[virtualMachine.frameCount - 1];
                 break;
             }
         case OP_CLOSE_UPVALUE_KEEP:
-            virtual_machine_close_upvalues(virtualMachine.stackTop - 1);
+            virtual_machine_op_close_upvalue_keep();
             break;
         default:
             CLX_UNREACHABLE();
@@ -1615,7 +1740,6 @@ static interpret_result virtual_machine_run(void) {
 #undef READ_SHORT
 #undef READ_CONSTANT
 #undef READ_STRING
-#undef BINARY_OP
 #if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
 #undef DISPATCH
 #endif
