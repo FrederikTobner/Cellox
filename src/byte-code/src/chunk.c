@@ -20,7 +20,6 @@
 
 #include "byte-code/chunk.h"
 
-#include <cstdint>
 #include <stdlib.h>
 #include <string.h>
 
@@ -88,11 +87,11 @@ uint32_t chunk_determine_opcode_size_by_index(chunk_t * chunk, uint32_t index) {
     case OP_SUPER_INVOKE:
         return 3;
     case OP_CLOSURE:
-        if (offset + 1 >= chunk->byteCodeCount) {
+        if (index + 1 >= chunk->byteCodeCount) {
             return 1;
         }
         {
-            uint8_t constant = chunk->code[offset + 1];
+            uint8_t constant = chunk->code[index + 1];
             if (constant < chunk->constants.count && IS_FUNCTION(chunk->constants.values[constant])) {
                 object_function_t * function = AS_FUNCTION(chunk->constants.values[constant]);
                 return 2 + function->upvalueCount * 2;
