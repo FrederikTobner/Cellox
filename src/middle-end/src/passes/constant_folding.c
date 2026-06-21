@@ -20,10 +20,9 @@
 
 #include "middle-end/optimization_pass.h"
 
-#include "language-models/object.h"
 #include "language-models/value.h"
+#include "byte-code/chunk.h"
 
-static uint32_t opcode_size(chunk_t * chunk, uint32_t offset);
 static bool try_fold_binary_op(uint8_t op, value_t a, value_t b, value_t * result);
 
 pass_result_t pass_constant_folding(chunk_t * chunk) {
@@ -37,7 +36,7 @@ pass_result_t pass_constant_folding(chunk_t * chunk) {
 
     for (uint32_t i = 0; i < chunk->byteCodeCount;) {
         if (chunk->code[i] != OP_CONSTANT || i + 1 >= chunk->byteCodeCount) {
-            i += opcode_size(chunk, i);
+            i += chunk_determine_opcode_size_by_index(chunk, i); 
             continue;
         }
 
@@ -82,51 +81,6 @@ pass_result_t pass_constant_folding(chunk_t * chunk) {
     }
 
     return result;
-}
-
-static uint32_t opcode_size(chunk_t * chunk, uint32_t offset) {
-    if (offset >= chunk->byteCodeCount) {
-        return 1;
-    }
-
-    switch (chunk->code[offset]) {
-    case OP_CONSTANT:
-    case OP_DEFINE_GLOBAL:
-    case OP_GET_GLOBAL:
-    case OP_GET_PROPERTY:
-    case OP_GET_SUPER:
-    case OP_SET_GLOBAL:
-    case OP_SET_PROPERTY:
-    case OP_CLASS:
-    case OP_METHOD:
-    case OP_ARRAY_LITERAL:
-    case OP_CALL:
-    case OP_GET_LOCAL:
-    case OP_GET_UPVALUE:
-    case OP_SET_LOCAL:
-    case OP_SET_UPVALUE:
-        return 2;
-    case OP_JUMP:
-    case OP_JUMP_IF_FALSE:
-    case OP_LOOP:
-    case OP_INVOKE:
-    case OP_SUPER_INVOKE:
-        return 3;
-    case OP_CLOSURE:
-        if (offset + 1 >= chunk->byteCodeCount) {
-            return 1;
-        }
-        {
-            uint8_t constant = chunk->code[offset + 1];
-            if (constant < chunk->constants.count && IS_FUNCTION(chunk->constants.values[constant])) {
-                object_function_t * function = AS_FUNCTION(chunk->constants.values[constant]);
-                return 2 + function->upvalueCount * 2;
-            }
-        }
-        return 2;
-    default:
-        return 1;
-    }
 }
 
 static bool try_fold_binary_op(uint8_t op, value_t a, value_t b, value_t * result) {

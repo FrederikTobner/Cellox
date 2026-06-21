@@ -23,14 +23,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "language-models/object.h"
+#include "byte-code/chunk.h"
 
 #define BIT_SET(bits, idx) ((bits)[(idx) / 8] |= (1u << ((idx) % 8)))
 #define BIT_GET(bits, idx) (((bits)[(idx) / 8] & (1u << ((idx) % 8))) != 0)
 
 static void write_u16_be(uint8_t * data, uint16_t value);
 static bool is_jump_opcode(uint8_t opcode);
-static uint32_t opcode_size(chunk_t * chunk, uint32_t offset);
 static uint16_t read_u16_be(uint8_t const * data);
 static void clear_reachability_state(chunk_t * chunk);
 static void build_dead_prefix(chunk_t * chunk, uint8_t * dead_bytes, uint32_t * prefix_removed);
@@ -38,52 +37,6 @@ static void build_dead_prefix(chunk_t * chunk, uint8_t * dead_bytes, uint32_t * 
 static uint16_t read_u16_be(uint8_t const * data) {
     return (uint16_t)(((uint16_t)data[0] << 8) | (uint16_t)data[1]);
 }
-
-static uint32_t opcode_size(chunk_t * chunk, uint32_t offset) {
-    if (offset >= chunk->byteCodeCount) {
-        return 1;
-    }
-
-    switch (chunk->code[offset]) {
-    case OP_CONSTANT:
-    case OP_DEFINE_GLOBAL:
-    case OP_GET_GLOBAL:
-    case OP_GET_PROPERTY:
-    case OP_GET_SUPER:
-    case OP_SET_GLOBAL:
-    case OP_SET_PROPERTY:
-    case OP_CLASS:
-    case OP_METHOD:
-    case OP_ARRAY_LITERAL:
-    case OP_CALL:
-    case OP_GET_LOCAL:
-    case OP_GET_UPVALUE:
-    case OP_SET_LOCAL:
-    case OP_SET_UPVALUE:
-        return 2;
-    case OP_JUMP:
-    case OP_JUMP_IF_FALSE:
-    case OP_LOOP:
-    case OP_INVOKE:
-    case OP_SUPER_INVOKE:
-        return 3;
-    case OP_CLOSURE:
-        if (offset + 1 >= chunk->byteCodeCount) {
-            return 1;
-        }
-        {
-            uint8_t constant = chunk->code[offset + 1];
-            if (constant < chunk->constants.count && IS_FUNCTION(chunk->constants.values[constant])) {
-                object_function_t * function = AS_FUNCTION(chunk->constants.values[constant]);
-                return 2 + function->upvalueCount * 2;
-            }
-        }
-        return 2;
-    default:
-        return 1;
-    }
-}
-
 static bool is_jump_opcode(uint8_t opcode) {
     return opcode == OP_JUMP || opcode == OP_JUMP_IF_FALSE || opcode == OP_LOOP;
 }
@@ -109,7 +62,7 @@ static void build_dead_prefix(chunk_t * chunk, uint8_t * dead_bytes, uint32_t * 
     memset(dead_bytes, 0, chunk->byteCodeCount);
 
     for (uint32_t offset = 0; offset < chunk->byteCodeCount;) {
-        uint32_t size = opcode_size(chunk, offset);
+        uint32_t size = chunk_determine_opcode_size_by_index(chunk, offset); 
         if (!BIT_GET(chunk->_reachable_bitset, offset)) {
             for (uint32_t i = 0; i < size && offset + i < chunk->byteCodeCount; i++) {
                 dead_bytes[offset + i] = 1;
