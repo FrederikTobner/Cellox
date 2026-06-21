@@ -18,6 +18,7 @@ var virtual__machine_8c =
     [ "virtual_machine_define_method", "virtual__machine_8c.html#a5351b4a129b99a02da6eb1e5d9a7ba11", null ],
     [ "virtual_machine_define_native", "virtual__machine_8c.html#a447e6ada9c85f398269c9b006e636544", null ],
     [ "virtual_machine_define_natives", "virtual__machine_8c.html#a17ee9002084f19db68b91046c9fd0e05", null ],
+    [ "virtual_machine_divide", "virtual__machine_8c.html#a3368b6e2c094ede3ee1cdf0028be8f73", null ],
     [ "virtual_machine_get_index_of", "virtual__machine_8c.html#a69b64dfe2f89d517dbe3e336b3dfa93d", null ],
     [ "virtual_machine_get_slice_of", "virtual__machine_8c.html#a24f1d914eae419bda3d779016db98bf3", null ],
     [ "virtual_machine_init", "virtual__machine_8c.html#a383464453405934913f1e83b9bd7a354", null ],
