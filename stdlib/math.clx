@@ -56,11 +56,6 @@ export fun pow(x, n) {
     return result;
 }
 
-// Hypotenuse of a right triangle with legs a and b.
-export fun hypot(a, b) {
-    return sine(a * a + b * b);
-}
-
 // Degrees to radians.
 export fun deg_to_rad(deg) {
     return deg * pi / 180;

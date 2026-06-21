@@ -656,7 +656,7 @@ static interpret_result virtual_machine_run(void) {
 // For GCC and Clang we use computed goto's for non-debug builds, to create a efficient dispatch table, in order to
 // speed up the execution.🚀 This is for example also done by ruby or dalvik (android java VM). Lua on the other hand
 // uses a regular switch statement like we do, if there is the compiler is not gcc or clang.
-#if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
+#if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_CLANG))
 
     // Dispatch table with the labels we jump to instead of function pointers
     void * dispatch_table[] = {&&label_add,
