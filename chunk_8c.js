@@ -5,6 +5,7 @@ var chunk_8c =
     [ "chunk_byte_code_is_full", "chunk_8c.html#a2551356f716416ddd5a0434b68864934", null ],
     [ "chunk_decrement_constant_indezes", "chunk_8c.html#ab74755cf2cd3d38a0311fd562bc8fa41", null ],
     [ "chunk_determine_line_by_index", "chunk_8c.html#a2982aedb4f20dadc192194410cb3bfa2", null ],
+    [ "chunk_determine_opcode_size_by_index", "chunk_8c.html#ac4f307c9bb208bd1043383125b75ef16", null ],
     [ "chunk_free", "chunk_8c.html#a601b0fd735d2013c653dff3804c3cf59", null ],
     [ "chunk_init", "chunk_8c.html#ad328868c26cd5c98ce24b665d03ea537", null ],
     [ "chunk_line_info_is_full", "chunk_8c.html#aadc36598f32078c22fcc067c7ca6fce2", null ],

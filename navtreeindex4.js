@@ -1,6 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"optimization__pass_8h.html#ad478c317e8f9057c981fb3e75d788833":[2,0,0,8,0,0,1,5],
 "optimization__pass_8h.html#ad9e2f2250eadbfb3781b2580185e6846":[2,0,0,8,0,0,1,12],
 "optimization__pass_8h.html#adfb2019b6b0d55d53376c9356d081993":[2,0,0,8,0,0,1,13],
 "optimization__pass_8h.html#aebe8564c29f169bdef2d48f1dccfae90":[2,0,0,8,0,0,1,18],
@@ -249,5 +248,6 @@ var NAVTREEINDEX4 =
 "structoptimization__pass__entry__t.html":[1,0,31],
 "structoptimization__pass__entry__t.html#a68344fa88cf4e86b5079fd69a5c22d57":[1,0,31,0],
 "structoptimization__pass__entry__t.html#a70dcc146b2b2bf23b6eea619ad13784b":[1,0,31,2],
-"structoptimization__pass__entry__t.html#a8740ba80e30dd75e71d09fa1dcf04f3d":[1,0,31,1]
+"structoptimization__pass__entry__t.html#a8740ba80e30dd75e71d09fa1dcf04f3d":[1,0,31,1],
+"structoptimization__pass__entry__t.html#a8f8f80d37794cde9472343e4487ba3eb":[1,0,31,3]
 };

@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('globals_func_v.html',''); initResizabl
 <li>value_hash_table_get()&#160;:&#160;<a class="el" href="value__hash__table_8h.html#a158dba0e7cb84e9015bd0c23d3fb660c">value_hash_table.h</a>, <a class="el" href="value__hash__table_8c.html#a6f34ee6b872168b1c74316a7696d2b65">value_hash_table.c</a></li>
 <li>value_hash_table_init()&#160;:&#160;<a class="el" href="value__hash__table_8h.html#af7d777891c0837b10be2ffde77442f62">value_hash_table.h</a>, <a class="el" href="value__hash__table_8c.html#af7d777891c0837b10be2ffde77442f62">value_hash_table.c</a></li>
 <li>value_hash_table_mark()&#160;:&#160;<a class="el" href="value__hash__table_8h.html#a306fa13e9b39ca8b5dd9015860bef15d">value_hash_table.h</a>, <a class="el" href="value__hash__table_8c.html#a306fa13e9b39ca8b5dd9015860bef15d">value_hash_table.c</a></li>
-<li>value_hash_table_remove_white()&#160;:&#160;<a class="el" href="value__hash__table_8h.html#a1ed004b66739eaab5558f04d5b0ebe4c">value_hash_table.h</a>, <a class="el" href="value__hash__table_8c.html#a1ed004b66739eaab5558f04d5b0ebe4c">value_hash_table.c</a></li>
+<li>value_hash_table_remove_white()&#160;:&#160;<a class="el" href="value__hash__table_8c.html#a1ed004b66739eaab5558f04d5b0ebe4c">value_hash_table.c</a>, <a class="el" href="value__hash__table_8h.html#a1ed004b66739eaab5558f04d5b0ebe4c">value_hash_table.h</a></li>
 <li>value_hash_table_set()&#160;:&#160;<a class="el" href="value__hash__table_8h.html#aeac03ea490fa927acde398c9c26e4fd0">value_hash_table.h</a>, <a class="el" href="value__hash__table_8c.html#a845ff48b3ccd14db6cc1613041bdada7">value_hash_table.c</a></li>
 <li>value_print()&#160;:&#160;<a class="el" href="value_8h.html#afbcb72d28bc42542e9023a4382a088f9">value.h</a>, <a class="el" href="value_8c.html#afbcb72d28bc42542e9023a4382a088f9">value.c</a></li>
 <li>value_stringify_type()&#160;:&#160;<a class="el" href="value_8h.html#aa4c6abcb77005bff8a6ecdec294b036b">value.h</a>, <a class="el" href="value_8c.html#aa4c6abcb77005bff8a6ecdec294b036b">value.c</a></li>
@@ -122,12 +122,58 @@ $(document).ready(function(){initNavTree('globals_func_v.html',''); initResizabl
 <li>virtual_machine_free()&#160;:&#160;<a class="el" href="virtual__machine_8h.html#a6339186a8e67921040a48db819475cb2">virtual_machine.h</a></li>
 <li>virtual_machine_get_index_of()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a69b64dfe2f89d517dbe3e336b3dfa93d">virtual_machine.c</a></li>
 <li>virtual_machine_get_slice_of()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a24f1d914eae419bda3d779016db98bf3">virtual_machine.c</a></li>
-<li>virtual_machine_init()&#160;:&#160;<a class="el" href="virtual__machine_8h.html#a383464453405934913f1e83b9bd7a354">virtual_machine.h</a>, <a class="el" href="virtual__machine_8c.html#a383464453405934913f1e83b9bd7a354">virtual_machine.c</a></li>
+<li>virtual_machine_init()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a383464453405934913f1e83b9bd7a354">virtual_machine.c</a>, <a class="el" href="virtual__machine_8h.html#a383464453405934913f1e83b9bd7a354">virtual_machine.h</a></li>
 <li>virtual_machine_interpret()&#160;:&#160;<a class="el" href="virtual__machine_8h.html#a414c9e9d5e0a8ffb2121a540715e9056">virtual_machine.h</a>, <a class="el" href="virtual__machine_8c.html#a414c9e9d5e0a8ffb2121a540715e9056">virtual_machine.c</a></li>
 <li>virtual_machine_invoke()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a691b78b954ba9ce4d6169b27cbe2c056">virtual_machine.c</a></li>
 <li>virtual_machine_invoke_from_class()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a878f62fd42536a5c0265340fffd8d4ae">virtual_machine.c</a></li>
 <li>virtual_machine_is_falsey()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a51614596f6411f6de1364785310d36b2">virtual_machine.c</a></li>
 <li>virtual_machine_modulo()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#ab414dbc70c74a500e8a6b85ed1581290">virtual_machine.c</a></li>
+<li>virtual_machine_op_add()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a6d70245d29726a9c913f7cf095df4ff7">virtual_machine.c</a></li>
+<li>virtual_machine_op_array_literal()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#ab0feac5acd3de9ad04757c3dbe0501b1">virtual_machine.c</a></li>
+<li>virtual_machine_op_call()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a00f377ba00582e6f911c108ba7004492">virtual_machine.c</a></li>
+<li>virtual_machine_op_class()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#ada5aedf6eab0170ece64cebf0b4ae1e7">virtual_machine.c</a></li>
+<li>virtual_machine_op_close_upvalue()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#aa6e07a62c5a7c8ab99e824c63420f21b">virtual_machine.c</a></li>
+<li>virtual_machine_op_close_upvalue_keep()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#ad897996b8ae3bfb6cdac6e5dcad546fc">virtual_machine.c</a></li>
+<li>virtual_machine_op_closure()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a22fe75dbd84f9c9f2e20e8892bb5ce7e">virtual_machine.c</a></li>
+<li>virtual_machine_op_constant()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a9fdc005144bdc598c779b3d261758577">virtual_machine.c</a></li>
+<li>virtual_machine_op_define_global()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#ac167c3dec382fc7e8eaf1213a1f5d717">virtual_machine.c</a></li>
+<li>virtual_machine_op_dup()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#aef3c13df85b78a32ae59b057db203b2b">virtual_machine.c</a></li>
+<li>virtual_machine_op_equal()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#ab3652904487f6e668b4c239fa072386b">virtual_machine.c</a></li>
+<li>virtual_machine_op_exponent()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a643e7af1198c5bbf3c2f5604b54ecedb">virtual_machine.c</a></li>
+<li>virtual_machine_op_false()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a47df196c7ebaeae6c76eff46fad5fba5">virtual_machine.c</a></li>
+<li>virtual_machine_op_get_global()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a66c50dbe126e201d46be455f6f2c7be5">virtual_machine.c</a></li>
+<li>virtual_machine_op_get_local()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a679b53af9e7a6e5aff6364222f910d13">virtual_machine.c</a></li>
+<li>virtual_machine_op_get_property()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a62dc7dc72aafb83446a0efdfa21fdd4d">virtual_machine.c</a></li>
+<li>virtual_machine_op_get_super()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#afc900b2bba8396e9ab078750dfc7886c">virtual_machine.c</a></li>
+<li>virtual_machine_op_get_upvalue()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a42c25a3cbc508514408345c73336c3af">virtual_machine.c</a></li>
+<li>virtual_machine_op_greater()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#ae86d31960cf4eb7c01dd111913dc9a46">virtual_machine.c</a></li>
+<li>virtual_machine_op_inherit()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a803a6844d9fa01c814f60d796eb977d4">virtual_machine.c</a></li>
+<li>virtual_machine_op_invoke()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a30d44b8a68e559d89fc6961619ae0a95">virtual_machine.c</a></li>
+<li>virtual_machine_op_jump()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#afe3f01a1465f89046cb36c8fcbd2157b">virtual_machine.c</a></li>
+<li>virtual_machine_op_jump_if_false()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a85c7b367638eb31118a284d3aa548ce4">virtual_machine.c</a></li>
+<li>virtual_machine_op_less()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#af28d825f05f625b96cf2006a887869e1">virtual_machine.c</a></li>
+<li>virtual_machine_op_loop()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a7e855e137dcfd7c7412312478a4eebf3">virtual_machine.c</a></li>
+<li>virtual_machine_op_method()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a8cfd5be171731416a03055f5d8a6fcb1">virtual_machine.c</a></li>
+<li>virtual_machine_op_multiply()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a8cf38c1a64bc729ec7145f4ff9b9495e">virtual_machine.c</a></li>
+<li>virtual_machine_op_must()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#aee9fce66acef200ed26bdf8df7ccbd3e">virtual_machine.c</a></li>
+<li>virtual_machine_op_negate()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a07ff94ca7e2471e0397c15b312508f5d">virtual_machine.c</a></li>
+<li>virtual_machine_op_not()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a005b0ae3507b840ddb57b228473fb412">virtual_machine.c</a></li>
+<li>virtual_machine_op_null()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a69a250baccc45694bc0e5f2c92879d78">virtual_machine.c</a></li>
+<li>virtual_machine_op_pop_value()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#aeade46172b94c7335fd82a7ca3a28dfb">virtual_machine.c</a></li>
+<li>virtual_machine_op_result_is_error()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a1170ee90afb62b67f3867286e5ef92a9">virtual_machine.c</a></li>
+<li>virtual_machine_op_result_unwrap()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a8e7b2d41504e7b58a80a49256ff24bfa">virtual_machine.c</a></li>
+<li>virtual_machine_op_result_unwrap_error()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#afa5e9bf921be75e2650bad683d154bf7">virtual_machine.c</a></li>
+<li>virtual_machine_op_result_wrap_err()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#adb534e5aaa55d29b0a420f371b448fc7">virtual_machine.c</a></li>
+<li>virtual_machine_op_result_wrap_ok()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a0ca8d3c040825e7e17b8b6ab6ee21dd2">virtual_machine.c</a></li>
+<li>virtual_machine_op_return()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a78a8db3a82e5b2e0d68ab45598566e5c">virtual_machine.c</a></li>
+<li>virtual_machine_op_set_global()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a5c9995a118d484c90a0bd76a6e83c63a">virtual_machine.c</a></li>
+<li>virtual_machine_op_set_local()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a0d8da3cc516ace3b73f1be81c0fba9f6">virtual_machine.c</a></li>
+<li>virtual_machine_op_set_property()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a4a37c40b668746b360513f05bcda45a9">virtual_machine.c</a></li>
+<li>virtual_machine_op_set_upvalue()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#ae6a137d82e9dc983fc34b1e09443a8d2">virtual_machine.c</a></li>
+<li>virtual_machine_op_subtract()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a6fafcaeefe9bdf1383fa8d13c75ca445">virtual_machine.c</a></li>
+<li>virtual_machine_op_super_invoke()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#aa838053687d7184c09463475848d6e8d">virtual_machine.c</a></li>
+<li>virtual_machine_op_true()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a0159d149ff616cad1222e7bc5fd53a04">virtual_machine.c</a></li>
+<li>virtual_machine_op_try_propagate()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a6a3500bdbbc616e6e9124576924615f3">virtual_machine.c</a></li>
 <li>virtual_machine_peek()&#160;:&#160;<a class="el" href="virtual__machine_8c.html#a9b41d9486a773761886f1a510e9d5f3b">virtual_machine.c</a></li>
 <li>virtual_machine_pop()&#160;:&#160;<a class="el" href="virtual__machine_8h.html#a75c83b2d4270498a8fba788ed47a7803">virtual_machine.h</a>, <a class="el" href="virtual__machine_8c.html#a75c83b2d4270498a8fba788ed47a7803">virtual_machine.c</a></li>
 <li>virtual_machine_push()&#160;:&#160;<a class="el" href="virtual__machine_8h.html#aae87423d28b469680e69b4af6a4cc651">virtual_machine.h</a>, <a class="el" href="virtual__machine_8c.html#aae87423d28b469680e69b4af6a4cc651">virtual_machine.c</a></li>

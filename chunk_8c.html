@@ -123,6 +123,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a2982aedb4f20dadc192194410cb3bfa2" id="r_a2982aedb4f20dadc192194410cb3bfa2"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8c.html#a2982aedb4f20dadc192194410cb3bfa2">chunk_determine_line_by_index</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t opCodeIndex)</td></tr>
 <tr class="memdesc:a2982aedb4f20dadc192194410cb3bfa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the corresponding line number for a bytecode instruction by the index of the instruction in the chunk.  <br /></td></tr>
 <tr class="separator:a2982aedb4f20dadc192194410cb3bfa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4f307c9bb208bd1043383125b75ef16" id="r_ac4f307c9bb208bd1043383125b75ef16"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8c.html#ac4f307c9bb208bd1043383125b75ef16">chunk_determine_opcode_size_by_index</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t index)</td></tr>
+<tr class="memdesc:ac4f307c9bb208bd1043383125b75ef16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determies the size of the opcode at the specified index in the chunk.  <br /></td></tr>
+<tr class="separator:ac4f307c9bb208bd1043383125b75ef16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a601b0fd735d2013c653dff3804c3cf59" id="r_a601b0fd735d2013c653dff3804c3cf59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chunk_8c.html#a601b0fd735d2013c653dff3804c3cf59">chunk_free</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
 <tr class="memdesc:a601b0fd735d2013c653dff3804c3cf59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the memory used by the chunk.  <br /></td></tr>
 <tr class="separator:a601b0fd735d2013c653dff3804c3cf59"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -331,6 +334,44 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The line number as an unnsigned 32-bit integer value </dd></dl>
+
+</div>
+</div>
+<a id="ac4f307c9bb208bd1043383125b75ef16" name="ac4f307c9bb208bd1043383125b75ef16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4f307c9bb208bd1043383125b75ef16">&#9670;&#160;</a></span>chunk_determine_opcode_size_by_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t chunk_determine_opcode_size_by_index </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td>
+          <td class="paramname"><em>chunk</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determies the size of the opcode at the specified index in the chunk. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chunk</td><td>The chunk where the opcode is stored </td></tr>
+    <tr><td class="paramname">index</td><td>The index of the opcode in the chunk </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The size of the opcode at the specified index in the chunk </dd></dl>
 
 </div>
 </div>

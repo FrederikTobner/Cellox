@@ -99,13 +99,11 @@ $(document).ready(function(){initNavTree('algebraic__identity_8c.html',''); init
 <p>Algebraic identity simplification optimization pass.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="optimization__pass_8h_source.html">middle-end/optimization_pass.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="object_8h_source.html">language-models/object.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="value_8h_source.html">language-models/value.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="chunk_8h_source.html">byte-code/chunk.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a10922a9d23f871d8a2bddfd3cc6b78f7" id="r_a10922a9d23f871d8a2bddfd3cc6b78f7"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="algebraic__identity_8c.html#a10922a9d23f871d8a2bddfd3cc6b78f7">opcode_size</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t offset)</td></tr>
-<tr class="separator:a10922a9d23f871d8a2bddfd3cc6b78f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae74bfb62437ff49ff89df68043e7330a" id="r_ae74bfb62437ff49ff89df68043e7330a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="algebraic__identity_8c.html#ae74bfb62437ff49ff89df68043e7330a">opcode_guarantees_numeric</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t offset)</td></tr>
 <tr class="separator:ae74bfb62437ff49ff89df68043e7330a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a863c89825658b177e41707fb22c259eb" id="r_a863c89825658b177e41707fb22c259eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structpass__result__t.html">pass_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="algebraic__identity_8c.html#a863c89825658b177e41707fb22c259eb">pass_algebraic_identity</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
@@ -125,42 +123,6 @@ Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">static bool opcode_guarantees_numeric </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td>
-          <td class="paramname"><em>chunk</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a10922a9d23f871d8a2bddfd3cc6b78f7" name="a10922a9d23f871d8a2bddfd3cc6b78f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10922a9d23f871d8a2bddfd3cc6b78f7">&#9670;&#160;</a></span>opcode_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static uint32_t opcode_size </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td>
           <td class="paramname"><em>chunk</em>, </td>

@@ -102,7 +102,7 @@ $(document).ready(function(){initNavTree('dead__code__elimination_8c.html',''); 
 <div class="textblock"><code>#include &quot;<a class="el" href="optimization__pass_8h_source.html">middle-end/optimization_pass.h</a>&quot;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="object_8h_source.html">language-models/object.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="chunk_8h_source.html">byte-code/chunk.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
@@ -117,8 +117,6 @@ Functions</h2></td></tr>
 <tr class="separator:ae76e757936c8536579b2d78286f87536"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba73f891eef6664bb1c849fb921f34b9" id="r_aba73f891eef6664bb1c849fb921f34b9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#aba73f891eef6664bb1c849fb921f34b9">is_jump_opcode</a> (uint8_t <a class="el" href="chunk_8h.html#a299fc707c775371e0b2b0495ccb6158e">opcode</a>)</td></tr>
 <tr class="separator:aba73f891eef6664bb1c849fb921f34b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10922a9d23f871d8a2bddfd3cc6b78f7" id="r_a10922a9d23f871d8a2bddfd3cc6b78f7"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#a10922a9d23f871d8a2bddfd3cc6b78f7">opcode_size</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk, uint32_t offset)</td></tr>
-<tr class="separator:a10922a9d23f871d8a2bddfd3cc6b78f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57d01c368ea479c5a49cc28e225bf398" id="r_a57d01c368ea479c5a49cc28e225bf398"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#a57d01c368ea479c5a49cc28e225bf398">read_u16_be</a> (uint8_t const *data)</td></tr>
 <tr class="separator:a57d01c368ea479c5a49cc28e225bf398"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab60a07bb33c5c38a6c5b8b49548175ff" id="r_ab60a07bb33c5c38a6c5b8b49548175ff"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dead__code__elimination_8c.html#ab60a07bb33c5c38a6c5b8b49548175ff">clear_reachability_state</a> (<a class="el" href="structchunk__t.html">chunk_t</a> *chunk)</td></tr>
@@ -297,42 +295,6 @@ Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">static int32_t jump_target </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td>
-          <td class="paramname"><em>chunk</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a10922a9d23f871d8a2bddfd3cc6b78f7" name="a10922a9d23f871d8a2bddfd3cc6b78f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10922a9d23f871d8a2bddfd3cc6b78f7">&#9670;&#160;</a></span>opcode_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static uint32_t opcode_size </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structchunk__t.html">chunk_t</a> *&#160;</td>
           <td class="paramname"><em>chunk</em>, </td>

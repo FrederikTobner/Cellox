@@ -6,7 +6,6 @@ var dead__code__elimination_8c =
     [ "clear_reachability_state", "dead__code__elimination_8c.html#ab60a07bb33c5c38a6c5b8b49548175ff", null ],
     [ "is_jump_opcode", "dead__code__elimination_8c.html#aba73f891eef6664bb1c849fb921f34b9", null ],
     [ "jump_target", "dead__code__elimination_8c.html#a2931ae65f14ee6294bb774879db7ed57", null ],
-    [ "opcode_size", "dead__code__elimination_8c.html#a10922a9d23f871d8a2bddfd3cc6b78f7", null ],
     [ "pass_dead_code_detection", "dead__code__elimination_8c.html#aebe8564c29f169bdef2d48f1dccfae90", null ],
     [ "pass_dead_code_elimination", "dead__code__elimination_8c.html#a62fa8c99ca8df39ba6fef75bf6e63ce7", null ],
     [ "read_u16_be", "dead__code__elimination_8c.html#a57d01c368ea479c5a49cc28e225bf398", null ],
