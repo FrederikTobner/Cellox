@@ -200,6 +200,12 @@ void chunk_free(chunk_t * chunk);
 /// @param chunk The chunk that is initialized
 void chunk_init(chunk_t * chunk);
 
+/// @brief Determies the size of the opcode at the specified index in the chunk
+/// @param chunk The chunk where the opcode is stored
+/// @param index The index of the opcode in the chunk
+/// @return The size of the opcode at the specified index in the chunk
+uint32_t chunk_determine_opcode_size_by_index(chunk_t * chunk, uint32_t index);
+
 /// @brief Removes a sequence of bytecode instructions from the chunk
 /// @param chunk The chunk where the bytecode is removed
 /// @param startIndex The index of the first instruction that is removed from the chunk

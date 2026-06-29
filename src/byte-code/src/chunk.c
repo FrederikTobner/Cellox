@@ -58,6 +58,52 @@ uint32_t chunk_determine_line_by_index(chunk_t * chunk, uint32_t opCodeIndex) {
     exit(EXIT_CODE_COMPILATION_ERROR); // Should be unreachable
 }
 
+uint32_t chunk_determine_opcode_size_by_index(chunk_t * chunk, uint32_t index) {
+     if (index >= chunk->byteCodeCount) {
+        return 1;
+    }
+
+    switch (chunk->code[index]) {
+    case OP_CONSTANT:
+    case OP_DEFINE_GLOBAL:
+    case OP_GET_GLOBAL:
+    case OP_GET_PROPERTY:
+    case OP_GET_SUPER:
+    case OP_SET_GLOBAL:
+    case OP_SET_PROPERTY:
+    case OP_CLASS:
+    case OP_METHOD:
+    case OP_ARRAY_LITERAL:
+    case OP_CALL:
+    case OP_GET_LOCAL:
+    case OP_GET_UPVALUE:
+    case OP_SET_LOCAL:
+    case OP_SET_UPVALUE:
+        return 2;
+    case OP_JUMP:
+    case OP_JUMP_IF_FALSE:
+    case OP_LOOP:
+    case OP_INVOKE:
+    case OP_SUPER_INVOKE:
+        return 3;
+    case OP_CLOSURE:
+        if (index + 1 >= chunk->byteCodeCount) {
+            return 1;
+        }
+        {
+            uint8_t constant = chunk->code[index + 1];
+            if (constant < chunk->constants.count && IS_FUNCTION(chunk->constants.values[constant])) {
+                object_function_t * function = AS_FUNCTION(chunk->constants.values[constant]);
+                return 2 + function->upvalueCount * 2;
+            }
+        }
+        return 2;
+    default:
+        return 1;
+    }
+
+}
+
 void chunk_free(chunk_t * chunk) {
     FREE_ARRAY(uint8_t, chunk->_reachable_bitset, chunk->_reachable_bitset_size);
     FREE_ARRAY(uint8_t, chunk->code, chunk->byteCodeCapacity);
