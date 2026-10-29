@@ -162,9 +162,9 @@ The [standard library](https://github.com/FrederikTobner/Cellox/wiki/Standard-Li
 
 There are plugins for VS Code, Vim and Neovim. Another alternative is YATE, which has built-in language support.
 
-* [vscode-cellox](https://github.com/FrederikTobner/vscode-cellox) - Visual Studio Code extension for Cellox
-* [cellox.vim](https://github.com/FrederikTobner/cellox.vim) - Vim plugin for Cellox syntax support
-* [YATE](https://github.com/FrederikTobner/YATE) - Text editor with built-in Cellox language support
+[![Vim](https://github-stats-extended.vercel.app/api/pin/?username=FrederikTobner&repo=cellox.vim&theme=dark)](https://github.com/FrederikTobner/cellox.vim)
+[![VSCcode](https://github-stats-extended.vercel.app/api/pin/?username=FrederikTobner&repo=vscode-cellox&theme=dark)](https://github.com/FrederikTobner/vscode-cellox)
+[![YATE](https://github-stats-extended.vercel.app/api/pin/?username=FrederikTobner&repo=YATE&theme=dark)](https://github.com/FrederikTobner/YATE)
 
 ## How it works
 
