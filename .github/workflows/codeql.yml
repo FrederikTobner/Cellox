@@ -17,13 +17,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'cpp' ]
+        language: [ 'c-cpp' ]
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v4
       with:
         languages: ${{matrix.language}}
 
@@ -35,15 +35,15 @@ jobs:
       with:
         build-dir: ${{github.workspace}}/build
         build-type: ${{env.BUILD_TYPE}}
-        options: -DCLX_BUILD_TOOLS=ON
 
-    - name: Build Compiler
+    - name: Build Compiler and development tools
       uses: ./.github/actions/cmake-build
       with:
         build-dir: ${{github.workspace}}/build
         build-type: ${{env.BUILD_TYPE}}
+        targets: Cellox CelloxTools
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v4
       with:
         category: "/language:${{matrix.language}}"

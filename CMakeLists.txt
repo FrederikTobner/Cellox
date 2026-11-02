@@ -26,9 +26,10 @@ option(CLX_DEBUG_LOG_GARBAGE_COLLECTION "Determines whether the garbage collecti
 option(CLX_OPTIMIZATION_PRINT_STATS "Print optimization summary statistics for each compiled chunk" OFF)
 option(CLX_OPTIMIZATION_VERBOSE_STATS "Print verbose per-pass optimization diagnostics" OFF)
 
-# Build options
-option(CLX_BUILD_TESTS "Determines whether the tests shall be built" OFF)
-option(CLX_BUILD_TOOLS "Determines whether the development tools shall be built" ON)
+# Configures the tests (and fetches the google test framework). The test executables are not part of the default build,
+# build the target CelloxTests to build them.
+option(BUILD_TESTING "Determines whether the tests shall be configured" OFF)
+include(CTest)
 
 include(CheckIncludeFile)
 
@@ -53,11 +54,6 @@ clx_os_check_core_headers()
 # Must come before src/ so CELLOX_STDLIB_SOURCE_DIR is set before cellox_config.h is generated.
 add_subdirectory(stdlib)
 
-# Suppress exit() calls in library code so tests can inspect error paths
-if(CLX_BUILD_TESTS)
-    add_compile_definitions(CELLOX_TESTS_RUNNING)
-endif()
-
 file(GLOB_RECURSE CELLOX_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c)
 file(GLOB_RECURSE CELLOX_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
 
@@ -72,23 +68,13 @@ add_subdirectory(src)
 
 LIST(REMOVE_ITEM CELLOX_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c CELLOX_SOURCE_FILES )
 
-if(CLX_BUILD_TOOLS)
-    # Builds the benchmark runner tool for the cellox compiler
-    add_subdirectory(benchmark)
-    # Builds the disassmbler tool (for cellox chunk files)
-    add_subdirectory(disassembler)
-endif()
+# The development tools are not part of the default build, build the target CelloxTools to build them
+# Benchmark runner tool for the cellox compiler
+add_subdirectory(benchmark EXCLUDE_FROM_ALL)
+# Disassmbler tool (for cellox chunk files)
+add_subdirectory(disassembler EXCLUDE_FROM_ALL)
+add_custom_target(${PROJECT_NAME}Tools DEPENDS ${PROJECT_NAME}Benchmarks ${PROJECT_NAME}Disassembler)
 
-if(CLX_BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(test)
+if(BUILD_TESTING)
+    add_subdirectory(test EXCLUDE_FROM_ALL)
 endif()
-# Copy compile_commands.json to project root for clangd
-add_custom_target(
-    copy_compile_commands ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_BINARY_DIR}/compile_commands.json
-        ${CMAKE_SOURCE_DIR}/compile_commands.json
-    BYPRODUCTS ${CMAKE_SOURCE_DIR}/compile_commands.json
-    COMMENT "Copying compile_commands.json to project root"
-)

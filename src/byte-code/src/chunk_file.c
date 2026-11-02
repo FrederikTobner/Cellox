@@ -657,7 +657,7 @@ static char * chunk_file_read_file(char const * path, size_t * fileSizePointer) 
     return buffer;
 }
 
-/// @brief Prints a error message for io errors and exits
+/// @brief Prints a error message for io errors and marks the chunk file as erroneous
 /// @param format The formater of the error message
 /// @param ... The arguments that are formated
 static void chunk_file_error(char const * format, ...) {
@@ -667,8 +667,4 @@ static void chunk_file_error(char const * format, ...) {
     vfprintf(stderr, format, args);
     va_end(args);
     fputs("\n", stderr);
-// If we are running the tests we do not want to exit the program
-#ifndef CELLOX_TESTS_RUNNING
-    exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
-#endif
 }

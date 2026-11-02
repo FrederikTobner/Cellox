@@ -2,6 +2,8 @@
 
 #include "gtest/gtest.h"
 
+#include <cstdlib>
+
 #include "driver/initializer.h"
 
 static void test_program(std::string const & programPath, std::string const & expectedOutput, bool producesError);
@@ -19,16 +21,17 @@ void test_failing_cellox_program_contains(std::string const & programPath, std::
     filePath.append(programPath);
 
     testing::internal::CaptureStderr();
-    initializer_run_from_file(filePath.c_str(), false);
+    int exitCode = initializer_run_from_file(filePath.c_str(), false);
     std::string actual_output = testing::internal::GetCapturedStderr();
 
+    ASSERT_NE(EXIT_SUCCESS, exitCode);
     ASSERT_NE(std::string::npos, actual_output.find(expectedSubstring));
 }
 
 void test_compiled_cellox_program(std::string const & programPath, std::string const & expectedOutput) {
     std::string filePath = TEST_PROGRAM_BASE_PATH;
     filePath.append(programPath);
-    initializer_run_from_file(filePath.c_str(), true);
+    ASSERT_EQ(EXIT_SUCCESS, initializer_run_from_file(filePath.c_str(), true));
     // We need to alter the path because we want to check whether the compiled version works
     std::string alteredPath = programPath;
     alteredPath.replace(alteredPath.end() - 3, alteredPath.end(), "cxcf");
@@ -52,7 +55,7 @@ static void test_program(std::string const & programPath, std::string const & ex
         testing::internal::CaptureStdout();
     }
     // Execute Test 🚀
-    initializer_run_from_file(filePath.c_str(), false);
+    int exitCode = initializer_run_from_file(filePath.c_str(), false);
 
     if (producesError) {
         actual_output = testing::internal::GetCapturedStderr();
@@ -61,4 +64,9 @@ static void test_program(std::string const & programPath, std::string const & ex
     }
 
     ASSERT_EQ(expectedOutput, actual_output);
+    if (producesError) {
+        ASSERT_NE(EXIT_SUCCESS, exitCode);
+    } else {
+        ASSERT_EQ(EXIT_SUCCESS, exitCode);
+    }
 }

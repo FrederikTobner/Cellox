@@ -30,8 +30,6 @@ list(REMOVE_ITEM INTEGRATION_TEST_SOURCE_FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/property_fuzz_serialization_integration.cc)
 
 add_compile_definitions(
-# Flag that indicates that test are executed
-CELLOX_TESTS_RUNNING
 # Directory of the cellox e2e tests
 TEST_PROGRAM_BASE_PATH="${PROJECT_SOURCE_DIR}/test/programs/"
 )
@@ -81,3 +79,8 @@ add_subdirectory(tests/middle-end)
 # optimization tests transitive so their executables always exist before ctest.
 add_dependencies(${UNIT_TESTS} test_optimization_passes)
 add_dependencies(${INTEGRATION_TESTS} test_optimization_integration)
+
+# Builds all test executables
+add_custom_target(${PROJECT_NAME}Tests
+    DEPENDS ${E2E_TESTS} ${INTEGRATION_TESTS} ${UNIT_TESTS} ${FUZZ_TESTS}
+)

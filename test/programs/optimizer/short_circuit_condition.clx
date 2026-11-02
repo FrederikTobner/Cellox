@@ -1,0 +1,5 @@
+// The conditional jump of the if statement is entered from the short circuit jumps of 'or' / 'and'
+if (true || false) printf("taken\n"); else printf("not taken\n");
+if (false || true) printf("taken\n"); else printf("not taken\n");
+if (true && false) printf("taken\n"); else printf("not taken\n");
+if (false && true) printf("taken\n"); else printf("not taken\n");

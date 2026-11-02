@@ -122,17 +122,17 @@ object_function_t * compiler_end(void) {
 
     compiler_emit_return();
     object_function_t * function = currentCompiler->function;
-
+    char * const name = function->name != NULL ? function->name->chars : "main";
 #ifdef DEBUG_PRINT_CODE
     parser_t * parser = compilation_context_get_parser();
     if (!parser->hadError) {
         chunk_disassembler_disassemble_chunk(compiler_current_chunk(),
-                                             function->name != NULL ? function->name->chars : "main", function->arity);
+                                             name, function->arity);
     }
 #endif
 
     compilation_context_set_current_compiler(currentCompiler->enclosing);
-    chunk_optimizer_optimize_chunk(&function->chunk);
+    chunk_optimizer_optimize_chunk(&function->chunk, name);
     return function;
 }
 

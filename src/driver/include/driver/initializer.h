@@ -47,7 +47,9 @@ void initializer_run_as_repl(void);
 /// @brief Reads a lox program from a file and executes the program
 /// @param path The path of the lox program
 /// @param compile boolean value that determines whether the compiled program is stored as a chunk file
-void initializer_run_from_file(char const * path, bool compile);
+/// @return EXIT_SUCCESS if the program was executed (or compiled) successfully; otherwise the exit code that
+/// describes the error (EXIT_CODE_COMPILATION_ERROR, EXIT_CODE_RUNTIME_ERROR or EXIT_CODE_INPUT_OUTPUT_ERROR)
+int initializer_run_from_file(char const * path, bool compile);
 
 /// Shows the help of the cellox compiler
 void initializer_show_help(void);

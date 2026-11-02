@@ -149,7 +149,11 @@ static void benchmark_runner_execute_benchmark(benchmark_config_t benchmark, boo
         // Redirect standard output to the beginnining of the buffer
         setbuf(stdout, measured_time);
         // Execute benchmark 🚀
-        initializer_run_from_file(filePath, false);
+        int exitCode = initializer_run_from_file(filePath, false);
+        if (exitCode != EXIT_SUCCESS) {
+            fprintf(stderr, "Benchmark \"%s\" failed with exit code %i\n", benchmark.benchmarkName, exitCode);
+            exit(exitCode);
+        }
         // Remove newline at the end of the buffer
         measured_time[strlen(measured_time) - 1] = '\0';
         // store result

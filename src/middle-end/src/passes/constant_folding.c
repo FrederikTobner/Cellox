@@ -20,6 +20,8 @@
 
 #include "middle-end/optimization_pass.h"
 
+#include "pass_utils.h"
+
 #include "language-models/value.h"
 #include "byte-code/chunk.h"
 
@@ -67,8 +69,14 @@ pass_result_t pass_constant_folding(chunk_t * chunk) {
             continue;
         }
 
+        // A jump into the pattern provides operands that differ from the constants
+        if (pass_utils_has_jump_target_in_range(chunk, i + 1, i + 4)) {
+            i += 2;
+            continue;
+        }
+
         chunk->constants.values[const_idx_a] = folded_value;
-        chunk_remove_bytecode(chunk, i + 2, 3); // remove CONST b + OP
+        pass_utils_remove_bytecode(chunk, i + 2, 3); // remove CONST b + OP
 
         result.modified = true;
         result.constants_folded++;

@@ -1,0 +1,5 @@
+// The short circuit jump of 'or' lands between the two constants that would be folded
+var n = 7;
+printf("{}\n", (n or 1) + 2);
+var m = false;
+printf("{}\n", (m or 1) + 2);

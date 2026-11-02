@@ -20,6 +20,8 @@
 
 #include "middle-end/optimization_pass.h"
 
+#include "pass_utils.h"
+
 #include "language-models/value.h"
 #include "byte-code/chunk.h"
 
@@ -49,8 +51,9 @@ pass_result_t pass_algebraic_identity(chunk_t * chunk) {
                 double rhs = AS_NUMBER(chunk->constants.values[idx]);
                 bool identity = (op == OP_ADD && rhs == 0.0) || (op == OP_SUBTRACT && rhs == 0.0) ||
                                 (op == OP_MULTIPLY && rhs == 1.0) || (op == OP_DIVIDE && rhs == 1.0);
-                if (identity) {
-                    chunk_remove_bytecode(chunk, i, 3); // remove CONST rhs + OP
+                // A jump into the pattern provides an lhs that is not known to be numeric
+                if (identity && !pass_utils_has_jump_target_in_range(chunk, i, i + 2)) {
+                    pass_utils_remove_bytecode(chunk, i, 3); // remove CONST rhs + OP
                     result.modified = true;
                     result.instructions_removed += 3;
                     continue;

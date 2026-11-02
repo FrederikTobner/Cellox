@@ -27,6 +27,7 @@
 
 #include "backend/garbage_collector.h"
 #include "backend/virtual_machine.h"
+#include "base/common.h"
 #include "byte-code/chunk.h"
 #include "byte-code/chunk_file.h"
 #include "cellox_config.h"
@@ -44,7 +45,7 @@
  | |___|  __/ | | (_) >  < \n\
   \\_____\\___|_|_|\\___/_/\\_\\\n")
 
-static void initializer_io_error(char const *, ...);
+static void initializer_report_io_error(char const *, ...);
 
 void initializer_run_as_repl(void) {
     virtual_machine_set_compile_fn(compiler_compile);
@@ -63,22 +64,22 @@ void initializer_run_as_repl(void) {
         }
         // We close the command prompt if the last input was empty - \n
         if (strlen(line) == 1) {
-            virtual_machine_free();
-            exit(EXIT_SUCCESS);
+            break;
         }
         virtual_machine_interpret(line, false);
     }
+    virtual_machine_free();
 }
 
-void initializer_run_from_file(char const * path, bool compile) {
+int initializer_run_from_file(char const * path, bool compile) {
     size_t pathLength = strlen(path);
     interpret_result result;
     // Cellox file -> we need to compile the source code to a chunk in order to execute it
     if (pathLength > 4 && !strcmp(path + pathLength - 4, ".clx")) {
         char * source = module_loader_load_program(path);
         if (!source) {
-                initializer_io_error("Unable to load module from the path %s", path);
-                return;
+            initializer_report_io_error("Unable to load module from the path %s", path);
+            return EXIT_CODE_INPUT_OUTPUT_ERROR;
         }
         virtual_machine_set_compile_fn(compiler_compile);
         garbage_collector_set_mark_roots_hook(compiler_mark_roots);
@@ -89,9 +90,6 @@ void initializer_run_from_file(char const * path, bool compile) {
             if (function && !chunk_file_store(function->chunk, path, 0)) {
                 result = INTERPRET_OK;
             }
-            if (result != INTERPRET_OK) {
-                result = INTERPRET_COMPILE_ERROR;
-            }
             free(source);
         } else {
             result = virtual_machine_interpret(source, true);
@@ -100,35 +98,31 @@ void initializer_run_from_file(char const * path, bool compile) {
     // Cellox chunk file -> the program has already been compiled
     else if (pathLength > 5 && !strcmp(path + pathLength - 5, ".cxcf")) {
         if (compile) {
-            initializer_io_error("Can not compile a chunk file");
+            initializer_report_io_error("Can not compile a chunk file");
+            return EXIT_CODE_INPUT_OUTPUT_ERROR;
         }
         virtual_machine_init();
         chunk_t * loadedChunk = chunk_file_load(path);
         if (!loadedChunk) {
-            result = INTERPRET_COMPILE_ERROR;
-        } else {
-            result = virtual_machine_run_chunk(*loadedChunk);
-            free(loadedChunk);
+            virtual_machine_free();
+            return EXIT_CODE_INPUT_OUTPUT_ERROR;
         }
+        result = virtual_machine_run_chunk(*loadedChunk);
+        free(loadedChunk);
     } else {
-        initializer_io_error("File type not supported");
-        return;
+        initializer_report_io_error("File type not supported");
+        return EXIT_CODE_INPUT_OUTPUT_ERROR;
     }
 
-#ifndef CELLOX_TESTS_RUNNING
-    if (result != INTERPRET_OK) {
-        virtual_machine_free();
-    }
-    // Error during the compilation process
-    if (result == INTERPRET_COMPILE_ERROR) {
-        exit(EXIT_CODE_COMPILATION_ERROR);
-    }
-    // Error at runtime
-    if (result == INTERPRET_RUNTIME_ERROR) {
-        exit(EXIT_CODE_RUNTIME_ERROR);
-    }
-#endif
     virtual_machine_free();
+    switch (result) {
+    case INTERPRET_COMPILE_ERROR:
+        return EXIT_CODE_COMPILATION_ERROR;
+    case INTERPRET_RUNTIME_ERROR:
+        return EXIT_CODE_RUNTIME_ERROR;
+    default:
+        return EXIT_SUCCESS;
+    }
 }
 
 void initializer_show_help(void) {
@@ -147,16 +141,13 @@ void initializer_show_version(void) {
     printf("%s Version %i.%i\n", PROJECT_NAME, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR);
 }
 
-/// @brief Prints a error message for io errors and exits if no tests are executed
+/// @brief Prints a error message for io errors
 /// @param format The formater of the error message
 /// @param ... The arguments that are formated
-static void initializer_io_error(char const * format, ...) {
+static void initializer_report_io_error(char const * format, ...) {
     va_list args;
     va_start(args, format);
     vfprintf(stderr, format, args);
     va_end(args);
     fputs("\n", stderr);
-#ifndef CELLOX_TESTS_RUNNING
-    exit(EXIT_CODE_INPUT_OUTPUT_ERROR);
-#endif
 }

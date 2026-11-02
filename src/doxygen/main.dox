@@ -26,8 +26,7 @@
 * There are a couple of options which can be enable with <a href="https://cmake.org/">CMake</a>:
 * | Option                             | Description                                                                 | Default |
 * |------------------------------------|-----------------------------------------------------------------------------| --------|
-* | CLX_BUILD_TESTS                    | Determines whether the tests are built                                      | OFF     |
-* | CLX_BUILD_TOOLS                    | Determines whether the development tools are built                          | ON      |
+* | BUILD_TESTING                      | Determines whether the tests are configured (build them with the target CelloxTests) | OFF     |
 * | CLX_DEBUG_LOG_GARBAGE_COLLECTION   | Determines whether the garbage collection be logged                         | OFF     |
 * | CLX_DEBUG_PRINT_BYTECODE           | Determines whether the chunks are dissassembled and the bytecode is printed | OFF     |
 * | CLX_DEBUG_STRESS_GARBAGE_COLLECTOR | Determines whether the garbage collector shall be stressed                  | OFF     |
@@ -57,7 +56,8 @@
 * For testing a cellox program is executed and the standard output is redirected to a string. <br>
 * The string is compared with the expected output after the program was executed. <br>
 * \section developmenttools_sec Development tools
-* A small benchmarking tool to measure the performance of cellox programs and a disassbler for cellox chunk files is also included (only used for developing the compiler)
+* A small benchmarking tool to measure the performance of cellox programs and a disassbler for cellox chunk files is also included (only used for developing the compiler). <br>
+* They are not part of the default build, build them with the target CelloxTools.
 * \section license_sec License
 * Copyright &copy; 2022 by <a href="mailto:f.tobner@gmail.com">Frederik Tobner</a>. <br>
 * Permission to use, copy, modify, and distribute this software and its documentation under the terms of the GNU General Public License is hereby granted. <br>
