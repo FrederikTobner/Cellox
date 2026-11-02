@@ -42,7 +42,7 @@ It is available on Windows, Linux, and macOS. The language is in active developm
 
 ## Building
 
-Prerequisites: CMake ≥ 3.16, a C99 compiler, and a C++14 compiler (for the test suite).
+Prerequisites: CMake ≥ 3.16, a C99 compiler, and a C++17 compiler (for the test suite; CMake ≥ 3.24 is needed to build the tests).
 
 ```sh
 cmake -S . -B build

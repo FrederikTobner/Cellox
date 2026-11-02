@@ -1,25 +1,6 @@
 # Cellox grammar
 
-This document describes the syntax of Cellox using the Extended Backus-Naur Form
-([ISO/IEC 14977](https://www.iso.org/standard/26153.html)). It reflects the lexer
-([lexer.c](src/frontend/src/lexical_analysis/lexer.c)), the parsers
-([statement_parser.c](src/frontend/src/parsing/statement_parser.c),
-[expression_parser.c](src/frontend/src/parsing/expression_parser.c)) and the module
-pre-processor ([module_parser.c](src/module-loading/src/module_parser.c)).
-
-## Notation
-
-| Notation        | Meaning                              |
-|-----------------|--------------------------------------|
-| `a = b ;`       | Definition of the rule `a`           |
-| `a , b`         | Concatenation                        |
-| `a \| b`        | Alternation                          |
-| `[ a ]`         | Optional (zero or one)               |
-| `{ a }`         | Repetition (zero or more)            |
-| `( a )`         | Grouping                             |
-| `"x"` or `'x'`  | Terminal symbol                      |
-| `(* ... *)`     | Comment                              |
-| `? ... ?`       | Special sequence (informal wording)  |
+This document describes the syntax of Cellox using the Extended Backus-Naur Form ([ISO/IEC 14977](https://www.iso.org/standard/26153.html)).
 
 ## Lexical grammar
 
@@ -263,8 +244,8 @@ From lowest to highest:
 
 ## Modules
 
-`import` and `export` are not part of the token grammar. The module loader processes the source
-**line by line before lexing**, so every directive has to be written on a single line.
+`import` and `export` are not part of the token grammar.
+The module loader processes the source **line by line before lexing**, so every directive has to be written on a single line.
 Imports are removed from the source and `export` is stripped from the declaration it precedes.
 
 ```ebnf
@@ -282,44 +263,3 @@ import_path = string ;   (* "./relative.clx", "../relative.clx", "/absolute.clx"
 * Every module is loaded once, import cycles and unknown paths or names are reported as module errors.
 * A name can only be imported when it is exported by the module (`export var`, `export fun`
   or `export class`). Error sets cannot be exported.
-
-## Built-in functions
-
-`printf` and the other natives are ordinary global functions, not syntax:
-
-`append_to_file`, `array_length`, `asci_to_num`, `class_of`, `clock`, `cosine`, `exit`, `exponential`,
-`logarithm`, `logarithm10`, `num_to_asci`, `on_linux`, `on_macOS`, `on_windows`, `printf`, `random`,
-`read_file`, `read_key`, `read_line`, `sine`, `size_of`, `string_hash`, `strlen`, `string_replace_at`,
-`system`, `tangent`, `wait`, `write_to_file`.
-
-`printf(format, ...)` replaces every `{}` in `format` with the next argument.
-
-## Example
-
-```
-import { floor } from "stdlib/math.clx";
-
-error MathError { DivisionByZero }
-
-class Calculator {
-    divide(a, b) {
-        if (b == 0) throw MathError.DivisionByZero;
-        return a / b;
-    }
-}
-
-var calc = Calculator();
-var values = {10, 20, 30, 40};
-
-for (var i = 0; i < array_length(values); i += 1) {
-    printf("{}\n", calc.divide(values[i], 4) catch 0);
-}
-
-iferror calc.divide(1, 0) |err| {
-    printf("failed: {}\n", err);
-} else |val| {
-    printf("result: {}\n", val);
-}
-
-printf("{}\n", values[1 .. 3]);
-```

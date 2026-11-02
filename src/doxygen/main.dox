@@ -51,8 +51,9 @@
 *
 * The scripts can be copied into another folder at the root level that is ignored by git, and altered to fit the developers environment.
 * \section testing_sec Testing
-* For building the language tests a C++-Compiler, that supports the C++14 standard and <a href="https://cmake.org/">CMake</a> (Version >= 3.24) is required. <br>
-* The test are written in C++ using the <a href=https://github.com/google/googletest>google-test framework</a> (version 1.12.1). <br>
+* For building the language tests a C++-Compiler, that supports the C++17 standard and <a href="https://cmake.org/">CMake</a> (Version >= 3.24) is required. <br>
+* The test are written in C++ using the <a href=https://github.com/google/googletest>google-test framework</a> (version 1.18.0). <br>
+* The tests are split into unit, integration, e2e and fuzz tests. Each type lives in its own folder below <code>test/</code> and has its own CMake target. <br>
 * For testing a cellox program is executed and the standard output is redirected to a string. <br>
 * The string is compared with the expected output after the program was executed. <br>
 * \section developmenttools_sec Development tools

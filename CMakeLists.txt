@@ -9,10 +9,6 @@ LANGUAGES C CXX
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-# C++ 14 standard is required for the google test framework
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED True)  
-
 # Optional NAN-Boxing (Not a number boxing / Not a number tagging)
 option(CLX_NAN_BOXING_ACTIVATED "Determines whether \"not a number boxing / tagging\" is used" ON)
 
