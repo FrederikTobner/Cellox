@@ -132,14 +132,12 @@ jobs:
       run: |
         lcov --capture \
           --ignore-errors mismatch \
+          --rc geninfo_unexecuted_blocks=1 \
+          --exclude '/usr/*' \
+          --exclude '*/_deps/*' \
+          --exclude '*/test/*' \
           --directory ${{github.workspace}}/build \
           --output-file ${{github.workspace}}/coverage.info
-        lcov --remove ${{github.workspace}}/coverage.info \
-          '/usr/*' \
-          '*/_deps/*' \
-          '*/test/*' \
-          --output-file ${{github.workspace}}/coverage.info
-        # Keep only production sources to avoid any accidental test coverage upload.
         lcov --extract ${{github.workspace}}/coverage.info \
           '*/src/*' \
           --output-file ${{github.workspace}}/coverage.info
