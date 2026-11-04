@@ -42,20 +42,28 @@ It is available on Windows, Linux, and macOS. The language is in active developm
 
 ## Building
 
-Prerequisites: CMake ≥ 3.16, a C99 compiler, and a C++14 compiler (for the test suite).
+Prerequisites: CMake ≥ 3.16, a C99 compiler, and a C++17 compiler (for the test suite; CMake ≥ 3.24 is needed to build the tests).
 
 ```sh
 cmake -S . -B build
 cmake --build build
 ```
 
-To also build the tests:
+This builds the interpreter. The development tools (benchmark runner and disassembler) and the tests are not part of the default build, build them by selecting their targets:
+
+| Target        | Description                                                                          |
+|---------------|--------------------------------------------------------------------------------------|
+| `Cellox`      | The interpreter                                                                      |
+| `CelloxTools` | The development tools (`CelloxBenchmarks` and `CelloxDisassembler`)                  |
+| `CelloxTests` | All test executables (requires `-DBUILD_TESTING=ON` when configuring)                |
 
 ```sh
-cmake -S . -B build -DCLX_BUILD_TESTS=ON
-cmake --build build
+cmake -S . -B build -DBUILD_TESTING=ON
+cmake --build build --target CelloxTools CelloxTests
 ctest --test-dir build
 ```
+
+The [CMake presets](CMakePresets.json) (`debug`, `release` and `asan`, CMake ≥ 3.21 and Ninja) configure and build the matching targets, e.g. `cmake --preset debug && cmake --build --preset debug && ctest --preset debug`.
 
 The resulting interpreter binary is `build/src/Cellox` (Linux/macOS) or `build\src\Cellox.exe` (Windows).
 
@@ -70,7 +78,7 @@ Cellox ((-h|--help|-v|--version) | ([-c|--compile] [-O0|-O1|-O2|-O3] [--stdlib-d
 | `-h`, `--help` | Print usage information. |
 | `-v`, `--version` | Print the version. |
 | `-c`, `--compile` | Compile to a `.cxcf` bytecode file instead of executing. |
-| `-O0` … `-O3` | Set the bytecode optimisation level (default: `-O0`). |
+| `-O0` … `-O3` | Set the bytecode optimisation level (default: `-O2`). |
 | `--stdlib-dir <path>` | Override the standard library directory used to resolve bare module imports. |
 
 The standard library directory is resolved in the following order:

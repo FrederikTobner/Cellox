@@ -26,8 +26,8 @@
 
 /// @brief Returns the canonical (absolute, symlink-resolved) path for `path`.
 /// @param path The raw path to canonicalise.
-/// @return A malloc'd canonical path string the caller must free, or NULL if
-///         the file does not exist or the path cannot be resolved.
+/// @return A malloc'd canonical path string the caller must free, or NULL if the file does not exist or the path cannot
+/// be resolved.
 char * module_path_canonicalize(char const * path);
 
 /// @brief Joins two path segments with the platform path separator.
@@ -42,7 +42,6 @@ char * module_path_join(char const * left, char const * right);
 /// @param stdlibPath   The stdlib search directory used for bare imports (no leading . or /),
 ///                     or NULL to skip bare-import resolution.
 /// @return A malloc'd resolved path the caller must free, or NULL on failure.
-///         Absolute import paths are duplicated as-is.
 char * module_path_resolve_import(char const * importerPath, char const * importPath, char const * stdlibPath);
 
 #endif /* CELLOX_MODULE_PATH_H_ */

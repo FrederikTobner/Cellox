@@ -1,0 +1,13 @@
+// Folded constants inside of skipped branches and loop bodies must not break the jump offsets
+var n = 7;
+var skip = false;
+if (skip) { n = 1 + 2; } else { n = 5; }
+printf("{}\n", n);
+
+var i = 0;
+var total = 0;
+while (i < 3) {
+    total = total + 2 * 3;
+    i = i + 1;
+}
+printf("{}\n", total);

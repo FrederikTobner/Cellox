@@ -48,17 +48,17 @@ typedef struct object_string_t object_string_t;
 #define TAG_TRUE  (0x3)
 
 /// @brief An value type
-/// @details In Cellox a value can be either a numerical, a boolean or a undefiended value. Additionally a value can
+/// @details In Cellox a value can be either a numerical, a boolean or a undefined value. Additionally a value can
 /// also be a cellox object
 typedef uint64_t value_t;
 
 /// Makro that determines whether a value is of the type bool
 #define IS_BOOL(value)   (((value) | 1) == TRUE_VAL)
-/// Makro that determines whether a value is nil
+/// Makro that determines whether a value is null
 #define IS_NULL(value)   ((value) == NULL_VAL)
 /// Makro that determines whether a value is of the type number
 #define IS_NUMBER(value) (((value) & QNAN) != QNAN)
-/// Makro that determines whether a value is of the type obejct
+/// Makro that determines whether a value is of the type object
 #define IS_OBJECT(value) (((value) & (QNAN | SIGN_BIT)) == (QNAN | SIGN_BIT))
 
 /// Makro that yields the value of a boolean and converts to a c boolean

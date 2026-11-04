@@ -20,8 +20,10 @@
 
 #include "middle-end/optimization_pass.h"
 
-#include "language-models/value.h"
+#include "pass_utils.h"
+
 #include "byte-code/chunk.h"
+#include "language-models/value.h"
 
 static bool try_fold_binary_op(uint8_t op, value_t a, value_t b, value_t * result);
 
@@ -36,7 +38,7 @@ pass_result_t pass_constant_folding(chunk_t * chunk) {
 
     for (uint32_t i = 0; i < chunk->byteCodeCount;) {
         if (chunk->code[i] != OP_CONSTANT || i + 1 >= chunk->byteCodeCount) {
-            i += chunk_determine_opcode_size_by_index(chunk, i); 
+            i += chunk_determine_opcode_size_by_index(chunk, i);
             continue;
         }
 
@@ -67,8 +69,14 @@ pass_result_t pass_constant_folding(chunk_t * chunk) {
             continue;
         }
 
+        // A jump into the pattern provides operands that differ from the constants
+        if (pass_utils_has_jump_target_in_range(chunk, i + 1, i + 4)) {
+            i += 2;
+            continue;
+        }
+
         chunk->constants.values[const_idx_a] = folded_value;
-        chunk_remove_bytecode(chunk, i + 2, 3); // remove CONST b + OP
+        pass_utils_remove_bytecode(chunk, i + 2, 3); // remove CONST b + OP
 
         result.modified = true;
         result.constants_folded++;

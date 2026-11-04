@@ -20,6 +20,8 @@
 
 #include "middle-end/optimization_pass.h"
 
+#include "pass_utils.h"
+
 static bool is_statically_falsey(uint8_t opcode);
 static bool is_statically_truthy(uint8_t opcode);
 static void write_u16_be(uint8_t * data, uint16_t value);
@@ -33,7 +35,10 @@ pass_result_t pass_branch_predication(chunk_t * chunk) {
         .branches_eliminated = 0,
     };
 
-    for (uint32_t i = 0; i + 3 < chunk->byteCodeCount; i++) {
+    // Instructions are visited by their boundaries, operand bytes must not be mistaken for opcodes
+    uint32_t size;
+    for (uint32_t i = 0; i + 3 < chunk->byteCodeCount; i += size) {
+        size = chunk_determine_opcode_size_by_index(chunk, i);
         uint8_t condition_op = chunk->code[i];
         if (!is_statically_truthy(condition_op) && !is_statically_falsey(condition_op)) {
             continue;
@@ -41,6 +46,11 @@ pass_result_t pass_branch_predication(chunk_t * chunk) {
 
         // Pattern: OP_TRUE/OP_FALSE/OP_NULL, OP_JUMP_IF_FALSE, hi, lo
         if (chunk->code[i + 1] != OP_JUMP_IF_FALSE) {
+            continue;
+        }
+
+        // A jump that lands on the conditional jump brings a condition that is not statically known
+        if (pass_utils_is_jump_target(chunk, i + 1)) {
             continue;
         }
 

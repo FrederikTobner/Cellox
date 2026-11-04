@@ -50,7 +50,7 @@ int main(int argc, char const ** argv) {
         initializer_show_version();
     } else if (config.inputFile != NULL) {
         // Either compile mode or normal mode (compile flag is optional)
-        initializer_run_from_file(config.inputFile, config.compile);
+        return initializer_run_from_file(config.inputFile, config.compile);
     } else {
         // No input file and no action option: interactive mode (REPL)
         initializer_run_as_repl();

@@ -15,7 +15,7 @@ jobs:
         operatingsystems: [windows-latest, ubuntu-latest, macos-latest] 
         buildtypes: [Debug, Release]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
 
     - name: Setup CI toolchain
       uses: ./.github/actions/setup-ci-toolchain
@@ -25,14 +25,14 @@ jobs:
       with:
         build-dir: ${{github.workspace}}/build
         build-type: ${{env.BUILD_TYPE}}
-        options: -DCLX_BUILD_TESTS=ON
+        options: -DBUILD_TESTING=ON
 
     - name: Build tests
       uses: ./.github/actions/cmake-build
       with:
         build-dir: ${{github.workspace}}/build
         build-type: ${{env.BUILD_TYPE}}
-        targets: CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
+        targets: CelloxTests
 
     - name: Run unit tests
       working-directory: ${{github.workspace}}/build
@@ -55,7 +55,7 @@ jobs:
     env:
       BUILD_TYPE: Debug
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
 
     - name: Install toolchain
       uses: ./.github/actions/setup-ci-toolchain
@@ -68,8 +68,7 @@ jobs:
         build-dir: ${{github.workspace}}/build
         build-type: ${{env.BUILD_TYPE}}
         options: >
-          -DCLX_BUILD_TESTS=ON
-          -DCLX_BUILD_TOOLS=OFF
+          -DBUILD_TESTING=ON
           -DCMAKE_C_COMPILER=clang
           -DCMAKE_CXX_COMPILER=clang++
           -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
@@ -80,7 +79,7 @@ jobs:
       with:
         build-dir: ${{github.workspace}}/build
         build-type: ${{env.BUILD_TYPE}}
-        targets: CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
+        targets: CelloxTests
 
     - name: Run tests under sanitizers
       working-directory: ${{github.workspace}}/build
@@ -97,7 +96,7 @@ jobs:
       contents: read
       id-token: write
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
 
     - name: Install coverage toolchain
       uses: ./.github/actions/setup-ci-toolchain
@@ -110,8 +109,7 @@ jobs:
         build-dir: ${{github.workspace}}/build
         build-type: ${{env.BUILD_TYPE}}
         options: >
-          -DCLX_BUILD_TESTS=ON
-          -DCLX_BUILD_TOOLS=OFF
+          -DBUILD_TESTING=ON
           -DCMAKE_C_COMPILER=gcc
           -DCMAKE_CXX_COMPILER=g++
           -DCMAKE_C_FLAGS="--coverage -O0 -g"
@@ -124,7 +122,7 @@ jobs:
       with:
         build-dir: ${{github.workspace}}/build
         build-type: ${{env.BUILD_TYPE}}
-        targets: CelloxUnitTests CelloxIntegrationTests CelloxE2ETests CelloxFuzzTests
+        targets: CelloxTests
 
     - name: Run tests for coverage
       working-directory: ${{github.workspace}}/build
@@ -134,14 +132,12 @@ jobs:
       run: |
         lcov --capture \
           --ignore-errors mismatch \
+          --rc geninfo_unexecuted_blocks=1 \
+          --exclude '/usr/*' \
+          --exclude '*/_deps/*' \
+          --exclude '*/test/*' \
           --directory ${{github.workspace}}/build \
           --output-file ${{github.workspace}}/coverage.info
-        lcov --remove ${{github.workspace}}/coverage.info \
-          '/usr/*' \
-          '*/_deps/*' \
-          '*/test/*' \
-          --output-file ${{github.workspace}}/coverage.info
-        # Keep only production sources to avoid any accidental test coverage upload.
         lcov --extract ${{github.workspace}}/coverage.info \
           '*/src/*' \
           --output-file ${{github.workspace}}/coverage.info

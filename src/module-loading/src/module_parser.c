@@ -322,7 +322,7 @@ bool module_parser_parse(char const * source, export_list_t * exports, import_sp
             import_spec_t * grownImports = realloc(*imports, ((*importCount) + 1) * sizeof(import_spec_t));
             if (!grownImports) {
                 free(line);
-                module_parser_cleanup_imports(&importSpec, 1);
+                module_parser_cleanup_import_spec(&importSpec);
                 module_parser_cleanup_imports(*imports, *importCount);
                 *imports = NULL;
                 *importCount = 0;

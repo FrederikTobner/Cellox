@@ -6,6 +6,7 @@ cellox_add_library(clx_middleend
         src/passes/constant_folding.c
         src/passes/algebraic_identity.c
         src/passes/branch_predication.c
+        src/passes/pass_utils.c
     DEPENDENCIES
         clx_bytecode
         clx_os

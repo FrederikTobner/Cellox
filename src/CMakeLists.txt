@@ -39,19 +39,17 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
     include(CPack)
 endif()
 
-# ── Sub-libraries (each managed in their own CMakeLists.txt) ─────────────────
-add_subdirectory(base)            # → clx_base
-add_subdirectory(utils)           # → clx_utils
-add_subdirectory(language-models)   # → clx_model
-add_subdirectory(byte-code)         # → clx_bytecode
-add_subdirectory(conditionals/os)   # → clx_os
-add_subdirectory(middle-end)        # → clx_middleend
-add_subdirectory(frontend)          # → clx_lex, clx_frontend
-add_subdirectory(backend)           # → clx_backend
-add_subdirectory(module-loading)    # → clx_module_loading
-add_subdirectory(driver)            # → clx_driver
+add_subdirectory(base)
+add_subdirectory(utils)
+add_subdirectory(language-models)
+add_subdirectory(byte-code)
+add_subdirectory(conditionals/os)
+add_subdirectory(middle-end)
+add_subdirectory(frontend)
+add_subdirectory(backend)
+add_subdirectory(module-loading)
+add_subdirectory(driver)
 
-# ── Main executable ───────────────────────────────────────────────────────────
 cellox_add_executable(${PROJECT_NAME}
     SOURCES
         main.c
