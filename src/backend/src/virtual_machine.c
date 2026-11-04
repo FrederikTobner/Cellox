@@ -23,9 +23,9 @@
 
 #include <math.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
 #include <time.h>
 
@@ -607,9 +607,9 @@ CLX_PURE CLX_ALWAYS_INLINE bool virtual_machine_is_falsey(value_t value) {
 /// @return A boolean value that indicates whether the execution has led to a runtime error
 static bool virtual_machine_modulo(void) {
     if (IS_NUMBER(virtual_machine_peek(0)) && IS_NUMBER(virtual_machine_peek(1))) {
-        int64_t b = (int64_t) AS_NUMBER(virtual_machine_pop());
-        int64_t a = (int64_t) AS_NUMBER(virtual_machine_pop());
-        if(b == 0) {
+        int64_t b = (int64_t)AS_NUMBER(virtual_machine_pop());
+        int64_t a = (int64_t)AS_NUMBER(virtual_machine_pop());
+        if (b == 0) {
             virtual_machine_runtime_error("Division by zero.");
             return false;
         }
@@ -820,8 +820,8 @@ CLX_ALWAYS_INLINE bool virtual_machine_op_closure(call_frame_t * frame, uint8_t 
     for (uint32_t i = 0; i < closure->upvalueCount; i++) {
         uint8_t isLocal = *(*ip)++;
         uint8_t index = *(*ip)++;
-        closure->upvalues[i] = isLocal ? virtual_machine_capture_upvalue(frame->slots + index)
-                                       : frame->closure->upvalues[index];
+        closure->upvalues[i] =
+            isLocal ? virtual_machine_capture_upvalue(frame->slots + index) : frame->closure->upvalues[index];
     }
     return true;
 }
@@ -894,11 +894,10 @@ CLX_ALWAYS_INLINE void virtual_machine_op_get_upvalue(call_frame_t * frame, uint
 
 CLX_ALWAYS_INLINE bool virtual_machine_op_greater(void) {
     if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
-        virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s",
-                                      value_stringify_type(virtual_machine_peek(0)),
-                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
-                                      value_stringify_type(virtual_machine_peek(1)),
-                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        virtual_machine_runtime_error(
+            "Operands must be numbers but they are a %s %s and a %s %s", value_stringify_type(virtual_machine_peek(0)),
+            IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", value_stringify_type(virtual_machine_peek(1)),
+            IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
         return false;
     }
     double b = AS_NUMBER(virtual_machine_pop());
@@ -919,11 +918,10 @@ CLX_ALWAYS_INLINE void virtual_machine_op_jump_if_false(call_frame_t * frame, ui
 
 CLX_ALWAYS_INLINE bool virtual_machine_op_less(void) {
     if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
-        virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s",
-                                      value_stringify_type(virtual_machine_peek(0)),
-                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
-                                      value_stringify_type(virtual_machine_peek(1)),
-                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        virtual_machine_runtime_error(
+            "Operands must be numbers but they are a %s %s and a %s %s", value_stringify_type(virtual_machine_peek(0)),
+            IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", value_stringify_type(virtual_machine_peek(1)),
+            IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
         return false;
     }
     double b = AS_NUMBER(virtual_machine_pop());
@@ -942,11 +940,10 @@ CLX_ALWAYS_INLINE void virtual_machine_op_method(object_string_t * name) {
 
 CLX_ALWAYS_INLINE bool virtual_machine_op_multiply(void) {
     if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
-        virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s",
-                                      value_stringify_type(virtual_machine_peek(0)),
-                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
-                                      value_stringify_type(virtual_machine_peek(1)),
-                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        virtual_machine_runtime_error(
+            "Operands must be numbers but they are a %s %s and a %s %s", value_stringify_type(virtual_machine_peek(0)),
+            IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", value_stringify_type(virtual_machine_peek(1)),
+            IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
         return false;
     }
     double b = AS_NUMBER(virtual_machine_pop());
@@ -1015,11 +1012,10 @@ CLX_ALWAYS_INLINE void virtual_machine_op_set_upvalue(call_frame_t * frame, uint
 
 CLX_ALWAYS_INLINE bool virtual_machine_op_subtract(void) {
     if (!IS_NUMBER(virtual_machine_peek(0)) || !IS_NUMBER(virtual_machine_peek(1))) {
-        virtual_machine_runtime_error("Operands must be numbers but they are a %s %s and a %s %s",
-                                      value_stringify_type(virtual_machine_peek(0)),
-                                      IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value",
-                                      value_stringify_type(virtual_machine_peek(1)),
-                                      IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
+        virtual_machine_runtime_error(
+            "Operands must be numbers but they are a %s %s and a %s %s", value_stringify_type(virtual_machine_peek(0)),
+            IS_OBJECT(virtual_machine_peek(0)) ? "object" : "value", value_stringify_type(virtual_machine_peek(1)),
+            IS_OBJECT(virtual_machine_peek(1)) ? "object" : "value");
         return false;
     }
     double b = AS_NUMBER(virtual_machine_pop());
@@ -1076,6 +1072,17 @@ CLX_ALWAYS_INLINE bool virtual_machine_op_try_propagate(call_frame_t ** frame, i
     *didReturn = false;
     return true;
 }
+
+// Computed gotos (label addresses and indirect gotos) are a GNU extension that -Wpedantic complains about. They are
+// used on purpose for the dispatch table of the virtual machine, so the warning is only silenced for this function.
+#if !defined(BUILD_DEBUG) && defined(COMPILER_CLANG)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpedantic"
+#pragma clang diagnostic ignored "-Wgnu-label-as-value"
+#elif !defined(BUILD_DEBUG) && defined(COMPILER_GCC)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+#endif
 
 static interpret_result virtual_machine_run(void) {
 #ifdef DEBUG_TRACE_EXECUTION
@@ -1174,7 +1181,7 @@ static interpret_result virtual_machine_run(void) {
                                                    (int32_t)(frame->ip - frame->closure->function->chunk.code));
 #endif
 
-#if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
+#if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_CLANG))
     label_add:
         if (!virtual_machine_op_add()) {
             return INTERPRET_RUNTIME_ERROR;
@@ -1740,10 +1747,16 @@ static interpret_result virtual_machine_run(void) {
 #undef READ_SHORT
 #undef READ_CONSTANT
 #undef READ_STRING
-#if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_Clang))
+#if !defined(BUILD_DEBUG) && (defined(COMPILER_GCC) || defined(COMPILER_CLANG))
 #undef DISPATCH
 #endif
 }
+
+#if !defined(BUILD_DEBUG) && defined(COMPILER_CLANG)
+#pragma clang diagnostic pop
+#elif !defined(BUILD_DEBUG) && defined(COMPILER_GCC)
+#pragma GCC diagnostic pop
+#endif
 
 /// @brief Reports an error that has occured at runtime
 /// @param format The formater of the error message

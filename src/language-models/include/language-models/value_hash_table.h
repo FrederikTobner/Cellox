@@ -27,7 +27,7 @@
 /// @brief An entry in a hashtable
 /// @details An Entry in hashtable contains a key, that is used to look up the entry in O(n)
 typedef struct {
-    /// Key of the entry 🔑
+    /// Key of the entry
     object_string_t * key;
     /// The value that is associated with the key
     value_t value;

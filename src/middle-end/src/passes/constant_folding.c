@@ -22,8 +22,8 @@
 
 #include "pass_utils.h"
 
-#include "language-models/value.h"
 #include "byte-code/chunk.h"
+#include "language-models/value.h"
 
 static bool try_fold_binary_op(uint8_t op, value_t a, value_t b, value_t * result);
 
@@ -38,7 +38,7 @@ pass_result_t pass_constant_folding(chunk_t * chunk) {
 
     for (uint32_t i = 0; i < chunk->byteCodeCount;) {
         if (chunk->code[i] != OP_CONSTANT || i + 1 >= chunk->byteCodeCount) {
-            i += chunk_determine_opcode_size_by_index(chunk, i); 
+            i += chunk_determine_opcode_size_by_index(chunk, i);
             continue;
         }
 

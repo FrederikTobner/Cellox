@@ -16,9 +16,8 @@
 /**
  * @file module_parser.h
  * @brief Parser for Cellox module source text.
- * @details Extracts import/export declarations from source, strips the
- * `export` keyword, and collects the information needed by the module loader.
- * This module has no dependency on the module-graph state kept by module_loader.
+ * @details Extracts import/export declarations from source, strips the `export` keyword, and collects the information
+ * needed by the module loader.
  */
 
 #ifndef CELLOX_MODULE_PARSER_H_

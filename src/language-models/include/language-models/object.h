@@ -29,27 +29,27 @@
 /// Makro that determines the type of an object
 #define OBJECT_TYPE(value)     (AS_OBJECT(value)->type)
 
-/// Makro that determines if the object has the object type array
+/// Makro that determines whether the object has the object type array
 #define IS_ARRAY(value)        object_is_type(value, OBJECT_ARRAY)
-///  Makro that determines if the object has the object type bound-method
+///  Makro that determines whether the object has the object type bound-method
 #define IS_BOUND_METHOD(value) object_is_type(value, OBJECT_BOUND_METHOD)
-/// Makro that determines if the object has the object type error set
+/// Makro that determines whether the object has the object type error set
 #define IS_ERROR_SET(value)    object_is_type(value, OBJECT_ERROR_SET)
-/// Makro that determines if the object has the object type error value
+/// Makro that determines whether the object has the object type error value
 #define IS_ERROR_VALUE(value)  object_is_type(value, OBJECT_ERROR_VALUE)
-/// Makro that determines if the object has the object type result wrapper
+/// Makro that determines whether the object has the object type result wrapper
 #define IS_RESULT(value)       object_is_type(value, OBJECT_RESULT)
-///  Makro that determines if the object has the object type instance
+///  Makro that determines whether the object has the object type instance
 #define IS_INSTANCE(value)     object_is_type(value, OBJECT_INSTANCE)
-/// Makro that determines if the object has the object type class
+/// Makro that determines whether the object has the object type class
 #define IS_CLASS(value)        object_is_type(value, OBJECT_CLASS)
-/// Makro that determines if the object has the object type closure
+/// Makro that determines whether the object has the object type closure
 #define IS_CLOSURE(value)      object_is_type(value, OBJECT_CLOSURE)
-/// Makro that determines if the object has the object type function
+/// Makro that determines whether the object has the object type function
 #define IS_FUNCTION(value)     object_is_type(value, OBJECT_FUNCTION)
-/// Makro that determines if the object has is a native function
+/// Makro that determines whether the object has is a native function
 #define IS_NATIVE(value)       object_is_type(value, OBJECT_NATIVE)
-/// Makro that determines if the object has the object type string
+/// Makro that determines whether the object has the object type string
 #define IS_STRING(value)       object_is_type(value, OBJECT_STRING)
 
 /// Makro that gets the value of an object as a dynamic value array

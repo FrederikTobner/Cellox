@@ -122,4 +122,4 @@ typedef object_function_t * (*vm_compile_fn_t)(char const * program);
 /// compiler without creating a direct dependency from the runtime library on the frontend.
 void virtual_machine_set_compile_fn(vm_compile_fn_t fn);
 
-#endif
+#endif // CELLOX_VIRTUAL_MACHINE_H_

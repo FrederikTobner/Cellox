@@ -22,7 +22,7 @@ export fun print_separator(n) {
 // Copy the contents of src file to dst file. Returns true on success.
 export fun file_copy(src, dst) {
     var content = read_file(src);
-    if (content == nil) return false;
+    if (content == null) return false;
     return write_to_file(dst, content);
 }
 

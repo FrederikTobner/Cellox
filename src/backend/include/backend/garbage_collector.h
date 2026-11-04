@@ -50,4 +50,4 @@ void garbage_collector_mark_value(value_t value);
 /// traverse roots that live outside the runtime library without a direct dependency.
 void garbage_collector_set_mark_roots_hook(void (*fn)(void));
 
-#endif
+#endif // CELLOX_GARBAGE_COLLECTOR_H_

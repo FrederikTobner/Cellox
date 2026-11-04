@@ -1,13 +1,12 @@
 set(E2E_TESTS ${PROJECT_NAME}E2ETests)
 
-file(GLOB_RECURSE E2E_TEST_SOURCE_FILES CONFIGURE_DEPENDS *.cc)
-file(GLOB_RECURSE E2E_TEST_HEADER_FILES CONFIGURE_DEPENDS *.hh)
+file(GLOB_RECURSE E2E_TEST_SOURCE_FILES CONFIGURE_DEPENDS *.cpp)
+file(GLOB_RECURSE E2E_TEST_HEADER_FILES CONFIGURE_DEPENDS *.hpp)
 
 add_executable(${E2E_TESTS} ${E2E_TEST_SOURCE_FILES} ${E2E_TEST_HEADER_FILES})
 
 target_include_directories(${E2E_TESTS} PRIVATE ${SOURCEPATH} ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Directory of the cellox programs that are executed by the e2e tests
 target_compile_definitions(${E2E_TESTS} PRIVATE TEST_PROGRAM_BASE_PATH="${CMAKE_CURRENT_SOURCE_DIR}/programs/")
 
 target_link_libraries(${E2E_TESTS} PRIVATE clx_driver GTest::gtest_main)

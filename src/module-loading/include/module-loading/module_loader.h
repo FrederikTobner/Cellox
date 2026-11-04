@@ -37,4 +37,4 @@ char * module_loader_load_program(char const * entryPath);
 /// @param path The directory that contains the stdlib modules, or NULL to reset.
 void module_loader_set_stdlib_path(char const * path);
 
-#endif
+#endif // CELLOX_MODULE_LOADER_H_

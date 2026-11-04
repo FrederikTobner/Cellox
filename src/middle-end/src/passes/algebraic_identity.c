@@ -22,8 +22,8 @@
 
 #include "pass_utils.h"
 
-#include "language-models/value.h"
 #include "byte-code/chunk.h"
+#include "language-models/value.h"
 
 static bool opcode_guarantees_numeric(chunk_t * chunk, uint32_t offset);
 

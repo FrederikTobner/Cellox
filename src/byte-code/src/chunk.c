@@ -59,7 +59,7 @@ uint32_t chunk_determine_line_by_index(chunk_t * chunk, uint32_t opCodeIndex) {
 }
 
 uint32_t chunk_determine_opcode_size_by_index(chunk_t * chunk, uint32_t index) {
-     if (index >= chunk->byteCodeCount) {
+    if (index >= chunk->byteCodeCount) {
         return 1;
     }
 
@@ -101,7 +101,6 @@ uint32_t chunk_determine_opcode_size_by_index(chunk_t * chunk, uint32_t index) {
     default:
         return 1;
     }
-
 }
 
 void chunk_free(chunk_t * chunk) {

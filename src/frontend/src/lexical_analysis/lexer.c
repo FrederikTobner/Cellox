@@ -318,8 +318,7 @@ static token_t lexer_number(void) {
         }
         if (length > 8) {
             return lexer_error_token("Hexadezimal number literals have a maximum length of 8 digits");
-        }
-        else if (length == 0) {
+        } else if (length == 0) {
             return lexer_error_token("Hexadezimal number literals must have at least one digit");
         }
         return lexer_make_token(TOKEN_HEX_NUMBER);
@@ -333,8 +332,7 @@ static token_t lexer_number(void) {
         }
         if (length > 32) {
             return lexer_error_token("Binary number literals have a maximum length of 32 digits");
-        }
-        else if (length == 0) {
+        } else if (length == 0) {
             return lexer_error_token("Binary number literals must have at least one digit");
         }
         return lexer_make_token(TOKEN_BINARY_NUMBER);

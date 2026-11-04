@@ -126,8 +126,7 @@ object_function_t * compiler_end(void) {
 #ifdef DEBUG_PRINT_CODE
     parser_t * parser = compilation_context_get_parser();
     if (!parser->hadError) {
-        chunk_disassembler_disassemble_chunk(compiler_current_chunk(),
-                                             name, function->arity);
+        chunk_disassembler_disassemble_chunk(compiler_current_chunk(), name, function->arity);
     }
 #endif
 

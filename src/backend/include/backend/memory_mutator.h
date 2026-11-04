@@ -63,4 +63,4 @@ void * memory_mutator_reallocate(void * pointer, size_t oldSize, size_t newSize)
 /// @param object The object that is freed
 void memory_mutator_free_object(object_t * object);
 
-#endif
+#endif // CELLOX_MEMORY_MUTATOR_H_

@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
+LIST(REMOVE_ITEM CELLOX_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/../src/main.c CELLOX_SOURCE_FILES )
 # C++17 is required by the google test framework (only the tests are written in C++)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)

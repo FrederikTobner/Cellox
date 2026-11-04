@@ -62,7 +62,7 @@ static void build_dead_prefix(chunk_t * chunk, uint8_t * dead_bytes, uint32_t * 
     memset(dead_bytes, 0, chunk->byteCodeCount);
 
     for (uint32_t offset = 0; offset < chunk->byteCodeCount;) {
-        uint32_t size = chunk_determine_opcode_size_by_index(chunk, offset); 
+        uint32_t size = chunk_determine_opcode_size_by_index(chunk, offset);
         if (!BIT_GET(chunk->_reachable_bitset, offset)) {
             for (uint32_t i = 0; i < size && offset + i < chunk->byteCodeCount; i++) {
                 dead_bytes[offset + i] = 1;

@@ -43,6 +43,9 @@ void dynamic_value_array_free(dynamic_value_array_t * array);
 /// @param array The array that is inititialized
 void dynamic_value_array_init(dynamic_value_array_t * array);
 
+/// @brief Removes a value from the dynamic array at the specified index
+/// @param array The array from which the value is removed
+/// @param index The index of the value to remove
 void dynamic_value_array_remove(dynamic_value_array_t * array, size_t index);
 
 /// @brief Adds a value to the dynamic array
@@ -50,4 +53,4 @@ void dynamic_value_array_remove(dynamic_value_array_t * array, size_t index);
 /// @param value The value that is added to the array
 void dynamic_value_array_write(dynamic_value_array_t * array, value_t value);
 
-#endif
+#endif // CELLOX_DYNAMIC_VALUE_ARRAY_H_

@@ -218,4 +218,4 @@ value_t native_functions_wait(uint32_t argCount, value_t const * args);
 /// @return True -> Sucess, False -> Error
 value_t native_functions_write_to_file(uint32_t argCount, value_t const * args);
 
-#endif
+#endif // CELLOX_NATIVE_FUNCTIONS_H_

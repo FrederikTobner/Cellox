@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.21)
 
 project(Cellox 
 VERSION 0.1.0 
@@ -59,14 +59,12 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 LIST(REMOVE_ITEM CELLOX_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/common.c )
 LIST(REMOVE_ITEM CELLOX_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/common.h)
 
-# Builds the cellox interpreter
 add_subdirectory(src)
-
-LIST(REMOVE_ITEM CELLOX_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c CELLOX_SOURCE_FILES )
 
 # The development tools are not part of the default build, build the target CelloxTools to build them
 # Benchmark runner tool for the cellox compiler
 add_subdirectory(benchmark EXCLUDE_FROM_ALL)
+
 # Disassmbler tool (for cellox chunk files)
 add_subdirectory(disassembler EXCLUDE_FROM_ALL)
 add_custom_target(${PROJECT_NAME}Tools DEPENDS ${PROJECT_NAME}Benchmarks ${PROJECT_NAME}Disassembler)
