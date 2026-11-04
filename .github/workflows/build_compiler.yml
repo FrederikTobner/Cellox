@@ -13,7 +13,7 @@ jobs:
         operatingsystems: [windows-latest, ubuntu-latest, macos-latest] 
         buildtypes: [Debug, Release] 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Setup CI toolchain
       uses: ./.github/actions/setup-ci-toolchain
