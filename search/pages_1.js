@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['page_0',['Main Page',['../index.html',1,'']]]
+  ['concepts_0',['Key concepts',['../index.html#keyconcepts_sec',1,'']]]
 ];

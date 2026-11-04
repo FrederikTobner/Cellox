@@ -24,7 +24,7 @@ var searchData=
   ['lexer_5fstring_21',['lexer_string',['../lexer_8c.html#a18595292d31502fa9fc330223da868be',1,'lexer.c']]],
   ['lexer_5ft_22',['lexer_t',['../structlexer__t.html',1,'']]],
   ['license_23',['License',['../index.html#license_sec',1,'']]],
-  ['line_24',['line',['../structlexer__t.html#a311196674133e618759342d6be698474',1,'lexer_t::line'],['../structtoken__t.html#a311196674133e618759342d6be698474',1,'token_t::line']]],
+  ['line_24',['line',['../structtoken__t.html#a311196674133e618759342d6be698474',1,'token_t::line'],['../structlexer__t.html#a311196674133e618759342d6be698474',1,'lexer_t::line']]],
   ['line_5finfo_5ft_25',['line_info_t',['../structline__info__t.html',1,'']]],
   ['lineinfocapacity_26',['lineInfoCapacity',['../structchunk__t.html#a926f7c6a1fa3ae4226e1d710a787e994',1,'chunk_t']]],
   ['lineinfocount_27',['lineInfoCount',['../structchunk__t.html#ad6ba5f364e07cd8d890dabb82239a257',1,'chunk_t']]],

@@ -25,7 +25,7 @@ var searchData=
   ['continuetarget_22',['continueTarget',['../structloop__context__t.html#a8b6c324d123933b5193dd5870a0715f8',1,'loop_context_t']]],
   ['count_23',['count',['../structdynamic__value__array__t.html#a86988a65e0d3ece7990c032c159786d6',1,'dynamic_value_array_t::count'],['../structvalue__hash__table__t.html#a86988a65e0d3ece7990c032c159786d6',1,'value_hash_table_t::count'],['../structexport__list__t.html#a76d971a3c552bc58ba9f0d5fceae9806',1,'export_list_t::count']]],
   ['current_24',['current',['../structparser__t.html#a5f41758f712817bb899ec2c7dddaf8a2',1,'parser_t::current'],['../structlexer__t.html#a5bed065f1f0fbd1e07b996a2de6bd1a7',1,'lexer_t::current']]],
-  ['currentclass_25',['currentclass',['../structexpression__parser__context__t.html#aab76d3cf0815ad7ab13a36a62828dc66',1,'expression_parser_context_t::currentClass'],['../compilation__context_8c.html#a001732bc6806d8d41a9ea697b3e959c5',1,'currentClass:&#160;compilation_context.c']]],
-  ['currentcompiler_26',['currentcompiler',['../structexpression__parser__context__t.html#a5a5be982f46eed626296f090b4bf0349',1,'expression_parser_context_t::currentCompiler'],['../compilation__context_8c.html#a30d2fda22be6bf3cd183d7bbcd99fbc3',1,'currentCompiler:&#160;compilation_context.c']]],
+  ['currentclass_25',['currentClass',['../structexpression__parser__context__t.html#aab76d3cf0815ad7ab13a36a62828dc66',1,'expression_parser_context_t::currentClass'],['../compilation__context_8c.html#a001732bc6806d8d41a9ea697b3e959c5',1,'currentClass:&#160;compilation_context.c']]],
+  ['currentcompiler_26',['currentCompiler',['../structexpression__parser__context__t.html#a5a5be982f46eed626296f090b4bf0349',1,'expression_parser_context_t::currentCompiler'],['../compilation__context_8c.html#a30d2fda22be6bf3cd183d7bbcd99fbc3',1,'currentCompiler:&#160;compilation_context.c']]],
   ['currentloop_27',['currentLoop',['../compilation__context_8c.html#a84e7c66cab03096fe98ba6d06c83a842',1,'compilation_context.c']]]
 ];

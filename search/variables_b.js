@@ -3,7 +3,7 @@ var searchData=
   ['lastopcodeindexinline_0',['lastOpCodeIndexInLine',['../structline__info__t.html#a8f7300d90b80fbe127646f6497c66798',1,'line_info_t']]],
   ['length_1',['length',['../structtoken__t.html#aebb70c2aab3407a9f05334c47131a43b',1,'token_t::length'],['../structobject__string__t.html#aebb70c2aab3407a9f05334c47131a43b',1,'object_string_t::length'],['../structsource__buffer__t.html#ae809d5359ac030c60a30a8f0b2294b82',1,'source_buffer_t::length']]],
   ['lexer_2',['lexer',['../lexer_8c.html#a40723135ecc45e4e40a693f93d23d020',1,'lexer.c']]],
-  ['line_3',['line',['../structlexer__t.html#a311196674133e618759342d6be698474',1,'lexer_t::line'],['../structtoken__t.html#a311196674133e618759342d6be698474',1,'token_t::line']]],
+  ['line_3',['line',['../structtoken__t.html#a311196674133e618759342d6be698474',1,'token_t::line'],['../structlexer__t.html#a311196674133e618759342d6be698474',1,'lexer_t::line']]],
   ['lineinfocapacity_4',['lineInfoCapacity',['../structchunk__t.html#a926f7c6a1fa3ae4226e1d710a787e994',1,'chunk_t']]],
   ['lineinfocount_5',['lineInfoCount',['../structchunk__t.html#ad6ba5f364e07cd8d890dabb82239a257',1,'chunk_t']]],
   ['lineinfos_6',['lineInfos',['../structchunk__t.html#a7c79e69b2a629e63e449d740f248efa1',1,'chunk_t']]],

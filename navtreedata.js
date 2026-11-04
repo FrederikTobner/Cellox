@@ -56,9 +56,10 @@ var NAVTREEINDEX =
 "globals_func_m.html",
 "module__loader_8h.html",
 "optimization__pass_8h.html#ad9e2f2250eadbfb3781b2580185e6846",
-"structoptimization__pass__entry__t.html#a90249de64da5ae5d7acd34da7ea1b857",
-"virtual__machine_8h.html#a75c83b2d4270498a8fba788ed47a7803"
+"structobject__upvalue__t.html",
+"virtual__machine_8h.html"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var SYNCONMSG = 'click to disable panel synchronization';
+var SYNCOFFMSG = 'click to enable panel synchronization';
+var LISTOFALLMEMBERS = 'List of all members';
